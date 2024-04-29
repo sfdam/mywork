@@ -1,0 +1,23 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:hasRecordId" access="global" controller="BI_CRM_AggiornaAnagrafica_CTRL">
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>	
+    <aura:attribute name="recordId" type="Id"/>
+    <aura:attribute name="output" type="String"/>
+	<aura:attribute name="account" type="String"/>
+	<aura:attribute name="esito" type="String"/>
+	
+	<div class="corpo slds-m-top_x-small">
+		<span id="testoUscita" Style="white-space:pre-line;">{!v.output}</span>
+		
+		<div class="slds-align_absolute-center caricamento" aura:id="mySpinner" style="height:7rem">
+			<div role="status" class="slds-spinner slds-spinner_medium">
+			<span class="slds-assistive-text">Loading</span>
+			<div class="slds-spinner__dot-a"></div>
+			<div class="slds-spinner__dot-b"></div>
+			</div>
+		</div>
+		<div class="bottone">
+			<lightning:button disabled="true" aura:id= "OkButton" label="Aggiorna" onclick="{!c.clickOk}" variant="brand" class="slds-m-top_medium slds-align_absolute-center"/>
+		</div>	
+	</div>
+</aura:component>

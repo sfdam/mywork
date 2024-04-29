@@ -1,0 +1,130 @@
+<aura:component controller="WGC_FiloDirettoController" implements="force:appHostable,flexipage:availableForAllPageTypes" access="global" >
+    <!-- attributes -->
+    <aura:attribute name="data" type="Object"/>
+    <aura:attribute name="dataBackup" type="Object"/>
+    <aura:attribute name="conteggio" type="Integer" />
+    <aura:attribute name="numeroPagina" type="Integer" default="0"/>
+    <aura:attribute name="totalePag" type="Integer" default="1" />
+    <aura:attribute name="isFirst" type="Boolean" default="true" />
+    <aura:attribute name="isLast" type="Boolean" default="false" />
+    <aura:attribute name="numeroElementiPagine" type="Integer" default="25" />
+    <aura:attribute name="totaleElementi" type="Integer" default="1" />
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute name="openModal" type="Boolean"/>
+    <aura:attribute name="listaCampagne" type="List" />
+    <aura:attribute name="listaCampagneBackup" type="List"/>
+    <aura:attribute name="OwnerFilter" type="Boolean" default="true"/>
+    <aura:attribute name="OverdueFilter" type="Boolean" default="false"/>
+    <aura:attribute name="CampaignFilter" type="String" default="" />
+    <aura:attribute name="textToSearch" type="String" default=""/>
+    <aura:attribute name="sortedBy" type="String" />
+    <aura:attribute name="sortedDirection" type="Boolean" />
+    <aura:attribute name="defaultSortDirection" type="Boolean" />
+    <aura:attribute name="isLoaded" type="Boolean" default="false" />
+    <!-- additional filters -->
+    <aura:attribute name="TabFilter" type="String" default="CT_Oggi" />
+    <!-- pagination -->
+    <aura:attribute name="groups" type="Integer" default="1" />
+    <aura:attribute name="totalGroups" type="List" default="" />
+    <aura:attribute name="actualGroup" type="List" default="" />
+    <aura:attribute name="actualPage" type="Integer" default="1" />
+    <!-- handlers-->
+    <aura:handler name="init" value="{! this }" action="{! c.init }"/>
+    <!-- <aura:handler name="change" value="{!v.textToSearch}" action="{!c.getFilter}" /> -->
+    <aura:handler event="c:WGC_CreateContactResolveEvent_filoDiretto" action="{! c.resolveEvent }" />
+    <aura:handler name="change" value="{! v.TabFilter }" action="{! c.init }" />
+
+    <lightning:navigation aura:id="navService" />
+    <lightning:overlayLibrary aura:id="overlayLib" />
+
+	<lightning:card>
+        <!-- 
+        <aura:set attribute="title">
+            <lightning:icon iconName="standard:call_history" />
+            <div class="slds-m-left_small" style="vertical-align: middle; display: inline-block;">
+                <p class="slds-text-title_caps">Console Filo Diretto</p>
+                <p>Clienti da contattare</p>
+            </div>
+        </aura:set>
+        -->
+        <aura:set attribute="title">
+            <lightning:button label="Nuova chiamata" class="btn-color" iconName="utility:phone_portrait" onclick="{!c.handleShowModal}" />
+        </aura:set>
+        <aura:set attribute="actions">
+            <div style="display:inline-block;" class="slds-p-around_small">
+                <ul class="slds-list_horizontal slds-has-dividers_right slds-m-left_medium">
+                    <aura:if isTrue="{!v.totaleElementi > 0}">
+                        <li class="slds-item">pagina {!v.numeroPagina + 1 } di {! v.totalePag } - {!v.totaleElementi}&nbsp;{!$Label.c.WGC_FiloDiretto_Elementi}</li>
+                        <aura:set attribute="else">
+                            <li class="slds-item">0 {!$Label.c.WGC_FiloDiretto_Elementi}</li>
+                        </aura:set>
+                    </aura:if>
+                    
+                    <!-- <li class="slds-item">{!$Label.c.WGC_FiloDiretto_pagina}{!v.actualPage} di {!v.groups}</li> -->
+                </ul>
+            </div>
+            
+            <div style="display:inline-block;">
+                <!-- {! v.totalGroup.length } -->
+                <lightning:buttonGroup>
+                    <lightning:button disabled="{! v.isFirst }" label="&lt;" onclick="{!c.goBack}"/>
+                    <lightning:button disabled="{! v.isLast }" label="&gt;" onclick="{!c.goForward}" />
+                </lightning:buttonGroup>
+            </div>
+           
+        </aura:set>
+        <!-- 
+        <ul class="slds-list_horizontal slds-has-dividers_right slds-m-left_medium">
+            <aura:if isTrue="{!v.dataBackup.length > 0}">
+                <li class="slds-item">{!v.dataBackup.length} Elementi</li>
+                <aura:set attribute="else">
+                    <li class="slds-item">0 Elementi</li>
+                </aura:set>
+            </aura:if>
+            
+            <li class="slds-item">pagina {!v.actualPage} di {!v.groups}</li>
+        </ul>
+        -->
+    </lightning:card>
+    <lightning:layout class="slds-m-around_x-small" multipleRows="true">
+        <lightning:layoutItem size="4" mediumDeviceSize="3" smallDeviceSize="12" class="slds-p-around_xx-small">
+            <lightning:select label="" name="CampaignFilter" class="no-label" value="{! v.CampaignFilter }" onchange="{!c.getFilter}">
+                <option value="">--Filtra per campagna--</option>
+                <!-- <option value="1">1. WEB</option> -->
+                <aura:iteration items="{!v.listaCampagne}" var="item">
+                    <option selected="{! ( and(v.CampaignFilter != undefined , v.CampaignFilter == item.Name) ? 'selected' : '') }" value="{!item.Name}">{!item.Name}</option>
+                </aura:iteration>
+            </lightning:select>
+        </lightning:layoutItem>
+        <lightning:layoutItem size="4" mediumDeviceSize="3" smallDeviceSize="12" class="slds-p-around_xx-small">
+            <div class="slds-form-element">
+                <lightning:input class="cstm-toggle" type="toggle" label="Assegnati a me" name="OwnerFilter" value="{!v.OwnerFilter}" checked="{! v.OwnerFilter }" messageToggleActive="" messageToggleInactive="" onchange="{!c.getFilter}"/>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem size="2" mediumDeviceSize="3" smallDeviceSize="12" class="slds-p-around_xx-small">
+            <div class="slds-form-element">
+                <lightning:input class="cstm-toggle" type="toggle" label="Nascondi scaduti" name="OverdueFilter" disabled="{! v.TabFilter != 'All' }" value="{!v.OverdueFilter}" checked="{! v.OverdueFilter }" messageToggleActive="" messageToggleInactive="" onchange="{!c.getFilter}"/>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem size="4" mediumDeviceSize="3" smallDeviceSize="12" class="slds-p-around_xx-small slds-text-align_right" alignmentBump="left">
+            <div onkeyup="{! c.getFilter }" data-text="true" >
+                <lightning:input name="text-search" value="{!v.textToSearch}" class="no-label " placeholder="Premi invio per ricercare..."/>
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+    <aura:if isTrue="{! v.isLoaded }">
+        <lightning:datatable class="slds-m-around_medium" 
+            keyField="id" 
+            data="{! v.data }" 
+            columns="{! v.columns }" 
+            hideCheckboxColumn="true"
+            sortedBy="{! v.sortedBy }"
+            sortedDirection="{! v.sortedDirection }"
+            defaultSortDirection="{! v.defaultSortDirection }"
+            onrowaction="{! c.handleRowAction }"
+            onsort="{! c.updateColumnSorting }" />
+        <aura:set attribute="else">
+            <lightning:spinner alternativeText="CARICAMENTO" />
+        </aura:set>
+    </aura:if>
+</aura:component>

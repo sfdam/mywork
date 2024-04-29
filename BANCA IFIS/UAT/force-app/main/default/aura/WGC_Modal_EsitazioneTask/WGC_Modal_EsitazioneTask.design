@@ -1,0 +1,10 @@
+<design:component >
+    <design:attribute name="taskId" />
+    <design:attribute name="rtId" />
+    <design:attribute name="activityType" />
+    <design:attribute name="resultLevel1" />
+    <design:attribute name="resultLevel2" />
+    <design:attribute name="resultNotes" />
+    <design:attribute name="recontactDate" />
+    <design:attribute name="isValid" />
+</design:component>

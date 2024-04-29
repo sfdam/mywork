@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_Esito__c</fullName>
+    <externalId>false</externalId>
+    <label>Esito</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Cliente non interessato</fullName>
+                <default>false</default>
+                <label>Cliente non interessato</label>
+            </value>
+            <value>
+                <fullName>Cliente non soddisfatto</fullName>
+                <default>false</default>
+                <label>Cliente non soddisfatto</label>
+            </value>
+            <value>
+                <fullName>Cliente soddisfatto</fullName>
+                <default>false</default>
+                <label>Cliente soddisfatto</label>
+            </value>
+            <value>
+                <fullName>Consulenza Effettuata</fullName>
+                <default>false</default>
+                <label>Consulenza Effettuata</label>
+            </value>
+            <value>
+                <fullName>Da ricontattare</fullName>
+                <default>false</default>
+                <label>Da ricontattare</label>
+            </value>
+            <value>
+                <fullName>Fissato appuntamento</fullName>
+                <default>false</default>
+                <label>Fissato appuntamento</label>
+            </value>
+            <value>
+                <fullName>Gestione del credito</fullName>
+                <default>false</default>
+                <label>Gestione del credito</label>
+            </value>
+            <value>
+                <fullName>Ingaggio agente</fullName>
+                <default>false</default>
+                <label>Ingaggio agente</label>
+            </value>
+            <value>
+                <fullName>Monitoraggio piano</fullName>
+                <default>false</default>
+                <label>Monitoraggio piano</label>
+            </value>
+            <value>
+                <fullName>Prodotto venduto</fullName>
+                <default>false</default>
+                <label>Prodotto venduto</label>
+            </value>
+            <value>
+                <fullName>Revisione condizioni</fullName>
+                <default>false</default>
+                <label>Revisione condizioni</label>
+            </value>
+            <value>
+                <fullName>Richiesta informazioni</fullName>
+                <default>false</default>
+                <label>Richiesta informazioni</label>
+            </value>
+            <value>
+                <fullName>Rifiuto della Banca</fullName>
+                <default>false</default>
+                <label>Rifiuto della Banca</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

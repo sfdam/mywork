@@ -1,0 +1,6 @@
+<aura:event type="APPLICATION" description="Event template">
+    <aura:attribute name="userId" type="String" default="" />
+    <aura:attribute name="teamName" type="String" default="" />
+    <aura:attribute name="applyFilter" type="Boolean" default="false" />
+    <aura:attribute name="isAllUser" type="Boolean" default="true" />
+</aura:event>

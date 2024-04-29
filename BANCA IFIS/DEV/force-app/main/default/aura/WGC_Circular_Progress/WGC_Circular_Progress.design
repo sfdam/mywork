@@ -1,0 +1,13 @@
+<design:component>    
+	<design:attribute name="theme" label="Theme" datasource="blue, green , orange" description="Color theme of the component" />
+    
+    <design:attribute name="size" label="Size" datasource="small, medium, big" description="Size of the component" />
+    
+    <design:attribute name="totalProgress" label="Total" description="Either API Name of field Or numeric value showing total value to be used for computation" />
+    <design:attribute name="actualProgress" label="Actual" description="Either API Name of field Or numeric value showing actual value to be used for computation" />
+    
+    <design:attribute name="Legend" label="Legend" description="Legend to be displayed." />
+
+    <design:attribute name="condition" label="condition" description="Type of data displayed in the component. Possible values are: percent, actual, actual-total, actual-total-percent" />
+    
+</design:component>

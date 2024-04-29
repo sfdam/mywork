@@ -1,0 +1,59 @@
+<!--
+  @description       : 
+  @author            : simone.viglianti@tengroup.it
+  @group             : 
+  @last modified on  : 04-17-2023
+  @last modified by  : simone.viglianti@tengroup.it
+-->
+<template>
+    <div if:true={showSpinner} class="slds-spinner_container slds-is-relative slds-align_absolute-center" style="top:3.5rem;">
+        <lightning-spinner if:true={showSpinner}
+                                variant="brand" 
+                                alternative-text="Loading..."     
+                                size="medium"
+                                class="slds-align_absolute-center slds-is-fixed">
+        </lightning-spinner>
+    </div>
+    <div class="slds-grid slds-wrap">
+        <div class="slds-col slds-size_1-of-6 back-color-black central-top shadow" style="height: 7rem;">
+            <lightning-layout>
+                <lightning-layout-item size="12">
+                    <lightning-icon icon-name="utility:trending" size="large" alternative-text="trending" variant="inverse"></lightning-icon>
+                    <h1 style="color:white;">{label.POTENZIALITA}<br/>{label.DI_SVILUPPO}</h1>
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+        <div class="slds-col slds-size_5-of-6 no-padding back-color-white central-top shadow" style="height: 7rem;">
+            <div class="slds-grid slds-wrap horizontal-bkg-container">
+                <div class="slds-col slds-size_1-of-4 slds-text-align_center">
+                    <div class="div-col slds-p-vertical_x-small" >
+                        <span class="littlebar"></span>
+                        <div class="circle pointer slds-align_absolute-center" id="prospect-con-attivita" onclick={openNewTabReport}>{countProspectConAttivita}</div>
+                        <p style="font-size:0.7rem; padding-top:0.5rem;">{label.PROSPECT}<br/>{label.CON_ATTIVITA}</p>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-4 slds-text-align_center">
+                    <div class="div-col slds-p-vertical_x-small" >
+                        <span class="littlebar"></span>
+                        <div class="circle pointer slds-align_absolute-center" id="prospect-senza-attivita" onclick={openNewTabReport}>{countProspectSenzaAttivita}</div>
+                        <p style="font-size:0.7rem; padding-top:0.5rem;">{label.PROSPECT}<br/>{label.SENZA_ATTIVITA}</p>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-4 slds-text-align_center">
+                    <div class="div-col slds-p-vertical_x-small" >
+                        <span class="littlebar"></span>
+                        <div class="circle pointer slds-align_absolute-center" id="clienti-altre-bu" onclick={openNewTabReport}>{countclientiAltreBU}</div>
+                        <p style="font-size:0.7rem; padding-top:0.5rem;">{label.CLIENTI_ALTRE_BU}<br/>{label.ES_ALTRE_BU}</p>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-4 slds-text-align_center">
+                    <div class="div-col slds-p-vertical_x-small" >
+                        <span class="littlebar"></span>
+                        <div class="circle pointer slds-align_absolute-center" id="ex-clienti" onclick={openNewTabReport}>{countExClienti}</div>
+                        <p style="font-size:0.7rem; padding-top:0.5rem;">{label.EX_CLIENTI}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,103 @@
+<aura:component access="global" extends="c:WGC_Utility">
+    <!-- ATTRIBUTES -->
+        <!-- INHERITED FROM PARENT -->
+        <aura:attribute name="opportunityId" type="String"/>
+        <aura:attribute name="accountId" type="String"/>
+        <aura:attribute name="selectedProducts" type="Object[]"/>
+        <aura:attribute name="items" type="Object[]"/>
+        <aura:attribute name="garanti" type="Object[]"/>
+        <aura:attribute name="garanzie" type="Object[]"/>
+        <aura:attribute name="matriceGaranzie" type="Object[]"/>
+        <aura:attribute name="picklistOptions" type="Object[]"/>
+        <aura:attribute name="divise" type="Object[]"/>
+        <aura:attribute name="diviseOptions" type="Object[]"/>
+        <aura:attribute name="payload" type="Object"/>
+        <aura:attribute name="debitoriPerLinea" type="Object[]"/>
+        <aura:attribute name="garanzieDivise" type="Object[]"/>
+        <aura:attribute name="isRevisione" type="Boolean" default="false"/>
+        <aura:attribute name="readOnly" type="Boolean" default="false"/>
+        <!-- PRIVATE -->
+        <aura:attribute name="showNext" type="Boolean"/>
+        <aura:attribute name="selectedGaranzia" type="String"/>
+        <aura:attribute name="selectedGaranziaNeedCointestazione" type="Boolean"/>
+        <aura:attribute name="selectedGarante" type="String"/>
+        <aura:attribute name="selectedGaranti" type="Object[]"/>
+        <aura:attribute name="joinGaranziaGarante" type="Object[]"/>
+        <aura:attribute name="autoSaveJoinGaranziaGarante" type="Boolean" default="false"/>
+        <aura:attribute name="autoSaveGarante" type="String" default=""/>
+    
+    <!-- REGISTER EVENTS -->
+    <aura:registerEvent name="navigateSubWizard" type="c:WGC_NavigateSubWizard"/>
+    <aura:registerEvent name="cartCallServer" type="c:WGC_Cart_Call_Server"/>
+    <aura:registerEvent name="modalManagerEvent" type="c:WGC_ModalManagerEvent"/>
+
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    <aura:handler name="change" value="{! v.garanzie }" action="{! c.onChangeGaranzie }"/>
+    <!-- <aura:handler name="change" value="{! v.garanti }" action="{! c.onChangeJoin }"/> -->
+    <aura:handler name="change" value="{! v.payload }" action="{! c.onChangeJoin }"/>
+    <aura:handler name="garanEvent" event="c:WGC_GaranEvent" action="{! c.handleGaranEvent }"/>
+    <aura:handler event="c:WGC_CreateContactResolveEvent" action="{! c.onGaranteResolveEvent }" />
+    <aura:handler event="c:WGC_CreateAccountResolveEvent" action="{! c.onGaranteResolveEvent }" />
+    <aura:handler event="c:WGC_CreateCointestazioneResolveEvent" action="{! c.onCointestazioneResolveEvent }" />
+    
+    <lightning:notificationsLibrary aura:id="notifLib"/>
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+
+    <lightning:layout>
+        <lightning:layoutItem size="12" padding="horizontal-small">
+            <aura:if isTrue="{! v.showNext || v.readOnly }">
+                <lightning:button label="Avanti" class="cstm-btn-round slds-float_right slds-m-left_xx-small" variant="brand" onclick="{! c.next }"/>
+                <aura:set attribute="else">
+                    <lightning:button label="Conferma" class="cstm-btn-round slds-float_right slds-m-left_xx-small" variant="brand" onclick="{! c.conferma }"/>
+                </aura:set>
+            </aura:if>
+            <lightning:button label="Indietro" class="cstm-btn-round slds-float_right" onclick="{! c.back }"/>
+        </lightning:layoutItem>
+    </lightning:layout>
+
+    <c:WGC_Cart_Products_Wrapper title="Linee Selezionate" items="{! v.items }" readOnly="{! v.readOnly }"/>
+
+    <lightning:layout class="cstm-border-all slds-p-around_small slds-m-top_small">
+        <lightning:layoutItem size="12">
+
+            <h2 class="cstm-subheader-title">Garanzie e Garanti</h2>
+
+            <lightning:layout multipleRows="true">
+                <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="6" padding="around-small" class="cstm-ipad-12-landscape">
+                    <!-- GARANZIE -->
+                    <c:WGC_Cart_Garanzia isFake="true" readOnly="{! v.readOnly }"/>
+                    <aura:iteration items="{! v.garanzie }" var="garanzia">
+                        <c:WGC_Cart_Garanzia
+                            item="{! garanzia }"
+                            selected="{! v.selectedGaranzia == garanzia.IdEsterno__c }"
+                            matriceGaranzie="{! v.matriceGaranzie }"
+                            garanzieDivise="{! v.garanzieDivise }"
+                            readOnly="{! v.readOnly }"/>
+                    </aura:iteration>
+                    <!-- END - GARANZIE -->
+                </lightning:layoutItem>
+                <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="6" padding="around-small" class="cstm-ipad-12-landscape">
+                    <!-- GARANTI -->
+                    <c:WGC_Cart_Garanzia
+                        isFake="true"
+                        type="garante"
+                        disableAdd="{! (v.selectedGaranzia != null ? v.selectedGaranti.length != 0 : true) }"
+                        needCointestazione="{! v.selectedGaranziaNeedCointestazione }"
+                        readOnly="{! v.readOnly }"/><!-- (v.selectedGaranti == null ? v.selectedGaranti.length == 0 : true) -->
+                    <aura:iteration items="{! v.garanti }" var="garante">
+                        <c:WGC_Cart_Garanzia
+                            item="{! garante }"
+                            type="garante"
+                            selected="{! garante.isSelected }"
+                            matriceGaranzie="{! v.matriceGaranzie }"
+                            garanzieDivise="{! v.garanzieDivise }"
+                            readOnly="{! v.readOnly }"/>
+                    </aura:iteration>
+                    <!-- END - GARANTI -->
+                </lightning:layoutItem>
+            </lightning:layout>
+            
+        </lightning:layoutItem>
+    </lightning:layout>	
+</aura:component>

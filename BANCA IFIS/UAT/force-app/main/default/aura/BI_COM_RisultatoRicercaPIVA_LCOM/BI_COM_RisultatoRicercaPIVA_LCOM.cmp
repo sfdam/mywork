@@ -1,0 +1,374 @@
+<aura:component implements="lightning:availableForFlowScreens" controller="BI_PSE_ControllerPrincipale_CTRL" access="global">  
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/> 
+    
+	<aura:attribute name="flowInputPartitaIva" type="String"/>
+    <aura:attribute name="flowActualAccount" type="Account" default="{'sobjectType':'Account', 'Name':''}"/> 
+    <aura:attribute name="flowValidatorPartitaIvaResult" type="String" />
+	<aura:attribute name="flowValidatorCodiceSegnalatore" type="String"/>
+	<aura:attribute name="flowValidatorNomeSegnalatore" type="String"/>
+ 
+	<aura:attribute name="localSAE" type="String" /> 
+	<aura:attribute name="localRAE" type="String" />  
+	<aura:attribute name="localREA" type="String" />  
+    <aura:attribute name="localAteco" type="String" />  
+    <aura:attribute name="localBillingStreetType" type="String" />  
+    <aura:attribute name="localBillingStreet" type="String" />  
+    <aura:attribute name="localBillingStreetNumber" type="String" />  
+    <aura:attribute name="localBillingPostalCode" type="String" />
+    <aura:attribute name="localBillingCity" type="String" />  
+    <aura:attribute name="localBillingState" type="String" /> 
+    <aura:attribute name="localBillingCountry" type="String" /> 
+    <aura:attribute name="localProvinciaCCIAA" type="String" />  
+
+	<aura:attribute name="necessariaIntegrazione" type="Boolean" default="false" /> 
+	<!-- SDCHG-5735 -> Per DI valore di default del SAE se vuoto, ma salvo il valore precedente se presente così da ripristinarlo al cambio della combo natura giuridica --> 
+	<aura:attribute name="defSAE" type="String" />
+    
+    <aura:attribute name="opzioniProvincia" type="List" default="[
+	  {'label': 'Agrigento','value': 'AG'},
+	  {'label': 'Alessandria','value': 'AL'},
+	  {'label': 'Ancona','value': 'AN'},
+	  {'label': 'Aosta','value': 'AO'},
+	  {'label': 'Arezzo','value': 'AR'},
+	  {'label': 'Ascoli Piceno','value': 'AP'},
+	  {'label': 'Asti','value': 'AT'},
+	  {'label': 'Avellino','value': 'AV'},
+	  {'label': 'Bari','value': 'BA'},
+	  {'label': 'Barletta-Andria-Trani','value': 'BT'},
+	  {'label': 'Belluno','value': 'BL'},
+	  {'label': 'Benevento','value': 'BN'},
+	  {'label': 'Bergamo','value': 'BG'},
+	  {'label': 'Biella','value': 'BI'},
+	  {'label': 'Bologna','value': 'BO'},
+	  {'label': 'Bolzano','value': 'BZ'},
+	  {'label': 'Brescia','value': 'BS'},
+	  {'label': 'Brindisi','value': 'BR'},
+	  {'label': 'Cagliari','value': 'CA'},
+	  {'label': 'Caltanissetta','value': 'CL'},
+	  {'label': 'Campobasso','value': 'CB'},
+	  {'label': 'Caserta','value': 'CE'},
+	  {'label': 'Catania','value': 'CT'},
+	  {'label': 'Catanzaro','value': 'CZ'},
+	  {'label': 'Chieti','value': 'CH'},
+	  {'label': 'Como','value': 'CO'},
+	  {'label': 'Cosenza','value': 'CS'},
+	  {'label': 'Cremona','value': 'CR'},
+	  {'label': 'Crotone','value': 'KR'},
+	  {'label': 'Cuneo','value': 'CN'},
+	  {'label': 'Enna','value': 'EN'},
+	  {'label': 'Fermo','value': 'FM'},
+	  {'label': 'Ferrara','value': 'FE'},
+	  {'label': 'Firenze','value': 'FI'},
+	  {'label': 'Foggia','value': 'FG'},
+	  {'label': 'Forlì-Cesena','value': 'FC'},
+	  {'label': 'Frosinone','value': 'FR'},
+	  {'label': 'Genova','value': 'GE'},
+	  {'label': 'Gorizia','value': 'GO'},
+	  {'label': 'Grosseto','value': 'GR'},
+	  {'label': 'Imperia','value': 'IM'},
+	  {'label': 'Isernia','value': 'IS'},
+	  {'label': 'L\'Aquila','value': 'AQ'},
+	  {'label': 'La Spezia','value': 'SP'},
+	  {'label': 'Latina','value': 'LT'},
+	  {'label': 'Lecce','value': 'LE'},
+	  {'label': 'Lecco','value': 'LC'},
+	  {'label': 'Livorno','value': 'LI'},
+	  {'label': 'Lodi','value': 'LO'},
+	  {'label': 'Lucca','value': 'LU'},
+	  {'label': 'Macerata','value': 'MC'},
+	  {'label': 'Mantova','value': 'MN'},
+	  {'label': 'Massa-Carrara','value': 'MS'},
+	  {'label': 'Matera','value': 'MT'},
+	  {'label': 'Messina','value': 'ME'},
+	  {'label': 'Milano','value': 'MI'},
+	  {'label': 'Modena','value': 'MO'},
+	  {'label': 'Monza e della Brianza','value': 'MB'},
+	  {'label': 'Napoli','value': 'NA'},
+	  {'label': 'Novara','value': 'NO'},
+	  {'label': 'Nuoro','value': 'NU'},
+	  {'label': 'Oristano','value': 'OR'},
+	  {'label': 'Padova','value': 'PD'},
+	  {'label': 'Palermo','value': 'PA'},
+	  {'label': 'Parma','value': 'PR'},
+	  {'label': 'Pavia','value': 'PV'},
+	  {'label': 'Perugia','value': 'PG'},
+	  {'label': 'Pesaro e Urbino','value': 'PU'},
+	  {'label': 'Pescara','value': 'PE'},
+	  {'label': 'Piacenza','value': 'PC'},
+	  {'label': 'Pisa','value': 'PI'},
+	  {'label': 'Pistoia','value': 'PT'},
+	  {'label': 'Pordenone','value': 'PN'},
+	  {'label': 'Potenza','value': 'PZ'},
+	  {'label': 'Prato','value': 'PO'},
+	  {'label': 'Ragusa','value': 'RG'},
+	  {'label': 'Ravenna','value': 'RA'},
+	  {'label': 'Reggio Calabria','value': 'RC'},
+	  {'label': 'Reggio Emilia','value': 'RE'},
+	  {'label': 'Rieti','value': 'RI'},
+	  {'label': 'Rimini','value': 'RN'},
+	  {'label': 'Roma','value': 'RM'},
+	  {'label': 'Rovigo','value': 'RO'},
+	  {'label': 'Salerno','value': 'SA'},
+	  {'label': 'Sassari','value': 'SS'},
+	  {'label': 'Savona','value': 'SV'},
+	  {'label': 'Siena','value': 'SI'},
+	  {'label': 'Siracusa','value': 'SR'},
+	  {'label': 'Sondrio','value': 'SO'},
+	  {'label': 'Sud Sardegna','value': 'SU'},
+	  {'label': 'Taranto','value': 'TA'},
+	  {'label': 'Teramo','value': 'TE'},
+	  {'label': 'Terni','value': 'TR'},
+	  {'label': 'Torino','value': 'TO'},
+	  {'label': 'Trapani','value': 'TP'},
+	  {'label': 'Trento','value': 'TN'},
+	  {'label': 'Treviso','value': 'TV'},
+	  {'label': 'Trieste','value': 'TS'},
+	  {'label': 'Udine','value': 'UD'},
+	  {'label': 'Varese','value': 'VA'},
+	  {'label': 'Venezia','value': 'VE'},
+	  {'label': 'Verbano-Cusio-Ossola','value': 'VB'},
+	  {'label': 'Vercelli','value': 'VC'},
+	  {'label': 'Verona','value': 'VR'},
+	  {'label': 'Vibo Valentia','value': 'VV'},
+	  {'label': 'Vicenza','value': 'VI'},
+	  {'label': 'Viterbo','value': 'VT'},
+	  ]"/>
+
+    <aura:attribute name="opzioniTipoIndirizzo" type="List" default="[ 
+	{'label': 'CALLE', 'value': 'CALLE'}, 
+	{'label': 'CAMPO', 'value': 'CAMPO'}, 
+	{'label': 'CONTR', 'value': 'CONTR'}, 
+	{'label': 'CORSO', 'value': 'CORSO'}, 
+	{'label': 'LARGO', 'value': 'LARGO'}, 
+	{'label': 'P.ZZA', 'value': 'P.ZZA'}, 
+	{'label': 'STR',   'value': 'STR'},    
+	{'label': 'VIA',   'value': 'VIA'},   
+	{'label': 'VIALE', 'value': 'VIALE'}, 
+	{'label': 'VIC.',  'value': 'VIC.'},  
+	{'label': 'Z.I.',  'value': 'Z.I.'},  
+    ]"/>
+
+    <aura:attribute name="opzioniNaturaGiuridica" type="List" default="[
+    {'label': 'Ditta Individuale', 'value': 'DI'},
+    {'label': 'Società Anonima', 'value': 'AAA'},
+    {'label': 'Società Cooperativa', 'value': 'COOP'},
+    {'label': 'Società Consortile per Azioni', 'value': 'CSPA'},
+    {'label': 'Società Sociale', 'value': 'OO'},
+    {'label': 'Società in Accomandita Semplice', 'value': 'SAS'},
+    {'label': 'Soc. Cooperativa Consortile A Resp. Lim.', 'value': 'SCCRL'},
+    {'label': 'Società Consortile Per Azioni', 'value': 'SCOA'},
+    {'label': 'Società di Fatto', 'value': 'SDF'},
+    {'label': 'Società In Nome Collettivo', 'value': 'SNC'},
+    {'label': 'Società Per Azioni', 'value': 'SPA'},
+    {'label': 'Societa Per Azioni A Socio Unico', 'value': 'SPAU'},
+    {'label': 'Società a Responsabilità Limitata', 'value': 'SRL'},
+    {'label': 'Società a Responsabilità Limitata Semplificata', 'value': 'SRLS'},
+    {'label': 'Società a Resp. Lim. Unipersonale', 'value': 'SRLU'},
+    {'label': 'Società Semplice', 'value': 'SS'},
+    ]"/>
+
+    <lightning:card variant="Narrow" title="Risultato della ricerca" iconName="standard:search" />
+    
+    <hr style="margin-top:1px;margin-bottom:10px;"/>
+    
+    <aura:if isTrue="{!v.flowValidatorPartitaIvaResult eq 'OK'}">
+		<div class="slds-scoped-notification slds-media slds-media_center" role="status">
+			<div class="slds-media__figure">
+				<span class="slds-icon_container slds-icon-utility-info" title="">
+					<lightning:icon iconName="action:approval" alternativeText="Impresa trovata" size="x-small"/>
+				</span>
+			</div>
+			<div class="slds-media__body">
+				<p>La tua ricerca ha trovato una impresa corrispondente.</p>
+			</div>
+		</div>
+	</aura:if>
+
+    <aura:if isTrue="{!v.flowValidatorPartitaIvaResult eq 'KO'}">
+		<div class="slds-scoped-notification slds-media slds-media_center" role="status">
+			<div class="slds-media__figure">
+				<span class="slds-icon_container slds-icon-utility-info" title="">
+					<lightning:icon iconName="action:close" alternativeText="Impresa non trovata" size="x-small"/>
+				</span>
+			</div>
+			<div class="slds-media__body">
+				<p>La tua ricerca non ha trovato una impresa corrispondente. Ti chiediamo di compilare i campi richiesti in modo da identificarla e procedere ai passi successivi.</p>
+			</div>
+		</div>
+	</aura:if>
+
+    <hr style="margin-top:1px;margin-bottom:10px;"/>
+
+    <lightning:card variant="Narrow" title="DATI PRINCIPALI" iconName="standard:account">
+		<aura:if isTrue="{!v.flowValidatorPartitaIvaResult eq 'OK'}">
+			<p class="slds-p-horizontal_small">
+				<div class="slds-grid slds-wrap">        
+					<div class="slds-size_1-of-6">
+						<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputAnagraficaPartitaIvaInputId" label="Partita Iva" name="flowInputAnagraficaPartitaIvaInput" value="{!v.flowActualAccount.PIVA__c}" disabled="true" /></div>
+					</div>
+					<div class="slds-size_1-of-6">
+						<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputAnagraficaCodiceFiscaleInputId" label="Codice Fiscale" name="flowInputAnagraficaCodiceFiscaleInput" value="{!v.flowActualAccount.CF__c}" disabled="true" /></div>
+					</div>
+					<div class="slds-size_1-of-6">
+						<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputAnagraficaNaturaGiuridicaInputId" label="Natura giuridica" name="flowInputAnagraficaNaturaGiuridicaInput" value="{!v.flowActualAccount.NaturaGiuridica__c}" disabled="true" /></div>
+					</div>        
+					<div class="slds-size_3-of-6">
+						<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputAnagraficaIntestazioneInputId" label="Intestazione" name="flowInputAnagraficaIntestazioneInput" value="{!v.flowActualAccount.Name}" title="{!v.flowActualAccount.Name}" disabled="true" /></div>
+					</div>
+				</div>
+			</p>
+		</aura:if>
+
+		<aura:if isTrue="{!v.flowValidatorPartitaIvaResult eq 'KO'}">
+			<p class="slds-p-horizontal_small">
+				<div class="slds-grid slds-wrap">        
+					<div class="slds-size_1-of-6">
+						<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputAnagraficaPartitaIvaInputId" label="Partita Iva" name="flowInputAnagraficaPartitaIvaInput" value="{!v.flowActualAccount.PIVA__c}" disabled="true" maxlength="11" required="false"/></div>
+					</div>
+					<div class="slds-size_1-of-6">
+						<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputAnagraficaCodiceFiscaleInputId" label="Codice Fiscale" name="flowInputAnagraficaCodiceFiscaleInput" value="{!v.flowActualAccount.CF__c}" disabled="false" maxlength="16"  required="true"/></div>
+					</div>
+					<div class="slds-size_1-of-6">
+						<div class="slds-m-around_x-small"><lightning:combobox label= "Natura Giuridica" aura:id="flowInputAnagraficaNaturaGiuridicaInputId" name="flowInputAnagraficaNaturaGiuridicaInput" value="{!v.flowActualAccount.NaturaGiuridica__c}" placeholder="Seleziona una natura giuridica" options="{!v.opzioniNaturaGiuridica}" onchange="{! c.handleComboNaturaGiuridicaChange }"  required="true"/></div>
+					</div>    
+					<div class="slds-size_3-of-6">
+						<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputAnagraficaIntestazioneInputId" label="Ragione Sociale" name="flowInputAnagraficaIntestazioneInput" value="{!v.flowActualAccount.Name}" disabled="false"  required="true"/></div>
+					</div>     
+				</div>
+			</p>
+		</aura:if>
+    </lightning:card>
+
+    <aura:if isTrue="{!v.necessariaIntegrazione}">
+
+		<hr style="margin-top:1px;margin-bottom:10px;"/>
+
+		<lightning:card variant="Narrow" title="INTEGRAZIONE DATI" iconName="standard:decision">
+			<p class="slds-p-horizontal_small">
+				<div class="slds-grid slds-wrap">    
+					<aura:if isTrue="{!v.flowValidatorPartitaIvaResult eq 'OK'}">
+						<div class="slds-size_3-of-3">
+							<div class="slds-m-around_x-small">L'impresa segnalata è mancante di alcune informazioni necessarie per essere processata. Ti preghiamo di completare quanto richiesto sotto:</div>
+						</div> 
+					</aura:if>
+					<aura:if isTrue="{!empty(v.localAteco)}">
+						<div class="slds-size_1-of-3">
+							<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputAnagraficaAtecoInputId" label="Codice Ateco" name="flowInputAnagraficaAtecoInputId" value="{!v.flowActualAccount.Ateco__c}" disabled="false" required="true" /></div>
+						</div>
+						<div class="slds-size_2-of-3">
+							<div class="slds-m-around_x-small"></div>
+						</div>  
+					</aura:if> 
+				    <aura:if isTrue="{!empty(v.localSAE)}">
+						<div class="slds-size_1-of-3">
+							<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputAnagraficaSaeInputId" label="Codice SAE" name="flowInputAnagraficaSaeInputId" value="{!v.flowActualAccount.SAE__c}" disabled="false" required="true" /></div>
+						</div>
+						<div class="slds-size_2-of-3">
+							<div class="slds-m-around_x-small"></div>
+						</div>  
+					</aura:if>   
+				    <!--<aura:if isTrue="{!empty(v.localRAE)}">
+						<div class="slds-size_1-of-3">
+							<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputAnagraficaRaeInputId" label="Codice RAE" name="flowInputAnagraficaRaeInputId" value="{!v.flowActualAccount.RAE__c}" disabled="false" required="true" maxlength="3" /></div>
+						</div>
+						<div class="slds-size_2-of-3">
+							<div class="slds-m-around_x-small"></div>
+						</div>  
+					</aura:if>-->
+				    <aura:if isTrue="{!empty(v.localREA)}">
+						<div class="slds-size_1-of-3">
+							<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputAnagraficaReaInputId" label="N.iscrizione CCIAA (REA)" name="flowInputAnagraficaReaInputId" value="{!v.flowActualAccount.REA__c}" disabled="false" required="true" /></div>
+						</div>
+						<div class="slds-size_2-of-3">
+							<div class="slds-m-around_x-small"></div>
+						</div>  
+					</aura:if>
+				    <aura:if isTrue="{!empty(v.localProvinciaCCIAA)}">
+						<div class="slds-size_1-of-3">
+							<div class="slds-m-around_x-small"><lightning:combobox label= "Provincia iscrizione CCIAA" aura:id="flowInputAnagraficaProvinciaCCIAAInputId" name="flowInputAnagraficaProvinciaCCIAAInput" value="{!v.flowActualAccount.ProvinciaCCIAA__c}" placeholder="Seleziona una provincia" options="{!v.opzioniProvincia}" onchange="{! c.handleComboProvinciaChange }" disabled="false" required="true"/></div>
+						</div>
+						<div class="slds-size_2-of-3">
+							<div class="slds-m-around_x-small"></div>
+						</div>  
+					</aura:if> 
+				    <aura:if isTrue="{!empty(v.localBillingStreetType)}">
+						<div class="slds-size_1-of-3">
+							<div class="slds-m-around_x-small"><lightning:combobox label= "Tipo indirizzo sede legale" aura:id="flowInputAnagraficaTipoViaLegaleInputId" name="flowInputAnagraficaTipoViaLegaleInput" value="{!v.flowActualAccount.BillingStreetType__c}" placeholder="Seleziona un tipo indirizzo" options="{!v.opzioniTipoIndirizzo}" onchange="{! c.handleComboTipoIndirizzoChange }" disabled="false" required="true"/></div>
+						</div>
+						<div class="slds-size_2-of-3">
+							<div class="slds-m-around_x-small"></div>
+						</div>  
+					</aura:if> 
+				    <aura:if isTrue="{!empty(v.localBillingStreet)}">
+						<div class="slds-size_1-of-3">
+							<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputAnagraficaViaLegaleInputId" label="Indirizzo" name="flowInputAnagraficaViaLegaleInputId" value="{!v.flowActualAccount.BillingStreetName__c}" disabled="false" required="true" /></div>
+						</div>
+						<div class="slds-size_2-of-3">
+							<div class="slds-m-around_x-small"></div>
+						</div>  
+					</aura:if> 
+				    <aura:if isTrue="{!empty(v.localBillingStreetNumber)}">
+						<div class="slds-size_1-of-3">
+							<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputAnagraficaCivicoLegaleInputId" label="Numero Civico" name="flowInputAnagraficaCivicoLegaleInputId" value="{!v.flowActualAccount.BillingStreetNumber__c}" disabled="false" required="true" maxlength="5" /></div>
+						</div>
+						<div class="slds-size_2-of-3">
+							<div class="slds-m-around_x-small"></div>
+						</div>  
+					</aura:if> 
+				    <aura:if isTrue="{!empty(v.localBillingPostalCode)}">
+						<div class="slds-size_1-of-3">
+							<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputAnagraficaCapLegaleInputId" label="CAP" name="flowInputAnagraficaCapLegaleInputId" value="{!v.flowActualAccount.BillingPostalCode}" disabled="false" required="true" maxlength="5"/></div>
+						</div>
+						<div class="slds-size_2-of-3">
+							<div class="slds-m-around_x-small"></div>
+						</div>  
+					</aura:if> 
+				    <aura:if isTrue="{!empty(v.localBillingCity)}">
+						<div class="slds-size_1-of-3">
+							<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputAnagraficaCittaLegaleInputId" label="Città" name="flowInputAnagraficaCittaLegaleInputId" value="{!v.flowActualAccount.BillingCity}" disabled="false" required="true" /></div>
+						</div>
+						<div class="slds-size_2-of-3">
+							<div class="slds-m-around_x-small"></div>
+						</div>  
+					</aura:if> 
+				    <aura:if isTrue="{!empty(v.localBillingState)}">
+						<div class="slds-size_1-of-3">
+							<div class="slds-m-around_x-small"><lightning:combobox label= "Provincia" aura:id="flowInputAnagraficaProvinciaLegaleInputId" name="flowInputAnagraficaProvinciaLegaleInput" value="{!v.flowActualAccount.BillingState}" placeholder="Seleziona una provincia" options="{!v.opzioniProvincia}" onchange="{! c.handleComboProvinciaChange }" disabled="false" required="true"/></div>
+						</div>
+						<div class="slds-size_2-of-3">
+							<div class="slds-m-around_x-small"></div>
+						</div>  
+					</aura:if> 
+				    <aura:if isTrue="{!empty(v.localBillingCountry)}">
+						<div class="slds-size_1-of-3">
+							<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputAnagraficaNazioneLegaleInputId" label="Nazione" name="flowInputAnagraficaNazioneLegaleInputId" value="{!v.flowActualAccount.BillingCountry}" disabled="false" required="true" /></div>
+						</div>
+						<div class="slds-size_2-of-3">
+							<div class="slds-m-around_x-small"></div>
+						</div>  
+					</aura:if> 
+				</div>
+			</p>
+		</lightning:card>
+
+    </aura:if>	
+
+    <hr style="margin-top:1px;margin-bottom:10px;"/>
+
+    <div class="slds-scoped-notification slds-media slds-media_center" role="status">
+        <div class="slds-media__figure">
+            <span class="slds-icon_container slds-icon-utility-info" title="{!'L\'origine nativa dei dati ottenuti è : ' + v.flowActualAccount.Origine__c + ' Lo stato del censimento è : ' + v.flowActualAccount.WGC_Censimento__c}">
+                <lightning:icon iconName="utility:info" alternativeText="Info"/>
+            </span>
+        </div>
+        <div class="slds-media__body">
+            <p>Proseguendo (bottone AVANTI), verrà creata una NUOVA pratica che sarà possibile portare a conclusione o eliminare in un secondo tempo.</p>
+        </div>
+    </div>
+    
+    <hr style="margin-top:1px;margin-bottom:10px;"/>
+   
+    <c:bifis_crm_c_CommonFlowNavigator availableActions="{!v.availableActions}" navigateFlowEvent="{!c.handleNavigate}"/>     
+
+</aura:component>

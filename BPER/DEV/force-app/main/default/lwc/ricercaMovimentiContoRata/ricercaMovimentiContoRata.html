@@ -1,0 +1,128 @@
+<template>
+    <lightning-card  variant="Narrow"  title={title} icon-name={iconName}>
+        <!-- <lightning-button-icon  icon-name="utility:down" variant="border-filled" alternative-text="Show More" slot="actions"></lightning-button-icon> -->
+        <div class="c-container-params">
+            <div class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none">
+                <div class="button-reset slds-float_right">
+                    <lightning-button-icon icon-name="utility:refresh"  variant="bare" alternative-text="Refresh Filtri" title="Refresh Filtri" onclick={handleRefresh}></lightning-button-icon>
+                </div>
+                <lightning-layout multiple-rows="true"  >
+                    <lightning-layout-item  width="25%"  padding="around-small">
+                        <div class="slds-is-relative">
+                            <lightning-input type="date" name="input2" label="Data contabile da:" value={today}></lightning-input>
+                            
+                        </div>  
+                    </lightning-layout-item>
+                    <lightning-layout-item  width="25%"  padding="around-small">
+                        <div class="slds-is-relative">
+                            <lightning-input type="date" name="input2" label="Data contabile a:" value={fourMonthsAgo}></lightning-input>
+                        </div>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </div>
+                <lightning-layout class="slds-align_absolute-center">
+                    <template if:true={buttonX}>
+                        <lightning-layout-item flexibility="auto" class="slds-p-bottom_small">
+                            <button type="submit" class="slds-button slds-button_neutral slds-button_stretch color-button" onclick={handleSendRequest}>{buttonXName}</button>
+                        </lightning-layout-item>
+                    </template>
+                </lightning-layout>
+        </div>
+            <template if:true={isRenderedDataTable}>
+                <div>
+                    <lightning-layout>
+                        <lightning-layout-item size="6" padding="around-small">
+                            <div class="recordsTable">
+                                <lightning-datatable
+                                    key-field="numeroMovimento"
+                                    data={entrataMovimenti10}
+                                    columns={entrata}
+                                    wrap-text-max-lines="5"
+                                    hide-checkbox-column>
+                                </lightning-datatable>
+                                <lightning-layout>
+                                    <lightning-layout-item size="6" class="slds-align_absolute-center">
+                                        <lightning-button variant="base" label="View All" title="View All" onclick={openModal} class="slds-m-left_x-small"></lightning-button>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="6" padding="around-small">
+                            <div class="recordsTable">
+                                <lightning-datatable
+                                    key-field="numeroMovimento"
+                                    data={uscitaMovimenti10}
+                                    columns={uscita}
+                                    wrap-text-max-lines="5"
+                                    hide-checkbox-column>
+                                </lightning-datatable>
+                                <lightning-layout>
+                                    <lightning-layout-item size="6" class="slds-align_absolute-center">
+                                        <lightning-button variant="base" label="View All" title="View All" onclick={openModal} class="slds-m-left_x-small"></lightning-button>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </div>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+            </template>
+            <template if:true={isRenderdDataRapporto}>
+                <div>
+                    <lightning-layout>
+                        <lightning-layout-item  size="3" padding="around-small">
+                            
+                            <lightning-input type="number" name="rata stimata" label="Rata stimata:" value={rataStimata} formatter="currency" step="0.01"></lightning-input>
+                           
+                        </lightning-layout-item>
+                        <lightning-layout-item  size="6" padding="around-small">
+                                <button type="button" class="slds-button slds-button_neutral slds-button_stretch color-button" onclick={handleCalutateRapporto}>Calcola rapporto</button>
+                        </lightning-layout-item>                               
+                        <lightning-layout-item  size="3"  padding="around-small">
+                                
+                                <lightning-input type="number" name="input7" label="Rapporto Stimato:" value={rapportoStimato} formatter="currency" step="0.01"></lightning-input>
+                                
+                        </lightning-layout-item>                       
+                    </lightning-layout>
+                </div>
+            </template>
+    </lightning-card>
+
+    <template if:true={openmodel}>
+        <div>
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_large">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                            <lightning-icon icon-name="utility:close" size="medium">
+                            </lightning-icon>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <div class="tilte-card"><b>{title}</b></div>
+
+                        <!-- <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate"></h2> -->
+                    </header>
+                    
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <lightning-layout>
+                            <lightning-layout-item size="12">
+                                <div class="recordsTable">
+                                <lightning-datatable
+                                    key-field="numeroMovimento"
+                                    data={uscitaMovimenti}
+                                    columns={uscita}
+                                    wrap-text-max-lines="5"
+                                    hide-checkbox-column>
+                                </lightning-datatable>
+                            </div>
+                            </lightning-layout-item>
+                        </lightning-layout>   
+                    </div>
+                    <footer class="slds-modal__footer">
+                            <lightning-button label="Annulla" variant="neutral" onclick={closeModal}></lightning-button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </template>
+</template>

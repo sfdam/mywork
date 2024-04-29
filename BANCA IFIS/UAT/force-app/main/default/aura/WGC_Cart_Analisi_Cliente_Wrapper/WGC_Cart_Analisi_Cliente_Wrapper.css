@@ -1,0 +1,64 @@
+.THIS {}
+
+.THIS .title{
+    color:#0064B5;
+    font-weight:bold;
+    font-size: .8125rem;
+}
+
+.THIS .cstm-accordion-icon {
+    transition: 0.6s;
+    /* height: 100%;
+    overflow: hidden; */
+}
+
+.THIS .cstm-accordion-icon.collapsed {
+    transform: rotate(180deg);
+}
+
+.THIS .container-card{
+    border:1px solid lightgray;
+    border-radius:10px;
+}
+
+.THIS .cstm-big-data-block-wrapper {
+    max-width: 200px;
+    margin: 0 auto;
+    border: 1px solid #CCC !important;
+    border-radius: 5px !important;
+}
+
+.THIS .cstm-big-data-block-wrapper .slds-card__header {
+    background-color: #0064B5;
+    padding: 8px 5px;
+    text-align: center;
+    color: #FFF;
+    text-transform: uppercase;
+    font-weight: 700;
+    border-radius: 5px 5px 0 0;
+}
+
+.THIS .cstm-big-data-block-wrapper .slds-card__header .slds-text-heading_small {
+    font-size: 0.8rem !important;
+}
+
+.THIS .cstm-big-data-block-wrapper .cstm-big-data-block-data {
+    text-align: center;
+    min-height: 97px;
+    font-size: 3rem;
+}
+
+.THIS .cstm-big-data-block-wrapper .cstm-big-data-block-data .cstm-big-data-block-traffic-light img {
+    margin-bottom: 0;
+    width: 35px;
+}
+
+.THIS .cstm-big-data-block-wrapper .cstm-big-data-block-data img.freccia,
+.THIS .cstm-big-data-block-wrapper .cstm-big-data-block-data img.freccia-down {
+    width: 15px;
+    margin-left: 5px;
+}
+
+.THIS .cstm-big-data-block-wrapper .cstm-big-data-block-data img.freccia-down {
+    transform: rotate(180deg);
+}

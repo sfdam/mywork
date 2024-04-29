@@ -1,0 +1,111 @@
+<aura:component implements="lightning:isUrlAddressable,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    
+    <ltng:require scripts="{!join(',', 
+             '/resource/WGC_jQuery3x',
+             '/resource/WGC_ChartJs')}" afterScriptsLoaded="{!c.doInit}" />
+    
+    <lightning:navigation aura:id="navService"/>
+
+    <aura:attribute name="recordId" type="String" />
+    
+    <aura:attribute name="iconName" type="String" description="Definisce l'icona tra le standard"/>
+    <aura:attribute name="title" type="String" default="Portafoglio" description="Title from Container Card"/>
+    <aura:attribute name="isValid" type="String" default="false" access="global"/>
+
+    <aura:attribute name="Flip" type="String" access="global"/>
+    <aura:attribute name="Dettaglio" type="String" access="global"/>
+
+        <aura:attribute name="valData" type="String"/>
+    
+    <aura:attribute name="currentYear" type="Integer" />
+    <aura:attribute name="currentUser" type="String" />
+    
+    <aura:attribute name="Tab_1" type="String" description="Title from Tab 1" />
+    <aura:attribute name="Graf_1" type="String" description="Id from Analitycs grafic 1" />
+    <aura:attribute name="Filter_1" type="String" description="Filter for Analitycs grafic 1" />
+    
+    <aura:attribute name="Tab_2" type="String" description="Title from Tab 2" />
+    <aura:attribute name="Graf_2" type="String" description="Id from Analitycs grafic 2" />
+    <aura:attribute name="Filter_2" type="String" description="Filter for Analitycs grafic 2" />
+    
+    <aura:attribute name="Tab_3" type="String" description="Title from Tab 3" />
+    <aura:attribute name="Graf_3" type="String" description="Id from Analitycs grafic 3" />
+    <aura:attribute name="Filter_3" type="String" description="Filter for Analitycs grafic 3" />
+
+    <aura:attribute name="Tab_4" type="String" description="Title from Tab 4" />
+    <aura:attribute name="Graf_4" type="String" description="Id from Analitycs grafic 4" />
+    <aura:attribute name="Filter_4" type="String" description="Filter for Analitycs grafic 4" />
+
+    <aura:attribute name="NumTab" type="Integer" default="0" description="Count number of Tab" />
+    <!-- <aura:attribute name="WidthTab" type="Long" default="0" description="Width for one Tab" /> -->
+
+    <aura:attribute name="IsCollapsed" type="Boolean" default="true" />
+
+    <!-- <aura:handler event="wave:selectionChanged" action="{! c.onWaveChange }"/> -->
+    
+    <lightning:card>
+        <aura:set attribute="title">
+            <!-- with container -->
+            <lightning:layout multipleRows="false">
+                <lightning:layoutItem size="10" smallDeviceSize="10" mediumDeviceSize="10" largeDeviceSize="10">
+                    <lightning:icon iconName="{! 'utility:' + v.iconName }" size="small" variant="slds-icon-inverse" />
+                    <div class="title">{! v.title }</div>
+                </lightning:layoutItem>
+                <lightning:layoutItem class="slds-text-align_right" size="2" smallDeviceSize="2" mediumDeviceSize="2"
+                    largeDeviceSize="2">
+                    <aura:if isTrue="{! v.Dettaglio == 'attivo' }">
+                        <div class="header-button">
+                        <lightning:buttonIcon iconName="utility:expand" size="medium" variant="bare" iconClass=""
+                        onclick="{!c.navigateToMyComponent}"
+                        class="" />
+                        </div>
+                    </aura:if>
+                    <aura:if isTrue="{! v.Flip == 'attivo' }">
+                        <div class="header-button">
+                        <lightning:buttonIcon iconName="utility:chevronup" size="medium" variant="bare" iconClass=""
+                        onclick="{!c.collapse}"
+                        class="{! 'cstm-accordion-icon ' + (v.IsCollapsed ? '' : 'collapsed') }" />
+                        </div>
+                    </aura:if>
+                </lightning:layoutItem>
+            </lightning:layout>
+        </aura:set>
+        <aura:if isTrue="{! !v.IsCollapsed }">
+            <div class='container-card'>
+                <!-- <aura:if isTrue="{!v.NumTab >= 2}">
+                    <lightning:tabset aura:id="tabset" class="tabset">
+                            <lightning:tab class="tab" label="{! v.Tab_1 }">
+                                    <div>
+                                            <wave:waveDashboard dashboardId="{! v.Graf_1 }" filter="{! v.Filter_1 }" height="260" showHeader="false" showTitle="false" />
+                                        </div>   
+                            </lightning:tab>
+                            <lightning:tab label="{! v.Tab_2 }">
+                                    <div>
+                                            <wave:waveDashboard dashboardId="{! v.Graf_2 }" filter="{! v.Filter_2 }" height="260" showHeader="false" showTitle="false" />
+                                        </div>   
+                            </lightning:tab>
+                            <lightning:tab label="{! v.Tab_3 }">
+                                    <div>
+                                            <wave:waveDashboard dashboardId="{! v.Graf_3 }" filter="{! v.Filter_3 }" height="260" showHeader="false" showTitle="false" />
+                                        </div>   
+                            </lightning:tab>
+                            <lightning:tab label="{! v.Tab_4 }">
+                                    <div>
+                                            <wave:waveDashboard dashboardId="{! v.Graf_4 }" filter="{! v.Filter_4 }" height="260" showHeader="false" showTitle="false" />
+                                        </div>   
+                            </lightning:tab>
+                        </lightning:tabset>
+                    <aura:set attribute="else"> -->
+                        <div class="container-wave">
+                            <wave:waveDashboard recordId="{! v.recordId }" dashboardId="{! v.Graf_1 }" filter="{! v.Filter_1 }" height="340" showHeader="false" showTitle="false" />
+                        </div>               
+                    <!-- </aura:set>
+                </aura:if> -->
+            </div>
+        </aura:if>
+        
+        
+        
+    </lightning:card>
+    
+</aura:component>

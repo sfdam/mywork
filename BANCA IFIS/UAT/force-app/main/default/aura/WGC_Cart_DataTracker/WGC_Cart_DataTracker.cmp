@@ -1,0 +1,320 @@
+<aura:component extends="c:WGC_Utility">
+    <!-- ATTRIBUTES -->
+        <!-- INHERITED -->
+        <aura:attribute name="datiPEF" type="Object[]"/>
+        <aura:attribute name="opportunity" type="Object"/>
+        <aura:attribute name="factoringProducts" type="List"/>
+        <aura:attribute name="linee" type="Object[]"/>
+        <aura:attribute name="importi" type="Object[]"/>
+        <aura:attribute name="codSoggetto" type="String"/>
+        <aura:attribute name="lineeChiuse" type="Object[]"/>
+        <!-- PRIVATE -->
+        <aura:attribute name="elencoLineeNuovaConcessione" type="Object[]"/>
+        <aura:attribute name="elencoLineeConsultazione" type="Object[]"/>
+        <aura:attribute name="elencoLineeRevisione" type="Object[]"/>
+        <aura:attribute name="elencoLinee" type="Object[]"/>
+        <aura:attribute name="elencoNote" type="Object[]"/>
+        <aura:attribute name="datiCartella" type="Object"/>
+        <aura:attribute name="coppiaColumns" type="String[]"/>
+        <aura:attribute name="coppiaColumnsFactFisc" type="String[]"/>
+        
+        <aura:attribute name="dtWizardOptions" type="Object[]"/>
+    
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    <aura:handler name="change" value="{! v.datiPEF }" action="{! c.reloadDati }"/>
+    <aura:handler name="change" value="{! v.lineeChiuse }" action="{! c.reloadDati }"/>
+    
+    <!-- REGISTER EVENTS -->
+    <aura:registerEvent name="cartCallServer" type="c:WGC_Cart_Call_Server"/>
+    <aura:registerEvent name="modalManagerEvent" type="c:WGC_ModalManagerEvent"/>
+
+    <lightning:layout class="slds-m-top_small cstm-border-all-brand">
+        <lightning:layoutItem size="12" padding="around-small">
+            <h2 class="cstm-subheader-title-bold">Dettaglio Cartella</h2>
+            
+            <lightning:layout class="slds-m-top_small">
+                <lightning:layoutItem size="6" padding="around-small">
+
+                    <aura:if isTrue="{! and(v.opportunity.Tipologia_Opportunit__c != 'RINN', v.opportunity.IdCartella__c != null) }">
+                        <lightning:layout>
+                            <lightning:layoutItem size="6"><b>ID Cartella</b></lightning:layoutItem>
+                            <lightning:layoutItem size="6">{! v.opportunity.IdCartella__c }</lightning:layoutItem>
+                        </lightning:layout>
+                    </aura:if>
+                    
+                    <lightning:layout>
+                        <lightning:layoutItem size="6"><b>Codice Pratica</b></lightning:layoutItem>
+                        <lightning:layoutItem size="6">{! (v.datiCartella.codPratica == null ? '-' : v.datiCartella.codPratica) }</lightning:layoutItem>
+                    </lightning:layout>
+                    
+                    <aura:if isTrue="{! !and(v.opportunity.StatoPEF__c != null, v.opportunity.StatoPEF__c != '6') }">
+                        <lightning:layout>
+                            <lightning:layoutItem size="6"><b>Stato PEF</b></lightning:layoutItem>
+                            <lightning:layoutItem size="6">{! (v.opportunity.StatoPEF__c == null ? 'Controllo Pratica' : (v.opportunity.StatoPEF__c == '6' ? 'Valutazione Pratica' : v.opportunity.StatoPEF__c)) }</lightning:layoutItem>
+                        </lightning:layout>
+                    </aura:if>
+
+                    <aura:if isTrue="{! v.datiCartella.codPratica != null }">
+                        <lightning:layout>
+                            <lightning:layoutItem size="6"><b>Stato Pratica</b></lightning:layoutItem>
+                            <lightning:layoutItem size="6">{! v.datiCartella.desStatoPratica + ' (' + v.datiCartella.codStatoPratica + ')' }</lightning:layoutItem>
+                        </lightning:layout>
+                        
+                        <lightning:layout>
+                            <lightning:layoutItem size="6"><b>Tipo Pratica</b></lightning:layoutItem>
+                            <lightning:layoutItem size="6">{! v.datiCartella.desTipoPratica + ' (' + v.datiCartella.codTipoPratica + ')' }</lightning:layoutItem>
+                        </lightning:layout>
+                    </aura:if>
+
+                </lightning:layoutItem>
+
+                <lightning:layoutItem size="6" padding="around-small">
+
+                    <aura:if isTrue="{! v.datiCartella.codPratica != null }">
+                        <lightning:layout>
+                            <lightning:layoutItem size="6"><b>Data Creazione</b></lightning:layoutItem>
+                            <lightning:layoutItem size="6"><lightning:formattedDateTime value="{! v.datiCartella.datCreazione }"/></lightning:layoutItem>
+                        </lightning:layout>
+                        
+                        <lightning:layout>
+                            <lightning:layoutItem size="6"><b>Ruolo Attivo</b></lightning:layoutItem>
+                            <lightning:layoutItem size="6">{! v.datiCartella.codRuoloAttivo + ' (' + v.datiCartella.desUtenteAttivo + ')' }</lightning:layoutItem>
+                        </lightning:layout>
+
+                        <lightning:layout>
+                            <lightning:layoutItem size="6"><b>Ruolo Deliberante</b></lightning:layoutItem>
+                            <lightning:layoutItem size="6">{! v.datiCartella.codRuoloDeliberante + ' (' + v.datiCartella.desUtenteDeliberante + ')' }</lightning:layoutItem>
+                        </lightning:layout>
+
+                        <lightning:layout>
+                            <lightning:layoutItem size="6"><b>Data Delibera</b></lightning:layoutItem>
+                            <lightning:layoutItem size="6"><lightning:formattedDateTime value="{! v.datiCartella.datDelibera }"/></lightning:layoutItem>
+                        </lightning:layout>
+                    </aura:if>
+
+                </lightning:layoutItem>
+            </lightning:layout>
+        </lightning:layoutItem>
+    </lightning:layout>
+
+    <lightning:layout class="slds-m-top_small cstm-border-all-brand">
+        <lightning:layoutItem size="12" padding="around-small">
+            <h2 class="cstm-subheader-title-bold">Elenco Linee</h2>
+                        
+            <lightning:accordion aura:id="accordion" allowMultipleSectionsOpen="true">
+                <aura:iteration items="{! v.elencoLinee }" var="linea">
+                    <lightning:accordionSection name="{! linea.codLineaSistema }" label="{! (and(linea.isClosed, linea.faseChiusura != null) ? linea.desLineaSistema + ' - ' + linea.faseChiusura : linea.desLineaSistema) }">
+                        <aura:set attribute="actions">
+                            <!-- <lightning:button label="PEF38" name="{! linea.numLineaCredito }" onclick="{! c.getPEF38 }"/> -->
+                            <!-- <lightning:button label="{! $Label.c.WGC_Linea_CancellazioneLineaInValutazione }" name="{! linea.numLineaCredito }" variant="destructive" onclick="{! c.onDeleteLine }"/> -->
+                                <!-- <lightning:layout class="slds-m-right_medium slds-text-align_center slds-p-top_xx-small">
+                                    <lightning:layoutItem size="12">
+                                        <lightning:badge label="{! linea.stato == '11' ? 'Deliberata' : (linea.nonDeliberata ? 'Non Deliberata' : 'In Attesa') }" class="{! 'cstm-badge cstm-badge-' + (linea.stato == '11' ? 'success' : (linea.nonDeliberata ? 'error' : 'neutral')) }"/>
+                                        <p><small>
+                                            <aura:if isTrue="{! linea.stato == '11' || linea.nonDeliberata }">
+                                                <lightning:formattedDateTime value="{! linea.stato == '11' ? linea.dataDelibera : linea.dataDeclinazione }" />
+                                                <aura:set attribute="else">-</aura:set>
+                                            </aura:if>
+                                        </small></p>
+                                    </lightning:layoutItem>
+                                </lightning:layout> -->
+                                <!-- <lightning:layout class="slds-m-top_large cstm-main-wizard-wrapper dataTracker">
+                                    <lightning:layoutItem size="12">
+                                        <lightning:progressBar value="0" size="x-small" class="cstm-main-wizard-progress-bar"/>
+
+                                        <div class="{! 'cstm-main-wizard-items ' }">
+                                            <div class="{! 'cstm-main-wizard-item ' + (linea.nonDeliberata ? 'failed' : (linea.stato == '11' ? 'completed' : 'inProgress')) }" data-name="Valutazione">
+                                                <div class="cstm-main-wizard-dot"></div>
+                                                <div class="cstm-main-wizard-label">Valutazione</div>
+                                                <div class="cstm-main-wizard-time">
+                                                    <aura:if isTrue="{! linea.nonDeliberata }">
+                                                        <lightning:formattedDateTime value="{! linea.dataDeclinazione }" />
+                                                        <aura:set attribute="else">-</aura:set>
+                                                    </aura:if>
+                                                </div>
+                                            </div>
+                                            <div class="{! 'cstm-main-wizard-item ' + (linea.stato == '11' ? 'completed' : '') }" data-name="Delibera">
+                                                <div class="cstm-main-wizard-dot"></div>
+                                                <div class="cstm-main-wizard-label">Delibera</div>
+                                                <div class="cstm-main-wizard-time">
+                                                    <aura:if isTrue="{! linea.stato == '11' }">
+                                                        <lightning:formattedDateTime value="{! linea.dataDelibera }" />
+                                                        <aura:set attribute="else">-</aura:set>
+                                                    </aura:if>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </lightning:layoutItem>
+                                </lightning:layout> -->
+                            <lightning:layout class="slds-m-top_large cstm-main-wizard-wrapper dataTracker">
+                                <lightning:layoutItem size="12">
+                                    <lightning:progressBar value="{! linea.wizardProgressValue }" size="x-small" class="cstm-main-wizard-progress-bar"/>
+
+                                    <div class="cstm-main-wizard-items">
+                                        <aura:iteration items="{! linea.wizardItems }" var="wizItem">
+                                            <!-- <aura:if isTrue="{! wizItem.visible == true }"> -->
+                                                <div class="{! 'cstm-main-wizard-item ' + wizItem.state +
+                                                                ( wizItem.clickable ? ' clickable' : '' ) + 
+                                                                ( wizItem.active ? ' active' : '' ) }"
+                                                        data-name="{! wizItem.title }"><!-- onclick="{! c.onClickMainWizardItem }" -->
+                                                    <div class="cstm-main-wizard-dot"></div>
+                                                    <div class="cstm-main-wizard-label">{! wizItem.title }</div>
+                                                    <div class="cstm-main-wizard-time">
+                                                        <aura:if isTrue="{! wizItem.date != '' }">
+                                                            <lightning:formattedDateTime value="{! wizItem.date }" />
+                                                            <aura:set attribute="else">-</aura:set>
+                                                        </aura:if>
+                                                    </div>
+                                                </div>
+                                            <!-- </aura:if> -->
+                                        </aura:iteration>
+                                    </div>
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                            <aura:if isTrue="{! and(!linea.isClosed,linea.codLineaSistema != '983') }">
+                                <lightning:buttonIcon iconName="utility:close" name="{! linea.numLineaCredito }" onclick="{! c.onDeleteLine }"/>
+                            </aura:if>
+                        </aura:set>
+                        <lightning:layout>
+                            <lightning:layoutItem size="4" padding="around-small">
+                                <aura:if isTrue="{! linea.isClosed }">
+                                    
+                                    <lightning:layout>
+                                        <lightning:layoutItem size="6"><b>Categoria Chiusura Trattativa</b></lightning:layoutItem>
+                                        <lightning:layoutItem size="6">{! linea.categoriaChiusuraTrattativa }</lightning:layoutItem>
+                                    </lightning:layout>
+                                            
+                                    <lightning:layout>
+                                        <lightning:layoutItem size="6"><b>Data Chiusura Trattativa</b></lightning:layoutItem>
+                                        <lightning:layoutItem size="6">{! linea.dataChiusuraLinea }</lightning:layoutItem>
+                                    </lightning:layout>
+                                        
+                                    <lightning:layout>
+                                        <lightning:layoutItem size="6"><b>Motivo Chiusura Trattativa</b></lightning:layoutItem>
+                                        <lightning:layoutItem size="6">{! linea.motivoChiusuraTrattativa }</lightning:layoutItem>
+                                    </lightning:layout>
+                                        
+                                    <!-- <lightning:layout>
+                                        <lightning:layoutItem size="6"><b>Fase Chiusura</b></lightning:layoutItem>
+                                        <lightning:layoutItem size="6">{! linea.faseChiusura }</lightning:layoutItem>
+                                    </lightning:layout> -->
+
+                                    <lightning:layout>
+                                        <lightning:layoutItem size="6"><b>Stato PEF</b></lightning:layoutItem>
+                                        <lightning:layoutItem size="6">{! linea.statoPEF }</lightning:layoutItem>
+                                    </lightning:layout>
+                                        
+                                    <aura:set attribute="else">
+
+                                        <lightning:layout>
+                                            <lightning:layoutItem size="6"><b>Codice</b></lightning:layoutItem>
+                                            <lightning:layoutItem size="6">{! linea.codLineaSistema }</lightning:layoutItem>
+                                        </lightning:layout>
+                                                
+                                        <lightning:layout>
+                                            <lightning:layoutItem size="6"><b>Stato</b></lightning:layoutItem>
+                                            <lightning:layoutItem size="6">{! linea.desStatoLinea }</lightning:layoutItem>
+                                        </lightning:layout>
+                                                    
+                                        <lightning:layout>
+                                            <lightning:layoutItem size="6"><b>Numero Linea</b></lightning:layoutItem>
+                                            <lightning:layoutItem size="6">{! linea.numLineaCredito }</lightning:layoutItem>
+                                        </lightning:layout>
+                                        
+                                        <aura:if isTrue="{! linea.isFactoring }">
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6"><b>Importo Quota Oneri</b></lightning:layoutItem>
+                                                <lightning:layoutItem size="6"><lightning:formattedNumber value="{! linea.impQuotaOneri }" style="currency" currencyCode="EUR" minimumFractionDigits="2" maximumFractionDigits="2"/></lightning:layoutItem>
+                                            </lightning:layout>
+                                                        
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6"><b>Importo Quota Notifica</b></lightning:layoutItem>
+                                                <lightning:layoutItem size="6"><lightning:formattedNumber value="{! linea.impQuotaNotifica }" style="currency" currencyCode="EUR" minimumFractionDigits="2" maximumFractionDigits="2"/></lightning:layoutItem>
+                                            </lightning:layout>
+                                        </aura:if>
+                                                        
+                                        <lightning:layout>
+                                            <lightning:layoutItem size="6"><b>Importo Proposto</b></lightning:layoutItem>
+                                            <lightning:layoutItem size="6"><lightning:formattedNumber value="{! linea.importoProposto }" style="currency" currencyCode="EUR" minimumFractionDigits="2" maximumFractionDigits="2"/></lightning:layoutItem>
+                                        </lightning:layout>
+        
+                                        <lightning:layout>
+                                            <lightning:layoutItem size="6"><b>Importo Accordato Linea</b></lightning:layoutItem>
+                                            <lightning:layoutItem size="6"><lightning:formattedNumber value="{! linea.impAccordatoLinea }" style="currency" currencyCode="EUR" minimumFractionDigits="2" maximumFractionDigits="2"/></lightning:layoutItem>
+                                        </lightning:layout>
+                
+                                    </aura:set>
+                                </aura:if>
+                            </lightning:layoutItem>
+                            <aura:if isTrue="{! and(linea.isFactoring, !linea.isClosed) }">
+                                <lightning:layoutItem size="8">
+                                    <h2 class="cstm-datatable-title">Elenco Debitori</h2>
+                                    <lightning:datatable
+                                    keyField="id"
+                                    data="{! linea.elencoCoppie }"
+                                    columns="{! v.coppiaColumns }"
+                                    hideCheckboxColumn="true"/>
+                                </lightning:layoutItem>
+                            </aura:if>
+                            <aura:if isTrue="{! and((linea.codLineaSistema == '744' || linea.codLineaSistema == '844' || linea.codLineaSistema == '534' || linea.codLineaSistema == '644' || linea.codLineaSistema == '364' || linea.codLineaSistema == '464'), !linea.isClosed) }">
+                                <lightning:layoutItem size="8">
+                                    <h2 class="cstm-datatable-title">Elenco Debitori</h2>
+                                    <lightning:datatable
+                                    keyField="id"
+                                    data="{! linea.elencoCoppie }"
+                                    columns="{! v.coppiaColumnsFactFisc }"
+                                    hideCheckboxColumn="true"/>
+                                </lightning:layoutItem>
+                            </aura:if>
+                        </lightning:layout>
+                    </lightning:accordionSection>
+                </aura:iteration>
+            </lightning:accordion>
+            
+        </lightning:layoutItem>
+    </lightning:layout>
+
+    <lightning:layout class="slds-m-top_small cstm-border-all-brand">
+        <lightning:layoutItem size="6" padding="around-small">
+            <h2 class="cstm-subheader-title-bold">Elenco Note</h2>
+
+            <lightning:accordion aura:id="accordion" allowMultipleSectionsOpen="true">
+                <aura:iteration items="{! v.elencoNote }" var="nota">
+                    <lightning:accordionSection name="{! nota.numVersione }" label="{! (nota.codUtente + ' (' + nota.dataInserimento + ')') }">
+                        <lightning:layout>
+                            <lightning:layoutItem flexibility="grow" padding="around-small">
+
+                                <lightning:layout>
+                                    <lightning:layoutItem size="6"><b>Tipo Nota</b></lightning:layoutItem>
+                                    <lightning:layoutItem size="6">{! nota.codTipoNota }</lightning:layoutItem>
+                                </lightning:layout>
+                                        
+                                <lightning:layout>
+                                    <lightning:layoutItem size="6"><b>Data</b></lightning:layoutItem>
+                                    <lightning:layoutItem size="6"><lightning:formattedDateTime value="{! nota.datInserimNota }"/></lightning:layoutItem>
+                                </lightning:layout>
+                                            
+                                <lightning:layout>
+                                    <lightning:layoutItem size="6"><b>Descrizione</b></lightning:layoutItem>
+                                    <lightning:layoutItem size="6"><lightning:formattedRichText value="{! nota.desTestoNota }"></lightning:formattedRichText></lightning:layoutItem>
+                                </lightning:layout>
+                                                
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </lightning:accordionSection>
+                </aura:iteration>
+            </lightning:accordion>
+        </lightning:layoutItem>
+    </lightning:layout>
+
+    <lightning:layout class="slds-m-top_small cstm-border-all-brand">
+        <lightning:layoutItem size="12" padding="around-small">
+            <h2 class="cstm-subheader-title-bold">Elenco Documenti</h2>
+
+            <c:WGC_Documenti_2_Component recordId="{! v.opportunity.AccountId }" opportunityId="{! v.opportunity.Id }" isOpptyAlreadySent="true"/>
+
+        </lightning:layoutItem>
+    </lightning:layout>
+
+</aura:component>

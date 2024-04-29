@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>EA_Ultima_Compilazione__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF ( 
+AND(
+TODAY()-DATEVALUE(CRM_DataUltimaCompilazione__c) &gt;= 0,
+TODAY()-DATEVALUE(CRM_DataUltimaCompilazione__c) &lt; 120
+), &apos;b) Ultimi 4 mesi&apos;, 
+IF ( 
+AND(TODAY()-DATEVALUE(CRM_DataUltimaCompilazione__c) &gt;= 120, TODAY()-DATEVALUE(CRM_DataUltimaCompilazione__c) &lt; 240
+), &apos;c) Tra 4 e 8 mesi&apos;, 
+IF ( TODAY()-DATEVALUE(CRM_DataUltimaCompilazione__c) &gt;= 240, &apos;d) Oltre 8 mesi&apos;, 
+&apos;a) Senza compilazione&apos;
+)
+ ) 
+)</formula>
+    <label>Ultima Compilazione</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

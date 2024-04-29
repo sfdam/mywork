@@ -1,0 +1,6 @@
+<aura:component description="ContactStrategyLeasing" implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:lightningQuickAction,force:hasRecordId" access="global">
+  <aura:attribute name="recordId" type="Id" />
+  <aura:attribute name="fieldSets" type="String" default="" access="global"/>
+  <aura:attribute name="profilesAllowedToEdit" type="String" default="" access="global"/>
+  <c:VueWrapper recordId="{!v.recordId}" appName="ContactStrategyApp" params="AssegnazioniPartnerCliente;ContactStrategyTR;ContactStrategyEF;;;IFIS - Leasing Superuser"></c:VueWrapper>
+</aura:component>

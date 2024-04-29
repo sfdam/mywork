@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_ScadenzaRatingUfficiale__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF (
+    MONTH(CRM_RatingUfficiale_DataScadenza__c) &lt; MONTH(TODAY()), &apos;a) Scaduto&apos;,
+    IF (
+        MONTH(CRM_RatingUfficiale_DataScadenza__c) = MONTH(TODAY()),
+        &apos;b) Mese corrente&apos;,
+        IF (
+            MONTH(CRM_RatingUfficiale_DataScadenza__c) = MONTH(TODAY()) + 1,
+            &apos;c) Mese prossimo&apos;,
+            IF (
+                MONTH(CRM_RatingUfficiale_DataScadenza__c) = MONTH(TODAY()) + 2, &apos;d) Prossimi 2 mesi&apos;, &apos;e) Oltre 2 mesi&apos;
+            )
+        )
+    )
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Scadenza Rating Ufficiale</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_DettaglioSegmValoriale__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF (
+				TEXT(CRM_SegmentoValoriale__c) = &apos;Elevata Profittabilità&apos;,
+				&apos;Clienti dal buon rendimento per la Banca, ma commercialmente poco sviluppati.&apos;,
+				IF (
+								TEXT(CRM_SegmentoValoriale__c) = &apos;Strategici&apos;,
+								&apos;Clienti importanti per la Banca, sono profittevoli e commercialmente ben sviluppati.&apos;,
+								IF (
+												TEXT(CRM_SegmentoValoriale__c) = &apos;Basso Valore&apos;,
+												&apos;Clienti con una relazione poco sviluppata e di scarso rendimento; sono Clienti marginali per la banca.&apos;,
+												IF (
+																TEXT(CRM_SegmentoValoriale__c) = &apos;Potenziali&apos;,
+																&apos;Clienti commercialmente ben sviluppati, ma scarso rendimento per la Banca.&apos;,
+																&apos;-&apos;
+												)
+								)
+				)							
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Dettaglio Segmento Valoriale</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

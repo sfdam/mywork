@@ -1,0 +1,145 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction"
+    controller="WGC_HomePage_Sistema_IncController" access="global">
+
+    <ltng:require scripts="{!join(',', 
+             '/resource/WGC_jQuery3x',
+             '/resource/WGC_ChartJs')}" afterScriptsLoaded="{!c.doInit}" />
+
+    <lightning:navigation aura:id="navService" />
+    
+    <aura:attribute name="iconName" type="String" description="Definisce l'icona tra le standard"/>
+    <aura:attribute name="title" type="String" default="" description="Title from Container Card"/>
+    <aura:attribute name="Flip" type="String" access="global"/>
+    <aura:attribute name="Dettaglio" type="String" default="disattivo" access="global"/>
+
+    <aura:attribute name="resultSistemaIncentivante" type="WGC_Sistema_Incentivante__c"
+        default="{'sobjectType':'WGC_Sistema_Incentivante__c'}" description="" />
+    <aura:attribute name="fieldsMap" type="Map" />
+    <aura:attribute name="valData" type="String" />
+    <aura:attribute name="Premi" type="sObject[]" />
+    <aura:attribute name="Premio4" type="sObject" />
+    <aura:attribute name="PremioP1_NB" type="sObject" />
+
+    <aura:attribute name="showPremi" type="Boolean" default="true" />
+
+    <aura:attribute name="IsCollapsed" type="Boolean" default="true" />
+
+    <lightning:card>
+        <aura:set attribute="title">
+
+            <!-- with container -->
+            <lightning:layout multipleRows="false">
+                <lightning:layoutItem size="10" smallDeviceSize="10" mediumDeviceSize="10" largeDeviceSize="10">
+                    <lightning:icon iconName="{! 'utility:' + v.iconName }" size="small" variant="slds-icon-inverse" />
+                    <div class="title">{! v.title }</div>
+                </lightning:layoutItem>
+                <lightning:layoutItem class="slds-text-align_right" size="2" smallDeviceSize="2" mediumDeviceSize="2"
+                    largeDeviceSize="2">
+                    <aura:if isTrue="{! v.Dettaglio == 'attivo' }">
+                        <div class="header-button">
+                        <lightning:buttonIcon iconName="utility:expand" size="medium" variant="bare" iconClass=""
+                        onclick="{!c.navigateToMyComponent}"
+                        class="" />
+                        </div>
+                    </aura:if>
+                    <aura:if isTrue="{! v.Flip == 'attivo' }">
+                        <div class="header-button">
+                        <lightning:buttonIcon iconName="utility:chevronup" size="medium" variant="bare" iconClass=""
+                        onclick="{!c.collapse}"
+                        class="{! 'cstm-accordion-icon ' + (v.IsCollapsed ? '' : 'collapsed') }" />
+                        </div>
+                    </aura:if>
+                </lightning:layoutItem>
+            </lightning:layout>
+        </aura:set>
+        <aura:if isTrue="{! !v.IsCollapsed }">
+            <div class="container-card slds-p-around_x-small">
+
+                <aura:if isTrue="{! v.showPremi }">
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col">
+
+                            <aura:iteration items="{! v.Premi }" var="item">
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_9-of-12 ">
+                                        <span class="blue-circle">
+                                            {! item.TipoPremio }
+                                        </span>
+                                        <span class="slds-p-left_x-small cstm-title">
+                                            {! item.Name }
+                                        </span>
+                                    </div>
+                                    <div class="slds-col slds-size_3-of-12 slds-text-align_right slds-p-bottom_x-small">
+                                        <span class="slds-badge">
+                                            {!$Label.c.WGC_HomePage_Sistema_Incentivante_Tot} <span
+                                                class="slds-badge slds-p-left_x-small row2-badge">
+                                                {! item.Tot }</span> <span
+                                                class="{! (item.Euro ? '' : 'slds-hide') }">€</span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <aura:iteration items="{! item.data }" var="data" indexVar="index">
+
+                                        <div class="slds-col">
+                                            <div
+                                                class="{! 'slds-text-align_center data slds-border_right' + 
+                                                                                        ( index == 0 ? ' round-border-left ' : '' ) + 
+                                                                                        ( index == 11 ? ' round-border-right ' : '' ) + 
+                                                                                        ( index % 2 ? ' alternato ' : '' ) }">
+                                                {! data.Valore__c }
+                                            </div>
+                                            <div class="slds-text-align_center month">
+                                                {! data.Mese_Form__c }
+                                            </div>
+                                        </div>
+                                    </aura:iteration>
+
+                                </div>
+                            </aura:iteration>
+                        </div>
+                    </div>
+                    <div class="slds-grid slds-gutters slds-wrap">
+                        <hr />
+                        <div class="slds-col slds-size_9-of-12">
+                            <span class="blue-circle">
+                                {! (v.Premio4.Tot > 0) ? v.Premio4.TipoPremio : v.PremioP1_NB.TipoPremio }
+                            </span>
+                            <span class="slds-p-left_x-small cstm-title">
+                                {! (v.Premio4.Tot > 0) ? v.Premio4.Name : v.PremioP1_NB.Name }
+                            </span>
+                        </div>
+                        <div class="slds-col slds-size_3-of-12 slds-text-align_right slds-p-bottom_x-small">
+                            <span class="slds-badge">
+                                {!$Label.c.WGC_HomePage_Sistema_Incentivante_Tot}
+                                <span class="slds-p-left_x-small slds-badge row2-badge">{! (v.Premio4.Tot > 0) ?
+                                    v.Premio4.Tot : v.PremioP1_NB.Tot }</span>
+                                <span
+                                    class="{! (v.Premio4.Tot > 0) ? (v.Premio4.Euro ? '' : 'slds-hide') : (v.PremioP1_NB.Euro ? '' : 'slds-hide') }">€</span>
+                            </span>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1">
+                            <div class="chart-container">
+                                <canvas aura:id="chartJS1_SistemaIncentivante" id="chartJS1_SistemaIncentivante" />
+                            </div>
+                        </div>
+                    </div>
+                    <aura:set attribute="else">
+                        <lightning:layout multipleRows="true" class="slds-box">
+                            <lightning:layoutItem flexibility="auto">
+                                <div class="no-button">
+                                    {!$Label.c.WGC_Homepage_Sistema_Incentivante_NESSUN_DATO_RILEVATO}
+                                </div>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                        <!-- <div class="timbro-container">
+                                    <span class="stamp is-draft">Nessun Dato rilevato</span>
+            
+                            </div> -->
+                    </aura:set>
+                </aura:if>
+
+            </div>
+        </aura:if>
+    </lightning:card>
+</aura:component>

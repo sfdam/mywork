@@ -1,0 +1,23 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    <!-- attributes -->
+    <lightning:navigation aura:id="navService" />
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    <!-- handlers -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }" />
+
+    <lightning:card>
+        <div class="body">
+            <lightning:layout multipleRows="true">
+                <lightning:layoutItem size="12" class="slds-p-around_xx-small slds-text-align_center">
+                    <h1 style="text-transform: uppercase;">{! $Label.c.WGC_Header_Flow_FD_Contatto }</h1>
+                </lightning:layoutItem>
+                <lightning:layoutItem size="12" class="slds-p-around_xx-small slds-text-align_center">
+                    <lightning:icon iconName="utility:chat" size="medium" />
+                </lightning:layoutItem>
+                <lightning:layoutItem size="12" class="slds-p-around_xx-small slds-text-align_center slds-m-top_large">
+                    <lightning:button label="{! $Label.c.WGC_HomePage_Mie_Attivita_Crea }" class="btn" onclick="{! c.launchFlow }" />
+                </lightning:layoutItem>
+            </lightning:layout>
+        </div>
+    </lightning:card>
+</aura:component>

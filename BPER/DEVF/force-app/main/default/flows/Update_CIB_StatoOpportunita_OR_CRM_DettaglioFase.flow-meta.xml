@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>59.0</apiVersion>
+    <decisions>
+        <name>Check_Change</name>
+        <label>Check Change</label>
+        <locationX>766</locationX>
+        <locationY>352</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>CRM_Dettaglio_Fase</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record__Prior.CRM_Dettaglio_Fase__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>$Record.CRM_Dettaglio_Fase__c</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_CIB_Stato_Opportunita</targetReference>
+            </connector>
+            <label>CRM Dettaglio Fase</label>
+        </rules>
+        <rules>
+            <name>CIB_Stato_Opportunita</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record__Prior.CIB_Stato_opportunita_SF__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>$Record.CIB_Stato_opportunita_SF__c</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_CRM_Dettaglio_Fase</targetReference>
+            </connector>
+            <label>CIB Stato Opportunità</label>
+        </rules>
+    </decisions>
+    <environments>Default</environments>
+    <interviewLabel>Update CIB_StatoOpportunità OR CRM_DettaglioFase {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Update CIB_StatoOpportunità OR CRM_DettaglioFase</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Update_CIB_Stato_Opportunita</name>
+        <label>Update CIB Stato Opportunità</label>
+        <locationX>620</locationX>
+        <locationY>530</locationY>
+        <inputAssignments>
+            <field>CIB_Stato_opportunita_SF__c</field>
+            <value>
+                <elementReference>$Record.CRM_Dettaglio_Fase__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_CRM_Dettaglio_Fase</name>
+        <label>Update CRM Dettaglio Fase</label>
+        <locationX>925</locationX>
+        <locationY>522</locationY>
+        <inputAssignments>
+            <field>CRM_Dettaglio_Fase__c</field>
+            <value>
+                <elementReference>$Record.CIB_Stato_opportunita_SF__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>650</locationX>
+        <locationY>48</locationY>
+        <connector>
+            <targetReference>Check_Change</targetReference>
+        </connector>
+        <filterLogic>(1 OR 2 OR 3) AND (4 OR 5)</filterLogic>
+        <filters>
+            <field>RecordTypeName__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Corporate Finance</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>RecordTypeName__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Structured Finance</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>RecordTypeName__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Estero</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>CIB_Stato_opportunita_SF__c</field>
+            <operator>IsChanged</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>CRM_Dettaglio_Fase__c</field>
+            <operator>IsChanged</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <object>Opportunity</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+    <triggerOrder>500</triggerOrder>
+</Flow>

@@ -1,0 +1,22 @@
+<aura:component
+    implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+    access="global" controller="BI_PSE_ControllerPrincipale_CTRL">
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="accountId" type="String" />
+    <aura:attribute name="tipo" type="String" />
+    <aura:attribute name="flowName" type="String" />
+	<aura:attribute name="workflowRecord" type="WorkflowSegnalatori__c" />
+	<!-- REGISTER -->
+	<aura:registerEvent name="BI_PSE_CruscottoEsitazioneRegister" type="c:BI_PSE_CuscottoEsitazionePraticaEvent" />
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <lightning:navigation aura:id="navService" />
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+
+    <div class="container-body">
+        <ui:scrollerWrapper class="scrollerSize">
+                <lightning:flow aura:id="flowData" onstatuschange="{!c.statusChange}" />
+        </ui:scrollerWrapper>
+    </div>
+</aura:component>

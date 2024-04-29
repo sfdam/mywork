@@ -1,0 +1,5 @@
+<aura:event type="APPLICATION" description="Event to manage the toggle of a service during the debts configuration in the cart">
+    <aura:attribute name="debitore" type="Object"/>
+    <aura:attribute name="servizio" type="Object"/>
+    <aura:attribute name="action" type="String"/>
+</aura:event>

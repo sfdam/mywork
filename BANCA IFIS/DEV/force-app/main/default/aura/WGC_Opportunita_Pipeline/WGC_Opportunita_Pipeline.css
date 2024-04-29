@@ -1,0 +1,161 @@
+/* .THIS {
+    
+} */
+
+.THIS.overflow-hidden {
+    overflow: hidden;
+}
+
+/* .THIS .container-card {
+    min-height: 351px;
+} */
+
+.THIS .title {
+    display: inline-block;
+    margin-left: 10px;
+    vertical-align: sub;
+    /* text-transform: uppercase;
+    font-weight: bold; */
+}
+
+.THIS .open-component {
+    display: inline-block;
+    position: absolute;
+    right: 10px;
+    vertical-align: super;
+    margin-top: -4px;
+}
+
+.THIS .cstm-heading-line {
+    letter-spacing: -.5px;
+    font-size: 11px;
+    text-transform: uppercase;
+}
+
+.THIS .slds-card__body {
+    padding: 0 10px 10px 10px;
+    margin-bottom: 0;
+    background: linear-gradient(to bottom, rgba(255,255,255,0) 40%, #eafefc 60%);
+
+}
+
+.THIS .cstm-column-title {
+    color: #acacac;
+    font-weight: bold;
+}
+
+.THIS .cstm-column-splitter > div:not(:first-child) {
+    border-left: 1px solid #f1f1f1;
+    padding-left: 2%;
+}
+
+.THIS .cstm-column-splitter .cstm-column-main-data {
+    font-size: 20px;
+}
+
+.THIS .cstm-column-main-data-currency {
+    font-size: small;
+    padding-left: 5px;
+    font-weight: normal;
+    text-transform: uppercase;
+}
+
+.THIS .cstm-column-splitter .cstm-column-scnd-data {
+    font-size: 14px;
+    padding-bottom: 5px;
+}
+
+.THIS .cstm-column-splitter .cstm-column-scnd-data small {
+    padding-left: 5px;
+}
+
+.THIS .cstm-badge-pretext {
+    color: #4bdabf;
+    text-transform: uppercase;
+}
+
+.THIS .cstm-badge {
+    width: 100%;
+    background-color: #4bdabf;
+    color: #FFF;
+}
+
+.THIS .cstm-progress-bar span.slds-progress-bar__value {
+    background-color: #4bdabf;
+}
+
+.THIS .cstm-padding-right-5pct {
+    padding-right: 5%;
+}
+
+.THIS .container-slider {
+    overflow-x: scroll;
+    padding-bottom: 10px;
+}
+
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : landscape)
+and (-webkit-min-device-pixel-ratio: 2) { 
+    /* STYLES GO HERE */
+    .THIS .scrollerSize {
+        height:480px;
+    }
+
+}
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : portrait)
+and (-webkit-min-device-pixel-ratio: 2) { 
+    /* STYLES GO HERE */ 
+    .THIS .scrollerSize {
+        height:480px;
+    }
+}
+
+/* 
+  ##Device = Low Resolution Tablets, Mobiles (Landscape)
+  ##Screen = B/w 481px to 767px
+*/
+
+@media only screen 
+and (min-width: 481px) 
+and (max-width: 767px)
+and (orientation : landscape) {
+    /* STYLES GO HERE */
+    
+    
+}
+  
+/* 
+  ##Device = Most of the Smartphones Mobiles (Portrait)
+  ##Screen = B/w 320px to 479px
+*/
+  
+@media only screen 
+and (min-width: 320px) 
+and (max-width: 480px)
+and (orientation : portrait) {
+    /* STYLES GO HERE */
+    .THIS .iphone {
+        display: none;
+    }
+
+    .THIS .cstm-column-title {
+        font-size: 9px;
+    }
+
+    .THIS .cstm-column-splitter .cstm-column-main-data {
+        font-size: 13px;
+    }
+
+    .THIS .cstm-column-splitter .cstm-column-scnd-data {
+        font-size: 11px;
+        padding-bottom: 5px;
+    }
+
+}

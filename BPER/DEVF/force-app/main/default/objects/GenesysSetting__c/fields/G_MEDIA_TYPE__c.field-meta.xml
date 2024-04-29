@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>G_MEDIA_TYPE__c</fullName>
+    <externalId>false</externalId>
+    <label>Media Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>chat</fullName>
+                <default>false</default>
+                <label>chat</label>
+            </value>
+            <value>
+                <fullName>whatsapp</fullName>
+                <default>false</default>
+                <label>whatsapp</label>
+            </value>
+            <value>
+                <fullName>other</fullName>
+                <default>false</default>
+                <label>other</label>
+            </value>
+            <value>
+                <fullName>web</fullName>
+                <default>false</default>
+                <label>web</label>
+            </value>
+            <value>
+                <fullName>unbluchat</fullName>
+                <default>false</default>
+                <label>unbluchat</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

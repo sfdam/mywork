@@ -1,0 +1,8 @@
+<aura:component implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global">
+	<lightning:messageChannel type="softphone_it__LMC_Connector__c" scope="APPLICATION" aura:id="messageChannelRefreshTab"/>
+    <lightning:button iconName="utility:refresh" label="Refresh Tab" 
+                      title="Refresh the tab" 
+                      onclick="{!c.refreshTab}" 
+                      class="slds-button slds-button_neutral"/>
+    <aura:attribute name="recordId" type="Id" />
+</aura:component>

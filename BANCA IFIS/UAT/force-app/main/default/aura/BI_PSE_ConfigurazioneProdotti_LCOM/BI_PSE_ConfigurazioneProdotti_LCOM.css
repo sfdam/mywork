@@ -1,0 +1,24 @@
+.THIS .selectedProductLine{
+    border: 4px solid rgb(0, 35, 120);
+}
+
+.THIS .customRequired{
+ font-weight: 400; } 
+
+.THIS .customRequired:before{    
+ content: "*";
+ margin: 0 0.125rem 0 0.125rem;
+ color: rgb(194, 57, 52);
+ float: left; } 
+
+.THIS .none{
+ display:none; }
+
+.THIS .inlineRadio .slds-form-element__control .slds-radio{
+    display : inline-block !important;
+}
+
+.THIS .inlineRadio .slds-form-element__label {
+    color: rgb(0, 35, 120);
+    font-weight: bold;
+}

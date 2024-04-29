@@ -1,0 +1,42 @@
+<template>
+    <template if:true={rendered}>
+        <div class="slds-p-around_medium">
+            <lightning-layout multiple-rows="true">
+                <lightning-layout-item size="12">
+                    <p><b>Tipologia Incasso:</b> <span class="slds-p-left_medium">{dip.pDescrTipolIncasso}</span> <!-- IVA --></p>
+                </lightning-layout-item>
+                <lightning-layout-item size="12">
+                    <p><b>Calcolo effettuato sulla base di Nr. casi: </b> <span class="slds-p-left_medium">{dip.pNrCasi}</span> </p> 
+                </lightning-layout-item>
+                <lightning-layout-item size="12">
+                    <p><b>Tipo base statistica:</b> <span class="slds-p-left_medium">{dip.pDescTipoTMR}</span> <!-- Provincia --></p>
+                </lightning-layout-item>
+                <lightning-layout-item size="12">
+                    <p><b>Data rimborso ultima osservazione:</b> <span class="slds-p-left_medium"><lightning-formatted-date-time value={dip.pDataRichRimborso} year="numeric" month="2-digit" day="2-digit"></lightning-formatted-date-time></span> <!-- 17/09/2015 --></p>
+                </lightning-layout-item>
+                <lightning-layout-item size="12">
+                    <!-- <p><b>Commessa ultima osservazione:</b> <span class="slds-p-left_medium"><lightning-formatted-date-time value={dip.pCommessaUltOsserv} year="numeric" month="2-digit" day="2-digit"></lightning-formatted-date-time></span> 84216</p> -->
+                    <p><b>Commessa ultima osservazione:</b> <span class="slds-p-left_medium">{dip.pCommessaUltOsserv}</span></p>
+                </lightning-layout-item>
+                <lightning-layout-item size="12">
+                    <!-- <p><b>Tempo recupero ultima osservazione:</b> <span class="slds-p-left_medium"><lightning-formatted-date-time value={dip.pDipUltOsserv} year="numeric" month="2-digit" day="2-digit"></lightning-formatted-date-time></span> 1044</p> -->
+                    <p><b>Tempo recupero ultima osservazione:</b> <span class="slds-p-left_medium">{dip.pTempoRecupero}</span></p>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" class="slds-p-top_medium">
+                    <p><b>Data DIP:</b> <span class="slds-p-left_medium"><lightning-formatted-date-time value={dip.pDIP} year="numeric" month="2-digit" day="2-digit"></lightning-formatted-date-time></span></p>
+                </lightning-layout-item>
+                <!--
+                <lightning-layout-item size="12" class="slds-p-top_medium">
+                    <p><b>Nuova DIP proposta: <lightning-icon size="small" name="utility:check" variant="success"></lightning-icon>DIP Superata</b></p>
+                </lightning-layout-item>
+                -->
+            </lightning-layout>
+            <div class="slds-m-top_medium slds-text-align_right">
+                <lightning-button label="Conferma" variant="brand" class="cstm-btn-round" onclick={confirm}></lightning-button>
+            </div>
+        </div>
+    </template>
+    <template if:false={rendered}>
+        <lightning-spinner variant="brand" alternative-text="CARICAMENTO"></lightning-spinner>
+    </template>
+</template>

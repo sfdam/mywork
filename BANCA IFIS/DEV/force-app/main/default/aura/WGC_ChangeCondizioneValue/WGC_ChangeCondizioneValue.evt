@@ -1,0 +1,4 @@
+<aura:event type="APPLICATION" description="Event template">
+    <aura:attribute name="isCompleted" type="Boolean" />
+    <aura:attribute name="lineCheck" type="String[]" />
+</aura:event>

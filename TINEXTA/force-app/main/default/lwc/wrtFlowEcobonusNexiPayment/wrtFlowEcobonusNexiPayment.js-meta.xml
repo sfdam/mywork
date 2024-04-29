@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>51.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__FlowScreen</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <property name="amount" label="Amount" type="Integer" role="inputOnly"/>
+            <property name="paymentId" label="paymentId" type="String" role="outputOnly"/>
+            <property name="infoPagamento" label="Risultato Pagamento" type="String" role="outputOnly"/>
+            <property name="FirstName" label="Nome" type="String" role="inputOnly"/>
+            <property name="LastName" label="Cognome" type="String" role="inputOnly"/>
+            <property name="Email" label="Email" type="String" role="inputOnly"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

@@ -1,0 +1,632 @@
+<aura:component controller="bifis_crm_c_MccNsaCommonCtrl" implements="lightning:availableForFlowScreens" access="global">  
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/> 
+
+	<aura:attribute name="tipologiaQuestionarioVar" type="String"/>
+    
+    <aura:attribute name="QQSBD1" type="List" default="[
+    {'label': 'Forte crescita (&gt;10%)', 'value': 'A'},
+    {'label': 'Lieve crescita (2%-10%)', 'value': 'B'},
+    {'label': 'Stazionario (+/- 2%)', 'value': 'C'},
+    {'label': 'Diminuzione (&lt;2%)', 'value': 'D'},
+    {'label': 'Inf non disponib./valutab.', 'value': 'E'}                                                
+    ]"/>   
+    
+    <aura:attribute name="QQSBD2" type="List" default="[
+    {'label': 'Meno del 30%', 'value': 'A'},
+    {'label': 'Tra il 30% e il 60%', 'value': 'B'},
+    {'label': 'Oltre 60% con sostiuz. fornito', 'value': 'C'},
+    {'label': 'Oltre 60% con difficoltà sost', 'value': 'D'},
+    {'label': 'Inf non disponib./valutab.', 'value': 'E'}                                                        
+    ]"/>     
+    
+    <aura:attribute name="QQSBD3" type="List" default="[
+    {'label': 'Regolare', 'value': 'A'},
+    {'label': 'Occasionalmente anomalo', 'value': 'B'},
+    {'label': 'Irregolare', 'value': 'C'},
+    {'label': 'Non rilevabile (nuovo rapporto)', 'value': 'D'},
+    {'label': 'Inf non disponib./valutab.', 'value': 'E'}                                                        
+    ]"/>    
+
+    <aura:attribute name="QQSBD4" type="List" default="[
+    {'label': 'Contanti', 'value': 'A'},
+    {'label': 'Rimesse dirette', 'value': 'B'},
+    {'label': 'Accettazioni', 'value': 'C'},
+    {'label': 'Assegni', 'value': 'D'},
+    {'label': 'Ri.Ba.', 'value': 'E'},
+    {'label': 'Tratte', 'value': 'F'},
+    {'label': 'MAV-RAV-RID', 'value': 'G'},                                                       
+    {'label': 'Inf non disponib./valutab.', 'value': 'H'}                                                        
+    ]"/>    
+
+    <aura:attribute name="QQSBD5" type="List" default="[
+    {'label': 'Meno del 30%', 'value': 'A'},
+    {'label': 'Tra il 30% e il 60%', 'value': 'B'},
+    {'label': '&gt; 60% con sostiuz. clienti', 'value': 'C'},
+    {'label': '&gt; 60% con difficoltà sost', 'value': 'D'},
+    {'label': 'Inf non disponib./valutab.', 'value': 'E'}                                                        
+    ]"/> 
+
+    <aura:attribute name="QQSBD6" type="List" default="[
+    {'label': 'Regolare', 'value': 'A'},
+    {'label': 'Occasionalmente anomalo', 'value': 'B'},
+    {'label': 'Irregolare', 'value': 'C'},
+    {'label': 'Non rilevabile (nuovo rapporto)', 'value': 'D'},
+    {'label': 'Inf non disponib./valutab.', 'value': 'E'}    
+    ]"/> 
+
+    <aura:attribute name="QQSBD7" type="List" default="[
+    {'label': 'Contanti', 'value': 'A'},
+    {'label': 'Rimesse dirette', 'value': 'B'},
+    {'label': 'Accettazioni', 'value': 'C'},
+    {'label': 'Assegni', 'value': 'D'},
+    {'label': 'Ri. Ba.', 'value': 'E'},
+    {'label': 'Tratte', 'value': 'F'},
+    {'label': 'MAV RAV RID', 'value': 'G'},                                                       
+    {'label': 'Inf non disponib./valutab.', 'value': 'H'} 
+    ]"/> 
+
+    <aura:attribute name="QQSBD8" type="List" default="[
+    {'label': 'Non sono presenti', 'value': 'A'},
+    {'label': 'Presenti &lt;30% fatturato', 'value': 'B'},
+    {'label': 'Presenti &gt;30% fatturato', 'value': 'C'},
+    {'label': 'Inf non disponib./valutab.', 'value': 'D'}
+    ]"/> 
+
+    <aura:attribute name="QQSBD9" type="List" default="[
+    {'label': '&lt; 1 A: prima altro core bsn', 'value': 'A'},
+    {'label': '1&lt; A &lt;3: prima altro core bsn', 'value': 'B'},
+    {'label': '&gt; 3 A: prima altro core bsn', 'value': 'C'},
+    {'label': 'Sempre attuale core bsn', 'value': 'D'},
+    {'label': 'Start up (&lt; 1 A)', 'value': 'E'},                                                 
+    {'label': 'Inf non disponib./valutab.', 'value': 'F'} 
+    ]"/> 
+
+    <aura:attribute name="QQSBD10" type="List" default="[
+    {'label': 'Si', 'value': 'A'},
+    {'label': 'No', 'value': 'B'},                                          
+    {'label': 'Inf non disponib./valutab.', 'value': 'C'} 
+    ]"/> 
+
+    <aura:attribute name="QQSBD11" type="List" default="[
+    {'label': 'Si, PSP disponibile. Si inv', 'value': 'A'},
+    {'label': 'Si, PSP disponibile. No inv', 'value': 'B'},
+    {'label': 'Si, PSP non disponib. Si inv', 'value': 'C'},
+    {'label': 'Si, PSP non disponib. No inv', 'value': 'D'},
+    {'label': 'No PSP', 'value': 'E'},
+    {'label': 'Inf non disponib./non valutab.', 'value': 'F'}                                                      
+    ]"/>  
+
+    <aura:attribute name="QQSBD12" type="List" default="[
+    {'label': 'Magg. az. di una sola famiglia', 'value': 'A'},
+    {'label': 'Patti sind. blindano maggior.', 'value': 'B'},
+    {'label': 'Fraz.azionario:difficile acq.', 'value': 'C'},
+    {'label': 'Fraz.azionario:possibile acq.', 'value': 'D'},
+    {'label': 'Inf non disponib./valutab.', 'value': 'E'}  
+    ]"/> 
+
+    <aura:attribute name="QQSBD13" type="List" default="[
+    {'label': 'Si:problema non significativo', 'value': 'A'},
+    {'label': 'No', 'value': 'B'},
+    {'label': 'Si, con grado profess.le basso', 'value': 'C'},
+    {'label': 'Si, con grado profess.le medio', 'value': 'D'},
+    {'label': 'Si, con grado profess.le alto', 'value': 'E'}  
+    ]"/> 
+
+    <aura:attribute name="QQSBD14" type="List" default="[
+    {'label': 'No', 'value': 'A'},
+    {'label': 'Si, valore &lt;10% patr. Netto', 'value': 'B'},
+    {'label': 'Si, valore &gt;=10% patr. Netto', 'value': 'C'},
+    {'label': 'Inf non disponib./valutab.', 'value': 'D'}  
+    ]"/> 
+
+    <aura:attribute name="QQSBD15" type="List" default="[
+    {'label': 'Si, entità ridotta', 'value': 'A'},
+    {'label': 'Si, entità media, coperti', 'value': 'B'},
+    {'label': 'Si, entità media, non coperti', 'value': 'C'},
+    {'label': 'Si, entità elevata, coperti', 'value': 'D'},
+    {'label': 'Si, entità elev. non coperti', 'value': 'E'},
+    {'label': 'Inf non disponib./non valutab.', 'value': 'F'}    
+    ]"/> 
+
+    <aura:attribute name="QQSBD16" type="List" default="[
+    {'label': 'Bilancio cert. senza eccezioni', 'value': 'A'},
+    {'label': 'Bilancio cert. con eccezioni', 'value': 'B'},
+    {'label': 'Bilancio non certificato', 'value': 'C'},
+    {'label': 'Inf non disponib./valutab.', 'value': 'D'}  
+    ]"/> 
+
+    <aura:attribute name="QQSBD17" type="List" default="[
+    {'label': 'Si, tutte per settore appart.', 'value': 'A'},
+    {'label': 'In corso una o più richieste', 'value': 'B'},
+    {'label': 'No', 'value': 'C'},
+    {'label': 'Inf non disponib./valutab.', 'value': 'D'} 
+    ]"/> 
+
+    <aura:attribute name="QQSBD18" type="List" default="[
+    {'label': 'No', 'value': 'A'},
+    {'label': 'Si, con una stelletta', 'value': 'B'},
+    {'label': 'Si, da 1 stel. + a 2 stel. 2 +', 'value': 'C'},
+    {'label': 'Si, con tre stellette', 'value': 'D'} 
+    ]"/>    
+    
+    <aura:attribute name="QQCOD1" type="List" default="[
+    {'label': 'Forte crescita (&gt;10%)', 'value': 'A'},
+    {'label': 'Lieve crescita (2%-10%)', 'value': 'B'},
+    {'label': 'Stazionario (+/- 2%)', 'value': 'C'},
+    {'label': 'Diminuzione (&lt;2%)', 'value': 'D'},
+    {'label': 'Inf non disponib./valutab.', 'value': 'E'}                                                
+    ]"/>   
+    
+    <aura:attribute name="QQCOD2" type="List" default="[
+    {'label': 'Meno del 30%', 'value': 'A'},
+    {'label': 'Tra il 30% e il 60%', 'value': 'B'},
+    {'label': 'Oltre 60% con sostiuz. fornito', 'value': 'C'},
+    {'label': 'Oltre 60% con difficoltà sost', 'value': 'D'},
+    {'label': 'Inf non disponib./valutab.', 'value': 'E'}                                                        
+    ]"/>     
+    
+    <aura:attribute name="QQCOD3" type="List" default="[
+    {'label': 'Regolare', 'value': 'A'},
+    {'label': 'Occasionalmente anomalo', 'value': 'B'},
+    {'label': 'Irregolare', 'value': 'C'},
+    {'label': 'Non rilevabile (nuovo rapporto)', 'value': 'D'},
+    {'label': 'Inf non disponib./valutab.', 'value': 'E'}                                                        
+    ]"/>    
+
+    <aura:attribute name="QQCOD4" type="List" default="[
+    {'label': 'Meno del 30%', 'value': 'A'},
+    {'label': 'Tra il 30% e il 60%', 'value': 'B'},
+    {'label': 'Oltre 60% con sostiuz. clienti', 'value': 'C'},
+    {'label': 'Oltre 60% con difficoltà sost', 'value': 'D'},
+    {'label': 'Inf non disponib./valutab.', 'value': 'E'}                                                        
+    ]"/>  
+
+    <aura:attribute name="QQCOD5" type="List" default="[
+    {'label': 'Regolare', 'value': 'A'},
+    {'label': 'Occasionalmente anomalo', 'value': 'B'},
+    {'label': 'Irregolare', 'value': 'C'},
+    {'label': 'Non rilevabile (nuovo rapporto)', 'value': 'D'},
+    {'label': 'Inf non disponib./valutab.', 'value': 'E'}                                                        
+    ]"/>  
+
+    <aura:attribute name="QQCOD6" type="List" default="[
+    {'label': 'Contanti', 'value': 'A'},
+    {'label': 'Rimesse dirette', 'value': 'B'},
+    {'label': 'Accettazioni', 'value': 'C'},
+    {'label': 'Assegni', 'value': 'D'},
+    {'label': 'Ri. Ba.', 'value': 'E'},
+    {'label': 'Tratte', 'value': 'F'},
+    {'label': 'MAV RAV RID', 'value': 'G'},                                                       
+    {'label': 'Inf non disponib./valutab.', 'value': 'H'} 
+    ]"/> 
+
+    <aura:attribute name="QQCOD7" type="List" default="[
+    {'label': 'Non sono presenti', 'value': 'A'},
+    {'label': 'Presenti &lt;30% fatturato', 'value': 'B'},
+    {'label': 'Presenti &gt;30% fatturato', 'value': 'C'},
+    {'label': 'Inf non disponib./valutab.', 'value': 'D'}
+    ]"/> 
+
+    <aura:attribute name="QQCOD8" type="List" default="[
+    {'label': '&lt; 1 A: prima altro core bsn', 'value': 'A'},
+    {'label': '1&lt; A &lt;3: prima altro core bsn', 'value': 'B'},
+    {'label': '&gt; 3 A: prima altro core bsn', 'value': 'C'},
+    {'label': 'Sempre attuale core bsn', 'value': 'D'},
+    {'label': 'Start up (&lt; 1 A)', 'value': 'E'},                                                 
+    {'label': 'Inf non disponib./valutab.', 'value': 'F'} 
+    ]"/> 
+
+    <aura:attribute name="QQCOD9" type="List" default="[
+    {'label': 'Si, Investimenti adeguati', 'value': 'A'},
+    {'label': 'Si, Investimenti non adeguati', 'value': 'B'},       
+    {'label': 'No, non investe in R e S', 'value': 'C'},                                                                
+    {'label': 'Inf non disponib./valutab.', 'value': 'D'} 
+    ]"/> 
+
+    <aura:attribute name="QQCOD10" type="List" default="[
+    {'label': 'Non previsti', 'value': 'A'},
+    {'label': 'Previsti ma non rilevanti', 'value': 'B'},   
+    {'label': 'Previsti, rilevanti', 'value': 'C'},                                                            
+    {'label': 'Inf non disponib./valutab.', 'value': 'D'} 
+    ]"/> 
+
+    <aura:attribute name="QQCOD11" type="List" default="[
+    {'label': 'Bassa, 1 sett. Imp. non fless.', 'value': 'A'},
+    {'label': 'Bassa, 1 sett. Implan. fless.', 'value': 'B'},
+    {'label': 'Media, + settori', 'value': 'C'},
+    {'label': 'Elevata, + settori', 'value': 'D'},
+    {'label': 'Inf non disponib./non valutab.', 'value': 'E'}                                                      
+    ]"/>  
+
+    <aura:attribute name="QQCOD12" type="List" default="[
+    {'label': 'Ridotta, opera in un Paese', 'value': 'A'},
+    {'label': 'Media, + Paesi, + Rilev &gt; 50% fatt', 'value': 'B'},
+    {'label': 'Elev, + Paesi, + Rilev &lt; 50% fatt', 'value': 'C'},
+    {'label': 'Inf non disponib./valutab.', 'value': 'D'}  
+    ]"/> 
+
+    <aura:attribute name="QQCOD13" type="List" default="[
+    {'label': 'Si', 'value': 'A'},
+    {'label': 'No', 'value': 'B'},                                          
+    {'label': 'Inf non disponib./valutab.', 'value': 'C'} 
+    ]"/> 
+
+    <aura:attribute name="QQCOD14" type="List" default="[
+    {'label': 'Si, PI disponibile. SI Inv', 'value': 'A'},
+    {'label': 'Si, PI disponibile. NO Inv', 'value': 'B'},
+    {'label': 'Si, PI non disponibile. SI Inv', 'value': 'C'},
+    {'label': 'Si, PI non disponibile. NO Inv', 'value': 'D'},
+    {'label': 'No PI', 'value': 'E'},    
+    {'label': 'Inf non disponib./non valutab.', 'value': 'F'}    
+    ]"/> 
+
+    <aura:attribute name="QQCOD15" type="List" default="[
+    {'label': 'Magg. az. di una sola famiglia', 'value': 'A'},
+    {'label': 'Patti sind. blindano maggior.', 'value': 'B'},
+    {'label': 'Fraz. azionario:difficile acq.', 'value': 'C'},
+    {'label': 'Fraz. azionario:possibile acq.', 'value': 'D'},
+    {'label': 'Inf non disponib./non valutab.', 'value': 'E'}    
+    ]"/> 
+
+    <aura:attribute name="QQCOD16" type="List" default="[
+    {'label': '&lt; 3 anni', 'value': 'A'},
+    {'label': 'Tra 3 e 10 anni', 'value': 'B'},
+    {'label': '&gt; 10 anni', 'value': 'C'},
+    {'label': 'Inf non disponib./valutab.', 'value': 'D'}  
+    ]"/> 
+
+    <aura:attribute name="QQCOD17" type="List" default="[
+    {'label': 'Si, piano di stock option', 'value': 'A'},
+    {'label': 'Si, per risultati di gestione', 'value': 'B'},
+    {'label': 'Non esistono ufficialmente', 'value': 'C'},
+    {'label': 'Intenzione di introdurli', 'value': 'D'},                                                        
+    {'label': 'Inf non disponib./valutab.', 'value': 'E'} 
+    ]"/> 
+
+    <aura:attribute name="QQCOD18" type="List" default="[
+    {'label': 'No', 'value': 'A'},
+    {'label': 'Si, valore &lt; 10% patr. Netto', 'value': 'B'},
+    {'label': 'Si, valore &gt;= 10% patr. Netto', 'value': 'C'},
+    {'label': 'Inf non disponib./valutab.', 'value': 'D'} 
+    ]"/>    
+    
+    <aura:attribute name="QQCOD19" type="List" default="[
+    {'label': 'Si, entita ridotta', 'value': 'A'},
+    {'label': 'Si, entita media, coperti', 'value': 'B'},
+    {'label': 'Si, entita media, non coperti', 'value': 'C'},
+    {'label': 'Si, entita elevata, coperti', 'value': 'D'},
+    {'label': 'Si, entita elevata, non coperti', 'value': 'E'},                                                        
+    {'label': 'Inf non disponib./valutab.', 'value': 'F'} 
+    ]"/>    
+
+    <aura:attribute name="QQCOD20" type="List" default="[
+    {'label': 'Si, tutte per settore appart.', 'value': 'A'},
+    {'label': 'In corso una o più richieste', 'value': 'B'},
+    {'label': 'No', 'value': 'C'},
+    {'label': 'Inf non disponib./valutab.', 'value': 'D'}  
+    ]"/>    
+
+    <aura:attribute name="QQCOD21" type="List" default="[
+    {'label': 'No', 'value': 'A'},
+    {'label': 'Si, con una stelletta', 'value': 'B'},
+    {'label': 'Si, da 1 stel. + a 2 stel. 2 +', 'value': 'C'},
+    {'label': 'Si, con tre stellette', 'value': 'D'} 
+    ]"/>        
+    
+
+    <aura:attribute name="selectedValue" type="String" default="--Seleziona--"/>
+
+    <aura:attribute name="workflowRecordCandidatoID" type="String"/>
+    <aura:attribute name="workflowRecordCandidatoNEXT" type="WorkflowMutui__c"/>
+    <aura:attribute name="workflowRecordCandidato" type="WorkflowMutui__c"/>
+    <aura:attribute name="workflowRecordCandidatoERROR" type="String"/>
+    
+    <force:recordData aura:id="flowRecordHandlerWorkflowCandidatoId"
+                      recordId="{!v.workflowRecordCandidatoID}"
+                      layoutType="FULL"
+                      targetFields="{!v.workflowRecordCandidato}"
+                      targetError="{!v.workflowRecordCandidatoERROR}"
+                      recordUpdated="{!c.handleRecordUpdated}"
+                      targetRecord="{!v.workflowRecordCandidatoNEXT}"
+                      mode="EDIT"                      
+                      />    
+    
+    <c:bifis_crm_c_MccNsaFlowPath selectedPathValue="6"/>
+    
+    <c:bifis_crm_c_CommonFlowNavigator availableActions="{!v.availableActions}" navigateFlowEvent="{!c.handleNavigate}"/>
+
+    <!-- Display Lightning Data Service errors, if any -->
+    <aura:if isTrue="{!not(empty(v.workflowRecordCandidatoERROR))}">
+        <ui:message title="Errore" severity="error" closable="true">{!v.workflowRecordCandidatoERROR}</ui:message>
+    </aura:if>
+    
+	<lightning:card variant="Narrow" title="Questionario Qualitativo" iconName="standard:record" />
+    
+    <hr style="margin-top:1px;margin-bottom:10px;"/>
+    
+    <lightning:card variant="Narrow" title="FATTURATO DELL'AZIENDA" iconName="standard:partner_marketing_budget">
+        <p class="slds-p-horizontal_small">
+            <div class="slds-grid slds-wrap">        
+                <div class="slds-size_1-of-4">
+					<div class="slds-m-around_x-small"><lightning:input type="number" aura:id="flowInputAnagraficaFatturatoInputId" label="Fatturato Annuo (da ultimo bilancio depositato)" name="flowInputAnagraficaFatturatoInput" required="false" value="{!v.workflowRecordCandidato.Fatturato__c}" min="0" step="1" formatter="currency" onchange="{! c.handleChange }"/></div>
+                </div>
+                <div class="slds-size_3-of-4">
+					<div class="slds-m-around_x-small"></div> 
+                </div>
+			</div>	
+		</p>
+	</lightning:card>
+
+	<aura:if isTrue="{!empty(v.tipologiaQuestionarioVar)}">
+
+		<div class="slds-scoped-notification slds-media slds-media_center" role="status">
+			<div class="slds-media__figure">
+				<span class="slds-icon_container slds-icon-utility-info" title="Attenzione">
+					<lightning:icon iconName="utility:warning" alternativeText="Attenzione"/>
+				</span>
+			</div>
+			<div class="slds-media__body">
+				<p>Non è possibile compilare questa sezione senza aver specificato un valore di fatturato!</p>
+			</div>
+		</div>
+
+	</aura:if>
+
+	<aura:if isTrue="{!v.tipologiaQuestionarioVar == 'Small Business'}">
+		<lightning:card variant="Narrow" title="COMPILAZIONE DEL QUESTIONARIO SMALL BUSINESS" iconName="standard:lead_list">
+			<p class="slds-p-horizontal_small">
+				<div class="slds-grid slds-wrap">                  
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small">1) QUAL È L’ANDAMENTO DELLA DOMANDA DI MERCATO DEI BENI E SERVIZI PRODOTTI DALL’IMPRESA NEI 12 MESI?</div>
+					</div>       
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small"><lightning:combobox name="flowInputQQSBD1Input" value="{!v.workflowRecordCandidato.QQSB1__c}" placeholder="--Seleziona--" options="{! v.QQSBD1 }" /></div>
+					</div>     
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small">2) QUANTO RAPPRESENTANO IN TERMINI DI ACQUISTO I PRIMI 10 FORNITORI?</div>                
+					</div>               
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small"><lightning:combobox name="flowInputQQSBD2Input" value="{!v.workflowRecordCandidato.QQSB2__c}" placeholder="--Seleziona--" options="{! v.QQSBD2 }" /></div>
+					</div>                     
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small">3) QUAL È LA QUALITÀ DEL PAGAMENTO AI FORNITORI NEGLI ULTIMI DODICI MESI?</div>
+					</div>   
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small"><lightning:combobox name="flowInputQQSBD3Input" value="{!v.workflowRecordCandidato.QQSB3__c}" placeholder="--Seleziona--" options="{! v.QQSBD3 }" /></div>
+					</div>                     
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small">4) MODALITÀ DI PAGAMENTO PREVALENTE? (66003)</div>
+					</div>   
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small"><lightning:combobox name="flowInputQQSBD4Input" value="{!v.workflowRecordCandidato.QQSB4__c}" placeholder="--Seleziona--" options="{! v.QQSBD4 }" /></div>
+					</div>                     
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small">5) QUANTO RAPPRESENTANO IN TERMINI DI FATTURATO I PRIMI 10 CLIENTI?</div>
+					</div>       
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small"><lightning:combobox name="flowInputQQSBD5Input" value="{!v.workflowRecordCandidato.QQSB5__c}" placeholder="--Seleziona--" options="{! v.QQSBD5 }" /></div>
+					</div>                     
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small">6) QUAL È LA QUALITÀ DEGLI INCASSI DAI CLIENTI NEGLI ULTIMI DODICI MESI?</div>                
+					</div>           
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small"><lightning:combobox name="flowInputQQSBD6Input" value="{!v.workflowRecordCandidato.QQSB6__c}" placeholder="--Seleziona--" options="{! v.QQSBD6 }" /></div>
+					</div>                     
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small">7) MODALITÀ DI INCASSO PREVALENTE?</div>
+					</div>   
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small"><lightning:combobox name="flowInputQQSBD7Input" value="{!v.workflowRecordCandidato.QQSB7__c}" placeholder="--Seleziona--" options="{! v.QQSBD7 }" /></div>
+					</div>                     
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small">8) LE COMMESSE DEL SETTORE PUBBLICO SONO?</div>
+					</div>   
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small"><lightning:combobox name="flowInputQQSBD8Input" value="{!v.workflowRecordCandidato.QQSB8__c}" placeholder="--Seleziona--" options="{! v.QQSBD8 }" /></div>
+					</div>                     
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small">9) DA QUANTO TEMPO IL GRUPPO/AZIENDA OPERA NEL CORE BUSINESS ATTUALE?</div>
+					</div>       
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small"><lightning:combobox name="flowInputQQSBD9Input" value="{!v.workflowRecordCandidato.QQSB9__c}" placeholder="--Seleziona--" options="{! v.QQSBD9 }" /></div>
+					</div>                     
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small">10) L’AZIENDA È PUNTUALE NELLA PRESENTAZIONE DELLA DOCUMENTAZIONE CONTABILE?</div>                
+					</div>         
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small"><lightning:combobox name="flowInputQQSBD10Input" value="{!v.workflowRecordCandidato.QQSB10__c}" placeholder="--Seleziona--" options="{! v.QQSBD10 }" /></div>
+					</div>                     
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small">11) PIANO DI SVILUPPO PLURIENNALE? PER I PROSSIMI DODICI MESI, SONO PREVISTI PROGRAMMI DI INVESTIMENTO DI RILIEVO?</div>
+					</div>   
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small"><lightning:combobox name="flowInputQQSBD11Input" value="{!v.workflowRecordCandidato.QQSB11__c}" placeholder="--Seleziona--" options="{! v.QQSBD11 }" /></div>
+					</div>                     
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small">12) COSTITUZIONE DELLA BASE PROPRIETARIA?</div>
+					</div>   
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small"><lightning:combobox name="flowInputQQSBD12Input" value="{!v.workflowRecordCandidato.QQSB12__c}" placeholder="--Seleziona--" options="{! v.QQSBD12 }" /></div>
+					</div>                     
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small">13) IN AZIENDA SONO PRESENTI SUCCESSORI? SE SI, QUAL È IL GRADO DI PROFESSIONALITÀ DEI SUCCESSORI A GARANZIA DELLA CONTINUITÀ AZIENDALE?</div>
+					</div>       
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small"><lightning:combobox name="flowInputQQSBD13Input" value="{!v.workflowRecordCandidato.QQSB13__c}" placeholder="--Seleziona--" options="{! v.QQSBD13 }" /></div>
+					</div>                     
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small">14) ESISTONO RISCHI LEGATI A CAUSE LEGALI PENDENTI E/O CONTENZIOSI FISCALI E PREVIDENZIALI?</div>                
+					</div>         
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small"><lightning:combobox name="flowInputQQSBD14Input" value="{!v.workflowRecordCandidato.QQSB14__c}" placeholder="--Seleziona--" options="{! v.QQSBD14 }" /></div>
+					</div>                     
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small">15) L'IMPRESA HA RISCHI OPERATIVI CONNESSI ALL'AMBIENTE, TECNOLOGICI, DI IMMAGINE E HA PRODOTTI PERICOLOSI?</div>
+					</div>   
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small"><lightning:combobox name="flowInputQQSBD15Input" value="{!v.workflowRecordCandidato.QQSB15__c}" placeholder="--Seleziona--" options="{! v.QQSBD15 }" /></div>
+					</div>                     
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small">16) EVENTUALE CERTIFICAZIONE DEL BILANCIO DA PARTE DI SOCIETÀ DI REVISIONE?</div>
+					</div>   
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small"><lightning:combobox name="flowInputQQSBD16Input" value="{!v.workflowRecordCandidato.QQSB16__c}" placeholder="--Seleziona--" options="{! v.QQSBD16 }" /></div>
+					</div>                             
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small">17) OTTENIMENTO DI CERTIFICAZIONI DI QUALITÀ?</div>
+					</div>       
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small"><lightning:combobox name="flowInputQQSBD17Input" value="{!v.workflowRecordCandidato.QQSB17__c}" placeholder="--Seleziona--" options="{! v.QQSBD17 }" /></div>
+					</div>                     
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small">18) LA SOCIETÀ HA OTTENUTO IL RATING DI LEGALITÀ E RISULTA NELL’ELENCO DELLE IMPRESE CUI IL RATING DI LEGALITÀ È STATO ATTRIBUITO DALL’AUTORITÀ GARANTE DELLA CONCORRENZA E DEL MERCATO (AGCM)? SE SI, QUALE È IL PUNTEGGIO DI RATING ATTRIBUITO DALL’AGCM?</div>                
+					</div>    
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small"><lightning:combobox name="flowInputQQSBD18Input" value="{!v.workflowRecordCandidato.QQSB18__c}" placeholder="--Seleziona--" options="{! v.QQSBD18 }" /></div>
+					</div>    
+				</div>
+			</p>
+		</lightning:card> 
+	</aura:if>
+    
+	<aura:if isTrue="{!v.tipologiaQuestionarioVar == 'Corporate'}">
+		<lightning:card variant="Narrow" title="COMPILAZIONE DEL QUESTIONARIO CORPORATE" iconName="standard:lead_list">
+			<p class="slds-p-horizontal_small">
+				<div class="slds-grid slds-wrap">                  
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small">1) QUAL È L’ANDAMENTO DELLA DOMANDA DI MERCATO DEI BENI E SERVIZI PRODOTTI DALL’IMPRESA NEI 12 MESI?</div>
+					</div>       
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small"><lightning:combobox name="flowInputQQCOD1Input" value="{!v.workflowRecordCandidato.QQCO1__c}" placeholder="--Seleziona--" options="{! v.QQCOD1 }" /></div>
+					</div>     
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small">2) QUANTO RAPPRESENTANO IN TERMINI DI ACQUISTO I PRIMI 10 FORNITORI?</div>                
+					</div>               
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small"><lightning:combobox name="flowInputQQCOD2Input" value="{!v.workflowRecordCandidato.QQCO2__c}" placeholder="--Seleziona--" options="{! v.QQCOD2 }" /></div>
+					</div>                     
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small">3) QUAL È LA QUALITÀ DEL PAGAMENTO AI FORNITORI NEGLI ULTIMI DODICI MESI?</div>
+					</div>   
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small"><lightning:combobox name="flowInputQQCOD3Input" value="{!v.workflowRecordCandidato.QQCO3__c}" placeholder="--Seleziona--" options="{! v.QQCOD3 }" /></div>
+					</div>                     
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small">4) QUANTO RAPPRESENTANO IN TERMINI DI FATTURATO I PRIMI 10 CLIENTI?</div>
+					</div>   
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small"><lightning:combobox name="flowInputQQCOD4Input" value="{!v.workflowRecordCandidato.QQCO4__c}" placeholder="--Seleziona--" options="{! v.QQCOD4 }" /></div>
+					</div>                     
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small">5) QUAL È LA QUALITÀ DEGLI INCASSI DAI CLIENTI NEGLI ULTIMI DODICI MESI?</div>
+					</div>       
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small"><lightning:combobox name="flowInputQQCOD5Input" value="{!v.workflowRecordCandidato.QQCO5__c}" placeholder="--Seleziona--" options="{! v.QQCOD5 }" /></div>
+					</div>                     
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small">6) MODALITÀ DI INCASSO PREVALENTE?</div>                
+					</div>           
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small"><lightning:combobox name="flowInputQQCOD6Input" value="{!v.workflowRecordCandidato.QQCO6__c}" placeholder="--Seleziona--" options="{! v.QQCOD6 }" /></div>
+					</div>                     
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small">7) LE COMMESSE DEL SETTORE PUBBLICO SONO?</div>
+					</div>   
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small"><lightning:combobox name="flowInputQQCOD7Input" value="{!v.workflowRecordCandidato.QQCO7__c}" placeholder="--Seleziona--" options="{! v.QQCOD7 }" /></div>
+					</div>                     
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small">8) DA QUANTO TEMPO IL GRUPPO/AZIENDA OPERA NEL CORE BUSINESS ATTUALE?</div>
+					</div>   
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small"><lightning:combobox name="flowInputQQCOD8Input" value="{!v.workflowRecordCandidato.QQCO8__c}" placeholder="--Seleziona--" options="{! v.QQCOD8 }" /></div>
+					</div>                     
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small">9) L'AZIENDA INVESTE IN RICERCA E SVILUPPO?</div>
+					</div>       
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small"><lightning:combobox name="flowInputQQCOD9Input" value="{!v.workflowRecordCandidato.QQCO9__c}" placeholder="--Seleziona--" options="{! v.QQCOD9 }" /></div>
+					</div>                     
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small">10) PREVISIONE FATTORI ESTERNI CHE POSSONO MODIFICARE IL BUSINESS DELL’AZIENDA?</div>                
+					</div>         
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small"><lightning:combobox name="flowInputQQCOD10Input" value="{!v.workflowRecordCandidato.QQCO10__c}" placeholder="--Seleziona--" options="{! v.QQCOD10 }" /></div>
+					</div>                     
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small">11) LA DIVERSIFICAZIONE DEI PRODOTTI/SERVIZI RISULTA?</div>
+					</div>   
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small"><lightning:combobox name="flowInputQQCOD11Input" value="{!v.workflowRecordCandidato.QQCO11__c}" placeholder="--Seleziona--" options="{! v.QQCOD11 }" /></div>
+					</div>                     
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small">12) DIVERSIFICAZIONE GEOGRAFICA DEI MERCATI DI RIFERIMENTO?</div>
+					</div>   
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small"><lightning:combobox name="flowInputQQCOD12Input" value="{!v.workflowRecordCandidato.QQCO12__c}" placeholder="--Seleziona--" options="{! v.QQCOD12 }" /></div>
+					</div>                     
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small">13) L’AZIENDA È PUNTUALE NELLA PRESENTAZIONE DELLA DOCUMENTAZIONE CONTABILE?</div>
+					</div>       
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small"><lightning:combobox name="flowInputQQCOD13Input" value="{!v.workflowRecordCandidato.QQCO13__c}" placeholder="--Seleziona--" options="{! v.QQCOD13 }" /></div>
+					</div>                     
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small">14) ESISTE UN PIANO INDUSTRIALE? PER I PROSSIMI DODICI MESI, SONO PREVISTI PROGRAMMI DI INVESTIMENTO DI RILIEVO?</div>                
+					</div>         
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small"><lightning:combobox name="flowInputQQCOD14Input" value="{!v.workflowRecordCandidato.QQCO14__c}" placeholder="--Seleziona--" options="{! v.QQCOD14 }" /></div>
+					</div>                     
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small">15) COSTITUZIONE DELLA BASE PROPRIETARIA?</div>
+					</div>   
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small"><lightning:combobox name="flowInputQQCOD15Input" value="{!v.workflowRecordCandidato.QQCO15__c}" placeholder="--Seleziona--" options="{! v.QQCOD15 }" /></div>
+					</div>                     
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small">16) ESPERIENZA NEL SETTORE DEL MANAGEMENT?</div>
+					</div>   
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small"><lightning:combobox name="flowInputQQCOD16Input" value="{!v.workflowRecordCandidato.QQCO16__c}" placeholder="--Seleziona--" options="{! v.QQCOD16 }" /></div>
+					</div>                             
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small">17) ESISTONO DEGLI INCENTIVI PREVISTI PER I RISULTATI CONSEGUITI DAL MANAGEMENT?</div>
+					</div>       
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small"><lightning:combobox name="flowInputQQCOD17Input" value="{!v.workflowRecordCandidato.QQCO17__c}" placeholder="--Seleziona--" options="{! v.QQCOD17 }" /></div>
+					</div>                     
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small">18) ESISTONO RISCHI LEGATI A CAUSE LEGALI PENDENTI E/O CONTENZIOSI FISCALI E PREVIDENZIALI?</div>                
+					</div>    
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small"><lightning:combobox name="flowInputQQSCO18Input" value="{!v.workflowRecordCandidato.QQCO18__c}" placeholder="--Seleziona--" options="{! v.QQCOD18 }" /></div>
+					</div>    
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small">19) L'IMPRESA HA RISCHI OPERATIVI CONNESSI ALL'AMBIENTE, TECNOLOGICI, DI IMMAGINE E HA PRODOTTI PERICOLOSI?</div>                
+					</div>    
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small"><lightning:combobox name="flowInputQQSCO19Input" value="{!v.workflowRecordCandidato.QQCO19__c}" placeholder="--Seleziona--" options="{! v.QQCOD19 }" /></div>
+					</div>    
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small">20) OTTENIMENTO DI CERTIFICAZIONI DI QUALITÀ?</div>                
+					</div>    
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small"><lightning:combobox name="flowInputQQSCO20Input" value="{!v.workflowRecordCandidato.QQCO20__c}" placeholder="--Seleziona--" options="{! v.QQCOD20 }" /></div>
+					</div>    
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small">21) LA SOCIETÀ HA OTTENUTO IL RATING DI LEGALITÀ E RISULTA NELL’ELENCO DELLE IMPRESE CUI IL RATING DI LEGALITÀ È STATO ATTRIBUITO DALL’AUTORITÀ GARANTE DELLA CONCORRENZA E DEL MERCATO (AGCM)? SE SI, QUALE È IL PUNTEGGIO DI RATING ATTRIBUITO DALL’AGCM?</div>                
+					</div>    
+					<div class="slds-size_4-of-4">
+						<div class="slds-m-around_x-small"><lightning:combobox name="flowInputQQSCO21Input" value="{!v.workflowRecordCandidato.QQCO21__c}" placeholder="--Seleziona--" options="{! v.QQCOD21 }" /></div>
+					</div>                        
+				</div>
+			</p>
+		</lightning:card> 
+	</aura:if>
+
+    <lightning:input aura:id="flowInputTipologiaQuestionarioInputId" name="flowInputTipologiaQuestionarioInput" required="false" value="{!v.workflowRecordCandidato.TipologiaQuestionario__c}" class="slds-hide"/>    
+    
+    <c:bifis_crm_c_CommonFlowNavigator availableActions="{!v.availableActions}" navigateFlowEvent="{!c.handleNavigate}"/>
+    
+</aura:component>

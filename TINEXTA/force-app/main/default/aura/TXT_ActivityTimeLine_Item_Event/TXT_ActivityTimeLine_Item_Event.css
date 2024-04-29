@@ -1,0 +1,7 @@
+.THIS .slds-timeline__item_expandable:before {
+    left: 16px;
+}
+
+.THIS hr {
+    margin: 1rem 0 0.15rem 0;
+}

@@ -1,0 +1,12 @@
+.THIS .leftPaddingClass {
+    padding-left: 2rem;
+}
+ 
+.THIS .pillSize{
+ width:100%;
+}
+
+.THIS .slds-pill__label{
+    flex:1;
+    padding: 0 0 0 7px;
+}

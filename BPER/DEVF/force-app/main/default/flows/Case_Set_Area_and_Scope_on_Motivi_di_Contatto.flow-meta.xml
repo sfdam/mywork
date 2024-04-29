@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>55.0</apiVersion>
+    <decisions>
+        <name>Verifica_motivo_della_chat</name>
+        <label>Verifica motivo della chat</label>
+        <locationX>443</locationX>
+        <locationY>454</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Internet_Banking</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.CRM_MotivoDellaChat__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Internet Banking</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Area_Servizi_Digitali_e_Ambito_Internet_Banking</targetReference>
+            </connector>
+            <label>Internet Banking</label>
+        </rules>
+        <rules>
+            <name>Carte_di_pagamento</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.CRM_MotivoDellaChat__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Carte di pagamento</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Carte_Area_Carte_di_Pagamento</targetReference>
+            </connector>
+            <label>Carte di pagamento</label>
+        </rules>
+        <rules>
+            <name>Altri_prodotti_e_servizi</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.CRM_MotivoDellaChat__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Altri prodotti e servizi</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Altri_Prodotti_e_Servizi_Area_Altri_prodotti_e_Serivizi</targetReference>
+            </connector>
+            <label>Altri prodotti e servizi</label>
+        </rules>
+    </decisions>
+    <environments>Default</environments>
+    <interviewLabel>Case - Set Area and Scope on Motivi di Contatto {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Case - Set Area and Scope on Motivi di Contatto</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Altri_Prodotti_e_Servizi_Area_Altri_prodotti_e_Serivizi</name>
+        <label>Altri Prodotti e Servizi &gt; Area: &quot;Altri prodotti e Serivizi&quot;</label>
+        <locationX>721</locationX>
+        <locationY>584</locationY>
+        <inputAssignments>
+            <field>CRM_Area__c</field>
+            <value>
+                <stringValue>Other products and services</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Area_Servizi_Digitali_e_Ambito_Internet_Banking</name>
+        <label>Area: &quot;Servizi Digitali&quot; e Ambito: &quot;Internet Banking&quot;</label>
+        <locationX>217</locationX>
+        <locationY>604</locationY>
+        <inputAssignments>
+            <field>CRM_Area__c</field>
+            <value>
+                <stringValue>Digital Services</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Carte_Area_Carte_di_Pagamento</name>
+        <label>Carte &gt; Area: &quot;Carte di Pagamento&quot;</label>
+        <locationX>452</locationX>
+        <locationY>693</locationY>
+        <inputAssignments>
+            <field>CRM_Area__c</field>
+            <value>
+                <stringValue>Cards</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>330</locationX>
+        <locationY>48</locationY>
+        <connector>
+            <targetReference>Verifica_motivo_della_chat</targetReference>
+        </connector>
+        <filterLogic>(1 OR 2 OR 3) AND 4</filterLogic>
+        <filters>
+            <field>CRM_MotivoDellaChat__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Internet Banking</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>CRM_MotivoDellaChat__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Altri prodotti e servizi</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>CRM_MotivoDellaChat__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Carte di pagamento</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Origin</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Web</stringValue>
+            </value>
+        </filters>
+        <object>Case</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

@@ -1,0 +1,190 @@
+<template>
+    <template if:true={isAccountPopulated}>
+        <div class="slds-box cstm-background">
+            <article class="slds-card">
+                <div class="slds-grid">
+                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                        <div class="slds-media__figure">
+                            <span class="slds-icon_container">
+                                <lightning-icon icon-name="standard:event" size="small"></lightning-icon>
+                                <span class="slds-assistive-text">account</span>
+                            </span>
+                        </div>
+                        <div class="slds-media__body">
+                            <h2 class="slds-card__header-title cstm-title">
+                                <span>Feedbacks ({feedbackNumber})</span>
+                            </h2>
+                        </div>
+                        <div class="slds-no-flex">
+                            <lightning-button label="Nuovo" icon-name="utility:add" slot="actions" onclick={newFeedback} disabled={newDisabled}></lightning-button>
+                        </div>
+                    </header>
+                </div>
+                <template if:true={isFeedbackChild}>
+                    <lightning-layout class="slds-var-p-top_medium">
+                        <lightning-layout-item size="12">
+                            <div class="recordsTable">
+                                <lightning-tree-grid
+                                    columns={columns}
+                                    data={relatedListFeedback}
+                                    key-field="Id"
+                                    hide-checkbox-column
+                                    expanded-rows={expandedRows}
+                                ></lightning-tree-grid>
+                                <!-- <lightning-datatable 
+                                    columns={columns} 
+                                    data={relatedListFeedback} 
+                                    key-field="Id"
+                                    hide-checkbox-column="true"
+                                    >
+                                </lightning-datatable> -->
+                            </div>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </template>
+            </article>
+        </div>
+        <template if:true={openModal}>
+            <div>
+                <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_large">
+                    <div class="slds-modal__container">
+                        <header class="slds-modal__header">
+                            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                                <lightning-icon icon-name="utility:close" variant="inverse" size="medium">
+                                </lightning-icon>
+                                <span class="slds-assistive-text">Close</span>
+                            </button>
+                            <!-- <div class="tilte-card"><b></b></div> -->
+
+                            <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Nuovo Feedback</h2>
+                        </header>
+                        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                            <template if:true={isLoading}>
+                                <lightning-spinner alternative-text="CARICAMENTO..."></lightning-spinner>
+                            </template>
+                            <!-- <template if:false={isLoading}> -->
+                                <lightning-layout multiple-rows="true">
+                                    <lightning-layout-item size="12" class="slds-box slds-var-p-top_medium">
+                                        <lightning-layout multiple-rows="true">
+                                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="4"  class="slds-var-p-around_small">
+                                                <lightning-combobox name="feedbackParent-Stato_visita__c" label="Stato visita" value={feedbackParent.Stato_visita__c} options={visitaEffettuataOpts} onchange={handleChangeFieldEvent} required>
+                                                </lightning-combobox>
+                                            </lightning-layout-item>
+                                            <template if:true={visitaEseguita}>
+                                                <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="4" class="slds-var-p-around_small">
+                                                    <lightning-combobox name="feedbackParent-Tipo_Visita__c" label="Modalità visita" value={feedbackParent.Tipo_Visita__c} options={tipoVisitaOpts} placeholder={placeholder} onchange={handleChangeFieldEvent} required>
+                                                    </lightning-combobox>
+                                                </lightning-layout-item>
+                                            </template>
+                                            <template if:true={visitaEseguita}>
+                                                <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="4" class="slds-var-p-around_small">
+                                                    <lightning-combobox name="feedbackParent-Tipologia_di_visita__c" label="Tipologia di visita" value={feedbackParent.Tipologia_di_visita__c} options={primaVisitaOpts} placeholder={placeholder} onchange={handleChangeFieldEvent} required>
+                                                    </lightning-combobox>
+                                                </lightning-layout-item>
+                                            </template>
+                                            <template if:true={visitaAnnullata}>
+                                                <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="4" class="slds-var-p-around_small">
+                                                    <label class="slds-form-element__label">Annullata da cliente?</label>
+                                                    <lightning-input type="checkbox" name="feedbackParent-Annullata_da_cliente__c" checked={feedbackParent.Annullata_da_cliente__c} onchange={handleChangeCheckboxEvent}></lightning-input>
+                                                </lightning-layout-item>
+                                            </template>
+                                            <template if:true={tipoVisita1}>
+                                                <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="12" class="slds-var-p-around_small">
+                                                    <lightning-combobox name="feedbackParent-Business_Area__c" label="Business Area" value={feedbackParent.Business_Area__c} options={businnessAreaOpts} onchange={handleChangeFieldEvent} placeholder={placeholder} required>
+                                                    </lightning-combobox>
+                                                </lightning-layout-item>
+                                            </template>
+                                            <template if:false={visitaAltro}>
+                                                <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="12" class="slds-var-p-around_small">
+                                                    <lightning-input-rich-text
+                                                        name="feedbackParent-Note__c"
+                                                        value={feedbackParent.Note__c}
+                                                        placeholder="Inserisci qui le tue note..."
+                                                        onchange={handleChangeFieldEvent}>
+                                                    </lightning-input-rich-text>
+                                                    <!-- <lightning-textarea label="Note" name="feedbackParent-Note__c" value={feedbackParent.Note__c} onchange={handleChangeFieldEvent} placeholder="Inserisci qui le tue note..."></lightning-textarea> -->
+                                                </lightning-layout-item>
+                                            </template>
+                                        </lightning-layout>
+                                    </lightning-layout-item>
+                                    <template if:true={visitaAnnullata}>
+                                        <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="12" class="slds-p-around_small">
+                                            <lightning-accordion>
+                                                <lightning-accordion-section name="Task" label="Sezione Task">
+                                                    <lightning-layout multiple-rows="true">
+                                                        <lightning-layout-item size="12">
+                                                            <lightning-input type="checkbox" label="Crea Task ?" value={createTask} onchange={handleChangeTask} ></lightning-input>
+                                                        </lightning-layout-item>
+                                                        <template if:true={createTask}>
+                                                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="3" class="slds-var-p-around_small">
+                                                                <c-custom-lookup object-name="Account" s-object-name="Account" icon-name="standard:account" field-label="Correlato a" where-condition={calculatedWhereCondition} selected-s-object={prepopulatedAccount} p-read-only=true></c-custom-lookup>
+                                                            </lightning-layout-item>
+                                                            <lightning-layout-item size="12" small-device-size="12"  medium-device-size="12" large-device-size="3" class="slds-var-p-around_small">
+                                                                <lightning-input type="date" name="task-ActivityDate" label="Scadenza" value={task.ActivityDate} onchange={handleChangeFieldEvent}></lightning-input>
+                                                            </lightning-layout-item>
+                                                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="2" class="slds-var-p-around_small">
+                                                                <label class="slds-form-element__label">Promemoria impostato</label>
+                                                                <lightning-input type="checkbox" name="task-IsReminderSet" checked={task.IsReminderSet} value={task.IsReminderSet} onchange={handleChangeCheckboxEvent} ></lightning-input>
+                                                            </lightning-layout-item>
+                                                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="4" class="slds-var-p-horizontal_small" style="margin-top:-10px;">
+                                                                <lightning-input type="datetime" name="task-ReminderDateTime" label="Promemoria" value={task.ReminderDateTime} onchange={handleChangeFieldEvent}></lightning-input>
+                                                            </lightning-layout-item>
+                                                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="12" class="slds-var-p-around_small">
+                                                                <lightning-input type="text" name="task-Subject" label="Oggetto" value={task.Subject} onchange={handleChangeFieldEvent} ></lightning-input>
+                                                            </lightning-layout-item>
+                                                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="12" class="slds-var-p-around_small">
+                                                                <lightning-textarea type="textarea" name="task-Description" label="Note" value={task.Description} onchange={handleChangeFieldEvent} placeholder="Inserisci qui le tue note..."></lightning-textarea>
+                                                            </lightning-layout-item>
+                                                        </template>
+                                                    </lightning-layout>
+                                                </lightning-accordion-section>
+                                                <lightning-accordion-section name="Evento" label="Sezione Evento">
+                                                    <lightning-layout multiple-rows="true">
+                                                        <lightning-layout-item size="12">
+                                                            <lightning-input type="checkbox" label="Crea Evento ?" value={createEvent} onchange={handleChangeEvent} ></lightning-input>
+                                                        </lightning-layout-item>
+                                                        <template if:true={createEvent}>
+                                                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="4"  class="slds-var-p-around_small">
+                                                                <lightning-input type="datetime" name="_event-StartDateTime" label="Inizio" value={_event.StartDateTime} onchange={handleChangeFieldEvent}></lightning-input>
+                                                            </lightning-layout-item>
+                                                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="4" class="slds-var-p-around_small">
+                                                                <lightning-input type="datetime" name="_event-EndDateTime" label="Fine" value={_event.EndDateTime} onchange={handleChangeFieldEvent}></lightning-input>
+                                                            </lightning-layout-item>
+                                                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="4" class="slds-var-p-around_small" style="padding-top:22px;">
+                                                                <lightning-input type="text" name="_event-Subject" label="Oggetto" value={_event.Subject} onchange={handleChangeFieldEvent} ></lightning-input>
+                                                            </lightning-layout-item>
+                                                        </template>
+                                                    </lightning-layout>
+                                                </lightning-accordion-section>
+                                            </lightning-accordion>
+                                        </lightning-layout-item>
+                                    </template>
+                                    <template if:true={isChildVisible}>
+                                        <lightning-layout-item size="12" class="slds-var-m-top_small">
+                                            <h1 class="slds-text-align_center slds-text-heading_medium">Feedback figli</h1>
+                                        </lightning-layout-item>
+                                        <template for:each={childFeedbacks} for:item="childFeed">
+                                            <lightning-layout-item key={childFeed.Id} size="12" class="slds-box slds-var-m-vertical_medium slds-var-p-vertical_medium">
+                                                <c-wrt_feedback-child task-fields={taskFields} parent-feedback={feedbackParent} parent-event={_record}></c-wrt_feedback-child>
+                                            </lightning-layout-item>
+                                        </template>
+                                        <lightning-layout-item size="12" class="slds-text-align_right">
+                                            <lightning-button label="Aggiungi" icon-name="utility:add" onclick={addNewChildFeedback}></lightning-button>
+                                        </lightning-layout-item>
+                                    </template>
+                                </lightning-layout>
+                            <!-- </template> -->
+                        </div>
+                        <footer class="slds-modal__footer">
+                            <lightning-button-group>
+                                <lightning-button label="Annulla" onclick={closeModal} disabled={isLoading}></lightning-button>
+                                <lightning-button label="Salva" icon-name="utility:save" variant="brand" onclick={saveFeedback} disabled={isLoading}></lightning-button>
+                            </lightning-button-group>
+                        </footer>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </div>
+        </template>
+    </template>
+</template>

@@ -1,0 +1,251 @@
+<aura:component controller="WGC_Opportunita_CE_Progress_Controller"
+    implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+    access="global">
+
+    <aura:attribute name="counter" type="Object" />
+    <aura:attribute name="WGC_opportunity_CE_type" type="String" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+    <lightning:card>
+        <aura:set attribute="title">
+            <lightning:icon iconName="utility:rating" size="small" variant="slds-icon-inverse" />
+
+            <!-- verifico il parametro passato dal VisualEditor per capire se In Bonis o Procedurale -->
+            <!-- necessario per la stampa della label corretta oppure fallback su std -->
+            <aura:if isTrue="{!v.WGC_opportunity_CE_type == 'In Bonis'}">
+                <div class="title">{!$Label.c.WGC_Opportunita_CE_Progress_Opportunita_in_Bonis}</div>
+            <aura:set attribute="else">
+                <aura:if isTrue="{!v.WGC_opportunity_CE_type == 'Procedurali'}">
+                    <div class="title">{!$Label.c.WGC_Opportunita_CE_Progress_Le_tue_Procedure}</div>
+                <aura:set attribute="else">
+                    <div class="title">{!$Label.c.WGC_Opportunita_Progress_Le_tue_Opportunita}</div>
+                </aura:set>
+                </aura:if>       
+            </aura:set>
+            </aura:if>
+            
+            <div class="open-component iphone">
+                <lightning:button label="{!$Label.c.WGC_Opportunita_Progress_go_to_list}"
+                    class="slds-buttonX" variant="brand" onclick="{!c.navigateToMyComponent}" />
+            </div>
+        </aura:set>
+        
+        <div class='container-circles'>
+            
+            <!-- verifico il parametro passato dal VisualEditor per capire se In Bonis o Procedurale -->
+            <!-- necessario per la stampa della lunghezza corretta del path -->
+            <aura:if isTrue="{!v.WGC_opportunity_CE_type == 'In Bonis'}">
+                <span class="circleBaseStriped circleBaseStriped_bonis iphone"></span>
+            <aura:set attribute="else">
+                <aura:if isTrue="{!v.WGC_opportunity_CE_type == 'Procedurali'}">
+                    <span class="circleBaseStriped circleBaseStriped_procedurale iphone"></span>
+                <aura:set attribute="else">
+                    <span class="circleBaseStriped circleBaseStriped_base iphone"></span>
+                </aura:set>
+                </aura:if>
+            </aura:set>
+            </aura:if>
+                
+            <aura:if isTrue="{!v.WGC_opportunity_CE_type == 'In Bonis'}">
+
+                <!-- Path per le In Bonis -->
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="5" largeDeviceSize="5" >
+                        <div class="slds-grid slds-gutters margin">
+
+                            <div class="slds-col slds-size_1-of-3">
+                                <div class="container">
+                                    <!-- <div class="circleBaseBodyTitle">{!$Label.c.WGC_Opportunita_Progress_istruttoria}</div> -->
+                                    <div class="circleBaseBodyTitle">{! $Label.c.Stato_Opp_1 }</div>
+                                    <div class="circleBaseBodySub"></div>
+                                    <div class="circle">
+                                        <div class="{! 'circleBase type4 ' + (v.counter.expiredIstruttoriaOpty ? 'background-red border-white' : 'border-grey')}">
+                                            <div class="{! 'circleBaseBody ' + (v.counter.expiredIstruttoriaOpty ? 'found-white' : '')}">{!v.counter.countIstruttoria}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-3">
+                                <div class="container">
+                                    <!-- <div class="circleBaseBodyTitle">{!$Label.c.WGC_Opportunita_Progress_valutazione_pratica}</div> -->
+                                    <div class="circleBaseBodyTitle">{! $Label.c.Stato_Opp_2 }</div>
+                                    <div class="circleBaseBodySub"></div>
+                                    <div class="circle">
+                                        <div class="circleBase type4 border-grey">
+                                            <div class="circleBaseBody">{!v.counter.countValutazionePratica}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- SM - TEN - CR401 Eliminazione stato predisposizione contratto -->
+                            <!-- <div class="slds-col slds-size_1-of-4">
+                                <div class="container">
+                                    <div class="circleBaseBodyTitle">{!$Label.c.WGC_Opportunita_Progress_redazioni_contratto}</div>
+                                    <div class="circleBaseBodySub"></div>
+                                    <div class="circle">
+                                        <div class="circleBase type4 border-grey">
+                                            <div class="circleBaseBody">{!v.counter.countPredContratto}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> -->
+                            <div class="slds-col slds-size_1-of-3">
+                                <div class="container">
+                                    <!-- <div class="circleBaseBodyTitle">{!$Label.c.WGC_Opportunita_Progress_perfezionameto_contratto}</div> -->
+                                    <div class="circleBaseBodyTitle">{! $Label.c.Stato_Opp_3 }</div>
+                                    <div class="circleBaseBodySub"></div>
+                                    <div class="circle">
+                                        <div class="circleBase type4 border-red">
+                                            <div class="circleBaseBody found-red">{!v.counter.countPerfContratto}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="7" largeDeviceSize="7">
+                        <div class="slds-grid slds-gutters margin">
+
+                            <div class="slds-col slds-size_1-of-4">
+                                <div class="container">
+                                    <!-- <div class="circleBaseBodyTitle">{!$Label.c.WGC_Opportunita_Progress_attivazione_rapporto}</div> -->
+                                    <div class="circleBaseBodyTitle">{! $Label.c.Stato_Opp_4 }</div>
+                                    <div class="circleBaseBodySub"></div>
+                                    <div class="circle">
+                                        <div class="circleBase type4 border-red">
+                                            <div class="circleBaseBody found-red">{!v.counter.countAttRapporto}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-4">
+                                <div class="container">
+                                    <div class="circleBaseBodyTitle">{!$Label.c.WGC_Opportunita_Progress_avviate}</div>
+                                    <div class="circleBaseBodySub">{!$Label.c.WGC_Opportunita_Progress_Da_inizio_anno}</div>
+                                    <div class="circle">
+                                        <div class="circleBase type4 border-grey">
+                                            <div class="circleBaseBody">{!v.counter.countAvviate}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-4">
+                                <div class="container">
+                                    <div class="circleBaseBodyTitle">{!$Label.c.WGC_Opportunita_Progress_segnalazioni_aperte}</div>
+                                    <div class="circleBaseBodySub"></div>
+                                    <div class="circle">
+                                        <div class="circleBase type4 border-grey">
+                                            <div class="circleBaseBody">{!v.counter.countCrossSelling}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-4">
+                                <div class="container">
+                                    <div class="circleBaseBodyTitle">{!$Label.c.WGC_Opportunita_Progress_chiuse}</div>
+                                    <div class="circleBaseBodySub">{!$Label.c.WGC_Opportunita_Progress_Da_inizio_anno}</div>
+                                    <div class="circle">
+                                        <div class="circleBase type4 border-grey">
+                                            <div class="circleBaseBody found-grey">{!v.counter.countChiuse}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </lightning:layoutItem>
+                </lightning:layout>
+
+            <aura:set attribute="else">
+
+                <!-- Path per le Procedurali -->
+                <aura:if isTrue="{!v.WGC_opportunity_CE_type == 'Procedurali'}">
+                    <lightning:layout multipleRows="true">
+                        <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="6" >
+                            <div class="slds-grid slds-gutters margin">
+
+                                <div class="slds-col slds-size_1-of-4">
+                                    <div class="container">
+                                        <div class="circleBaseBodyTitle">{!$Label.c.WGC_Opportunita_Progress_lavorazione}</div>
+                                        <div class="circleBaseBodySub"></div>
+                                        <div class="circle">
+                                            <div class="{! 'circleBase type4 ' + (v.counter.expiredIstruttoriaOpty ? 'background-red border-white' : 'border-grey')}">
+                                                <div class="{! 'circleBaseBody ' + (v.counter.expiredIstruttoriaOpty ? 'found-white' : '')}">{!v.counter.countLavorazione || 0}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-col slds-size_1-of-4">
+                                    <div class="container">
+                                        <!-- <div class="circleBaseBodyTitle">{!$Label.c.WGC_Opportunita_Progress_valutazione_pratica}</div> -->
+                                        <div class="circleBaseBodyTitle">{! $Label.c.Stato_Opp_2 }</div>
+                                        <div class="circleBaseBodySub"></div>
+                                        <div class="circle">
+                                            <div class="circleBase type4 border-grey">
+                                                <div class="circleBaseBody">{!v.counter.countValutazionePratica}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-col slds-size_1-of-4">
+                                    <div class="container">
+                                        <!-- <div class="circleBaseBodyTitle">{!$Label.c.WGC_Opportunita_Progress_perfezionameto_contratto}</div> -->
+                                        <div class="circleBaseBodyTitle">{! $Label.c.Stato_Opp_3 }</div>
+                                        <div class="circleBaseBodySub"></div>
+                                        <div class="circle">
+                                            <div class="circleBase type4 border-red">
+                                                <div class="circleBaseBody found-red">{!v.counter.countPerfContratto}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-col slds-size_1-of-4">
+                                    <div class="container">
+                                        <div class="circleBaseBodyTitle">{!$Label.c.WGC_Opportunita_Progress_avviate}</div>
+                                        <div class="circleBaseBodySub">{!$Label.c.WGC_Opportunita_Progress_Da_inizio_anno}</div>
+                                        <div class="circle">
+                                            <div class="circleBase type4 border-grey">
+                                                <div class="circleBaseBody">{!v.counter.countAvviate}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="6">
+                            <div class="slds-grid slds-gutters margin">
+                                <div class="slds-col slds-size_1-of-4">
+                                </div>
+                                <div class="slds-col slds-size_1-of-4">
+                                </div>
+                                <div class="slds-col slds-size_1-of-4">
+                                </div>
+                                <div class="slds-col slds-size_1-of-4">
+                                    <div class="container">
+                                        <div class="circleBaseBodyTitle">{!$Label.c.WGC_Opportunita_Progress_chiuse}</div>
+                                        <div class="circleBaseBodySub">{!$Label.c.WGC_Opportunita_Progress_Da_inizio_anno}</div>
+                                        <div class="circle">
+                                            <div class="circleBase type4 border-grey">
+                                                <div class="circleBaseBody found-grey">{!v.counter.countChiuse}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                <aura:set attribute="else">
+                    <!-- not available -->
+                </aura:set>
+                </aura:if>
+
+            </aura:set>
+            </aura:if>
+                
+        </div>
+
+    </lightning:card>
+
+</aura:component>

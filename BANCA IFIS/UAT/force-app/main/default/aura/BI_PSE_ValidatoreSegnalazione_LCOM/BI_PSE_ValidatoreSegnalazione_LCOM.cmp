@@ -1,0 +1,11 @@
+<aura:component controller="BI_PSE_ControllerPrincipale_CTRL" implements="lightning:availableForFlowActions" access="global">
+    
+    <aura:attribute name="workflowRecordCandidatoID" type="String"/>       
+    
+	<aura:attribute name="flowValidatorAnagrafeErrorsVar" type="String[]" />       
+	<aura:attribute name="flowValidatorConfProdErrorsVar" type="String[]" />   
+	<aura:attribute name="flowValidatorDocErrorsVar" type="String[]" />      
+         
+	<aura:attribute name="flowValidatorFinalResultVar" type="String" />    
+    
+</aura:component>

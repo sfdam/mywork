@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Direzione_Regionale__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <externalId>false</externalId>
+    <label>Direzione Regionale</label>
+    <referenceTo>Account</referenceTo>
+    <relationshipLabel>Riportafogliazione (Direzione Regionale)</relationshipLabel>
+    <relationshipName>Riportafogliazione4</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

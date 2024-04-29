@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>52.0</apiVersion>
+    <description>CR(68789: Link - Rating Interni - Nuovo link contestualizzato)</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>Formula_DataDiScadenzaGianos</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Get_NDG.CRM_DataScadenzaGianos__c}) = false,
+IF(VALUE(TEXT(DAY({!Get_NDG.CRM_DataScadenzaGianos__c}))) &lt; 10, &quot;0&quot; + TEXT(DAY({!Get_NDG.CRM_DataScadenzaGianos__c})), TEXT(DAY({!Get_NDG.CRM_DataScadenzaGianos__c}))) + &quot;/&quot; + 
+IF(VALUE(TEXT(MONTH({!Get_NDG.CRM_DataScadenzaGianos__c}))) &lt; 10, &quot;0&quot; + TEXT(MONTH({!Get_NDG.CRM_DataScadenzaGianos__c})), TEXT(MONTH({!Get_NDG.CRM_DataScadenzaGianos__c}))) + &quot;/&quot; + 
+TEXT(YEAR({!Get_NDG.CRM_DataScadenzaGianos__c})),
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_PoliticheCreditizie</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Get_NDG.CRM_PoliticheCreditizie__c}) = false,
+{!Get_NDG.CRM_PoliticheCreditizie__c} + &quot; &quot; + {!Get_NDG.CRM_IconaPoliticheCreditizie__c},
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_ProfiloGianos</name>
+        <dataType>String</dataType>
+        <expression>IF (
+NOT(ISBLANK(TEXT({!Get_NDG.CRM_ProfiloGianos__c}))),
+TEXT({!Get_NDG.CRM_ProfiloGianos__c}),
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>FormulastatoAmministrativo</name>
+        <dataType>String</dataType>
+        <expression>IF (
+TEXT({!Indicatore.CRM_StatusPosizione__c}) = &apos;Giallo&apos;,
+&apos;Past Due Iniziale&apos;,
+IF (
+TEXT({!Indicatore.CRM_StatusPosizione__c}) = &apos;Grigio&apos;,
+&apos;Sorveglianza&apos;,
+IF (
+TEXT({!Indicatore.CRM_StatusPosizione__c}) = &apos;Nero&apos;,
+&apos;Inadempienze probabili&apos;,
+IF (
+TEXT({!Indicatore.CRM_StatusPosizione__c}) = &apos;Rosso&apos;,
+&apos;Scadute e/o sconfinanti deteriorate&apos;,
+IF (
+TEXT({!Indicatore.CRM_StatusPosizione__c}) = &apos;Verde&apos;,
+&apos;Regolari&apos;,
+IF (
+TEXT({!Indicatore.CRM_StatusPosizione__c}) = &apos;Viola&apos;,
+&apos;Sofferenze&apos;,
+IF (
+TEXT({!Indicatore.CRM_StatusPosizione__c}) = &apos;Rosso Scuro&apos;,
+&apos;Inadempienze probabili&apos;,
+IF (
+TEXT({!Indicatore.CRM_StatusPosizione__c}) = &apos;Arancio&apos;,
+&apos;Past Due 30&apos;,
+IF (
+TEXT({!Indicatore.CRM_StatusPosizione__c}) = &apos;Arancio Scuro&apos;,
+&apos;Rischio Alto&apos;,
+NULL
+)
+)
+)
+)
+)
+)
+)
+)
+)</expression>
+    </formulas>
+    <formulas>
+        <name>RatingInterni_Link</name>
+        <dataType>String</dataType>
+        <expression>&apos;https://intrawseal.gbbper.priv/SRIRating/ratinginquiry/#/ricerca-ndg/output-ricerca-ndg?abi=&apos; + {!Get_NDG.FinServ__BankNumber__c} + &apos;&amp;ndg=&apos; + {!Get_NDG.CRM_NDG__c}</expression>
+    </formulas>
+    <interviewLabel>Indicatori - Info iniziali Rischio {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Indicatori - Info iniziali Rischio</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordLookups>
+        <name>Get_NDG</name>
+        <label>Get NDG</label>
+        <locationX>776</locationX>
+        <locationY>206</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_Politiche_Creditizie</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Account</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Politiche_Creditizie</name>
+        <label>Get Politiche Creditizie</label>
+        <locationX>776</locationX>
+        <locationY>326</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_RT_Indicatori_Flat</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>CRM_AccountId__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_NDG.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>CRM_PoliticheCreditizie__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_RT_Indicatori_Flat</name>
+        <label>Get RT Indicatori Flat</label>
+        <locationX>776</locationX>
+        <locationY>446</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Indicatore</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Flat</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>RecordType</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Indicatore</name>
+        <label>Indicatore</label>
+        <locationX>776</locationX>
+        <locationY>566</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>IndicatoriRischioHeader</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>CRM_Account__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>RecordTypeId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_RT_Indicatori_Flat.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>CRM_IndicatoriCliente__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <runInMode>SystemModeWithoutSharing</runInMode>
+    <screens>
+        <name>IndicatoriRischioHeader</name>
+        <label>IndicatoriRischioHeader</label>
+        <locationX>776</locationX>
+        <locationY>686</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>IndicatoriRischioTitle</targetReference>
+        </connector>
+        <fields>
+            <name>IndicatoriRischioHeader_Section1</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>IndicatoriRischioHeader_Section1_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>ImmagineInfoIniziali</name>
+                    <extensionName>flowruntime:image</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>imageName</name>
+                        <value>
+                            <stringValue>InfoIniziali</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>horizontalAlignment</name>
+                        <value>
+                            <stringValue>center</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>10</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>IndicatoriRischioHeader_Section1_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>LinkAntiriciclaggio</name>
+                    <fieldText>&lt;p&gt;&lt;a href=&quot;https://intrawseal.gbbper.priv/OutsourcingAntiriciclaggio/PORTALEAMLPR/&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;background-color: rgb(255, 255, 255); color: rgb(32, 38, 221);&quot;&gt;&lt;u&gt;Antiriciclaggio&lt;/u&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;{!RatingInterni_Link}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;color: rgb(32, 38, 221);&quot;&gt;&lt;u&gt;Rating Interni&lt;/u&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>2</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+        </fields>
+        <fields>
+            <name>IndicatoriRischioHeader_Section2</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>IndicatoriRischioHeader_Section2_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>StatoAmministrativo</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; color: rgb(62, 62, 60);&quot;&gt;Stato Amministrativo&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;{!FormulastatoAmministrativo}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(8, 7, 7); font-size: 14px;&quot;&gt;﻿&lt;/span&gt;{!IconaBarra}&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;﻿&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <fields>
+                    <name>PoliticheCreditizie</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); background-color: rgb(255, 255, 255); font-size: 12px;&quot;&gt;Strategie Politiche creditizie&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;{!Get_Politiche_Creditizie.CRM_CodiceStrategia__c}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;﻿&lt;/span&gt;{!IconaBarra}&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>Get_NDG.RecordType.DeveloperName</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <stringValue>IndustriesBusiness</stringValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>IndicatoriRischioHeader_Section2_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>GianosPrivati</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;Profilo di rischio Gianos&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;{!Formula_ProfiloGianos}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;﻿&lt;/span&gt;{!IconaBarra}&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>Get_NDG.RecordType.DeveloperName</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <stringValue>PersonAccount</stringValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
+                </fields>
+                <fields>
+                    <name>ProfiloGianosImprese</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); font-size: 12px;&quot;&gt;Profilo di rischio Gianos&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;{!Formula_ProfiloGianos}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;{!IconaBarra}&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>Get_NDG.RecordType.DeveloperName</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <stringValue>IndustriesBusiness</stringValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
+                </fields>
+                <fields>
+                    <name>DataScadenza</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;Data di scadenza Gianos&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 14px;&quot;&gt;{!Formula_DataDiScadenzaGianos}﻿&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;﻿&lt;/span&gt;{!IconaBarra}&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+        </fields>
+        <fields>
+            <name>IndicatoriRischioHeader_Section3</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>IndicatoriRischioHeader_Section3_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>ImmagineInfodiRischioSitensi</name>
+                    <extensionName>flowruntime:image</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>imageName</name>
+                        <value>
+                            <stringValue>SintesiIndicatoridiRischio</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>12</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+        </fields>
+        <showFooter>false</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>IndicatoriRischioTitle</name>
+        <label>IndicatoriRischioTitle</label>
+        <locationX>766</locationX>
+        <locationY>826</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>Immagine</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;&lt;img src=&quot;https://bper--c.documentforce.com/sfc/servlet.shepherd/version/download/0683X00000RKJxI?asPdf=false&amp;amp;operationContext=CHATTER&quot;&gt;&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>false</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <start>
+        <locationX>650</locationX>
+        <locationY>48</locationY>
+        <connector>
+            <targetReference>Get_NDG</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>IconaBarra</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <stringValue>&lt;img src=&apos;/resource/Barra&apos;/&gt;</stringValue>
+        </value>
+    </variables>
+    <variables>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

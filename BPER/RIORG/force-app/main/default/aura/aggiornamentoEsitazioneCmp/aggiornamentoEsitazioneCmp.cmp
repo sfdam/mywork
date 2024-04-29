@@ -1,0 +1,56 @@
+<!--
+  @description       : 
+  @author            : simone.viglianti@tengroup.it
+  @group             : 
+  @last modified on  : 10-26-2021
+  @last modified by  : simone.viglianti@tengroup.it
+-->
+<aura:component controller = "AggiornamentoEsitazioneController" implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" >
+    <!-- Start Design Attribute-->
+    <aura:attribute name="oggetto" type="String" default="" />
+    <aura:attribute name="stato" type="String" default=""/>
+    <aura:attribute name="note" type="String" default=""/>
+    <aura:attribute name="labelBottone" type="String" default=""/>
+    <aura:attribute name="certificationName" type="String" default="salesforceprodclient2024"/>
+    <aura:attribute name="disableLog" type="Boolean" default="true"/>
+    <aura:attribute name="jsonParam" type="String" default=""/>
+    <!-- End Design Attribute-->
+
+
+    <aura:attribute name="PicklistField" type="object"/>
+    <aura:attribute name="selectedOption" type="String"/>
+    <aura:attribute name="noteValue" type="String"/>
+    <aura:attribute name="fieldNameNote" type="String"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <!--force:recordData to update picklist value-->
+    <force:recordData aura:id="record"
+                      layoutType="FULL"
+                      recordId="{!v.recordId}"
+                      targetFields="{!v.PicklistField}"
+                      mode="EDIT"/>
+                      
+    <lightning:card>
+        <lightning:layout>
+            <lightning:layoutItem size ="12">
+                <lightning:picklistPath aura:id="picklistPath" recordId="{!v.recordId}"
+                                        variant="linear"
+                                        picklistFieldApiName="{!v.stato}"
+                                        onselect="{!c.handleSelect}">
+
+                                
+                </lightning:picklistPath>
+            </lightning:layoutItem>
+        </lightning:layout>
+        <lightning:layout>
+            <lightning:layoutItem size="8" padding="around-small">
+                <lightning:input type="text" name="note" label="{!v.fieldNameNote}" value="{!v.noteValue}"/>
+            </lightning:layoutItem>
+            <br></br>
+            <lightning:layoutItem size="4" padding="around-small">
+                <button type="submit" class="slds-button slds-button_brand slds-button_stretch" onclick="{!c.handleSave}">{!v.labelBottone}</button>
+            </lightning:layoutItem>
+        </lightning:layout>      
+    </lightning:card>  
+</aura:component>

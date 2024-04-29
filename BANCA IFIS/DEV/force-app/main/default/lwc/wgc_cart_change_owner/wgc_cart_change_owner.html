@@ -1,0 +1,11 @@
+<template>
+    <div class="slds-p-around_medium">
+        <lightning-record-edit-form object-api-name="Opportunity" record-id={recordId}>
+            <label class="slds-form-element__label">Assegna a:</label>
+            <lightning-input-field variant="label-hidden" field-name="Presentatore__c" onchange={changeVal}></lightning-input-field>
+        </lightning-record-edit-form>
+        <div class="slds-text-align_right slds-m-top_medium">
+            <lightning-button class="cstm-btn-round" variant="brand" label="Conferma" onclick={confirm}></lightning-button>
+        </div>
+    </div>
+</template>

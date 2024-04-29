@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>TuttiIportafogli</fullName>
+    <columns>NAME</columns>
+    <columns>PTF_Banca__c</columns>
+    <columns>PTF_DirezioneRegionale__c</columns>
+    <columns>PTF_Area__c</columns>
+    <columns>PTF_Capofila__c</columns>
+    <columns>PTF_Filiale__c</columns>
+    <columns>PTF_ModelloDiServizio__c</columns>
+    <columns>CRM_ReferenteFormula__c</columns>
+    <columns>PTF_StatoAssegnazione__c</columns>
+    <columns>CRM_numNDG__c</columns>
+    <columns>CRM_Numero_NDG_attivi__c</columns>
+    <columns>CREATED_DATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>PTF_Banca__c</field>
+        <operation>contains</operation>
+    </filters>
+    <filters>
+        <field>PTF_ModelloDiServizio__c</field>
+        <operation>equals</operation>
+        <value>Assente,Business PMI,Consulenti Finanziari,Controparti Istituzionali,Corporate,Couco,Enti e Tesorerie,Family,Key Client Imprese,Key Client Privati,Large Corporate,Non Portafogliati,Personal,POE,Private,Residuale,Small Business</value>
+    </filters>
+    <filters>
+        <field>PTF_Deleted__c</field>
+        <operation>equals</operation>
+        <value>0</value>
+    </filters>
+    <label>Tutti i Portafogli</label>
+</ListView>

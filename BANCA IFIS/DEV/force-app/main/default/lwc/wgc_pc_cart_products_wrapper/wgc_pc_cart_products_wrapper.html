@@ -1,0 +1,36 @@
+<template>
+    <div class="slds-box">
+        <lightning-layout multiple-rows="true" class="slds-p-around_xx-small">
+            <lightning-layout-item size="10" class="slds-p-top_xx-small">
+                <p>Scegli il prodotto</p>
+            </lightning-layout-item>
+            <lightning-layout-item size="2" class="slds-text-align_right">
+                <template if:true={isProdSelected}>
+                    <lightning-button label="Conferma Prodotti" class="cstm-btn-round" variant="brand" onclick={confirmProduct}></lightning-button>
+                </template>
+                <template if:true={next}>
+                    <lightning-button label="Avanti" class="cstm-btn-round" variant="brand" onclick={goNextStep}></lightning-button>
+                </template>
+            </lightning-layout-item>
+        </lightning-layout>
+        <!-- SELECTED PRODUCTS -->
+        <lightning-layout multiple-rows="true" class="slds-m-top_small cstm-border-selected-prod">
+            <template for:each={selectedProducts} for:item="prod">                
+                <lightning-layout-item key={prod.name} size="3" class="slds-p-around_small">
+                    <c-wgc_pc_cart_product prod={prod} read-only={readOnly} remove selected ></c-wgc_pc_cart_product>
+                </lightning-layout-item>
+            </template>
+        </lightning-layout>
+        <!-- ALL PRODUCTS -->
+        <lightning-layout multiple-rows="true">
+            <template for:each={allProducts} for:item="prod">
+                <lightning-layout-item key={prod.name} size="3" class="slds-p-around_small">
+                    <c-wgc_pc_cart_product prod={prod} read-only={readOnly} ></c-wgc_pc_cart_product>
+                    <!-- <div onclick={selectProduct} data-prod={prod.name}>
+                        {prod.name}
+                    </div> -->
+                </lightning-layout-item>
+            </template>
+        </lightning-layout>
+    </div>
+</template>

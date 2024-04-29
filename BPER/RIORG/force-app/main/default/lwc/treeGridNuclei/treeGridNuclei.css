@@ -1,0 +1,23 @@
+.tilte-card {
+    display: inline;
+    padding-left: 5px;
+}
+
+.treeGrid-green {
+    font-weight: bold;
+    color: green;
+}
+
+.paginator {
+    position: absolute;
+    top: 45px;
+    right: 35px;
+}
+
+.is-ofs a{
+    color: red !important;
+} 
+ /* .nameTreGrid-red {
+   
+    color: red;
+}  */

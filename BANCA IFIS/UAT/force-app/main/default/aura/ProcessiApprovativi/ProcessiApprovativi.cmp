@@ -1,0 +1,44 @@
+<aura:component implements="flexipage:availableForAllPageTypes" access="global" controller="CmpProcessiApprovativi">
+
+  <!-- Variables -->
+  <aura:attribute name="items" type="List" />
+  <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+  <!-- Layout -->
+  <div class="slds-box slds-scrollable--x">
+    <h2 class="slds-section__title">Voci da approvare</h2>
+    <div class="slds-p-bottom--small"></div>
+    <table class="slds-table slds-table--bordered slds-table--cell-buffer">
+      <thead>
+        <tr class="slds-text-heading--label">
+          <th scope="col"><span class="slds-truncate">Dettaglio</span></th>
+          <th scope="col"><span class="slds-truncate">Correlato a</span></th>
+          <th scope="col"><span class="slds-truncate">Inviata da</span></th>
+          <th scope="col"><span class="slds-truncate">Data invio</span></th>
+          <th scope="col"><span class="slds-truncate">Stato</span></th>
+          <!--<th scope="col"><span class="slds-truncate">Azioni</span></th> -->
+        </tr>
+      </thead>
+      <tbody>
+        <aura:iteration items="{!v.items}" var="item">
+          <tr>
+            <td><button class="slds-button" onclick="{!c.openRequest}" data-data="{!item.Id}">Vedi</button></td>
+            <td>{!item.ProcessInstance.TargetObject.Name}</td>
+            <td>{!item.ProcessInstance.SubmittedBy.Name}</td>
+            <td><ui:outputDateTime value="{!item.CreatedDate}" format="dd/MM/YYYY HH:mm"/></td>
+            <td>{!item.ProcessInstance.Status}</td>
+          </tr>
+        </aura:iteration>
+        <aura:if isTrue="{!v.items.length == 0}">
+          <tr>
+            <td colspan="5">
+              <div class="slds-text-align--center">
+                Nessuna richiesta di approvazione in attesa
+              </div>
+            </td>
+          </tr>
+        </aura:if>
+      </tbody>
+    </table>
+  </div>
+</aura:component>

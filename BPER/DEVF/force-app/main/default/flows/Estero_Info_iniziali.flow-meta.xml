@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>51.0</apiVersion>
+    <formulas>
+        <name>Formula_CodiceLEI</name>
+        <dataType>String</dataType>
+        <expression>IF (
+{!Get_NDG.CRM_Codice_LEI__c} != NULL,
+{!Get_NDG.CRM_Codice_LEI__c},
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_NDGEstero</name>
+        <dataType>String</dataType>
+        <expression>IF (
+{!Get_NDG.CRM_NumeroNDGEstero__c} &gt; 0, &apos;SI&apos;, &apos;NO&apos;
+)</expression>
+    </formulas>
+    <interviewLabel>Estero - {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Estero - Info iniziali</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordLookups>
+        <name>Get_NDG</name>
+        <label>Get NDG</label>
+        <locationX>262</locationX>
+        <locationY>339</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_record_Estero</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Account</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_record_Estero</name>
+        <label>Get record Estero</label>
+        <locationX>448</locationX>
+        <locationY>377</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Estero</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>CRM_Account__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>CRM_Estero__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <runInMode>SystemModeWithoutSharing</runInMode>
+    <screens>
+        <name>Estero</name>
+        <label>Estero</label>
+        <locationX>687</locationX>
+        <locationY>361</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>ImmagineInfoIniziali</name>
+            <extensionName>flowruntime:image</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>imageName</name>
+                <value>
+                    <stringValue>InfoIniziali</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>horizontalAlignment</name>
+                <value>
+                    <stringValue>center</stringValue>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
+        </fields>
+        <fields>
+            <name>Estero_Section1</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Estero_Section1_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>Label_NDGEstero</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 6); font-size: 12px;&quot;&gt;NDG estero&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); font-size: 14px;&quot;&gt;{!Formula_NDGEstero}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); font-size: 14px;&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>4</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Estero_Section1_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>CustomerDesk_Title</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); background-color: rgb(255, 255, 255); font-size: 12px;&quot;&gt;Customer Desk (SI/NO)&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); font-size: 14px;&quot;&gt;{!Get_NDG.CRM_CustomerDeskFormula__c}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;{!IconaBarra}&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>4</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Estero_Section1_Column3</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>CodiceLEI</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; color: rgb(62, 62, 60);&quot;&gt;Codice LEI&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(8, 7, 7);&quot;&gt;{!Formula_CodiceLEI}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;{!IconaBarra}&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>4</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+        </fields>
+        <showFooter>false</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <start>
+        <locationX>211</locationX>
+        <locationY>144</locationY>
+        <connector>
+            <targetReference>Get_NDG</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>IconaBarra</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <stringValue>&lt;img src=&apos;/resource/Barra&apos;/&gt;</stringValue>
+        </value>
+    </variables>
+    <variables>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

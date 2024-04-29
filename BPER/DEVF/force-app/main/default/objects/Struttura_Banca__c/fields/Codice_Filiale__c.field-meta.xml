@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Codice_Filiale__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(ISBLANK(Codice_Controllo_Accessi__c),null,
+TEXT(VALUE(MID(TRIM(Codice_Controllo_Accessi__c),6,5))))</formula>
+    <label>Codice Filiale</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

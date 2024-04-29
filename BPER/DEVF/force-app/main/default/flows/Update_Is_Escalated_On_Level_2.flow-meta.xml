@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>55.0</apiVersion>
+    <decisions>
+        <name>CheckQueue</name>
+        <label>CheckQueue</label>
+        <locationX>578</locationX>
+        <locationY>323</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Level_2</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.CRM_QueueForEscalation__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>2° livello</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Is_Escalated_on_Level_2_Field</targetReference>
+            </connector>
+            <label>2° Level</label>
+        </rules>
+        <rules>
+            <name>Sales_Support</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.CRM_QueueForEscalation__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Sales Support</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Is_Escalated_on_Sales_Support_Field</targetReference>
+            </connector>
+            <label>Sales Support</label>
+        </rules>
+        <rules>
+            <name>Sales_Product</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.CRM_QueueForEscalation__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Sales Product</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Is_Escalated_on_Sales_Product_Field</targetReference>
+            </connector>
+            <label>Sales Product</label>
+        </rules>
+        <rules>
+            <name>Task_Force_FOL</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.CRM_QueueForEscalation__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Task Force FOL</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Is_Escalated_on_Task_Force_FOL_Field</targetReference>
+            </connector>
+            <label>Task Force FOL</label>
+        </rules>
+    </decisions>
+    <environments>Default</environments>
+    <interviewLabel>Update Is Escalated On Level 2 {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Case - Update Is Escalated On Level 2</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Update_Is_Escalated_on_Level_2_Field</name>
+        <label>Update Is Escalated on Level 2 Field</label>
+        <locationX>50</locationX>
+        <locationY>431</locationY>
+        <inputAssignments>
+            <field>Is_Escalated_On_Level_2__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Is_Escalated_on_Sales_Product_Field</name>
+        <label>Update Is Escalated on Sales Product Field</label>
+        <locationX>578</locationX>
+        <locationY>431</locationY>
+        <inputAssignments>
+            <field>Is_Escalated_On_Sales_Product__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Is_Escalated_on_Sales_Support_Field</name>
+        <label>Update Is Escalated on  Sales Support Field</label>
+        <locationX>314</locationX>
+        <locationY>431</locationY>
+        <inputAssignments>
+            <field>Is_Escalated_On_Sales_Support__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Is_Escalated_on_Task_Force_FOL_Field</name>
+        <label>Update Is Escalated on Task Force FOL Field</label>
+        <locationX>842</locationX>
+        <locationY>431</locationY>
+        <inputAssignments>
+            <field>Is_Escalated_On_Task_Force_FOL__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>452</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>CheckQueue</targetReference>
+        </connector>
+        <filterLogic>1 AND (2 OR 3 OR 4 OR 5)</filterLogic>
+        <filters>
+            <field>CRM_Hesitation__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Escalation</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>CRM_QueueForEscalation__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>2° livello</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>CRM_QueueForEscalation__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Sales Support</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>CRM_QueueForEscalation__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Sales Product</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>CRM_QueueForEscalation__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Task Force FOL</stringValue>
+            </value>
+        </filters>
+        <object>Case</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>caseCount</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <scale>2</scale>
+    </variables>
+</Flow>

@@ -1,0 +1,427 @@
+<aura:component controller="WGC_ModuloTecnicheComunicazione" implements="flexipage:availableForRecordHome,force:hasRecordId">
+    <aura:attribute name="title" type="String" default="Compila documento"/>
+    <aura:attribute name="tipo" type="String" default="Modulo tecniche di comunicazione"/>
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="legale" type="Boolean" default="true"/>
+    <aura:attribute name="amministrativa" type="Boolean" default="false"/>
+    <aura:attribute name="altro" type="Boolean" default="false"/>
+    <aura:attribute name="isLoaded" type="Boolean" default="false" />
+    <aura:attribute name="modulo" type="AdeguataVerifica__c" 
+        default="{ 'sobjectType': 'AdeguataVerifica__c'}"/>
+    <aura:attribute name="acc" type="Account" 
+        default="{ 'sobjectType': 'Account'}"/>
+
+    <aura:attribute name="datiDiContatto" type="Boolean" default="false" />
+    <aura:attribute name="indirizzi" type="Boolean" default="false" />
+    <!-- Library -->
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    <!-- Handlers -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <aura:if isTrue="{! v.isLoaded }">
+        <div class="container-doc" style="margin: 0 -20px -20px -20px;">
+            <ui:scrollerWrapper class="scrollerSize">
+                <div class="slds-grid slds-wrap slds-p-horizontal_x-large slds-p-bottom_small">
+                    <!-- <div class="slds-col slds-size_1-of-1 slds-text-align_left slds-p-around_small">
+                        <p class="slds-text-body_small subtitle-text">TIPO DI DOCUMENTO</p>
+                    </div> -->
+                    <div class="slds-col slds-size_12-of-12 slds-text-align_left slds-p-around_small">
+                        <div class="icon-container">
+                            <lightning:icon class="icon" variant="inverse" iconName="utility:file" size="small"/>
+                        </div>
+                        <div class="title-container">
+                            <span class="slds-text-title_bold" >{!v.tipo}</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div style="background:lightgray;"> -->
+                <lightning:layout multipleRows="true" class="pr-gray slds-p-horizontal_x-large slds-p-vertical_medium">
+                    <lightning:layoutItem size="12" class="slds-p-around_small">
+                        <span class="subtitle-text">ANAGRAFICA</span>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="6" smallDeviceSize="12" largeDeviceSize="6">
+                        <lightning:layout multipleRows="true">
+                            <lightning:layoutItem size="12" class="slds-p-around_small">
+                                <i class="question">Indirizzo di posta elettronica certifica (PEC)</i>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="12" class="slds-p-horizontal_small">
+                                <!-- <force:inputField value="{!v.acc.EmailPEC__c}"/> -->
+                                <lightning:input type="email" class="label-fix" value="{!v.acc.EmailPEC__c}" />
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="6" smallDeviceSize="12" largeDeviceSize="6">
+                        <lightning:layout multipleRows="true">
+                            <lightning:layoutItem size="12" smallDeviceSize="12" class="slds-p-around_small">
+                                <i class="question">Indirizzo di posta elettronica</i>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="12" smallDeviceSize="12" class="slds-p-horizontal_small">
+                                <!-- <force:inputField value="{!v.acc.Email__c}"/> -->
+                                <lightning:input type="email" class="label-fix" value="{!v.acc.Email__c}" />
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </lightning:layoutItem>
+                    <!-- SM - TEN NEW 04/04/2019 -->
+                    <lightning:layoutItem size="6" smallDeviceSize="12" largeDeviceSize="6">
+                        <lightning:layout multipleRows="true">
+                            <lightning:layoutItem size="12" smallDeviceSize="12" class="slds-p-around_small">
+                                <i class="question">PEC per invio Fattura Elettronica</i>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="12" smallDeviceSize="12" class="slds-p-horizontal_small">
+                                <!-- <force:inputField value="{!v.acc.Email__c}"/> -->
+                                <lightning:input type="email" class="label-fix" value="{!v.acc.EmailPECFatturaElettronica__c}" />
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="6" smallDeviceSize="12" largeDeviceSize="6">
+                        <lightning:layout multipleRows="true">
+                            <lightning:layoutItem size="12" smallDeviceSize="12" class="slds-p-around_small">
+                                <i class="question">Codice Destinatario</i>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="12" smallDeviceSize="12" class="slds-p-horizontal_small">
+                                <!-- <force:inputField value="{!v.acc.Email__c}"/> -->
+                                <lightning:input type="text" class="label-fix" value="{!v.acc.CodiceDestinatario__c}" />
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </lightning:layoutItem>
+                    <!-- END SM - TEN 04/04/2019 -->
+                    <lightning:layoutItem size="6" smallDeviceSize="12" largeDeviceSize="6">
+                        <lightning:layout multipleRows="true">
+                            <lightning:layoutItem size="12" smallDeviceSize="12" class="slds-p-around_small">
+                                <i class="question">Telefono</i>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="3" smallDeviceSize="3" class="slds-p-horizontal_small">
+                                <lightning:input type="text" class="label-fix" maxlength="6" value="{! v.acc.TelefonoPrefisso__c }" />
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="9" smallDeviceSize="9" class="slds-p-horizontal_small">
+                                <!-- <force:inputField value="{!v.acc.Phone}"/> -->
+                                <lightning:input type="tel" class="label-fix" maxlength="9" value="{! v.acc.Phone }" />
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="6" smallDeviceSize="12" largeDeviceSize="6">
+                        <lightning:layout multipleRows="true">
+                            <lightning:layoutItem size="12" smallDeviceSize="12" class="slds-p-around_small">
+                                <i class="question">Fax</i>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="12" smallDeviceSize="12" class="slds-p-horizontal_small">
+                                <!-- <force:inputField value="{!v.acc.Fax}"/> -->
+                                <lightning:input type="tel" class="label-fix" value="{! v.acc.Fax }" />
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </lightning:layoutItem>
+                    <aura:if isTrue="{!v.datiDiContatto == true}">
+                        <lightning:layoutItem size="12" smallDeviceSize="12" largeDeviceSize="12">
+                            <div class="slds-p-around_small">
+                                <span style="color:red;">Compilare correttamente almeno un campo della sezione Anagrafica, o compila i tutti i campi di indrizzo</span>
+                            </div>
+                        </lightning:layoutItem>
+                    </aura:if>
+                </lightning:layout>
+                <!-- </div> -->
+                <!-- <div style="background:white;"> -->
+                <lightning:layout multipleRows="true" class="pr-white slds-p-horizontal_x-large slds-p-vertical_medium">
+                    <lightning:layoutItem size="12" class="slds-p-around_small">
+                        <span class="subtitle-text">INDIRIZZO PER L'INVIO DELLA CORRISPONDENZA</span>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="12">
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_1-of-1">
+                                <lightning:buttonGroup class="btn-tab-container">
+                                    <lightning:button class="{! ' btn-tab ' + (v.legale ? ' btn-active ' : '') }" label="Sede Legale" value="legale"  onclick="{! c.changeTabNew }"/>
+                                    <lightning:button class="{! ' btn-tab ' + (v.amministrativa ? ' btn-active ' : '') }" label="Sede Amministrativa" value="amministrativa" onclick="{! c.changeTabNew }" />
+                                    <lightning:button class="{! ' btn-tab ' + (v.altro ? ' btn-active ' : '') }" label="Altro" value="altro" onclick="{! c.changeTabNew }" />
+                                </lightning:buttonGroup>
+                            </div>
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="12">
+                        <aura:renderIf isTrue="{!v.legale}">
+                            <lightning:layout multipleRows="true" class="slds-p-vertical_small">
+                                <lightning:layoutItem size="3" smallDeviceSize="3" mediumDeviceSize="3" largeDeviceSize="2"  class="slds-p-around_small">
+                                    <lightning:layout multipleRows="true">
+                                        <lightning:layoutItem size="12">
+                                            <i class="question">Nazione</i>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem size="12">
+                                            <!-- <force:inputField value="{!v.acc.BillingCountry}"/> -->
+                                            <lightning:input type="text" class="label-fix" value="{!v.acc.BillingCountry}" />
+                                        </lightning:layoutItem>
+                                    </lightning:layout>   
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="4" smallDeviceSize="3" mediumDeviceSize="4" largeDeviceSize="4" class="slds-p-around_small">
+                                    <lightning:layout multipleRows="true">
+                                        <lightning:layoutItem size="12">
+                                            <i class="question">Provincia</i>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem size="12">
+                                            <!-- <force:inputField value="{!v.acc.BillingState}"/> -->
+                                            <lightning:input type="text" class="label-fix" value="{!v.acc.BillingState}" />
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="5" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="6" class="slds-p-around_small">
+                                    <lightning:layout multipleRows="true">
+                                        <lightning:layoutItem size="12">
+                                            <i class="question">Comune</i>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem size="12">
+                                            <!-- <force:inputField value="{!v.acc.BillingCity}"/> -->
+                                            <lightning:input type="text" class="label-fix" value="{!v.acc.BillingCity}" />
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="2" smallDeviceSize="4" mediumDeviceSize="2" largeDeviceSize="2" class="slds-p-around_small">
+                                    <lightning:layout multipleRows="true">
+                                        <lightning:layoutItem size="12">
+                                            <i class="question">Tipo Via</i>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem size="12">
+                                            <!-- <force:inputField value="{!v.acc.BillingStreetType__c}"/> -->
+                                            <lightning:recordEditForm recordId="{!v.acc.Id}" objectApiName="Account">
+                                                <lightning:inputField class="label-fix" fieldName="BillingStreetType__c" aura:id="Billing" onchange="{!c.changeStreetType}" />
+                                            </lightning:recordEditForm>
+
+                                            <!-- <lightning:input type="text" value="{!v.acc.BillingStreetType__c}" /> -->
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="5" smallDeviceSize="8" mediumDeviceSize="5" largeDeviceSize="10" class="slds-p-around_small">
+                                    <lightning:layout multipleRows="true">
+                                        <lightning:layoutItem size="12">
+                                            <i class="question">Nome via</i>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem size="12">
+                                            <!-- <force:inputField value="{!v.acc.BillingStreetName__c}"/> -->
+                                            <lightning:input type="text" class="label-fix" value="{!v.acc.BillingStreetName__c}" />
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="2" smallDeviceSize="6" mediumDeviceSize="2" largeDeviceSize="2" class="slds-p-around_small">
+                                    <lightning:layout multipleRows="true">
+                                        <lightning:layoutItem size="12">
+                                            <i class="question">Civico</i>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem size="12">
+                                            <!-- <force:inputField value="{!v.acc.BillingStreetNumber__c}"/> -->
+                                            <lightning:input type="text" class="label-fix" value="{!v.acc.BillingStreetNumber__c}" />
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="3" smallDeviceSize="6" mediumDeviceSize="3" largeDeviceSize="4" class="slds-p-around_small">
+                                    <lightning:layout multipleRows="true">
+                                        <lightning:layoutItem size="12">
+                                            <i class="question">CAP</i>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem size="12">
+                                            <!-- <force:inputField value="{!v.acc.BillingPostalCode}"/> -->
+                                            <lightning:input type="text" class="label-fix" value="{!v.acc.BillingPostalCode}" />
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                        </aura:renderIf>
+                        <aura:renderIf isTrue="{!v.amministrativa}">
+                            <lightning:layout multipleRows="true" class="slds-p-vertical_small">
+                                <lightning:layoutItem size="3" smallDeviceSize="3" mediumDeviceSize="3" largeDeviceSize="2" class="slds-p-around_small">
+                                    <lightning:layout multipleRows="true">
+                                        <lightning:layoutItem size="12">
+                                            <i class="question">Nazione</i>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem size="12">
+                                            <!-- <force:inputField value="{!v.acc.ShippingCountry}"/> -->
+                                            <lightning:input type="text" class="label-fix" value="{!v.acc.ShippingCountry}" />
+                                        </lightning:layoutItem>
+                                    </lightning:layout>   
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="4" smallDeviceSize="3" mediumDeviceSize="4" largeDeviceSize="4" class="slds-p-around_small">
+                                    <lightning:layout multipleRows="true">
+                                        <lightning:layoutItem size="12">
+                                            <i class="question">Provincia</i>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem size="12">
+                                            <!-- <force:inputField value="{!v.acc.ShippingState}"/> -->
+                                            <lightning:input type="text" class="label-fix" value="{!v.acc.ShippingState}" />
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="5" smallDeviceSize="6" mediumDeviceSize="5" largeDeviceSize="6" class="slds-p-around_small">
+                                    <lightning:layout multipleRows="true">
+                                        <lightning:layoutItem size="12">
+                                            <i class="question">Comune</i>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem size="12">
+                                            <!-- <force:inputField value="{!v.acc.ShippingCity}"/> -->
+                                            <lightning:input type="text" class="label-fix" value="{!v.acc.ShippingCity}" />
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="2" smallDeviceSize="4" mediumDeviceSize="2" largeDeviceSize="2" class="slds-p-around_small">
+                                    <lightning:layout multipleRows="true">
+                                        <lightning:layoutItem size="12">
+                                            <i class="question">Tipo Via</i>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem size="12">
+                                            <!-- <force:inputField value="{!v.acc.ShippingStreetType__c}"/> -->
+                                            <lightning:recordEditForm aura:id="Shipping" recordId="{!v.acc.Id}" objectApiName="Account">
+                                                <lightning:inputField class="label-fix" fieldName="ShippingStreetType__c" aura:id="Shipping" onchange="{!c.changeStreetType}" />
+                                            </lightning:recordEditForm>
+
+                                            <!-- <lightning:input type="text" value="{!v.acc.ShippingStreetType__c}" /> -->
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="5" smallDeviceSize="8" mediumDeviceSize="5" largeDeviceSize="10" class="slds-p-around_small">
+                                    <lightning:layout multipleRows="true">
+                                        <lightning:layoutItem size="12">
+                                            <i class="question">Nome via</i>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem size="12">
+                                            <!-- <force:inputField value="{!v.acc.ShippingStreetName__c}"/> -->
+                                            <lightning:input type="text" class="label-fix" value="{!v.acc.ShippingStreetName__c}" />
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="2" smallDeviceSize="6" mediumDeviceSize="2" largeDeviceSize="2" class="slds-p-around_small">
+                                    <lightning:layout multipleRows="true">
+                                        <lightning:layoutItem size="12">
+                                            <i class="question">Civico</i>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem size="12">
+                                            <!-- <force:inputField value="{!v.acc.ShippingStreetNumber__c}"/> -->
+                                            <lightning:input type="text" class="label-fix" value="{!v.acc.ShippingStreetNumber__c}" />
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="3" smallDeviceSize="6" mediumDeviceSize="2" largeDeviceSize="4" class="slds-p-around_small">
+                                    <lightning:layout multipleRows="true">
+                                        <lightning:layoutItem size="12">
+                                            <i class="question">CAP</i>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem size="12">
+                                            <!-- <force:inputField value="{!v.acc.ShippingPostalCode}"/> -->
+                                            <lightning:input type="text" class="label-fix" value="{!v.acc.ShippingPostalCode}" />
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                        </aura:renderIf>
+                        <aura:renderIf isTrue="{!v.altro}">
+                        <lightning:layout multipleRows="true" class="slds-p-vertical_small">
+                            <lightning:layoutItem size="3" smallDeviceSize="3" mediumDeviceSize="3" largeDeviceSize="2" class="slds-p-around_small">
+                                <lightning:layout multipleRows="true">
+                                    <lightning:layoutItem size="12">
+                                        <i class="question">Nazione</i>
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem size="12">
+                                        <!-- <force:inputField value="{!v.modulo.CorrispondenzaCountry__c}"/> -->
+                                        <lightning:input type="text" class="label-fix" value="{!v.modulo.CorrispondenzaCountry__c}" />
+                                    </lightning:layoutItem>
+                                </lightning:layout>   
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="4" smallDeviceSize="3" mediumDeviceSize="4" largeDeviceSize="4" class="slds-p-around_small">
+                                <lightning:layout multipleRows="true">
+                                    <lightning:layoutItem size="12">
+                                        <i class="question">Provincia</i>
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem size="12">
+                                        <!-- <force:inputField value="{!v.modulo.CorrispondenzaState__c}"/> -->
+                                        <lightning:input type="text" class="label-fix" value="{!v.modulo.CorrispondenzaState__c}" />
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="5" smallDeviceSize="6" mediumDeviceSize="5" largeDeviceSize="6" class="slds-p-around_small">
+                                <lightning:layout multipleRows="true">
+                                    <lightning:layoutItem size="12">
+                                        <i class="question">Comune</i>
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem size="12">
+                                        <!-- <force:inputField value="{!v.modulo.CorrispondenzaCity__c}"/> -->
+                                        <lightning:input type="text" class="label-fix" value="{!v.modulo.CorrispondenzaCity__c}" />
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="2" smallDeviceSize="4" mediumDeviceSize="2" largeDeviceSize="2" class="slds-p-around_small">
+                                <lightning:layout multipleRows="true">
+                                    <lightning:layoutItem size="12">
+                                        <i class="question">Tipo Via</i>
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem size="12">
+                                        <!-- <force:inputField value="{!v.modulo.CorrispondenzaStreetType__c}"/> -->
+                                        <lightning:recordEditForm recordId="{!v.modulo.Id}" objectApiName="AdeguataVerifica__c">
+                                            <lightning:inputField class="label-fix" fieldName="CorrispondenzaStreetType__c" aura:id="Corrispondenza" onchange="{!c.changeStreetType}" />
+                                        </lightning:recordEditForm>
+
+                                        <!-- <lightning:input type="text" value="{!v.modulo.CorrispondenzaStreetType__c}" /> -->
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="5" smallDeviceSize="8" mediumDeviceSize="5" largeDeviceSize="10" class="slds-p-around_small">
+                                <lightning:layout multipleRows="true">
+                                    <lightning:layoutItem size="12">
+                                        <i class="question">Nome via</i>
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem size="12">
+                                        <!-- <force:inputField value="{!v.modulo.CorrispondenzaStreetName__c}"/> -->
+                                        <lightning:input type="text" class="label-fix" value="{!v.modulo.CorrispondenzaStreetName__c}" /> 
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="2" smallDeviceSize="6" mediumDeviceSize="2" largeDeviceSize="2" class="slds-p-around_small">
+                                <lightning:layout multipleRows="true">
+                                    <lightning:layoutItem size="12">
+                                        <i class="question">Civico</i>
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem size="12">
+                                        <!-- <force:inputField value="{!v.modulo.CorrispondenzaStreetNumber__c}"/> -->
+                                        <lightning:input type="text" class="label-fix" value="{!v.modulo.CorrispondenzaStreetNumber__c}" />
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="3" smallDeviceSize="6" mediumDeviceSize="2" largeDeviceSize="4" class="slds-p-around_small">
+                                <lightning:layout multipleRows="true">
+                                    <lightning:layoutItem size="12">
+                                        <i class="question">CAP</i>
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem size="12">
+                                        <!-- <force:inputField value="{!v.modulo.CorrispondenzaCAP__c}"/> -->
+                                        <lightning:input type="text" class="label-fix" value="{!v.modulo.CorrispondenzaCAP__c}" />
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                        </aura:renderIf>    
+                    </lightning:layoutItem>
+                </lightning:layout>
+                <aura:if isTrue="{!v.indirizzi == true}">
+                    <lightning:layout class="slds-p-horizontal_x-large">
+                        <lightning:layoutItem size="12">
+                            <div class="slds-p-around_small">
+                                <span style="color:red;">Compilare tutti i campi di indirizzo dell'anagrafica</span>
+                            </div>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                </aura:if>
+                <footer class="slds-modal__footer">
+                    <lightning:button variant="neutral" onclick="{!c.close}" label="ANNULLA" />
+                    <lightning:button class="btn" variant="neutral" onclick="{!c.saveRecord}" label="SALVA" />
+                </footer>            
+                <!-- <div class="slds-text-align_center foot">
+                    <lightning:layout class="slds-p-horizontal_large">
+                        <lightning:layoutItem size="6">
+                            <button class="btn-close" onclick="{!c.close}">ANNULLA</button>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="6">
+                            <button class="btn-save" onclick="{!c.saveRecord}">SALVA</button>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                </div> -->
+            </ui:scrollerWrapper>
+        </div>
+    <aura:set attribute="else">
+        <div class="slds-is-relative">
+            <lightning:spinner alternativeText="CARICAMENTO" />
+        </div>
+    </aura:set>
+    </aura:if>
+</aura:component>

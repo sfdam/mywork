@@ -1,0 +1,26 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global">
+    <aura:attribute name="oRecord" type="sObject" />
+    <aura:attribute name="IconName" type="string"/> 
+    <aura:attribute name="returnFields" type="string"/> 
+    <aura:attribute name="showField" type="String" default=""/>
+
+    <aura:attribute name="endValue" type="string"/> 
+
+    <!--Register the component level event-->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    <aura:registerEvent name="oSelectedRecordEvent" type="c:SV_CustomLookupEvent"/>
+    
+    <li role="presentation" class="slds-listbox__item" onclick="{!c.selectRecord}">
+        <span id="listbox-option-unique-id-01" class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta" role="option">
+            <span class="slds-media__figure">
+                <span class="slds-icon_container" title="Description of icon when needed">
+                    <lightning:icon iconName="{!v.IconName}" class="slds-icon slds-icon_small" size="small" alternativeText="icon"/>
+                    <span class="slds-assistive-text">{!$Label.c.SV_CustomLookupResult_Description_of_icon}</span>
+                </span>
+            </span>    
+            <span class="slds-media__body">  
+                <span class="slds-listbox__option-text slds-listbox__option-text_entity slds-text-align_left">{!v.endValue}</span>
+            </span>
+        </span>
+    </li>
+</aura:component>

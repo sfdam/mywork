@@ -1,0 +1,11 @@
+<template>
+    <lightning-card>
+        <template if:true={accountList}>
+           <template for:each={accountList} for:item="account">
+               <div key={account.Id} onclick={handleOnClick} id={account.Id}>
+                   {account.Name}
+                </div>
+           </template>
+        </template>
+    </lightning-card>
+</template>

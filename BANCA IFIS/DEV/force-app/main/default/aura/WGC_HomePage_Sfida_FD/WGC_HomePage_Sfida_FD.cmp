@@ -1,0 +1,132 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" controller="WGC_HomePage_Sfida_Controller">
+    <!-- attributes -->
+    <aura:attribute name="results" type="Map" default="{}" />
+    <aura:attribute name="isDirezioneFD" type="Boolean" default="false" />
+    <aura:attribute name="dashboardId" type="String" default="" />
+    <!-- handlers -->
+
+    <!-- script -->
+    <ltng:require scripts="{!join(',', 
+            '/resource/WGC_jQuery3x',
+            '/resource/WGC_ChartJs')}" afterScriptsLoaded="{!c.doInit}" />
+
+    <lightning:navigation aura:id="navService" />
+
+    <lightning:card>
+        <aura:set attribute="title">
+            <lightning:layout>
+                <lightning:layoutItem size="1">
+                    <lightning:icon iconName="utility:event" size="small" />
+                </lightning:layoutItem>
+                <lightning:layoutItem size="1">
+                    <div class="title">{! $Label.c.WGC_HomePage_Sfida_LaSfida }</div>
+                </lightning:layoutItem>
+            </lightning:layout>
+        </aura:set>
+        <aura:set attribute="actions">
+            <lightning:buttonIcon iconName="utility:expand" variant="bare" onclick="{! c.navigateToMyComponent }" alternativeText="Settings" />
+        </aura:set>
+
+        <div class="card-body">
+            <!-- <lightning:layout class="slds-text-align_center">
+                <lightning:layoutItem flexibility="auto">
+                    <c:StatusDot label="Io" color="ff9b05" />
+                </lightning:layoutItem>
+                <lightning:layoutItem flexibility="auto">
+                    <c:StatusDot label="Ifis Bulls" color="f6fa00" />
+                </lightning:layoutItem>
+                <lightning:layoutItem flexibility="auto">
+                    <c:StatusDot label="New Team" color="ea91e2" />
+                </lightning:layoutItem>
+                <lightning:layoutItem flexibility="auto">
+                    <c:StatusDot label="Team Leonida" color="ed495b" />
+                </lightning:layoutItem>
+                <lightning:layoutItem flexibility="auto">
+                    <c:StatusDot label="Totale" color="4a90e2" />
+                </lightning:layoutItem>
+            </lightning:layout> -->
+            <lightning:layout>
+                <lightning:layoutItem size="8">
+                    <div class="chart-container">
+                        <div class="canvas-container">
+                            <canvas aura:id="barChartAziende" id="barChartAziende" style="height:47vh"/>
+                        </div>
+                    </div>
+                </lightning:layoutItem>
+                <lightning:layoutItem size="4">
+                    <div class="slds-p-left_x-small">
+                        <span class="description-title">MESE IN CORSO</span>
+                    </div>
+                    <lightning:layout multipleRows="true">
+                        <lightning:layoutItem size="12" class="slds-p-around_xx-small">
+                            <div class="quadrant">
+                                <div class="description">
+                                    <span>{! $Label.c.WGC_HomePage_Sfida_ContattiNelMese }</span>
+                                </div>
+                                <div class="desc-result">
+                                    <lightning:formattedNumber value="{! v.results.contattiMese }" />
+                                    <!-- <span>{! v.results.contattiMese }</span> -->
+                                </div>
+                            </div>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="12" class="slds-p-around_xx-small">
+                            <div class="quadrant">
+                                <div class="description">
+                                    <span>{! $Label.c.WGC_HomePage_Sfida_AppuntamentiNelMese }</span>
+                                </div>
+                                <div class="desc-result">
+                                    <!-- <span>67</span> -->
+                                    <lightning:formattedNumber value="{! v.results.appuntamentiMese }" />
+                                </div>
+                            </div>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="12" class="slds-p-around_xx-small">
+                            <div class="quadrant">
+                                <div class="description">
+                                    <span>{! $Label.c.WGC_HomePage_Sfida_AppuntamentiMediGiorno }</span>
+                                </div>
+                                <div class="desc-result">
+                                    <!-- <span>67</span> -->
+                                    <lightning:formattedNumber value="{! v.results.appuntamentiMediGiorno }" />
+                                </div>
+                            </div>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="12" class="slds-p-around_xx-small">
+                            <div class="quadrant">
+                                <div class="description">
+                                    <span>{! $Label.c.WGC_HomePage_Sfida_PrevisioneAppFineMese }</span>
+                                </div>
+                                <div class="desc-result">
+                                    <!-- <span>67</span> -->
+                                    <lightning:formattedNumber value="{! v.results.previsione }" />
+                                </div>
+                            </div>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="12" class="slds-p-around_xx-small">
+                            <div class="quadrant">
+                                <div class="description">
+                                    <span>{! $Label.c.WGC_HomePage_Sfida_DeltaAppuntamenti }</span>
+                                </div>
+                                <div class="desc-result">
+                                    <!-- <span>67</span> -->
+                                    <lightning:formattedNumber style="percent" value="{! v.results.variazione }" />
+                                </div>
+                            </div>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="12" class="slds-p-around_xx-small">
+                            <div class="quadrant">
+                                <div class="description">
+                                    <span>{! $Label.c.WGC_HomePage_Sfida_SuccessoMedio }</span>
+                                </div>
+                                <div class="desc-result">
+                                    <!-- <span>8 %</span> -->
+                                    <lightning:formattedNumber value="{! v.results.successoMedio }" style="percent" />
+                                </div>
+                            </div>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                </lightning:layoutItem>
+            </lightning:layout>
+        </div>
+    </lightning:card>
+</aura:component>

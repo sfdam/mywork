@@ -1,0 +1,88 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+    access="global">
+
+    <ltng:require scripts="{!join(',', 
+             '/resource/WGC_jQuery3x',
+             '/resource/WGC_ChartJs')}"
+        afterScriptsLoaded="{!c.doInit}" />
+
+    <lightning:navigation aura:id="navService" />
+
+    <aura:attribute name="title" type="String" default="POSIZIONE" />
+    <aura:attribute name="valData" type="String" />
+
+    <lightning:card class='container-card'>
+        <aura:set attribute="title">
+            <lightning:icon iconName="{! 'utility:none' }" size="small" variant="slds-icon-inverse" />
+            <div class="title">{!$Label.c.WGC_Position_Card_Titolo}</div>
+            <!-- with container -->
+            <div class="open-component">
+                <lightning:buttonIcon iconName="utility:expand" variant="container" alternativeText="Settings" onclick="{!c.navigateToMyComponent}" />
+            </div>
+        </aura:set>
+        <div class="slds-p-vertical_medium">
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-5 slds-m-top_x-large slds-m-bottom_x-large">
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col">
+                            <div class="chart-container"><canvas aura:id="doubleDonut" id="doubleDonut" /></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-5 slds-m-top_x-large slds-m-bottom_x-large">
+                        <div class="slds-grid">
+                                <div class="slds-col">
+                                    <div class="slds-text-title_caps slds-m-bottom_xx-small">{!$Label.c.WGC_Position_Card_Legenda}</div>
+                                    <div class="slds-grid slds-wrap">
+                                        <!-- <div class="slds-col slds-size_1-of-3">
+        
+                                            <c:StatusDot color="4990E2" label="Factoring" />
+                                            <c:StatusDot color="98CAFA" label="Lending" />
+                                        </div>
+                                        <div class="slds-col slds-size_2-of-3">
+                                            <c:StatusDot color="FAD61F" label="Leasing" />
+                                            <c:StatusDot color="0DAC58" label="Cassa" />
+                                        </div> -->
+                                        <div class="slds-col slds-size_1-of-1">
+                                            <c:StatusDot color="4990E2" label="{!$Label.c.WGC_Position_Card_Factoring}" />
+                                            <c:StatusDot color="98CAFA" label="{!$Label.c.WGC_Position_Card_Lending}" />
+                                            <c:StatusDot color="FAD61F" label="{!$Label.c.WGC_Position_Card_Leasing}" />
+                                            <c:StatusDot color="0DAC58" label="{!$Label.c.WGC_Position_Card_Altro}" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr />
+                    <ul class="slds-has-dividers_around-space slds-m-bottom_x-small slds-m-right_xx-large slds-m-left_x-small">
+                        <li class="slds-item">
+                            <lightning:tile label="{!$Label.c.WGC_Position_Card_Posizione_Puntuale}" href="/path/to/somewhere" class="slds-tile_board">
+                                <p class="slds-text-heading_medium">600.000 €</p>
+                            </lightning:tile>
+                        </li>
+                    </ul>
+
+                    <ul class="slds-has-dividers_around-space slds-m-right_xx-large slds-m-left_x-small">
+                        <li class="slds-item">
+                            <lightning:tile label="{!$Label.c.WGC_Position_Card_Posizione_Media_12_Mesi}" href="/path/to/somewhere" class="slds-tile_board">
+                                <p class="slds-text-heading_medium">950.000 €</p>
+                            </lightning:tile>
+                        </li>
+                    </ul>
+                    
+                </div>
+                
+            </div>
+            <!-- <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-text-align_center slds-m-bottom_small slds-p-bottom_small">
+                    <lightning:button class="slds-button slds-button_brand" variant="success" label="{!$Label.c.WGC_Position_Card_CR}" title="Success" onclick="" />
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-text-align_center slds-m-bottom_small slds-p-bottom_small">
+                    <lightning:button class="slds-button slds-button_brand" variant="success" label="{!$Label.c.WGC_Position_Card_Bilancio}" title="Success" onclick="" />
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-text-align_center slds-m-bottom_small slds-p-bottom_small">
+                    <lightning:button class="slds-button slds-button_grey" variant="success" label="{!$Label.c.WGC_Position_Card_Rinnova_Posizione}" title="Success" onclick="" />
+                </div>
+            </div> -->
+        </div>
+    </lightning:card>
+</aura:component>

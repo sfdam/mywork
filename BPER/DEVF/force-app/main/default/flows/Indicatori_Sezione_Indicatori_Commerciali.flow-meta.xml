@@ -1,0 +1,1020 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>51.0</apiVersion>
+    <description>TOM_AttrbutoSegmentazione_filtroPerson</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>BstoreImprese</name>
+        <dataType>String</dataType>
+        <expression> &apos;https://intrawseal.gbbper.priv/bstore/bstore-vendita/getCorporateClientDetailByNDG?ndg=&apos; + {!Get_current_NDG.CRM_NDG__c} + &apos;&amp;abi=&apos; + {!Get_current_NDG.FinServ__BankNumber__c}</expression>
+    </formulas>
+    <formulas>
+        <name>BstorePrivate</name>
+        <dataType>String</dataType>
+        <expression>&apos;https://intrawseal.gbbper.priv/bstore/bstore-vendita/getClientDetailByNDG?ndg=&apos; + {!Get_current_NDG.CRM_NDG__c} + &apos;&amp;abi=&apos; + {!Get_current_NDG.FinServ__BankNumber__c}</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_AccessiUltimi3Mesi</name>
+        <dataType>String</dataType>
+        <expression>/*IF (
+ISBLANK(TEXT(Get_Indicators_from_Account.CRM_UtilizzoHomeBanking__c)) = false,
+TEXT(Get_Indicators_from_Account.CRM_UtilizzoHomeBanking__c) + &quot; &quot; + Get_Indicators_from_Account.CRM_IconaUtilizzoHomeBanking__c,
+&apos;-&apos;
+)*/
+IF(NOT(ISBLANK({!Formula_DataUltimoAccessoNew})),
+IF({!Formula_DataUltimoAccessoNew} &lt; ADDMONTHS(TODAY(),-3),
+&apos;N&apos;,
+&apos;S&apos;),
+&apos;-&apos;)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_Azione</name>
+        <dataType>String</dataType>
+        <expression>IF (
+{!Get_Indicators_from_Account.CRM_NPSAzione__c} != NULL,
+{!Get_Indicators_from_Account.CRM_NPSAzione__c},
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_CBI</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK(TEXT({!Get_Indicators_from_Account.CRM_CBI__c})) = false,
+TEXT({!Get_Indicators_from_Account.CRM_CBI__c}) + &quot; &quot; + {!Get_Indicators_from_Account.CRM_IconaCBI__c},
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_Data</name>
+        <dataType>String</dataType>
+        <expression>IF (
+AND(ISBLANK({!Get_Indicators_from_Account.CRM_NPSDataDiRilevazione__c}) = false, {!Get_Indicators_from_Account.CRM_NPSDataDiRilevazione__c} &gt;= ADDMONTHS(TODAY(),-12)),
+IF(VALUE(TEXT(DAY({!Get_Indicators_from_Account.CRM_NPSDataDiRilevazione__c}))) &lt; 10, &quot;0&quot; + TEXT(DAY({!Get_Indicators_from_Account.CRM_NPSDataDiRilevazione__c})), TEXT(DAY({!Get_Indicators_from_Account.CRM_NPSDataDiRilevazione__c}))) + &quot;/&quot; + 
+IF(VALUE(TEXT(MONTH({!Get_Indicators_from_Account.CRM_NPSDataDiRilevazione__c}))) &lt; 10, &quot;0&quot; + TEXT(MONTH({!Get_Indicators_from_Account.CRM_NPSDataDiRilevazione__c})), TEXT(MONTH({!Get_Indicators_from_Account.CRM_NPSDataDiRilevazione__c}))) + &quot;/&quot; + 
+TEXT(YEAR({!Get_Indicators_from_Account.CRM_NPSDataDiRilevazione__c})),
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_DataUltimoAccessoNew</name>
+        <dataType>Date</dataType>
+        <expression>IF(NOT(ISBLANK({!GetChannel.CRM_UltimoAccessoMO__c})) &amp;&amp; NOT(ISBLANK({!GetChannel.CRM_UltimoAccessoSW__c})) &amp;&amp; NOT(ISBLANK({!GetChannel.CRM_UltimoAccessoTB__c})),
+
+		IF({!GetChannel.CRM_UltimoAccessoMO__c} &gt;= {!GetChannel.CRM_UltimoAccessoSW__c} &amp;&amp; {!GetChannel.CRM_UltimoAccessoMO__c} &gt;= {!GetChannel.CRM_UltimoAccessoTB__c},
+			{!GetChannel.CRM_UltimoAccessoMO__c},
+			IF({!GetChannel.CRM_UltimoAccessoSW__c} &gt;= {!GetChannel.CRM_UltimoAccessoTB__c},
+			{!GetChannel.CRM_UltimoAccessoSW__c},
+			{!GetChannel.CRM_UltimoAccessoTB__c})),
+			
+IF({!Formula_UltimoAccessoMO} &gt;= {!Formula_UltimoAccessoSW} &amp;&amp; {!Formula_UltimoAccessoMO} &gt;= {!Formula_UltimoAccessoTB},
+	{!GetChannel.CRM_UltimoAccessoMO__c},
+	IF({!Formula_UltimoAccessoSW} &gt;= {!Formula_UltimoAccessoTB} &amp;&amp; {!Formula_UltimoAccessoSW} &gt;= {!Formula_UltimoAccessoMO},
+			{!GetChannel.CRM_UltimoAccessoSW__c},
+			{!GetChannel.CRM_UltimoAccessoTB__c})
+))</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_HomeBankingTOL</name>
+        <dataType>String</dataType>
+        <expression>IF(NOT(ISBLANK({!GetChannel.Name})),
+{!GetChannel.Name},
+&quot;-&quot;)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_MediaAccessiSmartMobile</name>
+        <dataType>String</dataType>
+        <expression>IF (NOT(ISBLANK({!GetChannel.CRM_MediaaccessiMO__c})),
+TEXT({!GetChannel.CRM_MediaaccessiMO__c}),
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_MediaAccessiSmartWeb</name>
+        <dataType>String</dataType>
+        <expression>IF (NOT(ISBLANK({!GetChannel.CRM_MediaaccessiSW__c})),
+TEXT({!GetChannel.CRM_MediaaccessiSW__c}),
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_MediaAccessiTablet</name>
+        <dataType>String</dataType>
+        <expression>IF (NOT(ISBLANK({!GetChannel.CRM_MediaaccessiTB__c})),
+TEXT({!GetChannel.CRM_MediaaccessiTB__c}),
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_MotivoDetrazione</name>
+        <dataType>String</dataType>
+        <expression>IF (
+AND(ISBLANK({!Get_Indicators_from_Account.CRM_NPSMotivoDetrazione__c}) = false, {!Get_Indicators_from_Account.CRM_NPSDataDiRilevazione__c} &gt;= ADDMONTHS(TODAY(),-12)),
+{!Get_Indicators_from_Account.CRM_NPSMotivoDetrazione__c},
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_NPS</name>
+        <dataType>String</dataType>
+        <expression>IF (
+AND(ISBLANK(TEXT({!Get_Indicators_from_Account.CRM_IndicatoreNPS__c})) = false, {!Get_Indicators_from_Account.CRM_NPSDataDiRilevazione__c} &gt;= ADDMONTHS(TODAY(),-24)),
+TEXT({!Get_Indicators_from_Account.CRM_IndicatoreNPS__c}) + &quot; &quot; + {!Get_Indicators_from_Account.CRM_IconaNPS__c},
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_PrestitoDigital</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Get_current_NDG.CRM_DigitalLoanClusters__c}) = false,
+{!Get_current_NDG.CRM_DigitalLoanClusters__c},
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_ProfiloMarketing</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Get_Indicators_from_Account.CRM_ProfiloMarketing__c}) = false,
+{!Get_Indicators_from_Account.CRM_ProfiloMarketing__c},
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_SegmentoComportamentale</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Get_current_NDG.PTF_SegmentoComportamentale__c}) = false,
+{!Get_current_NDG.PTF_SegmentoComportamentale__c},
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_SegmentoValoriale</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK(TEXT({!Get_Indicators_from_Account.CRM_SegmentoValoriale__c})) = false,
+TEXT({!Get_Indicators_from_Account.CRM_SegmentoValoriale__c}),
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_SmartBPERZone</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK(TEXT({!Get_Indicators_from_Account.CRM_SmartBPERZone__c})) = false,
+TEXT({!Get_Indicators_from_Account.CRM_SmartBPERZone__c}),
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_SmartIndex</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Get_Indicators_from_Account.CRM_SmartIndex__c}) = false,
+TEXT({!Get_Indicators_from_Account.CRM_SmartIndex__c}),
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_StatoSCA</name>
+        <dataType>String</dataType>
+        <expression>IF (NOT(ISBLANK(TEXT({!GetChannel.CRM_SCAStatus__c}))),
+TEXT({!GetChannel.CRM_SCAStatus__c}),
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_ThumbUpDown</name>
+        <dataType>Boolean</dataType>
+        <expression>{!Get_current_NDG.CRM_MifidDueDate__c} &gt;= TODAY()</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_Total</name>
+        <dataType>String</dataType>
+        <expression>IF (
+{!Get_current_NDG.RecordType.DeveloperName} = &apos;PersonAccount&apos;, &apos;16&apos;, &apos;13&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_UltimoAccessoMO</name>
+        <dataType>Date</dataType>
+        <expression>IF(NOT(ISBLANK({!GetChannel.CRM_UltimoAccessoMO__c})),
+{!GetChannel.CRM_UltimoAccessoMO__c},
+DATE(1700,01,01))</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_UltimoAccessoSmartMobile</name>
+        <dataType>String</dataType>
+        <expression>IF(NOT(ISBLANK({!GetChannel.CRM_UltimoAccessoMO__c})),
+TEXT(DAY({!GetChannel.CRM_UltimoAccessoMO__c})) + 
+&apos;/&apos; + 
+IF(month({!GetChannel.CRM_UltimoAccessoMO__c})&lt;10,&quot;0&quot;+ TEXT(month({!GetChannel.CRM_UltimoAccessoMO__c})), TEXT(month({!GetChannel.CRM_UltimoAccessoMO__c}))) + 
+&apos;/&apos; +
+TEXT(YEAR({!GetChannel.CRM_UltimoAccessoMO__c})),
+&apos;-&apos;)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_UltimoAccessoSmartWeb</name>
+        <dataType>String</dataType>
+        <expression>IF(NOT(ISBLANK({!GetChannel.CRM_UltimoAccessoSW__c})),
+TEXT(DAY({!GetChannel.CRM_UltimoAccessoSW__c})) + 
+&apos;/&apos; + 
+IF(month({!GetChannel.CRM_UltimoAccessoSW__c})&lt;10,&quot;0&quot;+ TEXT(month({!GetChannel.CRM_UltimoAccessoSW__c})), TEXT(month({!GetChannel.CRM_UltimoAccessoSW__c}))) + 
+&apos;/&apos; +
+TEXT(YEAR({!GetChannel.CRM_UltimoAccessoSW__c})),
+&apos;-&apos;)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_UltimoAccessoSW</name>
+        <dataType>Date</dataType>
+        <expression>IF(NOT(ISBLANK({!GetChannel.CRM_UltimoAccessoSW__c})),
+{!GetChannel.CRM_UltimoAccessoSW__c},
+DATE(1700,01,01))</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_UltimoAccessoTablet</name>
+        <dataType>String</dataType>
+        <expression>IF(NOT(ISBLANK({!GetChannel.CRM_UltimoAccessoTB__c})),
+TEXT(DAY({!GetChannel.CRM_UltimoAccessoTB__c})) + 
+&apos;/&apos; + 
+IF(month({!GetChannel.CRM_UltimoAccessoTB__c})&lt;10,&quot;0&quot;+ TEXT(month({!GetChannel.CRM_UltimoAccessoTB__c})), TEXT(month({!GetChannel.CRM_UltimoAccessoTB__c}))) + 
+&apos;/&apos; +
+TEXT(YEAR({!GetChannel.CRM_UltimoAccessoTB__c})),
+&apos;-&apos;)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_UltimoAccessoTB</name>
+        <dataType>Date</dataType>
+        <expression>IF(NOT(ISBLANK({!GetChannel.CRM_UltimoAccessoTB__c})),
+{!GetChannel.CRM_UltimoAccessoTB__c},
+DATE(1700,01,01))</expression>
+    </formulas>
+    <formulas>
+        <name>TextFasciaPog</name>
+        <dataType>String</dataType>
+        <expression>TEXT({!Get_Info_POG.CRM_TipoFasciaPog__c})</expression>
+    </formulas>
+    <interviewLabel>Indicatori - Sezione Indicatori Commerciali {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Indicatori - Sezione Indicatori Commerciali</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordLookups>
+        <name>Get_current_NDG</name>
+        <label>Get current NDG</label>
+        <locationX>777</locationX>
+        <locationY>206</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_RT_Indicatori_Flat</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Account</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Indicators_from_Account</name>
+        <label>Get Indicators from Account</label>
+        <locationX>776</locationX>
+        <locationY>446</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>GetChannel</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>CRM_Account__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>RecordTypeId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_RT_Indicatori_Flat.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>CRM_IndicatoriCliente__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>Prende le Informazioni POG relative all&apos;Account in questione</description>
+        <name>Get_Info_POG</name>
+        <label>Get Info POG</label>
+        <locationX>775</locationX>
+        <locationY>699</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Indicatori</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>CRM_Account__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_current_NDG.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>CRM_InfoPog__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_RT_Indicatori_Flat</name>
+        <label>Get RT Indicatori Flat</label>
+        <locationX>776</locationX>
+        <locationY>326</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_Indicators_from_Account</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Flat</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>RecordType</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>GetChannel</name>
+        <label>Get Channel</label>
+        <locationX>776</locationX>
+        <locationY>566</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_Info_POG</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>CRM_Account__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>CRM_Channel__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <runInMode>SystemModeWithoutSharing</runInMode>
+    <screens>
+        <name>Indicatori</name>
+        <label>Indicatori</label>
+        <locationX>774</locationX>
+        <locationY>816</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>Indicatori_Section1</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Indicatori_Section1_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>ImmagineIndicCommericali</name>
+                    <extensionName>flowruntime:image</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>imageName</name>
+                        <value>
+                            <stringValue>IndicatoriCommerciali2</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>12</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+        </fields>
+        <fields>
+            <name>Indicatori_Section2</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Indicatori_Section2_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>cs</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); background-color: rgb(255, 255, 255); font-size: 12px;&quot;&gt;Cross-selling ABI&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;background-color: rgb(255, 255, 255); color: rgb(8, 7, 7); font-size: 16px;&quot;&gt;{!Get_Indicators_from_Account.CRM_CrossSellingABI__c}/{!Formula_Total}  &lt;/b&gt;&lt;b style=&quot;background-color: rgb(255, 255, 255); font-size: 16px;&quot;&gt;{!Get_Indicators_from_Account.CRM_FormulaIconaPercCS1__c} &lt;/b&gt;&lt;b style=&quot;background-color: rgb(255, 255, 255); font-size: 16px; color: rgb(62, 62, 60);&quot;&gt;{!Get_Indicators_from_Account.CRM_FormulaIconaPercCS2__c}&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;﻿&lt;/span&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Indicatori_Section2_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>Toggle_CrossSellingABI</name>
+                    <extensionName>flowruntime:toggle</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>label</name>
+                        <value>
+                            <stringValue>Mostra dettagli Cross-selling</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>messageToggleActive</name>
+                        <value>
+                            <stringValue>Attivo</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>messageToggleInactive</name>
+                        <value>
+                            <stringValue>Inattivo</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+        </fields>
+        <fields>
+            <name>DynamicTable_Business</name>
+            <extensionName>c:dynamicTables</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>object_field</name>
+                <value>
+                    <stringValue>CRM_IndicatoriCliente__c#CRM_Account__c</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>fileJS</name>
+                <value>
+                    <stringValue>CRM_TabellaIndicatoriCommercialiIMP.js</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>recordId</name>
+                <value>
+                    <elementReference>recordId</elementReference>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>Toggle_CrossSellingABI.value</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>true</booleanValue>
+                    </rightValue>
+                </conditions>
+                <conditions>
+                    <leftValueReference>Get_current_NDG.RecordType.DeveloperName</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <stringValue>IndustriesBusiness</stringValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>DynamicTable_Privati</name>
+            <extensionName>c:dynamicTables</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>fileJS</name>
+                <value>
+                    <stringValue>CRM_TabellaIndicatoriCommercialiPRV.js</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>object_field</name>
+                <value>
+                    <stringValue>CRM_IndicatoriCliente__c#CRM_Account__c</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>recordId</name>
+                <value>
+                    <elementReference>recordId</elementReference>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>Toggle_CrossSellingABI.value</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>true</booleanValue>
+                    </rightValue>
+                </conditions>
+                <conditions>
+                    <leftValueReference>Get_current_NDG.RecordType.DeveloperName</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <stringValue>PersonAccount</stringValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>Indicatori_Section3</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Indicatori_Section3_Column1</name>
+                <fieldType>Region</fieldType>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>12</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>Toggle_CrossSellingABI.value</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>true</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>Indicatori_Section4</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Indicatori_Section4_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>CrossSellingABI_Field</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); background-color: rgb(255, 255, 255); font-size: 12px;&quot;&gt;Cross-selling ponderato&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); background-color: rgb(255, 255, 255); font-size: 14px;&quot;&gt;{!Get_Indicators_from_Account.CRM_CrossSellingPonderato__c}/50&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;﻿{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;﻿&lt;/span&gt;&lt;span style=&quot;font-size: 12px; color: rgb(63, 63, 61);&quot;&gt;Segmento Valoriale&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); font-size: 14px;&quot;&gt;{!Formula_SegmentoValoriale}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;{!IconaBarra}&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;﻿&lt;/span&gt;&lt;span style=&quot;font-size: 12px; color: rgb(63, 63, 61);&quot;&gt;Descrizione Segmento Valoriale&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); background-color: rgb(255, 255, 255); font-size: 14px;&quot;&gt;{!Get_Indicators_from_Account.CRM_DettaglioSegmValoriale__c}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;{!IconaBarra}&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(63, 63, 61); font-size: 12px;&quot;&gt;﻿Suggerimento Segmento Valoriale&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(8, 7, 7);&quot;&gt;{!Get_Indicators_from_Account.CRM_SuggerimentoSegmValoriale__c}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;{!IconaBarra}&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>Get_current_NDG.RecordTypeName__c</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <stringValue>Business</stringValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Indicatori_Section4_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>CrossSellingPonderato_Field</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(63, 63, 61); font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;Segmento Comportamentale&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); font-size: 14px;&quot;&gt;{!Formula_SegmentoComportamentale}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;{!IconaBarra}&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); background-color: rgb(255, 255, 255); font-size: 12px;&quot;&gt;Attributo di segmentazione&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;{!Get_current_NDG.CRM_Attributo_di_segmentazione__c}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); background-color: rgb(255, 255, 255); font-size: 12px;&quot;&gt;Profilo di marketing&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(8, 7, 7);&quot;&gt;{!Formula_ProfiloMarketing}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;{!IconaBarra}&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px; background-color: rgb(255, 255, 255); color: rgb(63, 63, 61);&quot;&gt;Operazioni Societarie&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); font-size: 14px;&quot;&gt;{!Get_current_NDG.CRM_FormulaProvenienzaCliente__c}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-family: var(--lwc-fontFamily,-apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, Helvetica, Arial, sans-serif, &amp;quot;Apple Color Emoji&amp;quot;, &amp;quot;Segoe UI Emoji&amp;quot;, &amp;quot;Segoe UI Symbol&amp;quot;); font-size: var(--lwc-fontSize3,0.8125rem); color: rgb(108, 108, 108);&quot;&gt;&lt;img src=&quot;https://bper--uat--c.documentforce.com/sfc/servlet.shepherd/version/download/0681q000003kxZE?asPdf=false&amp;amp;operationContext=CHATTER&quot;&gt;&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(108, 108, 108); font-size: 12px;&quot;&gt;Fascia di clientela POG&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; background-color: var(--slds-g-color-neutral-base-100, var(--lwc-colorBackgroundInput,rgb(255, 255, 255))); color: rgb(0, 0, 0);&quot;&gt;{!Get_Info_POG.CRM_TipoFasciaPog__c}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                    <visibilityRule>
+                        <conditionLogic>or</conditionLogic>
+                        <conditions>
+                            <leftValueReference>Get_current_NDG.RecordTypeName__c</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <stringValue>Business</stringValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+        </fields>
+        <fields>
+            <name>Indicatori_Section5</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Indicatori_Section5_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>CrossSellingABI_Field_person</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 12px; background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;Cross-selling ponderato&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; background-color: rgb(255, 255, 255); color: rgb(8, 7, 7);&quot;&gt;{!Get_Indicators_from_Account.CRM_CrossSellingPonderato__c}/50&lt;/span&gt;&lt;/p&gt;&lt;p&gt;{!IconaBarra}&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;﻿&lt;/span&gt;&lt;span style=&quot;font-size: 12px; color: rgb(63, 63, 61);&quot;&gt;Segmento Valoriale&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;{!Formula_SegmentoValoriale}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;{!IconaBarra}&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;﻿&lt;/span&gt;&lt;span style=&quot;color: rgb(63, 63, 61); font-size: 12px;&quot;&gt;Descrizione Segmento Valoriale&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;{!Get_Indicators_from_Account.CRM_DettaglioSegmValoriale__c}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;{!IconaBarra}&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px; color: rgb(63, 63, 61);&quot;&gt;﻿Suggerimento Segmento Valoriale&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;{!Get_Indicators_from_Account.CRM_SuggerimentoSegmValoriale__c}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;{!IconaBarra}&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>Get_current_NDG.RecordTypeName__c</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <stringValue>Person Account</stringValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Indicatori_Section5_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>CrossSellingPonderato_Field_Person</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; color: rgb(63, 63, 61);&quot;&gt;Segmento Comportamentale&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;{!Formula_SegmentoComportamentale}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;{!IconaBarra}&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px; background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;Profilo di marketing&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;{!Formula_ProfiloMarketing}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;{!IconaBarra}&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(63, 63, 61); background-color: rgb(255, 255, 255); font-size: 12px;&quot;&gt;Operazioni Societarie&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;{!Get_current_NDG.CRM_FormulaProvenienzaCliente__c}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(108, 108, 108); font-size: var(--lwc-fontSize3,0.8125rem); font-family: var(--lwc-fontFamily,-apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, Helvetica, Arial, sans-serif, &amp;quot;Apple Color Emoji&amp;quot;, &amp;quot;Segoe UI Emoji&amp;quot;, &amp;quot;Segoe UI Symbol&amp;quot;);&quot;&gt;&lt;img src=&quot;https://bper--uat--c.documentforce.com/sfc/servlet.shepherd/version/download/0681q000003kxZE?asPdf=false&amp;amp;operationContext=CHATTER&quot;&gt;&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px; color: rgb(108, 108, 108);&quot;&gt;Fascia di clientela POG&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;{!Get_Info_POG.CRM_TipoFasciaPog__c}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;{!IconaBarra}&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>Get_current_NDG.RecordTypeName__c</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <stringValue>Person Account</stringValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+        </fields>
+        <fields>
+            <name>Indicatori_Section6</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Indicatori_Section6_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>ImmagineLoyalty</name>
+                    <extensionName>flowruntime:image</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>imageName</name>
+                        <value>
+                            <stringValue>Loyalty2</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>11</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Indicatori_Section6_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>link2</name>
+                    <fieldText>&lt;p&gt;&lt;a href=&quot;https://intrawseal.gbbper.priv/ExtranetSamlSSO/BVoice&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; color: rgb(32, 38, 221);&quot;&gt;&lt;u&gt;BVoice&lt;/u&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>1</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+        </fields>
+        <fields>
+            <name>Indicatori_Section7</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Indicatori_Section7_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>NPS_Field</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;NPS - CSAT&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); font-size: 14px;&quot;&gt;{!Formula_NPS}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;{!IconaBarra}&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;Motivo&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(8, 7, 7);&quot;&gt;{!Formula_MotivoDetrazione}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;{!IconaBarra}﻿&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); background-color: rgb(255, 255, 255); font-size: 12px;&quot;&gt;Data&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(8, 7, 7);&quot;&gt;{!Formula_Data}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;﻿&lt;/span&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>Get_current_NDG.RecordType.DeveloperName</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <stringValue>PersonAccount</stringValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
+                </fields>
+                <fields>
+                    <name>tImprese1</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;NPS - CSAT&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); font-size: 14px; background-color: rgb(255, 255, 255);&quot;&gt;{!Formula_NPS}﻿&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;Motivo&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); font-size: 14px;&quot;&gt;{!Formula_MotivoDetrazione}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;﻿&lt;/span&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px;&quot;&gt;Data&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); font-size: 14px;&quot;&gt;{!Formula_Data}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;﻿&lt;/span&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>Get_current_NDG.RecordType.DeveloperName</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <stringValue>IndustriesBusiness</stringValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>12</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+        </fields>
+        <fields>
+            <name>Indicatori_Section8</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Indicatori_Section8_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>ImmagMultican</name>
+                    <extensionName>flowruntime:image</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>imageName</name>
+                        <value>
+                            <stringValue>Multicanalita2</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>11</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Indicatori_Section8_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>link3Private</name>
+                    <fieldText>&lt;p&gt;&lt;a href=&quot;{!BstorePrivate}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;color: rgb(32, 38, 221); font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;&lt;u&gt;BStore&lt;/u&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://intrawseal.gbbper.priv/IntranetBperSSO/SSO?IDAPPL=PORVEN&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;color: rgb(32, 38, 221); font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;&lt;u&gt;Portale di Vendita&lt;/u&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://intrawseal.gbbper.priv/IntranetBperSSO/SSO?IDAPPL=0CARTA&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;color: rgb(32, 38, 221); font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;&lt;u&gt;Zerocarta&lt;/u&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>Get_current_NDG.RecordType.DeveloperName</leftValueReference>
+                            <operator>NotEqualTo</operator>
+                            <rightValue>
+                                <stringValue>IndustriesBusiness</stringValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
+                </fields>
+                <fields>
+                    <name>Link4Imprese</name>
+                    <fieldText>&lt;p&gt;&lt;a href=&quot;{!BstoreImprese}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; color: rgb(32, 38, 221);&quot;&gt;&lt;u&gt;BStore&lt;/u&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://intrawseal.gbbper.priv/IntranetBperSSO/SSO?IDAPPL=PORVEN&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 12px; color: rgb(32, 38, 221); background-color: rgb(255, 255, 255);&quot;&gt;&lt;u&gt;Portale di Vendita&lt;/u&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://intrawseal.gbbper.priv/IntranetBperSSO/SSO?IDAPPL=0CARTA&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; color: rgb(32, 38, 221);&quot;&gt;&lt;u&gt;Zerocarta&lt;/u&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>Get_current_NDG.RecordType.DeveloperName</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <stringValue>IndustriesBusiness</stringValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>1</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+        </fields>
+        <fields>
+            <name>Indicatori_Section9</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Indicatori_Section9_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>MotivoDetrazione_Field</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;Home Banking/TOL&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(0, 0, 0);&quot;&gt;{!Formula_HomeBankingTOL}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;﻿&lt;/span&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px; background-color: rgb(255, 255, 255); color: rgb(63, 63, 61);&quot;&gt;﻿Accessi ultimi 3 mesi&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); font-size: 14px; background-color: rgb(255, 255, 255);&quot;&gt;{!Formula_AccessiUltimi3Mesi}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;﻿&lt;/span&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;Stato SCA&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); font-size: 14px; background-color: rgb(255, 255, 255);&quot;&gt;{!Formula_StatoSCA}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); background-color: rgb(255, 255, 255);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; color: rgb(62, 62, 60);&quot;&gt;Smart Index&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); font-size: 14px;&quot;&gt;{!Formula_SmartIndex}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;﻿&lt;/span&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; color: rgb(62, 62, 60);&quot;&gt;﻿Smart BPER Zone&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); font-size: 14px;&quot;&gt;{!Formula_SmartBPERZone}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;﻿&lt;/span&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); font-size: 12px;&quot;&gt;Prestito Digital&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); font-size: 14px;&quot;&gt;{!Formula_PrestitoDigital}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;﻿&lt;/span&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>Get_current_NDG.RecordType.DeveloperName</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <stringValue>PersonAccount</stringValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
+                </fields>
+                <fields>
+                    <name>tImprese2</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;CBI&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(8, 7, 7); font-size: 14px;&quot;&gt;{!Formula_CBI}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); background-color: rgb(255, 255, 255);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px;&quot;&gt;Smart Index&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(8, 7, 7);&quot;&gt;{!Formula_SmartIndex}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;﻿&lt;/span&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px;&quot;&gt;﻿Smart BPER Zone&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(8, 7, 7);&quot;&gt;{!Formula_SmartBPERZone}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;﻿&lt;/span&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>Get_current_NDG.RecordType.DeveloperName</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <stringValue>IndustriesBusiness</stringValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Indicatori_Section9_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>UltimoAccessoFields</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px;&quot;&gt;Smart Mobile - Data ultimo accesso&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 14px; color: rgb(8, 7, 7);&quot;&gt;{!Formula_UltimoAccessoSmartMobile}﻿&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;Smart Mobile - Media accessi&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); font-size: 14px; background-color: rgb(255, 255, 255);&quot;&gt;{!Formula_MediaAccessiSmartMobile}﻿&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;﻿&lt;/span&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;SmartWeb - Data ultimo accesso&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); font-size: 14px; background-color: rgb(255, 255, 255);&quot;&gt;{!Formula_UltimoAccessoSmartWeb}﻿&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;SmartWeb - Media accessi&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 14px; color: rgb(8, 7, 7);&quot;&gt;{!Formula_MediaAccessiSmartWeb}﻿&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;﻿&lt;/span&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px;&quot;&gt;Tablet - Data ultimo accesso&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 14px; color: rgb(8, 7, 7);&quot;&gt;{!Formula_UltimoAccessoTablet}﻿&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); background-color: rgb(255, 255, 255);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px;&quot;&gt;Tablet - Media accessi&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 14px; color: rgb(8, 7, 7);&quot;&gt;{!Formula_MediaAccessiTablet}﻿&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;﻿&lt;/span&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+        </fields>
+        <fields>
+            <name>Indicatori_Section10</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Indicatori_Section10_Column1</name>
+                <fieldType>Region</fieldType>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>12</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+        </fields>
+        <showFooter>false</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <start>
+        <locationX>650</locationX>
+        <locationY>48</locationY>
+        <connector>
+            <targetReference>Get_current_NDG</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <textTemplates>
+        <name>LinkERating</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;&lt;a href=&quot;www.google.com&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 14px;&quot;&gt;E-rating&lt;/a&gt;&lt;/p&gt;</text>
+    </textTemplates>
+    <variables>
+        <name>FasciaPOG</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+        <value>
+            <elementReference>Get_Info_POG.CRM_TipoFasciaPog__c</elementReference>
+        </value>
+    </variables>
+    <variables>
+        <name>IconaBarra</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <stringValue>&lt;img src=&apos;/resource/Barra&apos;/&gt;</stringValue>
+        </value>
+    </variables>
+    <variables>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>testcheckbox</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
+</Flow>

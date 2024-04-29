@@ -1,0 +1,271 @@
+.container-doc-opty{
+    border:1px solid #0064B5;
+    border-radius:10px;
+}
+
+.container-doc-opty-positive{
+    border:1px solid #0064B5;
+    border-radius:10px;
+}
+
+.container-doc-opty-negative{
+    border:1px solid #ED495B;
+    border-radius:10px;
+}
+
+.all-border-blue{
+    border-top: 1px solid #0064B5;
+    border-radius:10px;
+}
+
+.all-border-red{
+    border-top: 1px solid #ED495B;
+    border-radius:10px;
+}
+
+.no-button {
+    text-align: center;
+    color: #D3D3D3;
+    font-weight: 800;
+}
+
+.block{
+    display:block;
+}
+
+.text-doc{
+    font-size:x-small;
+    color:gray;
+}
+
+.title-color{
+    color:rgba(180, 180, 180, 0.473);
+}
+
+.container-border-title-red{
+    border:1px solid #ED495B;
+    border-right:1px solid #ED495B;;
+    border-top-left-radius:10px;
+    border-bottom-left-radius:10px;
+}
+
+.container-border-content-red{
+    border:1px solid #ED495B;
+    border-top-right-radius:10px;
+    border-bottom-right-radius:10px;
+}
+
+.container-border-title-blue{
+    border:1px solid #0064B5;
+    border-right:1px solid #0064B5;
+    border-top-left-radius:10px;
+    border-bottom-left-radius:10px;
+}
+
+.container-border-content-blue{
+    border:1px solid #0064B5;
+    border-top-right-radius:10px;
+    border-bottom-right-radius:10px;
+}
+
+.container-title{
+    min-height: 250px;
+    border-right: 1px solid lightgray;
+    box-shadow: 2px 0 10px lightgrey;
+}
+
+.border-opty-right{
+    border-right:0px;
+}
+
+.border-opty-left{
+    border-left:0px;
+}
+
+.container-title-blue{
+    background:#0064B5;
+}
+
+.container-title-small{
+    min-height: 135px;
+    border-right: 1px solid lightgray;
+    box-shadow: 2px 0 10px lightgrey;
+}
+
+.parent-single-doc{
+    width:100%;
+}
+
+.back-icon{
+    width:50px;
+    height:50px;
+    border-radius:25px;
+    background-color: #0BAD58;
+}
+
+.back-icon-negative{
+    width:50px;
+    height:50px;
+    border-radius:25px;
+    background-color: #ED495B;    
+}
+
+.back-icon-positive{
+    width:50px;
+    height:50px;
+    border-radius:25px;
+    background-color: #0064B5;    
+}
+
+.back-icon-action{
+    width:50px;
+    height:50px;
+    border-radius:25px;
+    background-color: white;
+}
+
+.back-icon-action-positive{
+    width:50px;
+    height:50px;
+    border-radius:25px;   
+    border:2px solid #0064B5;
+}
+
+.back-icon-action-negative{
+    width:50px;
+    height:50px;
+    border-radius:25px;   
+    border:2px solid #ED495B;
+}
+
+.back-icon-action-positive-small{
+    width:40px;
+    height:40px;
+    border-radius:25px;
+    border:2px solid #0064B5;
+}
+
+.back-icon-action-negative-small{
+    width:40px;
+    height:40px;
+    border-radius:25px;
+    border:2px solid #ED495B;
+}
+
+.single-doc{
+    min-height:165px;
+    min-width:25%;
+    border-left:1px solid lightgray;
+    border-bottom:1px solid lightgray;
+    margin: 0px;    
+}
+
+.single-doc:first-child{
+    border-right:0px;
+}
+
+.single-doc:last-child{
+    border-right:1px solid lightgray;
+}
+
+.single-doc_back{
+    min-height:165px;
+    min-width:25%;
+    border-left:1px solid lightgray;
+    border-bottom:1px solid lightgray;  
+    margin: 0px;    
+}
+
+.single-doc_back:first-child{
+    border-right:0px;
+}
+
+.single-doc_back:last-child{
+    border-right:1px solid lightgray;
+}
+ 
+.single-doc_back-negative{
+    min-height:150px;
+    min-width:25%;
+    background-color: #ED495B;
+    margin: 0px;
+}
+
+.single-doc_back-positive{
+    min-height:150px;
+    min-width:25%;
+    background-color: #0064B5;
+    margin: 0px;
+}
+
+.btn-header{
+    background-color: #0064B5;
+    border-color: #0064B5;
+    color: rgb(255, 255, 255);
+}
+
+.ctm-margin-left{
+    margin-left: 0.2rem;
+}  
+ 
+.btn {
+    background-color: #0064B5;
+    border-color: #0064B5;
+    color: rgb(255, 255, 255);
+    border-radius:20px;
+}
+
+.btn:hover {
+    background-color: #0064B5;
+    border-color: #0064B5;
+    color: rgb(255, 255, 255);
+}
+
+ .btn-expand{
+    border: 1px solid #0064B5;
+    border-radius: 25px;
+}
+
+ .btn-expand-positive{
+     border: 1px solid #0064B5;
+     border-radius: 25px;
+ }
+
+ .btn-expand-negative{
+    border: 1px solid #ED495B;
+    border-radius: 25px;
+}
+
+ .required{
+    font-size: 10px;
+}
+
+.required:after{
+    content: "*";
+    font-size: 13px;
+}
+
+.opty-link{
+    color: #0064B5;
+    cursor: pointer;
+}
+
+.contents{
+    display: contents;
+}
+
+ @media only screen 
+    and (min-device-width : 768px) 
+    and (max-device-width : 1024px) 
+    and (orientation : landscape)
+    and (-webkit-min-device-pixel-ratio: 2) { 
+    /* STYLES GO HERE */
+    }
+
+@media only screen 
+    and (min-device-width : 768px) 
+    and (max-device-width : 1024px) 
+    and (orientation : portrait)
+    and (-webkit-min-device-pixel-ratio: 2) { 
+        /* STYLES GO HERE */
+    }

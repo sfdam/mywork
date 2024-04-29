@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_ImportoRaccQualificata__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF (
+CRM_Account__r.RecordType.DeveloperName = &apos;PersonAccount&apos;,
+CRM_RaccGestMeseCorrente__c + CRM_PolVitaMeseCorrente__c,
+NULL
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Importo Raccolta Qualificata</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

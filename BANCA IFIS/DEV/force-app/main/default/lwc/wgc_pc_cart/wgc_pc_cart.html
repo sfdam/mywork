@@ -1,0 +1,231 @@
+<template>
+    <!-- <template if:true={loaded}> -->
+        <!-- MODAL -->
+        <template if:true={showModal}>
+            <c-wgc_generic_modal onclosemodal={handleCloseModal} params={modalParams} show-close-btn="true" cmp-name={cmpModal} record-id={recordId} record-type-id={recordTypeId}></c-wgc_generic_modal>
+        </template>
+        <!-- MODAL -->
+        <!-- <template if:true={opp}> -->
+            <lightning-card>
+                <h1 slot="title">{payload.opportunityData.Name} <template if:true={payload.opportunityData.WGC_Sospesa__c}> - SOSPESA</template></h1>
+                <div slot="actions">
+                    <lightning-button-icon icon-name="utility:close" variant="bare" onclick={goBackToAccount} alternative-text="Close"></lightning-button-icon>
+                </div>
+                <!-- SPINNER -->
+                <!-- <template if:false={loaded}> -->
+                    <div class={spinnerClass}>
+                        <div class="cstm-spinner-msg-container">
+                            <p class="cstm-spinner-msg">{spinnerMessage}</p>
+                        </div>
+                        <lightning-spinner alternative-text="Caricamento" variant="brand"></lightning-spinner>
+                    </div>
+                <!-- </template> -->
+                <!-- SPINNER -->
+                <div class="slds-p-around_small">
+                    <lightning-layout multiple-rows="true" class="cstm-account-oppty-header">
+                        <lightning-layout-item size="12" large-device-size="5" medium-device-size="6" class="slds-p-around_small cstm-account-oppty-header-border cstm-account-oppty-header-height">
+                            <lightning-layout multiple-rows="true">
+                                <lightning-layout-item size="12">
+                                    <b><lightning-formatted-url value={accountId} label={payload.opportunityData.Account.Name} ></lightning-formatted-url></b>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="6">
+                                    NDG <b>{payload.opportunityData.Account.NDGGruppo__c}</b>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="6">
+                                    Data Apertura <b><lightning-formatted-date-time value={payload.opportunityData.CreatedDate} year="numeric" month="short" day="2-digit" ></lightning-formatted-date-time></b>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="6">
+                                    Titolare <b>{payload.opportunityData.Owner.Name}</b>                    
+                                </lightning-layout-item>
+                                <!-- SM - TEN - CR 459 Aggiungo visibilità del profilo che deve lavorare la pratica -->
+                                <lightning-layout-item size="6">
+                                    Owner Fase <b>{ownerFase}</b>
+                                </lightning-layout-item>
+                                <!-- <lightning-layout-item size="6">
+                                    Win Probability <b>{payload.opportunityData.Probability} %</b>                
+                                </lightning-layout-item> -->
+                                <lightning-layout-item size="6">
+                                    Originator <b>{payload.opportunityData.Originator__c}</b>                
+                                </lightning-layout-item>
+                                <lightning-layout-item size="6">
+                                    Data Prevista Completamento <b><lightning-formatted-date-time value={payload.opportunityData.CloseDate} year="numeric" month="short" day="2-digit"></lightning-formatted-date-time></b>                
+                                </lightning-layout-item>
+                                <lightning-layout-item size="6">
+                                    Originator Dettaglio <b>{payload.opportunityData.Originator_di_dettaglio__c}</b>                
+                                </lightning-layout-item>
+                                <lightning-layout-item size="6">
+                                    Tipologia <!-- <b>{payload.opportunityData.Tipologia_Opportunit__c}</b> --> <b>{tipoOpp}</b>      
+                                </lightning-layout-item>
+                                <lightning-layout-item size="6">
+                                    Tribunale <template if:true={payload.opportunityData.Assuntore__r}><b>{payload.opportunityData.Assuntore__r.Name}</b></template>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="6">
+                                    Professionista <template if:true={payload.opportunityData.WGC_Professionista__r}><b>{payload.opportunityData.WGC_Professionista__r.Name}</b></template>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="6">
+                                    Procedura <template if:true={payload.opportunityData.WGC_Azienda_Cedente__r}>
+                                        <b>{payload.opportunityData.WGC_Azienda_Cedente__r.Name}</b>
+                                    </template>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="6">
+                                    Tipologia <b>{payload.opportunityData.WGC_Tipologia__c}</b>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" large-device-size="2" medium-device-size="6" class="slds-p-horizontal_small slds-p-top_xx-large cstm-account-oppty-header-border cstm-account-oppty-header-height">
+                            <template if:true={payload.opportunityData.Account.WGC_Fascia_Rischio__c}>
+                                <p style="font-size:12px; font-weight:bold;" class="slds-p-top_x-small"><lightning-icon icon-name="utility:check" size="medium" variant="warning"></lightning-icon>Verificare validità AdV su tool KYC</p>
+                            </template>
+                            <template if:false={payload.opportunityData.Account.WGC_Fascia_Rischio__c}>
+                                <p style="font-size:12px; font-weight:bold;" class="slds-p-top_x-small"><lightning-icon icon-name="utility:clear" size="medium" variant="error"></lightning-icon> Necessaria esecuzione AdV su tool KYC</p>
+                            </template>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" large-device-size="3" medium-device-size="6" class="titolare-esecutore slds-p-around_small cstm-account-oppty-header-border cstm-account-oppty-header-height">
+                            <lightning-layout multiple-rows="true">
+                                <lightning-layout-item size="12">
+                                    <p>Titolare/i Effettivo/i
+                                        <!-- <template if:true={titolariEffettivi}><lightning-icon icon-name="utility:check" size="x-small" class="hideable-inverse"></lightning-icon></template> -->
+                                    </p>
+                                    <p>
+                                        <template if:true={titolariEffettivi}>
+                                            <template for:each={titolariEffettivi} for:item="titEff" for:index="ind">
+                                                <b key={titEff.Id} class={titEff.valid}>{titEff.Contact.Name}</b>
+                                                <template if:true={ind}>,</template>
+                                            </template>
+                                        </template>
+                                        <template if:false={titolariEffettivi}>
+                                            <b>-</b>
+                                        </template>
+                                    </p>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="12">
+                                    <p>Esecutore/i
+                                        <!-- <template if:true={esecutori}><lightning-icon icon-name="utility:check" size="x-small" class="hideable-inverse"></lightning-icon></template> -->
+                                    </p>
+                                    <p>
+                                        <template if:true={esecutori}>
+                                            <template for:each={esecutori} for:item="esec" for:index="ind">
+                                                <b key={esec.Id} class={esec.valid}>{esec.Contact.Name}</b>
+                                                <template if:true={ind}>,</template>
+                                            </template>
+                                        </template>
+                                        <template if:false={esecutori}>
+                                            <b>-</b>
+                                        </template>
+                                    </p>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </lightning-layout-item>
+                        <template if:true={isLost}>
+                            <lightning-layout-item size="12" large-device-size="2" medium-device-size="6" class="slds-p-around_small slds-is-relative cstm-account-oppty-header-height">
+                                <p><b>Categoria Chiusura</b></p>
+                                <template if:true={payload.opportunityData.CategoriaChiusuraTrattativa__c}>
+                                    <p>{payload.opportunityData.CategoriaChiusuraTrattativa__c}</p>
+                                </template>
+                                <template if:false={payload.opportunityData.CategoriaChiusuraTrattativa__c}>
+                                    <p>-</p>
+                                </template>
+                                <p><b>Motivo Chiusura</b></p>
+                                <template if:true={payload.opportunityData.MotivoChiusuraTrattativa__c}>
+                                    <p>{payload.opportunityData.MotivoChiusuraTrattativa__c}</p>
+                                </template>
+                                <template if:false={payload.opportunityData.MotivoChiusuraTrattativa__c}>
+                                    <p>-</p>
+                                </template>
+                            </lightning-layout-item>
+                        </template>
+                        <template if:false={isLost}>
+                            <lightning-layout-item size="12" large-device-size="2" medium-device-size="6" class="slds-p-around_small slds-is-relative slds-text-align_center cstm-account-oppty-header-height">
+                                <lightning-button label="Chiudi Opp." class="cstm-btn-round remove-oppty" icon-name="utility:delete" icon-position="left" variant="brand" onclick={closeOpp} disabled={isClosable}></lightning-button>
+                                <lightning-button label="Assegna a" class="cstm-btn-round remove-oppty" icon-name="utility:user" icon-position="left" variant="brand" onclick={changeOwnerOpp} disabled={readOnlyParent}></lightning-button>
+                                <lightning-button label="Apri Opp." class="cstm-btn-round remove-oppty" icon-name="utility:undelete" icon-position="left" variant="brand" onclick={onOpenOpportunityClick} disabled={ifOpeningOpportunity}></lightning-button>
+                                <lightning-button label={btnSuspendLabel} class="cstm-btn-round remove-oppty" icon-name="utility:clock" icon-position="left" variant="brand" onclick={suspendOpportunity} disabled={isSuspended}></lightning-button>
+                            </lightning-layout-item>
+                        </template>
+                    </lightning-layout>
+                    <!-- Wizard -->
+                    <lightning-layout class="cstm-main-wizard-wrapper slds-m-top_large">
+                        <lightning-layout-item size="12" large-device-size="12" medium-device-size="12">
+                            
+                            <lightning-progress-bar value={mainWizProgress} size="x-small"></lightning-progress-bar>
+                            <!-- Status -->
+                            <div class="cstm-main-wizard-items">
+                                <template for:each={mainWizardItems} for:item="mainWizItem">
+                                    <template if:true={mainWizItem.visible}>
+                                        <div key={mainWizItem.title} class={mainWizItem.class} data-name={mainWizItem.title} onclick={clickMainWizardItem}>
+                                            <div class="cstm-main-wizard-dot"></div>
+                                            <div class="cstm-main-wizard-label">{mainWizItem.title}</div>
+                                            <div class="cstm-main-wizard-time">
+                                                <template if:true={mainWizItem.phaseDuration}>
+                                                    <lightning-icon icon-name="utility:clock" size="x-small"></lightning-icon><b>{mainWizItem.phaseDuration}</b>gg
+                                                </template>
+                                                <template if:true={mainWizItem.idCartella}>
+                                                    <span>{mainWizItem.idCartella}</span>
+                                                </template>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </template>
+                            </div>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                    <template if:true={isVisible}>
+                        <!-- STEP WIZARD -->
+                        <lightning-layout class="slds-m-top_small">
+                            <!-- <template if:true={stepWizardVisibility}> -->
+                                <lightning-layout-item size="10">
+                                    <lightning-button-group class="cstm-wizard-wrapper">
+                                        <template for:each={stepWizard} for:item="step">
+                                            <lightning-button key={step.title} label={step.title} value={step.step} class={step.class} disabled={step.disabled} icon-position="right" icon-name={step.completedIcon} onclick={handleClickStepWizard}></lightning-button>
+                                        </template>
+                                    </lightning-button-group>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="2" class="slds-text-align_center">
+                                    <template if:false={readOnly}>
+                                        <template if:true={isCommerciale}>
+                                            <lightning-button label="Invio al B/O" class="cstm-btn-round-valutazione" variant="brand" disabled={checkNV} onclick={invioBO} ></lightning-button>
+                                        </template>
+                                        <template if:false={isCommerciale}>
+                                            <lightning-button label="Invia in Valutazione" class="cstm-btn-round-valutazione" variant="brand" disabled={checkNV} onclick={invioTime} ></lightning-button>
+                                        </template>
+                                    </template>
+                                </lightning-layout-item>
+                            <!-- </template> -->
+                        </lightning-layout>
+                        <!-- SELECTED STEP -->
+                        <lightning-layout class="slds-m-top_small">
+                            <lightning-layout-item size="12">
+                                <template if:true={sceltaProdotto}>
+                                    <!-- sceltaProdotto -->
+                                    <!-- <template if:false={substepSceltaProdotto}> -->
+                                        <c-wgc_pc_cart_products_wrapper record-id={recordId} products={prods} sel-products={selectedProds} read-only={readOnly} onremoveproduct={removeProduct} onselectproduct={selectProduct}></c-wgc_pc_cart_products_wrapper>
+                                    <!-- </template> -->
+                                    <!-- <template if:true={substepSceltaProdotto}> -->
+                                        <!-- Informazioni  -->
+                                    <!-- </template> -->
+                                </template>
+                                <template if:true={inserimentoCed}>
+                                    <c-wgc_pc_cart_info_cedente_wrapper record-id={recordId} read-only={readOnly} payload={payload} user-info={userInfo} selected-products={selectedProds}></c-wgc_pc_cart_info_cedente_wrapper>
+                                    <!-- <c-wgc_pc_cart_info_cedente record-id={recordId} selected-products={selectedProds} payload={payload} user-info={userInfo} read-only={readOnly} onselectproduct={handleChooseProd}></c-wgc_pc_cart_info_cedente> -->
+                                </template>
+                                <template if:true={configuraProdotto}>
+                                    <c-wgc_pc_cart_configura_prodotto record-id={recordId} payload={payload} user-info={userInfo} read-only={readOnly} selected-products={selectedLines} onmodal={handleModal}></c-wgc_pc_cart_configura_prodotto>
+                                </template>
+                                <template if:true={documentazione}>
+                                    <!-- documentazione -->
+                                    <c-wgc_documents account-id={accountIdDoc} ondocumentsrendered={checkDocuments} check-assuntore={payload.opportunityData.WGC_Assuntore__c} id-assuntore={payload.opportunityData.WGC_Azienda_Cedente__c}></c-wgc_documents>
+                                </template>
+                                <template if:true={note}>
+                                    <c-wgc_pc_cart_note_wrapper record-id={recordId} payload={payload} read-only={readOnly}></c-wgc_pc_cart_note_wrapper>
+                                </template>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </template>
+                    <template if:true={isVisibleTracker}>
+                        <c-wgc_pc_cart_data_tracker record-id={recordId} opp={payload.opportunityData} account-id={accountIdDoc} user-info={userInfo}></c-wgc_pc_cart_data_tracker>
+                    </template>
+                </div>
+            </lightning-card>
+        <!-- </template> -->
+    <!-- </template> -->
+</template>

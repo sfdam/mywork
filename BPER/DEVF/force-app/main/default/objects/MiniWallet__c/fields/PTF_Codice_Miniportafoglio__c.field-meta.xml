@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PTF_Codice_Miniportafoglio__c</fullName>
+    <externalId>false</externalId>
+    <formula>PTF_Portafoglio__r.PTF_Codice_Portafoglio__c  &amp;   MID(Name, 19, 6)</formula>
+    <label>Codice Miniportafoglio</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,6 @@
+<design:component>
+	<design:attribute name="GraficoLeft" label="Id Grafico left" description="Id analytics Graphic left" />
+    <design:attribute name="FiltroLeft" label="Filtro grafico left" description="Filter for Analitycs Graphic left" />
+        <design:attribute name="GraficoRight" label="Id Grafico right" description="Id analytics Graphic right" />
+    <design:attribute name="FiltroRight" label="Filtro grafico right" description="Filter for Analitycs Graphic right" />
+</design:component>

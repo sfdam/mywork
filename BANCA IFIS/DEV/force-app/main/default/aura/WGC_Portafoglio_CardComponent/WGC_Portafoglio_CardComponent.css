@@ -1,0 +1,79 @@
+.THIS.container-card {
+    /*min-height: 345px;*/
+    min-height:450px;
+}
+
+.THIS .title {
+    display: inline-block;
+    margin-left: 10px;
+        vertical-align: sub;
+}
+
+.THIS .open-component {
+    display: inline-block;
+    position: absolute;
+    right: 10px;
+    vertical-align: super;
+    margin-top: -4px;
+}
+
+.THIS .slds-card__body {
+    margin: 0 10px 10px 10px;
+}
+
+.THIS .slds-tabs_default__nav, .THIS .slds-tabs--default__nav {
+    border: 1px solid rgb(221, 219, 218);
+    height: 30px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 5px;
+    margin: 0 auto;
+    width: 350px;
+}
+
+
+.THIS li.slds-tabs_default__item {
+    text-align: center;
+    height: 100%;
+    text-transform: uppercase;
+    width: 130px;
+}
+
+.THIS .slds-tabs_default__item.slds-active, .THIS .slds-tabs_default__item.slds-is-active, .THIS .slds-tabs--default__item.slds-active, .THIS .slds-tabs--default__item.slds-is-active {
+    color: #ffffff;
+    animation: shadow 300ms;
+    background: black;
+}
+
+.THIS .slds-tabs_default__link, .THIS .slds-tabs--default__link {
+    height: 100%;
+        line-height: 1.75rem;
+}
+
+.THIS li.slds-tabs_default__item.slds-tabs_default__overflow-button {
+    display:none;
+}
+
+.THIS a:hover, .THIS a:focus {
+    color: currentColor;
+}
+
+.THIS .slds-tabs_default__item:focus:after, .THIS .slds-tabs_default__item.slds-has-focus:after, .THIS .slds-tabs--default__item:focus:after, .THIS .slds-tabs--default__item.slds-has-focus:after {
+    background-color: #000000;
+}
+
+.THIS .slds-tabs_default__item:hover:after, .THIS .slds-tabs--default__item:hover:after {
+    background-color: #000000;
+}
+
+.THIS .slds-tabs_default__item.slds-active:after, .THIS .slds-tabs_default__item.slds-is-active:after, .THIS .slds-tabs--default__item.slds-active:after, .THIS .slds-tabs--default__item.slds-is-active:after {
+    background-color: transparent;
+}
+
+.THIS .slds-tabs_default__item.slds-active, .THIS .slds-tabs_default__item.slds-is-active, .THIS .slds-tabs--default__item.slds-active, .THIS .slds-tabs--default__item.slds-is-active {
+    animation: unset;
+}
+
+.THIS .slds-tabs_default__link[tabindex="0"]:focus, .THIS .slds-tabs--default__link[tabindex="0"]:focus {
+    text-decoration: none;
+}

@@ -1,0 +1,11 @@
+<design:component>
+    
+    <design:attribute name="flowValidatorPartitaIvaPartitaIvaVar" />
+
+    <design:attribute name="flowValidatorPartitaIvaResultVar" />
+    <design:attribute name="flowValidatorPartitaIvaResultTimeMS" />
+    <design:attribute name="flowValidatorPartitaIvaMessageVar" />    
+    <design:attribute name="flowValidatorPartitaIvaAnagraficaVar" />    
+    <design:attribute name="flowValidatorAnagraficaSourceVar" /> 
+    
+</design:component>

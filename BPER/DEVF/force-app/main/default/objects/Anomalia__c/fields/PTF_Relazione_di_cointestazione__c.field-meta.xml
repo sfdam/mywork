@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PTF_Relazione_di_cointestazione__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <externalId>false</externalId>
+    <label>Relazione di cointestazione</label>
+    <referenceTo>CRM_AccountAccountJointOwnershipRelation__c</referenceTo>
+    <relationshipLabel>Anomalie</relationshipLabel>
+    <relationshipName>Anomalie</relationshipName>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_StepCheckUpPersonal__c</fullName>
+    <externalId>false</externalId>
+    <label>Step Check-Up Personal</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Intro</fullName>
+                <default>false</default>
+                <label>Info Iniziali</label>
+            </value>
+            <value>
+                <fullName>Check Nucleo Familiare</fullName>
+                <default>false</default>
+                <label>Check Nucleo Familiare</label>
+            </value>
+            <value>
+                <fullName>Check Patrimoniale</fullName>
+                <default>false</default>
+                <label>Check Patrimoniale</label>
+            </value>
+            <value>
+                <fullName>Check Finanziario</fullName>
+                <default>false</default>
+                <label>Check Finanziario</label>
+            </value>
+            <value>
+                <fullName>Check Assicurativo</fullName>
+                <default>false</default>
+                <label>Check Assicurativo</label>
+            </value>
+            <value>
+                <fullName>Check Previdenziale</fullName>
+                <default>false</default>
+                <label>Check Previdenziale</label>
+            </value>
+            <value>
+                <fullName>Check Wealth Management</fullName>
+                <default>false</default>
+                <label>Check Wealth Management</label>
+            </value>
+            <value>
+                <fullName>Check Transazionale</fullName>
+                <default>false</default>
+                <label>Check Transazionale</label>
+            </value>
+            <value>
+                <fullName>Operatività</fullName>
+                <default>false</default>
+                <label>Check Operatività</label>
+            </value>
+            <value>
+                <fullName>Check Finanziamenti</fullName>
+                <default>false</default>
+                <label>Check Finanziamenti</label>
+            </value>
+            <value>
+                <fullName>Altri Temi</fullName>
+                <default>false</default>
+                <label>Altri temi affrontati durante l&apos;incontro</label>
+            </value>
+            <value>
+                <fullName>Piano d&apos;azione</fullName>
+                <default>false</default>
+                <label>Piano d&apos;azione sul Cliente</label>
+            </value>
+            <value>
+                <fullName>Mappatura Nucleo Familiare</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Mappatura Nucleo Familiare</label>
+            </value>
+            <value>
+                <fullName>Mappatura Patrimoniale</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Mappatura Patrimoniale</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

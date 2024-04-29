@@ -1,0 +1,94 @@
+<aura:component implements="lightning:availableForFlowScreens" access="global">  
+	
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/> 
+    
+    <aura:attribute name="disabilitatoSTANDARD" type="Boolean" default="true"/>
+    <aura:attribute name="disabilitatoASSICURATIVO" type="Boolean" default="true"/>
+
+    <aura:attribute name="workflowRecordCandidatoID" type="String"/>
+    <aura:attribute name="workflowRecordCandidatoNEXT" type="WorkflowMutui__c"/>
+    <aura:attribute name="workflowRecordCandidato" type="WorkflowMutui__c"/>
+    <aura:attribute name="workflowRecordCandidatoERROR" type="String"/>
+    
+    <force:recordData aura:id="flowRecordHandlerWorkflowCandidatoId"
+                      recordId="{!v.workflowRecordCandidatoID}"
+                      layoutType="FULL"
+                      targetFields="{!v.workflowRecordCandidato}"
+                      targetError="{!v.workflowRecordCandidatoERROR}"
+                      recordUpdated="{!c.handleRecordUpdated}"
+                      targetRecord="{!v.workflowRecordCandidatoNEXT}"
+                      mode="EDIT"                      
+                      />      
+    
+    <aura:attribute name="flowInputNoteIstruttoriaSTANDARD" type="String" access="global" default="Si propone operazione di Mutuo PMI a MLT garantito dal Fondo di garanzia l. 662/96 originata nell'ambito dell'accordo di collaborazione sottoscritto con NSA Spa. La documentazione precontrattuale e istruttoria a supporto della proposta è disponibile nel documentale."/>    
+	<aura:attribute name="flowInputNoteIstruttoriaASSICURATIVO" type="String" access="global" default="Nell' ambito dell' accordo di collaborazione sottoscritto con NSA SpA si propone operazione di Mutuo PMI a MLT, finalizzato al pagamento della/e polizza/e assicurativa, garantito dal Fondo di Garanzia l. 662/96."/>    
+    
+	<aura:attribute name="flowInputAltreNoteNsaVar" type="String" access="global" default=""/>        
+    
+    <c:bifis_crm_c_MccNsaFlowPath selectedPathValue="7"/>
+    
+    <c:bifis_crm_c_CommonFlowNavigator availableActions="{!v.availableActions}" navigateFlowEvent="{!c.handleNavigate}"/>
+
+    <!-- Display Lightning Data Service errors, if any -->
+    <aura:if isTrue="{!not(empty(v.workflowRecordCandidatoERROR))}">
+        <ui:message title="Errore" severity="error" closable="true">{!v.workflowRecordCandidatoERROR}</ui:message>
+    </aura:if>
+    
+	<lightning:card variant="Narrow" title="Indicare le Note aggiuntive" iconName="standard:record" />
+
+    <hr style="margin-top:1px;margin-bottom:10px;"/>
+
+	<p class="slds-p-horizontal_small">
+		<div class="slds-grid slds-wrap">  
+			<div class="slds-size_2-of-4">
+				<div class="slds-m-around_x-small">
+					<lightning:card aura:id="cardLineaProdottoMccNsa" variant="Narrow" title="MUTUO MCC - NSA" class="slds-text-heading_small slds-card_boundary">
+					
+						 <lightning:card variant="Narrow" title="NOTE ISTRUTTORIA" iconName="standard:partners">
+							<p class="slds-p-horizontal_small">
+								<div class="slds-grid slds-wrap">        
+									<div class="slds-size_4-of-4">
+										<div class="slds-m-around_x-small"><lightning:textarea aura:id="flowInputNoteIstruttoriaInputId" name="flowInputNoteIstruttoriaInput" value="{!v.flowInputNoteIstruttoriaSTANDARD}" maxlength="255" disabled="true" /></div>
+									</div>               
+								</div>
+							</p>
+						</lightning:card>
+					
+					</lightning:card>					
+				</div>
+			</div>		
+			<div class="slds-size_2-of-4">
+				<div class="slds-m-around_x-small">
+					<lightning:card aura:id="cardLineaProdottoMccNsaSA" variant="Narrow" title="MUTUO MCC - NSA SA" class="slds-text-heading_small slds-card_boundary">
+
+						 <lightning:card variant="Narrow" title="NOTE ISTRUTTORIA" iconName="standard:partners">
+							<p class="slds-p-horizontal_small">
+								<div class="slds-grid slds-wrap">        
+									<div class="slds-size_4-of-4">
+										<div class="slds-m-around_x-small"><lightning:textarea aura:id="flowInputNoteIstruttoriaSAInputId" name="flowInputNoteIstruttoriaSAInput" value="{!v.flowInputNoteIstruttoriaASSICURATIVO}" maxlength="255" disabled="true" /></div>
+									</div>               
+								</div>
+							</p>
+						</lightning:card>
+					
+					</lightning:card>					
+				</div>
+			</div>			
+		</div>
+	</p> 
+    
+
+
+     <lightning:card variant="Narrow" title="ALTRE NOTE NSA" iconName="standard:partners">
+        <p class="slds-p-horizontal_small">
+            <div class="slds-grid slds-wrap">        
+                <div class="slds-size_4-of-4">
+                    <div class="slds-m-around_x-small"><lightning:textarea aura:id="flowInputAltreNoteNsaInputId" name="flowInputAltreNoteNsaInput" value="{!v.workflowRecordCandidato.AltreNoteNSA__c}" maxlength="1000" /></div>
+                </div>               
+            </div>
+        </p>
+    </lightning:card>
+    
+    <c:bifis_crm_c_CommonFlowNavigator availableActions="{!v.availableActions}" navigateFlowEvent="{!c.handleNavigate}"/>    
+	
+</aura:component>

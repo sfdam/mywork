@@ -1,0 +1,23 @@
+<template>
+
+    <lightning-card title={title} icon-name={iconName} class="slds-size_large" style="height:100%; width:100%;">
+        <lightning-button label="" variant="base" icon-name={iconAction} slot="actions" onclick={toggleComponent}></lightning-button>
+        <template if:true={showComponent}>
+            <div style="min-height:100px; height:340px;">
+                <template if:true={loadcharts}>
+                    <div class="slds-grid slds-grid" style="height:100%; width:100%;">
+                        <div class="slds-col slds-large-size_3-of-6" onclick={handlereport1}>
+                            <c-wgc-portafoglio-clienti-chart tipo-filtro={tipoFiltro} filter-value={filterValue} charttitle={chart1title} apexmethod="ClientiPerQualifica">
+                            </c-wgc-portafoglio-clienti-chart>
+                        </div>
+                        <div class="slds-col slds-large-size_3-of-6" onclick={handlereport2}>
+                            <c-wgc-portafoglio-clienti-chart tipo-filtro={tipoFiltro} filter-value={filterValue} charttitle={chart2title} apexmethod="ClientiPerProdotto">
+                            </c-wgc-portafoglio-clienti-chart>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </template>
+    </lightning-card>
+
+</template>

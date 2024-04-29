@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_IsCheckTransazImpresePop__c</fullName>
+    <externalId>false</externalId>
+    <formula>OR (
+				 CRM_V_BusinessCreditCard__c ,
+				 CRM_V_POS__c ,
+				 CRM_V_CBI__c 
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Is Check Transaz Imprese popolato</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

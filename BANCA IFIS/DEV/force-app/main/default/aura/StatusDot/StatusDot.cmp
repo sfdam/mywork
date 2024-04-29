@@ -1,0 +1,12 @@
+<aura:component >
+    <aura:attribute name="color" type="String" default="32c577" />
+    <aura:attribute name="label" type="String" default="" />
+    
+    <div class="dot-container">
+        <div class="dot">
+            <span style="{! 'background-color: #' + v.color }"></span>
+        </div>
+        <div class="label-dot slds-m-left_x-small slds-m-right_xx-small"><b>{! v.label }</b></div>
+    </div>
+    
+</aura:component>

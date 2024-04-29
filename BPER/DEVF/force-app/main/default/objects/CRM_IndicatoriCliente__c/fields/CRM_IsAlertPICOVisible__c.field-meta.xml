@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_IsAlertPICOVisible__c</fullName>
+    <externalId>false</externalId>
+    <formula>OR (
+				ISBLANK(CRM_C_AdesioneConsulenza__c) = false,
+				ISBLANK(CRM_C_AdeguatezzaRischioPortafoglio__c) = false,
+				ISBLANK(CRM_C_AderenzaPtfModello__c) = false,
+				ISBLANK(CRM_C_QuestionarioInScadenza__c) = false,
+				ISBLANK(CRM_C_RischioMercatoSpazioPerc__c) = false,
+				ISBLANK(CRM_C_OpInCorsoGP__c) = false,
+				ISBLANK(CRM_C_MonitoraggioConsEvoluta__c) = false,
+				ISBLANK(CRM_C_TitoliScadenza__c) = false,
+				ISBLANK(CRM_C_AdeguatezzaTitolo__c) = false,
+				ISBLANK(CRM_C_UltimoContatto__c) = false,
+				ISBLANK(CRM_C_SaldoCC__c) = false,
+				ISBLANK(CRM_C_SaldoCCPerc__c) = false,
+				ISBLANK(CRM_C_VariazionePatrimonio__c) = false,
+				ISBLANK(CRM_C_Segnalazioni__c) = false
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Is Alert PICO visible</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,56 @@
+<template>
+    <lightning-card icon-name="custom:custom19" title='Sposta NDG da CSV'>
+        <div class="exampleHolder">
+            <template if:false={loaded}>
+                <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+            </template>
+        </div>
+        <div class="c-container slds-is-relative">
+            <lightning-layout class="slds-is-absolute positionUpload">
+                <lightning-layout-item class="slds-align_absolute-center">
+                    <lightning-helptext class="slds-m-top_x-small" content='INFO LOAD'></lightning-helptext>
+                </lightning-layout-item>
+                <lightning-layout-item padding="around-small">
+                    <lightning-input type="file" 
+                             accept={acceptedFormats}
+                             onchange={handleUploadFinished}>
+                    </lightning-input>                    
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+
+        <div if:true={error}>
+            <lightning-layout>
+                <lightning-layout-item padding="around-small">
+                    <div class="error">{error}</div>            
+                </lightning-layout-item>
+            </lightning-layout>
+        </div><br/>
+
+        <div if:true={data}>
+            <lightning-layout>
+                <lightning-layout-item size="12" padding="around-small">
+                    <div class="tableTitle">Elenco NDG da spostare</div>
+                    <div class="recordsTable">
+                        <lightning-datatable data-id="datatableRecords"
+                            columns={columns} 
+                            data={data} 
+                            key-field="Id"
+                            show-row-number-column>
+                        </lightning-datatable>
+                    </div>
+                </lightning-layout-item>
+            </lightning-layout>
+            <lightning-layout>
+                <lightning-layout-item alignment-bump="left" padding="around-small">
+                    <!-- Button group: simple buttons -->
+                    <lightning-button-group>
+                        <lightning-button variant="brand-outline" label='Procedi allo spostamento' title="Primary action with lighter look" onclick={handleCreateRecords} ></lightning-button>
+                    </lightning-button-group>
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+
+
+    </lightning-card>
+</template>

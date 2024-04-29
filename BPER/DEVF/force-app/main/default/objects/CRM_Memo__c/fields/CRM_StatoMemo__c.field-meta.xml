@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_StatoMemo__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF (
+ISBLANK(CRM_FineValidita__c), &apos;In corso&apos;,
+IF (
+AND (CRM_FineValidita__c - TODAY() &gt; 0, CRM_FineValidita__c - TODAY() &lt;= 7), &apos;In scadenza entro 7 gg&apos;,
+IF (
+AND (CRM_FineValidita__c - TODAY() &gt; 7, CRM_FineValidita__c - TODAY() &lt;= 15), &apos;In scadenza tra 7 e 15 gg&apos;,
+IF (
+CRM_FineValidita__c - TODAY() &gt; 15, &apos;In scadenza tra oltre 15 gg&apos;,
+IF (
+CRM_FineValidita__c &lt; TODAY(), &apos;Scaduto&apos;,
+NULL
+)
+)
+)
+)
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Stato memo</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,88 @@
+<aura:component implements="lightning:availableForFlowScreens" access="global">  
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/> 
+    
+    <aura:attribute name="componenteSolaLettura" type="Boolean" default="true"/>
+    
+    <aura:attribute name="workflowRecordCandidatoID" type="String"/>
+    <aura:attribute name="workflowRecordCandidatoNEXT" type="WorkflowSGA__c"/>
+    <aura:attribute name="workflowRecordCandidato" type="WorkflowSGA__c"/>
+    <aura:attribute name="workflowRecordCandidatoERROR" type="String"/> 
+    
+    <force:recordData aura:id="flowRecordHandlerWorkflowCandidatoId"
+                      recordId="{!v.workflowRecordCandidatoID}"
+                      layoutType="FULL"
+                      targetFields="{!v.workflowRecordCandidato}"
+                      targetError="{!v.workflowRecordCandidatoERROR}"
+                      recordUpdated="{!c.handleRecordUpdated}"
+                      targetRecord="{!v.workflowRecordCandidatoNEXT}"
+                      mode="{!v.componenteSolaLettura ? 'VIEW' : 'EDIT'}"                      
+                      />    
+
+	<c:bifis_crm_c_SGAFlowMacroPath selectedPathState="{!v.workflowRecordCandidato.Stato__c}" closingState="{!v.workflowRecordCandidato.Fase_Chiusura__c}" selectedSubPathValue="1"/>    
+    
+    <!-- Display Lightning Data Service errors, if any -->
+    <aura:if isTrue="{!not(empty(v.workflowRecordCandidatoERROR))}">
+        <ui:message title="Errore" severity="error" closable="true">{!v.workflowRecordCandidatoERROR}</ui:message>
+    </aura:if>
+    
+    <lightning:card variant="Narrow" title="Inserire i parametri qualitativi e quantitativi della pratica" iconName="standard:record" />
+    
+    <hr style="margin-top:1px;margin-bottom:10px;"/>
+
+    <lightning:card variant="Narrow" title="DATI PRINCIPALI" iconName="standard:account">
+        <p class="slds-p-horizontal_small">
+            <div class="slds-grid slds-wrap">        
+                <div class="slds-size_1-of-4">
+                    <div class="slds-m-around_x-small"><lightning:input aura:id="flowInputFatturatoInputId" label="Fatturato" name="flowInputFatturatoInput" type="number" required="false" value="{!v.workflowRecordCandidato.Fatturato__c}" max="9999999999" min="0" formatter="currency" disabled="{!v.componenteSolaLettura}"/></div>
+                </div>
+                <div class="slds-size_1-of-4">
+                    <div class="slds-m-around_x-small"><lightning:input aura:id="flowInputEbitdaInputId" label="Ebitda" type="number" name="flowInputEbitdaInput" required="false" value="{!v.workflowRecordCandidato.Ebitda__c}" max="9999999999" min="0" formatter="currency" disabled="{!v.componenteSolaLettura}"/></div>
+                </div>
+                <div class="slds-size_1-of-4">
+                    <div class="slds-m-around_x-small"><lightning:input aura:id="flowInputOneriFinanziariInputId" label="Oneri Finanziari" type="number" name="flowInputOneriFinanziariInput" required="false" value="{!v.workflowRecordCandidato.Oneri_Finanziari__c}" max="9999999999" min="0" formatter="currency" disabled="{!v.componenteSolaLettura}"/></div>
+                </div>    
+                <div class="slds-size_1-of-4">
+                    <div class="slds-m-around_x-small"><lightning:input aura:id="flowInputPFNInputId" label="Posizione Finanziaria Netta" type="number" name="flowInputPFNInput" required="false" value="{!v.workflowRecordCandidato.PFN__c}" max="9999999999" min="0" formatter="currency"  disabled="{!v.componenteSolaLettura}"/></div>
+                </div>  
+                
+                <div class="slds-size_1-of-4">
+                    <div class="slds-m-around_x-small"><lightning:input aura:id="flowInputPFInputId" label="Patrimonio Netto" name="flowInputPNInput" type="number" required="false" value="{!v.workflowRecordCandidato.PN__c}" max="9999999999" min="0" formatter="currency" disabled="{!v.componenteSolaLettura}"/></div>
+                </div>
+                <div class="slds-size_1-of-4">
+                    <div class="slds-m-around_x-small"><lightning:input aura:id="flowInputPassivitaTotaliInputId" label="Passività Totali" name="flowInputPassivitaTotaliInput" type="number" required="false" value="{!v.workflowRecordCandidato.Passivita_Totali__c}" max="9999999999" min="0" formatter="currency"  disabled="{!v.componenteSolaLettura}"/></div>
+                </div>
+                <div class="slds-size_1-of-4">
+                    <div class="slds-m-around_x-small"><lightning:input aura:id="flowInputPassivitaCorrentiInputId" label="Passività Correnti" type="number" name="flowInputPassivitaCorrentiInput" required="false" value="{!v.workflowRecordCandidato.Passivita_Correnti__c}" max="9999999999" min="0" formatter="currency" disabled="{!v.componenteSolaLettura}"/></div>
+                </div>
+                <div class="slds-size_1-of-4">
+                    <div class="slds-m-around_x-small"><lightning:input aura:id="flowInputDebitiComplessiviInputId" label="Debiti Complessivi" type="number" name="flowInputDebitiComplessiviInput" required="false" value="{!v.workflowRecordCandidato.Debiti_Complessivi__c}" max="9999999999" min="0" formatter="currency" disabled="{!v.componenteSolaLettura}"/></div>
+                </div>
+                
+                <div class="slds-size_1-of-4">
+                    <div class="slds-m-around_x-small"><lightning:input aura:id="flowInputDSOInputId" label="Giorni Medi Incasso (DSO)" type="number" name="flowInputDSOInput" required="false" value="{!v.workflowRecordCandidato.DSO__c}" max="9999" min="1"  disabled="{!v.componenteSolaLettura}"/></div>
+                </div>
+                <div class="slds-size_1-of-4">
+                    <div class="slds-m-around_x-small"><lightning:input aura:id="flowInputDIOHInputId" label="Giorni di Rotazione Magazzino (DIOH)" type="number" name="flowInputDIOHInput" required="false" value="{!v.workflowRecordCandidato.DIOH__c}" max="9999" min="1"  disabled="{!v.componenteSolaLettura}"/></div>
+                </div>         
+                <div class="slds-size_1-of-4">
+                    <div class="slds-m-around_x-small"><lightning:input aura:id="flowInputLiquiditaImmediateInputId" label="Liquidità Immediate" type="number" name="flowInputLiquiditaImmediateInput" required="false" value="{!v.workflowRecordCandidato.Liquidita_Immediate__c}" max="9999999999" min="0" formatter="currency" disabled="{!v.componenteSolaLettura}"/></div>
+                </div>                   
+                <div class="slds-size_1-of-4">
+                    <div class="slds-m-around_x-small"><lightning:input aura:id="flowInputLiquiditaDifferiteInputId" label="Liquidità Differite" type="number" name="flowInputLiquiditaDifferiteInput" required="false" value="{!v.workflowRecordCandidato.Liquidita_Differite__c}" max="9999999999" min="0" formatter="currency" disabled="{!v.componenteSolaLettura}"/></div>
+                </div>     
+                
+                <div class="slds-size_1-of-4">
+                    <div class="slds-m-around_x-small"><lightning:input aura:id="flowInputFatturatoAnnoPrecedenteInputId" label="Fatturato Anno Precedente" name="flowInputFatturatoAnnoPrecedenteInput" type="number" required="false" value="{!v.workflowRecordCandidato.FatturatoAnnoPrecedente__c}" max="9999999999" min="0" formatter="currency"  disabled="{!v.componenteSolaLettura}"/></div>
+                </div>                
+                <div class="slds-size_3-of-4">
+                    <div class="slds-m-around_x-small"></div>
+                </div>                  
+                
+            </div>
+        </p> 
+    </lightning:card>
+    
+    <c:bifis_crm_c_CommonFlowNavigator availableActions="{!v.availableActions}" navigateFlowEvent="{!c.handleNavigate}"/>
+    
+</aura:component>

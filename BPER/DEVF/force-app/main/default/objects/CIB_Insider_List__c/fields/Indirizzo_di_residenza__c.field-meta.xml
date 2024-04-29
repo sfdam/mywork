@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Indirizzo_di_residenza__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(Utente__c != null,Utente__r.Indirizzo_di_residenza__c, Insider_List_Fornitori__r.Indirizzo_di_residenza__c)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>(Via, civico, CAP,Comune, Provincia, Stato)</inlineHelpText>
+    <label>Indirizzo di residenza</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,45 @@
+<aura:component implements="force:lightningQuickAction,lightning:actionOverride,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes"
+    controller="WGC_MainCalloutComponentController" access="global">
+
+    <lightning:overlayLibrary aura:id="overlayLib" />
+    <lightning:navigation aura:id="navService" />
+    <lightning:quickActionAPI aura:id="quickActionAPI"/>
+
+    <aura:attribute name="recordId" default="" type="String"/>
+    <aura:attribute name="objectType" type="String" default="Opportunity" />
+    <aura:attribute name="calloutText" type="String" default="{!$Label.c.WGC_Apri_una_nuova_opportunita}" />
+    <aura:attribute name="calloutIcon" type="String" default="utility:send" />
+    <aura:attribute name="calloutButtonText" type="String" default="{!$Label.c.WGC_Apri}" />
+
+    <!-- MODAL ATTRIBUTE -->
+    <aura:attribute name="useModal" type="boolean" default="false" description="set if you need modal implementation" />
+    <aura:attribute name="isOpen" type="boolean" default="false" description="verify for the modal" />
+    <aura:attribute name="objectToNavigate" type="String" default="none" description="verify for the modal" />
+
+    <aura:attribute name="hesitatedTask" type="Boolean" />
+    <aura:attribute name="hesitatedEvent" type="Boolean" />
+
+    <!-- PALUMBO 12/02/2020 -->
+    <aura:attribute name="isFastFinance" type="Boolean" default="false"/>
+
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <lightning:layout class="containerCol containerButton">
+        <lightning:layoutItem size="7">
+            <lightning:icon iconName="{!v.calloutIcon}" size="medium" variant="inverse" />
+            <span class="slds-p-left_x-small slds-text-heading_small">{!v.calloutText}</span>
+        </lightning:layoutItem>
+        <lightning:layoutItem class="slds-text-align_right" size="5">
+            <aura:if isTrue="{!v.useModal}">
+                <lightning:button class="mainCalloutButton" label="{!v.calloutButtonText}" title="Open action" onclick="{!c.openModel}" disabled="{!v.isFastFinance}"/>
+                <aura:set attribute="else">
+                    <lightning:button class="mainCalloutButton" label="{!v.calloutButtonText}" title="Open action"
+                        onclick="{!c.goTo}"
+                        disabled="{!or(v.hesitatedEvent,v.isFastFinance)}" />
+                </aura:set>
+            </aura:if>
+        </lightning:layoutItem>
+    </lightning:layout>
+
+</aura:component>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PTF_Nome_Area__c</fullName>
+    <description>Nome dell&apos;area del Portafoglio.</description>
+    <externalId>false</externalId>
+    <formula>PTF_MicroWallet__r.PTF_Area__r.Name</formula>
+    <label>Area</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

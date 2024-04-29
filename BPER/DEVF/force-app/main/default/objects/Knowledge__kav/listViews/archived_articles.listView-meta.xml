@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>archived_articles</fullName>
+    <columns>TITLE</columns>
+    <columns>RECORDTYPE</columns>
+    <columns>ARTICLE_NUMBER</columns>
+    <columns>LAST_PUBLISHED_DATE</columns>
+    <columns>LAST_UPDATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>PUBLISH_STATUS</field>
+        <operation>equals</operation>
+        <value>3</value>
+    </filters>
+    <filters>
+        <field>LANGUAGE</field>
+        <operation>equals</operation>
+        <value>it</value>
+    </filters>
+    <filters>
+        <field>CRM_Cluster__c</field>
+        <operation>equals</operation>
+    </filters>
+    <filters>
+        <field>CRM_Portale__c</field>
+        <operation>notEqual</operation>
+        <value>Solo portale interno</value>
+    </filters>
+    <label>Articoli archiviati - Contact Center</label>
+    <sharedTo>
+        <group>ViewKBArticlesArchived</group>
+    </sharedTo>
+</ListView>

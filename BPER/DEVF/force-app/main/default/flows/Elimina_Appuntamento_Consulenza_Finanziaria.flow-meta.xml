@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Chiusura_Record_Appuntamento</name>
+        <label>Chiusura Record Appuntamento</label>
+        <locationX>176</locationX>
+        <locationY>350</locationY>
+        <actionName>c:Action_CloseRecordPage</actionName>
+        <actionType>component</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>recordId</name>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>c:Action_CloseRecordPage</nameSegment>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <apiVersion>58.0</apiVersion>
+    <description>Fix bug Permission</description>
+    <environments>Default</environments>
+    <interviewLabel>E {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Elimina Appuntamento Consulenza Finanziaria</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordDeletes>
+        <name>Elimina_Appuntamento_Consulenza_Finanziaria_Evoluta</name>
+        <label>Elimina Appuntamento Consulenza Finanziaria Evoluta​</label>
+        <locationX>176</locationX>
+        <locationY>242</locationY>
+        <connector>
+            <targetReference>Chiusura_Record_Appuntamento</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <object>Appuntamento_Consulenza_Finanziaria__c</object>
+    </recordDeletes>
+    <runInMode>SystemModeWithoutSharing</runInMode>
+    <screens>
+        <name>Conferma_Eliminazione_Appuntamento</name>
+        <label>Conferma Eliminazione Appuntamento</label>
+        <locationX>176</locationX>
+        <locationY>134</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>Elimina_Appuntamento_Consulenza_Finanziaria_Evoluta</targetReference>
+        </connector>
+        <fields>
+            <name>TextConferma</name>
+            <fieldText>&lt;p&gt;Confermando l&apos;operazione, verrà eliminato l&apos;appuntamento di Consulenza Finanziaria Evoluta​.&lt;/p&gt;&lt;p&gt;Se si desidera eliminare l&apos;appuntamento, cliccare il pulsante &quot;Conferma&quot;.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <nextOrFinishButtonLabel>Conferma</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Conferma_Eliminazione_Appuntamento</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

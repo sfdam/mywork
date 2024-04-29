@@ -1,0 +1,661 @@
+.THIS {
+    height: 410px;
+}
+
+.THIS .title {
+    display: inline-block;
+    margin-left: 10px;
+    vertical-align: sub;
+}
+
+.THIS .cstm-title {
+    display: inline-block;
+    /* margin-left: 10px; */
+    vertical-align: sub;
+    text-transform: uppercase;
+    letter-spacing: -.5px;
+    font-size: 11px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.THIS .subTitle {
+    margin-left: 10px;
+    color: #c4c4c4;
+    letter-spacing: -0.5px;
+}
+
+.THIS .open-component {
+    display: inline-block;
+    position: absolute;
+    right: 10px;
+    vertical-align: super;
+    margin-top: -4px;
+}
+
+.THIS .slds-card__body {
+    margin: 0 10px 10px 10px;
+}
+
+.THIS .first-margin{
+    margin: -30px 0 0 55px;
+    z-index: 90;
+}
+
+.THIS .second-margin{
+    margin: -45px 0 0 55px;
+    z-index: 90;
+}
+
+.THIS .align-center{
+    padding: 0 0 0 60px;
+}
+
+
+
+/* CIRCLE */
+.THIS .circleBase {
+    border-radius: 50%;
+    padding: 0;
+}
+
+.THIS .circleBaseBody {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bolder;
+    color: #0064B5;
+    line-height: 15px;
+    width: 60px;
+    padding-top: 18px;
+}
+
+.THIS .circleBaseBodyMedium {
+    text-align: center;
+    font-size: 22px;
+    font-weight: bolder;
+    color: #0064B5;
+    line-height: 25px;
+    width: 90px;
+    padding-top: 18px;
+}
+
+.THIS .circleBaseBodyLarge {
+    text-align: center;
+    font-size: 40px;
+    font-weight: bolder;
+    color: #0064B5;
+    line-height: 40px;
+    width: 120px;
+    padding-top: 35px;
+}
+
+.THIS .circleBaseBodySub {
+    font-size: 8px;
+    text-align: center;
+    font-weight: bolder;
+    color: #000000;
+    letter-spacing: -0.25px;
+    text-transform: uppercase;
+}
+
+.THIS .circleBaseBodySubMedium {
+    font-size: 9px;
+    text-align: center;
+    font-weight: bolder;
+    color: #000000;
+    letter-spacing: -0.25px;
+    text-transform: uppercase;
+}
+
+.THIS .circleBaseBodySubMediumPerc {
+    font-size: 13px;
+    text-align: center;
+    font-weight: bolder;
+    color: #000000;
+    letter-spacing: -0.25px;
+    text-transform: uppercase;
+    padding-top:5px;
+}
+
+.THIS .circleBaseBodySubLarge {
+    font-size: 10px;
+    text-align: center;
+    font-weight: bolder;
+    color: #000000;
+    letter-spacing: -.25px;
+    text-transform: uppercase;
+}
+
+.THIS .circleRightBody {
+    line-height: 15px;
+    font-weight: bold;
+    font-size: 12px;
+    padding-top: 3px;
+     padding-right: 0;
+    padding-left: 5px;
+}
+
+.THIS .type4 {
+    margin: 0 auto;
+    width: 60px;
+    height: 60px;
+    background: #FFFFFF;
+    box-shadow: 0px 0px 10px rgb(46, 46, 46, 0.2);
+    z-index: 10;
+}
+
+.THIS .type4-bis {
+    margin: 0 auto;
+    width: 90px;
+    height: 90px;
+    background: #FFFFFF;
+    box-shadow: 0px 0px 10px rgb(46, 46, 46, 0.2);
+    z-index: 10;
+}
+
+.THIS .type5 {
+    margin: 0 auto;
+    width: 120px;
+    height: 120px;
+    background: #FFFFFF;
+    box-shadow: 0px 0px 10px rgb(46, 46, 46, 0.2);
+    z-index: 10;
+}
+
+.THIS .margin {
+    margin: 20px 0 5px 0;
+}
+
+.THIS .badge {
+    margin: 10px auto 5px;
+        z-index: 10;
+}
+
+.THIS .badgeX {
+    margin: 10px 60px 25px 60px;
+    z-index: 10;
+}
+
+.THIS .circleBaseStriped {
+    background: linear-gradient(to right, rgb(220, 220, 220, 1), rgb(220, 220, 220, 0.5), rgb(220, 220, 220, 0.2), rgb(220, 220, 220, 0.1));
+    height: 60px;
+    width: 80%;
+    margin: auto 45px;
+    margin-top: 0%;
+    position: absolute;
+    z-index: 10;
+}
+
+.THIS .circleBaseStripedLarge {
+    background: linear-gradient(to right, rgb(220, 220, 220, 1), rgb(220, 220, 220, 0.5), rgb(220, 220, 220, 0.2), rgb(220, 220, 220, 0.1));
+    height: 115px;
+    width: 70%;
+    margin: auto 13%;
+    margin-top: 2px;
+    position: absolute;
+    z-index: 0;
+}
+
+.THIS .circleBaseBodyPerc{
+    font-size: 10px;
+    text-align: center;
+    font-weight: bolder;
+    color: #000000;
+    letter-spacing: -.25px;
+    text-transform: uppercase;
+    padding: 0 0 0 67px;
+    margin: -20px 0 0 0;
+    color: token(text_green);
+}
+
+.THIS .colorType1 {
+    background-color: #0064B5;
+    color: #ffffff;
+}
+
+.THIS .colorType2 {
+    background-color: #9AC9FF;
+    color: #ffffff;
+}
+
+.THIS .colorType3{
+    color: token(text_green);
+}
+
+.THIS hr {
+    margin: 0;
+    opacity: 0.3;
+}
+
+.THIS .marginProgressBar {
+    margin: 20px 10px;
+    position: relative;
+}
+
+.THIS .first {
+    display: inline-block;
+    width: 40%;
+    background: #0064B5;
+    height: 25px;
+    border-radius: 25px;
+    position: absolute;
+    padding: 3px 9px;
+    font-weight: bold;
+}
+
+.THIS .second {
+    width: 90%;
+    background: #e5e5e5;
+    height: 25px;
+    display: inline-block;
+    /* margin-left: 25px; */
+    border-radius: 25px;
+    padding: 3px 9px;
+    font-weight: bold;
+}
+
+.THIS .third {
+    position: relative;
+    background: #ED495B;
+    color: #FFFFFF;
+    display: inline-block;
+    height: 25px;
+    float: right;
+    border-radius: 25px;
+    width: 25px;
+    line-height: 25px;
+    font-weight: bold;
+}
+
+.THIS span.progressBarValue {
+    color: #000000;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.THIS .vl {
+    border-left: 2px dashed #dcdcdc;
+    position: relative;
+    left: 50%;
+    top: -5px;
+}
+
+.THIS .vl-bottom {
+    border-bottom: 1px solid #dcdcdc;
+    position: absolute;
+    margin-left: 46px;
+    margin-top: 23px;
+    width: 363px;
+}
+
+.THIS .vl-bottomX {
+    border-bottom: 1px solid #dcdcdc;
+    position: absolute;
+        margin-left: 50px;
+    margin-top: 24px;
+    width: 186px;
+}
+
+.THIS .vl-left {
+    border-left: 1px solid #dcdcdc;
+    height: 24px;
+    position: absolute;
+    margin-left: 46px;
+}
+
+.THIS .vl-leftX {
+        border-left: 1px solid #dcdcdc;
+    height: 60px;
+    position: absolute;
+    margin-top: -35px;
+        margin-left: 50px;
+}
+
+
+.THIS .vl-right {
+    border-right: 1px solid #dcdcdc;
+    height: 58px;
+    position: absolute;
+    margin-left: 408px
+}
+
+.THIS .vl-rightX {
+    border-right: 1px solid #dcdcdc;
+    height: 59px;
+    position: absolute;
+    margin-top: -35px;
+    margin-left: 225px;
+}
+
+
+.THIS .middle-bkg{
+    background-image: url('/resource/WGC_Opportunita_middle_bkg');
+    background-position-y: center;
+    background-repeat: repeat-x;
+}
+
+.THIS .middle-bkg{
+    height: 35px;
+}
+
+.THIS .left-bkg, .THIS .right-bkg{
+    background-image: url('/resource/WGC_Opportunita_vertical_bkg');
+    height: 100%;
+    display: inline-block;
+    background-repeat: repeat-y;
+    background-size: 100% 50%;
+}
+
+.THIS .left-bkg, .THIS .right-bkg{
+    height: 18px;
+}
+
+.THIS .left-bkg{
+    padding-left: 1px;
+    float: left;
+}
+
+.THIS .right-bkg{
+    padding-right: 1px;
+    float: right;
+}
+
+.THIS .commercialPipelineSingleColorBar{
+    background-color: #FFFFFF; 
+    /* color: #FFF; */
+    border-radius: 25px;
+    border:1.5px solid #0064B5;
+    display: inline-block;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+.THIS .commercialPipelineSingleColorBar.large {
+    width: 250px;
+}
+
+.THIS .commercialPipelineSingleColorBar.medium {
+    width: 165px;
+}
+
+.THIS .commercialPipelineSingleColorBar div.slds-grid div[class*=slds-size_]{
+    padding: 5px;
+}
+
+.THIS .result {
+    font-weight: bold;
+}
+
+.THIS .cstm-p-horizontal_10pct {
+    padding: 0 10%;
+}
+
+.THIS .brand-color .slds-progress-bar__value {
+    background-color: #0064B5 !important;
+}
+
+.THIS .slds-form-element__icon {
+    padding-top: 0;
+    vertical-align: top;
+}
+
+.THIS .label-dot.slds-m-left_x-small.slds-m-right_xx-small {
+    color: grey;
+    font-size: 10px;
+}
+
+.THIS .percent_0 {
+    display: none;
+}
+
+.THIS .percent_90 {
+    width: 90%;
+}
+
+.THIS .percent_15 {
+    width: 15%;
+}
+
+.THIS .percent_30 {
+    width: 30%;
+}
+
+.THIS .percent_45 {
+    width: 45%;
+}
+
+.THIS .percent_60 {
+    width: 60%;
+}
+
+.THIS .percent_75 {
+    width: 75%;
+}
+
+.THIS lightning-helptext {
+    float: left;
+}
+
+.THIS .marg-top35 {
+    margin-top: 35px;
+}
+
+.THIS .marg-top75{
+    margin-top:75px;
+}
+
+.THIS .marg-clienti-tot{
+    margin: 10px 0 0 20px;
+    z-index:90;
+}
+
+.THIS .firstStripe{
+    border-top-left-radius:35px;
+    background: linear-gradient(to right, rgb(220, 220, 220, 1), rgb(220, 220, 220, 0.5), rgb(220, 220, 220, 0.2), rgb(220, 220, 220, 0.1));
+    height: 60px;
+    width: 40%;
+    margin: -15px 0 0 90px;
+    /* margin-top: 0%; */
+    position: absolute;
+    z-index: 10;
+    text-align:center;
+    padding:22px;
+}
+
+.THIS .secondStripe{
+    border-bottom-left-radius:35px;
+    background: linear-gradient(to right, rgb(220, 220, 220, 1), rgb(220, 220, 220, 0.5), rgb(220, 220, 220, 0.2), rgb(220, 220, 220, 0.1));
+    height: 60px;
+    width: 40%;
+    margin: 100px 0 0 90px;
+    /* margin-top: 0%; */
+    position: absolute;
+    z-index: 10;
+    text-align:center;
+    padding:22px;
+}
+
+.THIS .slds-card__header-title .slds-truncate{
+    width:100% !important;
+}
+
+
+@media screen and (min-width: 480px) {
+    .THIS .vl-bottom {
+        margin-left: 46px;
+        margin-top: 23px;
+        width: 363px;
+    }
+    
+    .THIS .vl-bottomX {
+            margin-left: 50px;
+        margin-top: 24px;
+        width: 186px;
+    }
+    
+    .THIS .vl-left {
+        height: 24px;
+        margin-left: 68px;
+    }
+    
+    .THIS .vl-leftX {
+        height: 60px;
+        margin-top: -35px;
+            margin-left: 50px;
+    }
+    
+    
+    .THIS .vl-right {
+        height: 58px;
+        margin-left: 408px
+    }
+    
+    .THIS .vl-rightX {
+        height: 59px;
+        margin-top: -35px;
+        margin-left: 225px;
+    }
+}
+
+@media screen and (min-width: 768px) {    
+    .THIS .vl-bottom {
+        margin-left: 46px;
+        margin-top: 23px;
+        width: 265px;
+    }
+    
+    .THIS .vl-bottomX {
+            margin-left: 50px;
+        margin-top: 24px;
+        width: 186px;
+    }
+    
+    .THIS .vl-left {
+        height: 24px;
+        margin-left: 46px;
+    }
+    
+    .THIS .vl-leftX {
+        height: 60px;
+        margin-top: -35px;
+            margin-left: 50px;
+    }
+    
+    
+    .THIS .vl-right {
+        margin-left: 313px;
+    }
+    
+    .THIS .vl-rightX {
+        height: 59px;
+        margin-top: -35px;
+        margin-left: 225px;
+    }
+}
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : landscape)
+and (-webkit-min-device-pixel-ratio: 2) { 
+    /* STYLES GO HERE */
+    .THIS .circleBaseStriped {
+        margin: auto 75px;
+        margin-top: 2%;
+    }
+
+}
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : portrait)
+and (-webkit-min-device-pixel-ratio: 2) { 
+    /* STYLES GO HERE */ 
+    .THIS .circleBaseStriped {
+        margin: auto 50px;
+        margin-top: 3%;
+    }
+}
+
+/* 
+  ##Device = Low Resolution Tablets, Mobiles (Landscape)
+  ##Screen = B/w 481px to 767px
+*/
+
+@media only screen 
+and (min-width: 481px) 
+and (max-width: 767px)
+and (orientation : landscape) {
+    /* STYLES GO HERE */
+    
+    
+}
+  
+/* 
+  ##Device = Most of the Smartphones Mobiles (Portrait)
+  ##Screen = B/w 320px to 479px
+*/
+  
+@media only screen 
+and (min-width: 320px) 
+and (max-width: 480px)
+and (orientation : portrait) {
+    /* STYLES GO HERE */
+    .THIS .iphone {
+        display: none;
+    }
+
+    .THIS .type4 {
+        width: 40px;
+        height: 40px;
+    }
+
+    .THIS .circleBaseStriped {
+        margin-top: 3%;
+    }
+
+    .THIS .circleBaseBody {
+        font-size: 14px;
+        width: 40px;
+        padding-top: 8px;
+    }
+
+    .THIS .circleBaseBodySub {
+        font-size: 7px;
+    }
+
+    .THIS .commercialPipelineSingleColorBar.medium {
+        width: 115px;
+    }
+
+    .THIS .commercialPipelineSingleColorBar div.slds-grid div[class*=slds-size_]{
+        padding: 2px;
+    }
+
+    .THIS .commercialPipelineSingleColorBar{
+        font-size: 10px;
+    }
+
+    .THIS .marginProgressBar {
+        margin: 5px 10px;
+        font-size: 13px;
+    line-height: 20px;
+    }
+
+    .THIS .first {
+        height: 20px;
+        padding: 0px 9px;
+    }
+
+    .THIS .second {
+        height: 20px;
+        padding: 0px 9px;
+    }
+
+    .THIS .third {
+        height: 20px;
+        width: 20px;
+        line-height: 20px;
+    }
+}

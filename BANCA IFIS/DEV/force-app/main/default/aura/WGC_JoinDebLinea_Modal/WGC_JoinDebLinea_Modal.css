@@ -1,0 +1,41 @@
+.THIS {
+    
+}
+
+.THIS .jdl-table-header {
+    font-weight: 700;
+}
+
+.THIS .jdl-table-row, .THIS .jdl-table-header {
+    border-bottom: 1px solid #DDD;
+    padding: 5px 0;
+}
+
+.THIS .jdl-table-row:last-child {
+    border-bottom: 0;
+}
+
+.THIS .jdl-table-row > div:first-child {
+    padding-top: 5px;
+}
+
+.THIS .jdl-table-row .slds-form-element label.slds-form-element__label {
+    display: none;
+}
+
+.THIS .cstm-btn-round {
+    border-radius: 25px;
+    border-radius: 25px;
+    font-size: 10px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.THIS .cstm-btn-round.cstm-btn-brand {
+    background-color: #0064B5!important;
+    border-color: #0064B5!important;
+    color: #FFF;
+}
+.THIS .cstm-btn-round.cstm-btn-brand:disabled {
+    background-color: #CCC;
+}

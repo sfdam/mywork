@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_PoliticheCreditizie__c</fullName>
+    <externalId>false</externalId>
+    <label>Politiche Creditizie</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>In</fullName>
+                <default>false</default>
+                <label>In</label>
+            </value>
+            <value>
+                <fullName>Out</fullName>
+                <default>false</default>
+                <label>Out</label>
+            </value>
+            <value>
+                <fullName>Neutral</fullName>
+                <default>false</default>
+                <label>Neutral</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

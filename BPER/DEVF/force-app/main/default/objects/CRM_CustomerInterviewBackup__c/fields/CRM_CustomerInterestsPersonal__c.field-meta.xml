@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_CustomerInterestsPersonal__c</fullName>
+    <externalId>false</externalId>
+    <label>Interessi Personali - Personal</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Arte</fullName>
+                <default>false</default>
+                <label>Arte</label>
+            </value>
+            <value>
+                <fullName>Motori</fullName>
+                <default>false</default>
+                <label>Motori</label>
+            </value>
+            <value>
+                <fullName>Sport</fullName>
+                <default>false</default>
+                <label>Sport</label>
+            </value>
+            <value>
+                <fullName>Cultura</fullName>
+                <default>false</default>
+                <label>Cultura</label>
+            </value>
+            <value>
+                <fullName>Cucina</fullName>
+                <default>false</default>
+                <label>Cucina</label>
+            </value>
+            <value>
+                <fullName>Temi Etici</fullName>
+                <default>false</default>
+                <label>Temi Etici</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>6</visibleLines>
+</CustomField>

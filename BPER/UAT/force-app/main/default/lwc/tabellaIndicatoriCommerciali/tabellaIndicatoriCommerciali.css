@@ -1,0 +1,61 @@
+td,th
+  {
+    border: 0.5px solid white;
+      vertical-align: middle;
+      
+      
+  }
+
+  
+
+.test-one {
+	background-color : white;
+  font-size: 13px;
+}
+
+
+.test-two {
+	font-size: 16px;
+}
+.test-three {
+	font-size: 15px;
+}
+.test-four {
+	font-size: 12px;
+}
+.test-five {
+  background-color : rgb(208, 208, 208);
+  font-size:13px
+}
+.test-six {
+    font-size: 11px;
+    padding-right: 0px;
+  }
+.test-hover:hover > .test-one{
+  background-color : white(12, 180, 96);
+}
+.test-seven{
+margin-bottom: 15px;
+}
+
+
+
+  .accordion {
+    background-color:white;
+    color: #444;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: rgb(11, 85, 11);
+    text-align: left;
+    outline: none;
+    font-size: 13px;
+    transition: 0.4s;
+  }
+
+  .data-aggiornamento{
+
+    padding-right: 0px;
+    margin:auto
+  }

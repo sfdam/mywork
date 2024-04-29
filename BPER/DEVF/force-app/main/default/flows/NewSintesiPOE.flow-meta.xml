@@ -1,0 +1,1673 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>52.0</apiVersion>
+    <constants>
+        <name>IconaBarra</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>&lt;img src=&apos;/resource/Barra&apos;/&gt;</stringValue>
+        </value>
+    </constants>
+    <constants>
+        <name>IconaTrue</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>&lt;img src=&apos;/resource/greentick&apos;/&gt;</stringValue>
+        </value>
+    </constants>
+    <description>SEGNALAZIONE(#76988: Sintesi Poe - Strategie Politiche Creditizie)</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>AccordatoBanca</name>
+        <dataType>String</dataType>
+        <expression>/*IF (
+ISBLANK(Get_Indicatori.CRM_FlussoCRTotaleAccordatoBanca__c) = false,
+IF( 
+Get_Indicatori.CRM_FlussoCRTotaleAccordatoBanca__c &gt;= 1000000000, 
+  RIGHT(TEXT(FLOOR(Get_Indicatori.CRM_FlussoCRTotaleAccordatoBanca__c/ 1000000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+Get_Indicatori.CRM_FlussoCRTotaleAccordatoBanca__c &gt;= 1000000, 
+  RIGHT(TEXT(FLOOR(Get_Indicatori.CRM_FlussoCRTotaleAccordatoBanca__c / 1000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ Get_Indicatori.CRM_FlussoCRTotaleAccordatoBanca__c &gt;= 1000, 
+  RIGHT(TEXT(FLOOR(Get_Indicatori.CRM_FlussoCRTotaleAccordatoBanca__c / 1000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+RIGHT(TEXT(FLOOR(Get_Indicatori.CRM_FlussoCRTotaleAccordatoBanca__c)), 3) + &quot; €&quot;,
+&apos;-&apos;
+)*/
+IF (ISBLANK({!Get_Indicatori.CRM_RischiDiretti_Ammontare_Acc__c}) = false,
+		IF({!Get_Indicatori.CRM_RischiDiretti_Ammontare_Acc__c} &gt;= 0,
+			IF( 
+			{!Get_Indicatori.CRM_RischiDiretti_Ammontare_Acc__c} &gt;= 1000000000, 
+  RIGHT(TEXT(FLOOR({!Get_Indicatori.CRM_RischiDiretti_Ammontare_Acc__c}/ 1000000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+{!Get_Indicatori.CRM_RischiDiretti_Ammontare_Acc__c} &gt;= 1000000, 
+  RIGHT(TEXT(FLOOR({!Get_Indicatori.CRM_RischiDiretti_Ammontare_Acc__c} / 1000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ {!Get_Indicatori.CRM_RischiDiretti_Ammontare_Acc__c} &gt;= 1000, 
+  RIGHT(TEXT(FLOOR({!Get_Indicatori.CRM_RischiDiretti_Ammontare_Acc__c} / 1000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+RIGHT(TEXT(FLOOR({!Get_Indicatori.CRM_RischiDiretti_Ammontare_Acc__c})), 3) + &quot; €&quot;, 
+     
+
+&quot;-&quot; + IF(
+ABS({!Get_Indicatori.CRM_RischiDiretti_Ammontare_Acc__c}) &gt;= 1000000000, 
+  RIGHT(TEXT(FLOOR(ABS({!Get_Indicatori.CRM_RischiDiretti_Ammontare_Acc__c})/ 1000000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ABS({!Get_Indicatori.CRM_RischiDiretti_Ammontare_Acc__c}) &gt;= 1000000, 
+  RIGHT(TEXT(FLOOR(ABS({!Get_Indicatori.CRM_RischiDiretti_Ammontare_Acc__c}) / 1000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ ABS({!Get_Indicatori.CRM_RischiDiretti_Ammontare_Acc__c}) &gt;= 1000, 
+  RIGHT(TEXT(FLOOR(ABS({!Get_Indicatori.CRM_RischiDiretti_Ammontare_Acc__c}) / 1000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+RIGHT(TEXT(FLOOR(ABS({!Get_Indicatori.CRM_RischiDiretti_Ammontare_Acc__c}))), 3) + &quot; €&quot;),
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>AnzianitaRelazione</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!Get_NDG.FinServ__LengthOfRelationship__c}) = FALSE,
+SUBSTITUTE(TEXT({!Get_NDG.FinServ__LengthOfRelationship__c}), &quot;.&quot;, &quot;,&quot;),
+&quot;-&quot;)</expression>
+    </formulas>
+    <formulas>
+        <name>ATECO</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!Get_NDG.CRM_AtecoCode__c}) = FALSE,
+{!Get_NDG.CRM_AtecoCode__c},
+&quot; - &quot;)</expression>
+    </formulas>
+    <formulas>
+        <name>AziendaOpconEstero</name>
+        <dataType>String</dataType>
+        <expression>IF({!Get_NDG.CRM_AziendaOperanteAllEstero__c} = TRUE,
+{!IconaTrue},
+IF({!Get_NDG.CRM_AziendaOperanteAllEstero__c} = FALSE,
+&apos;No&apos;,
+&apos;-&apos;))</expression>
+    </formulas>
+    <formulas>
+        <name>ColorePEG</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK(TEXT({!Get_Indicatori.CRM_StatusPosizione__c})) = FALSE, TEXT({!Get_Indicatori.CRM_StatusPosizione__c}) +  &quot;  &quot;  +  {!Get_Indicatori.CRM_IconaStatusPosizione__c},
+&quot;-&quot;)</expression>
+    </formulas>
+    <formulas>
+        <name>Creditis</name>
+        <dataType>String</dataType>
+        <expression>IF(AND(
+OR(ISBLANK({!GetInformazioneParticolare.CRM_A__c}), {!GetInformazioneParticolare.CRM_A__c} &gt; TODAY()),
+{!GetInformazioneParticolare.CRM_Codice__c} = &apos;284&apos;),
+&apos;&lt;img src=&quot;/resource/creditis&quot; alt=&quot;Creditis&quot; style=&quot;height:22px; width:22px;&quot; border=&quot;0&quot;/&gt;&apos;,
+&apos; - &apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>CustomerDesk</name>
+        <dataType>String</dataType>
+        <expression>IF({!Get_NDG.CRM_CustomerDesk__c} = TRUE,
+{!IconaTrue},
+IF({!Get_NDG.CRM_CustomerDesk__c} = FALSE,
+&apos;No&apos;,
+&apos;-&apos;))</expression>
+    </formulas>
+    <formulas>
+        <name>DataCostituzioneAzienda</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!Get_NDG.CRM_DataCostituzione__c})=FALSE,
+TEXT(DAY({!Get_NDG.CRM_DataCostituzione__c})) + 
+&apos;/&apos; + 
+IF(month({!Get_NDG.CRM_DataCostituzione__c}) &lt;10, &quot;0&quot; + TEXT(month({!Get_NDG.CRM_DataCostituzione__c})), TEXT(month({!Get_NDG.CRM_DataCostituzione__c}))) + 
+&apos;/&apos; +
+TEXT(YEAR({!Get_NDG.CRM_DataCostituzione__c})),
+&apos;-&apos;)</expression>
+    </formulas>
+    <formulas>
+        <name>FasciaDipendenti</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!Get_NDG.CRM_FasciaDipendenti__c}) = FALSE,
+{!Get_NDG.CRM_FasciaDipendenti__c},
+&apos; - &apos;)</expression>
+    </formulas>
+    <formulas>
+        <name>Fatturato</name>
+        <dataType>String</dataType>
+        <expression>IF (ISBLANK({!Get_Indicatori.CRM_FatturatoPeriodo1__c}) = false,
+		IF({!Get_Indicatori.CRM_FatturatoPeriodo1__c} &gt;= 0,
+			IF( 
+			{!Get_Indicatori.CRM_FatturatoPeriodo1__c} &gt;= 1000000000, 
+  RIGHT(TEXT(FLOOR({!Get_Indicatori.CRM_FatturatoPeriodo1__c}/ 1000000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+{!Get_Indicatori.CRM_FatturatoPeriodo1__c} &gt;= 1000000, 
+  RIGHT(TEXT(FLOOR({!Get_Indicatori.CRM_FatturatoPeriodo1__c} / 1000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ {!Get_Indicatori.CRM_FatturatoPeriodo1__c} &gt;= 1000, 
+  RIGHT(TEXT(FLOOR({!Get_Indicatori.CRM_FatturatoPeriodo1__c} / 1000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+RIGHT(TEXT(FLOOR({!Get_Indicatori.CRM_FatturatoPeriodo1__c})), 3) + &quot; €&quot;, 
+
+&quot;-&quot; + IF(
+ABS({!Get_Indicatori.CRM_FatturatoPeriodo1__c}) &gt;= 1000000000, 
+  RIGHT(TEXT(FLOOR(ABS({!Get_Indicatori.CRM_FatturatoPeriodo1__c})/ 1000000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ABS({!Get_Indicatori.CRM_FatturatoPeriodo1__c}) &gt;= 1000000, 
+  RIGHT(TEXT(FLOOR(ABS({!Get_Indicatori.CRM_FatturatoPeriodo1__c}) / 1000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ ABS({!Get_Indicatori.CRM_FatturatoPeriodo1__c}) &gt;= 1000, 
+  RIGHT(TEXT(FLOOR(ABS({!Get_Indicatori.CRM_FatturatoPeriodo1__c}) / 1000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+RIGHT(TEXT(FLOOR(ABS({!Get_Indicatori.CRM_FatturatoPeriodo1__c}))), 3) + &quot; €&quot;),
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_AccessiUltimi3Mesi</name>
+        <dataType>String</dataType>
+        <expression>/*IF (
+ISBLANK(TEXT(Get_Indicatori.CRM_UtilizzoHomeBanking__c)) = false,
+TEXT(Get_Indicatori.CRM_UtilizzoHomeBanking__c) + &quot; &quot; + Get_Indicatori.CRM_IconaUtilizzoHomeBanking__c,
+&apos;-&apos;
+)*/
+IF(NOT(ISBLANK({!Formula_DataUltimoAccessoNew})),
+IF({!Formula_DataUltimoAccessoNew} &lt; ADDMONTHS(TODAY(),-3),
+&apos;N&apos;,
+&apos;S&apos;),
+&apos;-&apos;)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_AccordatoBanca</name>
+        <dataType>String</dataType>
+        <expression>{!AccordatoBanca} + &quot; &quot; + 
+IF (NOT(ISBLANK({!Get_Indicatori.CRM_RischiDiretti_Ammontare_Acc__c})),
+IF (
+{!Get_Indicatori.CRM_VarAccSOWVsMP__c} &gt; 0,
+{!Get_NDG.CRM_IconaArrowUp__c},
+IF({!Get_Indicatori.CRM_VarAccSOWVsMP__c} &lt; 0, {!Get_NDG.CRM_IconaArrowDown__c}, NULL)
+), NULL)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_DataUltimoAccesso</name>
+        <dataType>String</dataType>
+        <expression>IF(NOT(ISBLANK({!Formula_DataUltimoAccessoNew})),
+TEXT(DAY({!Formula_DataUltimoAccessoNew})) + 
+&apos;/&apos; + 
+IF(month({!Formula_DataUltimoAccessoNew})&lt;10,&quot;0&quot;+ TEXT(month({!Formula_DataUltimoAccessoNew})), TEXT(month({!Formula_DataUltimoAccessoNew}))) + 
+&apos;/&apos; +
+TEXT(YEAR({!Formula_DataUltimoAccessoNew})),
+&apos;-&apos;)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_DataUltimoAccessoNew</name>
+        <dataType>Date</dataType>
+        <expression>IF(NOT(ISBLANK({!GetChannel.CRM_UltimoAccessoMO__c})) &amp;&amp; NOT(ISBLANK({!GetChannel.CRM_UltimoAccessoSW__c})) &amp;&amp; NOT(ISBLANK({!GetChannel.CRM_UltimoAccessoTB__c})),
+
+		IF({!GetChannel.CRM_UltimoAccessoMO__c} &gt;= {!GetChannel.CRM_UltimoAccessoSW__c} &amp;&amp; {!GetChannel.CRM_UltimoAccessoMO__c} &gt;= {!GetChannel.CRM_UltimoAccessoTB__c},
+			{!GetChannel.CRM_UltimoAccessoMO__c},
+			IF({!GetChannel.CRM_UltimoAccessoSW__c} &gt;= {!GetChannel.CRM_UltimoAccessoTB__c},
+			{!GetChannel.CRM_UltimoAccessoSW__c},
+			{!GetChannel.CRM_UltimoAccessoTB__c})),
+			
+IF({!Formula_UltimoAccessoMO} &gt;= {!Formula_UltimoAccessoSW} &amp;&amp; {!Formula_UltimoAccessoMO} &gt;= {!Formula_UltimoAccessoTB},
+	{!GetChannel.CRM_UltimoAccessoMO__c},
+	IF({!Formula_UltimoAccessoSW} &gt;= {!Formula_UltimoAccessoTB} &amp;&amp; {!Formula_UltimoAccessoSW} &gt;= {!Formula_UltimoAccessoMO},
+			{!GetChannel.CRM_UltimoAccessoSW__c},
+			{!GetChannel.CRM_UltimoAccessoTB__c})
+))</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_Fatturato</name>
+        <dataType>String</dataType>
+        <expression>{!Fatturato} + &quot; &quot; + 
+IF (NOT(ISBLANK({!Formula_VarFatturato})),
+IF (
+ {!Formula_VarFatturato} &gt; 0,
+{!Get_NDG.CRM_IconaArrowUp__c},
+IF({!Formula_VarFatturato} &lt; 0, {!Get_NDG.CRM_IconaArrowDown__c}, NULL)
+), NULL)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_Impieghi</name>
+        <dataType>String</dataType>
+        <expression>{!Impieghi}+ &quot; &quot; + 
+IF (NOT(ISBLANK({!Get_Indicatori.CRM_ImpieghiMeseCorrente__c})),
+IF (
+{!Get_Indicatori.CRM_VarImpieghiVsSmAP__c}&gt; 0,
+{!Get_NDG.CRM_IconaArrowUp__c},
+IF({!Get_Indicatori.CRM_VarImpieghiVsSmAP__c} &lt; 0, {!Get_NDG.CRM_IconaArrowDown__c}, NULL)
+), NULL)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_MargineDaServizi</name>
+        <dataType>String</dataType>
+        <expression>{!MargServiziMese} + &quot; &quot; + 
+IF (NOT(ISBLANK({!Get_Indicatori.CRM_MargineServiziMeseCorrente__c})),
+IF (
+{!Get_Indicatori.CRM_VarMargineServziVsStessoPerAP__c} &gt; 0,
+{!Get_NDG.CRM_IconaArrowUp__c},
+IF({!Get_Indicatori.CRM_VarMargineServziVsStessoPerAP__c} &lt; 0, {!Get_NDG.CRM_IconaArrowDown__c}, NULL)
+), NULL)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_MargineFinanziario</name>
+        <dataType>String</dataType>
+        <expression>{!MargFinMese} + &quot; &quot; + 
+IF (NOT(ISBLANK({!Get_Indicatori.CRM_MargineFinanziarioMeseCorrente__c})),
+IF (
+{!Get_Indicatori.CRM_MargFinVarSMAP__c} &gt; 0,
+{!Get_NDG.CRM_IconaArrowUp__c},
+IF({!Get_Indicatori.CRM_MargFinVarSMAP__c} &lt; 0, {!Get_NDG.CRM_IconaArrowDown__c}, NULL)
+), NULL)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_MargineIntermediazione</name>
+        <dataType>String</dataType>
+        <expression>{!MargineIntMese} + &quot; &quot; + 
+IF (NOT(ISBLANK({!Get_Indicatori.CRM_VariazioneMargineIntermediazioneVsAP__c})),
+IF (
+ {!Get_Indicatori.CRM_VariazioneMargineIntermediazioneVsAP__c} &gt; 0,
+{!Get_NDG.CRM_IconaArrowUp__c},
+IF({!Get_Indicatori.CRM_VariazioneMargineIntermediazioneVsAP__c} &lt; 0, {!Get_NDG.CRM_IconaArrowDown__c}, NULL)
+), NULL)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_MediaAccessiSmartMobile</name>
+        <dataType>String</dataType>
+        <expression>IF (NOT(ISBLANK({!GetChannel.CRM_MediaaccessiMO__c})),
+TEXT({!GetChannel.CRM_MediaaccessiMO__c}),
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_MediaAccessiSmartWeb</name>
+        <dataType>String</dataType>
+        <expression>IF (NOT(ISBLANK({!GetChannel.CRM_MediaaccessiSW__c})),
+TEXT({!GetChannel.CRM_MediaaccessiSW__c}),
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_NaturaGiuridica</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!Get_NDG.CRM_NaturaGiuridica__c})=FALSE,
+{!Get_NDG.CRM_NaturaGiuridica__c},
+&quot; - &quot;)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_Raccolta</name>
+        <dataType>String</dataType>
+        <expression>{!Raccolta}+ &quot; &quot; + 
+IF (NOT(ISBLANK({!Get_Indicatori.CRM_VarRaccComplVSsmAP__c})),
+IF (
+{!Get_Indicatori.CRM_VarRaccComplVSsmAP__c}&gt; 0,
+{!Get_NDG.CRM_IconaArrowUp__c},
+IF({!Get_Indicatori.CRM_VarRaccComplVSsmAP__c} &lt; 0, {!Get_NDG.CRM_IconaArrowDown__c}, NULL)
+), NULL)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_RisultatoDEs</name>
+        <dataType>String</dataType>
+        <expression>{!RisultatoDesercizio} + &quot; &quot; + 
+IF (NOT(ISBLANK({!VarRisultatodeservizio})),
+IF (
+ {!VarRisultatodeservizio} &gt; 0,
+{!Get_NDG.CRM_IconaArrowUp__c},
+IF({!VarRisultatodeservizio} &lt; 0, {!Get_NDG.CRM_IconaArrowDown__c}, NULL)
+), NULL)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_StatoSCA</name>
+        <dataType>String</dataType>
+        <expression>IF (NOT(ISBLANK(TEXT({!GetChannel.CRM_SCAStatus__c}))),
+TEXT({!GetChannel.CRM_SCAStatus__c}),
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_Total</name>
+        <dataType>String</dataType>
+        <expression>IF (
+{!Get_NDG.RecordType.DeveloperName} = &apos;PersonAccount&apos;, &apos;16&apos;, &apos;13&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_UltimoAccessoMO</name>
+        <dataType>Date</dataType>
+        <expression>IF(NOT(ISBLANK({!GetChannel.CRM_UltimoAccessoMO__c})),
+{!GetChannel.CRM_UltimoAccessoMO__c},
+DATE(1700,01,01))</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_UltimoAccessoSW</name>
+        <dataType>Date</dataType>
+        <expression>IF(NOT(ISBLANK({!GetChannel.CRM_UltimoAccessoSW__c})),
+{!GetChannel.CRM_UltimoAccessoSW__c},
+DATE(1700,01,01))</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_UltimoAccessoTB</name>
+        <dataType>Date</dataType>
+        <expression>IF(NOT(ISBLANK({!GetChannel.CRM_UltimoAccessoTB__c})),
+{!GetChannel.CRM_UltimoAccessoTB__c},
+DATE(1700,01,01))</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_UtilizzatoBanca</name>
+        <dataType>String</dataType>
+        <expression>{!UtilizzatoBanca} + &quot; &quot; + 
+IF (NOT(ISBLANK({!Get_Indicatori.CRM_RischiDiretti_Ammontare_Uti__c})),
+IF (
+{!Get_Indicatori.CRM_VarUtilSOWVsMP__c} &gt; 0,
+{!Get_NDG.CRM_IconaArrowUp__c},
+IF({!Get_Indicatori.CRM_VarUtilSOWVsMP__c} &lt; 0, {!Get_NDG.CRM_IconaArrowDown__c}, NULL)
+), NULL)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_VarFatturato</name>
+        <dataType>Currency</dataType>
+        <expression>IF(
+AND(
+ISBLANK({!Get_Indicatori.CRM_FatturatoPeriodo1__c})=false,
+ISBLANK({!Get_Indicatori.CRM_FatturatoPeriodo2__c})=false),
+({!Get_Indicatori.CRM_FatturatoPeriodo1__c} - {!Get_Indicatori.CRM_FatturatoPeriodo2__c})/ {!Get_Indicatori.CRM_FatturatoPeriodo2__c}, NULL)</expression>
+        <scale>0</scale>
+    </formulas>
+    <formulas>
+        <name>Gianos</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK(TEXT({!Get_NDG.CRM_ProfiloGianos__c})) = FALSE,
+TEXT({!Get_NDG.CRM_ProfiloGianos__c}),
+&apos; - &apos;)</expression>
+    </formulas>
+    <formulas>
+        <name>GruppoAziendale</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!Get_NDG.PTF_Gruppo__r.FirstName}) = FALSE,
+{!Get_NDG.PTF_Gruppo__r.FirstName},
+&quot; - &quot;)</expression>
+    </formulas>
+    <formulas>
+        <name>HomeBnking</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!GetChannel.Name}) = FALSE,
+{!GetChannel.Name},
+&quot;-&quot;)</expression>
+    </formulas>
+    <formulas>
+        <name>Impieghi</name>
+        <dataType>String</dataType>
+        <expression>IF (ISBLANK({!Get_Indicatori.CRM_ImpieghiMeseCorrente__c}) = false,
+		IF({!Get_Indicatori.CRM_ImpieghiMeseCorrente__c} &gt;= 0,
+			IF( 
+			{!Get_Indicatori.CRM_ImpieghiMeseCorrente__c} &gt;= 1000000000, 
+  RIGHT(TEXT(FLOOR({!Get_Indicatori.CRM_ImpieghiMeseCorrente__c}/ 1000000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+{!Get_Indicatori.CRM_ImpieghiMeseCorrente__c} &gt;= 1000000, 
+  RIGHT(TEXT(FLOOR({!Get_Indicatori.CRM_ImpieghiMeseCorrente__c} / 1000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ {!Get_Indicatori.CRM_ImpieghiMeseCorrente__c} &gt;= 1000, 
+  RIGHT(TEXT(FLOOR({!Get_Indicatori.CRM_ImpieghiMeseCorrente__c} / 1000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+RIGHT(TEXT(FLOOR({!Get_Indicatori.CRM_ImpieghiMeseCorrente__c})), 3) + &quot; €&quot;, 
+
+&quot;-&quot; + IF(
+ABS({!Get_Indicatori.CRM_ImpieghiMeseCorrente__c}) &gt;= 1000000000, 
+  RIGHT(TEXT(FLOOR(ABS({!Get_Indicatori.CRM_ImpieghiMeseCorrente__c})/ 1000000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ABS({!Get_Indicatori.CRM_ImpieghiMeseCorrente__c}) &gt;= 1000000, 
+  RIGHT(TEXT(FLOOR(ABS({!Get_Indicatori.CRM_ImpieghiMeseCorrente__c}) / 1000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ ABS({!Get_Indicatori.CRM_ImpieghiMeseCorrente__c}) &gt;= 1000, 
+  RIGHT(TEXT(FLOOR(ABS({!Get_Indicatori.CRM_ImpieghiMeseCorrente__c}) / 1000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+RIGHT(TEXT(FLOOR(ABS({!Get_Indicatori.CRM_ImpieghiMeseCorrente__c}))), 3) + &quot; €&quot;),
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>MargFinMese</name>
+        <dataType>String</dataType>
+        <expression>
+IF (ISBLANK({!Get_Indicatori.CRM_MargineFinanziarioMeseCorrente__c}) = false,
+		IF({!Get_Indicatori.CRM_MargineFinanziarioMeseCorrente__c} &gt;= 0,
+			IF( 
+			{!Get_Indicatori.CRM_MargineFinanziarioMeseCorrente__c} &gt;= 1000000000, 
+  RIGHT(TEXT(FLOOR({!Get_Indicatori.CRM_MargineFinanziarioMeseCorrente__c}/ 1000000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+{!Get_Indicatori.CRM_MargineFinanziarioMeseCorrente__c} &gt;= 1000000, 
+  RIGHT(TEXT(FLOOR({!Get_Indicatori.CRM_MargineFinanziarioMeseCorrente__c} / 1000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ {!Get_Indicatori.CRM_MargineFinanziarioMeseCorrente__c} &gt;= 1000, 
+  RIGHT(TEXT(FLOOR({!Get_Indicatori.CRM_MargineFinanziarioMeseCorrente__c} / 1000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+RIGHT(TEXT(FLOOR({!Get_Indicatori.CRM_MargineFinanziarioMeseCorrente__c})), 3) + &quot; €&quot;, 
+     
+
+&quot;-&quot; + IF(
+ABS({!Get_Indicatori.CRM_MargineFinanziarioMeseCorrente__c}) &gt;= 1000000000, 
+  RIGHT(TEXT(FLOOR(ABS({!Get_Indicatori.CRM_MargineFinanziarioMeseCorrente__c})/ 1000000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ABS({!Get_Indicatori.CRM_MargineFinanziarioMeseCorrente__c}) &gt;= 1000000, 
+  RIGHT(TEXT(FLOOR(ABS({!Get_Indicatori.CRM_MargineFinanziarioMeseCorrente__c}) / 1000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ ABS({!Get_Indicatori.CRM_MargineFinanziarioMeseCorrente__c}) &gt;= 1000, 
+  RIGHT(TEXT(FLOOR(ABS({!Get_Indicatori.CRM_MargineFinanziarioMeseCorrente__c}) / 1000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+RIGHT(TEXT(FLOOR(ABS({!Get_Indicatori.CRM_MargineFinanziarioMeseCorrente__c}))), 3) + &quot; €&quot;),
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>MargineIntMese</name>
+        <dataType>String</dataType>
+        <expression>IF (ISBLANK({!Get_Indicatori.CRM_MargineIntermediazioneMeseCorrente__c}) = false,
+		IF({!Get_Indicatori.CRM_MargineIntermediazioneMeseCorrente__c} &gt;= 0,
+			IF( 
+			{!Get_Indicatori.CRM_MargineIntermediazioneMeseCorrente__c} &gt;= 1000000000, 
+  RIGHT(TEXT(FLOOR({!Get_Indicatori.CRM_MargineIntermediazioneMeseCorrente__c}/ 1000000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+{!Get_Indicatori.CRM_MargineIntermediazioneMeseCorrente__c} &gt;= 1000000, 
+  RIGHT(TEXT(FLOOR({!Get_Indicatori.CRM_MargineIntermediazioneMeseCorrente__c} / 1000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ {!Get_Indicatori.CRM_MargineIntermediazioneMeseCorrente__c} &gt;= 1000, 
+  RIGHT(TEXT(FLOOR({!Get_Indicatori.CRM_MargineIntermediazioneMeseCorrente__c} / 1000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+RIGHT(TEXT(FLOOR({!Get_Indicatori.CRM_MargineIntermediazioneMeseCorrente__c})), 3) + &quot; €&quot;, 
+     
+
+&quot;-&quot; + IF(
+ABS({!Get_Indicatori.CRM_MargineIntermediazioneMeseCorrente__c}) &gt;= 1000000000, 
+  RIGHT(TEXT(FLOOR(ABS({!Get_Indicatori.CRM_MargineIntermediazioneMeseCorrente__c})/ 1000000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ABS({!Get_Indicatori.CRM_MargineIntermediazioneMeseCorrente__c}) &gt;= 1000000, 
+  RIGHT(TEXT(FLOOR(ABS({!Get_Indicatori.CRM_MargineIntermediazioneMeseCorrente__c}) / 1000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ ABS({!Get_Indicatori.CRM_MargineIntermediazioneMeseCorrente__c}) &gt;= 1000, 
+  RIGHT(TEXT(FLOOR(ABS({!Get_Indicatori.CRM_MargineIntermediazioneMeseCorrente__c}) / 1000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+RIGHT(TEXT(FLOOR(ABS({!Get_Indicatori.CRM_MargineIntermediazioneMeseCorrente__c}))), 3) + &quot; €&quot;),
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>MargServiziMese</name>
+        <dataType>String</dataType>
+        <expression>
+IF (ISBLANK({!Get_Indicatori.CRM_MargineServiziMeseCorrente__c}) = false,
+		IF({!Get_Indicatori.CRM_MargineServiziMeseCorrente__c} &gt;= 0,
+			IF( 
+			{!Get_Indicatori.CRM_MargineServiziMeseCorrente__c} &gt;= 1000000000, 
+  RIGHT(TEXT(FLOOR({!Get_Indicatori.CRM_MargineServiziMeseCorrente__c}/ 1000000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+{!Get_Indicatori.CRM_MargineServiziMeseCorrente__c} &gt;= 1000000, 
+  RIGHT(TEXT(FLOOR({!Get_Indicatori.CRM_MargineServiziMeseCorrente__c} / 1000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ {!Get_Indicatori.CRM_MargineServiziMeseCorrente__c} &gt;= 1000, 
+  RIGHT(TEXT(FLOOR({!Get_Indicatori.CRM_MargineServiziMeseCorrente__c} / 1000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+RIGHT(TEXT(FLOOR({!Get_Indicatori.CRM_MargineServiziMeseCorrente__c})), 3) + &quot; €&quot;, 
+     
+
+&quot;-&quot; + IF(
+ABS({!Get_Indicatori.CRM_MargineServiziMeseCorrente__c}) &gt;= 1000000000, 
+  RIGHT(TEXT(FLOOR(ABS({!Get_Indicatori.CRM_MargineServiziMeseCorrente__c})/ 1000000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ABS({!Get_Indicatori.CRM_MargineServiziMeseCorrente__c}) &gt;= 1000000, 
+  RIGHT(TEXT(FLOOR(ABS({!Get_Indicatori.CRM_MargineServiziMeseCorrente__c}) / 1000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ ABS({!Get_Indicatori.CRM_MargineServiziMeseCorrente__c}) &gt;= 1000, 
+  RIGHT(TEXT(FLOOR(ABS({!Get_Indicatori.CRM_MargineServiziMeseCorrente__c}) / 1000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+RIGHT(TEXT(FLOOR(ABS({!Get_Indicatori.CRM_MargineServiziMeseCorrente__c}))), 3) + &quot; €&quot;),
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>MicroImp</name>
+        <dataType>String</dataType>
+        <expression>IF({!Get_NDG.CRM_MicroImpresa__c} = TRUE,
+{!IconaTrue},
+IF({!Get_NDG.CRM_MicroImpresa__c} = FALSE,
+&apos;No&apos;,
+&apos;-&apos;))</expression>
+    </formulas>
+    <formulas>
+        <name>NPS</name>
+        <dataType>String</dataType>
+        <expression>IF (
+AND(ISBLANK(TEXT({!Get_Indicatori.CRM_IndicatoreNPS__c})) = FALSE, {!Get_Indicatori.CRM_NPSDataDiRilevazione__c} &gt;= ADDMONTHS(TODAY(),-24)),
+TEXT({!Get_Indicatori.CRM_IndicatoreNPS__c}) +  &quot;  &quot;  +  {!Get_Indicatori.CRM_IconaNPS__c},
+&quot;-&quot;)</expression>
+    </formulas>
+    <formulas>
+        <name>PercOperazioniTelefmatiche</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK(TEXT({!Get_Indicatori.CRM_PercOperatTelemat__c})) = FALSE,
+TEXT({!Get_Indicatori.CRM_PercOperatTelemat__c}),
+&quot;-&quot;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Periodo1</name>
+        <dataType>String</dataType>
+        <expression>IF (ISBLANK( {!Get_Indicatori.CRM_Periodo1__c} ) = FALSE, &quot;al &quot; +
+TEXT(DAY({!Get_Indicatori.CRM_Periodo1__c})) + 
+&apos;/&apos; + 
+TEXT(month({!Get_Indicatori.CRM_Periodo1__c})) + 
+&apos;/&apos; +
+TEXT(YEAR({!Get_Indicatori.CRM_Periodo1__c}))
+, &quot;&quot;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Periodo_IndicatoriEconomicoReddituali</name>
+        <dataType>String</dataType>
+        <expression>IF(NOT(ISBLANK( {!Get_Indicatori.CRM_DataTabelleAbbr__c})),
+&apos;al &apos; + {!Get_Indicatori.CRM_DataTabelleAbbr__c},
+&apos;&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>PoloticheCreditizie</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK(TEXT({!Get_Indicatori.CRM_PoliticheCreditizie__c})) = FALSE,
+TEXT({!Get_Indicatori.CRM_PoliticheCreditizie__c}),
+&apos; - &apos;)</expression>
+    </formulas>
+    <formulas>
+        <name>Raccolta</name>
+        <dataType>String</dataType>
+        <expression>IF (ISBLANK({!Get_Indicatori.CRM_RaccoltaDirettaMeseCorrente__c}) = false,
+		IF({!Get_Indicatori.CRM_RaccoltaDirettaMeseCorrente__c} &gt;= 0,
+			IF( 
+			{!Get_Indicatori.CRM_RaccoltaDirettaMeseCorrente__c} &gt;= 1000000000, 
+  RIGHT(TEXT(FLOOR({!Get_Indicatori.CRM_RaccoltaDirettaMeseCorrente__c}/ 1000000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+{!Get_Indicatori.CRM_RaccoltaDirettaMeseCorrente__c} &gt;= 1000000, 
+  RIGHT(TEXT(FLOOR({!Get_Indicatori.CRM_RaccoltaDirettaMeseCorrente__c} / 1000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ {!Get_Indicatori.CRM_RaccoltaDirettaMeseCorrente__c} &gt;= 1000, 
+  RIGHT(TEXT(FLOOR({!Get_Indicatori.CRM_RaccoltaDirettaMeseCorrente__c} / 1000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+RIGHT(TEXT(FLOOR({!Get_Indicatori.CRM_RaccoltaDirettaMeseCorrente__c})), 3) + &quot; €&quot;, 
+
+&quot;-&quot; + IF(
+ABS({!Get_Indicatori.CRM_RaccoltaDirettaMeseCorrente__c}) &gt;= 1000000000, 
+  RIGHT(TEXT(FLOOR(ABS({!Get_Indicatori.CRM_RaccoltaDirettaMeseCorrente__c})/ 1000000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ABS({!Get_Indicatori.CRM_RaccoltaDirettaMeseCorrente__c}) &gt;= 1000000, 
+  RIGHT(TEXT(FLOOR(ABS({!Get_Indicatori.CRM_RaccoltaDirettaMeseCorrente__c}) / 1000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ ABS({!Get_Indicatori.CRM_RaccoltaDirettaMeseCorrente__c}) &gt;= 1000, 
+  RIGHT(TEXT(FLOOR(ABS({!Get_Indicatori.CRM_RaccoltaDirettaMeseCorrente__c}) / 1000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+RIGHT(TEXT(FLOOR(ABS({!Get_Indicatori.CRM_RaccoltaDirettaMeseCorrente__c}))), 3) + &quot; €&quot;),
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>RatingAndamentale</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!GetIndicatori_Storici_Mese_1.CRM_RatingAndamentaleValore__c}) = FALSE,
+TEXT({!GetIndicatori_Storici_Mese_1.CRM_RatingAndamentaleValore__c}),
+&quot; - &quot;)</expression>
+    </formulas>
+    <formulas>
+        <name>RatingUfficiale</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!Get_NDG.CRM_CreditRating__c})= FALSE,
+{!Get_NDG.CRM_CreditRating__c},
+&quot; - &quot;)</expression>
+    </formulas>
+    <formulas>
+        <name>RingFence</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Get_NDG.CRM_RingFenceIndicatorStatus__c}) = false,
+{!Get_NDG.CRM_RingFenceIndicatorStatus__c},
+&apos; - &apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>RisultatoDesercizio</name>
+        <dataType>String</dataType>
+        <expression>IF (ISBLANK({!Get_Indicatori.CRM_RisultatoEsercizio1__c}) = false,
+		IF({!Get_Indicatori.CRM_RisultatoEsercizio1__c} &gt;= 0,
+			IF( 
+			{!Get_Indicatori.CRM_RisultatoEsercizio1__c} &gt;= 1000000000, 
+  RIGHT(TEXT(FLOOR({!Get_Indicatori.CRM_RisultatoEsercizio1__c}/ 1000000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+{!Get_Indicatori.CRM_RisultatoEsercizio1__c} &gt;= 1000000, 
+  RIGHT(TEXT(FLOOR({!Get_Indicatori.CRM_RisultatoEsercizio1__c} / 1000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ {!Get_Indicatori.CRM_RisultatoEsercizio1__c} &gt;= 1000, 
+  RIGHT(TEXT(FLOOR({!Get_Indicatori.CRM_RisultatoEsercizio1__c} / 1000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+RIGHT(TEXT(FLOOR({!Get_Indicatori.CRM_RisultatoEsercizio1__c})), 3) + &quot; €&quot;, 
+
+&quot;-&quot; + IF(
+ABS({!Get_Indicatori.CRM_RisultatoEsercizio1__c}) &gt;= 1000000000, 
+  RIGHT(TEXT(FLOOR(ABS({!Get_Indicatori.CRM_RisultatoEsercizio1__c})/ 1000000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ABS({!Get_Indicatori.CRM_RisultatoEsercizio1__c}) &gt;= 1000000, 
+  RIGHT(TEXT(FLOOR(ABS({!Get_Indicatori.CRM_RisultatoEsercizio1__c}) / 1000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ ABS({!Get_Indicatori.CRM_RisultatoEsercizio1__c}) &gt;= 1000, 
+  RIGHT(TEXT(FLOOR(ABS({!Get_Indicatori.CRM_RisultatoEsercizio1__c}) / 1000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+RIGHT(TEXT(FLOOR(ABS({!Get_Indicatori.CRM_RisultatoEsercizio1__c}))), 3) + &quot; €&quot;),
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>SegmentoComportamentale</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!Get_NDG.PTF_SegmentoComportamentale__c}) = FALSE,
+{!Get_NDG.PTF_SegmentoComportamentale__c},
+&quot; - &quot;)</expression>
+    </formulas>
+    <formulas>
+        <name>SegmentoRischio</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!Get_NDG.CRM_SegmentoRischioUfficiale__c}) = FALSE,
+{!Get_NDG.CRM_SegmentoRischioUfficiale__c},
+&apos; - &apos;)</expression>
+    </formulas>
+    <formulas>
+        <name>SegmentoValoriale</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK(TEXT({!Get_Indicatori.CRM_SegmentoValoriale__c})) = FALSE,
+TEXT({!Get_Indicatori.CRM_SegmentoValoriale__c}),
+&quot;-&quot;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>SitoInternet</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!Get_NDG.CRM_SitoInternetAziendale__c}) = FALSE,
+{!Get_NDG.CRM_SitoInternetAziendale__c},
+&apos; - &apos;)</expression>
+    </formulas>
+    <formulas>
+        <name>SOWAccordato</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Get_Indicatori.CRM_TotAccBancaSistema__c}) = false,
+TEXT({!Get_Indicatori.CRM_TotAccBancaSistema__c}*100) + &apos; %&apos;,
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>SOWUtilizzato</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Get_Indicatori.CRM_TotUtilizzatoBancaSistema__c}) = false,
+TEXT({!Get_Indicatori.CRM_TotUtilizzatoBancaSistema__c}*100) + &apos; %&apos;,
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>test</name>
+        <dataType>String</dataType>
+        <expression>TEXT(month({!Get_Indicatori.CRM_Periodo1__c}))</expression>
+    </formulas>
+    <formulas>
+        <name>UtilizzatoBanca</name>
+        <dataType>String</dataType>
+        <expression>/*IF (
+ISBLANK(Get_Indicatori.CRM_FlussoCRTotaleUtilizzatoBanca__c) = false,
+IF( 
+Get_Indicatori.CRM_FlussoCRTotaleUtilizzatoBanca__c &gt;= 1000000000, 
+  RIGHT(TEXT(FLOOR(Get_Indicatori.CRM_FlussoCRTotaleUtilizzatoBanca__c/ 1000000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+Get_Indicatori.CRM_FlussoCRTotaleUtilizzatoBanca__c &gt;= 1000000, 
+  RIGHT(TEXT(FLOOR(Get_Indicatori.CRM_FlussoCRTotaleUtilizzatoBanca__c / 1000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ Get_Indicatori.CRM_FlussoCRTotaleUtilizzatoBanca__c &gt;= 1000, 
+  RIGHT(TEXT(FLOOR(Get_Indicatori.CRM_FlussoCRTotaleUtilizzatoBanca__c / 1000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+RIGHT(TEXT(FLOOR(Get_Indicatori.CRM_FlussoCRTotaleUtilizzatoBanca__c)), 3) + &quot; €&quot;,
+&apos;-&apos;
+)*/
+IF (ISBLANK({!Get_Indicatori.CRM_RischiDiretti_Ammontare_Uti__c}) = false,
+		IF({!Get_Indicatori.CRM_RischiDiretti_Ammontare_Uti__c} &gt;= 0,
+			IF( 
+			{!Get_Indicatori.CRM_RischiDiretti_Ammontare_Uti__c} &gt;= 1000000000, 
+  RIGHT(TEXT(FLOOR({!Get_Indicatori.CRM_RischiDiretti_Ammontare_Uti__c}/ 1000000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+{!Get_Indicatori.CRM_RischiDiretti_Ammontare_Uti__c} &gt;= 1000000, 
+  RIGHT(TEXT(FLOOR({!Get_Indicatori.CRM_RischiDiretti_Ammontare_Uti__c} / 1000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ {!Get_Indicatori.CRM_RischiDiretti_Ammontare_Uti__c} &gt;= 1000, 
+  RIGHT(TEXT(FLOOR({!Get_Indicatori.CRM_RischiDiretti_Ammontare_Uti__c} / 1000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+RIGHT(TEXT(FLOOR({!Get_Indicatori.CRM_RischiDiretti_Ammontare_Uti__c})), 3) + &quot; €&quot;, 
+     
+
+&quot;-&quot; + IF(
+ABS({!Get_Indicatori.CRM_RischiDiretti_Ammontare_Uti__c}) &gt;= 1000000000, 
+  RIGHT(TEXT(FLOOR(ABS({!Get_Indicatori.CRM_RischiDiretti_Ammontare_Uti__c})/ 1000000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ABS({!Get_Indicatori.CRM_RischiDiretti_Ammontare_Uti__c}) &gt;= 1000000, 
+  RIGHT(TEXT(FLOOR(ABS({!Get_Indicatori.CRM_RischiDiretti_Ammontare_Uti__c}) / 1000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ ABS({!Get_Indicatori.CRM_RischiDiretti_Ammontare_Uti__c}) &gt;= 1000, 
+  RIGHT(TEXT(FLOOR(ABS({!Get_Indicatori.CRM_RischiDiretti_Ammontare_Uti__c}) / 1000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+RIGHT(TEXT(FLOOR(ABS({!Get_Indicatori.CRM_RischiDiretti_Ammontare_Uti__c}))), 3) + &quot; €&quot;),
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Var_RisultatoEservizio</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!VarRisultatodeservizio})= false,
+SUBSTITUTE(TEXT({!VarRisultatodeservizio}) &amp; &quot;%&quot;, &quot;.&quot;, &quot;,&quot;),
+&apos; &apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>VarAccordato</name>
+        <dataType>String</dataType>
+        <expression>IF (
+AND(ISBLANK({!Get_Indicatori.CRM_VarAccSOWVsMP__c}) = false, {!Get_Indicatori.CRM_VarAccSOWVsMP__c} !=0),
+SUBSTITUTE(TEXT({!Get_Indicatori.CRM_VarAccSOWVsMP__c} * 100) &amp; &quot;%&quot;, &quot;.&quot;, &quot;,&quot;),
+&apos; &apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>VarFatturato</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Formula_VarFatturato}) = false,
+SUBSTITUTE(TEXT({!Formula_VarFatturato}) &amp; &quot;%&quot;, &quot;.&quot;, &quot;,&quot;),
+&apos; &apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>VarImpieghi</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Get_Indicatori.CRM_VarImpieghiVsSmAP__c}) = false,
+SUBSTITUTE(TEXT({!Get_Indicatori.CRM_VarImpieghiVsSmAP__c} * 100) &amp; &quot;%&quot;, &quot;.&quot;, &quot;,&quot;),
+&apos; &apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>VarMargineFinanziario</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Get_Indicatori.CRM_MargFinVarSMAP__c}) = false,
+SUBSTITUTE(TEXT({!Get_Indicatori.CRM_MargFinVarSMAP__c} * 100) &amp; &quot;%&quot;, &quot;.&quot;, &quot;,&quot;),
+&apos; &apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>VarMargineIntermed</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Get_Indicatori.CRM_VarMargineIntermVSSmAP__c}) = false,
+SUBSTITUTE(TEXT({!Get_Indicatori.CRM_VarMargineIntermVSSmAP__c} * 100) &amp; &quot;%&quot;, &quot;.&quot;, &quot;,&quot;),
+&apos; &apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>VarRaccolta</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Get_Indicatori.CRM_VarRaccComplVSsmAP__c}) = false,
+SUBSTITUTE(TEXT({!Get_Indicatori.CRM_VarRaccComplVSsmAP__c} * 100) &amp; &quot;%&quot;, &quot;.&quot;, &quot;,&quot;),
+&apos; &apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>VarRisultatodeservizio</name>
+        <dataType>Currency</dataType>
+        <expression>IF(
+AND(
+ISBLANK({!Get_Indicatori.CRM_RisultatoEsercizio1__c})=false,
+ISBLANK({!Get_Indicatori.CRM_RisultatoEsercizio2__c})=false),
+({!Get_Indicatori.CRM_RisultatoEsercizio1__c} - {!Get_Indicatori.CRM_RisultatoEsercizio2__c})/ {!Get_Indicatori.CRM_RisultatoEsercizio2__c}, NULL)</expression>
+        <scale>0</scale>
+    </formulas>
+    <formulas>
+        <name>VarServizi</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Get_Indicatori.CRM_VarMargServVSsmAP__c}) = false,
+SUBSTITUTE(TEXT({!Get_Indicatori.CRM_VarMargServVSsmAP__c} * 100) &amp; &quot;%&quot;, &quot;.&quot;, &quot;,&quot;),
+&apos; &apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>VarUtilizzato</name>
+        <dataType>String</dataType>
+        <expression>IF (
+AND(ISBLANK({!Get_Indicatori.CRM_VarUtilSOWVsMP__c}) = false, {!Get_Indicatori.CRM_VarUtilSOWVsMP__c} !=0),
+SUBSTITUTE(TEXT({!Get_Indicatori.CRM_VarUtilSOWVsMP__c} * 100) &amp; &quot;%&quot;, &quot;.&quot;, &quot;,&quot;),
+&apos; &apos;
+)</expression>
+    </formulas>
+    <interviewLabel>NewSintesiPOE {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>NewSintesiPOE</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordLookups>
+        <name>Get_Indicatori</name>
+        <label>GetIndicatori</label>
+        <locationX>776</locationX>
+        <locationY>566</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>GetIndicatori_Storici_Mese_1</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>CRM_Account__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>RecordTypeId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>GetRecordType.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>CRM_IndicatoriCliente__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_NDG</name>
+        <label>GetNDG</label>
+        <locationX>776</locationX>
+        <locationY>206</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>GetRecordType</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Account</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Politiche_Creditizie</name>
+        <label>Get Politiche Creditizie</label>
+        <locationX>779</locationX>
+        <locationY>1053</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Sintesi_POE</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>CRM_AccountId__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_NDG.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>CRM_PoliticheCreditizie__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>GetChannel</name>
+        <label>GetChannel</label>
+        <locationX>776</locationX>
+        <locationY>806</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>GetInformazioneParticolare</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>CRM_Account__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>CRM_Channel__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>Mese 1= ultimo mese</description>
+        <name>GetIndicatori_Storici_Mese_1</name>
+        <label>GetIndicatori Storici Mese 1</label>
+        <locationX>776</locationX>
+        <locationY>686</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>GetChannel</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>CRM_Account__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>RecordTypeId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>GetRecordTypeId_Storico.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>CRM_IndicatoriCliente__c</object>
+        <sortField>CRM_CRMeseDiRiferimento__c</sortField>
+        <sortOrder>Desc</sortOrder>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>GetInformazioneParticolare</name>
+        <label>GetInformazioneParticolare</label>
+        <locationX>776</locationX>
+        <locationY>926</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_Politiche_Creditizie</targetReference>
+        </connector>
+        <filterLogic>1 AND 2 AND (3 OR 4)</filterLogic>
+        <filters>
+            <field>CRM_Account__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>CRM_Codice__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>284</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>CRM_A__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>CRM_A__c</field>
+            <operator>GreaterThan</operator>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>CRM_InformazioneParticolare__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>GetRecordType</name>
+        <label>GetRecordType</label>
+        <locationX>776</locationX>
+        <locationY>326</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>GetRecordTypeId_Storico</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Flat</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>RecordType</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>GetRecordTypeId_Storico</name>
+        <label>GetRecordTypeId Storico</label>
+        <locationX>776</locationX>
+        <locationY>446</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_Indicatori</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Storico</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>RecordType</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <runInMode>SystemModeWithoutSharing</runInMode>
+    <screens>
+        <name>Sintesi_POE</name>
+        <label>Sintesi POE</label>
+        <locationX>775</locationX>
+        <locationY>1164</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>Sintesi_POE_Section1</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Sintesi_POE_Section1_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>ImmagineAnagrafica</name>
+                    <extensionName>flowruntime:image</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>imageName</name>
+                        <value>
+                            <stringValue>Anagrafica</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Sintesi_POE_Section1_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>ImmagineRischio</name>
+                    <extensionName>flowruntime:image</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>imageName</name>
+                        <value>
+                            <stringValue>IndicatoridiRischio</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+        </fields>
+        <fields>
+            <name>Sintesi_POE_Section2</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Sintesi_POE_Section2_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>Anagrafica1</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; color: rgb(63, 63, 61);&quot;&gt;Data costituzione azienda&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(8, 7, 7);&quot;&gt;{!DataCostituzioneAzienda}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-family: var(--lwc-fontFamily,-apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, Helvetica, Arial, sans-serif, &amp;quot;Apple Color Emoji&amp;quot;, &amp;quot;Segoe UI Emoji&amp;quot;, &amp;quot;Segoe UI Symbol&amp;quot;); font-size: var(--lwc-fontSize3,0.8125rem); color: rgb(63, 63, 61);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px; color: rgb(63, 63, 61); background-color: rgb(255, 255, 255);&quot;&gt;Ring Fence&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); font-size: 14px;&quot;&gt;{!RingFence}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(63, 63, 61); background-color: rgb(255, 255, 255);&quot;&gt;﻿{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(63, 63, 61); background-color: rgb(255, 255, 255); font-size: 12px;&quot;&gt;Creditis&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(0, 0, 0);&quot;&gt;{!Creditis}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(63, 63, 61);&quot;&gt;﻿{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px; background-color: rgb(255, 255, 255); color: rgb(63, 63, 61);&quot;&gt;Microimpresa&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(8, 7, 7);&quot;&gt;{!MicroImp}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(63, 63, 61);&quot;&gt;﻿{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px; color: rgb(63, 63, 61);&quot;&gt;Ateco&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); font-size: 14px;&quot;&gt;{!ATECO}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(63, 63, 61); background-color: rgb(255, 255, 255);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>3</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Sintesi_POE_Section2_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>Anagrafica2</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(63, 63, 61); font-size: 12px;&quot;&gt;Anzianità relazione (anni)&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(8, 7, 7);&quot;&gt;{!AnzianitaRelazione}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(63, 63, 61); background-color: rgb(255, 255, 255);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(63, 63, 61); background-color: rgb(255, 255, 255); font-size: 12px;&quot;&gt;Fascia Nr. Dipendenti&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); font-size: 14px;&quot;&gt;{!FasciaDipendenti}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(63, 63, 61);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(63, 63, 61); background-color: rgb(255, 255, 255); font-size: 12px;&quot;&gt;Natura giuridica&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); font-size: 14px;&quot;&gt;{!Formula_NaturaGiuridica}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(63, 63, 61); background-color: rgb(255, 255, 255);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px; color: rgb(63, 63, 61); background-color: rgb(255, 255, 255);&quot;&gt;Sito Internet&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); font-size: 14px;&quot;&gt;{!SitoInternet}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(63, 63, 61);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px; background-color: rgb(255, 255, 255); color: rgb(63, 63, 61);&quot;&gt;Settore di Attività Economica Ateco&lt;/span&gt;&lt;/p&gt;&lt;p&gt;{!Get_Politiche_Creditizie.CRM_DescrizioneNACE__c}&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(63, 63, 61); background-color: rgb(255, 255, 255);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>3</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Sintesi_POE_Section2_Column3</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>rischio1</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(63, 63, 61); font-size: 12px;&quot;&gt;Rating Andamentale&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(8, 7, 7);&quot;&gt;{!RatingAndamentale}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(63, 63, 61);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(63, 63, 61); font-size: 12px;&quot;&gt;Colore PEG&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(8, 7, 7);&quot;&gt;{!ColorePEG}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(63, 63, 61);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(63, 63, 61); font-size: 12px;&quot;&gt;Accordato Banca&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); font-size: 14px;&quot;&gt;{!Formula_AccordatoBanca}&lt;/span&gt;&lt;span style=&quot;color: rgb(8, 7, 7); font-size: 11px;&quot;&gt;{!VarAccordato}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(63, 63, 61);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px; background-color: rgb(255, 255, 255); color: rgb(63, 63, 61);&quot;&gt;﻿Profilo Gianos&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); font-size: 14px;&quot;&gt;{!Gianos}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(63, 63, 61); background-color: rgb(255, 255, 255);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>3</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Sintesi_POE_Section2_Column4</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>rischio2</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 12px; color: rgb(63, 63, 61);&quot;&gt;Rating Ufficiale&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); font-size: 14px;&quot;&gt;{!RatingUfficiale}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(63, 63, 61);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px; background-color: rgb(255, 255, 255); color: rgb(63, 63, 61);&quot;&gt;Segmento di Rischio&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); font-size: 14px;&quot;&gt;{!SegmentoRischio}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(63, 63, 61);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px; color: rgb(66, 65, 65);&quot;&gt;Strategie Politiche Creditizie&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;{!Get_Politiche_Creditizie.CRM_CodiceStrategia__c}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(63, 63, 61);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px; background-color: rgb(255, 255, 255); color: rgb(63, 63, 61);&quot;&gt;Utilizzato Banca&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); background-color: rgb(255, 255, 255); font-size: 14px;&quot;&gt;{!Formula_UtilizzatoBanca}&lt;/span&gt;&lt;span style=&quot;color: rgb(8, 7, 7); background-color: rgb(255, 255, 255); font-size: 11px;&quot;&gt;{!VarUtilizzato}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(63, 63, 61);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>3</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+        </fields>
+        <fields>
+            <name>Sintesi_POE_Section3</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Sintesi_POE_Section3_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>EcoRedd</name>
+                    <extensionName>flowruntime:image</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>imageName</name>
+                        <value>
+                            <stringValue>IndicatoriEconomicoReddituali</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>12</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+        </fields>
+        <fields>
+            <name>Sintesi_POE_Section4</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Sintesi_POE_Section4_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>EcoReddituali1</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(63, 63, 61); font-size: 12px;&quot;&gt;Margine Intermediazione {!Periodo_IndicatoriEconomicoReddituali}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(8, 7, 7);&quot;&gt;{!Formula_MargineIntermediazione} &lt;/span&gt;&lt;span style=&quot;font-size: 11px; color: rgb(8, 7, 7);&quot;&gt;{!VarMargineIntermed}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(63, 63, 61);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(63, 63, 61); font-size: 12px;&quot;&gt;Impieghi&lt;/span&gt;&lt;span style=&quot;color: rgb(63, 63, 61); font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt; {!Periodo_IndicatoriEconomicoReddituali}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(8, 7, 7);&quot;&gt;{!Formula_Impieghi} &lt;/span&gt;&lt;span style=&quot;font-size: 11px; color: rgb(8, 7, 7);&quot;&gt;{!VarImpieghi}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(63, 63, 61);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(63, 63, 61); font-size: 12px;&quot;&gt;Fatturato {!Periodo1}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(8, 7, 7);&quot;&gt;{!Formula_Fatturato} &lt;/span&gt;&lt;span style=&quot;font-size: 11px; color: rgb(8, 7, 7);&quot;&gt;{!VarFatturato}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(63, 63, 61);&quot;&gt;﻿{!IconaBarra}&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>4</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Sintesi_POE_Section4_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>EcoReddituali2</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(63, 63, 61); font-size: 12px;&quot;&gt;Margine finanziario&lt;/span&gt;&lt;span style=&quot;color: rgb(63, 63, 61); font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt; {!Periodo_IndicatoriEconomicoReddituali}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(8, 7, 7);&quot;&gt;{!Formula_MargineFinanziario} &lt;/span&gt;&lt;span style=&quot;font-size: 11px; color: rgb(8, 7, 7);&quot;&gt;{!VarMargineFinanziario}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(63, 63, 61); background-color: rgb(255, 255, 255);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(63, 63, 61); background-color: rgb(255, 255, 255); font-size: 12px;&quot;&gt;Raccolta {!Periodo_IndicatoriEconomicoReddituali}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(8, 7, 7);&quot;&gt;{!Formula_Raccolta} &lt;/span&gt;&lt;span style=&quot;font-size: 11px; color: rgb(8, 7, 7);&quot;&gt;{!VarRaccolta}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(63, 63, 61); background-color: rgb(255, 255, 255);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(63, 63, 61); background-color: rgb(255, 255, 255); font-size: 12px;&quot;&gt;Risultato Esercizio {!Periodo1}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;{!RisultatoDesercizio}&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(63, 63, 61); background-color: rgb(255, 255, 255);&quot;&gt;﻿{!IconaBarra}&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>4</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Sintesi_POE_Section4_Column3</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>EcoReddituali3</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(63, 63, 61); font-size: 12px;&quot;&gt;Margine Servizi&lt;/span&gt;&lt;span style=&quot;color: rgb(63, 63, 61); font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt; {!Periodo_IndicatoriEconomicoReddituali}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); font-size: 14px;&quot;&gt;{!Formula_MargineDaServizi} &lt;/span&gt;&lt;span style=&quot;color: rgb(8, 7, 7); font-size: 11px;&quot;&gt;{!VarServizi}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(63, 63, 61);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>4</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+        </fields>
+        <fields>
+            <name>Sintesi_POE_Section5</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Sintesi_POE_Section5_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>Commercial</name>
+                    <extensionName>flowruntime:image</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>imageName</name>
+                        <value>
+                            <stringValue>IndicatoriCommercialiMini</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Sintesi_POE_Section5_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>Multicanalita</name>
+                    <extensionName>flowruntime:image</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>imageName</name>
+                        <value>
+                            <stringValue>MulticanalitaMini</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+        </fields>
+        <fields>
+            <name>Sintesi_POE_Section6</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Sintesi_POE_Section6_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>NPSText</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 12px; color: rgb(63, 63, 61);&quot;&gt;NPS - CSAT&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); font-size: 14px;&quot;&gt;{!NPS}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(63, 63, 61); background-color: rgb(255, 255, 255);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <fields>
+                    <name>IndComm</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 12px; color: rgb(63, 63, 61);&quot;&gt;﻿Cross Selling&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); background-color: rgb(255, 255, 255); font-size: 14px;&quot;&gt;{!Get_Indicatori.CRM_CrossSellingABI__c}/{!Formula_Total}&amp;nbsp;{!Get_Indicatori.CRM_FormulaIconaPercCS1__c}{!Get_Indicatori.CRM_FormulaIconaPercCS2__c}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(63, 63, 61); font-size: 12px;&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <fields>
+                    <name>ToggleCrossSellingABI</name>
+                    <extensionName>flowruntime:toggle</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>label</name>
+                        <value>
+                            <stringValue>Mostra dettagli Cross Selling</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>messageToggleActive</name>
+                        <value>
+                            <stringValue>Attivo</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>messageToggleInactive</name>
+                        <value>
+                            <stringValue>Inattivo</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>3</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Sintesi_POE_Section6_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>SegComp</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(63, 63, 61); font-size: 12px;&quot;&gt;﻿Segmento Comportamentale&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(8, 7, 7);&quot;&gt;{!SegmentoComportamentale}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(63, 63, 61);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <fields>
+                    <name>SegVal</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 12px; color: rgb(63, 63, 61);&quot;&gt;﻿Segmento Valoriale&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); font-size: 14px;&quot;&gt;{!SegmentoValoriale}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(63, 63, 61); background-color: rgb(255, 255, 255);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <fields>
+                    <name>Attributo_di_segmentazione</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(63, 63, 61); font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;﻿Attributo di segmentazione&lt;/span&gt;&lt;/p&gt;&lt;p&gt;{!Get_NDG.CRM_Attributo_di_segmentazione__c}&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>3</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Sintesi_POE_Section6_Column3</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>Multicanalita1</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 12px; color: rgb(63, 63, 61); background-color: rgb(255, 255, 255);&quot;&gt;Servizi Digitali&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); font-size: 14px;&quot;&gt;{!HomeBnking}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(63, 63, 61); background-color: rgb(255, 255, 255);&quot;&gt;﻿{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(63, 63, 61); background-color: rgb(255, 255, 255); font-size: 12px;&quot;&gt; Data Ultimo Accesso&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); font-size: 14px;&quot;&gt;{!Formula_DataUltimoAccesso}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(63, 63, 61); background-color: rgb(255, 255, 255);&quot;&gt;﻿{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px; color: rgb(63, 63, 61); background-color: rgb(255, 255, 255);&quot;&gt;﻿﻿Accessi ultimi 3 mesi&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); font-size: 14px;&quot;&gt;{!Formula_AccessiUltimi3Mesi}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(63, 63, 61); font-size: 12px;&quot;&gt;﻿{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(63, 63, 61); font-size: 12px;&quot;&gt; % Operazioni telematiche&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); font-size: 14px;&quot;&gt;{!PercOperazioniTelefmatiche}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(63, 63, 61); background-color: rgb(255, 255, 255);&quot;&gt;﻿{!IconaBarra}&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>3</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Sintesi_POE_Section6_Column4</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>Multicanalita2</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;Stato SCA&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); font-size: 14px; background-color: rgb(255, 255, 255);&quot;&gt;{!Formula_StatoSCA}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); background-color: rgb(255, 255, 255);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;﻿Smart Mobile - Media accessi&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;{!Formula_MediaAccessiSmartMobile}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;﻿&lt;/span&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px;&quot;&gt;SmartWeb - Media accessi&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;{!Formula_MediaAccessiSmartWeb}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;﻿&lt;/span&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>3</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+        </fields>
+        <fields>
+            <name>Sintesi_POE_Section7</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Sintesi_POE_Section7_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>DynamicTable_Business</name>
+                    <extensionName>c:dynamicTables</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>fileJS</name>
+                        <value>
+                            <stringValue>CRM_TabellaIndicatoriCommercialiIMP.js</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>object_field</name>
+                        <value>
+                            <stringValue>CRM_IndicatoriCliente__c#CRM_Account__c</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>recordId</name>
+                        <value>
+                            <elementReference>recordId</elementReference>
+                        </value>
+                    </inputParameters>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>12</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>ToggleCrossSellingABI.value</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>true</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>Sintesi_POE_Section8</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Sintesi_POE_Section8_Column1</name>
+                <fieldType>Region</fieldType>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>12</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+        </fields>
+        <fields>
+            <name>Sintesi_POE_Section9</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Sintesi_POE_Section9_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>LegendaImprese_OLD</name>
+                    <extensionName>flowruntime:image</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>imageName</name>
+                        <value>
+                            <stringValue>LegendaImprese</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>Get_NDG.CRM_ClienteNuovoPrivacy__c</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <booleanValue>false</booleanValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
+                </fields>
+                <fields>
+                    <name>LegendaImprese_NEW</name>
+                    <extensionName>flowruntime:image</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>imageName</name>
+                        <value>
+                            <stringValue>LegendaImprese_NewClient</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>Get_NDG.CRM_ClienteNuovoPrivacy__c</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <booleanValue>true</booleanValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>9</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Sintesi_POE_Section9_Column2</name>
+                <fieldType>Region</fieldType>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>3</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+        </fields>
+        <showFooter>false</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <start>
+        <locationX>650</locationX>
+        <locationY>48</locationY>
+        <connector>
+            <targetReference>Get_NDG</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

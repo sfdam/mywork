@@ -1,0 +1,119 @@
+<aura:component implements="lightning:availableForFlowScreens" access="global">  
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/> 
+    
+    <aura:attribute name="flowValidatorFinalResultVar" type="String" default="" />    
+    
+    <aura:attribute name="flowValidatorQualiQuantiErrorsVar" type="String[]" />     
+    <aura:attribute name="flowValidatorConfSegnalErrorsVar" type="String[]" />         
+    <aura:attribute name="flowValidatorDocErrorsVar" type="String[]" />    
+    
+    <aura:attribute name="workflowRecordCandidatoID" type="String"/>
+    <aura:attribute name="workflowRecordCandidatoNEXT" type="WorkflowSGA__c"/>
+    <aura:attribute name="workflowRecordCandidato" type="WorkflowSGA__c"/>
+    <aura:attribute name="workflowRecordCandidatoERROR" type="String"/>
+    
+    <force:recordData aura:id="flowRecordHandlerWorkflowCandidatoId"
+                      recordId="{!v.workflowRecordCandidatoID}"
+                      layoutType="FULL"
+                      targetFields="{!v.workflowRecordCandidato}"
+                      targetError="{!v.workflowRecordCandidatoERROR}"
+                      recordUpdated="{!c.handleRecordUpdated}"
+                      targetRecord="{!v.workflowRecordCandidatoNEXT}"
+                      mode="EDIT"                      
+                      />    
+    
+    <c:bifis_crm_c_SGAFlowMacroPath selectedPathState="{!v.workflowRecordCandidato.Stato__c}" closingState="{!v.workflowRecordCandidato.Fase_Chiusura__c}" selectedSubPathValue="3"/>    
+    
+    <!-- Display Lightning Data Service errors, if any -->
+    <aura:if isTrue="{!not(empty(v.workflowRecordCandidatoERROR))}">
+        <ui:message title="Errore" severity="error" closable="true">{!v.workflowRecordCandidatoERROR}</ui:message>
+    </aura:if>           
+    
+    <lightning:card variant="Narrow" title="Controllo ed Invio" iconName="standard:timesheet_entry" />
+    
+    <hr style="margin-top:1px;margin-bottom:10px;"/>    
+    
+    <div class="slds-scoped-notification slds-media slds-media_center" role="status">
+        <div class="slds-media__figure">
+            <span class="slds-icon_container slds-icon-utility-error" title="PRATICA NON INVIABILE">
+                <lightning:icon iconName="utility:error" alternativeText="Errore" variant="error"/>
+            </span>
+        </div>
+        <div class="slds-media__body slds-text-heading_small slds-text-color_error">
+            <p>La pratica non ha passato i controlli formali e di obbligatorietà. Sono state verificate le anomalie sotto riportate</p>
+        </div>
+    </div>
+    
+    <p class="slds-p-horizontal_small">
+            
+			<lightning:tabset>
+                                
+                <aura:if isTrue="{!not(empty(v.flowValidatorQualiQuantiErrorsVar))}">
+                    
+                    <lightning:tab label="Informazioni Qualitative Quantitative">
+                                
+                        <div class="slds-grid slds-wrap">  
+                                    
+                            <aura:iteration var="errorItemQualiQuanti" items="{!v.flowValidatorQualiQuantiErrorsVar}" indexVar="indxQualiQuanti">
+                
+                                <div class="slds-size_4-of-4">
+                                    <div class="slds-m-around_x-small"><lightning:icon iconName="utility:right" size="small"/>{!errorItemQualiQuanti}</div>
+                                </div>              
+                                
+                            </aura:iteration>    
+                            
+                        </div>
+                        
+                    </lightning:tab>
+                    
+                </aura:if>                
+                
+                <aura:if isTrue="{!not(empty(v.flowValidatorConfSegnalErrorsVar))}">
+                    
+                    <lightning:tab label="Configurazione Segnalazione">
+                                
+                        <div class="slds-grid slds-wrap">  
+                                    
+                            <aura:iteration var="errorItemConfigSegnal" items="{!v.flowValidatorConfSegnalErrorsVar}" indexVar="indxConfigSegnal">
+                
+                                <div class="slds-size_4-of-4">
+                                    <div class="slds-m-around_x-small"><lightning:icon iconName="utility:right" size="small"/>{!errorItemConfigSegnal}</div>
+                                </div>              
+                                
+                            </aura:iteration>    
+                            
+                        </div>
+                        
+                    </lightning:tab>
+                    
+                </aura:if> 
+                
+                <aura:if isTrue="{!not(empty(v.flowValidatorDocErrorsVar))}">
+                    
+                    <lightning:tab label="Documentazione">
+                                
+                        <div class="slds-grid slds-wrap">  
+                                    
+                            <aura:iteration var="errorItemDoc" items="{!v.flowValidatorDocErrorsVar}" indexVar="indxDoc">
+                
+                                <div class="slds-size_4-of-4">
+                                    <div class="slds-m-around_x-small"><lightning:icon iconName="utility:right" size="small"/>{!errorItemDoc}</div>
+                                </div>              
+                                
+                            </aura:iteration>    
+                            
+                        </div>
+                        
+                    </lightning:tab>
+                    
+                </aura:if>  
+                
+    		</lightning:tabset>    
+    </p>      
+    
+    <hr style="margin-top:1px;margin-bottom:10px;"/>     
+    
+    <c:bifis_crm_c_CommonFlowNavigator availableActions="{!v.availableActions}" navigateFlowEvent="{!c.handleNavigate}"/>           
+    
+</aura:component>

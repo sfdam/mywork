@@ -1,0 +1,46 @@
+.promotions-container .promotion-fieldTitle {
+    font-weight: 1000;
+    font-size: 17px;
+}
+
+.promotions-container .promotion-field label{
+    font-weight: 60px;
+    font-size: 16px;
+    color: #5c5c70;
+
+}
+
+.promotions-container .files-container label{
+    font-size: 60px;
+    color: #F5333F;
+    font-size: 17px;
+}
+
+ul{
+  list-style-type: disc;
+  list-style-position: inside;
+  word-break: break-all;
+}
+
+.download-button {
+    cursor: pointer;
+    color: #F5333F;
+    font-size: 15px;
+    text-decoration: underline;
+    word-break: break-all;
+   }
+
+.promotion-logo-container {
+    background: lightgray;
+    height:150px;
+}
+
+.promotion-logo{
+    width: 100%;
+    height: 100%;
+}
+
+.icon-class {
+    --sds-c-icon-color-foreground-default: #F5333F;
+    cursor: pointer;
+}

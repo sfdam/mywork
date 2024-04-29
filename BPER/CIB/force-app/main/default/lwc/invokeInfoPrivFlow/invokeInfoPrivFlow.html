@@ -1,0 +1,10 @@
+<template>
+    <c-info-privilegiate-fnd-single-docx-lwc-english prefill={prefill} layout="lightning"></c-info-privilegiate-fnd-single-docx-lwc-english>
+    
+    
+    <template lwc:if={showButton}>
+        <div style="text-align: end;">
+            <lightning-button class="slds-var-p-around_x-small" label="Fine" variant="brand" onclick={closeAction}></lightning-button>
+        </div>
+    </template>
+</template>

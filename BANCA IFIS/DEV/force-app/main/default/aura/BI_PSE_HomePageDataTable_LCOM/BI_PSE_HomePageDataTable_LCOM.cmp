@@ -1,0 +1,187 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="BI_PSE_HomePageDataTable_CTRL">  
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/> 
+    <aura:attribute name="workflows" type="WorkflowSegnalatori__c[]" />
+    <aura:attribute name="isMainFlowOpen" type="boolean" default="false"/>
+    <aura:attribute name="isDeleteFlowOpen" type="boolean" default="false"/>
+    <aura:attribute name="deletableWorkflowId" type="String" default=""/>
+    <aura:attribute name="modifiableWorkflowId" type="String" default=""/>
+    
+    <aura:attribute name="valoreFiltroRicerca" type="String" default=""/>  
+
+    <aura:attribute name="modalWindowTitle" type="String" default=""/>   
+
+    <div class="slds-grid slds-wrap slds-m-horizontal_medium slds-m-vertical_small">
+		<div class="slds-col slds-medium-size_1-of-1 slds-size_1-of-1">
+            <div id="bottoneSegnalazione" class="slds-box slds-box_x-small slds-text-align_left bifisInfoArea">
+	            <span class="slds-m-right_medium slds-text-heading_small">Vuoi inserire una nuova segnalazione?</span>
+                <span>
+                    <button class="slds-button slds-button_neutral" onclick="{!c.openNewWorkflow}">CREA NUOVA SEGNALAZIONE</button>
+                </span>
+            </div>
+        </div>    
+		<div class="slds-col slds-medium-size_3-of-3 slds-size_1-of-1">
+            <div id="inputFiltroRicerca" class="slds-m-right_xx-small slds-m-top_medium">
+				<lightning:input aura:id="flowInputFiltroRicercaInputId" name="flowInputFiltroRicercaInput" type="search" variant="label-hidden" placeholder="Cerca pratica per P.IVA, Ragione Sociale o Numero Pratica (min. 3 caratteri)" value="{!v.valoreFiltroRicerca}" onchange="{! c.handleChange }"/>
+			</div> 
+        </div>      
+    </div>   
+    
+   <div class="slds-grid slds-wrap slds-m-horizontal_medium slds-m-top_medium">
+ 
+		<!--<div class="slds-col slds-show_x-large slds-medium-size_1-of-12 slds-p-vertical_x-small slds-text-title_caps slds-show_medium bifisColumnHeader">
+			<span class="slds-truncate">N. SEGNALAZ.</span>
+        </div>-->
+		<div class="slds-col slds-medium-size_1-of-12 slds-size_1-of-6 slds-p-vertical_x-small slds-text-title_caps bifisColumnHeader">
+			<span class="slds-truncate">PARTITA IVA</span>
+        </div>    
+		<div class="slds-col slds-medium-size_2-of-12 slds-size_1-of-6 slds-p-vertical_x-small slds-text-title_caps slds-p-left_x-small bifisColumnHeader">
+			<span class="slds-truncate">RAGIONE SOCIALE</span>
+        </div>  
+		<div class="slds-col slds-medium-size_1-of-12 slds-p-vertical_x-small slds-text-title_caps slds-show_medium bifisColumnHeader">
+			<span class="slds-truncate">CREATORE</span>
+        </div>  
+		<div class="slds-col slds-medium-size_1-of-12 slds-p-vertical_x-small slds-text-title_caps slds-show_medium bifisColumnHeader">
+			<span class="slds-truncate">REFERENTE</span>
+        </div>  
+		<div class="slds-col slds-medium-size_1-of-12 slds-p-vertical_x-small slds-text-title_caps slds-show_medium bifisColumnHeader">
+			<span class="slds-truncate">TIPOLOGIA</span>
+        </div>  
+		<div class="slds-col slds-medium-size_1-of-12 slds-p-vertical_x-small slds-text-title_caps slds-show_medium bifisColumnHeader">
+			<span class="slds-truncate">DATA INVIO</span>
+        </div> 
+		<div class="slds-col slds-medium-size_1-of-12 slds-size_1-of-6 slds-p-vertical_x-small slds-text-title_caps bifisColumnHeader">
+			<span class="slds-truncate">STATO</span>
+        </div>
+		<div class="slds-col slds-medium-size_1-of-12 slds-size_1-of-6 slds-p-vertical_x-small slds-text-title_caps bifisColumnHeader">
+			<span class="slds-truncate">NOTE</span>
+        </div>
+		<div class="slds-col slds-medium-size_1-of-12 slds-size_1-of-6 slds-p-vertical_x-small slds-text-title_caps bifisColumnHeader">
+			<span class="slds-truncate">RIF. COMM.</span>
+        </div>
+		<div class="slds-col slds-medium-size_1-of-12 slds-size_1-of-6 slds-p-vertical_x-small slds-text-title_caps bifisColumnHeader">
+			<span class="slds-truncate">TELEFONO</span>
+        </div> 
+		<div class="slds-col slds-medium-size_1-of-12 slds-p-vertical_x-small slds-text-align_right slds-text-title_caps slds-show_medium bifisColumnHeader">
+			<span class="slds-truncate">AZIONI</span>
+        </div>
+
+		<aura:iteration items="{!v.workflows}" var="actualWorkflow">
+
+			<!--<div class="slds-col slds-medium-size_1-of-12 slds-p-vertical_x-small slds-show_medium">
+				<span>{!actualWorkflow.Name}</span>
+			</div> -->
+			<div class="slds-col slds-medium-size_1-of-12 slds-size_1-of-6 slds-p-vertical_x-small">
+				<span>{!actualWorkflow.PartitaIVA__c}</span>
+			</div>    
+			<div class="slds-col slds-medium-size_2-of-12 slds-size_1-of-6 slds-p-vertical_x-small slds-p-left_x-small">
+				<span>{!actualWorkflow.Ragione_Sociale__c}</span>
+			</div>  
+			<div class="slds-col slds-medium-size_1-of-12 slds-p-vertical_x-small slds-show_medium">
+				<span>{!actualWorkflow.Owner.Name}</span>
+			</div>  
+			<div class="slds-col slds-medium-size_1-of-12 slds-p-vertical_x-small slds-show_medium">
+				<span>{!actualWorkflow.NomeReferente__c}&nbsp;{!actualWorkflow.CognomeReferente__c}</span>
+			</div>  
+			<div class="slds-col slds-medium-size_1-of-12 slds-p-vertical_x-small slds-show_medium">
+				<span>{!actualWorkflow.Tipologia_Segnalazione__c}</span>
+			</div> 
+			<div class="slds-col slds-medium-size_1-of-12 slds-p-vertical_x-small slds-show_medium">
+				<aura:if isTrue="{!actualWorkflow.DataInvioIfis__c != undefined}">
+					<span><lightning:formattedDateTime value="{!actualWorkflow.DataInvioIfis__c}" year="numeric" month="2-digit" day="2-digit" /></span>
+				</aura:if>
+			</div> 
+			<div class="slds-col slds-medium-size_1-of-12 slds-size_1-of-6 slds-p-vertical_x-small">
+				<span>{!actualWorkflow.Stato__c}</span>
+			</div>
+			<div class="slds-col slds-medium-size_1-of-12 slds-size_1-of-6 slds-p-vertical_x-small">
+				<span>{!actualWorkflow.MotivazioneRifiutoPrevalutazione__c}</span>
+			</div>
+			<div class="slds-col slds-medium-size_1-of-12 slds-size_1-of-6 slds-p-vertical_x-small">
+				<span>{!actualWorkflow.OpportunitaCollegata__r.Owner.Name}</span>
+			</div>
+			<div class="slds-col slds-medium-size_1-of-12 slds-size_1-of-6 slds-p-vertical_x-small">
+				<span>{!actualWorkflow.OpportunitaCollegata__r.Owner.Phone}</span>
+			</div>  
+			<div class="slds-col slds-medium-size_1-of-12 slds-p-vertical_x-small slds-text-align_right slds-show_medium">
+
+				<aura:if isTrue="{!actualWorkflow.Stato__c == 'IN BOZZA'}">
+
+					<div style="display:inline-block;cursor:pointer;" onclick="{!c.openModifyWorkflow}" data-id="{!actualWorkflow.Id}" title="MODIFICA PRATICA"><lightning:icon iconName="utility:edit" size="xx-small" alternativeText="Modifica pratica IN BOZZA"/></div>
+
+					<div style="display:inline-block;cursor:pointer;" onclick="{!c.openDeleteWorkflow}" data-id="{!actualWorkflow.Id}" title="ELIMINA PRATICA"><lightning:icon iconName="utility:delete" size="xx-small" class="slds-m-left_medium" alternativeText="Elimina pratica IN BOZZA" /></div>
+					<aura:set attribute="else">
+						<div style="display:inline-block;cursor:pointer;" onclick="{!c.openLookWorkflow}" data-id="{!actualWorkflow.Id}" title="CONSULTA PRATICA"><lightning:icon iconName="utility:search" size="xx-small" alternativeText="Consulta pratica" /></div>
+					</aura:set>
+				</aura:if>
+
+			</div>
+
+		</aura:iteration>
+  
+	</div>    
+    
+    <aura:if isTrue="{!v.isMainFlowOpen}">
+        
+        <!-- MODALE CONTENITORE DEL FLUSSO -->
+        
+        <div role="dialog" tabindex="-1" aria-labelledby="header99" class="slds-modal slds-fade-in-open slds-modal_large ">
+            <div class="slds-modal__container">
+                <!-- HEADER -->
+                <div class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close" onclick="{! c.closeNewAndModifyWorkflow }" alternativeText="Chiudi" variant="bare-inverse" class="slds-modal__close"/>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate"><ui:outputText value="{!v.modalWindowTitle}"/></h2>
+                </div>
+                <!-- CORPO -->
+                <div class="slds-modal__content slds-p-around--medium">
+                    
+                    <lightning:flow aura:id="AcquisizioneSegnalazione" onstatuschange="{!c.statusChange}"/>
+                    
+                </div>
+                <!-- FOOTER -->
+                <div class="slds-modal__footer">
+                </div>
+            </div>
+        </div>
+        <div class="slds-backdrop slds-backdrop--open"></div>
+        
+    </aura:if>    
+    
+    <aura:if isTrue="{!v.isDeleteFlowOpen}">
+        
+        <!-- MODALE CANCELLAZIONE WORKFLOW -->
+        
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-modal_medium slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- HEADER -->
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close" onclick="{! c.closeDeleteWorkflow }" alternativeText="Chiudi" variant="bare-inverse" class="slds-modal__close"/>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate"><ui:outputText value="{!v.modalWindowTitle}"/></h2>
+                </header>
+                <!-- CORPO -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    
+                    <div class="slds-scoped-notification slds-media slds-media_center" role="status">
+                        <div class="slds-media__figure">
+                            <span class="slds-icon_container slds-icon-utility-info" title="">
+                                <lightning:icon iconName="utility:warning" alternativeText="Warning"/>
+                            </span>
+                        </div>
+                        <div class="slds-media__body">
+                            <p>Proseguendo (bottone Elimina), verrà eliminata in modo definitivo la pratica IN BOZZA selezionata.</p>
+                        </div>                     
+                    </div>
+                    
+                </div>
+                <!-- FOOTER -->
+                <footer class="slds-modal__footer">
+                    <lightning:button aura:id="" variant="destructive" label="Elimina" title="Elimina" onclick="{! c.executeDeleteWorkflow }"/>
+                    <lightning:button variant="neutral" label="Chiudi" title="Chiudi" onclick="{! c.closeDeleteWorkflow }"/>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+        
+    </aura:if>
+    
+</aura:component>

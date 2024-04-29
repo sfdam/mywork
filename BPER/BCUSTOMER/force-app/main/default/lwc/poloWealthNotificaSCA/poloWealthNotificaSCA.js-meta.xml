@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>58.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__RecordPage</target>
+        <target>lightning__HomePage</target>
+        <target>lightning__AppPage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__RecordPage">
+            <property name="title" type="String" label="Title" description="definisci il titolo del componente"/>
+            <property name="firstButtonLabel" type="String" label="Label First Button" description="definisci la label del primo pulsante"/>
+            <property name="secondButtonLabel" type="String" label="Label Second Button" description="definisci la label del secondo pulsante"/>
+            <property name="firstStepOKMessage" type="String" label="OK message first step" description="definisci il messaggio da mostrare in caso di successo del primo pulsante"/>
+            <property name="firstStepKOMessage" type="String" label="KO message first step" description="definisci il messaggio da mostrare in caso di errore del primo pulsante"/>
+            <property name="thirdStepMessage" type="String" label="Third step message" description="definisci il messaggio da mostrare nel terzo step"/>
+            <property name="secondStepKOMessage" type="String" label="KO message second step" description="definisci il messaggio da mostrare in caso di errore del secondo pulsante"/>
+            <property name="erroNoSelection" type="String" label="Error message No Selection" description="definisci il messaggio da mostrare in caso di invio notifica senza selezione"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

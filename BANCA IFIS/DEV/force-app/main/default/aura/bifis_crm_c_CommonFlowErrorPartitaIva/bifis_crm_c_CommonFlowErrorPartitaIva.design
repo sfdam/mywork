@@ -1,0 +1,7 @@
+<design:component>
+	
+    <design:attribute name="flowOutputPartitaIvaVar" />
+
+    <design:attribute name="flowOutputPartitaIvaMessageVar" />    
+    
+</design:component>

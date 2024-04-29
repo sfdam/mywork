@@ -1,0 +1,20 @@
+<apex:page showHeader="false">
+    <style>
+        .slds-button_indent-right {
+            margin-right: 10px;
+        }
+        .slds-align--absolute-right {
+            position: absolute;
+            top: 50%;
+            right: 0;
+            transform: translate(0, -50%);
+        }
+    </style>
+    <apex:slds />
+    <apex:form >
+        <apex:outputPanel styleClass="slds-align--absolute-right">
+            <apex:commandButton styleClass="slds-button slds-button_neutral slds-button_brand slds-button_indent-right"
+                                value="Survey App Luglio 23" onclick="window.open('https://forms.gle/yjy1ubdV6Qig8v7g9', '_blank');" />
+        </apex:outputPanel>
+    </apex:form>
+</apex:page>

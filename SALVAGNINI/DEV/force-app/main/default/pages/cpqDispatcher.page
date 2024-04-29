@@ -1,0 +1,77 @@
+<apex:page >
+	<apex:includeScript value="{!URLFOR($Resource.easyXDM, 'easyXDM.js')}"/>
+	<style>
+		iframe{
+			position: absolute;
+			border: none;
+		}
+	</style>
+	<div class="container"></div>
+	<script>
+		console.log('dispatch?');
+
+		window.addEventListener('message', (e)=>{
+			if(IsJsonString(e.data)){
+				const data = JSON.parse(e.data);
+                console.log('data? + data '+data);
+				if(data.closed)rpc.postMessage(JSON.stringify(data.cart));
+			}
+		}, false);
+
+		function IsJsonString(str) {
+			try {
+				JSON.parse(str);
+			} catch (e) {
+				return false;
+			}
+			return true;
+		}
+
+		const initCallback = function(message){
+			const cart = JSON.parse(message);
+			console.log('initCallback', cart);
+
+			//https://giuffrefrancislefebvre--preprod--c.visualforce.com/apex/cpqConfiguratorPage?xdm_e=https%3A%2F%2Fpreprod-giuffre.cs129.force.com&xdm_c=sbQQ&xdm_p=1
+			//https://giuffrefrancislefebvre--preprod--c.visualforce.com/apex/cpqConfiguratorPage?xdm_e=https%3A%2F%2Fgiuffrefrancislefebvre--preprod--sbqq.visualforce.com&xdm_c=sbQQ&xdm_p=1
+			
+			//https://preprod-giuffre.cs129.force.com/apex/cpqConfiguratorPage //COMMUNITY
+			//https://giuffrefrancislefebvre--preprod--c.visualforce.com //SALESFORCE
+
+			//https://preprod-giuffre.cs129.force.com/lightning/lightning.out.js?v=2
+			//https://preprod-giuffrefrancislefebvre.cs129.force.com/lightning/lightning.out.js?v=2
+
+			
+			const urlParams = new URLSearchParams(window.location.search);
+			const url = urlParams.get('xdm_e');
+			//const isCommunity = url.includes('.force.com');
+			const domain = 'https://salvagninigroup--devpro--c.visualforce.com';
+
+			const iframe = document.createElement('IFRAME');
+			iframe.src = `${domain}/apex/cpqtestpage${window.location.search}`;
+			iframe.onload = (e)=>{
+				console.log('onload');
+				console.log('postmessage');
+				iframe.contentWindow.postMessage(message, domain);
+			}
+
+			iframe.width = "100%";
+			iframe.height = "100%";
+			iframe.style = {
+				position: "absolute",
+				border: "none"
+			}
+
+			const container = document.querySelector('.container');
+			container.appendChild(iframe);
+		}
+
+		const rpc = new easyXDM.Rpc({},{
+			remote: {
+				postMessage: {} //This method is defined in SteelBrick
+			},
+			local: {
+				postMessage: initCallback
+			}
+		});
+	</script>
+</apex:page>

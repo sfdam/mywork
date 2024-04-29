@@ -1,0 +1,103 @@
+.THIS {
+}
+
+.THIS .icon{
+    background: #4891E0;
+    padding:10px;
+    border-radius:25px;
+}
+.THIS .container-doc{
+    margin:0 -20px -20px -20px;
+}
+
+.THIS .foot{
+    background:#DFEDFE; 
+    padding: 30px 0;
+}
+
+.THIS .pr-gray{
+    background:#EFEFEF;
+}
+
+.THIS .pr-white{
+    background: white;
+}
+
+.THIS .subtitle-text{
+    color:gray;
+}
+
+.THIS .icon-container{
+    display:inline;
+}
+
+.THIS .title-container{
+    display:inline; 
+    padding:0 0 0 10px;
+}
+
+.THIS .uiInput--select.select:not([multiple]), .THIS .uiInput--select .select:not([multiple]), .THIS .uiInput--select .uiPopupTrigger a {
+    height: 35px;
+    line-height: 30px;
+}
+
+.THIS .uiInput--radio input[type=radio]{
+    margin: 0 .5rem 0 0;
+    width:20px;
+    height: 20px;
+}
+
+.THIS .uiInput--default .form-element__label{
+    color: rgb(62, 62, 60);
+    font-weight: bold;
+    font-size:medium;
+    vertical-align:super;
+}
+
+.THIS .btn {
+    background-color: #00338c;
+    border-color: #00338c;
+    color: rgb(255, 255, 255);
+ }
+ 
+ .THIS .btn:hover {
+    background-color: #0064B5;
+    border-color: #0064B5;
+    color: rgb(255, 255, 255);
+ }
+
+.THIS .menu{
+    padding: 0px 245px;
+    color: #4B8FE2;
+}
+
+.THIS .question{
+    color:#4B8FE2;
+}
+
+.THIS .input-field-backwhite{
+    /*border:2px solid #4B8FE2;*/
+    background: white;
+    border-radius:5px;
+}
+
+.THIS .input-field-backgray{
+    background: white;
+    border-radius:5px;
+    border:none;
+}
+
+.THIS .input-error{
+    border:1px solid red;
+}
+
+.THIS .global-error{
+    background: rgb(194, 57, 52);
+    padding: 1rem;
+    color: rgb(255, 255, 255);
+    line-height: 1.25;
+}    
+
+.THIS .forceSearchInputLookupDesktop .THIS .uiInput .THIS .uiInputTextForAutocomplete {
+    background:white;
+}

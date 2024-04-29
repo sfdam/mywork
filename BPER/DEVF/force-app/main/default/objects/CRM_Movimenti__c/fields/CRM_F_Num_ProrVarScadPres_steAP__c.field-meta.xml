@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_F_Num_ProrVarScadPres_steAP__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF((CRM_Num_ProrPres_perAP__c + CRM_Num_VarScadPres_perAP__c) !=0,
+IF(
+(CRM_Num_ProrPres_perAP__c + CRM_Num_VarScadPres_perAP__c)&gt;= 1000000000,
+RIGHT(TEXT(FLOOR(((CRM_Num_ProrPres_perAP__c + CRM_Num_VarScadPres_perAP__c) ) / 1000000000)), 3) &amp; &quot;.&quot;,
+&quot;&quot;
+) &amp;
+IF(
+(CRM_Num_ProrPres_perAP__c + CRM_Num_VarScadPres_perAP__c)&gt;= 1000000,
+RIGHT(TEXT(FLOOR(((CRM_Num_ProrPres_perAP__c + CRM_Num_VarScadPres_perAP__c) ) / 1000000)), 3) &amp; &quot;.&quot;,
+&quot;&quot;
+) &amp;
+IF(
+(CRM_Num_ProrPres_perAP__c + CRM_Num_VarScadPres_perAP__c)&gt;= 1000,
+RIGHT(TEXT(FLOOR(((CRM_Num_ProrPres_perAP__c + CRM_Num_VarScadPres_perAP__c) ) / 1000)), 3) &amp; &quot;.&quot;,
+&quot;&quot;
+) &amp;
+RIGHT(TEXT(FLOOR(CRM_Num_ProrPres_perAP__c + CRM_Num_VarScadPres_perAP__c)), 3),
+&quot;0&quot;
+)</formula>
+    <label>Pror o Var Scad / Presentato Num steAP</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

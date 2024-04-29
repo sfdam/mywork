@@ -1,0 +1,22 @@
+<apex:page showHeader="false" standardStylesheets="false" sidebar="false" applyHtmlTag="true" applyBodyTag="false">
+<apex:includeLightning />
+
+<div  id="lexcontainer" />
+
+<script>
+    
+    var NDG ="{!$CurrentPage.parameters.NDGCLIENTE}";
+    var ABI ="{!$CurrentPage.parameters.ABI}";
+
+    $Lightning.use("c:LGT_OUTAPP",    // name of the Lightning app
+        function() {                  // Callback once framework and app loaded
+            $Lightning.createComponent(
+                "c:LGT_OUT", // top-level component of your app
+                {'ndg': NDG,'abi' : ABI },                  // attributes to set on the component when created - NDG stands for the code to retrieve the correct record
+                "lexcontainer"   // the DOM location to insert the component
+
+            );
+        }  
+    );
+  </script>
+</apex:page>

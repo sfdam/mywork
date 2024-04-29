@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>TipoEsitazione__c</fullName>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Tipo Esitazione</label>
+    <required>true</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Default</fullName>
+                <default>false</default>
+                <label>Default</label>
+            </value>
+            <value>
+                <fullName>Esito Transitorio</fullName>
+                <default>true</default>
+                <label>Esito Transitorio</label>
+            </value>
+            <value>
+                <fullName>Esito Negativo</fullName>
+                <default>false</default>
+                <label>Esito Negativo</label>
+            </value>
+            <value>
+                <fullName>Esito Positivo</fullName>
+                <default>false</default>
+                <label>Esito Positivo</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,75 @@
+<aura:component implements="lightning:availableForFlowScreens" access="global">  
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/> 
+    
+    <aura:attribute name="componenteSolaLettura" type="Boolean" default="true"/>
+    
+    <aura:attribute name="workflowRecordCandidatoID" type="String"/>
+    <aura:attribute name="workflowRecordCandidatoNEXT" type="WorkflowSGA__c"/>
+    <aura:attribute name="workflowRecordCandidato" type="WorkflowSGA__c"/>
+    <aura:attribute name="workflowRecordCandidatoERROR" type="String"/>
+    
+    <force:recordData aura:id="flowRecordHandlerWorkflowCandidatoId"
+                      recordId="{!v.workflowRecordCandidatoID}"
+                      layoutType="FULL"
+                      targetFields="{!v.workflowRecordCandidato}"
+                      targetError="{!v.workflowRecordCandidatoERROR}"
+                      recordUpdated="{!c.handleRecordUpdated}"
+                      targetRecord="{!v.workflowRecordCandidatoNEXT}"
+                      mode="{!v.componenteSolaLettura ? 'VIEW' : 'EDIT'}"                  
+                      />    
+    
+	<c:bifis_crm_c_SGAFlowMacroPath selectedPathState="{!v.workflowRecordCandidato.Stato__c}" closingState="{!v.workflowRecordCandidato.Fase_Chiusura__c}" selectedSubPathValue="0"/>    
+    
+    <!-- Display Lightning Data Service errors, if any -->
+    <aura:if isTrue="{!not(empty(v.workflowRecordCandidatoERROR))}">
+        <ui:message title="Errore" severity="error" closable="true">{!v.workflowRecordCandidatoERROR}</ui:message>
+    </aura:if>
+    
+    <lightning:card variant="Narrow" title="Inserire le informazioni relative alla segnalazione" iconName="standard:record" />
+    
+    <hr style="margin-top:1px;margin-bottom:10px;"/>
+    
+    <lightning:card variant="Narrow" title="PIANO DI RIENTRO" iconName="standard:partner_marketing_budget">
+        <p class="slds-p-horizontal_small">
+            <div class="slds-grid slds-wrap">        
+                <div class="slds-size_1-of-4">
+                    <div class="slds-m-around_x-small"><lightning:input aura:id="flowInputImportoInputId" label="Importo Piano di Rientro - Quota Capitale" name="flowInputImportoInput" type="number" required="false" value="{!v.workflowRecordCandidato.Importo__c}" max="9999999999" min="1" formatter="currency" disabled="{!v.componenteSolaLettura}"/></div>
+                </div>
+                <div class="slds-size_1-of-4">
+                    <div class="slds-m-around_x-small"></div>
+                </div>
+                <div class="slds-size_1-of-4">
+                    <div class="slds-m-around_x-small"></div>
+                </div>
+                <div class="slds-size_1-of-4">
+                    <div class="slds-m-around_x-small"></div>
+                </div>                   
+                
+            </div>
+        </p>
+    </lightning:card>
+    
+    <lightning:card variant="Narrow" title="PROPOSTA MANDATO" iconName="standard:partners">
+        <p class="slds-p-horizontal_small">
+            <div class="slds-grid slds-wrap">        
+                <div class="slds-size_1-of-4"> 
+                    <div class="slds-m-around_x-small"><lightning:input aura:id="flowInputCorrispettiviFactoringInputId" label="Percentuale Corrispettivi Factoring verso SGA" name="flowInputCorrispettiviInput" type="number" required="false" value="{!v.workflowRecordCandidato.Corrispettivi_Factoring__c}" min="1" max="100" step="0.1" formatter="percent-fixed" disabled="{!v.componenteSolaLettura}"/></div>
+                </div>
+                <div class="slds-size_1-of-4">
+                    <div class="slds-m-around_x-small"><lightning:input aura:id="flowInputImportoMassimoComplessivoFactoringInputId" label="Importo Massimo Complessivo da Factoring" name="flowInputImportoMassimoComplessivoFactoringInput" type="number" required="false" value="{!v.workflowRecordCandidato.Importo_Massimo_Factoring_Complessivo__c}" max="{!v.workflowRecordCandidato.Importo__c}" messageWhenRangeOverflow="Importo superiore all'importo del piano" min="1" formatter="currency" disabled="{!v.componenteSolaLettura}"/></div>
+                </div>
+                <div class="slds-size_1-of-4">
+                    <div class="slds-m-around_x-small"><lightning:input aura:id="flowInputScadenzaInputId" type="date" name="flowInputScadenzaInput" label="Data Scadenza" value="{!v.workflowRecordCandidato.Scadenza__c}" disabled="{!v.componenteSolaLettura}"/></div>
+                </div>
+                <div class="slds-size_2-of-4">
+                    <div class="slds-m-around_x-small"></div>
+                </div>                   
+                
+            </div>
+        </p>
+    </lightning:card>    
+    
+    <c:bifis_crm_c_CommonFlowNavigator availableActions="{!v.availableActions}" navigateFlowEvent="{!c.handleNavigate}"/>
+    
+</aura:component>

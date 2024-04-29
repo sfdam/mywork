@@ -1,0 +1,1058 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_Level2__c</fullName>
+    <externalId>false</externalId>
+    <label>2° Level</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>CRM_Level1__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>true</sorted>
+            <value>
+                <fullName>3D Secure</fullName>
+                <default>false</default>
+                <label>3D Secure</label>
+            </value>
+            <value>
+                <fullName>Acquisizione documenti</fullName>
+                <default>false</default>
+                <label>Acquisizione documenti</label>
+            </value>
+            <value>
+                <fullName>Adeguata Verifica</fullName>
+                <default>false</default>
+                <label>Adeguata Verifica</label>
+            </value>
+            <value>
+                <fullName>Altro</fullName>
+                <default>false</default>
+                <label>Altro</label>
+            </value>
+            <value>
+                <fullName>Anticipo fatture</fullName>
+                <default>false</default>
+                <label>Anticipo fatture</label>
+            </value>
+            <value>
+                <fullName>Apri Conto</fullName>
+                <default>false</default>
+                <label>Apri Conto</label>
+            </value>
+            <value>
+                <fullName>Attivazione carte</fullName>
+                <default>false</default>
+                <label>Attivazione carte</label>
+            </value>
+            <value>
+                <fullName>Attivazione nuovo piano</fullName>
+                <default>false</default>
+                <label>Attivazione nuovo piano</label>
+            </value>
+            <value>
+                <fullName>Biometria</fullName>
+                <default>false</default>
+                <label>Biometria</label>
+            </value>
+            <value>
+                <fullName>Biometria e Smart PIN</fullName>
+                <default>false</default>
+                <label>Biometria e Smart PIN</label>
+            </value>
+            <value>
+                <fullName>Bollettini CBILL-PagoPa</fullName>
+                <default>false</default>
+                <label>Bollettini CBILL-PagoPa</label>
+            </value>
+            <value>
+                <fullName>Bollettini MAV/RAV/Freccia</fullName>
+                <default>false</default>
+                <label>Bollettini MAV/RAV/Freccia</label>
+            </value>
+            <value>
+                <fullName>Bollettini postali</fullName>
+                <default>false</default>
+                <label>Bollettini postali</label>
+            </value>
+            <value>
+                <fullName>Bollo auto</fullName>
+                <default>false</default>
+                <label>Bollo auto</label>
+            </value>
+            <value>
+                <fullName>Bonifico</fullName>
+                <default>false</default>
+                <label>Bonifico</label>
+            </value>
+            <value>
+                <fullName>Carta non funzionante</fullName>
+                <default>false</default>
+                <label>Carta non funzionante</label>
+            </value>
+            <value>
+                <fullName>Carte</fullName>
+                <default>false</default>
+                <label>Carte</label>
+            </value>
+            <value>
+                <fullName>Carte di credito</fullName>
+                <default>false</default>
+                <label>Carte di credito</label>
+            </value>
+            <value>
+                <fullName>Carte di debito</fullName>
+                <default>false</default>
+                <label>Carte di debito</label>
+            </value>
+            <value>
+                <fullName>Carte prepagate</fullName>
+                <default>false</default>
+                <label>Carte prepagate</label>
+            </value>
+            <value>
+                <fullName>Carte visualizzate</fullName>
+                <default>false</default>
+                <label>Carte visualizzate</label>
+            </value>
+            <value>
+                <fullName>Certificazione contatti</fullName>
+                <default>false</default>
+                <label>Certificazione contatti</label>
+            </value>
+            <value>
+                <fullName>Codice di sicurezza</fullName>
+                <default>false</default>
+                <label>Codice di sicurezza</label>
+            </value>
+            <value>
+                <fullName>Codice utente</fullName>
+                <default>false</default>
+                <label>Codice utente</label>
+            </value>
+            <value>
+                <fullName>Comprensibilità/Fruibilità</fullName>
+                <default>false</default>
+                <label>Comprensibilità/Fruibilità</label>
+            </value>
+            <value>
+                <fullName>Comunicazioni e documenti</fullName>
+                <default>false</default>
+                <label>Comunicazioni e documenti</label>
+            </value>
+            <value>
+                <fullName>Condizioni e coperture</fullName>
+                <default>false</default>
+                <label>Condizioni e coperture</label>
+            </value>
+            <value>
+                <fullName>Consensi</fullName>
+                <default>false</default>
+                <label>Consensi</label>
+            </value>
+            <value>
+                <fullName>Consensi Privacy</fullName>
+                <default>false</default>
+                <label>Consensi Privacy</label>
+            </value>
+            <value>
+                <fullName>Consutazione piani attivi</fullName>
+                <default>false</default>
+                <label>Consutazione piani attivi</label>
+            </value>
+            <value>
+                <fullName>Contatti</fullName>
+                <default>false</default>
+                <label>Contatti</label>
+            </value>
+            <value>
+                <fullName>Conti correnti</fullName>
+                <default>false</default>
+                <label>Conti correnti</label>
+            </value>
+            <value>
+                <fullName>Controlli</fullName>
+                <default>false</default>
+                <label>Controlli</label>
+            </value>
+            <value>
+                <fullName>Credenziali</fullName>
+                <default>false</default>
+                <label>Credenziali</label>
+            </value>
+            <value>
+                <fullName>Credenziali IB</fullName>
+                <default>false</default>
+                <label>Credenziali IB</label>
+            </value>
+            <value>
+                <fullName>Credenziali wizard</fullName>
+                <default>false</default>
+                <label>Credenziali wizard</label>
+            </value>
+            <value>
+                <fullName>De-enrollment</fullName>
+                <default>false</default>
+                <label>De-enrollment</label>
+            </value>
+            <value>
+                <fullName>Diniego autorizzativo</fullName>
+                <default>false</default>
+                <label>Diniego autorizzativo</label>
+            </value>
+            <value>
+                <fullName>Documento di riconoscimento</fullName>
+                <default>false</default>
+                <label>Documento di riconoscimento</label>
+            </value>
+            <value>
+                <fullName>Enrollment</fullName>
+                <default>false</default>
+                <label>Enrollment</label>
+            </value>
+            <value>
+                <fullName>Enrollment multidevice</fullName>
+                <default>false</default>
+                <label>Enrollment multidevice</label>
+            </value>
+            <value>
+                <fullName>Enrollment multiutenza</fullName>
+                <default>false</default>
+                <label>Enrollment multiutenza</label>
+            </value>
+            <value>
+                <fullName>Errore autorizzazione negata</fullName>
+                <default>false</default>
+                <label>Errore autorizzazione negata</label>
+            </value>
+            <value>
+                <fullName>Estinzione totale</fullName>
+                <default>false</default>
+                <label>Estinzione totale</label>
+            </value>
+            <value>
+                <fullName>Estratto Conto</fullName>
+                <default>false</default>
+                <label>Estratto Conto</label>
+            </value>
+            <value>
+                <fullName>F24</fullName>
+                <default>false</default>
+                <label>F24</label>
+            </value>
+            <value>
+                <fullName>F24	F24</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>F24	F24</label>
+            </value>
+            <value>
+                <fullName>Finanziamenti</fullName>
+                <default>false</default>
+                <label>Finanziamenti</label>
+            </value>
+            <value>
+                <fullName>Firma del contratto</fullName>
+                <default>false</default>
+                <label>Firma del contratto</label>
+            </value>
+            <value>
+                <fullName>Frode</fullName>
+                <default>false</default>
+                <label>Frode</label>
+            </value>
+            <value>
+                <fullName>Gestione dispositivi</fullName>
+                <default>false</default>
+                <label>Gestione dispositivi</label>
+            </value>
+            <value>
+                <fullName>Informazioni sinistro</fullName>
+                <default>false</default>
+                <label>Informazioni sinistro</label>
+            </value>
+            <value>
+                <fullName>Interessi passivi</fullName>
+                <default>false</default>
+                <label>Interessi passivi</label>
+            </value>
+            <value>
+                <fullName>Investimenti</fullName>
+                <default>false</default>
+                <label>Investimenti</label>
+            </value>
+            <value>
+                <fullName>Invio comunicazioni</fullName>
+                <default>false</default>
+                <label>Invio comunicazioni</label>
+            </value>
+            <value>
+                <fullName>Lista movimenti</fullName>
+                <default>false</default>
+                <label>Lista movimenti</label>
+            </value>
+            <value>
+                <fullName>Migrabilità</fullName>
+                <default>false</default>
+                <label>Migrabilità</label>
+            </value>
+            <value>
+                <fullName>Migrazione da SCA 2019</fullName>
+                <default>false</default>
+                <label>Migrazione da SCA 2019</label>
+            </value>
+            <value>
+                <fullName>Movimenti</fullName>
+                <default>false</default>
+                <label>Movimenti</label>
+            </value>
+            <value>
+                <fullName>Multiutenza/Multidevice</fullName>
+                <default>false</default>
+                <label>Multiutenza/Multidevice</label>
+            </value>
+            <value>
+                <fullName>Mutui</fullName>
+                <default>false</default>
+                <label>Mutui</label>
+            </value>
+            <value>
+                <fullName>My money</fullName>
+                <default>false</default>
+                <label>My money</label>
+            </value>
+            <value>
+                <fullName>Navigazione pagine</fullName>
+                <default>false</default>
+                <label>Navigazione pagine</label>
+            </value>
+            <value>
+                <fullName>Navigazione pagine IB</fullName>
+                <default>false</default>
+                <label>Navigazione pagine IB</label>
+            </value>
+            <value>
+                <fullName>Navigazione pagine wizard</fullName>
+                <default>false</default>
+                <label>Navigazione pagine wizard</label>
+            </value>
+            <value>
+                <fullName>Non riceve la password provvisoria</fullName>
+                <default>false</default>
+                <label>Non riceve la password provvisoria</label>
+            </value>
+            <value>
+                <fullName>Notifica Push</fullName>
+                <default>false</default>
+                <label>Notifica Push</label>
+            </value>
+            <value>
+                <fullName>Notifica Push/OTP offline</fullName>
+                <default>false</default>
+                <label>Notifica Push/OTP offline</label>
+            </value>
+            <value>
+                <fullName>Notifiche</fullName>
+                <default>false</default>
+                <label>Notifiche</label>
+            </value>
+            <value>
+                <fullName>Paga Poi</fullName>
+                <default>false</default>
+                <label>Paga Poi</label>
+            </value>
+            <value>
+                <fullName>Pagina bianca dopo ricezione password provvisoria</fullName>
+                <default>false</default>
+                <label>Pagina bianca dopo ricezione password provvisoria</label>
+            </value>
+            <value>
+                <fullName>Pagina di login non raggiungibile</fullName>
+                <default>false</default>
+                <label>Pagina di login non raggiungibile</label>
+            </value>
+            <value>
+                <fullName>Pagina non raggiungibile/ rallentamenti</fullName>
+                <default>false</default>
+                <label>Pagina non raggiungibile/ rallentamenti</label>
+            </value>
+            <value>
+                <fullName>Password temporanea</fullName>
+                <default>false</default>
+                <label>Password temporanea</label>
+            </value>
+            <value>
+                <fullName>Personalizzazione menù</fullName>
+                <default>false</default>
+                <label>Personalizzazione menù</label>
+            </value>
+            <value>
+                <fullName>Phishing</fullName>
+                <default>false</default>
+                <label>Phishing</label>
+            </value>
+            <value>
+                <fullName>Pin</fullName>
+                <default>false</default>
+                <label>Pin</label>
+            </value>
+            <value>
+                <fullName>Pin view</fullName>
+                <default>false</default>
+                <label>Pin view</label>
+            </value>
+            <value>
+                <fullName>POS</fullName>
+                <default>false</default>
+                <label>POS</label>
+            </value>
+            <value>
+                <fullName>Post login non raggiungibile</fullName>
+                <default>false</default>
+                <label>Post login non raggiungibile</label>
+            </value>
+            <value>
+                <fullName>Prestiti Personali</fullName>
+                <default>false</default>
+                <label>Prestiti Personali</label>
+            </value>
+            <value>
+                <fullName>Primo accesso</fullName>
+                <default>false</default>
+                <label>Primo accesso</label>
+            </value>
+            <value>
+                <fullName>Profilo</fullName>
+                <default>false</default>
+                <label>Profilo</label>
+            </value>
+            <value>
+                <fullName>QR Code</fullName>
+                <default>false</default>
+                <label>QR Code</label>
+            </value>
+            <value>
+                <fullName>Rallentamenti nella navigazione</fullName>
+                <default>false</default>
+                <label>Rallentamenti nella navigazione</label>
+            </value>
+            <value>
+                <fullName>Rapporti collegati</fullName>
+                <default>false</default>
+                <label>Rapporti collegati</label>
+            </value>
+            <value>
+                <fullName>Rata in conto</fullName>
+                <default>false</default>
+                <label>Rata in conto</label>
+            </value>
+            <value>
+                <fullName>Ri.ba</fullName>
+                <default>false</default>
+                <label>Ri.ba</label>
+            </value>
+            <value>
+                <fullName>Ricarica Amazon</fullName>
+                <default>false</default>
+                <label>Ricarica Amazon</label>
+            </value>
+            <value>
+                <fullName>Ricarica telefonica</fullName>
+                <default>false</default>
+                <label>Ricarica telefonica</label>
+            </value>
+            <value>
+                <fullName>Ricezione Pin email</fullName>
+                <default>false</default>
+                <label>Ricezione Pin email</label>
+            </value>
+            <value>
+                <fullName>Ricezione Pin telefonico</fullName>
+                <default>false</default>
+                <label>Ricezione Pin telefonico</label>
+            </value>
+            <value>
+                <fullName>Riconoscimento</fullName>
+                <default>false</default>
+                <label>Riconoscimento</label>
+            </value>
+            <value>
+                <fullName>Rimozione altri blocchi (furto/smarrimento/frode)</fullName>
+                <default>false</default>
+                <label>Rimozione altri blocchi (furto/smarrimento/frode)</label>
+            </value>
+            <value>
+                <fullName>Rinnovo polizza</fullName>
+                <default>false</default>
+                <label>Rinnovo polizza</label>
+            </value>
+            <value>
+                <fullName>Ritardo</fullName>
+                <default>false</default>
+                <label>Ritardo</label>
+            </value>
+            <value>
+                <fullName>Rubrica</fullName>
+                <default>false</default>
+                <label>Rubrica</label>
+            </value>
+            <value>
+                <fullName>Rubrica	Rubrica</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Rubrica	Rubrica</label>
+            </value>
+            <value>
+                <fullName>Sblocco PIN per superamento tentativi</fullName>
+                <default>false</default>
+                <label>Sblocco PIN per superamento tentativi</label>
+            </value>
+            <value>
+                <fullName>Scelta filiale</fullName>
+                <default>false</default>
+                <label>Scelta filiale</label>
+            </value>
+            <value>
+                <fullName>Servizio Email</fullName>
+                <default>false</default>
+                <label>Servizio Email</label>
+            </value>
+            <value>
+                <fullName>Smart Desk</fullName>
+                <default>false</default>
+                <label>Smart Desk</label>
+            </value>
+            <value>
+                <fullName>Smart Pin</fullName>
+                <default>false</default>
+                <label>Smart Pin</label>
+            </value>
+            <value>
+                <fullName>Sms Bodycard</fullName>
+                <default>false</default>
+                <label>Sms Bodycard</label>
+            </value>
+            <value>
+                <fullName>SMS OTP</fullName>
+                <default>false</default>
+                <label>SMS OTP</label>
+            </value>
+            <value>
+                <fullName>Stato sottoscrizione</fullName>
+                <default>false</default>
+                <label>Stato sottoscrizione</label>
+            </value>
+            <value>
+                <fullName>Stato spedizione</fullName>
+                <default>false</default>
+                <label>Stato spedizione</label>
+            </value>
+            <value>
+                <fullName>Time out sessione</fullName>
+                <default>false</default>
+                <label>Time out sessione</label>
+            </value>
+            <value>
+                <fullName>Tokenizzazione</fullName>
+                <default>false</default>
+                <label>Tokenizzazione</label>
+            </value>
+            <value>
+                <fullName>Trading</fullName>
+                <default>false</default>
+                <label>Trading</label>
+            </value>
+            <value>
+                <fullName>Trading	Trading</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Trading	Trading</label>
+            </value>
+            <value>
+                <fullName>User ID</fullName>
+                <default>false</default>
+                <label>User ID</label>
+            </value>
+            <value>
+                <fullName>Utenza/SCA bloccata</fullName>
+                <default>false</default>
+                <label>Utenza/SCA bloccata</label>
+            </value>
+            <value>
+                <fullName>Verifica Dati</fullName>
+                <default>false</default>
+                <label>Verifica Dati</label>
+            </value>
+            <value>
+                <fullName>Wizard sottoscrizione</fullName>
+                <default>false</default>
+                <label>Wizard sottoscrizione</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Estratto conto</controllingFieldValue>
+            <controllingFieldValue>Documentazione spese titoli</controllingFieldValue>
+            <controllingFieldValue>Istruzioni Migrazione prodotti</controllingFieldValue>
+            <valueName>Comprensibilità/Fruibilità</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Estratto conto</controllingFieldValue>
+            <controllingFieldValue>Documentazione spese titoli</controllingFieldValue>
+            <controllingFieldValue>Istruzioni Migrazione prodotti</controllingFieldValue>
+            <valueName>Ritardo</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Rata in conto</controllingFieldValue>
+            <valueName>Attivazione nuovo piano</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Rata in conto</controllingFieldValue>
+            <valueName>Consutazione piani attivi</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Rata in conto</controllingFieldValue>
+            <valueName>Estinzione totale</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Accesso IB</controllingFieldValue>
+            <controllingFieldValue>Accesso e navigazione IB</controllingFieldValue>
+            <valueName>Credenziali IB</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Accesso IB</controllingFieldValue>
+            <controllingFieldValue>Accesso e navigazione IB</controllingFieldValue>
+            <valueName>Primo accesso</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Carte</controllingFieldValue>
+            <valueName>Carte di credito</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Carte</controllingFieldValue>
+            <valueName>Carte di debito</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Carte</controllingFieldValue>
+            <valueName>Carte prepagate</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Carte</controllingFieldValue>
+            <valueName>Stato spedizione</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Finanziamenti</controllingFieldValue>
+            <valueName>Mutui</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Finanziamenti</controllingFieldValue>
+            <valueName>Prestiti Personali</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sblocco</controllingFieldValue>
+            <valueName>Rimozione altri blocchi (furto/smarrimento/frode)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sblocco</controllingFieldValue>
+            <valueName>Sblocco PIN per superamento tentativi</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Accesso e navigazione</controllingFieldValue>
+            <valueName>Credenziali</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Accesso e navigazione</controllingFieldValue>
+            <valueName>Navigazione pagine</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Accesso e navigazione</controllingFieldValue>
+            <controllingFieldValue>Mancato prelievo/transazione</controllingFieldValue>
+            <valueName>Notifica Push</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Accesso e navigazione</controllingFieldValue>
+            <controllingFieldValue>Accesso e navigazione IB</controllingFieldValue>
+            <valueName>Pagina di login non raggiungibile</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Accesso e navigazione</controllingFieldValue>
+            <controllingFieldValue>Accesso e navigazione IB</controllingFieldValue>
+            <valueName>Post login non raggiungibile</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Accesso e navigazione</controllingFieldValue>
+            <controllingFieldValue>Accesso e navigazione IB</controllingFieldValue>
+            <valueName>Rallentamenti nella navigazione</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Accesso e navigazione</controllingFieldValue>
+            <controllingFieldValue>Accesso e navigazione IB</controllingFieldValue>
+            <controllingFieldValue>Mancato prelievo/transazione</controllingFieldValue>
+            <valueName>SMS OTP</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Accesso e navigazione</controllingFieldValue>
+            <controllingFieldValue>Accesso e navigazione IB</controllingFieldValue>
+            <valueName>Time out sessione</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Accesso e navigazione</controllingFieldValue>
+            <controllingFieldValue>Accesso e navigazione IB</controllingFieldValue>
+            <valueName>Utenza/SCA bloccata</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Funzionalità</controllingFieldValue>
+            <valueName>3D Secure</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Funzionalità</controllingFieldValue>
+            <valueName>Attivazione carte</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Funzionalità</controllingFieldValue>
+            <valueName>Carte visualizzate</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Funzionalità</controllingFieldValue>
+            <valueName>Consensi</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Funzionalità</controllingFieldValue>
+            <valueName>Controlli</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Funzionalità</controllingFieldValue>
+            <valueName>Estratto Conto</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Funzionalità</controllingFieldValue>
+            <valueName>Lista movimenti</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Funzionalità</controllingFieldValue>
+            <valueName>Movimenti</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Funzionalità</controllingFieldValue>
+            <valueName>Notifiche</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Funzionalità</controllingFieldValue>
+            <valueName>Pin view</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Funzionalità</controllingFieldValue>
+            <valueName>Servizio Email</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Funzionalità</controllingFieldValue>
+            <valueName>Smart Desk</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Funzionalità</controllingFieldValue>
+            <valueName>Sms Bodycard</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Funzionalità</controllingFieldValue>
+            <valueName>Tokenizzazione</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Iscrizione</controllingFieldValue>
+            <controllingFieldValue>Conclusione Wizard</controllingFieldValue>
+            <valueName>Password temporanea</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Iscrizione</controllingFieldValue>
+            <valueName>User ID</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>SCA</controllingFieldValue>
+            <controllingFieldValue>SCA IB</controllingFieldValue>
+            <valueName>Biometria</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>SCA</controllingFieldValue>
+            <controllingFieldValue>SCA IB</controllingFieldValue>
+            <valueName>De-enrollment</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>SCA</controllingFieldValue>
+            <controllingFieldValue>SCA IB</controllingFieldValue>
+            <valueName>Enrollment</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>SCA</controllingFieldValue>
+            <controllingFieldValue>SCA IB</controllingFieldValue>
+            <valueName>Gestione dispositivi</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>SCA</controllingFieldValue>
+            <valueName>Pin</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sicurezza</controllingFieldValue>
+            <controllingFieldValue>Sicurezza IB</controllingFieldValue>
+            <valueName>Frode</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sicurezza</controllingFieldValue>
+            <controllingFieldValue>Sicurezza IB</controllingFieldValue>
+            <valueName>Phishing</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Accesso e navigazione IB</controllingFieldValue>
+            <valueName>Multiutenza/Multidevice</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Accesso e navigazione IB</controllingFieldValue>
+            <valueName>Navigazione pagine IB</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Accesso e navigazione IB</controllingFieldValue>
+            <valueName>Notifica Push/OTP offline</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Accesso e navigazione IB</controllingFieldValue>
+            <valueName>Personalizzazione menù</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Accesso e navigazione IB</controllingFieldValue>
+            <valueName>QR Code</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Mancato prelievo/transazione</controllingFieldValue>
+            <valueName>Altro</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Mancato prelievo/transazione</controllingFieldValue>
+            <valueName>Carta non funzionante</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Mancato prelievo/transazione</controllingFieldValue>
+            <valueName>Diniego autorizzativo</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sorriso</controllingFieldValue>
+            <valueName>Condizioni e coperture</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sorriso</controllingFieldValue>
+            <valueName>Informazioni sinistro</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sorriso</controllingFieldValue>
+            <valueName>Stato sottoscrizione</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sorriso</controllingFieldValue>
+            <valueName>Wizard sottoscrizione</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Wizard</controllingFieldValue>
+            <valueName>Acquisizione documenti</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Wizard</controllingFieldValue>
+            <valueName>Adeguata Verifica</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Wizard</controllingFieldValue>
+            <valueName>Apri Conto</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Wizard</controllingFieldValue>
+            <valueName>Certificazione contatti</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Wizard</controllingFieldValue>
+            <valueName>Consensi Privacy</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Wizard</controllingFieldValue>
+            <valueName>Firma del contratto</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Wizard</controllingFieldValue>
+            <valueName>Interessi passivi</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Wizard</controllingFieldValue>
+            <valueName>Invio comunicazioni</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Wizard</controllingFieldValue>
+            <valueName>Pagina non raggiungibile/ rallentamenti</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Wizard</controllingFieldValue>
+            <valueName>Riconoscimento</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Wizard</controllingFieldValue>
+            <valueName>Scelta filiale</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Wizard</controllingFieldValue>
+            <valueName>Verifica Dati</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Funzionalità IB</controllingFieldValue>
+            <valueName>Anticipo fatture</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Funzionalità IB</controllingFieldValue>
+            <valueName>Bollettini CBILL-PagoPa</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Funzionalità IB</controllingFieldValue>
+            <valueName>Bollettini MAV/RAV/Freccia</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Funzionalità IB</controllingFieldValue>
+            <valueName>Bollettini postali</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Funzionalità IB</controllingFieldValue>
+            <valueName>Bollo auto</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Funzionalità IB</controllingFieldValue>
+            <valueName>Bonifico</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Funzionalità IB</controllingFieldValue>
+            <valueName>Carte</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Funzionalità IB</controllingFieldValue>
+            <valueName>Comunicazioni e documenti</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Funzionalità IB</controllingFieldValue>
+            <valueName>Conti correnti</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Funzionalità IB</controllingFieldValue>
+            <valueName>F24</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Funzionalità IB</controllingFieldValue>
+            <valueName>Finanziamenti</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Funzionalità IB</controllingFieldValue>
+            <valueName>Investimenti</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Funzionalità IB</controllingFieldValue>
+            <valueName>Paga Poi</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Funzionalità IB</controllingFieldValue>
+            <valueName>POS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Funzionalità IB</controllingFieldValue>
+            <valueName>Profilo</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Funzionalità IB</controllingFieldValue>
+            <valueName>Rata in conto</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Funzionalità IB</controllingFieldValue>
+            <valueName>Ri.ba</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Funzionalità IB</controllingFieldValue>
+            <valueName>Ricarica Amazon</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Funzionalità IB</controllingFieldValue>
+            <valueName>Ricarica telefonica</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Funzionalità IB</controllingFieldValue>
+            <valueName>Rinnovo polizza</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Funzionalità IB</controllingFieldValue>
+            <valueName>Rubrica</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Funzionalità IB</controllingFieldValue>
+            <valueName>Trading</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>SCA IB</controllingFieldValue>
+            <valueName>Biometria e Smart PIN</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>SCA IB</controllingFieldValue>
+            <valueName>Enrollment multidevice</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>SCA IB</controllingFieldValue>
+            <valueName>Enrollment multiutenza</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>SCA IB</controllingFieldValue>
+            <valueName>Migrazione da SCA 2019</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>SCA IB</controllingFieldValue>
+            <valueName>Smart Pin</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sicurezza IB</controllingFieldValue>
+            <valueName>Errore autorizzazione negata</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Accesso e navigazione wizard</controllingFieldValue>
+            <valueName>Credenziali wizard</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Accesso e navigazione wizard</controllingFieldValue>
+            <valueName>Migrabilità</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Accesso e navigazione wizard</controllingFieldValue>
+            <valueName>Navigazione pagine wizard</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Certificazione dati e contatti</controllingFieldValue>
+            <valueName>Contatti</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Certificazione dati e contatti</controllingFieldValue>
+            <valueName>Documento di riconoscimento</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Certificazione dati e contatti</controllingFieldValue>
+            <valueName>Rapporti collegati</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Certificazione dati e contatti</controllingFieldValue>
+            <valueName>Ricezione Pin email</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Certificazione dati e contatti</controllingFieldValue>
+            <valueName>Ricezione Pin telefonico</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Conclusione Wizard</controllingFieldValue>
+            <valueName>Codice di sicurezza</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Conclusione Wizard</controllingFieldValue>
+            <valueName>Codice utente</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Conclusione Wizard</controllingFieldValue>
+            <valueName>Non riceve la password provvisoria</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Conclusione Wizard</controllingFieldValue>
+            <valueName>Pagina bianca dopo ricezione password provvisoria</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

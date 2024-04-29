@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Controllo_data</fullName>
+    <active>true</active>
+    <errorConditionFormula>IF(NOT(ISNEW()), Data_incontro__c &gt; DATEVALUE(CreatedDate) || Data_incontro__c &lt; ADDMONTHS(DATEVALUE(CreatedDate), -3), Data_incontro__c &gt; TODAY() || Data_incontro__c &lt; ADDMONTHS(TODAY(), -3))</errorConditionFormula>
+    <errorDisplayField>Data_incontro__c</errorDisplayField>
+    <errorMessage>La data deve essere compresa tra la data di creazione dell&apos;appuntamento e i precedenti tre mesi</errorMessage>
+</ValidationRule>

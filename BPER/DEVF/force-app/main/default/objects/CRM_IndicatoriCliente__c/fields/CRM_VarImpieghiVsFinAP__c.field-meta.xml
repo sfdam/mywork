@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_VarImpieghiVsFinAP__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF (
+OR (CRM_ImpieghiFineAP__c = 0, CRM_ImpieghiFineAP__c = NULL),
+NULL,
+(( CRM_ImpieghiMeseCorrente__c - CRM_ImpieghiFineAP__c ) / ABS(CRM_ImpieghiFineAP__c))
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Var. impieghi VS fine AP</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Percent</type>
+</CustomField>

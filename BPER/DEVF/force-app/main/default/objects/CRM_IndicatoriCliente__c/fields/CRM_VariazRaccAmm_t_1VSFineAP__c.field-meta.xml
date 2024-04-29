@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_VariazRaccAmm_t_1VSFineAP__c</fullName>
+    <externalId>false</externalId>
+    <formula>(((CRM_RaccoltaAmministrata_t_1__c / CRM_RaccAmmFineAPPunt__c)*100)-100)/100</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Var. Racc Ammin t-1 VS Fine AP</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Percent</type>
+</CustomField>

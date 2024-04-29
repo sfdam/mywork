@@ -1,0 +1,117 @@
+<aura:component controller="CalendarLayoutController" implements="force:hasRecordId,force:hasSObjectName">
+	<ltng:require styles="/resource/gpcal_lex_yo_SLDS0121/assets/styles/salesforce-lightning-design-system-ltng.css,/resource/gpcal_lex_yo_fullcalendar/fullcalendar-2.6.0/fullcalendar.css" 
+	scripts="/resource/gpcal_lex_yo_jquery,/resource/gpcal_lex_yo_fullcalendar/fullcalendar-2.6.0/lib/moment.min.js,/resource/gpcal_lex_yo_fullcalendar/fullcalendar-2.6.0/fullcalendar.js,/resource/gpcal_lex_yo_fullcalendar/fullcalendar-2.6.0/lang/it.js,/resource/gpcal_lex_yo_fullcalendar/fullcalendar-2.6.0/lib/moment-timezone-with-data.min.js"
+	afterScriptsLoaded="{!c.doInit}"
+/>
+
+	<aura:attribute name="recordId" type="String" access="global"/>
+	<aura:attribute name="sObjectName" type="String" access="global"/>	
+	<aura:attribute name="user_id" type="String" />
+	<aura:attribute name="socName" type="String" />
+	<aura:attribute name="userInfo" type="User" default="{'sobjectType':'User'}" />
+
+	<aura:handler event="c:CalendarUserId" action="{!c.loadCalendar}"/>
+	<aura:handler event="c:ltng_cal_object_record_selected" action="{!c.recordSelected}"/>
+
+	<aura:attribute name="status" type="String" access="global" default="calendar"/>
+	<aura:attribute name="start" type="String" />
+	<aura:attribute name="end" type="String" />
+	<aura:attribute name="title" type="String" />
+	<aura:attribute name="note" type="String" />
+
+	<aura:attribute name="selectedRecord_account" type="Object" />
+	<aura:attribute name="selectedRecord_lead" type="Object" />
+	<aura:attribute name="selectedRecord_contact" type="Object" />
+
+	<aura:attribute name="objectAPIName" type="String" />
+    
+	<div class="{! (v.status == 'calendar' ? 'calendar' : 'calendar slds-hide') }">
+		<div id='calendar'></div>
+	</div>
+
+	<div class="{! (v.status == 'send' ? 'send' : 'send slds-hide') }">
+		<lightning:layout multipleRows="true">
+			<lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="4" largeDeviceSize="2" padding="around-small">
+				<lightning:select aura:id="attiobjectAPINamevita" name="objectAPIName" label="Oggetto"
+				value="{!v.objectAPIName}">
+					<option value="generico">Generico</option>
+					<option value="account">Account</option>
+					<option value="lead">Lead</option>
+					<option value="contact">Referenti</option>
+				</lightning:select>
+			</lightning:layoutItem>
+            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="8" largeDeviceSize="10" padding="around-small">
+				<!-- {! v.objType } -->
+				<aura:if isTrue="{! v.objectAPIName == 'account'}">
+
+					<c:SV_CustomLookup  objectAPIName="{! v.objectAPIName }" 
+						IconName="{! 'standard:' + v.objectAPIName }"  
+						label="Cerca per nome"  
+						selectedRecord="{! v.selectedRecord_account }" 
+						returnFields="{! 'Id, Name' }"  
+						showField="{! 'Name' }" 
+						soqlSearch= 'true' 
+						whereCondition = "{! '###Name### AND Censito_Warrant__c = TRUE' }" />
+				</aura:if>
+
+				<aura:if isTrue="{! v.objectAPIName == 'lead'}">
+
+					<c:SV_CustomLookup  objectAPIName="{! v.objectAPIName }" 
+							IconName="{! 'standard:' + v.objectAPIName }"  
+							label="Cerca per nome"  
+							selectedRecord="{! v.selectedRecord_lead }" 
+							returnFields="{! 'Id, Name' }"  
+							showField="{! 'Name' }" 
+							soqlSearch= 'true' 
+							whereCondition = "{! '###Name### AND RecordType.DeveloperName =\'Warrant\'' }" />
+
+				</aura:if>
+
+				<aura:if isTrue="{! v.objectAPIName == 'contact'}">
+
+					<c:SV_CustomLookup  objectAPIName="{! v.objectAPIName }" 
+							IconName="{! 'standard:' + v.objectAPIName }"  
+							label="Cerca per nome"  
+							selectedRecord="{! v.selectedRecord_contact }" 
+							returnFields="{! 'Id, Name, Account.Name' }"  
+							showField="{! 'Name' }" 
+							soqlSearch= 'true' 
+							whereCondition = "{! '###Name### AND RecordType.DeveloperName =\'Warrant\'' }" />
+
+				</aura:if>
+
+				
+			</lightning:layoutItem>
+		</lightning:layout>
+		<lightning:layout multipleRows="true">
+            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="6" padding="around-small">
+				<lightning:input type="datetime" disabled="false" name="start" label="Inizio appuntamento" value="{! v.start }"/>
+			</lightning:layoutItem>
+			<lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="6" padding="around-small">
+				<lightning:input type="datetime" name="end" label="Fine appuntamento" value="{! v.end }"/>
+			</lightning:layoutItem>
+		</lightning:layout>
+
+		<aura:if isTrue="{! v.objectAPIName == 'generico' }">
+			<lightning:layout >
+				<lightning:layoutItem size="12" padding="around-small">
+					<lightning:input name="input2" label="Subject" value="{! v.title }"/>
+				</lightning:layoutItem>
+			</lightning:layout>
+		</aura:if>
+		
+		<lightning:layout >
+            <lightning:layoutItem size="12" padding="around-small">
+				<lightning:textarea name="input3" label="Note" placeholder="inserisci qui le tue note..." value="{! v.note }"/>
+			</lightning:layoutItem>
+		</lightning:layout>
+		<lightning:layout >
+            <lightning:layoutItem size="12" padding="around-small" class="slds-text-align_right">
+				<lightning:buttonGroup>
+					<lightning:button label="Return" onclick="{!c.return}" />
+					<lightning:button class="slds-button_brand" label="Save" onclick="{!c.save}" />
+				</lightning:buttonGroup>
+			</lightning:layoutItem>
+		</lightning:layout>			
+	</div>
+</aura:component>

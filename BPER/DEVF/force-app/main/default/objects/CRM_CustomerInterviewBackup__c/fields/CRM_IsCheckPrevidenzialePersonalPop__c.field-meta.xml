@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_IsCheckPrevidenzialePersonalPop__c</fullName>
+    <externalId>false</externalId>
+    <formula>OR (
+				 CRM_V_SocialSecurityCheckup__c ,
+				 CRM_V_RetirementFund__c 
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Is Check Previdenziale Personal popolato</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

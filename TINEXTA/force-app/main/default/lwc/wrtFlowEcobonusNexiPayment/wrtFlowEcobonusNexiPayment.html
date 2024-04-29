@@ -1,0 +1,56 @@
+<template>
+    <div class="cstm-btn-pagamento">
+      <lightning-button label="Vai al pagamento" variant="brand" onclick={initPagamento} ></lightning-button>
+      <!-- <p>Se i popup del tuo browser sono bloccati clicca <a target="_blank" href={redirectUrl}>qui</a></p> -->
+    </div>
+    <div class="slds-spinner_container slds-hide">
+      <div role="status" class="slds-spinner slds-spinner_large cstm-spinner">
+        <span class="slds-assistive-text">CARICAMENTO...</span>
+        <div class="slds-spinner__dot-a"></div>
+        <div class="slds-spinner__dot-b"></div>
+      </div>
+      <div class="slds-grid slds-grid_align-center cstm-spinner-message-container">
+        <div class="slds-col">
+          <div class="cstm-spinner-message slds-text-align_center">
+            <p>Attendere!</p> 
+            <p>In attesa dell'esito della transazione...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slds-hide cstm-container">
+      <div class="slds-grid slds-gutters slds-wrap">
+        <template if:false={deniedTransaction}>
+          <div class="slds-col slds-size_1-of-12">
+            <template if:true={iconOk}>
+              <lightning-icon size="x-small" icon-name="action:approval" ></lightning-icon>
+            </template>
+            <template if:false={iconOk}>
+              <lightning-icon size="x-small" icon-name="action:close" ></lightning-icon>
+            </template>
+          </div>
+          <div class="slds-col">
+            <p>Pagamento: {infoPagamento}</p>
+          </div>
+        </template>
+        <template if:true={deniedTransaction}>
+          <div class="slds-col slds-size_1-of-1">
+            <p>Transazione non trovata: Vuoi effettuare nuovamente la ricerca ?</p>
+            <lightning-button variant="brand" label="Ricerca transazione..." onclick={retrySearch} ></lightning-button>
+          </div>
+        </template>
+        <template if:true={canceledTransaction}>
+          <div class="slds-col slds-size_1-of-1">
+            <p>Errore durante il pagamento: Vuoi riprovare a pagare?</p>
+            <lightning-button variant="brand" label="Riprova Pagamento?" onclick={retry} ></lightning-button>
+          </div>
+        </template>
+        <template if:true={timeoutFinalOver}>
+          <div class="slds-col slds-size_1-of-1">
+            <p>Errore durante il pagamento: Vuoi riprovare a pagare?</p>
+            <lightning-button variant="brand" label="Riprova Pagamento?" onclick={retry} ></lightning-button>
+          </div>
+        </template>
+      </div>
+    </div>
+</template>

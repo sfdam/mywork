@@ -1,0 +1,53 @@
+<aura:component extends="c:WGC_Utility">
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="params" type="Object[]" />
+    <aura:attribute name="payload" type="Object[]" />
+    <aura:attribute name="codProd" type="String" />
+    <aura:attribute name="lineId" type="String" />
+    <aura:attribute name="readOnly" type="Boolean" />
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }" />
+
+    <!-- REGISTER EVENT -->
+    <aura:registerEvent  name="changeCondizione" type="c:WGC_ChangeCondizioneValue"/>
+
+    <!-- LIB -->
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    <lightning:notificationsLibrary aura:id="notifyLib" />
+
+    <aura:html tag="style">
+        .slds-p-around--medium {
+            padding: 0rem !important;
+        }       
+        .slds-modal__content{
+            height:unset !important;
+            max-height:unset !important;
+        }
+    </aura:html>
+
+    <lightning:layout multipleRows="true" class="slds-p-around_medium">
+        <aura:iteration var="param" items="{! v.params }">
+            <lightning:layoutItem size="12" class="slds-p-around_small">
+                <lightning:input label="{! param.Label__c }" type="{! param.Tipo__c == 'Percentuale' ? 'number' : 'text' }" formatter="{! param.Tipo__c == 'Percentuale' ? 'percent-fixed' : '' }" value="{! param.value }" disabled="{! v.readOnly }" step="0.01" />
+            </lightning:layoutItem>
+        </aura:iteration>
+        <!-- PARAMETRI READ ONLY DA NON CONSIDERARE -->
+        <lightning:layoutItem size="12" class="slds-p-around_small">
+            <lightning:input aura:id="pTipoTasso" label="Tipologia Tasso" type="text" value="Variabile" disabled="true"></lightning:input>
+        </lightning:layoutItem>
+        <!-- SM - TEN: Modifica come da mail 03/09/2020 -->
+        <!-- <lightning:layoutItem size="12" class="slds-p-around_small">
+            <lightning:input aura:id="pTassoRif" label="Indice di riferimento" type="text" value="Euribor 3M 360" disabled="true"></lightning:input>
+        </lightning:layoutItem> -->
+        <!-- SM - END: -->
+        <!-- 
+        <lightning:layoutItem size="12" class="slds-p-around_small">
+            <lightning:input aura:id="pFloor" label="Floor" type="text" value="Assente" disabled="true"></lightning:input>
+        </lightning:layoutItem>
+   		-->
+    </lightning:layout>
+    <footer class="slds-modal__footer">
+        <lightning:button label="Indietro" class="cstm-btn-round neutral" disabled="{! v.readOnly }" onclick="{! c.back }" />
+        <lightning:button label="Conferma" variant="brand" class="cstm-btn-round" disabled="{! v.readOnly }" onclick="{! c.confirm }"/>
+    </footer>
+</aura:component>

@@ -1,0 +1,9 @@
+<aura:component controller="DoppiPresidiSetEndDateController" implements="force:lightningQuickAction,lightning:actionOverride,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" access="global" >
+    <aura:attribute name="Id" default="" type="String"/>
+    <aura:attribute name="AccountId" default="" type="String"/>    
+
+    <aura:handler name='init' value='{!this}' action='{!c.doInit}'/>
+    
+    <lightning:navigation aura:id="navService"/>
+
+</aura:component>

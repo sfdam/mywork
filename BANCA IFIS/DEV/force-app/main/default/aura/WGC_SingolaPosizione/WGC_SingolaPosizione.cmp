@@ -1,0 +1,49 @@
+<aura:component controller="WGC_PosizioneController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    <aura:attribute name="recordList" type="List" />
+    <aura:attribute name="fieldList" type="List" />
+
+    <aura:attribute name="WrapperResponse" type="Object" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <lightning:navigation aura:id="navService"/>
+
+    <aura:iteration var="item" items="{!v.recordList}" >
+        <div data-index="{!item.posizione.Id}" onclick="{!c.goToDetail}" class="slds-m-around_x-small" style="{! 'background-color: ' + v.color + ';' + 'color: ' + v.colortext + '; border-radius:10px; box-shadow: 1px 1px 20px lightgrey;'}">
+            <lightning:layout class="border-title">
+                <lightning:layoutItem padding="around-small" size="6" smallDeviceSize="6" mediumDeviceSize="6" largeDeviceSize="6">
+                    <span class="slds-text-title_bold">{!item.posizione.RecordType.Name}</span> <span class="slds-p-left_small">{!item.posizione.Qualifica_Posizione__c}</span>
+                </lightning:layoutItem>
+                <lightning:layoutItem class="slds-text-align_right" padding="around-small" size="6" smallDeviceSize="6" mediumDeviceSize="6" largeDeviceSize="6">
+                    <aura:if isTrue="{! item.codiceIstituto == '881'}">
+                        <img src="{!$Resource.WGC_LogoIfisItalia}" style="max-width:50px; max-height:30px; margin:8px 0 0 0;"/>
+                        <aura:set attribute="else">
+                            <img src="{!$Resource.WGC_LogoIfisFinance}" style="max-width:50px; max-height:30px; margin:8px 0 0 0;"/>
+                        </aura:set>
+                    </aura:if>
+                </lightning:layoutItem>
+            </lightning:layout>
+            <lightning:layout>
+            <lightning:layoutItem size="12">
+                <lightning:layout multipleRows="true">
+                <lightning:layoutItem size="12">
+                <lightning:layout multipleRows="true" class="slds-grid_align-space">
+                    <aura:iteration var="field" items="{!item.fields}">
+                        <lightning:layoutItem class="slds-p-around_xx-small" size="12" smallDeviceSize="4" mediumDeviceSize="4" largeDeviceSize="1">
+                            <div class=" column-height ">
+                                <span class="text-small">{!field.label}</span>
+                                <!-- <span class="text-small">{!$Label.c.WGC_Altro_Linee}</span> -->
+                            </div>
+                            <div class="slds-p-vertical_small  slds-hyphenate">
+                                <span class="text-value">{!field.value}</span>
+                            </div>
+                        </lightning:layoutItem>
+                    </aura:iteration>
+                </lightning:layout>
+                </lightning:layoutItem>
+                </lightning:layout>
+            </lightning:layoutItem>    
+            </lightning:layout>
+        </div>
+    </aura:iteration>
+</aura:component>

@@ -1,0 +1,640 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>51.0</apiVersion>
+    <description>SEGNALAZIONE(69416: indicatori economico reddituali -link raccolta inquiry questionario errato e ancora presente)</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>BstoreImprese</name>
+        <dataType>String</dataType>
+        <expression> &apos;https://intrawseal.gbbper.priv/bstore/bstore-vendita/getCorporateClientDetailByNDG?ndg=&apos; + {!Get_current_NDG.CRM_NDG__c} + &apos;&amp;abi=&apos; + {!Get_current_NDG.FinServ__BankNumber__c}</expression>
+    </formulas>
+    <formulas>
+        <name>BstorePrivate</name>
+        <dataType>String</dataType>
+        <expression>&apos;https://intrawseal.gbbper.priv/bstore/bstore-vendita/getClientDetailByNDG?ndg=&apos; + {!Get_current_NDG.CRM_NDG__c} + &apos;&amp;abi=&apos; + {!Get_current_NDG.FinServ__BankNumber__c}</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_AdeguatezzaTitolo</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Indicatore.CRM_C_AdeguatezzaTitolo__c}) = false,
+{!Indicatore.CRM_AdeguatezzaSingoloTitolo__c},
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_AderenzaPtf</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Indicatore.CRM_AderenzaPTFModello__c}) = false,
+SUBSTITUTE(TEXT({!Indicatore.CRM_AderenzaPTFModello__c} * 100) &amp; &quot;%&quot;, &quot;.&quot;, &quot;,&quot;),
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_AderenzaPtfModello</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Indicatore.CRM_C_AderenzaPtfModello__c}) = false,
+{!Indicatore.CRM_PICO_AderenzaPTFModello__c},
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_AdesioneConsulenza</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Indicatore.CRM_C_AdesioneConsulenza__c}) = false,
+{!Indicatore.CRM_AdesioneConsulenza__c},
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_ControvalorePtfAdeguatezza</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Indicatore.CRM_ControvalorePTFAdeg__c}) = false,
+IF( 
+  {!Indicatore.CRM_ControvalorePTFAdeg__c} &gt;= 1000000000, 
+  RIGHT(TEXT(FLOOR({!Indicatore.CRM_ControvalorePTFAdeg__c} / 1000000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+  {!Indicatore.CRM_ControvalorePTFAdeg__c} &gt;= 1000000, 
+  RIGHT(TEXT(FLOOR({!Indicatore.CRM_ControvalorePTFAdeg__c} / 1000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+  {!Indicatore.CRM_ControvalorePTFAdeg__c} &gt;= 1000, 
+  RIGHT(TEXT(FLOOR({!Indicatore.CRM_ControvalorePTFAdeg__c} / 1000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+RIGHT(TEXT(FLOOR({!Indicatore.CRM_ControvalorePTFAdeg__c})), 3) + &quot; €&quot;,
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_DataScadenzaMifid</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Get_current_NDG.CRM_MifidDueDate__c}) = false &amp;&amp; YEAR({!Get_current_NDG.CRM_MifidDueDate__c})&lt;2099,
+IF(VALUE(TEXT(DAY({!Get_current_NDG.CRM_MifidDueDate__c}))) &lt; 10, &quot;0&quot; + TEXT(DAY({!Get_current_NDG.CRM_MifidDueDate__c})), TEXT(DAY({!Get_current_NDG.CRM_MifidDueDate__c}))) + &quot;/&quot; + 
+IF(VALUE(TEXT(MONTH({!Get_current_NDG.CRM_MifidDueDate__c}))) &lt; 10, &quot;0&quot; + TEXT(MONTH({!Get_current_NDG.CRM_MifidDueDate__c})), TEXT(MONTH({!Get_current_NDG.CRM_MifidDueDate__c}))) + &quot;/&quot; + 
+TEXT(YEAR({!Get_current_NDG.CRM_MifidDueDate__c})),
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_EsperienzaConoscenza</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Indicatore.CRM_EsperienzaEConoscenza__c}) = false,
+{!Indicatore.CRM_EsperienzaEConoscenza__c},
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_MonitoraggioConsulenza</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Indicatore.CRM_C_MonitoraggioConsEvoluta__c}) = false,
+{!Indicatore.CRM_MonitoraggioConsEvoluta__c},
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_Obiettivo</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Indicatore.CRM_Obiettivo__c}) = false,
+{!Indicatore.CRM_Obiettivo__c},
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_OperazioniGP</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Indicatore.CRM_C_OpInCorsoGP__c}) = false,
+{!Indicatore.CRM_OpInCorsoGP__c},
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_OrizzonteTemporale</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Indicatore.CRM_OrizzonteTemporale__c}) = false,
+{!Indicatore.CRM_OrizzonteTemporale__c},
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_PropostaAladdin</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Indicatore.CRM_PropostaInEssereAladdin__c}) = false,
+{!Indicatore.CRM_PropostaInEssereAladdin__c},
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_QuestionarioInScadenza</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Indicatore.CRM_C_QuestionarioInScadenza__c}) = false,
+{!Indicatore.CRM_QuestionarioScadenza__c},
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_RischioMercato</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Indicatore.CRM_C_RischioMercatoSpazioPerc__c}) = false,
+{!Indicatore.CRM_RischioMercSpazioDispPerc__c},
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_RischioPtf</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Indicatore.CRM_C_AdeguatezzaRischioPortafoglio__c}) = false,
+{!Indicatore.CRM_AdeguatezzaRischioPortafoglio__c},
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_SaldoCC</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Indicatore.CRM_C_SaldoCC__c}) = false,
+{!Indicatore.CRM_PICO_SaldoCC__c},
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_SaldoCCPerc</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Indicatore.CRM_C_SaldoCCPerc__c}) = false,
+{!Indicatore.CRM_SaldoCCPerc__c},
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_Segnalazioni</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Indicatore.CRM_C_Segnalazioni__c}) = false,
+{!Indicatore.CRM_Segnalazioni__c},
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_StatoCliente</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Indicatore.CRM_StatusCliente__c}) = false,
+{!Indicatore.CRM_StatusCliente__c},
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_StatoLavorazioneAladdin</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Indicatore.CRM_StatoLavorazAladdin__c}) = false,
+{!Indicatore.CRM_StatoLavorazAladdin__c},
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_ThumbUpDown</name>
+        <dataType>Boolean</dataType>
+        <expression>{!Get_current_NDG.CRM_MifidDueDate__c} &gt;= TODAY()</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_TipoQuestionarioMifid</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Get_current_NDG.CRM_MifidQuestionnaireType__c}) = false,
+IF( 
+{!Get_current_NDG.CRM_FormulaQuestionarioMiFID__c} &gt;= 1000000000, 
+  RIGHT(TEXT(FLOOR({!Get_current_NDG.CRM_FormulaQuestionarioMiFID__c} / 1000000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ {!Get_current_NDG.CRM_FormulaQuestionarioMiFID__c} &gt;= 1000000, 
+  RIGHT(TEXT(FLOOR({!Get_current_NDG.CRM_FormulaQuestionarioMiFID__c} / 1000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+{!Get_current_NDG.CRM_FormulaQuestionarioMiFID__c} &gt;= 1000, 
+  RIGHT(TEXT(FLOOR({!Get_current_NDG.CRM_FormulaQuestionarioMiFID__c} / 1000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+RIGHT(TEXT(FLOOR({!Get_current_NDG.CRM_FormulaQuestionarioMiFID__c})), 3),
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_TitoliScadenza</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Indicatore.CRM_C_TitoliScadenza__c}) = false,
+{!Indicatore.CRM_TitoliScadenza__c},
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_UltimoContatto</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Indicatore.CRM_C_UltimoContatto__c}) = false,
+{!Indicatore.CRM_UltimoContatto__c},
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_VariazionePatrimonio</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Indicatore.CRM_C_VariazionePatrimonio__c}) = false,
+{!Indicatore.CRM_VariazionePatrimonio__c},
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>FormulaClienteMultiBancarizzato</name>
+        <dataType>String</dataType>
+        <expression>IF (
+{!Indicatore.CRM_ClienteMultiBancarizzato__c} = true,
+&quot;SI&quot; + &quot; &quot; + {!Indicatore.CRM_IconaClienteMultibancarizzato__c},
+&quot;NO&quot; + &quot; &quot; + {!Indicatore.CRM_IconaClienteMultibancarizzato__c}
+)</expression>
+    </formulas>
+    <formulas>
+        <name>PICO</name>
+        <dataType>String</dataType>
+        <expression>&apos;https://intrawseal.gbbper.priv/PFPWeb1WSService/access/doAccessDiagnosi?codice=&apos; + LPAD({!Get_current_NDG.CRM_NDG__c},9,&apos;0&apos;) + LPAD({!Get_current_NDG.FinServ__BankNumber__c},5,&apos;0&apos;) + &apos; &amp;SOTTORUOLO=PRIV&amp;CHIAVEUTENTE=&apos; + LPAD({!Get_current_NDG.FinServ__BankNumber__c},5,&apos;0&apos;) + LPAD({!$User.PTF_RegistrationNumber__c},7,&apos;0&apos;)</expression>
+    </formulas>
+    <interviewLabel>Indicatori - Profilo Investitore {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Indicatori - Sezione Profilo Investitore</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordLookups>
+        <name>Get_alert</name>
+        <label>Get alert</label>
+        <locationX>176</locationX>
+        <locationY>566</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Indicatori</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>FinServ__Account__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>RecordTypeId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_RT.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>FinServ__Alert__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_current_NDG</name>
+        <label>Get current NDG</label>
+        <locationX>176</locationX>
+        <locationY>134</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_RT_Indicatori_Flat</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Account</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_RT</name>
+        <label>Get RT</label>
+        <locationX>176</locationX>
+        <locationY>458</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_alert</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Alert_di_PICO</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>RecordType</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_RT_Indicatori_Flat</name>
+        <label>Get RT Indicatori Flat</label>
+        <locationX>176</locationX>
+        <locationY>242</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Indicatore</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Flat</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>RecordType</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Indicatore</name>
+        <label>Indicatore</label>
+        <locationX>176</locationX>
+        <locationY>350</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_RT</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>CRM_Account__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>RecordTypeId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_RT_Indicatori_Flat.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>CRM_IndicatoriCliente__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <runInMode>SystemModeWithoutSharing</runInMode>
+    <screens>
+        <name>Indicatori</name>
+        <label>Indicatori</label>
+        <locationX>176</locationX>
+        <locationY>674</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>Indicatori_Section1</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Indicatori_Section1_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>ImmagineProfiloInvestitore</name>
+                    <extensionName>flowruntime:image</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>imageName</name>
+                        <value>
+                            <stringValue>ProfiloInvestitore</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>horizontalAlignment</name>
+                        <value>
+                            <stringValue>Center</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>10</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Indicatori_Section1_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>LinksImprese</name>
+                    <fieldText>&lt;p&gt;&lt;a href=&quot;{!PICO}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;color: rgb(32, 38, 221);&quot;&gt;&lt;u&gt;PICO&lt;/u&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;{!BstoreImprese}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;color: rgb(32, 38, 221); background-color: rgb(255, 255, 255);&quot;&gt;&lt;u&gt;BStore&lt;/u&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://intrawseal.gbbper.priv/R4A/proposte/#/&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;color: rgb(32, 38, 221); background-color: rgb(255, 255, 255);&quot;&gt;&lt;u&gt;Advisory Proposte&lt;/u&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>Get_current_NDG.RecordType.DeveloperName</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <stringValue>IndustriesBusiness</stringValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
+                </fields>
+                <fields>
+                    <name>LinksPrivate</name>
+                    <fieldText>&lt;p&gt;&lt;a href=&quot;{!PICO}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;color: rgb(32, 38, 221);&quot;&gt;&lt;u&gt;PICO&lt;/u&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;{!BstorePrivate}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;background-color: rgb(255, 255, 255); color: rgb(32, 38, 221);&quot;&gt;&lt;u&gt;BStore&lt;/u&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://intrawseal.gbbper.priv/R4A/proposte/#/&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;background-color: rgb(255, 255, 255); color: rgb(32, 38, 221);&quot;&gt;&lt;u&gt;Advisory Proposte&lt;/u&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>Get_current_NDG.RecordType.DeveloperName</leftValueReference>
+                            <operator>NotEqualTo</operator>
+                            <rightValue>
+                                <stringValue>IndustriesBusiness</stringValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>2</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+        </fields>
+        <fields>
+            <name>Indicatori_Section2</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Indicatori_Section2_Column1</name>
+                <fieldType>Region</fieldType>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Indicatori_Section2_Column2</name>
+                <fieldType>Region</fieldType>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+        </fields>
+        <fields>
+            <name>Indicatori_Section3</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Indicatori_Section3_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>DataScadenzaMifid</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 12px; background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;﻿Status cliente&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(8, 7, 7); font-size: 14px;&quot;&gt;{!Formula_StatoCliente}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; color: rgb(62, 62, 60);&quot;&gt;Tipo questionario MiFID&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(8, 7, 7); font-size: 14px;&quot;&gt;{!Formula_TipoQuestionarioMifid}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;﻿&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; color: rgb(62, 62, 60);&quot;&gt;Data scadenza MiFID&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(8, 7, 7);&quot;&gt;{!Formula_DataScadenzaMifid}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; color: rgb(62, 62, 60);&quot;&gt;﻿Cliente Multi-Bancarizzato&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); font-size: 14px;&quot;&gt;{!Indicatore.CRM_IconaClienteMultibancarizzato__c}&lt;/span&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt; &lt;/span&gt;&lt;/p&gt;&lt;p&gt;{!IconaBarra}&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); background-color: rgb(255, 255, 255); font-size: 12px;&quot;&gt;﻿Esperienza e conoscenza MiFID&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(8, 7, 7); background-color: rgb(255, 255, 255);&quot;&gt;{!Formula_EsperienzaConoscenza}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); background-color: rgb(255, 255, 255);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;Obiettivo&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; background-color: rgb(255, 255, 255); color: rgb(8, 7, 7);&quot;&gt;{!Formula_Obiettivo}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); background-color: rgb(255, 255, 255);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); background-color: rgb(255, 255, 255); font-size: 12px;&quot;&gt;Orizzonte temporale&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(8, 7, 7); background-color: rgb(255, 255, 255);&quot;&gt;{!Formula_OrizzonteTemporale}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); background-color: rgb(255, 255, 255);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Indicatori_Section3_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>EsperienzaInvestimentiTitle</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); font-size: 12px;&quot;&gt;Controvalore portafoglio adeguatezza (dato al: {!Indicatore.CRM_DatoAlCtvlAdegPTF__c})&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); background-color: rgb(255, 255, 255); font-size: 14px;&quot;&gt;{!Formula_ControvalorePtfAdeguatezza}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); background-color: rgb(255, 255, 255);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); background-color: rgb(255, 255, 255); font-size: 12px;&quot;&gt;Aderenza al portafoglio modello&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(8, 7, 7); background-color: rgb(255, 255, 255);&quot;&gt;{!Formula_AderenzaPtf}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); background-color: rgb(255, 255, 255);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;Proposta in essere Aladdin&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); font-size: 14px; background-color: rgb(255, 255, 255);&quot;&gt;{!Formula_PropostaAladdin}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); background-color: rgb(255, 255, 255);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); background-color: rgb(255, 255, 255); font-size: 12px;&quot;&gt;Stato di lavorzaione Aladdin&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(8, 7, 7); background-color: rgb(255, 255, 255);&quot;&gt;{!Formula_StatoLavorazioneAladdin}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); background-color: rgb(255, 255, 255);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+        </fields>
+        <fields>
+            <name>Indicatori_Section4</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Indicatori_Section4_Column1</name>
+                <fieldType>Region</fieldType>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>12</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>Indicatore.CRM_IsAlertPICOVisible__c</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>true</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <showFooter>false</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_current_NDG</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <textTemplates>
+        <name>LinkERating</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;&lt;a href=&quot;www.google.com&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 14px;&quot;&gt;E-rating&lt;/a&gt;&lt;/p&gt;</text>
+    </textTemplates>
+    <variables>
+        <name>IconaBarra</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <stringValue>&lt;img src=&apos;/resource/Barra&apos;/&gt;</stringValue>
+        </value>
+    </variables>
+    <variables>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>testcheckbox</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
+</Flow>

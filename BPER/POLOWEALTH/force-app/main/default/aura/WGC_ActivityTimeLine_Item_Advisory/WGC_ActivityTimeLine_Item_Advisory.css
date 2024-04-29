@@ -1,0 +1,15 @@
+.THIS .supportObj{
+    position: absolute;
+    z-index: 100;
+    left: 20px;
+    top: 34px;
+}
+
+.THIS .slds-timeline__item_expandable:before {
+    left: 16px;
+    background-color: darkred;
+}
+
+.THIS .slds-icon-custom-custom83 {
+    background-color: darkred;
+}

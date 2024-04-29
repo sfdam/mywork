@@ -1,0 +1,30 @@
+<apex:page standardController="cgcloud__Order__c" recordSetVar="orders">
+    <apex:includeLightning />
+    <div id="compContainer" />
+    <script>
+        
+    $Lightning.use('c:ART_MassiveApproveApp', function() {
+        $Lightning.createComponent(
+            'c:artMassiveApprove',
+            {
+                recordId: "{!$CurrentPage.parameters.id}"
+            },
+            'compContainer',
+            function(cmp) {
+                console.log('component created {!$CurrentPage.parameters.id}');
+                //alessandro di nardo @ ten gestione generazione toast message tra il componete lwc : art_massiveApprove e la VF 
+                document.querySelector('c-art-massive-approve').addEventListener('toastdata', function(event){
+                    console.log('AD querySelector event => ', event.detail);
+                    let {variant,title,message} = event.detail
+
+                    sforce.one.showToast({
+                        "title": title,
+                        "message": message,
+                        "type": variant
+                    });
+                });
+                
+        });
+    });
+    </script>
+</apex:page>

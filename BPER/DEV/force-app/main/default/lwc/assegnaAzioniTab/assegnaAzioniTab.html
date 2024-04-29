@@ -1,0 +1,1026 @@
+<!--
+  @description       : 
+  @author            : simone.viglianti@tengroup.it
+  @group             : 
+  @last modified on  : 12-01-2021
+  @last modified by  : simone.viglianti@tengroup.it
+-->
+<template>
+    <template if:true={userNotEnabled}>
+        <div>
+            <p>Funzionalità non ancora disponibile. Torna in Homepage per continuare la navigazione</p>
+        </div>
+    </template>
+    <template if:false={userNotEnabled}>
+        <lightning-tabset variant="scoped" active-tab-value={activeTab}>
+            <template if:false={loaded}>
+                <div class="spinner-holder">
+                    <lightning-spinner alternative-text="Loading"></lightning-spinner>
+                </div>
+            </template>
+            <template if:true={loaded}>
+                <lightning-tab label="Assegnazione Campagne" value="assCam" onactive={handleActive}>
+                    <div class="c-container slds-is-relative">
+                        <template if:false={CMTabLoadedAssCmp}>
+                            <div class="spinner-holder">
+                                <lightning-spinner alternative-text="Loading"></lightning-spinner>
+                            </div>
+                        </template>
+                                <template if:true={assCamStep1}>
+                                    <lightning-layout  multiple-rows=true>
+                                        <lightning-layout-item size="6" padding="around-small">
+                                            <div class="tableTitle">ELENCO CLIENTI MMDS</div>
+                                            <lightning-datatable
+                                                key-field="ModelloDiServizio__c"
+                                                data={CMTabClientData}
+                                                columns={columnsMDS}
+                                                hide-checkbox-column>
+                                            </lightning-datatable>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="6" padding="around-small" class="slds-scrollable maxcontent">
+                                            <div class="tableTitle">CONTATTI ASSEGNATI PER REFERENTE</div>
+                                            <lightning-tree-grid
+                                                key-field="Id"
+                                                columns={columnsRef}
+                                                data={CMTabReferenteData}
+                                                hide-checkbox-column>
+                                            </lightning-tree-grid>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="6" padding="around-small">
+                                            <button name="assegnaCampagne" type="submit" class="slds-button slds-button_neutral slds-button_stretch" onclick={handleSendRequestCMTab} disabled={disabledButtonAssegnaCampagne}>Assegna</button>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="6" padding="around-small">
+                                            <!-- <button name="assegnaMassivamenteCampagne" type="submit" class="slds-button slds-button_neutral slds-button_stretch" onclick={handleAssegnaCMTabRequest} disabled>Assegna Massivamente</button> -->
+                                            <button name="assegnaMassivamenteCampagne" type="submit" class="slds-button slds-button_neutral slds-button_stretch" onclick={handleAssegnaCMTabRequest} disabled={disabledButtonAssegnaMassivamenteCampagne}>Assegna Massivamente</button>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="12" padding="around-small">
+                                            <div class="tableTitle"> <!--lightning-icon icon-name="standard:campaign" alternative-text="Campaign" title="Campaign"></lightning-icon--> ELENCO CAMPAGNE</div>
+                                            <lightning-datatable
+                                                key-field="Id"
+                                                data={campaignData}
+                                                columns={columnsElencoCampagne}
+                                                sorted-direction={sortDirection}
+                                                sorted-by={sortedBy}
+                                                onsort={onHandleSort}
+                                                selected-rows={selectedCampagneIds}
+                                                onrowselection={handleCampaignSelection}
+                                               >
+                                            </lightning-datatable>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="6" padding="around-small">
+                                            <button name="assegnaCampagne" type="submit" class="slds-button slds-button_neutral slds-button_stretch" onclick={handleSendRequestCMTab} disabled={disabledButtonAssegnaCampagne}>Assegna</button>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="6" padding="around-small">
+                                            <!-- <button name="assegnaMassivamenteCampagne" type="submit" class="slds-button slds-button_neutral slds-button_stretch" onclick={handleAssegnaCMTabRequest} disabled>Assegna Massivamente</button> -->
+                                            <button name="assegnaMassivamenteCampagne" type="submit" class="slds-button slds-button_neutral slds-button_stretch" onclick={handleAssegnaCMTabRequest} disabled={disabledButtonAssegnaMassivamenteCampagne}>Assegna Massivamente</button>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </template>
+        
+                                <template if:true={assCamStep2}>
+                                    <lightning-layout multiple-rows=true>
+                                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="3">
+                                            <lightning-combobox
+                                                name="searchedStatoAssegnazioneCMTab"
+                                                label="Stato assegnazione"
+                                                value={searchedStatoAssegnazioneCMTab}
+                                                placeholder="Seleziona uno stato"
+                                                options={optionsStato}
+                                                onchange={handleFilter}
+                                                class="fixin-margin-with-css">
+                                            </lightning-combobox>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="3">
+                                            <lightning-combobox
+                                                name="searchedMMDSCMTab"
+                                                label="M-MDS"
+                                                value={searchedMMDSCMTab}
+                                                placeholder="Seleziona un M-MDS"
+                                                options={optionsMMDS}
+                                                onchange={handleFilter}
+                                                class="fixin-margin-with-css">
+                                            </lightning-combobox>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="3">
+                                            <lightning-input type="text" label="Portafoglio" placeholder="Cerca per Portafoglio..." value={searchedNomeMwCMTab} onchange={handleFilter} name="searchedNomeMwCMTab"></lightning-input>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="3">
+                                            <lightning-input type="text" label="Miniportafoglio" placeholder="Cerca per Miniportafoglio..." value={searchedNomeMMwCMTab} onchange={handleFilter} name="searchedNomeMMwCMTab"></lightning-input>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="3">
+                                            <lightning-input type="text" label="Nome Referente" placeholder="Cerca per Nome Referente..." value={searchedRefCMTab} onchange={handleFilter} name="searchedRefCMTab"></lightning-input>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="3">
+                                            <lightning-input type="text" label="NDG" placeholder="Cerca per NDG..." value={searchedNDGCMTab} onchange={handleFilter} name="searchedNDGCMTab"></lightning-input>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="3" >
+                                            <lightning-combobox
+                                            name="searchedEsitoCMTab"
+                                            label="Esito Contatto"
+                                            value={searchedEsitoCMTab}
+                                            placeholder="Seleziona un esito"
+                                            options={optionsEsito}
+                                            onchange={handleFilter}
+                                            class="fixin-margin-with-css">
+                                            </lightning-combobox>
+                                        </lightning-layout-item>
+                                        <!--valerio.salvati-->
+                                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="3">
+                                            <lightning-input type="text" label="Autore Esitazione" placeholder="Cerca per Autore Esitazione..." value={searchedAutoreCMTab} onchange={handleFilter} name="searchedAutoreCMTab"></lightning-input>
+                                        </lightning-layout-item>
+                                        <!--valerio.salvati-->
+    
+                                        <!-- ATTIBUTI DINAMICI -->
+                                        <lightning-layout-item size="6">
+                                            <lightning-layout multiple-rows=true>
+                                                <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="4">
+                                                    <lightning-combobox
+                                                        name="selectedNomeAttributo1CMTab"
+                                                        label="Nome Attributo 1"
+                                                        value={selectedNomeAttributo1CMTab}
+                                                        placeholder="Seleziona un attributo..."
+                                                        options={optionsAttributo1CMTab}
+                                                        onchange={handleFilter}
+                                                        class="fixin-margin-with-css">
+                                                    </lightning-combobox>
+                                                </lightning-layout-item>
+                                                <template if:true={showRangeNum1CMTab}>
+                                                    <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="4">
+                                                        <lightning-input type="text" label="Inizio Valore 1" placeholder="Seleziona inizio range valore 1..." value={selectedValoreAttributo1StartCMTab} onchange={handleFilter} name="selectedValoreAttributo1StartCMTab"></lightning-input>
+                                                    </lightning-layout-item>
+                                                    <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="4">
+                                                        <lightning-input type="text" label="Fine Valore 1" placeholder="Seleziona fine range valore 1..." value={selectedValoreAttributo1EndCMTab} onchange={handleFilter} name="selectedValoreAttributo1EndCMTab"></lightning-input>
+                                                    </lightning-layout-item>
+                                                </template>
+                                                <template if:true={showRangeDate1CMTab}>
+                                                    <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="4">
+                                                        <lightning-input type="date" label="Inizio Valore 1" placeholder="Seleziona inizio range valore 1..." value={selectedValoreAttributo1StartCMTab} onchange={handleFilter} name="selectedValoreAttributo1StartCMTab"></lightning-input>
+                                                    </lightning-layout-item>
+                                                    <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="4">
+                                                        <lightning-input type="date" label="Fine Valore 1" placeholder="Seleziona fine range valore 1..." value={selectedValoreAttributo1EndCMTab} onchange={handleFilter} name="selectedValoreAttributo1EndCMTab"></lightning-input>
+                                                    </lightning-layout-item>
+                                                </template>
+                                                <template if:true={showSearchtext1CMTab}>
+                                                    <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="4">
+                                                        <lightning-input type="text" label="Valore 1" placeholder="Cerca valore 1..." value={searchedValoreAttributo1CMTab} onchange={handleFilter} name="searchedValoreAttributo1CMTab"></lightning-input>
+                                                    </lightning-layout-item>
+                                                </template>
+                                            </lightning-layout>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="6">
+                                            <lightning-layout multiple-rows=true>
+                                                <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="4">
+                                                    <lightning-combobox
+                                                        name="selectedNomeAttributo2CMTab"
+                                                        label="Nome Attributo 2"
+                                                        value={selectedNomeAttributo2CMTab}
+                                                        placeholder="Seleziona un attributo..."
+                                                        options={optionsAttributo2CMTab}
+                                                        onchange={handleFilter}
+                                                        class="fixin-margin-with-css">
+                                                    </lightning-combobox>
+                                                </lightning-layout-item>
+                                                <template if:true={showRangeNum2CMTab}>
+                                                    <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="4">
+                                                        <lightning-input type="text" label="Inizio Valore 2" placeholder="Seleziona inizio range valore 2..." value={selectedValoreAttributo2StartCMTab} onchange={handleFilter} name="selectedValoreAttributo2StartCMTab"></lightning-input>
+                                                    </lightning-layout-item>
+                                                    <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="4">
+                                                        <lightning-input type="text" label="Fine Valore 2" placeholder="Seleziona fine range valore 2..." value={selectedValoreAttributo2EndCMTab} onchange={handleFilter} name="selectedValoreAttributo2EndCMTab"></lightning-input>
+                                                    </lightning-layout-item>
+                                                </template>
+                                                <template if:true={showRangeDate2CMTab}>
+                                                    <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="4">
+                                                        <lightning-input type="date" label="Inizio Valore 2" placeholder="Seleziona inizio range valore 2..." value={selectedValoreAttributo2StartCMTab} onchange={handleFilter} name="selectedValoreAttributo2StartCMTab"></lightning-input>
+                                                    </lightning-layout-item>
+                                                    <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="4">
+                                                        <lightning-input type="date" label="Fine Valore 2" placeholder="Seleziona fine range valore 2..." value={selectedValoreAttributo2EndCMTab} onchange={handleFilter} name="selectedValoreAttributo2EndCMTab"></lightning-input>
+                                                    </lightning-layout-item>
+                                                </template>
+                                                <template if:true={showSearchtext2CMTab}>
+                                                    <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="4">
+                                                        <lightning-input type="text" label="Valore 2" placeholder="Cerca valore 2..." value={searchedValoreAttributo2CMTab} onchange={handleFilter} name="searchedValoreAttributo2CMTab"></lightning-input>
+                                                    </lightning-layout-item>
+                                                </template>
+                                            </lightning-layout>
+                                        </lightning-layout-item>
+                                        <!-- ATTIBUTI DINAMICI -->
+                                        <lightning-layout-item flexibility="auto" padding="around-small" size="12">
+                                            <lightning-button-group class="slds-m-top_large slds-float_right">
+                                                <lightning-button
+                                                    name="resetCMTab"
+                                                    variant="neutral"
+                                                    label="Reset"
+                                                    title="Reset"
+                                                    onclick={handleReset}>
+                                                </lightning-button>
+                                                <lightning-button 
+                                                    name="searchCMTab"
+                                                    variant="neutral"
+                                                    label="Cerca"
+                                                    title="Cerca"
+                                                    onclick={handleSearch}>
+                                                </lightning-button>
+                                            </lightning-button-group>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+
+                                    <lightning-layout multiple-rows=true>
+                                        <lightning-layout-item flexibility="auto" padding="around-small" size="6">
+                                            <lightning-layout  multiple-rows=true class="paginator slds-m-top_large slds-float_left">
+                                                <lightning-layout-item alignment-bump="left">
+                                                    <lightning-layout class="slds-align_absolute-center">
+                                                        <lightning-layout-item padding="around-small">
+                                                            <div>
+                                                                <lightning-button-icon icon-name="utility:chevronleft"  variant="container"  onclick={handleIndietro} disabled={disabledButtonIndietro}></lightning-button-icon>
+                                                            </div>
+                                                        </lightning-layout-item>
+                                                        <lightning-layout-item padding="around-small">
+                                                            Pag. {CMTabPage} di {CMTabPages.length}
+                                                        </lightning-layout-item>
+                                                        <lightning-layout-item padding="around-small">
+                                                            <div>
+                                                                <lightning-button-icon icon-name="utility:chevronright"  variant="container"  onclick={handleAvanti} disabled={disabledButtonAvanti}></lightning-button-icon>
+                                                            </div>                
+                                                        </lightning-layout-item>
+                                                    </lightning-layout>
+                                                </lightning-layout-item>
+                                            </lightning-layout>
+                                        </lightning-layout-item>  
+                                        <lightning-layout-item flexibility="auto" padding="around-small" size="6">
+                                            <lightning-button-group class="slds-m-top_large slds-float_right">
+                                                <lightning-button
+                                                    name="assCamStep2"
+                                                    variant="neutral"
+                                                    label="Indietro"
+                                                    title="Indietro"
+                                                    onclick={handleBack}>
+                                                </lightning-button>
+                                                <lightning-button
+                                                    variant="neutral"
+                                                    label="Assegna"
+                                                    title="Assegna"
+                                                    disabled={disabledButtonAssegnaCampagneStep2}
+                                                    onclick={handleAssegnaCMTabRequest}>
+                                                </lightning-button>
+                                            </lightning-button-group>
+                                        </lightning-layout-item>                     
+                                        <lightning-layout-item size="12" padding="around-small">
+                                            <div class="slds-p-around_medium lgc-bg">
+                                                <lightning-tile label={selectedCampagna.nomeCampagna} type="media">
+                                                    <lightning-icon slot="media" size="large" icon-name="standard:campaign"></lightning-icon>
+                                                    <ul class="slds-list_horizontal slds-has-dividers_right">
+                                                        <li class="slds-item">Bisogno:&nbsp; <b>{selectedCampagna.bisogno}</b></li>
+                                                        <li class="slds-item">Data inizio:&nbsp; <b><lightning-formatted-date-time value={selectedCampagna.startDate} year="numeric" month="numeric" day="numeric"></lightning-formatted-date-time></b></li>
+                                                        <li class="slds-item">Data fine:&nbsp; <b><lightning-formatted-date-time value={selectedCampagna.endDate} year="numeric" month="numeric" day="numeric"></lightning-formatted-date-time></b></li>
+                                                        <li class="slds-item">Priorita:&nbsp; <b>{selectedCampagna.priorita}</b></li>
+                                                        <li class="slds-item">Totale Contatti Da Assegnare:&nbsp; <b>{selectedCampagna.totaleContatti}</b></li>
+                                                        <li class="slds-item">Elementi selezionati:&nbsp; <b>{counterCMTab}</b></li>
+                                                    </ul>
+                                                </lightning-tile>
+                                            </div>
+                                            <div class="tableTitle"> ELENCO MEMBRI DI CAMPAGNE</div>
+                                            <lightning-datatable
+                                                data-item='campaignMembersTable'
+                                                name="campaignMembersTable"
+                                                key-field="Id"
+                                                data={currentPageData}
+                                                columns={campMembColumns}
+                                                selected-rows={selectedCMTabRowIds}
+                                                sorted-direction={sortDirection}
+                                                sorted-by={sortedBy}
+                                                onsort={onHandleSort}
+                                                onrowselection={handleCampaignSelectionStep2}
+                                                wrap-text-max-lines="2">
+                                            </lightning-datatable>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item flexibility="auto" padding="around-small" size="12">
+                                            <lightning-button-group class="slds-m-top_large slds-float_right">
+                                                <lightning-button
+                                                    name="assCamStep2"
+                                                    variant="neutral"
+                                                    label="Indietro"
+                                                    title="Indietro"
+                                                    onclick={handleBack}>
+                                                </lightning-button>
+                                                <lightning-button
+                                                    variant="neutral"
+                                                    label="Assegna"
+                                                    title="Assegna"
+                                                    disabled={disabledButtonAssegnaCampagneStep2}
+                                                    onclick={handleAssegnaCMTabRequest}>
+                                                </lightning-button>
+                                            </lightning-button-group>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </template>
+        
+                                <template if:true={assCamStep3}>
+                                    <lightning-layout  multiple-rows=true>
+                                        <lightning-layout-item flexibility="auto" padding="around-small" size="12">
+                                            <lightning-button-group class="slds-m-top_large slds-float_right">
+                                                <lightning-button
+                                                    name="assCamStep3"
+                                                    variant="neutral"
+                                                    label="Indietro"
+                                                    title="Indietro"
+                                                    onclick={handleBack}>
+                                                </lightning-button>
+                                                <lightning-button
+                                                    variant="neutral"
+                                                    label="Assegna"
+                                                    title="Assegna"
+                                                    disabled={disabledButtonAssegnaCampagneStep3}
+                                                    onclick={handleAssegnaReferenteRequestCMTab}>
+                                                </lightning-button>
+                                            </lightning-button-group>
+                                        </lightning-layout-item>              
+                                        <lightning-layout-item size="12" padding="around-small">
+                                            <template if:false={isAggiungiMassivamenteCM}>
+                                                <div class="slds-p-around_medium lgc-bg">
+                                                    <lightning-tile label={selectedCampagna.nomeCampagna} type="media">
+                                                        <lightning-icon slot="media" size="large" icon-name="standard:campaign"></lightning-icon>
+                                                        <ul class="slds-list_horizontal slds-has-dividers_right">
+                                                            <li class="slds-item">Bisogno:&nbsp; <b>{selectedCampagna.bisogno}</b></li>
+                                                            <li class="slds-item">Data inizio:&nbsp; <b><lightning-formatted-date-time value={selectedCampagna.startDate} year="numeric" month="numeric" day="numeric"></lightning-formatted-date-time></b></li>
+                                                            <li class="slds-item">Data fine:&nbsp; <b><lightning-formatted-date-time value={selectedCampagna.endDate} year="numeric" month="numeric" day="numeric"></lightning-formatted-date-time></b></li>
+                                                            <li class="slds-item">Priorita:&nbsp; <b>{selectedCampagna.priorita}</b></li>
+                                                            <li class="slds-item">Totale Contatti Da Assegnare:&nbsp; <b>{selectedCampagna.totaleContatti}</b></li>
+                                                        </ul>
+                                                    </lightning-tile>
+                                                </div>
+                                            </template>
+                                            <div class="tableTitle"> <!--lightning-icon icon-name="standard:campaign" alternative-text="Campaign" title="Campaign"></lightning-icon--> ELENCO REFERENTI</div>
+                                            <lightning-datatable
+                                                data-item='currentReferentTable'
+                                                key-field="Id"
+                                                data={currentReferentData}
+                                                columns={refAssColumns}
+                                                onsort={onHandleSort}
+                                                max-row-selection="1"
+                                                onrowselection={handleReferenteSelection}>
+                                            </lightning-datatable>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item flexibility="auto" padding="around-small" size="12">
+                                            <lightning-button-group class="slds-m-top_large slds-float_right">
+                                                <lightning-button
+                                                    name="assCamStep3"
+                                                    variant="neutral"
+                                                    label="Indietro"
+                                                    title="Indietro"
+                                                    onclick={handleBack}>
+                                                </lightning-button>
+                                                <lightning-button
+                                                    variant="neutral"
+                                                    label="Assegna"
+                                                    title="Assegna"
+                                                    disabled={disabledButtonAssegnaCampagneStep3}
+                                                    onclick={handleAssegnaReferenteRequestCMTab}>
+                                                </lightning-button>
+                                            </lightning-button-group>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                    <template if:true={showSpinner}>
+                                        <div class="spinner-holder">
+                                            <lightning-spinner alternative-text="Loading"></lightning-spinner>
+                                        </div>
+                                    </template>
+                                </template>
+                    </div>
+                </lightning-tab>
+                <lightning-tab label="Assegnazione Opportunità" value="assOpp" onactive={handleActive}>
+                    <div class="c-container slds-is-relative">
+                        <template if:false={OPPTabLoadedAssCmp}>
+                            <div class="spinner-holder">
+                                <lightning-spinner alternative-text="Loading"></lightning-spinner>
+                            </div>
+                        </template>
+                                <template if:true={assOppStep1}>
+                                    <lightning-layout  multiple-rows=true>
+                                        <lightning-layout  multiple-rows=true>
+                                            <lightning-layout-item size="6" padding="around-small">
+                                                <div class="tableTitle">ELENCO CLIENTI MMDS</div>
+                                                <lightning-datatable
+                                                    key-field="modelloServizio"
+                                                    data={OPPTabClientData}
+                                                    columns={columnsMDS}
+                                                    hide-checkbox-column>
+                                                </lightning-datatable>
+                                            </lightning-layout-item>
+                                            <lightning-layout-item size="6" padding="around-small" class="slds-scrollable maxcontent">
+                                                <div class="tableTitle">CONTATTI ASSEGNATI PER REFERENTE</div>
+                                                <lightning-tree-grid
+                                                    key-field="Id"
+                                                    columns={columnsRef}
+                                                    data={OPPTabReferenteData}
+                                                    hide-checkbox-column>
+                                                </lightning-tree-grid>
+                                            </lightning-layout-item>
+                                        </lightning-layout>
+                                    </lightning-layout>
+                                    <lightning-layout multiple-rows=true>
+                                        <lightning-layout-item size="6" padding="around-small">
+                                            <button name="assegnaOpportunities" type="submit" class="slds-button slds-button_neutral slds-button_stretch" onclick={handleSendRequestOPPTab} disabled={disabledButtonAssegnaOpp}>Assegna</button>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="6" padding="around-small">
+                                            <button name="assegnaMassivamenteOpportunities" type="submit" class="slds-button slds-button_neutral slds-button_stretch" onclick={handleAssegnaOPPTabRequest} disabled={disabledButtonAssegnaMassivamenteOpp}>Assegna Massivamente</button>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="12" padding="around-small">
+                                            <div class="tableTitle">ELENCO OPPORTUNITA'</div>
+                                            <lightning-datatable
+                                                data-item='oppMembersTable'
+                                                key-field="Id"
+                                                data={opportunityData}
+                                                columns={oppColumns}
+                                                sorted-direction={sortDirection}
+                                                sorted-by={sortedBy}
+                                                onsort={onHandleSort}
+                                                selected-rows={selectedOpportunityGroupsId}
+                                                onrowselection={handleOppSelection}
+                                                wrap-text-max-lines="2">
+                                            </lightning-datatable>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="6" padding="around-small">
+                                            <button name="assegnaOpportunities" type="submit" class="slds-button slds-button_neutral slds-button_stretch" onclick={handleSendRequestOPPTab} disabled={disabledButtonAssegnaOpp}>Assegna</button>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="6" padding="around-small">
+                                            <button name="assegnaMassivamenteOpportunities" type="submit" class="slds-button slds-button_neutral slds-button_stretch" onclick={handleAssegnaOPPTabRequest} disabled={disabledButtonAssegnaMassivamenteOpp}>Assegna Massivamente</button>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </template>
+
+                                <template if:true={assOppStep2}>
+                                    <lightning-layout  multiple-rows=true>
+                                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="2">
+                                            <lightning-combobox
+                                                name="searchedStatoAssegnazioneOPPTab"
+                                                label="Stato assegnazione"
+                                                value={searchedStatoAssegnazioneOPPTab}
+                                                placeholder="Seleziona uno stato"
+                                                options={optionsStato}
+                                                onchange={handleFilter}
+                                                class="fixin-margin-with-css">
+                                            </lightning-combobox>
+                                        </lightning-layout-item>
+    
+                                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="2">
+                                            <lightning-combobox
+                                                name="searchedCanaleOPPTab"
+                                                label="Origine"
+                                                value={searchedCanaleOPPTab}
+                                                placeholder="Seleziona un Origine"
+                                                options={optionsCanale}
+                                                onchange={handleFilter} 
+                                                class="fixin-margin-with-css">
+                                            </lightning-combobox>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="2">
+                                            <lightning-combobox
+                                                name="searchedBisognoOPPTab"
+                                                label="Bisogno"
+                                                value={searchedBisognoOPPTab}
+                                                placeholder="Seleziona un Bisogno"
+                                                options={optionsBisogno}
+                                                onchange={handleFilter} 
+                                                class="fixin-margin-with-css">
+                                            </lightning-combobox>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="3">
+                                            <lightning-input type="text" label="Oggetto" placeholder="Cerca per Oggetto..." value={searchedOggettoOPPTab} onchange={handleFilter} name="searchedOggettoOPPTab"></lightning-input>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="2">
+                                            <lightning-input type="text" label="NDG" placeholder="Cerca per NDG..." value={searchedNDGOPPTab} onchange={handleFilter} name="searchedNDGOPPTab"></lightning-input>
+                                        </lightning-layout-item>
+                                        <!--valerio.salvati-->
+                                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="2">
+                                            <lightning-input type="text" label="Nome Cliente" placeholder="Cerca per Nome Cliente..." value={searchedAccNameOPPTab} onchange={handleFilter} name="searchedAccNameOPPTab"></lightning-input>
+                                        </lightning-layout-item>
+                                        <!--valerio.salvati-->
+                                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="2">
+                                            <lightning-combobox
+                                                name="searchedMMDSOPPTab"
+                                                label="M-MDS"
+                                                value={searchedMMDSOPPTab}
+                                                placeholder="Seleziona un M-MDS"
+                                                options={optionsMMDS}
+                                                onchange={handleFilter}
+                                                class="fixin-margin-with-css">
+                                            </lightning-combobox>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="2" >
+                                            <lightning-input type="text" label="Nome Referente" placeholder="Cerca per Nome Referente..." value={searchedRefOPPTab} onchange={handleFilter} name="searchedRefOPPTab"></lightning-input>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="2" >
+                                            <lightning-combobox
+                                            name="searchedEsitoContattoOPPTab"
+                                            label="Esito Contatto"
+                                            value={searchedEsitoContattoOPPTab}
+                                            placeholder="Seleziona un esito"
+                                            options={optionsEsitoOpp}
+                                            onchange={handleFilter}
+                                            class="fixin-margin-with-css">
+                                            </lightning-combobox>
+                                        </lightning-layout-item>
+                                        <!--valerio.salvati-->
+                                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="2" >
+                                            <lightning-input type="text" label="Autore Esitazione" placeholder="Cerca per Autore Esitazione..." value={searchedAutoreOPPTab} onchange={handleFilter} name="searchedAutoreOPPTab"></lightning-input>
+                                        </lightning-layout-item>
+                                        <!--valerio.salvati-->
+                                        <lightning-layout-item flexibility="auto" padding="around-small" size="12">
+                                            <lightning-button-group class="slds-m-top_large slds-float_right">
+                                                <lightning-button
+                                                    name="resetOPPTab"
+                                                    variant="neutral"
+                                                    label="Reset"
+                                                    title="Reset"
+                                                    onclick={handleReset}>
+                                                </lightning-button>
+                                                <lightning-button 
+                                                    name="searchOPPTab"
+                                                    variant="neutral"
+                                                    label="Cerca"
+                                                    title="Cerca"
+                                                    onclick={handleSearch}>
+                                                </lightning-button>
+                                            </lightning-button-group>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+
+                                    <lightning-layout multiple-rows=true>
+                                        <lightning-layout-item flexibility="auto" padding="around-small" size="6">
+                                            <lightning-layout multiple-rows=true class="paginator slds-m-top_large slds-float_left">
+                                                <lightning-layout-item alignment-bump="left">
+                                                    <lightning-layout class="slds-align_absolute-center">
+                                                        <lightning-layout-item padding="around-small">
+                                                            <div>
+                                                                <lightning-button-icon icon-name="utility:chevronleft"  variant="container"  onclick={handleIndietro} disabled={disabledButtonIndietro}></lightning-button-icon>
+                                                            </div>
+                                                        </lightning-layout-item>
+                                                        <lightning-layout-item padding="around-small">
+                                                            Pag. {OPPTabPage} di {OPPTabPages.length}
+                                                        </lightning-layout-item>
+                                                        <lightning-layout-item padding="around-small">
+                                                            {counterOPPTab} elementi selezionati
+                                                        </lightning-layout-item>
+                                                        <lightning-layout-item padding="around-small">
+                                                            <div>
+                                                                <lightning-button-icon icon-name="utility:chevronright"  variant="container"  onclick={handleAvanti} disabled={disabledButtonAvanti}></lightning-button-icon>
+                                                            </div>                
+                                                        </lightning-layout-item>
+                                                    </lightning-layout>
+                                                </lightning-layout-item>
+                                            </lightning-layout>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item flexibility="auto" padding="around-small" size="6">
+                                            <lightning-button-group class="slds-m-top_large slds-float_right">
+                                                <lightning-button
+                                                    name="assCamStep2"
+                                                    variant="neutral"
+                                                    label="Indietro"
+                                                    title="Indietro"
+                                                    onclick={handleBack}>
+                                                </lightning-button>
+                                                <lightning-button
+                                                    variant="neutral"
+                                                    label="Assegna"
+                                                    title="Assegna"
+                                                    disabled={disabledButtonAssegnaOppStep2}
+                                                    onclick={handleAssegnaOPPTabRequest}>
+                                                </lightning-button>
+                                            </lightning-button-group>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="12" padding="around-small">
+                                            <div class="tableTitle">ELENCO OPPORTUNITA'</div>
+                                            <lightning-datatable
+                                                data-item='oppMembersTableStep2'
+                                                key-field="Id"
+                                                data={currentPageData}
+                                                columns={oppColumnsStep2}
+                                                selected-rows={selectedOPPTabRowIds}
+                                                sorted-direction={sortDirection}
+                                                sorted-by={sortedBy}
+                                                onsort={onHandleSort}
+                                                onrowselection={handleOppSelectionStep2}
+                                                wrap-text-max-lines="2">
+                                            </lightning-datatable>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item flexibility="auto" padding="around-small" size="12">
+                                            <lightning-button-group class="slds-m-top_large slds-float_right">
+                                                <lightning-button
+                                                    name="assCamStep2"
+                                                    variant="neutral"
+                                                    label="Indietro"
+                                                    title="Indietro"
+                                                    onclick={handleBack}>
+                                                </lightning-button>
+                                                <lightning-button
+                                                    variant="neutral"
+                                                    label="Assegna"
+                                                    title="Assegna"
+                                                    disabled={disabledButtonAssegnaOppStep2}
+                                                    onclick={handleAssegnaOPPTabRequest}>
+                                                </lightning-button>
+                                            </lightning-button-group>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </template>
+                                
+                                <template if:true={assOppStep3}>
+                                    <lightning-layout  multiple-rows=true>
+                                        <lightning-layout-item flexibility="auto" padding="around-small" size="12">
+                                            <lightning-button-group class="slds-m-top_large slds-float_right">
+                                                <lightning-button
+                                                    name="assOppStep3"
+                                                    variant="neutral"
+                                                    label="Indietro"
+                                                    title="Indietro"
+                                                    onclick={handleBack}>
+                                                </lightning-button>
+                                                <lightning-button
+                                                    variant="neutral"
+                                                    label="Assegna"
+                                                    title="Assegna"
+                                                    disabled={disabledButtonAssegnaOppStep3}
+                                                    onclick={handleAssegnaReferenteRequestOPPTab}>
+                                                </lightning-button>
+                                            </lightning-button-group>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="12" padding="around-small">
+                                            <div class="tableTitle">ELENCO REFERENTI</div>
+                                            <lightning-datatable
+                                                data-item='currentReferentTable'
+                                                key-field="Id"
+                                                data={currentReferentData}
+                                                columns={refAssColumns}
+                                                sorted-direction={sortDirection}
+                                                sorted-by={sortedBy}
+                                                onsort={onHandleSort}
+                                                max-row-selection="1"
+                                                onrowselection={handleReferenteOPPTabSelection}>
+                                            </lightning-datatable>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item flexibility="auto" padding="around-small" size="12">
+                                            <lightning-button-group class="slds-m-top_large slds-float_right">
+                                                <lightning-button
+                                                    name="assOppStep3"
+                                                    variant="neutral"
+                                                    label="Indietro"
+                                                    title="Indietro"
+                                                    onclick={handleBack}>
+                                                </lightning-button>
+                                                <lightning-button
+                                                    variant="neutral"
+                                                    label="Assegna"
+                                                    title="Assegna"
+                                                    disabled={disabledButtonAssegnaOppStep3}
+                                                    onclick={handleAssegnaReferenteRequestOPPTab}>
+                                                </lightning-button>
+                                            </lightning-button-group>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                    <template if:true={showSpinner}>
+                                        <div class="spinner-holder">
+                                            <lightning-spinner alternative-text="Loading"></lightning-spinner>
+                                        </div>
+                                    </template>
+                                </template>
+                    </div>
+                </lightning-tab>
+                <lightning-tab label="Riassegnazione per Referenti" value="assRef" onactive={handleActive}>
+                    <template if:true={assRefStep1}>
+                        <lightning-layout multiple-rows="true">
+                            <lightning-layout-item size="12" padding="around-small">
+                                <button type="submit" class="slds-button slds-button_neutral slds-button_stretch" onclick={handleRefSelection} disabled={disbaleRefAssignButton}>Assegna</button>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" padding="around-small">
+                                <div class="tableTitle">ELENCO REFERENTI</div>
+                                <lightning-datatable
+                                    data-item='tableREFTab'
+                                    name="tableREFTab"
+                                    key-field="Id"
+                                    data={tableData}
+                                    columns={columnsListaRefrenti}
+                                    sorted-direction={sortDirection}
+                                    sorted-by={sortedBy}
+                                    onsort={onHandleSortAssRefStep1}
+                                    onrowselection={onRowSelectionRefTab}
+                                    max-row-selection="1"
+                                    wrap-text-max-lines="2">
+                                </lightning-datatable>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" padding="around-small">
+                                <button type="submit" class="slds-button slds-button_neutral slds-button_stretch" onclick={handleRefSelection} disabled={disbaleRefAssignButton}>Assegna</button>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </template>
+    
+                    <!-- NEW CR - AGGIUNTA STEP 2 TAB REFRENTI -->
+                    <template if:true={assRefStep2}>
+                        <!-- FILTRI -->
+                        <lightning-layout multiple-rows=true>
+                            <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="2">
+                                <lightning-combobox
+                                    name="searchedMMDSREFTab"
+                                    label="M-MDS"
+                                    value={searchedMMDSREFTab}
+                                    placeholder="Seleziona un M-MDS"
+                                    options={optionsMMDS}
+                                    onchange={handleFilter}
+                                    class="fixin-margin-with-css">
+                                </lightning-combobox>
+                            </lightning-layout-item>
+                            <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="2" >
+                                <lightning-combobox
+                                name="searchedEsitoREFTab"
+                                label="Esito Contatto"
+                                value={searchedEsitoREFTab}
+                                placeholder="Seleziona un esito"
+                                options={optionsEsito}
+                                onchange={handleFilter}
+                                class="fixin-margin-with-css">
+                                </lightning-combobox>
+                            </lightning-layout-item>
+                            <!--valerio.salvati-->
+                            <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="2">
+                                <lightning-input type="text" label="Autore Esitazione" placeholder="Cerca per Autore Esitazione..." value={searchedAutoreREFTab} onchange={handleFilter} name="searchedAutoreREFTab"></lightning-input>
+                            </lightning-layout-item>
+                            <!--valerio.salvati-->
+                            <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="2">
+                                <lightning-input type="text" label="NDG" placeholder="Cerca per NDG..." value={searchedNDGREFTab} onchange={handleFilter} name="searchedNDGREFTab"></lightning-input>
+                            </lightning-layout-item>
+                            <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="2">
+                                <lightning-input type="text" label="Portafoglio" placeholder="Cerca per Portafoglio..." value={searchedNomeMwREFTab} onchange={handleFilter} name="searchedNomeMwREFTab"></lightning-input>
+                            </lightning-layout-item>
+                            <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="2">
+                                <lightning-input type="text" label="Miniportafoglio" placeholder="Cerca per Miniportafoglio..." value={searchedNomeMMwREFTab} onchange={handleFilter} name="searchedNomeMMwREFTab"></lightning-input>
+                            </lightning-layout-item>
+                            <lightning-layout-item flexibility="auto" padding="around-small" size="12">
+                                <lightning-button-group class="slds-m-top_large slds-float_right">
+                                    <lightning-button
+                                        name="resetREFTab"
+                                        variant="neutral"
+                                        label="Reset"
+                                        title="Reset"
+                                        onclick={handleResetREFTab}>
+                                    </lightning-button>
+                                    <lightning-button 
+                                        name="searchREFTab"
+                                        variant="neutral"
+                                        label="Cerca"
+                                        title="Cerca"
+                                        onclick={handleSearchREFTab}>
+                                    </lightning-button>
+                                </lightning-button-group>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                        <!-- FILTRI -->
+                        <lightning-layout multiple-rows=true>
+                            <lightning-layout-item flexibility="auto" padding="around-small" size="12">
+                                <lightning-button-group class="slds-m-top_large slds-float_right">
+                                    <lightning-button
+                                        name="assRefStep2"
+                                        variant="neutral"
+                                        label="Indietro"
+                                        title="Indietro"
+                                        onclick={handleBack}>
+                                    </lightning-button>
+                                    <lightning-button 
+                                        name="searchREFTab"
+                                        variant="neutral"
+                                        label="Assegna"
+                                        title="Assegna"
+                                        disabled={disabledButtonAssegnaRefStep2}
+                                        onclick={handleAssignRef}>
+                                    </lightning-button>
+                                </lightning-button-group>
+                            </lightning-layout-item>
+                        </lightning-layout>
+    
+                        <!-- TABELLA CAMPAGNE -->
+                        <template if:true={tableCMREFTabShow}>
+                            <lightning-layout multiple-rows=true>
+                                <lightning-layout-item flexibility="auto" padding="around-small" size="6">
+                                    <lightning-layout  multiple-rows=true class="paginator slds-m-top_large slds-float_left">
+                                        <lightning-layout-item alignment-bump="left">
+                                            <lightning-layout class="slds-align_absolute-center">
+                                                <lightning-layout-item padding="around-small">
+                                                    <div>
+                                                        <lightning-button-icon icon-name="utility:chevronleft"  variant="container"  onclick={handleIndietroCMREFTab} disabled={disabledButtonIndietroCMREFTab}></lightning-button-icon>
+                                                    </div>
+                                                </lightning-layout-item>
+                                                <lightning-layout-item padding="around-small">
+                                                    Pag. {CMREFTabPage} di {CMREFTabPages.length}
+                                                </lightning-layout-item>
+                                                <lightning-layout-item padding="around-small">
+                                                    <div>
+                                                        <lightning-button-icon icon-name="utility:chevronright"  variant="container"  onclick={handleAvantiCMREFTab} disabled={disabledButtonAvantiCMREFTab}></lightning-button-icon>
+                                                    </div>                
+                                                </lightning-layout-item>
+                                            </lightning-layout>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>  
+                                <lightning-layout-item size="12" padding="around-small">
+                                    <div class="slds-p-around_medium lgc-bg">
+                                        <lightning-tile label={selectedUserRefTab.nomeRisorsa} type="media">
+                                            <lightning-icon slot="media" size="large" icon-name="standard:avatar"></lightning-icon>
+                                            <ul class="slds-list_horizontal slds-has-dividers_right">                                                
+                                                <li class="slds-item">Totale Contatti Assegnati:&nbsp; <b>{selectedUserRefTab.numeroContattiCampagne}</b></li>
+                                                <li class="slds-item">Elementi selezionati:&nbsp; <b>{counterCMREFTab}</b></li>
+                                            </ul>
+                                        </lightning-tile>
+                                    </div>
+                                    <div class="tableTitle">ELENCO MEMBRI DI CAMPAGNE</div>
+                                    <lightning-datatable
+                                        data-item='tableCMREFTab'
+                                        name="tableCMREFTab"
+                                        key-field="Id"
+                                        data={currentPageDataCMREFTab}
+                                        columns={campMembColumns}
+                                        selected-rows={selectedCMREFTabRowIds}
+                                        sorted-direction={sortDirectionCMREFTab}
+                                        sorted-by={sortedByCMREF}
+                                        onsort={onHandleSortCMREFTab}
+                                        onrowselection={onRowSelectionRefTabStep2C}
+                                        wrap-text-max-lines="2">
+                                    </lightning-datatable>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </template>
+                        <!-- TABELLA CAMPAGNE -->
+    
+                        <!-- TABELLA OPPORTUNITA' -->
+                        <template if:true={tableOPPREFTabShow}>
+                            <lightning-layout multiple-rows=true>
+                                <lightning-layout-item flexibility="auto" padding="around-small" size="6">
+                                    <lightning-layout  multiple-rows=true class="paginator slds-m-top_large slds-float_left">
+                                        <lightning-layout-item alignment-bump="left">
+                                            <lightning-layout class="slds-align_absolute-center">
+                                                <lightning-layout-item padding="around-small">
+                                                    <div>
+                                                        <lightning-button-icon icon-name="utility:chevronleft"  variant="container"  onclick={handleIndietroOPPREFTab} disabled={disabledButtonIndietroOPPREFTab}></lightning-button-icon>
+                                                    </div>
+                                                </lightning-layout-item>
+                                                <lightning-layout-item padding="around-small">
+                                                    Pag. {OPPREFTabPage} di {OPPREFTabPages.length}
+                                                </lightning-layout-item>
+                                                <lightning-layout-item padding="around-small">
+                                                    <div>
+                                                        <lightning-button-icon icon-name="utility:chevronright"  variant="container"  onclick={handleAvantiOPPREFTab} disabled={disabledButtonAvantiOPPREFTab}></lightning-button-icon>
+                                                    </div>                
+                                                </lightning-layout-item>
+                                            </lightning-layout>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>  
+                                <lightning-layout-item size="12" padding="around-small">
+                                    <div class="slds-p-around_medium lgc-bg">
+                                        <lightning-tile label={selectedUserRefTab.nomeRisorsa} type="media">
+                                            <lightning-icon slot="media" size="large" icon-name="standard:avatar"></lightning-icon>
+                                            <ul class="slds-list_horizontal slds-has-dividers_right">                                                
+                                                <li class="slds-item">Totale Contatti Assegnati:&nbsp; <b>{selectedUserRefTab.numeroContattiOpportunita}</b></li>
+                                                <li class="slds-item">Elementi selezionati:&nbsp; <b>{counterOPPREFTab}</b></li>
+                                            </ul>
+                                        </lightning-tile>
+                                    </div>
+                                    <div class="tableTitle">ELENCO OPPORTUNITA'</div>
+                                    <lightning-datatable
+                                        data-item='tableOPPREFTab'
+                                        name="tableOPPREFTab"
+                                        key-field="Id"
+                                        data={currentPageDataOPPREFTab}
+                                        columns={oppColumnsStep2}
+                                        selected-rows={selectedOPPREFTabRowIds}
+                                        sorted-direction={sortDirectionOPPREFTab}
+                                        sorted-by={sortedByOPPREF}
+                                        onsort={onHandleSortOPPREFTab}
+                                        onrowselection={onRowSelectionRefTabStep2O}
+                                        wrap-text-max-lines="2">
+                                    </lightning-datatable>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </template>
+                        <!-- TABELLA OPPORTUNITA' -->
+    
+                        <lightning-layout multiple-rows=true>
+                            <lightning-layout-item flexibility="auto" padding="around-small" size="12">
+                                <lightning-button-group class="slds-m-top_large slds-float_right">
+                                    <lightning-button
+                                        name="assRefStep2"
+                                        variant="neutral"
+                                        label="Indietro"
+                                        title="Indietro"
+                                        onclick={handleBack}>
+                                    </lightning-button>
+                                    <lightning-button 
+                                        name="searchREFTab"
+                                        variant="neutral"
+                                        label="Assegna"
+                                        title="Assegna"
+                                        disabled={disabledButtonAssegnaRefStep2}
+                                        onclick={handleAssignRef}>
+                                    </lightning-button>
+                                </lightning-button-group>
+                            </lightning-layout-item>
+                            <!-- <lightning-layout-item size="6" padding="around-small">
+                                <button type="submit" class="slds-button slds-button_neutral slds-button_stretch" onclick={handleBack}>Indietro</button>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="6" padding="around-small">
+                                <button type="submit" class="slds-button slds-button_neutral slds-button_stretch" onclick={handleAssignRef}>Assegna</button>
+                            </lightning-layout-item> -->
+                        </lightning-layout>
+                    </template>
+                    <!-- NEW CR - AGGIUNTA STEP 2 TAB REFRENTI -->
+    
+                    <template if:true={assRefStep3}>
+                        <lightning-layout multiple-rows="true">
+                            <lightning-layout-item flexibility="auto" padding="around-small" size="12">
+                                <lightning-button-group class="slds-m-top_large slds-float_right">
+                                    <lightning-button
+                                        name="assRefStep3"
+                                        variant="neutral"
+                                        label="Indietro"
+                                        title="Indietro"
+                                        onclick={handleBack}>
+                                    </lightning-button>
+                                    <lightning-button
+                                        variant="neutral"
+                                        label="Riassegna Massivamente"
+                                        title="Riassegna Massivamente"
+                                        onclick={handleSave}
+                                        disabled={isAssignmentDisabled}>
+                                    </lightning-button>
+                                </lightning-button-group>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" padding="around-small">
+                                <lightning-datatable
+                                    data-item='referentiToAssignToTable'
+                                    key-field="id"
+                                    data={userDataRows}
+                                    columns={columnsRef1}
+                                    sorted-direction={sortDirection}
+                                    sorted-by={sortedBy}
+                                    onsort={onHandleSortAssRefStep2}
+                                    onrowselection={handleUserSelection}
+                                    max-row-selection="1">
+                                </lightning-datatable>
+                            </lightning-layout-item>
+                            <lightning-layout-item flexibility="auto" padding="around-small" size="12">
+                                <lightning-button-group class="slds-m-top_large slds-float_right">
+                                    <lightning-button
+                                        name="assRefStep3"
+                                        variant="neutral"
+                                        label="Indietro"
+                                        title="Indietro"
+                                        onclick={handleBack}>
+                                    </lightning-button>
+                                    <lightning-button
+                                        variant="neutral"
+                                        label="Riassegna Massivamente"
+                                        title="Riassegna Massivamente"
+                                        onclick={handleSave}
+                                        disabled={isAssignmentDisabled}>
+                                    </lightning-button>
+                                </lightning-button-group>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </template>
+                    <template if:true={showSpinner}>
+                        <div class="spinner-holder">
+                            <lightning-spinner alternative-text="Loading"></lightning-spinner>
+                        </div>
+                    </template>
+                </lightning-tab>
+            </template>
+        </lightning-tabset>
+    </template>
+    
+    <template if:true={openDialog}>
+        <lightning-card>
+            <div class="slds-container_small">
+                <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container">
+                        <header class="slds-modal__header">
+                            <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate"></h2>
+                        </header>
+                        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                            <p>{messaggioIsBatch}Vuoi confermare operazione?</p>
+                        </div>
+                        <footer class="slds-modal__footer">
+                            <lightning-button variant="neutral"
+                                              name="cancel"
+                                              label='Annulla'
+                                              title='Cancel'
+                                              onclick={handleClickDialog} ></lightning-button>
+                            <lightning-button variant="brand"
+                                              name="Conferma"
+                                              label='Conferma'
+                                              title='Conferma'
+                                              onclick={handleClickDialog} ></lightning-button>
+                        </footer>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </div>
+        </lightning-card>
+    </template>
+</template>

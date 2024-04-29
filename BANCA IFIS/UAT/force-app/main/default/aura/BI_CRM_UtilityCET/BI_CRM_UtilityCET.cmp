@@ -1,0 +1,29 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,lightning:isUrlAddressable" access="global" extends="c:WGC_Utility" controller="BI_CRM_CruscottoCetController">
+    
+	<lightning:navigation aura:id="navService"/>    
+
+    <aura:attribute name="ndg" type="String" default=""/>
+    <aura:attribute name="oppo" type="String" default=""/>
+    <aura:attribute name="idReport" type="String" default=""/>
+    <aura:attribute name="funzione" type="String" default=""/>
+	<aura:attribute name="idRecordCET" type="String" default=""/>
+    <aura:attribute name="currentUser" type="Object"/>
+    <aura:attribute name="userName" type="String" default=""/>
+    <aura:attribute name="accountName" type="String" default=""/>
+	<aura:attribute name="idAccount" type="Id"/>
+    <aura:handler name='init' value='{!this}' action='{!c.doInit}'/>
+
+    
+	<div class="corpo slds-m-top_x-small">
+		<span id="testoUscita" Style="white-space:pre-line;">{!v.output}</span>
+		
+		<div class="slds-align_absolute-center caricamento" aura:id="mySpinner" style="height:7rem">
+			<div role="status" class="slds-spinner slds-spinner_medium slds-spinner_delayed">
+			<span class="slds-assistive-text">Loading</span>
+			<div class="slds-spinner__dot-a"></div>
+			<div class="slds-spinner__dot-b"></div>
+			</div>
+		</div>	
+	</div>
+	
+</aura:component>

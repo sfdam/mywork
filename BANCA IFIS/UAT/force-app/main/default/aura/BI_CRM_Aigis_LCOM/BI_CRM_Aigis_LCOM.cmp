@@ -1,0 +1,83 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId">
+
+	<aura:attribute name="accountRecord" type="Object"/>
+		<aura:attribute name="recordLoadError" type="String"/>
+    
+		<force:recordData aura:id="recordLoader"
+		recordId="{!v.recordId}"
+		fields="AIGIS_NDG__c,AIGIS_Durata_Originaria__c,AIGIS_Durata_Residua__c,AIGIS_Forma_Tecnica__c,AIGIS_GaranziaASupporto__c,AIGIS_Importo_attuale__c,AIGIS_Importo_Originario__c,AIGIS_Moratoria__c"
+		targetFields="{!v.accountRecord}"
+		targetError="{!v.recordLoadError}"
+		/>
+    
+		<div> 
+			<lightning:card iconName="standard:avatar" title="Cliente Fenice (ex-Aigis) dati al 9/7/21" >
+				<p class="slds-p-horizontal_small">
+					<div class="slds-grid slds-wrap">
+						<div class="slds-col slds-size_1-of-2">
+							<div class="slds-m-around_xx-small">CDG Fenice:</div>
+						</div>
+						<div class="slds-col slds-size_1-of-2 slds-text-align_right">
+							<div class="slds-m-around_xx-small">{!(v.accountRecord.AIGIS_NDG__c)}</div>
+						</div>
+						<div class="slds-col slds-grid slds-size_1-of-1">
+							<div class="box slds-col slds-size_1-of-2">
+								<div class="slds-m-around_xx-small">Prodotti attivi:</div>
+							</div>
+							<div class="box slds-col slds-size_1-of-2 slds-text-align_right">
+								<div class="slds-m-around_xx-small">{!(v.accountRecord.AIGIS_Forma_Tecnica__c)}</div>
+							</div>
+						</div>
+						<div class="slds-col slds-grid slds-size_1-of-1">
+							<div class="slds-col slds-size_1-of-2 ">
+								<div class="slds-m-around_xx-small">Importo originario prodotti attivi:</div>
+							</div>
+							<div class="slds-col slds-size_1-of-2 slds-text-align_right slds-align-middle">
+								<div class="slds-m-around_xx-small"><lightning:formattedNumber value="{!v.accountRecord.AIGIS_Importo_Originario__c}" style="currency" currencyCode="EUR"/></div>
+							</div>
+						</div>
+						<div class="box slds-col slds-grid slds-size_1-of-1">
+							<div class="slds-col slds-size_1-of-2">
+								<div class="slds-m-around_xx-small">Impiego:</div>
+							</div>
+							<div class="slds-col slds-size_1-of-2 slds-text-align_right">
+								<div class="slds-m-around_xx-small"><lightning:formattedNumber value="{!v.accountRecord.AIGIS_Importo_attuale__c}" style="currency" currencyCode="EUR"/></div>
+							</div>
+						</div>
+						<div class="slds-col slds-grid slds-size_1-of-1">
+							<div class="slds-col slds-size_1-of-2">
+								<div class="slds-m-around_xx-small">Durata originaria prodotti attivi (max):</div>
+							</div>
+							<div class="slds-col slds-size_1-of-2 slds-text-align_right slds-align-middle">
+								<div class="slds-m-around_xx-small">{!(v.accountRecord.AIGIS_Durata_Originaria__c)}</div>
+							</div>
+						</div>
+						<div class="box slds-col slds-grid slds-size_1-of-1">
+							<div class="slds-col slds-size_1-of-2">
+								<div class="slds-m-around_xx-small">Durata residua prodotti attivi (max):</div>
+							</div>
+							<div class="slds-col slds-size_1-of-2 slds-text-align_right slds-align-middle">
+								<div class="slds-m-around_xx-small">{!(v.accountRecord.AIGIS_Durata_Residua__c)}</div>
+							</div>
+						</div>
+						<div class="slds-col slds-grid slds-size_1-of-1">
+							<div class="slds-col slds-size_1-of-2">
+								<div class="slds-m-around_xx-small">Presenza garanzie:</div>
+							</div>
+							<div class="slds-col slds-size_1-of-2 slds-text-align_right">
+								<div class="slds-m-around_xx-small">{!(v.accountRecord.AIGIS_GaranziaASupporto__c)}</div>
+							</div>
+						</div>
+						<div class="box slds-col slds-grid slds-size_1-of-1">
+							<div class="slds-col slds-size_1-of-2">
+								<div class="slds-m-around_xx-small">In moratoria:</div>
+							</div>
+							<div class="slds-col slds-size_1-of-2 slds-text-align_right">
+								<div class="slds-m-around_xx-small">{!(v.accountRecord.AIGIS_Moratoria__c)}</div>
+							</div>
+						</div>
+					</div>
+				</p>   
+			</lightning:card>
+		</div>
+</aura:component>

@@ -1,0 +1,32 @@
+<template>
+    <template if:true={gestore}>
+        <div class="component">
+            <lightning-card icon-name={iconName} title={title}>
+                <div class="slds-grid slds-wrap slds-p-around_medium">
+                    <div class="slds-col slds-size--2-of-4 slds-m-bottom_medium">
+                        <p><strong>Matricola: </strong>{gestore.PTF_RegistrationNumber__c}</p>
+                    </div>
+                    <div class="slds-col slds-size--2-of-4 slds-m-bottom_medium">
+                        <p><strong>Nome: </strong>{gestore.Nome}</p>
+                    </div>
+                    <div class="slds-col slds-size--2-of-4 slds-m-bottom_medium">
+                        <p><strong>Email: </strong>{gestore.Email}</p>
+                    </div>
+                    <div class="slds-col slds-size--2-of-4">
+                        <p><strong>Unità Organizzativa: </strong>{gestore.Filiale__c}</p>
+                    </div>
+                    <div class="slds-col slds-size--2-of-4">
+                        <p><strong>Ruolo: </strong>{gestore.PTF_Ruolo__c}</p>
+                    </div>
+                </div>
+            </lightning-card>
+        </div>
+    </template>
+    <template if:false={gestore}>
+        <lightning-card icon-name={iconName} title={title}>
+            <div class="slds-p-around_medium">
+                <p style="font-size:16px;font-weight:400;"><i>Non assegnato</i></p>
+            </div>
+        </lightning-card>
+    </template>
+</template>

@@ -1,0 +1,36 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global">
+        <aura:attribute name="Numero" type="Integer" access="global"/>
+        <aura:attribute name="Titolo" type="String" access="global"/>
+    <!-- <div class='container slds-p-around_small'> -->
+           
+                    <!-- <lightning:card>                 -->
+                        <lightning:layout multipleRows="true">
+                                <lightning:layoutItem size="12" smallDeviceSize="12"
+                                    mediumDeviceSize="12" largeDeviceSize="12">
+                                    <div class="containerCol">
+                                        <lightning:layout>
+                                            <lightning:layoutItem size="12" class="slds-text-title_bold slds-p-around_small">
+                                                {!v.Titolo}
+                                            </lightning:layoutItem>
+                                            <!-- <lightning:layoutItem size="3"
+                                                class="slds-text-align_right slds-text-title_bold slds-p-around_small percent-color">
+                                                75%
+                                            </lightning:layoutItem> -->
+                                        </lightning:layout>
+                                        <lightning:layout>
+                                            <lightning:layoutItem size="12"
+                                                class="slds-align_absolute-center centro">
+                                                <!-- <c:WGC_Circular_Progress theme="{! 'red' }" size="big" totalProgress="{! v.clientiAvviatiTot_Budget }"
+                                                    actualProgress="{! v.clientiAvviatiTot }" condition="actual-total-percent" /> -->
+
+                                                    <c:WGC_Circular_Progress theme="{! 'orange' }" size="big" totalProgress="0"
+                                                            actualProgress="{! v.Numero }" condition="actual" />
+                                            </lightning:layoutItem>
+                                        </lightning:layout>
+                                    </div>
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                    <!-- </lightning:card> -->
+                
+        <!-- </div> -->
+</aura:component>

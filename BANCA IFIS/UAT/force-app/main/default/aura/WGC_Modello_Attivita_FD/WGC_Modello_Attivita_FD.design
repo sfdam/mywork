@@ -1,0 +1,13 @@
+<design:component label="WGC - Tab Attività FD">
+    <flexipage:template >
+        <flexipage:region name="header_1" defaultWidth="LARGE"/>
+        <flexipage:region name="header_2" defaultWidth="LARGE"/>
+        <flexipage:region name="header_3" defaultWidth="LARGE" />
+        <flexipage:region name="header_4" defaultWidth="LARGE" />
+        <flexipage:region name="header_5" defaultWidth="LARGE" />
+        <flexipage:region name="column_center_top" defaultWidth="LARGE" />
+        <flexipage:region name="column_left" defaultWidth="LARGE" />
+        <flexipage:region name="column_right" defaultWidth="LARGE" />
+        <flexipage:region name="column_center_bottom" defaultWidth="LARGE" />
+    </flexipage:template>
+</design:component>

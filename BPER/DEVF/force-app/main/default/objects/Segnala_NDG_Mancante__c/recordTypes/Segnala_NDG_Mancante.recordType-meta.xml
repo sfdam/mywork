@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Segnala_NDG_Mancante</fullName>
+    <active>true</active>
+    <label>Segnala NDG Mancante</label>
+    <picklistValues>
+        <picklist>Stato__c</picklist>
+        <values>
+            <fullName>Inserito</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>KO</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Richiesto</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+</RecordType>

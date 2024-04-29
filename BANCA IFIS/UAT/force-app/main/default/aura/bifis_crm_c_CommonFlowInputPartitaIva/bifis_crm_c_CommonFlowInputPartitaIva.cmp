@@ -1,0 +1,27 @@
+<aura:component implements="lightning:availableForFlowScreens" access="global">  
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/> 
+
+    <aura:attribute name="flowInputPartitaIvaVar" type="String" />    
+    
+	<lightning:card variant="Narrow" title="Inserire la Partita IVA relativa dell'azienda interessata" iconName="standard:search" />
+    
+    <hr style="margin-top:1px;margin-bottom:10px;"/>
+    
+    <p class="slds-p-horizontal_small">
+        <div class="slds-form-element__group">
+            <div class="slds-form-element__row">
+                <div class="slds-form-element slds-size_1-of-2">
+
+                    <lightning:input name="flowInputPartitaIvaInput" label="Partita Iva" aura:id="flowInputPartitaIvaInputId" value="{!v.flowInputPartitaIvaVar}" required="true" minlength="11" maxlength="11"/>
+                    
+                </div>
+                <div class="slds-form-element slds-size_1-of-2">
+                </div>
+            </div>
+        </div>
+    </p>    
+    
+    <c:bifis_crm_c_CommonFlowNavigator availableActions="{!v.availableActions}" navigateFlowEvent="{!c.handleNavigate}"/>
+    
+</aura:component>

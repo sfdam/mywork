@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_FormulaStatusPosizione__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF (
+				TEXT(CRM_StatoAmministrativo__c) = &apos;Regolari&apos;, &apos;Verde&apos;,
+				IF (
+								TEXT(CRM_StatoAmministrativo__c) = &apos;Sorveglianza&apos;, &apos;Grigio&apos;,
+								IF (
+												TEXT(CRM_StatoAmministrativo__c) = &apos;Past Due Iniziale&apos;, &apos;Giallo&apos;,
+												IF (
+																TEXT(CRM_StatoAmministrativo__c) = &apos;Past Due 30&apos;, &apos;Arancio&apos;,
+																IF (
+																				TEXT(CRM_StatoAmministrativo__c) = &apos;Rischio Alto&apos;, &apos;Arancio Scuro&apos;,
+																				IF (
+																								TEXT(CRM_StatoAmministrativo__c) = &apos;Scadute e/o sconfini deteriorate&apos;, &apos;Rosso&apos;,
+																								IF (
+																												TEXT(CRM_StatoAmministrativo__c) = &apos;Inadempienze probabili&apos;, &apos;Rosso Scuro&apos;,
+																												IF (
+																																TEXT(CRM_StatoAmministrativo__c) = &apos;Sofferenze&apos;, &apos;Viola&apos;, NULL			
+																												)
+																								)
+																				)
+																)
+												)
+								)
+				)
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Formula status posizione</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

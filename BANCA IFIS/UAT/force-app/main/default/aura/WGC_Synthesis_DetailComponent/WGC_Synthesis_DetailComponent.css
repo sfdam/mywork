@@ -1,0 +1,7 @@
+.THIS .slds-card, .THIS .slds-card .slds-card-wrapper, .THIS .slds-card-wrapper .slds-card, .THIS .slds-card-wrapper .slds-card-wrapper, .THIS .slds-modal .slds-card, .THIS .slds-modal .slds-card-wrapper, .THIS .slds-tabs_default .slds-card, .THIS .slds-tabs_default .slds-card-wrapper, .THIS .slds-tabs--default .slds-card, .THIS .slds-tabs--default .slds-card-wrapper, .THIS .slds-tabs_card .slds-card, .THIS .slds-tabs_card .slds-card-wrapper, .THIS .slds-tabs_card.slds-tabs_card .slds-card, .THIS .slds-tabs_card.slds-tabs_card .slds-card-wrapper {
+    
+    background: rgb(255, 255, 255) !important;
+    border: 1px solid rgb(221, 219, 218) !important;
+    border-radius: .25rem !important;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.10) !important;
+}

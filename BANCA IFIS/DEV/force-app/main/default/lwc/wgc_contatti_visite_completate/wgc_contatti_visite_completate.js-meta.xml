@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="urn:metadata.tooling.soap.sforce.com" fqn="wgc_contatti_visite_completate">
+    <apiVersion>52.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__HomePage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__HomePage">
+            <property name="title" type="String" label="Titolo" default="Contatti e Visite Completate" description="Definisci il titolo del componente"/>
+            <property name="iconName" type="String" label="Icona" default="standard:chart" description="Definisci l'icona"/>
+            <!-- <property name="charttitle" type="String" default="Titolo Chart" label="Titolo Chart1" description="Inserire titolo del primo chart" /> -->
+            <!--<property name="reportlabel" type="String" default="Visite Completate" label="Label Report" description="Inserire Label del report" /> -->
+            <property name="report" type="String" default="00O4H000004w3y7UAA" label="Report" description="Inserire id del report" />
+            <!--<property name="reportlabel2" type="String" default="Contatti" label="Label Report" description="Inserire Label del report" /> -->
+            <property name="report2" type="String" default="00O4H000004w3y7UAA" label="Report" description="Inserire id del report" />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

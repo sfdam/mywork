@@ -1,0 +1,5 @@
+<aura:event type="COMPONENT" description="">
+    <aura:attribute name="isChanging" type="Boolean" />
+    <aura:attribute name="fieldName" type="String" />
+    <aura:attribute name="fieldValue" type="Object" />
+</aura:event>

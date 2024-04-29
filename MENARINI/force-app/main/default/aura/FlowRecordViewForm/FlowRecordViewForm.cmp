@@ -1,0 +1,53 @@
+<aura:component implements="lightning:availableForFlowScreens,lightning:availableForFlowActions,force:lightningQuickAction,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    
+    
+    <!-- Determine which actions are available -->
+    <aura:attribute name="canPause" type="Boolean" />
+    <aura:attribute name="canBack" type="Boolean" />
+    <aura:attribute name="canNext" type="Boolean" />
+    <aura:attribute name="canFinish" type="Boolean" />
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    <aura:attribute name="recordId" type="String"  />
+    <aura:attribute name="objectApiName" type="String" required="true" default="Case" />
+    <aura:attribute name="fields" type="String" default="" />
+    <aura:attribute name="OBJ_fields" type="Object"  />
+      
+
+    
+        <lightning:recordViewForm recordId="{!v.recordId}" objectApiName="{!v.objectApiName}" >
+        <lightning:messages />
+ 
+        <aura:iteration items="{!v.OBJ_fields}" var="field">
+                     <lightning:outputField fieldName="{!field.Name}"  />
+        </aura:iteration>
+
+       
+
+   <div aura:id="actionButtonBar" class="slds-clearfix slds-p-top_medium">
+      <!-- If Previous is available, display to the left -->
+      <div class="slds-float_left">
+         <aura:if isTrue="{!v.canBack}">
+            <lightning:button aura:id="BACK" label="Previous"
+               variant="neutral" onclick="{!c.onButtonPressed}" />
+         </aura:if>
+      </div>
+      <div class="slds-float_right">
+         <!-- If Pause, Next, or Finish are available, display to the right -->
+         <aura:if isTrue="{!v.canPause}">
+            <lightning:button aura:id="PAUSE" label="Pause"
+               variant="neutral" onclick="{!c.onButtonPressed}" />
+         </aura:if>
+         <aura:if isTrue="{!v.canNext}">
+            <lightning:button aura:id="NEXT" label="Next"  onclick="{!c.onButtonPressed}"
+               variant="brand"  />
+         </aura:if>
+         <aura:if isTrue="{!v.canFinish}">
+            <lightning:button aura:id="FINISH" label="Done"
+               variant="brand" onclick="{!c.onButtonPressed}" />
+         </aura:if>
+      </div>
+       <br />
+   </div>
+            </lightning:recordViewForm>
+	
+</aura:component>

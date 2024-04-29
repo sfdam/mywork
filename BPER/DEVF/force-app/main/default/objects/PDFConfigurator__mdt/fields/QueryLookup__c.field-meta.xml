@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>QueryLookup__c</fullName>
+    <description>Indicare l&apos;API Name dell&apos;campo lookup in cui è presente l&apos;id dell&apos;oggetto principale</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Indicare l&apos;API Name dell&apos;campo lookup in cui è presente l&apos;id dell&apos;oggetto principale</inlineHelpText>
+    <label>Query Lookup</label>
+    <length>255</length>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

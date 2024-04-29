@@ -1,0 +1,22 @@
+<aura:component  implements="force:lightningQuickActionWithoutHeader,lightning:actionOverride,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" 
+                access="global" controller="INF_CustomDeleteAccount">
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="loading" type="Boolean" default="false"/>
+    
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+    <lightning:navigation aura:id="navService"/>
+   <div>
+        <aura:if isTrue="{!v.loading}">
+            <div class="slds-spinner_container">
+                <div class="slds-spinner slds-spinner--small" aria-hidden="false" role="alert">
+                    <div class="slds-spinner__dot-a"></div>
+                    <div class="slds-spinner__dot-b"></div>
+                </div>
+            </div>
+        </aura:if>
+    </div>
+
+</aura:component>

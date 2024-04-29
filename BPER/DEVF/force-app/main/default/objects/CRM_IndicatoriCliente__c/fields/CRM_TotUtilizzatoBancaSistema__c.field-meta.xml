@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_TotUtilizzatoBancaSistema__c</fullName>
+    <externalId>false</externalId>
+    <formula>CRM_SOWCreditiCassaUti__c + CRM_SOWCreditiFirmaUti__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Tot. Utilizzato - SOW - banca/sistema</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Percent</type>
+</CustomField>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CC_Non_Pianificato__c</fullName>
+    <externalId>false</externalId>
+    <formula>(DAY(DATEVALUE(CreatedDate))&lt;15) 
+&amp;&amp;
+(MONTH(DATEVALUE(CRM_Inizioassenza__c))&lt;= MONTH(DATEVALUE(CreatedDate))) 
+
+||
+
+(DAY(DATEVALUE(CreatedDate))&gt;=15) 
+&amp;&amp;
+(DATEVALUE(CRM_Inizioassenza__c)&gt;= DATEVALUE(CreatedDate)) 
+&amp;&amp;
+(MONTH(DATEVALUE(CRM_Inizioassenza__c))&lt;= MONTH(DATEVALUE(ADDMONTHS(CreatedDate,1))))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Non Pianificato</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

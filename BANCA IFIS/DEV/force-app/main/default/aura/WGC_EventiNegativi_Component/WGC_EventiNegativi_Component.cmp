@@ -1,0 +1,47 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="recordId" type="String" />
+    <!-- <aura:attribute name="resp" type="Object" /> -->
+    <aura:attribute name="AttrList" type="Map[]" />
+    <aura:attribute name="loaded" type="Boolean" default="false" />
+    <aura:attribute name="hasError" type="Boolean" default="false" />
+    <!-- Handlers -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+    <div>  
+        <div aura:id="container" class="slds-is-relative">
+            <aura:if isTrue="{! v.loaded}">
+                <!-- NEW VERSION -->
+                <lightning:recordViewForm recordId="{!v.recordId}" objectApiName="Account">
+                    <div class="slds-p-around_small">
+                        <lightning:layout multipleRows="true">
+                            <lightning:layoutItem size="6">
+                                <lightning:outputField fieldName="ENAllarmiFormula__c" />
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="6">
+                                <lightning:outputField fieldName="ENCIGSFormula__c" />
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="6">
+                                <lightning:outputField fieldName="ENGlobaleFormula__c" />
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="6">
+                                <lightning:outputField fieldName="ENPregiudizievoliFormula__c" />
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="6">
+                                <lightning:outputField fieldName="ENProcedureFormula__c" />
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="6">
+                                <lightning:outputField fieldName="ENProtestiFormula__c" />
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="12">
+                                <lightning:outputField fieldName="WGC_UltimaRichiestaEventiNegativi__c" />
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </div>
+                </lightning:recordViewForm>
+                <aura:set attribute="else">
+                    <lightning:spinner alternativeText="Loading" />
+                </aura:set>
+            </aura:if>
+        </div>
+	</div>
+</aura:component>

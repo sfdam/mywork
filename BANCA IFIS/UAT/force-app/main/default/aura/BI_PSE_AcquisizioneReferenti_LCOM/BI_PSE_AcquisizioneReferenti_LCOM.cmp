@@ -1,0 +1,188 @@
+<aura:component implements="lightning:availableForFlowScreens" access="global"> 
+	
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/> 
+
+    <aura:attribute name="fileRecapColumns" type="List"/> 
+    
+    <aura:attribute name="jsonREFERENTIData" type="Object"/>
+
+    <aura:attribute name="aggiuntaMail" type="String" default= ""/>
+    <aura:attribute name="aggiuntaRuolo" type="String"/>
+    <aura:attribute name="aggiuntaNome" type="String"/>
+    <aura:attribute name="aggiuntaCognome" type="String"/>
+    <aura:attribute name="aggiuntaTelefono" type="String"/>
+    <aura:attribute name="aggiuntaDataNascita" type="Date"/>
+    <aura:attribute name="aggiuntaLuogoNascita" type="String"/>
+    <aura:attribute name="aggiuntaNazioneNascita" type="String"/>
+    <aura:attribute name="aggiuntaSesso" type="String"/>
+    <aura:attribute name="aggiuntaCodiceFiscale" type="String"/>
+    <aura:attribute name="aggiuntaSae" type="String" default= "600"/>
+    <aura:attribute name="aggiuntaTae" type="String" default= "984"/>
+    <aura:attribute name="aggiuntaTipoDocumento" type="String"/>
+    <aura:attribute name="aggiuntaNumeroDocumento" type="String"/>
+    <aura:attribute name="aggiuntaLuogoEmissioneDocumento" type="String"/>
+    <aura:attribute name="aggiuntaDataEmissioneDocumento" type="String"/>
+    <aura:attribute name="aggiuntaDataScadenzaDocumento" type="String"/>
+
+    <aura:attribute name="opzioniSesso" type="List" default="[
+    {'label': 'Maschio', 'value': 'M'},
+    {'label': 'Femmina', 'value': 'F'}
+    ]"/>
+
+    <aura:attribute name="opzioniTipoDocumento" type="List" default="[
+    {'label': 'Carta Identita', 'value': 'CI'},
+    {'label': 'Passaporto', 'value': 'PP'}
+    ]"/>
+
+    <aura:attribute name="workflowRecordCandidatoID" type="String"/>
+    <aura:attribute name="workflowRecordCandidatoNEXT" type="WorkflowSegnalatori__c"/>
+    <aura:attribute name="workflowRecordCandidato" type="WorkflowSegnalatori__c"/>
+    <aura:attribute name="workflowRecordCandidatoERROR" type="String"/>
+
+    <force:recordData aura:id="flowRecordHandlerWorkflowCandidatoId"
+                      recordId="{!v.workflowRecordCandidatoID}"
+                      fields="Name, ATECO__c, CapLegale__c, CittaLegale__c, CivicoLegale__c, CognomeReferente__c, DataInvioIfis__c, EmailReferente__c, ErroriTecnici__c, IndirizzoLegale__c, MotivazioneRifiutoPrevalutazione__c, Natura_Giuridica__c, NomeReferente__c, PartitaIVA__c, ProvinciaCCIAA__c, ProvinciaLegale__c, RAE__c, REA__c, Ragione_Sociale__c, SAE__c, Stato__c, TIMELINE_JSON__c, TelefonoReferente__c, TipoViaLegale__c, Tipologia_Segnalazione__c, Ente_segnalante__c, CommentoEsito__c, Ente_segnalante_descrizione__c, Tipo_Segnalatore__c, Tipo_Segnalazione__c, REFERENTI_JSON__c"
+                      targetFields="{!v.workflowRecordCandidato}"
+                      targetError="{!v.workflowRecordCandidatoERROR}"
+                      recordUpdated="{!c.handleRecordUpdated}"
+                      targetRecord="{!v.workflowRecordCandidatoNEXT}"
+                      mode="EDIT"                      
+                      />    
+
+    <!-- Display Lightning Data Service errors, if any -->
+    <aura:if isTrue="{!not(empty(v.workflowRecordCandidatoERROR))}">
+        <ui:message title="Errore" severity="error" closable="true">{!v.workflowRecordCandidatoERROR}</ui:message>
+    </aura:if>        
+
+    <c:BI_PSE_FlowPath_LCOM selectedPathValue="0"/>
+
+	<lightning:card variant="Narrow" title="Anagrafica (2/2) - Referenti azienda" iconName="standard:record" />
+    
+    <hr style="margin-top:1px;margin-bottom:10px;"/>
+
+    <lightning:card variant="Narrow" title="NUOVO REFERENTE AZIENDA SEGNALATA (inserire il titolare in caso di ditta individuale)" iconName="standard:people">
+        <p class="slds-p-horizontal_small">
+
+        <div class="slds-m-around_small">
+			<!-- <lightning:icon iconName="utility:info" alternativeText="Info"/> -->
+			<lightning:formattedText value="Le informazioni inserite in questa scheda saranno utilizzate dalla Banca per le finalità cui la presente segnalazione è preordinata, come previsto ai sensi del contratto sottoscritto tra le parti"/>
+		</div>
+
+            <div class="slds-grid slds-wrap slds-grid_vertical-align-end"> 
+              <div class="slds-col slds-size_1-of-6">
+                <div class="slds-m-around_small"><lightning:input aura:id="flowInputNomeSoggettoInputId" label="Nome" type="text" name="flowInputNomeSoggettoInput" value="{!v.aggiuntaNome}" onblur="{!c.handleNomeSoggettoBlur}" required="false" maxlength="50"/></div>
+              </div>
+              <div class="slds-col slds-size_1-of-6">
+                <div class="slds-m-around_small"><lightning:input aura:id="flowInputCognomeSoggettoInputId" label="Cognome" type="text" name="flowInputCognomeSoggettoInput" value="{!v.aggiuntaCognome}" onblur="{!c.handleCognomeSoggettoBlur}" required="false" maxlength="50"/></div>
+              </div>
+              <div class="slds-col slds-size_1-of-6">
+                <div class="slds-m-around_small"><lightning:input aura:id="flowInputRuoloSoggettoInputId" label="Ruolo Ricoperto" type="text" name="flowInputRuoloSoggettoInput" value="{!v.aggiuntaRuolo}" onblur="{!c.handleRuoloSoggettoBlur}" required="false" maxlength="50"/></div>
+              </div>
+              <div class="slds-col slds-size_1-of-6">
+                <div class="slds-m-around_small"><lightning:input aura:id="flowInputTelefonoSoggettoInputId" label="Contatto Telefonico" type="tel" name="flowInputTelefonoSoggettoInput" value="{!v.aggiuntaTelefono}" onblur="{!c.handleTelefonoSoggettoBlur}" required="false" maxlength="20"/></div>
+              </div>
+              <div class="slds-col slds-size_1-of-6">
+                <div class="slds-m-around_small"><lightning:input aura:id="flowInputMailSoggettoInputId" label="Indirizzo Mail (facoltativo)" type="email" name="flowInputMailSoggettoInput" value="{!v.aggiuntaMail}" onblur="{!c.handleMailSoggettoBlur}" required="false" maxlength="50"/></div>
+              </div>
+			  <!-- Da nasconedere in caso di DI in quanto aggiunto pulsante nella sezione sotto -->
+			  <aura:if isTrue="{! !(v.workflowRecordCandidato.Natura_Giuridica__c == 'DI')}">
+              <div class="slds-col slds-size_1-of-6">
+                <div class="slds-m-around_small"><lightning:button label="AGGIUNGI REFERENTE" variant="brand" onclick="{!c.handleAddUserClick}" disabled="{!v.workflowRecordCandidato.Stato__c != 'BOZZA_DATI'}" /></div>
+              </div>
+			  </aura:if>
+            </div>    
+
+		</p>
+	</lightning:card>
+
+    <aura:if isTrue="{!v.workflowRecordCandidato.Natura_Giuridica__c == 'DI'}">
+        <lightning:card variant="Narrow" title="DATI AGGIUNTIVI TITOLARE (NECESSARI IN QUANTO DITTA INDIVIDUALE)" iconName="standard:individual">
+        <p class="slds-p-horizontal_small">
+	
+            <div class="slds-grid slds-wrap slds-grid_vertical-align-end"> 
+
+              <div class="slds-col slds-size_1-of-6">
+                <div class="slds-m-around_small"><lightning:input aura:id="flowInputDataNascitaSoggettoInputId" label="Data di Nascita" type="date" name="flowInputDataNascitaSoggettoInput" value="{!v.aggiuntaDataNascita}" onblur="{!c.handleDataNascitaSoggettoBlur}" required="false"/></div>
+              </div>
+              <div class="slds-col slds-size_1-of-6">
+                <div class="slds-m-around_small"><lightning:input aura:id="flowInputLuogoNascitaSoggettoInputId" label="Luogo di Nascita" type="text" name="flowInputLuogoNascitaSoggettoInput" value="{!v.aggiuntaLuogoNascita}" onblur="{!c.handleLuogoNascitaSoggettoBlur}" required="false" maxlength="50"/></div>
+              </div>
+              <div class="slds-col slds-size_1-of-6">
+                <div class="slds-m-around_small"><lightning:input aura:id="flowInputNazioneNascitaSoggettoInputId" label="Nazione di Nascita" type="text" name="flowInputNazioneNascitaSoggettoInput" value="{!v.aggiuntaNazioneNascita}" onblur="{!c.handleNazioneNascitaSoggettoBlur}" required="false" maxlength="50"/></div>
+              </div>
+              <div class="slds-col slds-size_1-of-6">
+                <div class="slds-m-around_small"><lightning:combobox label= "Sesso" required="false" aura:id="flowInputSessoSoggettoInputId" name="flowInputSessoSoggettoInput" value="{!v.aggiuntaSesso}" onblur="{!c.handleSessoBlur}" placeholder="Seleziona il Sesso" options="{!v.opzioniSesso}" /></div>
+              </div>
+              <div class="slds-col slds-size_1-of-6">
+                <div class="slds-m-around_small"><lightning:input aura:id="flowInputCodiceFiscaleSoggettoInputId" label="Codice Fiscale" type="text" name="flowInputCodiceFiscaleSoggettoInput" value="{!v.aggiuntaCodiceFiscale}" onblur="{!c.handleCodiceFiscaleSoggettoBlur}" required="false" maxlength="16"/></div>
+              </div>
+              <div class="slds-col slds-size_1-of-6">
+                <div class="slds-m-around_small"></div>
+              </div>
+              <div class="slds-col slds-size_1-of-6">
+                <div class="slds-m-around_small"><lightning:combobox label= "Tipo Documento" required="false" aura:id="flowInputTipoDocumentoSoggettoInputId" name="flowInputTipoDocumentoSoggettoInput" value="{!v.aggiuntaTipoDocumento}" onblur="{!c.handleTipoDocumentoSoggettoBlur}" placeholder="Seleziona il Tipo Documento" options="{!v.opzioniTipoDocumento}" /></div>
+              </div>
+              <div class="slds-col slds-size_1-of-6">
+                <div class="slds-m-around_small"><lightning:input aura:id="flowInputNumeroDocumentoSoggettoInputId" label="N. Documento" type="text" name="flowInputNumeroDocumentoSoggettoInput" value="{!v.aggiuntaNumeroDocumento}" onblur="{!c.handleNumeroDocumentoSoggettoBlur}" required="false" maxlength="20"/></div>
+              </div>
+              <div class="slds-col slds-size_1-of-6">
+                <div class="slds-m-around_small"><lightning:input aura:id="flowInputLuogoEmissioneDocumentoSoggettoInputId" label="Luogo Emissione Documento" type="text" name="flowInputLuogoEmissioneDocumentoSoggettoInput" value="{!v.aggiuntaLuogoEmissioneDocumento}" onblur="{!c.handleLuogoEmissioneDocumentoSoggettoBlur}" required="false" maxlength="50"/></div>
+              </div>
+              <div class="slds-col slds-size_1-of-6">
+                <div class="slds-m-around_small"><lightning:input aura:id="flowInputDataEmissioneDocumentoSoggettoInputId" label="Data Emissione Documento" type="date" name="flowInputDataEmissioneDocumentoSoggettoInput" value="{!v.aggiuntaDataEmissioneDocumento}" onblur="{!c.handleDataEmissioneDocumentoSoggettoBlur}" required="false"/></div>
+              </div>
+              <div class="slds-col slds-size_1-of-6">
+                <div class="slds-m-around_small"><lightning:input aura:id="flowInputDataScadenzaDocumentoSoggettoInputId" label="Data Scadenza Documento" type="date" name="flowInputDataScadenzaDocumentoSoggettoInput" value="{!v.aggiuntaDataScadenzaDocumento}" onblur="{!c.handleDataScadenzaDocumentoSoggettoBlur}" required="false"/></div>
+              </div>
+				<!-- SDCHG-5735 A.M. inserito valore di default per SAE e TAE, per cui si nasconde il campo -->
+              <div class="slds-col slds-size_1-of-6">
+                <div class="slds-m-around_small"><lightning:input aura:id="flowInputSaeSoggettoInputId" label="Sae" type="text" name="flowInputSaeSoggettoInput" value="{!v.aggiuntaSae}" onblur="{!c.handleSaeSoggettoBlur}" required="false" maxlength="3" style="visibility:hidden;"/></div>
+              </div>  
+              <div class="slds-col slds-size_1-of-6">
+                <div class="slds-m-around_small"><lightning:input aura:id="flowInputTaeSoggettoInputId" label="Tae" type="text" name="flowInputTaeSoggettoInput" value="{!v.aggiuntaTae}" onblur="{!c.handleTaeSoggettoBlur}" required="false" maxlength="3" style="visibility:hidden;"/></div>
+              </div>
+			  <div class="slds-col slds-size_1-of-6">
+                <div class="slds-m-around_small"></div>		
+              </div>
+			  <div class="slds-col slds-size_1-of-6">
+                <div class="slds-m-around_small"></div>		
+              </div>
+			  <div class="slds-col slds-size_1-of-6">
+                <div class="slds-m-around_small"></div>		
+              </div>
+			  <div class="slds-col slds-size_1-of-6">
+                <div class="slds-m-around_small"></div>		
+              </div>
+			<!-- Aggiunto pulsante alternativo a quello della sezione precedente -->
+			  <div class="slds-col slds-size_1-of-6">
+                <div class="slds-m-around_small"><lightning:button label="AGGIUNGI REFERENTE" variant="brand" onclick="{!c.handleAddUserClick}" disabled="{!v.workflowRecordCandidato.Stato__c != 'BOZZA_DATI'}" /></div>
+              </div>
+              <div class="slds-col slds-size_1-of-6">
+                <div class="slds-m-around_small"></div>		
+              </div>
+            </div>   
+
+		</p>
+		</lightning:card>
+
+    </aura:if> 
+
+    <lightning:card variant="Narrow" title="REFERENTI AZIENDA CENSITI" iconName="standard:household">
+        <p class="slds-p-horizontal_small">
+	  
+            <div class="slds-grid slds-wrap">
+                <div class="slds-size_1-of-1">
+                    <lightning:datatable aura:id="flowDatatableREFERENTI" data="{!v.jsonREFERENTIData}" columns="{!v.fileRecapColumns}" keyField="id" hideCheckboxColumn="true" resizeColumnDisabled="true" showRowNumberColumn="true" onrowaction="{! c.handleRowActionREFERENTI }"/>
+                </div>
+                <div class="slds-size_1-of-1">  
+                    <lightning:input aura:id="flowInputReferentiJsonId" name="flowInputReferentiJson" required="false" value="{!v.workflowRecordCandidato.REFERENTI_JSON__c}" class="slds-hide"/>
+                </div>
+            </div>
+
+		</p>
+	</lightning:card>
+
+
+    <c:bifis_crm_c_CommonFlowNavigator availableActions="{!v.availableActions}" navigateFlowEvent="{!c.handleNavigate}"/>   
+
+</aura:component>

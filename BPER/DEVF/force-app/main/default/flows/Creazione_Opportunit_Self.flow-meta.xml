@@ -1,0 +1,583 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <apiVersion>53.0</apiVersion>
+    <assignments>
+        <name>Initialize_MasterOppt</name>
+        <label>Initialize MasterOppt</label>
+        <locationX>1590</locationX>
+        <locationY>356</locationY>
+        <assignmentItems>
+            <assignToReference>MasterOppt.CRM_Bisogno__c</assignToReference>
+            <operator>Assign</operator>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MasterOppt.Description</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue></stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MasterOppt.CRM_Oggetto__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue></stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Creazione_Opportunita_Screen</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Set_Assegnatario</name>
+        <label>Set Assegnatario</label>
+        <locationX>2306</locationX>
+        <locationY>261</locationY>
+        <assignmentItems>
+            <assignToReference>MasterOppt.CRM_Assegnatario__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$User.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Create_Opportunity</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Set_MasterOppt</name>
+        <label>Set MasterOppt</label>
+        <locationX>1921</locationX>
+        <locationY>356</locationY>
+        <assignmentItems>
+            <assignToReference>MasterOppt.CRM_Bisogno__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>BisognoPicklist</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MasterOppt.Description</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Descrizione</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MasterOppt.CRM_Oggetto__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Oggetto</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MasterOppt.StageName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>In corso</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MasterOppt.CloseDate</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Formula_DataChiusura</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MasterOppt.AccountId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MasterOppt.Name</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Oggetto</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MasterOppt.CRM_EsitoContatto__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Cliente interessato</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MasterOppt.CRM_Canale__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Self</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MasterOppt.RecordTypeId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_RT_IO.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>MasterOppt.CRM_DataScadenzaIniziale__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Formula_DataChiusura</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Check_MDS</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <name>Check_MDS</name>
+        <label>Check MDS</label>
+        <locationX>2112</locationX>
+        <locationY>358</locationY>
+        <defaultConnector>
+            <targetReference>Create_Opportunity</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Altri MDS</defaultConnectorLabel>
+        <rules>
+            <name>Family_POE</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_NDG.ModelloDiServizio__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Family</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_NDG.ModelloDiServizio__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>POE</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Assegnatario</targetReference>
+            </connector>
+            <label>Family/POE</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Check_Permissions</name>
+        <label>Check Permissions</label>
+        <locationX>1221</locationX>
+        <locationY>357</locationY>
+        <defaultConnector>
+            <targetReference>Show_Insufficient_Permissions</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Allowed</defaultConnectorLabel>
+        <rules>
+            <name>Allowed</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>CheckPermessi_Formula</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_RT_IO</targetReference>
+            </connector>
+            <label>Allowed</label>
+        </rules>
+    </decisions>
+    <description>[CRM - SEGNALAZIONE] 75479: possibilità di posticipare scadenza opportunità + 
+FIX SU PERMESSI UTENTE</description>
+    <dynamicChoiceSets>
+        <name>Bisogno</name>
+        <dataType>Picklist</dataType>
+        <displayField xsi:nil="true"/>
+        <object xsi:nil="true"/>
+        <picklistField>CRM_Bisogno__c</picklistField>
+        <picklistObject>Opportunity</picklistObject>
+    </dynamicChoiceSets>
+    <environments>Default</environments>
+    <formulas>
+        <name>CheckPermessi_Formula</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(
+{!$User.CRM_HasReadOnly__c} = FALSE,
+OR(
+{!Get_NDG.CRM_Visibilita_NDG_Full__c},
+{!Get_NDG.CRM_VisibilitaClientiUffPrivate__c},
+{!Get_NDG.CRM_VisibilitaKeyClientImprese__c},
+{!Get_NDG.CRM_VisibilitaClientiCF__c}
+)
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_Check1</name>
+        <dataType>Boolean</dataType>
+        <expression>OR({!$Profile.Name} = &apos;NEC_ADMIN&apos;,
+    {!$Profile.Name} = &apos;System Administrator&apos;,
+    {!$Profile.Name} = &apos;Amministratore del sistema&apos;,
+    CONTAINS({!$User.CRM_PermissionSet__c},&apos;NEC_CRM.CAPOGRUPPO.0&apos;),
+    CONTAINS({!$User.CRM_PermissionSet__c},&apos;NEC_CRM.CAPOGRUPPO.1&apos;),
+    CONTAINS({!$User.CRM_PermissionSet__c},&apos;NEC_CRM.CAPOGRUPPO.2&apos;),
+    CONTAINS({!$User.CRM_PermissionSet__c},&apos;NEC_CRM.BANCA.1&apos;),
+   CONTAINS({!$User.CRM_PermissionSet__c},&apos;NEC_CRM.BANCA.2&apos;))</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_Check2</name>
+        <dataType>Boolean</dataType>
+        <expression>OR(
+            {!Get_NDG.CRM_VisibilitaClientiCF__c}=true,      /*vale true quando un User Consulente fin osserva ndg di cui è referente*/
+            CONTAINS({!$User.CRM_PermissionSet__c},&apos;NEC_CRM.DR.1&apos;), 
+            AND(
+                OR(
+                    CONTAINS({!$User.CRM_PermissionSet__c},&apos;NEC_CRM.DR.4&apos;),
+                    CONTAINS({!$User.CRM_PermissionSet__c},&apos;NEC_CRM.DR.5&apos;)
+                ),
+                CONTAINS({!$User.PTF_DirezioniRegionaliVisibili__c}, {!Get_NDG.PTF_DirezioneRegionale__r.PTF_IdCED__c})
+            ),
+            AND (
+                OR (
+                    CONTAINS({!$User.CRM_PermissionSet__c},&apos;NEC_CRM.FILIALE.2&apos;),
+                    CONTAINS({!$User.CRM_PermissionSet__c},&apos;NEC_CRM.FILIALE.3&apos;),
+                    CONTAINS({!$User.CRM_PermissionSet__c},&apos;NEC_CRM.FILIALE.4&apos;),
+                    CONTAINS({!$User.CRM_PermissionSet__c},&apos;NEC_CRM.CONS.FIN.1&apos;),
+                    CONTAINS({!$User.CRM_PermissionSet__c},&apos;NEC_CRM.CONS.FIN.2&apos;),
+                    CONTAINS({!$User.CRM_PermissionSet__c},&apos;NEC_CRM.CEN.IMPR.RESP.SPEC.1&apos;),
+                    CONTAINS({!$User.CRM_PermissionSet__c},&apos;NEC_CRM.CEN.IMPR.AMM.2&apos;),
+                    CONTAINS({!$User.CRM_PermissionSet__c},&apos;NEC_CRM.FIL.LABORATORIO&apos;)
+                ),
+                 OR(		
+                    CONTAINS({!Get_NDG.PTF_Filiale__r.PTF_IDCEDUffPrivate__c}, {!$User.idced__c}),
+                    CONTAINS({!Get_NDG.CRM_Filiale__r.PTF_IDCEDUffPrivate__c}, {!$User.idced__c}),
+                    {!Get_NDG.PTF_Filiale__r.PTF_IdCED__c} = {!$User.idced__c},
+                    {!Get_NDG.CRM_Filiale__r.PTF_IdCED__c} = {!$User.idced__c})
+                 ),
+            AND (
+                OR (
+                    CONTAINS({!$User.CRM_PermissionSet__c},&apos;NEC_CRM.FIL.CAPOFILA.2&apos;),
+                    CONTAINS({!$User.CRM_PermissionSet__c},&apos;NEC_CRM.FIL.CAPOFILA.3&apos;),
+		    CONTAINS({!$User.CRM_PermissionSet__c},&apos;NEC_CRM.FIL.LABORATORIO&apos;),
+                    CONTAINS({!$User.CRM_PermissionSet__c},&apos;NEC_CRM.FIL.CAPOFILA.4&apos;)
+                ),
+                OR(
+                    {!Get_NDG.PTF_Capofila__r.PTF_IdCED__c} = {!$User.idced__c}, 
+                    {!Get_NDG.PTF_Filiale__r.PTF_IdCED__c} = {!$User.idced__c}, 
+                    {!Get_NDG.CRM_Filiale__r.PTF_IdCED__c} = {!$User.idced__c})
+            )
+        )</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_CurrentCustomerName</name>
+        <dataType>String</dataType>
+        <expression>IF (
+{!Get_NDG.RecordType.DeveloperName} = &apos;PersonAccount&apos;,
+{!Get_NDG.FirstName} + &quot; &quot; + {!Get_NDG.LastName},
+{!Get_NDG.Name}
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_DataChiusura</name>
+        <dataType>Date</dataType>
+        <expression>IF (
+{!BisognoPicklist} = &apos;Finanziamenti&apos;, 
+ADDMONTHS(TODAY(), 6), 
+IF (
+{!BisognoPicklist} = &apos;Transazionale&apos;,
+ADDMONTHS(TODAY(), 3),
+IF (
+{!BisognoPicklist} = &apos;Assicurativo&apos;,
+ADDMONTHS(TODAY(), 6),
+IF (
+{!BisognoPicklist} = &apos;Patrimonio&apos;,
+ADDMONTHS(TODAY(), 3),
+IF (
+{!BisognoPicklist} = &apos;Altri&apos;,
+ADDMONTHS(TODAY(), 12),
+IF (
+{!BisognoPicklist} = &apos;Previdenziale&apos;,
+ADDMONTHS(TODAY(), 6),
+IF (
+{!BisognoPicklist} = &apos;Operatività&apos;,
+ADDMONTHS(TODAY(), 3),
+IF (
+{!BisognoPicklist} = &apos;Finanziario&apos;,
+ADDMONTHS(TODAY(), 6),
+IF (
+{!BisognoPicklist} = &apos;Wealth Management&apos;,
+ADDMONTHS(TODAY(), 12),
+ADDMONTHS(TODAY(), 6)
+)
+)
+)
+)
+)
+)
+)
+)
+)</expression>
+    </formulas>
+    <interviewLabel>Creazione Opportunità Self {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Creazione Opportunità Self</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordCreates>
+        <name>Create_Opportunity</name>
+        <label>Create Opportunity</label>
+        <locationX>2498</locationX>
+        <locationY>356</locationY>
+        <connector>
+            <targetReference>Success_Screen</targetReference>
+        </connector>
+        <inputReference>MasterOppt</inputReference>
+    </recordCreates>
+    <recordLookups>
+        <name>Get_NDG</name>
+        <label>Get NDG</label>
+        <locationX>1229</locationX>
+        <locationY>215</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Check_Permissions</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Account</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_RT_IO</name>
+        <label>Get RT Id</label>
+        <locationX>1438</locationX>
+        <locationY>356</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Initialize_MasterOppt</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Self</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>RecordType</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <runInMode>SystemModeWithoutSharing</runInMode>
+    <screens>
+        <name>Creazione_Opportunita_Screen</name>
+        <label>Creazione Opportunità Screen</label>
+        <locationX>1755</locationX>
+        <locationY>356</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>Set_MasterOppt</targetReference>
+        </connector>
+        <fields>
+            <name>CreaOpptTitle</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 16px;&quot;&gt;Inserisci un&apos;Opportunità Self&lt;/b&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>Creazione_Opportunita_Screen_Section1</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Creazione_Opportunita_Screen_Section1_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>BisognoPicklist</name>
+                    <choiceReferences>Bisogno</choiceReferences>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>MasterOppt.CRM_Bisogno__c</elementReference>
+                    </defaultValue>
+                    <fieldText>Bisogno</fieldText>
+                    <fieldType>DropdownBox</fieldType>
+                    <isRequired>true</isRequired>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>5</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Creazione_Opportunita_Screen_Section1_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>Oggetto</name>
+                    <dataType>String</dataType>
+                    <defaultValue>
+                        <elementReference>MasterOppt.CRM_Oggetto__c</elementReference>
+                    </defaultValue>
+                    <fieldText>Oggetto</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <isRequired>true</isRequired>
+                    <validationRule>
+                        <errorMessage>&lt;p&gt;&lt;span style=&quot;color: rgb(255, 0, 0); background-color: rgb(255, 255, 255);&quot;&gt;È stato raggiunto il limite massimo di caratteri per l&apos;Oggetto.&lt;/span&gt;&lt;/p&gt;</errorMessage>
+                        <formulaExpression>LEN({!Oggetto}) &lt;= 80</formulaExpression>
+                    </validationRule>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>5</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Creazione_Opportunita_Screen_Section1_Column3</name>
+                <fieldType>Region</fieldType>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>2</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+        </fields>
+        <fields>
+            <name>Descrizione</name>
+            <defaultValue>
+                <stringValue>{!MasterOppt.Description}</stringValue>
+            </defaultValue>
+            <fieldText>Descrizione</fieldText>
+            <fieldType>LargeTextArea</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>Show_Insufficient_Permissions</name>
+        <label>Show Insufficient Permissions</label>
+        <locationX>990</locationX>
+        <locationY>354</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>NotAllowed</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 14px; color: rgb(62, 62, 60);&quot;&gt;Non si dispone dei permessi necessari per procedere con questa azione.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>Success_Screen</name>
+        <label>Success Screen</label>
+        <locationX>2725</locationX>
+        <locationY>356</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>Success_Screen_Section1</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Success_Screen_Section1_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>SuccessImage_0</name>
+                    <extensionName>flowruntime:image</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>imageName</name>
+                        <value>
+                            <stringValue>success_icon</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>1</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Success_Screen_Section1_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>SuccessMsg</name>
+                    <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 16px; color: rgb(0, 81, 87); background-color: rgb(255, 255, 255);&quot;&gt;Opportunità Self inserita con successo per &lt;/b&gt;&lt;span style=&quot;font-size: 16px; color: rgb(0, 81, 87); background-color: rgb(255, 255, 255);&quot;&gt;{!Formula_CurrentCustomerName} (NDG {!Get_NDG.CRM_NDG__c})&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>11</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <start>
+        <locationX>1103</locationX>
+        <locationY>50</locationY>
+        <connector>
+            <targetReference>Get_NDG</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>MasterOppt</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Opportunity</objectType>
+    </variables>
+    <variables>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

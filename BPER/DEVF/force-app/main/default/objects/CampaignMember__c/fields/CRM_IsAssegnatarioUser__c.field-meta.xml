@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_IsAssegnatarioUser__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF (
+PTF_Portafoglio__r.CRM_User_Referente__c,
+PTF_Portafoglio__r.CRM_ReferentePortafoglio__r.PTF_User__r.Id = $User.Id,
+CRM_AssegnatarioUser__c = $User.Id
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Assegnatario = User</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

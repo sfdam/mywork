@@ -1,0 +1,27 @@
+<apex:page standardController="ProcessInstanceWorkitem" 
+            sidebar="true" 
+            showHeader="true"
+           lightningStyleSheets="true">
+    <apex:slds />
+    <apex:form >
+        <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_error" role="alert">
+            <span class="slds-icon_container slds-icon-utility-error slds-m-right_x-small" style="color:yellow"/>
+            <h2>Impossibile riassegnare la richiesta di approvazione</h2> 
+        </div>
+        
+        <div/>           
+           <div class="slds-grid slds-grid_vertical">
+              <div class="slds-col" style="height: 2rem;">
+                <span></span>
+              </div>
+              <div class="slds-col">
+                <span></span>
+              </div>
+              <div class="slds-col">
+                <span>
+                    <apex:commandButton action="{!Cancel}" value="Indietro" styleClass="slds-button slds-button--brand" style="background-color:#026369;width:150px;margin-left:20px;"/>
+                </span>
+              </div>
+            </div>
+    </apex:form>
+</apex:page>

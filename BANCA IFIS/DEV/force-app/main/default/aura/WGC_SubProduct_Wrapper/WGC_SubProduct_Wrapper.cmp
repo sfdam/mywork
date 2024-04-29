@@ -1,0 +1,98 @@
+<aura:component extends="c:WGC_Utility">
+    <!-- ATTRIBUTES -->
+        <!-- INHERITED -->
+        <aura:attribute name="items" type="Object[]" />
+        <aura:attribute name="subproducts" type="Object[]" />
+        <aura:attribute name="options" type="Object" />
+        <aura:attribute name="addBtnLabel" type="String" />
+        <aura:attribute name="removeBtnLabel" type="String" />
+        <aura:attribute name="icarManuali" type="Boolean" default="false"/>
+        <aura:attribute name="readOnly" type="Boolean" default="false"/>
+        <!-- SM - Banca Corporate Controlla la visibilità dei pulsanti aggiungi/rimuovi servizio bancario -->
+        <aura:attribute name="isBtnVisible" type="Boolean" default="false" />
+        <!-- PRIVATE -->
+        <aura:attribute name="rows" type="Object[]" />
+        <aura:attribute name="anySelectedRow" type="Boolean" />
+        <aura:attribute name="tipoSubProduct" type="String" />
+        <aura:attribute name="toggleIcarManualiOptions" type="Boolean" default="false" />
+        <aura:attribute name="disableAddAndRemove" type="Boolean" default="false" />
+        <aura:attribute name="icarValues" type="String" default="" />
+
+    <!-- REGISTER EVENTS -->
+    <aura:registerEvent name="subProductChange" type="c:WGC_SubProduct_Event"/>
+    
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    <aura:handler name="change" value="{! v.options }" action="{! c.reloadOptions }"/>
+    <aura:handler name="change" value="{! v.subproducts }" action="{! c.reloadData }"/>
+    <aura:handler name="change" value="{! v.items }" action="{! c.refreshTipoSubProduct }"/>
+
+        <lightning:layout>
+            <lightning:layoutItem flexibility="grow">
+                <aura:if isTrue="{! v.icarManuali }">
+                    <lightning:input type="toggle" label="Vuoi inserire i riferimenti fattura da data emissione o da numero/anno?" checked="{! v.toggleIcarManualiOptions }" onchange="{! c.onToggleIcarManualiOptions }" messageToggleActive="" messageToggleInactive=""/>
+                </aura:if>
+            </lightning:layoutItem>
+            <lightning:layoutItem flexibility="grow" class="slds-text-align_right">
+                <!-- old {! !v.readOnly }-->
+                <!-- <aura:if isTrue="{! and(!v.readOnly,!v.isBancaCorporate) }"> -->
+                <!-- SM - TEN: Banca Corporate: Rimossi i pulsanti aggiungi rimuovi servizio solo per i C/C -->
+                <aura:if isTrue="{! and(!v.readOnly,v.isBtnVisible) }">
+                    <lightning:buttonGroup>
+                        <lightning:button label="{! v.addBtnLabel }" iconName="utility:add" iconPosition="left" onclick="{! c.addSubProduct }" disabled="{! v.disableAddAndRemove }" />
+                        <lightning:button label="{! v.removeBtnLabel }" iconName="utility:delete" iconPosition="left" onclick="{! c.delSubProduct }" disabled="{! !v.anySelectedRow || v.disableAddAndRemove }" />
+                    </lightning:buttonGroup>
+                </aura:if>
+            </lightning:layoutItem>
+        </lightning:layout>
+
+        <lightning:layout multipleRows="true">
+            <aura:if isTrue="{! v.rows.length > 0 }">
+                <aura:iteration items="{! v.rows }" var="row" indexVar="index">
+                    <lightning:layoutItem size="12" class="slds-m-top_small cstm-subproducts-row">
+                        <lightning:layout multipleRows="true">
+                        <!-- <div class="slds-grid slds-gutters">
+                            <div class="slds-col slds-grow-none cstm-subproducts-row-checkbox"> -->
+                            <!-- SM - BANCA CORPORATE - Non deve essere visibile -->
+                            <!-- <aura:if isTrue="{! !v.isBancaCorporate }"> -->
+                                <aura:if isTrue="{! v.isBtnVisible }">
+                                    <lightning:layoutItem flexibility="no-shrink" class="cstm-subproducts-row-selector">
+                                        <lightning:input type="checkbox" name="{! 'sp-id-' + index }" onchange="{! c.onCheckboxChange }" disabled="{! v.readOnly }" />
+                                    <!-- </div> -->
+                                    </lightning:layoutItem>
+                                </aura:if>
+                            <!-- </aura:if> -->
+                            <aura:iteration items="{! row.columns }" var="col">
+                                <aura:if isTrue="{! col.visible != false }">
+                                    <!-- <div class="slds-col"> -->
+                                    <lightning:layoutItem flexibility="grow, no-shrink">
+                                        <aura:if isTrue="{! col.type == 'select' }">
+                                            <lightning:select name="{! col.name }" label="{! col.label }" value="{! col.value }" disabled="{! col.disabled || v.readOnly }" onchange="{! c.onChangeData }">
+                                                <option value="">--seleziona--</option>
+                                                <aura:iteration items="{! col.options }" var="opt">
+                                                    <option value="{! opt.value }" disabled="{! opt.value == 'MutuoPCNSA' || opt.value == 'MutuoPCNSASA' || opt.disabled }">{! opt.label }</option>
+                                                </aura:iteration>
+                                            </lightning:select>
+                                            <aura:set attribute="else">
+                                                <aura:if isTrue="{! col.type == 'toggle' }">
+                                                    <label class="slds-form-element__label">{! col.label }</label><br />
+                                                </aura:if>
+                                                <lightning:input type="{! col.type }" name="{! col.name }" label="{! col.label }" value="{! col.value }" step="{! col.step }" checked="{! col.value }" disabled="{! col.disabled || v.readOnly }" variant="{! (col.type == 'toggle' ? 'label-hidden' : 'standard' ) }" class="{! (col.type == 'toggle' ? 'cstm-display-block' : '' ) }" messageToggleActive="" messageToggleInactive="" onchange="{! c.onChangeData }" />
+                                            </aura:set>
+                                        </aura:if>
+                                    <!-- </div> -->
+                                    </lightning:layoutItem>
+                                </aura:if>
+                            </aura:iteration>
+                        <!-- </div> -->
+                        </lightning:layout>
+                    </lightning:layoutItem>
+                </aura:iteration>
+                <aura:set attribute="else">
+                    <lightning:layoutItem size="12" class="slds-m-top_small">
+                        <h2>Nessun record disponibile</h2>
+                    </lightning:layoutItem>
+                </aura:set>
+            </aura:if>
+        </lightning:layout>
+</aura:component>

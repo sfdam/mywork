@@ -1,0 +1,11 @@
+<template>
+    <lightning-combobox
+            name="picklistFiltro"
+            label=""
+            placeholder="-- nessun valore --"
+            value={picklistValue}
+            onchange={handlePicklistChange}
+            options={filterOptions}
+            disabled={isPicklistDisabled}>
+    </lightning-combobox>
+</template>

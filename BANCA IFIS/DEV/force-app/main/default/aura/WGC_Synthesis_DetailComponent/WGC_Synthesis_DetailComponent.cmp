@@ -1,0 +1,39 @@
+<aura:component implements="force:lightningQuickAction,lightning:actionOverride,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" access="global" >
+    
+    <aura:attribute name="recordId" type="String" />
+    
+    <aura:attribute name="GraficoLeft" type="String" description="Id for Left Analitycs grafic" />
+    <aura:attribute name="FiltroLeft" type="String" description="Filter for Left Analitycs grafic" />  
+    <aura:attribute name="GraficoRight" type="String" description="Id for Right Analitycs grafic" />
+    <aura:attribute name="FiltroRight" type="String" description="Filter for Right Analitycs grafic" />   
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+    <div class="c-container">
+        <!-- <c:WGC_EventiNegativi_Component aura:id="en" recordId="{!v.recordId}"/> -->
+        <lightning:layout multipleRows="true">
+            <lightning:layoutItem size="12">
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12" mediumDeviceSize="12"
+                        largeDeviceSize="6">
+                        <div class="page-section page-left">
+                            <c:WGC_Profilo_CardComponent recordId='{!v.recordId}' />
+                            <!-- <c:WGC_Analytics_Graphics title="POSIZIONE" Flip="disattivo" Dettaglio="disattivo" recordId='{!v.recordId}' Grafico="{! v.GraficoLeft }" Filtro="{! v.FiltroLeft }" /> -->
+                            <c:wgc_chart_container recordId="{! v.recordId }" chartName="Account_Posizione" title="POSIZIONE"></c:wgc_chart_container>
+                            <!-- <c:WGC_Position_CardComponent /> 0FK1x0000004CZaGAM -->
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12" mediumDeviceSize="12"
+                        largeDeviceSize="6">
+                        <div class="page-section page-right">
+                            <c:WGC_IndicatoriRischio_CardComponent recordId='{!v.recordId}' />
+                            <!-- <c:WGC_Analytics_Graphics title="MONITORAGGIO" Flip="disattivo" Dettaglio="disattivo" recordId='{!v.recordId}' Grafico="{! v.GraficoRight }" Filtro="{! v.FiltroRight }"/> -->
+                            <c:wgc_chart_container recordId="{! v.recordId }" chartName="Account_Monitoraggio" title="MONITORAGGIO"></c:wgc_chart_container>
+                        </div>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </lightning:layoutItem>
+            
+        </lightning:layout>
+    </div>
+</aura:component>

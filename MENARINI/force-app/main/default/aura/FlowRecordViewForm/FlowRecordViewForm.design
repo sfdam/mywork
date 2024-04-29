@@ -1,0 +1,7 @@
+<design:component>
+    
+    <design:attribute name="recordId" label="Id Record"  />
+    <design:attribute name="fields" label="Fields to show"  />
+    <design:attribute name="objectApiName" label="SObject Api Name"  />
+	
+</design:component>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PTF_IndiceOrdinamento__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF (
+TEXT(PTF_ModelloDiServizio__c) = &apos;Assente&apos;,15,
+IF (TEXT(PTF_ModelloDiServizio__c) = &apos;Residuale&apos;,16,
+IF (TEXT(PTF_ModelloDiServizio__c) = &apos;Family&apos;,3,
+IF (TEXT(PTF_ModelloDiServizio__c) = &apos;Personal&apos;,4,
+IF (TEXT(PTF_ModelloDiServizio__c) = &apos;Private&apos;,5,
+IF (TEXT(PTF_ModelloDiServizio__c) = &apos;Key Client Privati&apos;,6,
+IF (TEXT(PTF_ModelloDiServizio__c) = &apos;Consulenti Finanziari&apos;,7,
+IF (TEXT(PTF_ModelloDiServizio__c) = &apos;POE&apos;,8,
+IF (TEXT(PTF_ModelloDiServizio__c) = &apos;Small Business&apos;,9,
+IF (TEXT(PTF_ModelloDiServizio__c) = &apos;Corporate&apos;,10,
+IF (TEXT(PTF_ModelloDiServizio__c) = &apos;Large Corporate&apos;,12,
+IF (TEXT(PTF_ModelloDiServizio__c) = &apos;Controparti Istituzionali&apos;,13,
+IF (TEXT(PTF_ModelloDiServizio__c) = &apos;Enti e Tesorerie&apos;,14,0)
+)
+)
+)
+)
+)
+)
+)
+)
+)
+)
+)
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>I</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

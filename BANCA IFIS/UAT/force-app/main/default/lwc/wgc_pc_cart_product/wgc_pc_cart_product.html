@@ -1,0 +1,18 @@
+<template>
+    <div class={classProd} onclick={clickProduct} data-prodid={prod.name}>
+        <lightning-layout>
+            <lightning-layout-item size="3" class="slds-p-around_small slds-text-align_center">
+                <lightning-icon icon-name="standard:approval" size="large" ></lightning-icon>
+            </lightning-layout-item>
+            <lightning-layout-item size="9" class="slds-p-around_small cstm-product-desc">
+                <p class="cstm-product-desc-subtitle">{prod.famiglia}</p>
+                <h2 class="cstm-product-desc-title">{prod.label}</h2>
+            </lightning-layout-item>
+            <template if:true={remove}>
+                <div class={removeClass} onclick={removeProduct}>
+                    <lightning-icon icon-name="utility:close" size="x-small"></lightning-icon>
+                </div>
+            </template>
+        </lightning-layout>
+    </div>
+</template>

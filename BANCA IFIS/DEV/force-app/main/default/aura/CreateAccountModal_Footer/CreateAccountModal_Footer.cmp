@@ -1,0 +1,53 @@
+<aura:component>
+    
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="options" type="Object[]" default=" [ { 'title': 'search', 'buttons': [{ 'type': 'next', 'requireValidation': true }] } , { 'title': 'result', 'buttons': [{ 'type': 'next', 'visible': false }] } , { 'title': 'submit' } ] " />
+    <aura:attribute name="optionsLength" type="Integer" />
+    <aura:attribute name="page" type="String" />
+    <aura:attribute name="breadcrumb" type="List" default="[]" />
+    <aura:attribute name="isNextValid" type="Boolean" default="true" />
+
+    <aura:attribute name="cancelClasses" type="String" />
+    <aura:attribute name="backClasses" type="String" />
+    <aura:attribute name="nextClasses" type="String" />
+    <aura:attribute name="submitClasses" type="String" />
+
+    <!-- REGISTER EVENT -->
+    <aura:registerEvent name="F2B" type="c:ModalFooter2BodyEvent"/>
+	
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }" />
+    <aura:handler event="c:ModalBody2FooterEvent" action="{! c.manageB2F }" />
+
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    
+	<div>
+    <aura:iteration items="{! v.options }" var="slide" indexVar="slideIndex">
+        <aura:if isTrue="{! v.page == slide.title }">
+            <!-- NAVIGATE TO SUBMIT -->
+            <!--
+            <lightning:button aura:id="cancel" class="btn float-left" label="AGGIUNGI MANUALMENTE" name="{! slide.title + '-submit' }" onclick="{! c.cancel }"/>
+            -->
+			<!-- CANCEL -->
+            <lightning:button aura:id="cancel" class="" label="{! $Label.c.WGC_EditContactModal_Footer_ANNULLA}" name="{! slide.title + '-cancel' }" onclick="{! c.cancel }"/>
+            <!-- END - CANCEL -->
+            <!-- BACK -->
+            <aura:if isTrue="{! slideIndex > 0 }">
+                <lightning:button aura:id="back" class="{! v.backClasses }" label="{! $Label.c.WGC_CreateAccount_Modal_Body_INDIETRO}" name="{! slide.title + '-back' }" onclick="{! c.back }"/>
+            </aura:if>
+            <!-- END - BACK -->
+            <!-- NEXT -->
+            <aura:if isTrue="{! slideIndex != v.optionsLength-1 }">
+                <lightning:button aura:id="next" class="" label="{! $Label.c.WGC_CreateAccount_Modal_Body_AVANTI}" name="{! slide.title + '-next' }" onclick="{! c.next }" disabled="{! !v.isNextValid }"/><!-- data-needValidation="{! button.requireValidation }" -->
+            </aura:if>
+            <!-- END - NEXT -->
+            <!-- SUBMIT -->
+            <aura:if isTrue="{! slideIndex == v.optionsLength-1 }">
+                <lightning:button aura:id="submit" class="btn" label="{! $Label.c.WGC_CreateAccount_Modal_Body_AGGIUNGI}" name="{! slide.title + '-submit' }" onclick="{! c.submit }"/>
+            </aura:if>
+            <!-- END - SUBMIT -->
+        </aura:if>
+    </aura:iteration>
+    </div>
+
+</aura:component>

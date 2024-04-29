@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IBC</fullName>
+    <columns>NAME</columns>
+    <columns>Direzione_Territoriale_Search__c</columns>
+    <columns>Banker_1_Search__c</columns>
+    <columns>Banker_2_Search__c</columns>
+    <columns>RecordTypeName__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RecordTypeName__c</field>
+        <operation>equals</operation>
+        <value>IBC</value>
+    </filters>
+    <label>Mappatura DT - Banker IBC</label>
+</ListView>

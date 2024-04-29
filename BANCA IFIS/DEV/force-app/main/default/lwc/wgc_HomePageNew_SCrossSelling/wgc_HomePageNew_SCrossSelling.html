@@ -1,0 +1,38 @@
+<template>
+    <lightning-card variant="narrow" icon-name={iconName}>
+        <h1 slot="title" title={title} class="slds-truncate">{title}</h1>
+        <div slot="actions">
+            <lightning-button-icon icon-name="utility:zoomin" slot="actions" variant="brand" title="Mostra dettagli"  onclick={viewAll}></lightning-button-icon>
+        </div>
+        <div>
+        <lightning-layout multiple-rows="true">
+            <lightning-layout-item size="12" class="slds-text-align_center">  
+                <div class="circleBaseBodyTitle"><b>IN CORSO</b></div>
+                <div class="container">
+                        <div class="circleBase type1 clickable">
+                            <div class="circleBaseBody" onclick={onClickInCorso}>{countInCorso}</div>
+                        </div>
+                </div>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" class="slds-text-align_center">  
+                <div class="circleBaseBodyTitle">PERSE</div>
+                <div class="circleBaseBodySub">(Da inizio anno)</div>
+                <div class="container">
+                        <div class="circleBase type2 clickable">
+                            <div class="circleBaseBody" onclick={onClickPerse}>{countPerse}</div>
+                        </div>
+                </div>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" class="slds-text-align_center">  
+                <div class="circleBaseBodyTitle">Vinte</div>
+                <div class="circleBaseBodySub">(Da inizio anno)</div>
+                <div class="container">
+                        <div class="circleBase type3 clickable">
+                            <div class="circleBaseBody" onclick={onClickVinte}>{countVinte}</div>
+                        </div>
+                </div>
+            </lightning-layout-item>
+        </lightning-layout>
+    </div>
+    </lightning-card>
+</template>

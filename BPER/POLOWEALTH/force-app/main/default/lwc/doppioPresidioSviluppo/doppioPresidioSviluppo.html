@@ -1,0 +1,134 @@
+<template>
+    <lightning-layout multiple-rows="true">
+        <lightning-layout-item size="12">
+            <button type="submit" class="slds-button slds-button_neutral slds-button_stretch"
+                onclick={openModal}>{title}</button>
+        </lightning-layout-item>
+    </lightning-layout>
+    <template if:true={openmodal}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_large">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close" size="medium">
+                        </lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <div class="tilte-card"><b>{title}</b></div>
+
+                    <!-- <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate"></h2> -->
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <template if:true={notEmptyListDoppioPresidioAssegnato}>
+                        <lightning-layout multiple-rows="true">
+                            <lightning-layout-item flexibility="auto" class="slds-col" size="12">
+                                <lightning-datatable data-item="doppioPresidioTableEstero" key-field="Id"
+                                 onrowselection={getSelectedRowsToDelete} columns={columnsDoppioPresidioEstero} data={doppioPresidioListSviluppo}>
+                                </lightning-datatable>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12">
+                                <button type="submit" class="slds-button slds-button_brand slds-button_stretch"
+                                    onclick={deleteDoppioPresidioAssegnato}>
+                                    <lightning-icon icon-name="utility:delete" alternative-text="Elimina gestori"
+                                        variant="inverse" size="x-small"></lightning-icon>
+                                    Elimina doppio presidio selezionato
+                                </button>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </template>
+                    <template if:false={notEmptyListDoppioPresidioAssegnato}>
+
+                        <div class="slds-box no-button">
+                            <p>Nessun Sviluppatore assegnato</p>
+                        </div>
+
+                    </template>
+                    <div
+                        class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none">
+                        <lightning-layout multiple-rows="true">
+                            <lightning-layout-item flexibility="auto" padding="around-small" size="12">
+                                <label class="slds-form-element__label" for="unique-id-of-input">Ricerca Sviluppatore</label>
+                            </lightning-layout-item>
+                            <lightning-layout-item flexibility="auto" padding="around-small" size="12"
+                                medium-device-size="6" large-device-size="6">
+                                <lightning-input type="text" label="Nominativo" placeholder="Cerca per nominativo..."
+                                    value={searchedNominativo} onchange={handleFilter} name="searchedNominativo"
+                                    data-item="searchedNominativo"></lightning-input>
+                            </lightning-layout-item>
+                            <lightning-layout-item flexibility="auto" padding="around-small" size="12"
+                                medium-device-size="6" large-device-size="6">
+                                <lightning-input type="text" label="Matricola" placeholder="Cerca per matricola..."
+                                    value={searchedMatricola} onchange={handleFilter} name="searchedMatricola"
+                                    data-item="searchedMatricola"></lightning-input>
+                            </lightning-layout-item>
+                            <lightning-layout-item flexibility="auto" padding="around-small" size="12">
+                                <lightning-button-group class="slds-float_right">
+                                    <lightning-button variant="neutral" label="Cerca" title="Cerca"
+                                        onclick={handleSearch}>
+                                    </lightning-button>
+                                </lightning-button-group>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+                    <div
+                        class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none">
+                        <lightning-layout class="paginator">
+                            <lightning-layout-item alignment-bump="left">
+                                <lightning-layout class="slds-align_absolute-center">
+                                    <lightning-layout-item padding="around-small">
+                                        <div class="lgc-bg">
+                                            <lightning-button-icon icon-name="utility:chevronleft" variant="container"
+                                                alternative-text="Settings" title="Settings" onclick={handleIndietro}
+                                                disabled={disabledButtonIndietro}></lightning-button-icon>
+                                        </div>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item padding="around-small">
+                                        Pag. {page}
+                                    </lightning-layout-item>
+                                    <lightning-layout-item padding="around-small">
+                                        <div class="lgc-bg">
+                                            <lightning-button-icon icon-name="utility:chevronright" variant="container"
+                                                alternative-text="Settings" title="Settings" onclick={handleAvanti}
+                                                disabled={disabledButtonAvanti}></lightning-button-icon>
+                                        </div>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                        <lightning-layout>
+                            <lightning-layout-item size="12">
+                                <template if:false={isRendered}>
+                                    <div class="modal-spinner">
+                                        <lightning-spinner alternative-text="CARICAMENTO" size="small">
+                                        </lightning-spinner>
+                                    </div>
+                                </template>
+                                <div>
+                                    <div style="height: 10rem;">
+                                        <lightning-datatable data-item="dataItem" key-field="id" data={currentPageData}
+                                            onrowselection={getSelectedRows} columns={columns} max-row-selection="1">
+                                        </lightning-datatable>
+                                    </div>
+                                </div>
+
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button-group>
+                        <lightning-button label="Annulla" variant="neutral" onclick={closeModal}></lightning-button>
+                        <lightning-button label="Aggiungi" variant="neutral" onclick={creaDoppioPresidioEstero}>
+                        </lightning-button>
+                    </lightning-button-group>
+                </footer>
+
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+
+    </template>
+</template>

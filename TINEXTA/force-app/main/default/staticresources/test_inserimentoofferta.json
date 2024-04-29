@@ -1,0 +1,213 @@
+{
+    "Quote":{
+    "attributes": {
+      "type": "SBQQ__Quote__c",
+      "url": "/services/data/v48.0/sobjects/SBQQ__Quote__c/a1t1x000000ULqxAAG"
+    },
+    "Name": "Q-00767",
+    #SBQQ__Account__c#
+    "WH_Business_Area__c": "FA AUTOMATICA",
+    "CloseDate__c": "2021-01-31",
+    "ForecastCategoryName__c": "Pipeline",
+    "Escludi_da_template__c": true,
+    #SBQQ__PricebookId__c#
+    "SBQQ__PriceBook__c": "01s2X000001I1eZQAS",
+    "SBQQ__OriginalQuote__c": null,
+    "Probability__c": 10,
+    "StageName__c": "Potenziali",
+    "SBQQ__Primary__c": true,
+    "Opportunity_Name__c": "test app",
+    "WRT_Opportunita_Collegata__c": null,
+    "WRT_data_offerta__c": "2021-01-06",
+    "Azienda_WarrantCPQ__c": null,
+    "WRT_Agente3__c": null
+    },
+    "LineItems":[
+  {
+    "attributes": {
+      "type": "SBQQ__QuoteLine__c",
+      "url": "/services/data/v48.0/sobjects/SBQQ__QuoteLine__c/a1p1x000004XYqUAAW"
+    },
+    "WRT_AccountPerFatturazione__c": null,
+    "WRT_Agente3__c": null,
+    "WRT_altro_fattura__c": null,
+    "Azienda_WarrantCPQ__c": null,
+    "WRT_Codice_Ordine__c": null,
+    "WRT_codice_ordine_cliente__c": null,
+    "Creato_con_processo__c": null,
+    "WRT_data__c": null,
+    "Divisione_WarrantCPQ__c": "FA AUTOMATICA",
+    "Documenti_oppotunita_warranthub__c": null,
+    "Escludi_da_template__c": true,
+    "WRT_esercizio__c": "1990",
+    "WRT_fine_validita__c": null,
+    "SBQQ__Group__c": null,
+    "WRT_Gruppo2__c": null,
+    "WRT_inizio_validita__c": null,
+    "WRT_Iper_Nettosuper__c": false,
+    "WRT_Iper_NuovoMandato__c": false,
+    "Numero_di_Rinnovi__c": null,
+    "OppLineItem_Padre_Appoggi__c": null,
+    #SBQQ__Product__c#
+    "SBQQ__ProductOption__c": null,
+    "SBQQ__Quantity__c": 1,
+    "SBQQ__Quote__c": "a1t1x000000ULqxAAG",
+    "QuoteLineRinnovata__c": null,
+    "WRT_scadenza__c": null,
+    "SBQQ__Source__c": null,
+    "Tipo_domanda__c": null,
+    "Tipo_Mandato__c": "2 anni + 3 anni",
+    "WH_Sottoprogetto__c": null,
+    "WRT_Iper_PeriziaCompetenza__c": false,
+    "WRT_WB_codice__c": null
+  }
+    ],
+    "Finanziamenti":[
+  {
+    "attributes": {
+      "type": "Finanziamenti__c",
+      "url": "/services/data/v48.0/sobjects/Finanziamenti__c/a0r1x00000BPgN4AAL"
+    },
+    "Tipologia_Finanziamento_WarrantCPQ__c": "BENEFICIO OTTENUTO",
+    "Importo_WarrantCPQ__c": 132787.45,
+    "Stima_WarrantCPQ__c": null,
+    "Escludi_da_template__c": false,
+    "Fattura_WarrantCPQ__c": null,
+    "Quote_Line__c": "a1p1x000004XYqUAAW",
+    "OldFinanziamento__c": null,
+    "WRT_Update_da_Rinnovo__c": false
+  }
+    ],
+    "Condizioni":[
+  {
+    "attributes": {
+      "type": "Condizione_Opzionale__c",
+      "url": "/services/data/v48.0/sobjects/Condizione_Opzionale__c/a2H1x0000007dHzEAI"
+    },
+    "Tipo_WarrantCPQ__c": "Variabile",
+    "Tipologia_Finanziamento_WarrantCPQ__c": "BENEFICIO OTTENUTO",
+    "CondizionePadre_WarrantCPQ__c": "a0s1x000007ZfvKAAS",
+    "Percentuale_WarrantCPQ__c": 7,
+    "Escludi_da_template__c": false,
+    "Fisso_WarrantCPQ__c": null,
+    "Minimo_WarrantCPQ__c": null,
+    "Massimo_WarrantCPQ__c": 100000,
+    "Limite_WarrantCPQ__c": null,
+    "Min_garantito_WarrantCPQ__c": null,
+    "Valore_max_WarrantCPQ__c": null,
+    "FF_WarrantCPQ__c": true,
+    "Progressivo__c": false,
+    "Quote_Line__c": null,
+    "Pag_WarrantCPQ__c": "1"
+  },
+  {
+    "attributes": {
+      "type": "Condizione_Opzionale__c",
+      "url": "/services/data/v48.0/sobjects/Condizione_Opzionale__c/a2H1x0000007dI4EAI"
+    },
+    "Tipo_WarrantCPQ__c": "Variabile",
+    "Tipologia_Finanziamento_WarrantCPQ__c": "BENEFICIO OTTENUTO",
+    "CondizionePadre_WarrantCPQ__c": "a0s1x000007ZfvKAAS",
+    "Percentuale_WarrantCPQ__c": 6,
+    "Escludi_da_template__c": false,
+    "Fisso_WarrantCPQ__c": null,
+    "Minimo_WarrantCPQ__c": 100000,
+    "Massimo_WarrantCPQ__c": 500000,
+    "Limite_WarrantCPQ__c": null,
+    "Min_garantito_WarrantCPQ__c": null,
+    "Valore_max_WarrantCPQ__c": null,
+    "FF_WarrantCPQ__c": true,
+    "Progressivo__c": false,
+    "Quote_Line__c": null,
+    "Pag_WarrantCPQ__c": "1"
+  },
+  {
+    "attributes": {
+      "type": "Condizione_Opzionale__c",
+      "url": "/services/data/v48.0/sobjects/Condizione_Opzionale__c/a2H1x0000007dI9EAI"
+    },
+    "Tipo_WarrantCPQ__c": "Variabile",
+    "Tipologia_Finanziamento_WarrantCPQ__c": "BENEFICIO OTTENUTO",
+    "CondizionePadre_WarrantCPQ__c": "a0s1x000007ZfvKAAS",
+    "Percentuale_WarrantCPQ__c": 5,
+    "Escludi_da_template__c": false,
+    "Fisso_WarrantCPQ__c": null,
+    "Minimo_WarrantCPQ__c": 500000,
+    "Massimo_WarrantCPQ__c": 1000000,
+    "Limite_WarrantCPQ__c": null,
+    "Min_garantito_WarrantCPQ__c": null,
+    "Valore_max_WarrantCPQ__c": null,
+    "FF_WarrantCPQ__c": true,
+    "Progressivo__c": false,
+    "Quote_Line__c": null,
+    "Pag_WarrantCPQ__c": "1"
+  },
+  {
+    "attributes": {
+      "type": "Condizione_Opzionale__c",
+      "url": "/services/data/v48.0/sobjects/Condizione_Opzionale__c/a2H1x0000007dIEEAY"
+    },
+    "Tipo_WarrantCPQ__c": "Variabile",
+    "Tipologia_Finanziamento_WarrantCPQ__c": "BENEFICIO OTTENUTO",
+    "CondizionePadre_WarrantCPQ__c": "a0s1x000007ZfvKAAS",
+    "Percentuale_WarrantCPQ__c": 4,
+    "Escludi_da_template__c": false,
+    "Fisso_WarrantCPQ__c": null,
+    "Minimo_WarrantCPQ__c": 1000000,
+    "Massimo_WarrantCPQ__c": 1500000,
+    "Limite_WarrantCPQ__c": null,
+    "Min_garantito_WarrantCPQ__c": null,
+    "Valore_max_WarrantCPQ__c": null,
+    "FF_WarrantCPQ__c": true,
+    "Progressivo__c": false,
+    "Quote_Line__c": null,
+    "Pag_WarrantCPQ__c": "1"
+  },
+  {
+    "attributes": {
+      "type": "Condizione_Opzionale__c",
+      "url": "/services/data/v48.0/sobjects/Condizione_Opzionale__c/a2H1x0000007dIJEAY"
+    },
+    "Tipo_WarrantCPQ__c": "Variabile",
+    "Tipologia_Finanziamento_WarrantCPQ__c": "BENEFICIO OTTENUTO",
+    "CondizionePadre_WarrantCPQ__c": "a0s1x000007ZfvKAAS",
+    "Percentuale_WarrantCPQ__c": 3,
+    "Escludi_da_template__c": false,
+    "Fisso_WarrantCPQ__c": null,
+    "Minimo_WarrantCPQ__c": 1500000,
+    "Massimo_WarrantCPQ__c": null,
+    "Limite_WarrantCPQ__c": null,
+    "Min_garantito_WarrantCPQ__c": null,
+    "Valore_max_WarrantCPQ__c": null,
+    "FF_WarrantCPQ__c": true,
+    "Progressivo__c": false,
+    "Quote_Line__c": null,
+    "Pag_WarrantCPQ__c": "1"
+  }
+    ],
+    "Pagamenti":[
+  {
+    "attributes": {
+      "type": "Pagamenti__c",
+      "url": "/services/data/v48.0/sobjects/Pagamenti__c/a0t1x000001z8CTAAY"
+    },
+    "Quote_Line__c": "a1p1x000004XYqUAAW",
+    "Percentuale_WarrantCPQ__c": 100,
+    "Formula_Importo_WarrantCPQ__c": 7967.25,
+    "Formula_Stima_WarrantCPQ__c": 0,
+    "Scadenza_WarrantCPQ__c": "2020-09-30",
+    "Procedimento_pagamento__c": null,
+    "Parte_WarrantCPQ__c": null,
+    "Probabilita_WarrantCPQ__c": "Certa",
+    "Opzione_WarrantCPQ__c": null,
+    "Formula_Numero_e_data_fattura__c": null,
+    "Descrizione_fattura_WarrantCPQ__c": null,
+    "Tipo_pagamento_WarrantCPQ__c": "RIBA 30 GG DF FM",
+    "Condizione_WarrantCPQ__c": "a0s1x000007ZfvKAAS",
+    "WRT_Update_da_Rinnovo__c": false,
+    "SingoloProdotto_WarrantCPQ__c": null,
+    "Escludi_da_template_Pag__c": false,
+    "Pag_WarrantCPQ__c": "1"
+  }
+    ]
+}

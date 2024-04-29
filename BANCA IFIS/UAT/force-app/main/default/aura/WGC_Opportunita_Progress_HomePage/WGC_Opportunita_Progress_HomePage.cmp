@@ -1,0 +1,163 @@
+<aura:component controller="WGC_Opportunita_Progress_Controller"
+    implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+    access="global">
+
+    <lightning:navigation aura:id="navService" />
+
+    <aura:attribute name="iconName" type="String" description="Definisce l'icona tra le standard" />
+    <aura:attribute name="title" type="String" default="" description="Title from Container Card" />
+    <aura:attribute name="Flip" type="String" access="global" />
+    <aura:attribute name="Dettaglio" type="String" access="global" />
+    <aura:attribute name="TabApiName" type="String" access="global" default="Monitoraggio" />
+    <aura:attribute name="IsCollapsed" type="Boolean" default="true" />
+
+    <aura:attribute name="counter" type="Object" />
+    <aura:attribute name="reportIstruttoria" type="String" />
+    <aura:attribute name="reportValPratica" type="String" />
+    <aura:attribute name="reportPredContratto" type="String" />
+    <aura:attribute name="reportPerfContratto" type="String" />
+    <aura:attribute name="reportAttRapporto" type="String" />
+    <aura:attribute name="reportAvviate" type="String" />
+    <aura:attribute name="reportCrossSelling" type="String" />
+    <aura:attribute name="reportChiuse" type="String" />
+    <aura:attribute name="reportDettagli" type="String" />
+
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+
+    <lightning:card class="card-lightning">
+        <aura:set attribute="title">
+            <!-- with container -->
+            <lightning:layout multipleRows="false">
+                <lightning:layoutItem size="10" smallDeviceSize="10" mediumDeviceSize="10" largeDeviceSize="10">
+                    <lightning:icon iconName="{! 'utility:' + v.iconName }" size="small"
+                        variant="slds-icon-inverse" />
+                    <div class="title">{! v.title }</div>
+                </lightning:layoutItem>
+                <lightning:layoutItem class="slds-text-align_right" size="2" smallDeviceSize="2"
+                    mediumDeviceSize="2" largeDeviceSize="2">
+                    <aura:if isTrue="{! v.Dettaglio == 'attivo' }">
+                        <div class="header-button">
+                            <lightning:buttonIcon iconName="utility:expand" size="medium" variant="bare"
+                                iconClass="" onclick="{!c.redirectDettaglio}" class="" />
+                        </div>
+                    </aura:if>
+                    <aura:if isTrue="{! v.Flip == 'attivo' }">
+                        <div class="header-button">
+                            <lightning:buttonIcon iconName="utility:chevronup" size="medium" variant="bare"
+                                iconClass="" onclick="{!c.collapse}"
+                                class="{! 'cstm-accordion-icon ' + (v.IsCollapsed ? '' : 'collapsed') }" />
+                        </div>
+                    </aura:if>
+                </lightning:layoutItem>
+            </lightning:layout>
+        </aura:set>
+        <aura:if isTrue="{! !v.IsCollapsed }">
+            <div class='container-card'>
+                <span class="circleBaseStriped iphone"></span>
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-size_1-of-1 slds-m-vertical_large">
+                        <div class="slds-grid slds-gutters">
+                            <div class="slds-col slds-size_1-of-4" data-report="{! v.reportIstruttoria }" onclick="{! c.redirectReport }">
+                                <div class="container">
+                                    <!-- <div class="circleBaseBodyTitle">{!$Label.c.WGC_Opportunita_Progress_istruttoria}</div> -->
+                                    <div class="circleBaseBodyTitle">{! $Label.c.Stato_Opp_1 }</div>
+                                    <div class="circleBaseBodySub"></div>
+                                    <div class="circle">
+                                        <div class="{! 'circleBase type4 ' + (v.counter.expiredIstruttoriaOpty ? 'background-red border-white' : 'border-grey')}">
+                                            <div class="{! 'circleBaseBody clickable ' + (v.counter.expiredIstruttoriaOpty ? 'found-white' : '')}">{!v.counter.countIstruttoria}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-4" data-report="{! v.reportValPratica }" onclick="{! c.redirectReport }">
+                                <div class="container">
+                                    <!-- <div class="circleBaseBodyTitle">{!$Label.c.WGC_Opportunita_Progress_valutazione_pratica}</div> -->
+                                    <div class="circleBaseBodyTitle">{! $Label.c.Stato_Opp_2 }</div>
+                                    <div class="circleBaseBodySub"></div>
+                                    <div class="circle">
+                                        <div class="circleBase type4 border-grey">
+                                            <div class="circleBaseBody clickable">{!v.counter.countValutazionePratica}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- SM - TEN - CR401 eliminazione stato Predisposizione Contratto -->
+                            <!-- <div class="slds-col slds-size_1-of-5" data-report="{! v.reportPredContratto }" onclick="{! c.redirectReport }">
+                                <div class="container">
+                                    <div class="circleBaseBodyTitle">{!$Label.c.WGC_Opportunita_Progress_redazioni_contratto}</div>
+                                    <div class="circleBaseBodySub"></div>
+                                    <div class="circle">
+                                        <div class="circleBase type4 border-grey">
+                                            <div class="circleBaseBody clickable">{!v.counter.countRedazioniContratto}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> -->
+                            <div class="slds-col slds-size_1-of-4" data-report="{! v.reportPerfContratto }" onclick="{! c.redirectReport }">
+                                <div class="container">
+                                    <!-- <div class="circleBaseBodyTitle">{!$Label.c.WGC_Opportunita_Progress_perfezionameto_contratto}</div> -->
+                                    <div class="circleBaseBodyTitle">{! $Label.c.Stato_Opp_3 }</div>
+                                    <div class="circleBaseBodySub"></div>
+                                    <div class="circle">
+                                        <div class="circleBase type4 border-red">
+                                            <div class="circleBaseBody clickable found-red">{!v.counter.countPerfContratto}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-4" data-report="{! v.reportAttRapporto }" onclick="{! c.redirectReport }">
+                                <div class="container">
+                                    <!-- <div class="circleBaseBodyTitle">{!$Label.c.WGC_Opportunita_Progress_attivazione_rapporto}</div> -->
+                                    <div class="circleBaseBodyTitle">{! $Label.c.Stato_Opp_4 }</div>
+                                    <div class="circleBaseBodySub"></div>
+                                    <div class="circle">
+                                        <div class="circleBase type4 border-red">
+                                            <div class="circleBaseBody clickable found-red">{!v.counter.countAttRapporto}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-m-vertical_large">
+                        <div class="slds-grid slds-gutters">
+                            <div class="slds-col slds-size_1-of-3" data-report="{! v.reportAvviate }" onclick="{! c.redirectReport }">
+                                <div class="container">
+                                    <div class="circleBaseBodyTitle">{!$Label.c.WGC_Opportunita_Progress_avviate}</div>
+                                    <div class="circleBaseBodySub">{!$Label.c.WGC_Opportunita_Progress_Da_inizio_anno}</div>
+                                    <div class="circle">
+                                        <div class="circleBase type4 border-grey">
+                                            <div class="circleBaseBody clickable">{!v.counter.countTotalYear}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-3" data-report="{! v.reportCrossSelling }" onclick="{! c.redirectReport }">
+                                <div class="container">
+                                    <div class="circleBaseBodyTitle">{!$Label.c.WGC_Opportunita_Progress_segnalazioni_aperte}</div>
+                                    <div class="circleBaseBodySub"></div>
+                                    <div class="circle">
+                                        <div class="circleBase type4 border-grey">
+                                            <div class="circleBaseBody clickable">{!v.counter.countCrossSelling}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-3" data-report="{! v.reportChiuse }" onclick="{! c.redirectReport }">
+                                <div class="container">
+                                    <div class="circleBaseBodyTitle">{!$Label.c.WGC_Opportunita_Progress_chiuse}</div>
+                                    <div class="circleBaseBodySub">{!$Label.c.WGC_Opportunita_Progress_Da_inizio_anno}</div>
+                                    <div class="circle">
+                                        <div class="circleBase type4 border-grey">
+                                            <div class="circleBaseBody found-grey clickable">{!v.counter.countClosedTotalYear}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aura:if>
+    </lightning:card>
+</aura:component>

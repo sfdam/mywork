@@ -1,0 +1,171 @@
+<template>  
+    <lightning-card title={title} icon-name={icon}>
+        <template lwc:if={isLoading}>
+            <div class="slds-align_absolute-center">
+                <lightning-spinner size="medium"></lightning-spinner>
+            </div>
+        </template>
+
+        <template lwc:if={step1}>
+            <lightning-button slot="actions" label="Assegna" onclick={nextStep} disabled={emptyOppRows}></lightning-button>
+            <div class="slds-scrollable_y border-top" style="max-height:500px">
+                <lightning-datatable
+                data={oppRows} columns={oppColumns} key-field="Id" selected-rows={selectedOppsIds} onrowselection={handleOppSelection} show-row-number-column>  
+                </lightning-datatable>
+                <template if:true={emptyOppRows}>
+                    <div class="slds-text-align_center" style="padding: 2%;">
+                        <span>No items to display.</span>
+                    </div>
+                </template>
+            </div>
+        </template>
+
+        <template lwc:if={stepIntermedio}>
+            <lightning-button slot="actions" label="Indietro" onclick={previousStep} class="slds-p-right_small" disabled={disabledIndietro}></lightning-button>
+            <lightning-button slot="actions" label="Avanti" onclick={nextStep}></lightning-button>
+
+            <lightning-layout>
+                <lightning-layout-item size="2" padding="around-small">
+                    <lightning-input type="date" label="Data" name="startDate" value={startDate} onchange={handleChange} min={startDateInit}></lightning-input>
+                </lightning-layout-item>
+                <lightning-layout-item size="2" padding="around-small">
+                    <lightning-input type="time" label="Ora inizio meeting" name="startTime" value={startTime} onchange={handleChange}></lightning-input>
+                </lightning-layout-item>
+                <lightning-layout-item size="2" padding="around-small">
+                    <lightning-input type="time" label="Ora fine meeting" name="endTime" value={endTime} onchange={handleChange}></lightning-input>
+                </lightning-layout-item>
+
+                <lightning-layout-item size="6" padding="around-small" style="padding-left: 8%;">
+                    <template lwc:if={warning}>
+                        <div class="alert slds-grid slds-gutters">
+                            <div class="slds-col slds-size_1-of-10 alertIcon slds-align_absolute-center">
+                                <lightning-icon icon-name="utility:warning" alternative-text="Warning!" title="Warning" size="small" variant="error"></lightning-icon>
+                            </div>
+                            <div class="slds-col slds-size_9-of-10">
+                                <div class="alertMessage">
+                                    <strong>{label.labelWarning}</strong> 
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                    <template lwc:if={warningPrivName}>
+                        <div class="alert slds-grid slds-gutters">
+                            <div class="slds-col slds-size_1-of-10 alertIcon slds-align_absolute-center">
+                                <lightning-icon icon-name="utility:warning" alternative-text="Warning!" title="Warning" size="small" variant="error"></lightning-icon>
+                            </div>
+                            <div class="slds-col slds-size_9-of-10">
+                                <div class="alertMessage">
+                                    <strong>{label.labelWarningPrivName}</strong> 
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </lightning-layout-item>
+                <!-- <lightning-layout-item size="6" padding="around-small">
+                    <lightning-input type="datetime" label="End date" name="endDate" value={endDate} onchange={handleChange}></lightning-input>
+                </lightning-layout-item> -->
+            </lightning-layout>
+
+            <div class="border-top" style="max-height:500px">
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered" aria-labelledby="element-with-table-label other-element-with-table-label">
+                    <thead>
+                      <tr class="slds-line-height_reset">
+                        <th class="" scope="col" style="width:15%">
+                          <div class="slds-truncate" title="Nome Opportunità">Nome Opportunità</div>
+                        </th>
+                        <th class="" scope="col" style="width:15%">
+                            <div class="slds-truncate" title="Presentato da">Presentato da</div>
+                        </th>
+                        <th class="" scope="col" style="width:15%">
+                            <div class="slds-truncate" title="Nome Account">Nome Account</div>
+                        </th>
+                        <th class="" scope="col" style="width:15%">
+                            <div class="slds-truncate" title="Nome Opportunità">Nome Opportunità</div>
+                        </th>
+                        <th class="" scope="col" style="width:10%">
+                            <div class="slds-truncate" title="Progressivo">Progressivo</div>
+                        </th>
+                        <th class="" scope="col" style="width:15%">
+                            <div class="slds-truncate" title="Ora inizio discussione">Ora inizio discussione</div>
+                        </th>
+                        <th class="" scope="col" style="width:15%">
+                            <div class="slds-truncate" title="Ora fine discussione">Ora fine discussione</div>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        <template for:each={oppListDaProcessare} for:item="opp">
+                            <tr key={opp.Id}>
+                                <td >
+                                    <p key={opp.Id}>{opp.Name}</p>
+                                </td>
+                                <td >
+                                    <p key={opp.Id}>{opp.PresentatoDa}</p>
+                                </td>
+                                <td >
+                                    <p key={opp.Id}>{opp.AccountName}</p>
+                                </td>
+                                <td >
+                                    <p key={opp.Id}>{opp.NameCustom}</p>
+                                </td>
+                                <td >
+                                    <lightning-input key={opp.Id} type="number" name={opp.Id} value={opp.ProgressivoIBC__c} variant="label-hidden" style="padding:5%" onchange={handleProgressivoChange}></lightning-input>
+                                </td>
+                                <td >
+                                    <lightning-input key={opp.Id} type="time" name={opp.Id} value={opp.OraInizioIBC__c} variant="label-hidden" style="padding:5%" onchange={handleStartTimeChange} min={startTime} max={endTime}></lightning-input>
+                                </td>
+                                <td >
+                                    <lightning-input key={opp.Id} type="time" name={opp.Id} value={opp.OraFineIBC__c} variant="label-hidden" style="padding:5%" onchange={handleEndTimeChange} min={startTime} max={endTime}></lightning-input>
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+                <!-- <template for:each={oppListDaProcessare} for:item="opp">
+                    <div key={opp.Id} class="slds-grid slds-gutters">
+                        <div key={opp.Id} class="slds-col slds-size_3-of-12 slds-align_absolute-center">
+                            <p key={opp.Id}>{opp.Name}</p>
+                        </div>
+                        <div key={opp.Id} class="slds-col slds-size_3-of-12 slds-align_absolute-center">
+                            <p key={opp.Id}>{opp.NameCustom}</p>
+                        </div>
+                        <div key={opp.Id} class="slds-col slds-size_3-of-12 slds-align_absolute-center">
+                            <lightning-input key={opp.Id} type="time" name="inputOraInizioIBC" label="Required Time field" value={opp.OraInizioIBC} required ></lightning-input>
+                        </div>
+                        <div key={opp.Id} class="slds-col slds-size_3-of-12 slds-align_absolute-center">
+                            <lightning-input key={opp.Id} type="time" name="inputOraFineIBC" label="Required Time field" value={opp.OraFineIBC} required ></lightning-input>
+                        </div>
+                    </div>
+                </template> -->
+            </div>
+        </template>
+
+        <template lwc:if={step2}>
+            <lightning-button slot="actions" label="Indietro" onclick={previousStep} class="slds-p-right_small"></lightning-button>
+            <lightning-button slot="actions" label="Crea Eventi" onclick={finish}></lightning-button>
+            <lightning-layout>
+                <lightning-layout-item size="6" padding="around-small">
+                    <lightning-input class="searchClass" type="search" label="Search" name="search" value={searchValue} onchange={handleSearch}></lightning-input>
+                </lightning-layout-item>
+                
+            </lightning-layout>
+            <div class="slds-scrollable_y border-top" style="max-height:500px">
+                <lightning-datatable
+                data={userRows} columns={userColumns} key-field="Id" selected-rows={selectedUsers} onrowselection={handleUserSelection}>  
+                </lightning-datatable>
+            </div>
+        </template>
+        
+        <template lwc:if={step3}>
+            <!-- <c-p-d-f_-segretaria-cib-o-d-g1-fnd-single-docx-lwc-english prefill={getPrefillData} layout="lightning"></c-p-d-f_-segretaria-cib-o-d-g1-fnd-single-docx-lwc-english> -->
+            <c-cib-segretaria-o-d-g-fnd-single-docx-lwc-english prefill={getPrefillData} layout="lightning"></c-cib-segretaria-o-d-g-fnd-single-docx-lwc-english>
+            <template lwc:if={showButton}>
+                <div style="text-align: end;">
+                    <lightning-button slot="actions" label={finishButtonLabel} variant="brand" onclick={handleUploadFinished} class="slds-p-right_small"></lightning-button>
+                </div>
+                
+            </template>
+        </template>
+    </lightning-card>
+    <!--<lightning-flow if:true={launchFlow} flow-api-name='CIB_Opportunit_RM'></lightning-flow>-->
+</template>

@@ -1,0 +1,45 @@
+<aura:component access="global" extends="c:WGC_Utility">
+  <!-- ATTRIBUTES -->
+  <aura:attribute name="opportunityId" type="String" />
+  <aura:attribute name="accountId" type="String" />
+  <aura:attribute name="selectedProducts" type="Object[]" />
+  <aura:attribute name="items" type="Object[]" />
+  <aura:attribute name="picklistOptions" type="Object" />
+  <aura:attribute name="diviseOptions" type="Object" />
+  <aura:attribute name="payload" type="Object" />
+  <aura:attribute name="debitoriPerLinea" type="Object[]" />
+  <aura:attribute name="isAllDocValid" type="Boolean" />
+  <aura:attribute name="newLines" type="Boolean" default="true" />
+  <!-- SM - TEN CR 425 Attributo per controllare presenza linee estero -->
+  <aura:attribute name="linesEstero" type="Boolean" default="false" />
+  <!-- SM - CR 456 Attributo per gestire i doc non reperibili -->
+  <aura:attribute name="docNonReperibili" type="Boolean" />
+  <!-- REGISTER EVENTS -->
+  <aura:registerEvent name="navigateSubWizard" type="c:WGC_NavigateSubWizard" />
+
+  <!-- HANDLERS -->
+  <aura:handler name="init" value="{! this }" action="{! c.doInit }" />
+  <aura:handler
+    name="productClick"
+    event="c:WGC_ProductClickEvent"
+    action="{! c.handleProductClick }"
+  />
+
+  <c:WGC_Cart_Products_Wrapper title="Linee Selezionate" items="{! v.items }" />
+
+  <lightning:layout class="cstm-border-all slds-m-top_small">
+    <lightning:layoutItem size="12" padding="around-small">
+      <!-- <h2 class="cstm-subheader-title">Documentazione Azienda</h2>
+            <img src="{! $Resource.cartDocumentazione }"/> -->
+
+      <c:WGC_Documenti_2_Component
+        recordId="{! v.accountId }"
+        opportunityId="{! v.opportunityId }"
+        isAllDocValid="{! v.isAllDocValid }"
+        docNonReperibili="{! v.docNonReperibili }"
+        newLines="{! v.newLines }"
+        linesEstero="{! v.linesEstero }"
+      />
+    </lightning:layoutItem>
+  </lightning:layout>
+</aura:component>

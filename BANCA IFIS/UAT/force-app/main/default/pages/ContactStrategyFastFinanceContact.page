@@ -1,0 +1,76 @@
+<apex:page showHeader="false" sidebar="false" standardController="Contact" extensions="CtrlWizardAccount,ExtSfdcLookup,ContactStrategyController" standardStylesheets="false" applyHtmlTag="false" docType="html-5.0" cache="true">
+  <html>
+  <head>
+      <meta name="viewport" content="initial-scale=1, maximum-scale=1"/>
+    <apex:includeScript value="{!URLFOR($Resource.VueApps, 'index.js')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.VueApps, 'index.css')}" />
+    <apex:includeScript value="https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js" />
+    <apex:stylesheet value="{!URLFOR($Resource.SLDS, '/assets/styles/salesforce-lightning-design-system-ltng.min.css')}" />
+
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      .sfdcBody {
+        padding: 0!important;
+      }
+
+      .iosContainer {
+        height: 1000px;
+        width: 100vw;
+        -webkit-overflow-scrolling: touch;
+      }
+    </style>
+    <script>
+      Visualforce.remoting.timeout = 120000
+      Visualforce.remoting.buffer = false
+      Sizzle = undefined
+      document.addEventListener('DOMContentLoaded', function() {
+        FastClick.attach(document.body);
+      }, false);
+    </script>
+  </head>
+  <body>
+    <apex:outputText value="{!Contact.StatoFastFinance__c}" rendered="false" />
+    <section class="iosContainer" id="iosContainer">
+      <div class="tlnxt">
+        <div id="lightning"></div>
+      </div>
+    </section>
+    <script>
+      document.querySelector('.iosContainer').ontouchmove = function(e) {e.stopPropagation()};
+
+      new Apps.ContactStrategyApp({
+        created: function() {
+          console.log('APP CREATED')
+          this.setSvgPath('{!URLFOR($Resource.SLDS)}' + '/assets')
+        },
+        methods: {
+          $api: Apps.VfApiProxy(CtrlWizardAccount, ExtSfdcLookup, ContactStrategyController)
+        },
+        data: {
+          metadataApi: new Apps.MetadataApi({
+            sessionId: '{!$API.Session_Id}'
+          })
+        },
+        render: function(h) {
+          return h('div', [
+            h('ds-notification'),
+            h('ds-spinner'),
+            h('ds-modal-stack'),
+            h('ContactStrategy', {
+              props: {
+                accountId: '{!CASESAFEID(Contact.Id)}',
+                params: 'Contact' + ';;;' +'{!fieldSets}' + ';;;' + '{!profilesAllowedToEdit}'
+              }
+            })
+          ])
+        },
+        el: '#lightning'
+      })
+    </script>
+  </body>
+  </html>
+</apex:page>

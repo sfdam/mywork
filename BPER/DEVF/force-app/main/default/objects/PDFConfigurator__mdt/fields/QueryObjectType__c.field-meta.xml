@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>QueryObjectType__c</fullName>
+    <description>Indicare l&apos;API Name dell&apos;oggetto su cui effettuare la query</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Indicare l&apos;API Name dell&apos;oggetto su cui effettuare la query</inlineHelpText>
+    <label>Query Object Type</label>
+    <length>255</length>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

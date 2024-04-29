@@ -1,0 +1,64 @@
+<aura:component implements="lightning:isUrlAddressable,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+    controller="WGC_Storico_AttivitaController" access="global">
+
+    <ltng:require scripts="{!join(',', 
+             '/resource/WGC_jQuery3x',
+             '')}" afterScriptsLoaded="{!c.doInit}" />
+
+
+    <lightning:navigation aura:id="navService" />
+
+    <!-- attributes -->
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="userInfo" type="User" default="{'sobjectType':'User'}" />
+    <aura:attribute name="choiseObj" type="Map" default="{'attivita':'all', 'userQualifica':'all' }" />
+
+    <aura:attribute name="attivita" type="String" default="all" />
+    <aura:handler name="change" value="{!v.attivita}" action="{!c.setFilter}" />
+    
+    <aura:attribute name="userQualifica" type="String" default="all" />
+    <aura:handler name="change" value="{!v.userQualifica}" action="{!c.setFilter}" />
+
+    <aura:attribute name="allDataValue" type="Object" default='{}' />
+    <aura:attribute name="allDataChoiseValue" type="Object[]" default='[]' />
+
+    <aura:attribute name="activeSections" type="List" default="[]" />
+
+    <aura:attribute name="InputPicklistQualificaUtente" type="List" access="PRIVATE" description="selected value" />
+
+
+    <div class='container'>
+        <div class="containerFilterBackground"></div>
+        <div class="containerFilter">
+                <lightning:accordion class="slds-m-bottom_x-small" aura:id="accordion" activeSectionName="{! v.activeSections }" allowMultipleSectionsOpen="true">
+                        <lightning:accordionSection name="A" label="{! $Label.c.WGC_Storico_Attivita_Filtri }">
+                            <lightning:select aura:id="attivita" name="attivita" label="{! $Label.c.WGC_Storico_Attivita_Picklist_Attivita }"
+                                value="{!v.attivita}">
+                                <option value="all">All</option>
+                                <option value="taskevisite">{! $Label.c.WGC_ActivityTimeLine_Task_Visite }</option>
+                                <option value="task">{! $Label.c.WGC_HomePage_Mie_Attivita_Task }</option>
+                                <option value="visite">{! $Label.c.WGC_Business_Detail_Visite }</option>
+                                <option value="promemoria">{! $Label.c.WGC_ActivityTimeLine_Promemoria }</option>
+                                <option value="diario_Campagna">{! $Label.c.WGC_ActivityTimeLine_Campagna }</option>
+                                <option value="diario_Opportunita">{! $Label.c.WGC_Business_Detail_Opportunita }</option>
+                            </lightning:select>
+            
+                            <lightning:select name="userQualifica" aura:id="userQualifica" label="{! $Label.c.WGC_Storico_Attivita_Picklist_Qualifica }"
+                                value="{! v.userQualifica }">
+                                <aura:iteration items="{!v.InputPicklistQualificaUtente}" var="option">
+                                    <option text="{!option.label}" value="{!option.value}" selected="{!option.selected}" />
+                                </aura:iteration>
+                            </lightning:select>
+                            
+                        </lightning:accordionSection>
+                    </lightning:accordion>
+        </div>
+        
+        
+        <ul class="slds-timeline">
+          <aura:iteration items="{!v.allDataChoiseValue}" var="item" indexVar="index">
+              <c:WGC_ActivityTimeLine_Item activityType="{! item.objectType }" itemDetail="{! item }" />
+          </aura:iteration>
+        </ul>
+    </div>
+</aura:component>

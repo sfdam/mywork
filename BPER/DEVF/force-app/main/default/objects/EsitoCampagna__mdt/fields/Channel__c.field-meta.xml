@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Channel__c</fullName>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Canale</label>
+    <required>true</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Contact Center</fullName>
+                <default>true</default>
+                <label>Contact Center</label>
+            </value>
+            <value>
+                <fullName>Rete</fullName>
+                <default>false</default>
+                <label>Rete</label>
+            </value>
+            <value>
+                <fullName>CCPRRETE</fullName>
+                <default>false</default>
+                <label>Contact Center/Rete</label>
+            </value>
+            <value>
+                <fullName>N/A</fullName>
+                <default>false</default>
+                <label>N/A</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

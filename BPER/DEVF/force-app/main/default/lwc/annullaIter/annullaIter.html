@@ -1,0 +1,17 @@
+<template>
+    <template if:true={showButton}>
+        <lightning-layout multiple-rows="true">
+            <lightning-layout-item flexibility="auto" padding="around-small" size="12">
+                <lightning-input type="text" label="Nota" placeholder="Nota..." value={nota} onchange={handleFilter} name="nota"></lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" padding="around-small" size="12">
+                <button type="submit" class="slds-button slds-button_neutral slds-button_stretch" onclick={closeIter}>{labelBottone}</button>
+            </lightning-layout-item>
+            <template if:true={loading}>
+                <div class="spinner-holder">
+                    <lightning-spinner alternative-text="Loading"></lightning-spinner>
+                </div>
+            </template>
+        </lightning-layout>
+    </template>
+</template>

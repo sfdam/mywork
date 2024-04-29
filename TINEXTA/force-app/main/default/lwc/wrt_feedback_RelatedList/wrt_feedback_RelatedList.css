@@ -1,0 +1,7 @@
+.cstm-background, .cstm-background .slds-card{
+    background-color: rgb(243, 242, 242);
+}
+
+.cstm-title{
+    font-weight: bold;
+}

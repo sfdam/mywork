@@ -1,0 +1,83 @@
+<aura:component controller="WGC_QuestionarioQualitativo" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" >
+    <aura:attribute name="title" type="String" default="Compila Documento"/>
+    <aura:attribute name="tipo" type="String" default="Questionario Qualitativo"/>
+    <aura:attribute name="qa" type="Map" />
+    <aura:attribute name="istruzioni" type="String[]" />
+    <aura:attribute name="domande" type="Object[]" />
+    <aura:attribute name="prova" type="String[]" />
+    <aura:attribute name="isLoaded" type="Boolean" default="false"/>
+    <aura:attribute name="selectedValue" type="String" />
+    <aura:attribute name="selectedState" type="String" />
+    <aura:attribute name="valoreP" type="String" />
+    <aura:attribute name="optionSelected" type="String" />
+    <aura:attribute name="stato" type="String" default="BOZZA"/>
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="QQ" type="QuestionarioQualitativo__c" 
+    default="{ 'sobjectType': 'QuestionarioQualitativo__c' }"/>
+
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    <aura:handler value="{!this}" name="init" action="{!c.doInit}" />
+    
+    <div class="container-doc slds-is-relative" style="margin: 0 -20px -20px -20px;">
+        <ui:scrollerWrapper class="scrollerSize">
+            <div class="slds-grid slds-wrap slds-p-horizontal_x-large slds-p-bottom_small">
+                <div class="slds-col slds-size_1-of-1 slds-text-align_left slds-p-around_small">
+                    <p class="slds-text-body_small subtitle-text">TIPO DI DOCUMENTO</p>
+                </div>
+                <div class="slds-col slds-size_12-of-12 slds-text-align_left slds-p-around_small">
+                    <div class="icon-container">
+                        <lightning:icon class="icon" variant="inverse" iconName="utility:file" size="small"/>
+                    </div>
+                    <div class="title-container">
+                        <span class="slds-text-title_bold" >{!v.tipo}</span>
+                    </div>
+                </div>
+            </div>
+            <!-- <div style="background:lightgray;"> -->
+            <aura:if isTrue="{!v.isLoaded}">
+                <div class="slds-grid slds-wrap pr-gray slds-p-horizontal_x-large slds-p-vertical_small slds-is-relative">
+                    <div class="slds-col slds-size_1-of-1 slds-p-around_small">
+                        <p class="slds-text-title">Seleziona fra le diverse possibilità</p>
+                    </div>
+                    <!-- Mostro questa iteration se il qq non esiste -->
+                        <aura:iteration items="{!v.qa.domande}" var="i" indexVar="indice">
+                            <div class="slds-col slds-size_1-of-1 slds-p-around_small">
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_12-of-12">
+                                        <i class="question">{!i.domanda}</i>
+                                        <aura:iteration items="{!v.istruzioni}" var="ii" indexVar="ind">
+                                            <aura:if isTrue="{!ind == indice}">
+                                                <lightning:helptext content="{!ii}"/>
+                                            </aura:if>
+                                        </aura:iteration>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-1">
+                                        <lightning:select class="select-o" onchange="{!c.selectAnswer}">
+                                            <option value="">-- Seleziona --</option>
+                                            <aura:iteration items="{!i.dominio}" var="a" indexVar="selezione">
+                                                <option value="{!i.domanda + ';' + a.value }" selected="{!i.value == a.value ? a.label : ''}">{!a.label}</option>
+                                            </aura:iteration>
+                                        </lightning:select>
+                                    </div>
+                                </div>
+                            </div>
+                        </aura:iteration> 
+                </div>
+            <!-- </div> -->
+            <footer class="slds-modal__footer">
+                <div style="display:inline;" class="slds-p-horizontal_x-small">
+                    <ui:inputSelect class="select-status" aura:id="stat" change="{!c.handleChange}">
+                        <ui:inputSelectOption text="BOZZA"/>
+                        <ui:inputSelectOption text="CONFERMATO"/>
+                    </ui:inputSelect>
+                </div>
+                <lightning:button variant="neutral" onclick="{!c.close}" label="ANNULLA" />
+                <lightning:button class="btn" variant="neutral" onclick="{!c.saveRecord}" label="{! 'SALVA ' + v.stato}" />
+            </footer>
+            <aura:set attribute="else">
+                <lightning:spinner alternativeText="Loading"/>
+            </aura:set>
+        </aura:if>
+    </ui:scrollerWrapper>
+</div>
+</aura:component>

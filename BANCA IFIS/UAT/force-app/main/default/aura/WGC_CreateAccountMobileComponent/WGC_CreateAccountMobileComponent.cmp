@@ -1,0 +1,216 @@
+<aura:component
+    implements="force:lightningQuickAction,lightning:hasPageReference,lightning:actionOverride,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes"
+    controller="CreateAccount" access="global">
+
+    <ltng:require styles="{!join(',','')}" scripts="{!join(',', 
+             '/resource/WGC_jQuery3x')}" />
+
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <!-- REGISTER EVENT -->
+    <aura:registerEvent name="B2F" type="c:ModalBody2FooterEvent" />
+    <aura:registerEvent name="resolveEvent" type="c:WGC_CreateAccountResolveEvent" />
+
+    <!-- AURA ATTRIBUTES -->
+    <aura:attribute name="options" type="Object[]"
+        default=" [ { 'title': 'search', 'buttons': [{ 'type': 'next', 'requireValidation': true }] } , { 'title': 'result', 'buttons': [{ 'type': 'next', 'visible': false }] } , { 'title': 'submit' } ] " />
+    <aura:attribute name="page" type="String" />
+    <aura:attribute name="accountSelected" type="Account" default="{'sobjectType':'Account'}"
+        description="selected account" />
+    <aura:attribute name="tipoRecord" type="String" default="" description="tipo record passato" />
+    <aura:attribute name="whoAreYou" default="" type="String" />
+    <aura:attribute name="cointestazione" default="false" type="Boolean" />
+    <aura:attribute access="private" name="errors" type="String[]" default="" />
+
+
+    <aura:attribute name="inputObject" type="CreateAccount.WrapperRecords"
+        description="Memorizza il tipo di richiesta scelta" />
+    <aura:attribute name="optionsPicklistProvince" type="List" access="PRIVATE" description="selected value" />
+
+
+    <aura:attribute name="result" type="Account[]" description="RecordType associati all'account" />
+    <aura:attribute name="resultSelected" type="Account" default="{'sobjectType':'Account'}" description="RecordType associati all'account" />
+    <aura:attribute name="resultSelectedBefor" type="Account" default="{'sobjectType':'Account'}" description="RecordType associati all'account" />
+
+    <aura:attribute name="addManualmente" type="Boolean" default="false"
+        description="RecordType associati all'account" />
+
+
+
+    <lightning:navigation aura:id="navService" />
+
+    <lightning:overlayLibrary aura:id="overlayLib" />
+
+    <!-- PLUS -->
+    <aura:attribute name="button" type="String" default="AVANTI" />
+
+
+
+    <!-- INSERT CUSTOM CONTENT HERE -->
+    <div class="spinnerDiv">
+        <lightning:spinner alternativeText="Loading" size="large" aura:id="mySpinner" class="slds-hide" />
+    </div>
+
+    <aura:if isTrue="{! !empty(v.errors)}">
+        <div>
+            <div aura:id="errors-container"
+                class="slds-grid slds-wrap slds-theme_alert-texture slds-theme_error personal-margin slds-p-around_small"
+                role="alert">
+                <div class="slds-col slds-size_12-of-12 slds-large-size_12-of-12">
+                    <div class="slds-form-element">
+                        <lightning:buttonIcon class="slds-float_right white" iconName="utility:close" variant="bare"
+                            size="small" onclick="{! c.closeError }" alternativeText="Close" />
+                    </div>
+                </div>
+
+                <aura:iteration items="{!v.errors}" var="r">
+                    <div class="slds-col slds-size_12-of-12 slds-large-size_12-of-12">
+                        <div class="slds-form-element">
+                            <li>{!r}</li>
+                        </div>
+                    </div>
+                </aura:iteration>
+
+            </div>
+        </div>
+    </aura:if>
+
+    <div class="contain">
+        <lightning:layout>
+            <lightning:layoutItem size="12" padding="around-small">
+                <aura:if isTrue="{! v.page == 'search' }">
+                    <!-- INSERT CONTENT HERE -->
+                    <lightning:tabset selectedTabId="piva">
+
+                        <lightning:tab label="Partita IVA" id="piva" aura:id="piva" onactive="{!c.SetRequestType}">
+
+                            <div class="slds-text-title_bold slds-text-align_center">RICERCA PER PARTITA IVA</div>
+                            <div class="slds-grid slds-grid_align-end">
+                                <div class="slds-col">
+                                    <lightning:input type="toggle" label="Estero?" name="input1"
+                                        checked="{!v.inputObject.estero}" messageToggleActive="Off"
+                                        messageToggleInactive="Off" />
+                                </div>
+                            </div>
+
+                            <lightning:input aura:id="search_piva" label="Partita IVA" name="firstname"
+                                placeholder="Inserisci Partita IVA / Codice fiscale"
+                                messageWhenBadInput="Campo Obligatirio" value="{!v.inputObject.pivaOrCf}" />
+                        </lightning:tab>
+                        <lightning:tab label="Ragione Sociale" id="RagioneSociale" onactive="{!c.SetRequestType}">
+
+                            <div class="slds-text-title_bold slds-text-align_center">RICERCA PER RAGIONE SOCIALE</div>
+                            <div class="slds-grid slds-grid_align-end">
+                                <div class="slds-col">
+                                    <lightning:input type="toggle" label="Estero?" name="input1"
+                                        checked="{!v.inputObject.estero}" messageToggleActive="Off"
+                                        messageToggleInactive="Off" />
+                                </div>
+                            </div>
+
+                            <lightning:input aura:id="search_ragioneSociale" label="Ragione sociale" name="firstname"
+                                placeholder="Inserisci la Ragione sociale" messageWhenBadInput="Campo Obligatirio"
+                                value="{!v.inputObject.ragioneSociale}" />
+                            <!-- onchange="setOptionsPicklistComune()" -->
+                            <aura:if isTrue="{! !v.inputObject.estero }">
+                                <lightning:select name="search_provincia" label="Provincia:" aura:id="search_provincia"
+                                    value="{!v.inputObject.provincia}">
+                                    <aura:iteration items="{!v.optionsPicklistProvince}" var="option">
+                                        <option text="{!option.label}" value="{!option.value}"
+                                            selected="{!option.selected}" />
+                                    </aura:iteration>
+                                </lightning:select>
+                            </aura:if>
+                        </lightning:tab>
+                    </lightning:tabset>
+                    <!-- INSERT CONTENT HERE -->
+                </aura:if>
+
+                <aura:if isTrue="{! v.page == 'result' }">
+                    <div class="" id="container_result">
+
+                        <aura:iteration items="{!v.result}" var="item" indexVar="index">
+                            <div class="resultSelected" aura:id="{!'resultSelected_' + index}"
+                                id="{!'resultSelected_' + index}" onclick="{! c.handleRowSelection }">
+                                <lightning:tile label="{! item.Name }" class="inactiveLink ">
+                                    <aura:set attribute="media">
+                                        <lightning:avatar
+                                            src="{! item.Origine__c == 'CRM' ? $Resource.WGC_CRM : (item.Origine__c == 'Cedacri' ? $Resource.WGC_AnagrafeDiGruppo : $Resource.WGC_Infoprovider) }"
+                                            class="{! item.Origine__c }" fallbackIconName="standard:person_account"
+                                            alternativeText="{! item.Origine__c }" />
+                                    </aura:set>
+                                    <lightning:layout pullToBoundary="medium">
+                                        <lightning:layoutItem flexibility="auto" padding="horizontal-medium">
+                                            <div class="custom-box">Origine:
+                                                <span>
+                                                    <aura:if isTrue="{! item.Origine__c == 'Cedacri' }">
+                                                        Anagrafe di gruppo
+                                                    </aura:if>
+                                                    <aura:if isTrue="{! item.Origine__c == 'Ribes' }">
+                                                        Info provider
+                                                    </aura:if>
+                                                    <aura:if isTrue="{! item.Origine__c == 'CRM' }">
+                                                        {! item.Origine__c }
+                                                    </aura:if>
+                                                </span>
+                                            </div>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem flexibility="auto" padding="horizontal-medium">
+                                            <div class="custom-box">CF: <span>{! item.CF__c }</span></div>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem flexibility="auto" padding="horizontal-medium"
+                                            class="{! item.Origine__c == 'Ribes' ? 'slds-hide' : '' }">
+                                            <div class="custom-box">NDG: <span>{! item.NDGGruppo__c }</span></div>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem flexibility="auto" padding="horizontal-medium">
+                                            <div class="custom-box">P.IVA: <span>{! item.PIVA__c }</span></div>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem flexibility="auto" padding="horizontal-medium">
+                                            <div class="custom-box">Natura giuridica: <span>{! item.NaturaGiuridica__c
+                                                    }</span></div>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem flexibility="auto" padding="horizontal-medium"
+                                            class="{! item.Origine__c == 'Ribes' ? '' : 'slds-hide' }">
+                                            <div class="custom-box">Situazione Impresa: <span>{! item.StatoAnagrafica__c
+                                                    }</span></div>
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                </lightning:tile>
+                            </div>
+                        </aura:iteration>
+
+                        <aura:if
+                            isTrue="{! v.inputObject.tipoDiRicerca != 'piva' ? (!v.addManualmente ? true : false) : false}">
+                            <lightning:layout>
+                                <lightning:layoutItem flexibility="auto" padding="around-small">
+                                    <lightning:button class="btn" aura:id="searchInRibes"
+                                        label="Non ho trovato quello che cercavo" title="Non trovato"
+                                        onclick="{! c.searchInRibes }" />
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                        </aura:if>
+
+                        <aura:if isTrue="{! v.addManualmente }">
+                            <lightning:layout>
+                                <lightning:layoutItem flexibility="auto" padding="around-small">
+                                    <lightning:button class="btn" aura:id="goToSubmit" label="Aggiungi Manualmente"
+                                        title="Aggiungi Manualmente" onclick="{! c.goToSubmit }" />
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                        </aura:if>
+                    </div>
+                </aura:if>
+            </lightning:layoutItem>
+        </lightning:layout>
+    </div>
+
+
+    <div>
+        <div class="slds-docked-form-footer">
+            <lightning:button label="{! v.button }" name="next" onclick="{!c.manageF2B}" />
+        </div>
+    </div>
+
+
+</aura:component>

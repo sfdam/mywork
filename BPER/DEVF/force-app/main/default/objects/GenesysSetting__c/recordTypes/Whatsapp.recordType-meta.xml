@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Whatsapp</fullName>
+    <active>true</active>
+    <label>Whatsapp</label>
+    <picklistValues>
+        <picklist>G_MEDIA_TYPE__c</picklist>
+        <values>
+            <fullName>chat</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>whatsapp</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>G_MotivoDiContatto__c</picklist>
+        <values>
+            <fullName>Altri prodotti e servizi</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Attivazione nuovo Internet Banking</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Carte di pagamento</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Condizioni economiche</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Conto corrente</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Internet Banking</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

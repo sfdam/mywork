@@ -1,0 +1,18 @@
+table tbody tr td.green {
+    background-image: url("/resource/Icone_colori/NPS_Icons/green.png") !important;
+    background-repeat: no-repeat !important;
+    background-size: auto 16px;
+    background-position: 5px;
+}
+
+table tbody tr td.red {
+    background-image: url("/resource/Icone_colori/NPS_Icons/red.png") !important;
+    background-repeat: no-repeat !important;
+    background-size: auto 16px;
+    background-position: 5px;
+}
+
+.treeGrid-green {
+    font-weight: bold;
+    color: green;
+}

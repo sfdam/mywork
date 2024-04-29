@@ -1,0 +1,92 @@
+<template>
+    <template if:true={loading}>
+        <div class="spinner-holder">
+            <lightning-spinner alternative-text="Loading"></lightning-spinner>
+        </div>
+    </template>
+    <template if:true={loaded}>
+        <lightning-card title="">
+            <lightning-layout multiple-rows>
+                
+                <template if:true={recordList}>
+                    <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="1">
+                        <lightning-combobox label="Banca" value={searchedBanca} onchange={handleFilter} options={optionsAbi} name="searchedBanca" data-item="searchedBanca"></lightning-combobox>
+                    </lightning-layout-item>
+                    <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="2">
+                        <lightning-input type="text" label="DR" placeholder="Cerca per dr..." value={searchedDr} onchange={handleFilter} name="searchedDr" data-item="searchedDr"></lightning-input>
+                    </lightning-layout-item>
+                    <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="2">
+                        <lightning-input type="text" label="Filiale" placeholder="Cerca per filiale..." value={searchedFiliale} onchange={handleFilter} name="searchedFiliale" data-item="searchedFiliale"></lightning-input>
+                    </lightning-layout-item>
+                    <!-- <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="2">
+                        <lightning-input type="text" label="Referente" placeholder="Cerca per Referente..." value={searchedReferente} onchange={handleFilter} name="searchedReferente" data-item="searchedReferente"></lightning-input>
+                    </lightning-layout-item> -->
+                    <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="2">
+                        <lightning-combobox label="MDS" value={searchedMDS} onchange={handleFilter} options={optionsMDS} name="searchedMDS" data-item="searchedMDS"></lightning-combobox>
+                    </lightning-layout-item>
+                    <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="2">
+                        <lightning-input type="text" label="Nome Microportafogli" placeholder="Cerca per Nome Microportafogli..." value={searchedNome} onchange={handleFilter} name="searchedNome" data-item="searchedNome"></lightning-input>
+                    </lightning-layout-item>
+                    <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="1">
+                        <lightning-combobox label="Portafoglio Tecnico" value={searchedPtfTecnico} onchange={handleFilter} options={optionsPtfTecnico} name="searchedPtfTecnico" data-item="searchedPtfTecnico"></lightning-combobox>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" medium-device-size="6" padding="around-small" flexibility="auto">
+                        <lightning-button-group class="slds-m-top_large slds-float_left">
+                            <lightning-button 
+                                variant="neutral"
+                                label="Reset"
+                                title="Reset"
+                                onclick={handleReset}>
+                            </lightning-button>
+                            <lightning-button 
+                                variant="neutral"
+                                label="Cerca"
+                                title="Cerca"
+                                onclick={handleSearch}>
+                            </lightning-button>
+                        </lightning-button-group>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" medium-device-size="6" padding="around-small" flexibility="auto">
+                        <lightning-layout class="slds-float_right">
+                            <lightning-layout-item padding="around-small">
+                                <div class="lgc-bg">
+                                    <lightning-button-icon icon-name="utility:chevronleft"  variant="container" alternative-text="Settings" title="Settings" onclick={handleIndietro} disabled={disabledButtonIndietro}></lightning-button-icon>
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item padding="around-small">
+                                Pag. {page}
+                            </lightning-layout-item>
+                            <lightning-layout-item padding="around-small">
+                                <div class="lgc-bg">
+                                    <lightning-button-icon icon-name="utility:chevronright"  variant="container" alternative-text="Settings" title="Settings" onclick={handleAvanti} disabled={disabledButtonAvanti}></lightning-button-icon>
+                                </div>                
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </lightning-layout-item>
+                    <lightning-layout-item size = "12" padding="around-small">
+                        <div class="recordsTable slds-scrollable_y" style="height:14.3rem">
+                            <lightning-datatable data-item="Table" 
+                                                    key-field="Id"
+                                                    columns={columns}
+                                                    data={currentPageData}
+                                                    onrowselection={handleRowSelection}
+                                                    selected-rows={selectedRecords}>
+                            </lightning-datatable>
+                        </div>
+                    </lightning-layout-item>
+    
+                    <lightning-layout-item size = "12" padding="around-small">
+                        <button type="submit" class="slds-button slds-button_brand slds-button_stretch" onclick={handleDeleteRows} disabled={disableDelete} ><lightning-icon icon-name="utility:delete" alternative-text="Elimina portafogli" variant="inverse" size="x-small"></lightning-icon>Elimina</button>
+                    </lightning-layout-item>
+                </template>
+                <template if:false={recordList}>
+                    <lightning-layout-item size = "12" padding="around-small">
+                        <div class="slds-box no-button">
+                            <p>NON CI SONO PORTFOGLI CANCELLABILI</p>
+                        </div>
+                    </lightning-layout-item>
+                </template>
+            </lightning-layout>
+        </lightning-card>
+    </template>
+</template>

@@ -1,0 +1,2221 @@
+<aura:component
+  controller="WGC_Documenti_Controller"
+  implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:hasSObjectName,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+  access="global"
+>
+  <aura:attribute name="recordId" type="String" />
+  <aura:attribute name="isFlip0" type="Boolean" default="true" />
+  <aura:attribute name="isFlip1" type="Boolean" default="true" />
+  <aura:attribute name="isFlip2" type="Boolean" default="true" />
+  <aura:attribute name="isFlip3" type="Boolean" default="true" />
+  <aura:attribute name="isFlip4" type="Boolean" default="true" />
+  <aura:attribute name="isFlip5" type="Boolean" default="true" />
+  <aura:attribute name="isFlip6" type="Boolean" default="true" />
+  <aura:attribute name="isFlip7" type="Boolean" default="true" />
+  <aura:attribute name="isFlip8" type="Boolean" default="true" />
+  <aura:attribute name="isFlip9" type="Boolean" default="true" />
+  <aura:attribute name="isFlip10" type="Boolean" default="true" />
+  <aura:attribute name="isCollapsed" type="Boolean" default="true" />
+  <aura:attribute name="response" type="Map" />
+  <aura:attribute name="opportunityId" type="String" />
+  <aura:attribute name="responseUpload" type="Object" />
+  <aura:attribute name="optyFact" type="List" />
+  <aura:attribute name="docPPG" type="Object" />
+  <aura:attribute name="docMAV" type="Object" />
+  <aura:attribute name="docMTC" type="Object" />
+  <aura:attribute name="docRSF" type="Object" />
+  <aura:attribute name="docs" type="List" />
+  <aura:attribute name="docsComplete" type="Boolean" default="false" />
+  <aura:attribute name="docsOpty" type="List" />
+  <aura:attribute name="expandedDocs" type="List" />
+  <aura:attribute name="isFlipDocs" type="List" default="[true]" />
+  <aura:attribute name="isLoaded" type="Boolean" default="false" />
+  <aura:attribute name="isLoadedFact" type="Boolean" default="false" />
+  <aura:attribute name="expandedSingleDoc" type="Boolean" default="false" />
+  <aura:attribute name="expandedOptyFac" type="Boolean" default="false" />
+  <aura:attribute name="expandedCarrello" type="List" default="[false]" />
+  <aura:attribute name="attori" type="List" />
+  <aura:attribute name="expandAttore" type="Boolean" default="false" />
+  <aura:attribute name="docsAttori" type="List" />
+  <aura:attribute name="mappings" type="List" />
+  <aura:attribute name="parentAttributeName" type="String" />
+  <aura:attribute name="isDocsOptyValid" type="Boolean" default="false" />
+  <aura:attribute name="isAllDocValid" type="Boolean" default="false" />
+  <!-- SM CR 456 Documenti non reperibili -->
+  <aura:attribute name="docNonReperibili" type="Boolean" default="false" />
+  <aura:attribute name="isExpandedDocsValid" type="Boolean" default="false" />
+  <aura:attribute
+    name="lingue"
+    type="List"
+    default="[{'label': 'Italiano', 'value': 'IT'},{'label': 'Altro', 'value': 'Altro'}]"
+  />
+  <aura:attribute name="sceltaLingua" type="String" default="IT" />
+  <aura:attribute name="profilo" type="String" />
+  <!-- attributo utilizzato per la selezione della lingua quando non italiana -->
+  <aura:attribute name="linguaSelezionata" type="String" default="" />
+  <!-- attributo per carrello -->
+  <aura:attribute name="isOpptyAlreadySent" type="Boolean" default="false" />
+  <!-- SM - attributo per verificare la presenza di linee di sola revisione -->
+  <aura:attribute name="newLines" type="Boolean" default="true" />
+  <!-- SM - TEN CR 425 Attributo per controllare presenza linee estero -->
+  <aura:attribute name="linesEstero" type="Boolean" default="false" />
+  <!-- HANDLERS -->
+  <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+  <!-- utilizzato per gestire la colorazione dei pulsanti carica / {!$Label.c.WGC_Documenti_2_Scarica} dopo upload -->
+  <aura:handler event="c:WGC_HandlerFileUpload" action="{! c.uploadHandler }" />
+  <aura:handler event="c:WGC_ChangeDocInfo" action="{! c.handleChangeDoc }" />
+  <!-- EVENTS -->
+  <aura:registerEvent name="updateDocStatus" type="c:WGC_UpdateDocStatus" />
+  <!-- LIBRARIES -->
+  <lightning:navigation aura:id="navService" />
+  <lightning:overlayLibrary aura:id="overlayLib" />
+
+  <aura:attribute name="sObjectType" type="String" default="{!v.sObjectName}" />
+  <aura:attribute name="tipologiaMav" type="String" default="" />
+
+  <aura:attribute name="currentOpportunity" type="Object" description="The record object to be displayed"/>
+  <aura:attribute name="opportunityRecord" type="Object" description="A simplified view record object to be displayed"/>
+  <aura:attribute name="recordError" type="String" description="An error message bound to force:recordData"/>
+
+  <force:recordData aura:id="recordDoc"
+        layoutType="FULL"
+        recordId="{!v.opportunityId}"
+        targetError="{!v.recordError}"
+        targetRecord="{!v.currentOpportunity}"
+        targetFields="{!v.opportunityRecord}"
+        fields="Id,
+                WGC_Documenti_Non_Reperibili__c"
+        mode="VIEW"/>
+
+  <div class="container">
+    <aura:renderIf isTrue="{! v.isLoaded }">
+      <lightning:layout>
+        <aura:if isTrue="{! !v.isOpptyAlreadySent }">
+          <lightning:layoutItem
+            size="10"
+            class="slds-text-align_right"
+            alignmentBump="left"
+          >
+            <lightning:radioGroup
+              name="radioButtonGroupRequired"
+              label="Seleziona lingua documenti"
+              options="{! v.lingue }"
+              value="{! v.sceltaLingua }"
+              type="button"
+              required="false"
+            />
+          </lightning:layoutItem>
+        </aura:if>
+        <lightning:layoutItem
+          size="2"
+          class="slds-text-align_right"
+          alignmentBump="left"
+        >
+          <!-- SM - CR 456 bottone doc non reperibili -->
+          <button aura:id="non-reperibile" onclick="{! c.setDocNonReperibili }" title="Indica tutti come non reperibili (opportunità ripresentata)" style="width:135px;" class="{! v.opportunityRecord.WGC_Documenti_Non_Reperibili__c ? 'btn-header slds-button slds-button_icon slds-button_icon-border-filled slds-m-right_xx-small' : 'slds-button slds-button_icon slds-button_icon-border-filled slds-m-right_xx-small' }">
+            <span>Documenti non reperibili</span>
+          </button>
+          <!-- <lightning:buttonIconStateful 
+            aura:id="non-reperibile"
+            class="slds-m-right_xx-small"
+            iconName="utility:check"
+            selected="{! v.docNonReperibili }"
+            onclick="{! c.setDocNonReperibili }"
+            alternativeText="Indica tutti come non reperibili (opportunità ripresentata)"
+            disabled="{! v.isOpptyAlreadySent }"
+          /> -->
+          <!-- bottone aggiunta documento -->
+          <lightning:buttonIcon
+            aura:id="upload"
+            class="btn-header"
+            value="new"
+            onclick="{!c.launchUpload}"
+            iconName="utility:add"
+          />
+          <!-- bottone refresh sezione documenti -->
+          <lightning:buttonIcon
+            class="btn-header"
+            value="refresh"
+            onclick="{!c.doInit}"
+            iconName="utility:refresh"
+          />
+        </lightning:layoutItem>
+      </lightning:layout>
+      <aura:if isTrue="{! !v.isOpptyAlreadySent }">
+        <lightning:layout class="slds-m-vertical_medium container-doc">
+          <!-- class="{! 'slds-p-around_small ' + ( v.response.data[0].accountList.length > 0 &amp;&amp; v.response.data[0].mavList.length > 0 &amp;&amp; v.response.data[0].qqList.length > 0 &amp;&amp; v.response.data[0].rpvList.length > 0 ? ' container-border-title-blue ' : ' container-border-title-red ')}" -->
+          <!-- &amp;&amp; v.response.data[0].qqList.length > 0 -->
+          <!-- SM - TEN - CR 446 eliminazione QQ e Privacy PF -->
+          <lightning:layoutItem
+            size="4"
+            largeDeviceSize="2"
+            class="{! 'slds-p-around_small ' + ( v.docPPG.id &amp;&amp; v.docMTC.id &amp;&amp; v.docMAV.id &amp;&amp; v.response.data[0].mavList[0].isCompiled ? ' container-border-title-blue ' : ' container-border-title-red ' ) }"
+          >
+            <lightning:layout multipleRows="true">
+              <!-- <lightning:layoutItem size="6" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="6">
+                    <lightning:icon iconName="action:clone" size="small" variant="inverse" class="{! 'slds-p-vertical_small slds-align_absolute-center ' + ( v.docPPG.id &amp;&amp; v.docMTC.id &amp;&amp; v.docMAV.id &amp;&amp; v.response.data[0].mavList[0].isCompiled &amp;&amp; v.response.data[0].qqList.length > 0 ? ' back-icon-positive ' : ' back-icon-negative ' )}"/> 
+                </lightning:layoutItem>-->
+              <lightning:layoutItem
+                class="slds-text-title_bold"
+                size="12"
+                smallDeviceSize="12"
+                mediumDeviceSize="6"
+                largeDeviceSize="6"
+              >
+                <div>
+                  <span class="text-doc"
+                    >{!$Label.c.WGC_Documenti_Component_Documenti_Base}</span
+                  >
+                </div>
+                <div>
+                  <span>{!$Label.c.WGC_Documenti_DOCUMENTI_PRIMA_VISITA}</span>
+                </div>
+              </lightning:layoutItem>
+            </lightning:layout>
+          </lightning:layoutItem>
+          <!-- class="{! 'slds-p-vertical_small slds-align_absolute-center  ' + ( v.response.data[0].accountList.length > 0 &amp;&amp; v.response.data[0].mavList.length > 0 &amp;&amp; v.response.data[0].qqList.length > 0 &amp;&amp; v.response.data[0].rpvList.length > 0 ? ' back-icon-action-positive ' : ' back-icon-action-negative ')}" -->
+          <!-- class="{! 'slds-align_absolute-center  ' + ( v.response.data[0].accountList.length > 0 &amp;&amp; v.response.data[0].mavList.length > 0 &amp;&amp; v.response.data[0].qqList.length > 0 &amp;&amp; v.response.data[0].rpvList.length > 0 ? ' container-border-content-blue ' : ' container-border-content-red ')}" -->
+          <!-- &amp;&amp; v.response.data[0].qqList.length > 0 -->
+          <!-- SM - TEN CR 446 eliminazione QQ e Privacy PF -->
+          <lightning:layoutItem
+            size="8"
+            largeDeviceSize="10"
+            class="{! 'slds-align_absolute-center ' + ( v.docPPG.id &amp;&amp; v.docMTC.id &amp;&amp; v.docMAV.id &amp;&amp; v.response.data[0].mavList[0].isCompiled ? ' container-border-content-blue ' : ' container-border-content-red ' ) }"
+          >
+            <aura:renderIf isTrue="{!v.isCollapsed}">
+              <lightning:layout multipleRows="true" class="parent-single-doc">
+                <!-- Front Card -->
+                <aura:renderIf isTrue="{!v.isFlip0}">
+                  <lightning:layoutItem
+                    aura:id="front-card-1"
+                    size="12"
+                    smallDeviceSize="12"
+                    mediumDeviceSize="6"
+                    largeDeviceSize="2"
+                    class="single-doc"
+                  >
+                    <lightning:layout multipleRows="true">
+                      <lightning:layoutItem
+                        size="8"
+                        class="slds-p-around_x-small slds-text-align_left"
+                      >
+                        <aura:if isTrue="{! v.docPPG.required }">
+                          <!-- <lightning:icon iconName="utility:password" size="x-small" /> -->
+                          <span class="required">Obbligatorio</span>
+                        </aura:if>
+                        <aura:if isTrue="{! v.docPPG.futureDoc }">
+                          <lightning:helptext
+                            iconVariant="warning"
+                            iconName="utility:reminder"
+                            content="Caricamento in corso... Il documento sarà disponibile a breve"
+                          />
+                        </aura:if>
+                      </lightning:layoutItem>
+                      <lightning:layoutItem
+                        size="4"
+                        class="slds-p-around_x-small slds-text-align_right"
+                      >
+                        <lightning:buttonIcon
+                          aura:id="isFlip0"
+                          iconName="utility:edit"
+                          variant="bare"
+                          size="medium"
+                          onclick="{!c.doFlip}"
+                        />
+                      </lightning:layoutItem>
+                      <lightning:layoutItem
+                        size="4"
+                        class="slds-p-vertical_small"
+                      >
+                        <!-- class="{! ' slds-p-vertical_small slds-align_absolute-center ' + (v.response.data[0].accountList.length > 0 ? ' back-icon-positive ' : ' back-icon-negative ')}" -->
+                        <lightning:icon
+                          iconName="utility:file"
+                          variant="inverse"
+                          size="small"
+                          class="{! 'slds-p-vertical_small slds-align_absolute-center ' + (v.docPPG.isValid &amp;&amp; v.response.data[0].accountList.length > 0 ? 'back-icon-positive' : 'back-icon-negative') }"
+                        />
+                      </lightning:layoutItem>
+                      <lightning:layoutItem
+                        size="8"
+                        class="slds-p-around_xx-small"
+                      >
+                        <div class="block">
+                          <aura:if
+                            isTrue="{! v.docPPG.valid_to != '' &amp;&amp; v.docPPG.valid_to != null &amp;&amp; v.docPPG.valid_to != undefined }"
+                          >
+                            <span class="text-doc">{! v.docPPG.valid_to }</span>
+                            <aura:set attribute="else">
+                              <span class="text-doc"
+                                >{!$Label.c.WGC_Documenti_2_Scade_il}</span
+                              >
+                            </aura:set>
+                          </aura:if>
+                        </div>
+                        <div class="block">
+                          <span class="slds-text-title_bold"
+                            >Privacy Persona Giuridica</span
+                          >
+                        </div>
+                        <div class="block">
+                          <span class="text-doc">
+                            {! v.docPPG.isValid ? 'Valido' : 'Non Valido' }
+                            <!-- <aura:if isTrue="{! v.docPPG.isValidDate }">
+                                                Valido
+                                                <aura:set attribute="else">
+                                                    Non valido
+                                                </aura:set>    
+                                            </aura:if> -->
+                          </span>
+                        </div>
+                      </lightning:layoutItem>
+                    </lightning:layout>
+                  </lightning:layoutItem>
+                  <aura:set attribute="else">
+                    <!-- class="{!v.response.data[0].accountList.length > 0 ? 'single-doc_back-positive' : 'single-doc_back-negative'}" -->
+                    <lightning:layoutItem
+                      aura:id="back-card-1"
+                      size="12"
+                      smallDeviceSize="12"
+                      mediumDeviceSize="6"
+                      largeDeviceSize="2"
+                      class="single-doc_back"
+                    >
+                      <lightning:layout multipleRows="true">
+                        <lightning:layoutItem
+                          size="12"
+                          class="slds-p-around_x-small slds-text-align_right"
+                        >
+                          <lightning:buttonIcon
+                            aura:id="isFlip0"
+                            iconName="utility:close"
+                            variant="bare"
+                            size="medium"
+                            onclick="{!c.doFlip}"
+                          />
+                        </lightning:layoutItem>
+                        <lightning:layoutItem
+                          size="6"
+                          class="slds-p-bottom_x-small"
+                        >
+                          <div class="slds-align_absolute-center">
+                            <lightning:buttonIcon
+                              aura:id="privacy"
+                              onclick="{!c.LaunchEdit}"
+                              class="{! ' slds-align_absolute-center ' + (v.response.data[0].accountList.length > 0 ? ' back-icon-action-positive-small ' : ' back-icon-action-negative-small ' ) }"
+                              iconName="utility:edit"
+                              size="medium"
+                            />
+                          </div>
+                          <div class="slds-align_absolute-center">
+                            <span class="text-doc"
+                              >{!$Label.c.WGC_Documenti_2_Compila}</span
+                            >
+                          </div>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem
+                          size="6"
+                          class="slds-p-bottom_x-small"
+                        >
+                          <div
+                            class="slds-align_absolute-center"
+                            data-list="docPPG"
+                            data-att="{! v.docPPG.composition }"
+                          >
+                            <!-- {!v.docPPG.Name == undefined ? 'Privacy' : v.docPPG.Name } -->
+                            <lightning:buttonIcon
+                              aura:id="PrivacyPG"
+                              onclick="{!c.generaModulo}"
+                              value="{! v.docPPG.id }"
+                              name="PrivacyPersonaGiuridica.pdf"
+                              class="{! 'slds-align_absolute-center ' + ( v.response.data[0].accountList.length > 0 ? ' back-icon-action-positive-small ' : ' back-icon-action-negative-small ' ) }"
+                              iconName="utility:download"
+                              size="medium"
+                            />
+                            <!-- <lightning:buttonIcon class="{! ' slds-align_absolute-center ' + (v.response.data[0].accountList.length > 0 ? ' back-icon-action-positive ' : ' back-icon-action-negative ' ) }" iconName="utility:download" size="medium" /> -->
+                          </div>
+                          <div class="slds-align_absolute-center">
+                            <span class="text-doc">Genera</span>
+                          </div>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="6">
+                          <div
+                            class="slds-align_absolute-center"
+                            data-list="docPPG"
+                            data-att="{! v.docPPG.composition }"
+                            data-doc="{!v.docPPG.index_value}"
+                          >
+                            <!-- disabled="{!v.profilo == 'IFIS - Crediti Erariali'}" -->
+                            <lightning:buttonIcon
+                              aura:id="Privacy"
+                              onclick="{!c.launchDownload}"
+                              value="{! v.docPPG.id }"
+                              name="{!v.docPPG.DownloadName == undefined ? 'Privacy.pdf' : v.docPPG.DownloadName }"
+                              class="{! 'slds-align_absolute-center ' + ( (v.docPPG.id) ? ' back-icon-action-positive-small ' : ' back-icon-action-negative-small ' ) }"
+                              iconName="utility:download"
+                              size="medium"
+                            />
+                            <!-- <lightning:buttonIcon class="{! ' slds-align_absolute-center ' + (v.response.data[0].accountList.length > 0 ? ' back-icon-action-positive ' : ' back-icon-action-negative ' ) }" iconName="utility:download" size="medium" /> -->
+                          </div>
+                          <div class="slds-align_absolute-center">
+                            <span class="text-doc"
+                              >{!$Label.c.WGC_Documenti_2_Scarica}</span
+                            >
+                          </div>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="6">
+                          <div class="slds-align_absolute-center">
+                            <!-- disabled="{!v.profilo == 'IFIS - Crediti Erariali'}" -->
+                            <lightning:buttonIcon
+                              aura:id="docPPG"
+                              value="EX0000200"
+                              onclick="{!c.launchUpload}"
+                              class="{! 'slds-align_absolute-center ' + ( v.docPPG.id ? ' back-icon-action-positive-small ' : ' back-icon-action-negative-small ' ) }"
+                              iconName="utility:upload"
+                              size="medium"
+                            />
+                            <!-- <lightning:buttonIcon aura:id="privacy" onclick="{!c.launchUpload}" class="{! ' slds-align_absolute-center ' + (v.response.data[0].accountList.length > 0 ? ' back-icon-action-positive ' : ' back-icon-action-negative ' ) }" iconName="utility:upload" size="medium" /> -->
+                          </div>
+                          <div class="slds-align_absolute-center">
+                            <span class="text-doc"
+                              >{!$Label.c.WGC_Documenti_2_Carica}</span
+                            >
+                          </div>
+                        </lightning:layoutItem>
+                        <!-- 
+                                    <lightning:layoutItem size="4" class="slds-p-around_x-small">
+                                        <div class="slds-align_absolute-center">
+                                            <lightning:buttonIcon aura:id="privacy" onclick="{!c.LaunchEdit}" class="{! ' slds-align_absolute-center ' + (v.response.data[0].accountList.length > 0 ? ' back-icon-action-positive ' : ' back-icon-action-negative ' ) }" iconName="utility:edit" size="medium" />
+                                        </div>
+                                        <div class="slds-align_absolute-center">
+                                            <span class="text-doc">{!$Label.c.WGC_Documenti_2_Compila}</span>
+                                        </div>
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem size="4" class="slds-p-around_x-small">
+                                        <div class="slds-align_absolute-center"  data-list="docPPG" data-att="{! v.docPPG.composition }">
+                                            <lightning:buttonIcon aura:id="Privacy" onclick="{!c.launchDownload}" value="{! v.docPPG.id }" name="{!v.docPPG.Name == undefined ? 'Privacy' : v.docPPG.Name }" class="{! 'slds-align_absolute-center ' + ( (v.docPPG.id || v.docPPG.composition) ? ' back-icon-action-positive ' : ' back-icon-action-negative ' ) }" iconName="utility:download" size="medium" />
+                                        </div>
+                                        <div class="slds-align_absolute-center">
+                                            <span class="text-doc">{!$Label.c.WGC_Documenti_2_Scarica}</span>
+                                        </div>
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem size="4" class="slds-p-around_x-small">
+                                        <div class="slds-align_absolute-center">
+                                            <lightning:buttonIcon aura:id="docPPG" value="EX0000200" onclick="{!c.launchUpload}" class="{! 'slds-align_absolute-center ' + ( v.docPPG.id ? ' back-icon-action-positive ' : ' back-icon-action-negative ' ) }" iconName="utility:upload" size="medium" />
+                                        </div>
+                                        <div class="slds-align_absolute-center">
+                                            <span class="text-doc">{!$Label.c.WGC_Documenti_2_Carica}</span>
+                                        </div>
+                                    </lightning:layoutItem>
+                                    -->
+                      </lightning:layout>
+                    </lightning:layoutItem>
+                  </aura:set>
+                </aura:renderIf>
+                <!-- -->
+                <aura:renderIf isTrue="{!v.isFlip1}">
+                  <lightning:layoutItem
+                    aura:id="front-card-1"
+                    size="12"
+                    smallDeviceSize="12"
+                    mediumDeviceSize="6"
+                    largeDeviceSize="2"
+                    class="single-doc"
+                  >
+                    <lightning:layout multipleRows="true">
+                      <lightning:layoutItem
+                        size="6"
+                        class="slds-p-around_x-small slds-text-align_left"
+                      >
+                        <aura:if isTrue="{! v.docMAV.required }">
+                          <!-- <lightning:icon iconName="utility:password" size="x-small" /> -->
+                          <span class="required">Obbligatorio</span>
+                        </aura:if>
+                        <aura:if isTrue="{! v.docMAV.futureDoc }">
+                          <lightning:helptext
+                            iconVariant="warning"
+                            iconName="utility:reminder"
+                            content="Caricamento in corso... Il documento sarà disponibile a breve"
+                          />
+                        </aura:if>
+                      </lightning:layoutItem>
+                      <lightning:layoutItem
+                        size="6"
+                        class="slds-p-around_x-small slds-text-align_right"
+                      >
+                        <lightning:buttonIcon
+                          aura:id="isFlip1"
+                          iconName="utility:edit"
+                          variant="bare"
+                          size="medium"
+                          onclick="{!c.doFlip}"
+                        />
+                      </lightning:layoutItem>
+                      <lightning:layoutItem
+                        size="4"
+                        class="slds-p-vertical_small"
+                      >
+                        <!-- class="{! ' slds-p-vertical_small slds-align_absolute-center ' + (v.response.data[0].mavList.length > 0 ? ' back-icon-positive ' : ' back-icon-negative ')}" -->
+                        <lightning:icon
+                          iconName="utility:file"
+                          variant="inverse"
+                          size="small"
+                          class="{! 'slds-align_absolute-center ' + ( v.docMAV.id &amp;&amp; v.response.data[0].mavList[0].isCompiled ? ' back-icon-positive ' : ' back-icon-negative ' ) }"
+                        />
+                      </lightning:layoutItem>
+                      <lightning:layoutItem
+                        size="8"
+                        class="slds-p-around_xx-small"
+                      >
+                        <div class="block">
+                          <!-- <span class="text-doc">
+                                            {! v.docMAV.valid_to }
+                                        </span> -->
+
+                          <aura:if
+                            isTrue="{! v.docMAV.valid_to != null &amp;&amp; v.docMAV.valid_to != undefined &amp;&amp; v.docMAV.valid_to != '' }"
+                          >
+                            <span class="text-doc">{!v.docMAV.valid_to}</span>
+                            <aura:set attribute="else">
+                              <span class="text-doc"
+                                >{!$Label.c.WGC_Documenti_2_Scade_il}</span
+                              >
+                            </aura:set>
+                          </aura:if>
+                        </div>
+                        <div class="block">
+                          <span class="slds-text-title_bold"
+                            >Modulo Adeguata Verifica</span
+                          >
+                        </div>
+                        <div class="block">
+                          <span class="text-doc">
+                            {! v.docMAV.isValid ? 'Valido' : 'Non Valido' }
+                            <!-- <aura:if isTrue="{! v.docMAV.isValid }">
+                                                Valido
+                                                <aura:set attribute="else">
+                                                    Non valido
+                                                </aura:set>    
+                                            </aura:if> -->
+                          </span>
+                        </div>
+                        <div class="block">
+                          <span class="text-doc"> {!v.docMAV.noteDoc} </span>
+                        </div>
+                      </lightning:layoutItem>
+                    </lightning:layout>
+                  </lightning:layoutItem>
+                  <aura:set attribute="else">
+                    <!-- class="{!v.response.data[0].mavList.length > 0 ? 'single-doc_back-positive' : 'single-doc_back-negative'}" -->
+                    <lightning:layoutItem
+                      aura:id="back-card-1"
+                      size="12"
+                      smallDeviceSize="12"
+                      mediumDeviceSize="6"
+                      largeDeviceSize="2"
+                      class="single-doc_back"
+                    >
+                      <lightning:layout multipleRows="true">
+                        <lightning:layoutItem
+                          size="12"
+                          class="slds-p-around_x-small slds-text-align_right"
+                        >
+                          <lightning:buttonIcon
+                            aura:id="isFlip1"
+                            iconName="utility:close"
+                            size="medium"
+                            variant="bare"
+                            onclick="{!c.doFlip}"
+                          />
+                        </lightning:layoutItem>
+                        <lightning:layoutItem
+                          size="6"
+                          class="slds-p-bottom_x-small"
+                        >
+                          <div class="slds-align_absolute-center">
+                            <lightning:buttonIcon
+                              aura:id="mav"
+                              onclick="{!c.LaunchEdit}"
+                              class="{! ' slds-align_absolute-center ' + (v.response.data[0].mavList[0].isCompiled ? ' back-icon-action-positive-small ' : ' back-icon-action-negative-small ' ) }"
+                              iconName="utility:edit"
+                              variant="bare"
+                              size="medium"
+                            />
+                          </div>
+                          <div class="slds-align_absolute-center">
+                            <span class="text-doc"
+                              >{!$Label.c.WGC_Documenti_2_Compila}</span
+                            >
+                          </div>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem
+                          size="6"
+                          class="slds-p-bottom_x-small"
+                        >
+                          <div
+                            class="slds-align_absolute-center"
+                            data-list="docMAV"
+                            data-att="{! v.docMAV.composition }"
+                          >
+                            <!-- {! v.docMAV.Name == undefined ? 'ModuloAdeguataVerifica' : v.docMAV.Name }" -->
+                            <lightning:buttonIcon
+                              aura:id="AdeguataVerifica"
+                              onclick="{!c.generaModulo}"
+                              value="{! v.docMAV.id }"
+                              name="ModuloAdeguataVerifica.pdf"
+                              class="{! 'slds-align_absolute-center ' + ( v.response.data[0].mavList[0].isCompiled ? ' back-icon-action-positive-small ' : ' back-icon-action-negative-small ' ) }"
+                              iconName="utility:download"
+                              size="medium"
+                            />
+                          </div>
+                          <div class="slds-align_absolute-center">
+                            <span class="text-doc">Genera</span>
+                          </div>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="6">
+                          <div
+                            class="slds-align_absolute-center"
+                            data-list="docMAV"
+                            data-att="{! v.docMAV.composition }"
+                            data-doc="{!v.docMAV.index_value}"
+                          >
+                            <!-- disabled="{!v.profilo == 'IFIS - Crediti Erariali'}" -->
+                            <lightning:buttonIcon
+                              aura:id="AdeguataVerifica"
+                              onclick="{!c.launchDownload}"
+                              value="{! v.docMAV.id }"
+                              name="{! v.docMAV.DownloadName == undefined ? 'ModuloAdeguataVerifica.pdf' : v.docMAV.DownloadName }"
+                              class="{! 'slds-align_absolute-center ' + ( (v.docMAV.id) ? ' back-icon-action-positive-small ' : ' back-icon-action-negative-small ' ) }"
+                              iconName="utility:download"
+                              size="medium"
+                            />
+                          </div>
+                          <div class="slds-align_absolute-center">
+                            <span class="text-doc"
+                              >{!$Label.c.WGC_Documenti_2_Scarica}</span
+                            >
+                          </div>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="6">
+                          <div class="slds-align_absolute-center">
+                            <!-- disabled="{!v.profilo == 'IFIS - Crediti Erariali'}" -->
+                            <lightning:buttonIcon
+                              aura:id="docMAV"
+                              value="EX0000173"
+                              onclick="{!c.launchUpload}"
+                              class="{! 'slds-align_absolute-center ' + ( v.docMAV.id ? ' back-icon-action-positive-small ' : ' back-icon-action-negative-small ' ) }"
+                              iconName="utility:upload"
+                              size="medium"
+                            />
+                          </div>
+                          <div class="slds-align_absolute-center">
+                            <span class="text-doc"
+                              >{!$Label.c.WGC_Documenti_2_Carica}</span
+                            >
+                          </div>
+                        </lightning:layoutItem>
+                        <!-- <lightning:layoutItem size="4" class="slds-p-around_x-small">
+                                        <div class="slds-align_absolute-center">
+                                            <lightning:buttonIcon aura:id="mav" onclick="{!c.LaunchEdit}" class="{! ' slds-align_absolute-center ' + (v.response.data[0].mavList[0].isCompiled ? ' back-icon-action-positive ' : ' back-icon-action-negative ' ) }" iconName="utility:edit" variant="bare" size="medium" />
+                                        </div>
+                                        <div class="slds-align_absolute-center">
+                                            <span class="text-doc">{!$Label.c.WGC_Documenti_2_Compila}</span>
+                                        </div>
+                                    </lightning:layoutItem> -->
+                        <!-- <lightning:layoutItem size="4" class="slds-p-around_x-small">
+                                        <div class="slds-align_absolute-center" data-list="docMAV" data-att="{! v.docMAV.composition }">
+                                            <lightning:buttonIcon aura:id="AdeguataVerifica" onclick="{!c.launchDownload}" value="{! v.docMAV.id }" name="{! v.docMAV.Name == undefined ? 'ModuloAdeguataVerifica' : v.docMAV.Name }"  class="{! 'slds-align_absolute-center ' + ( (v.docMAV.id || v.docMAV.composition) ? ' back-icon-action-positive ' : ' back-icon-action-negative ' ) }" iconName="utility:download" size="medium" />
+                                        </div>
+                                        <div class="slds-align_absolute-center">
+                                            <span class="text-doc">{!$Label.c.WGC_Documenti_2_Scarica}</span>
+                                        </div>
+                                    </lightning:layoutItem> -->
+                        <!-- <lightning:layoutItem size="4" class="slds-p-around_x-small">
+                                        <div class="slds-align_absolute-center">
+                                            <lightning:buttonIcon aura:id="docMAV" value="EX0000173" onclick="{!c.launchUpload}" class="{! 'slds-align_absolute-center ' + ( v.docMAV.id ? ' back-icon-action-positive ' : ' back-icon-action-negative ' ) }" iconName="utility:upload" size="medium" />
+                                        </div>
+                                        <div class="slds-align_absolute-center">
+                                            <span class="text-doc">{!$Label.c.WGC_Documenti_2_Carica}</span>
+                                        </div>
+                                    </lightning:layoutItem> -->
+                      </lightning:layout>
+                    </lightning:layoutItem>
+                  </aura:set>
+                </aura:renderIf>
+                <!-- -->
+                <aura:renderIf isTrue="{!v.isFlip2}">
+                  <lightning:layoutItem
+                    aura:id="front-card-1"
+                    size="12"
+                    smallDeviceSize="12"
+                    mediumDeviceSize="6"
+                    largeDeviceSize="2"
+                    class="single-doc"
+                  >
+                    <lightning:layout multipleRows="true">
+                      <lightning:layoutItem
+                        size="6"
+                        class="slds-p-around_x-small slds-text-align_left"
+                      >
+                        <aura:if isTrue="{! v.docMTC.required }">
+                          <!-- <lightning:icon iconName="utility:password" size="x-small" /> -->
+                          <span class="required">Obbligatorio</span>
+                        </aura:if>
+                        <aura:if isTrue="{! v.docMTC.futureDoc }">
+                          <lightning:helptext
+                            iconVariant="warning"
+                            iconName="utility:reminder"
+                            content="Caricamento in corso... Il documento sarà disponibile a breve"
+                          />
+                        </aura:if>
+                      </lightning:layoutItem>
+                      <lightning:layoutItem
+                        size="6"
+                        class="slds-p-around_x-small slds-text-align_right"
+                      >
+                        <lightning:buttonIcon
+                          aura:id="isFlip2"
+                          iconName="utility:edit"
+                          variant="bare"
+                          size="medium"
+                          onclick="{!c.doFlip}"
+                        />
+                      </lightning:layoutItem>
+                      <lightning:layoutItem
+                        size="4"
+                        class="slds-p-vertical_small"
+                      >
+                        <!-- class="{! ' slds-p-vertical_small slds-align_absolute-center ' + (v.response.data[0].accountListMTC.length > 0 ? ' back-icon-positive ' : ' back-icon-negative ')}" -->
+                        <lightning:icon
+                          iconName="utility:file"
+                          variant="inverse"
+                          size="small"
+                          class="{! 'slds-align_absolute-center ' + ( v.docMTC.id &amp;&amp; v.response.data[0].accountListMTC.length > 0 ? ' back-icon-positive ' : ' back-icon-negative ' ) }"
+                        />
+                      </lightning:layoutItem>
+                      <lightning:layoutItem
+                        size="8"
+                        class="slds-p-around_xx-small"
+                      >
+                        <div class="block">
+                          <aura:if
+                            isTrue="{! v.docMTC.valid_to != null &amp;&amp; v.docMTC.valid_to != undefined &amp;&amp; v.docMTC.valid_to != '' }"
+                          >
+                            <span class="text-doc">{! v.docMTC.valid_to }</span>
+                            <aura:set attribute="else">
+                              <span class="text-doc"
+                                >{!$Label.c.WGC_Documenti_2_Scade_il}</span
+                              >
+                            </aura:set>
+                          </aura:if>
+                        </div>
+                        <div class="block">
+                          <span class="slds-text-title_bold"
+                            >Modulo Tecniche di Comunicazione</span
+                          >
+                        </div>
+                        <div class="block">
+                          <span class="text-doc">
+                            {! v.docMTC.isValid ? 'Valido' : 'Non Valido' }
+                            <!-- <aura:if isTrue="{! v.docMTC.isValid }">
+                                                Valido
+                                                <aura:set attribute="else">
+                                                    Non valido
+                                                </aura:set>    
+                                            </aura:if> -->
+                          </span>
+                        </div>
+                      </lightning:layoutItem>
+                    </lightning:layout>
+                  </lightning:layoutItem>
+                  <aura:set attribute="else">
+                    <!-- class="{!v.response.data[0].accountListMTC.length > 0 ? 'single-doc_back-positive' : 'single-doc_back-negative'}" -->
+                    <lightning:layoutItem
+                      aura:id="back-card-1"
+                      size="12"
+                      smallDeviceSize="12"
+                      mediumDeviceSize="6"
+                      largeDeviceSize="2"
+                      class="single-doc_back"
+                    >
+                      <lightning:layout multipleRows="true">
+                        <lightning:layoutItem
+                          size="12"
+                          class="slds-p-around_x-small slds-text-align_right"
+                        >
+                          <lightning:buttonIcon
+                            aura:id="isFlip2"
+                            iconName="utility:close"
+                            size="medium"
+                            variant="bare"
+                            onclick="{!c.doFlip}"
+                          />
+                        </lightning:layoutItem>
+                        <lightning:layoutItem
+                          size="6"
+                          class="slds-p-bottom_x-small"
+                        >
+                          <div class="slds-align_absolute-center">
+                            <lightning:buttonIcon
+                              aura:id="mtc"
+                              onclick="{!c.LaunchEdit}"
+                              class="{! ' slds-align_absolute-center ' + (v.response.data[0].accountListMTC.length > 0 ? ' back-icon-action-positive-small ' : ' back-icon-action-negative-small ' ) }"
+                              iconName="utility:edit"
+                              variant="bare"
+                              size="medium"
+                            />
+                          </div>
+                          <div class="slds-align_absolute-center">
+                            <span class="text-doc"
+                              >{!$Label.c.WGC_Documenti_2_Compila}</span
+                            >
+                          </div>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem
+                          size="6"
+                          class="slds-p-bottom_x-small"
+                        >
+                          <div
+                            class="slds-align_absolute-center"
+                            data-list="docMTC"
+                            data-att="{! v.docMTC.composition }"
+                          >
+                            <!-- {! v.docMTC.Name == undefined ? 'ModuloTecnicheComunicazione' : v.docMTC.Name } -->
+                            <lightning:buttonIcon
+                              aura:id="TecnicheComunicazione"
+                              onclick="{!c.generaModulo}"
+                              value="{! v.docMTC.id }"
+                              name="ModuloTecnicheComunicazione.pdf"
+                              class="{! 'slds-align_absolute-center ' + ( v.response.data[0].accountListMTC.length > 0 ? ' back-icon-action-positive-small ' : ' back-icon-action-negative-small ' ) }"
+                              iconName="utility:download"
+                              size="medium"
+                            />
+                          </div>
+                          <div class="slds-align_absolute-center">
+                            <span class="text-doc">Genera</span>
+                          </div>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="6">
+                          <div
+                            class="slds-align_absolute-center"
+                            data-list="docMTC"
+                            data-att="{! v.docMTC.composition }"
+                            data-doc="{!v.docMTC.index_value}"
+                          >
+                            <!-- disabled="{!v.profilo == 'IFIS - Crediti Erariali'}" -->
+                            <lightning:buttonIcon
+                              aura:id="TecnicheComunicazione"
+                              onclick="{!c.launchDownload}"
+                              value="{! v.docMTC.id }"
+                              name="{! v.docMTC.DownloadName == undefined ? 'ModuloTecnicheComunicazione.pdf' : v.docMTC.DownloadName }"
+                              class="{! 'slds-align_absolute-center ' + ( (v.docMTC.id) ? ' back-icon-action-positive-small ' : ' back-icon-action-negative-small ' ) }"
+                              iconName="utility:download"
+                              size="medium"
+                            />
+                          </div>
+                          <div class="slds-align_absolute-center">
+                            <span class="text-doc"
+                              >{!$Label.c.WGC_Documenti_2_Scarica}</span
+                            >
+                          </div>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="6">
+                          <div class="slds-align_absolute-center">
+                            <!-- disabled="{!v.profilo == 'IFIS - Crediti Erariali'}" -->
+                            <lightning:buttonIcon
+                              aura:id="docMTC"
+                              value="EX0000179"
+                              onclick="{!c.launchUpload}"
+                              class="{! 'slds-align_absolute-center ' + ( v.docMTC.id ? ' back-icon-action-positive-small ' : ' back-icon-action-negative-small ' ) }"
+                              iconName="utility:upload"
+                              size="medium"
+                            />
+                            <!-- <lightning:buttonIcon  aura:id="mtc" onclick="{!c.launchUpload}" class="{! ' slds-align_absolute-center ' + (v.response.data[0].accountListMTC.length > 0 ? ' back-icon-action-positive ' : ' back-icon-action-negative ' ) }" iconName="utility:upload" variant="bare" size="medium" /> -->
+                          </div>
+                          <div class="slds-align_absolute-center">
+                            <span class="text-doc"
+                              >{!$Label.c.WGC_Documenti_2_Carica}</span
+                            >
+                          </div>
+                        </lightning:layoutItem>
+                      </lightning:layout>
+                    </lightning:layoutItem>
+                  </aura:set>
+                </aura:renderIf>
+                <!-- -->
+                <!-- SM - TEN CR 446 eliminazione QQ e Privacy PF -->
+                <!-- <aura:renderIf isTrue="{!v.isFlip3}">
+                        <lightning:layoutItem aura:id="front-card-1" size="12" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="2" class="single-doc">
+                            <lightning:layout multipleRows="true">
+                                <lightning:layoutItem size="12" class="slds-p-around_x-small slds-text-align_right">
+                                    <lightning:buttonIcon aura:id="isFlip3" iconName="utility:edit" variant="bare" size="medium"  onclick="{!c.doFlip}"/>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="4" class="slds-p-vertical_small">
+                                    <lightning:icon iconName="utility:file" variant="inverse" size="small" class="{! 'slds-p-vertical_small slds-align_absolute-center ' + (v.response.data[0].qqList[0].isCompiled ? ' back-icon-positive ' : ' back-icon-negative ') }"  />
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="8" class="slds-p-around_xx-small">
+                                    <div class="block">
+                                        <aura:if isTrue="{! v.response.data[0].qqList[0].isCompiled }">
+                                                <span class="text-doc">{! v.response.data[0].qqList[0].CreatedDate}</span>                                            
+                                            <aura:set attribute="else">
+                                                <span class="text-doc">{!$Label.c.WGC_Documenti_2_Scade_il}</span>
+                                            </aura:set>
+                                        </aura:if>
+                                        
+                                    </div>
+                                    <div class="block">
+                                        <span class="slds-text-title_bold">Questionario Qualitativo</span>
+                                    </div>
+                                    <div class="block">
+                                        <aura:if isTrue="{! v.response.data[0].qqList[0].isCompiled }" >
+                                                <span class="text-doc">Valido</span>
+                                            <aura:set attribute="else">
+                                                <span class="text-doc">Non Valido</span>
+                                            </aura:set>
+                                        </aura:if>
+                                    </div>
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                        </lightning:layoutItem>
+                        <aura:set attribute="else">
+                            <lightning:layoutItem aura:id="back-card-1" size="12" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="2" class="single-doc_back">
+                                <lightning:layout multipleRows="true">
+                                    <lightning:layoutItem size="12" class="slds-p-around_x-small slds-text-align_right">
+                                        <lightning:buttonIcon aura:id="isFlip3" iconName="utility:close" variant="bare" size="medium" onclick="{!c.doFlip}"/>
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem size="12" class="slds-p-around_x-small">
+                                        <div class="slds-align_absolute-center">
+                                            <lightning:buttonIcon aura:id="qq" onclick="{!c.LaunchEdit}" class="{! ' slds-align_absolute-center ' + (v.response.data[0].qqList[0].isCompiled ? ' back-icon-action-positive ' : ' back-icon-action-negative ' ) }" iconName="utility:edit" variant="bare" size="medium" />
+                                        </div>
+                                        <div class="slds-align_absolute-center">
+                                            <span class="text-doc">{!$Label.c.WGC_Documenti_2_Compila}</span>
+                                        </div>
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                            </lightning:layoutItem>
+                        </aura:set>
+                    </aura:renderIf> -->
+              </lightning:layout>
+            </aura:renderIf>
+          </lightning:layoutItem>
+        </lightning:layout>
+        <!-- TEST SEZIONE DOC 10 -->
+        <aura:if isTrue="{! !v.opportunityId }">
+          <aura:if isTrue="{! v.docs.length > 0 }">
+            <lightning:layout class="slds-m-vertical_medium container-doc">
+              <lightning:layoutItem
+                size="4"
+                largeDeviceSize="2"
+                class="{! 'slds-p-around_small ' + ( v.docsComplete == true ? ' container-border-title-blue ' : ' container-border-title-red ') }"
+              >
+                <lightning:layout multipleRows="true">
+                  <!-- <lightning:layoutItem size="6" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="6">
+                            <lightning:icon iconName="action:clone" size="small" variant="inverse" class="{! 'slds-p-vertical_small slds-align_absolute-center ' + ( v.docsComplete == true ? ' back-icon-negative ' : ' back-icon-positive ') }" />
+                        </lightning:layoutItem> -->
+                  <lightning:layoutItem
+                    class="slds-text-title_bold"
+                    size="12"
+                    smallDeviceSize="12"
+                    mediumDeviceSize="6"
+                    largeDeviceSize="6"
+                  >
+                    <div>
+                      <span class="text-doc"
+                        >{!$Label.c.WGC_Documenti_Component_Documenti}</span
+                      >
+                    </div>
+                    <div>
+                      <span
+                        >{!$Label.c.WGC_Documenti_Altri_Documenti_Azienda}</span
+                      >
+                    </div>
+                  </lightning:layoutItem>
+                </lightning:layout>
+              </lightning:layoutItem>
+              <lightning:layoutItem
+                size="8"
+                largeDeviceSize="10"
+                class="{! ( v.docsComplete == true ? ' container-border-content-blue ' : ' container-border-content-red ') }"
+              >
+                <lightning:layout multipleRows="true">
+                  <aura:iteration var="item" items="{! v.docs }" indexVar="ind">
+                    <aura:renderIf isTrue="{! item.isFlip }">
+                      <lightning:layoutItem
+                        aura:id="front-card-1"
+                        size="12"
+                        smallDeviceSize="12"
+                        mediumDeviceSize="6"
+                        largeDeviceSize="2"
+                        class="single-doc"
+                      >
+                        <lightning:layout multipleRows="true">
+                          <lightning:layoutItem
+                            size="6"
+                            class="slds-p-around_x-small slds-text-align_left"
+                          >
+                            <aura:if isTrue="{! item.required }">
+                              <!-- <lightning:icon iconName="utility:password" size="small" /> -->
+                              <span class="required">Obbligatorio</span>
+                            </aura:if>
+                            <aura:if isTrue="{! item.futureDoc }">
+                              <lightning:helptext
+                                iconVariant="warning"
+                                iconName="utility:reminder"
+                                content="Caricamento in corso... Il documento sarà disponibile a breve"
+                              />
+                            </aura:if>
+                          </lightning:layoutItem>
+                          <lightning:layoutItem
+                            size="6"
+                            class="slds-p-around_x-small slds-text-align_right"
+                          >
+                            <lightning:buttonIcon
+                              aura:id="flipDocs"
+                              value="{! item }"
+                              iconName="utility:edit"
+                              variant="bare"
+                              size="medium"
+                              onclick="{!c.flipDocs}"
+                            />
+                          </lightning:layoutItem>
+                          <lightning:layoutItem
+                            size="4"
+                            class="slds-p-vertical_small"
+                          >
+                            <!-- class="{! ' slds-p-vertical_small slds-align_absolute-center ' + (v.response.data[0].accountListMTC.length > 0 ? ' back-icon-positive ' : ' back-icon-negative ')}" -->
+                            <lightning:icon
+                              iconName="utility:file"
+                              variant="inverse"
+                              size="small"
+                              class="{! 'slds-p-vertical_small slds-align_absolute-center ' + ( item.id != null &amp;&amp; item.id != '' &amp;&amp; item.id != undefined ? ' back-icon-positive ' : ' back-icon-negative ' ) }"
+                            />
+                          </lightning:layoutItem>
+                          <lightning:layoutItem
+                            size="8"
+                            class="slds-p-around_xx-small"
+                          >
+                            <div class="block">
+                              <aura:if isTrue="{! item.valid_to }">
+                                <span class="text-doc">{! item.valid_to }</span>
+                                <aura:set attribute="else">
+                                  <span class="text-doc"
+                                    >{!$Label.c.WGC_Documenti_2_Scade_il}</span
+                                  >
+                                </aura:set>
+                              </aura:if>
+                            </div>
+                            <div class="block">
+                              <span
+                                class="slds-text-title_bold"
+                                style="word-break: break-word"
+                                >{! item.Name }</span
+                              >
+                            </div>
+                            <div class="block">
+                              <span class="text-doc">
+                                {! item.isValid ? 'Valido' : 'Non Valido' }
+                                <!-- <aura:if isTrue="{! item.isValid }">
+                                                                Valido
+                                                                <aura:set attribute="else">
+                                                                    Non valido
+                                                                </aura:set>    
+                                                            </aura:if> -->
+                              </span>
+                              <div class="block">
+                                <!-- data-optyId="{! ind }" -->
+                                <span
+                                  class="text-doc"
+                                  data-note="{! item.notaId }"
+                                >
+                                  <lightning:input
+                                    type="checkbox"
+                                    label="Non reperibile"
+                                    name="{!item}"
+                                    value="{! item.isAvailable }"
+                                    checked="{! item.isAvailable }"
+                                    onchange="{!c.changeAvailabilityAnag}"
+                                  />
+                                </span>
+                                <!-- <aura:if isTrue="{! item.nota }">
+                                                                <span class="text-doc">
+                                                                    <lightning:helptext content="{! item.nota }" />
+                                                                </span>
+                                                            </aura:if> -->
+                              </div>
+                            </div>
+                          </lightning:layoutItem>
+                        </lightning:layout>
+                      </lightning:layoutItem>
+                      <aura:set attribute="else">
+                        <!-- class="{!v.response.data[0].accountListMTC.length > 0 ? 'single-doc_back-positive' : 'single-doc_back-negative'}" -->
+                        <lightning:layoutItem
+                          aura:id="back-card-1"
+                          size="12"
+                          smallDeviceSize="12"
+                          mediumDeviceSize="6"
+                          largeDeviceSize="2"
+                          class="single-doc_back"
+                        >
+                          <lightning:layout multipleRows="true">
+                            <lightning:layoutItem
+                              size="12"
+                              class="slds-p-around_x-small slds-text-align_right"
+                            >
+                              <lightning:buttonIcon
+                                aura:id="flipDocs"
+                                value="{! item }"
+                                iconName="utility:close"
+                                size="medium"
+                                variant="bare"
+                                onclick="{!c.flipDocs}"
+                              />
+                            </lightning:layoutItem>
+                            <!-- 
+                                                    <lightning:layoutItem size="4" class="slds-p-around_x-small">
+                                                        <div class="slds-align_absolute-center">
+                                                            <lightning:buttonIcon onclick="{!c.LaunchEdit}" class="slds-align_absolute-center back-icon-action-positive" iconName="utility:edit" variant="bare" size="medium" />
+                                                        </div>
+                                                        <div class="slds-align_absolute-center">
+                                                            <span class="text-doc">{!$Label.c.WGC_Documenti_2_Compila}</span>
+                                                        </div>
+                                                    </lightning:layoutItem>
+                                                    -->
+                            <lightning:layoutItem
+                              size="6"
+                              class="slds-p-around_x-small"
+                            >
+                              <div
+                                class="slds-align_absolute-center"
+                                data-mime="{! item.mimeType }"
+                                data-doc="{!item.index_value}"
+                              >
+                                <lightning:buttonIcon
+                                  aura:id="download"
+                                  onclick="{!c.launchDownload}"
+                                  value="{! item.id }"
+                                  name="{! item.DownloadName }"
+                                  class="{! 'slds-align_absolute-center ' + ( item.id != null &amp;&amp; item.id != '' &amp;&amp; item.id != undefined ? ' back-icon-action-positive ' : ' back-icon-action-negative ' ) }"
+                                  iconName="utility:download"
+                                  size="medium"
+                                />
+                              </div>
+                              <div class="slds-align_absolute-center">
+                                <span class="text-doc"
+                                  >{!$Label.c.WGC_Documenti_2_Scarica}</span
+                                >
+                              </div>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem
+                              size="6"
+                              class="slds-p-around_x-small"
+                            >
+                              <div class="slds-align_absolute-center">
+                                <lightning:buttonIcon
+                                  aura:id="docs"
+                                  onclick="{!c.launchUpload}"
+                                  value="{! item.index_value }"
+                                  class="{! 'slds-align_absolute-center ' + ( item.id != null &amp;&amp; item.id != '' &amp;&amp; item.id != undefined ? ' back-icon-action-positive ' : ' back-icon-action-negative ' ) }"
+                                  iconName="utility:upload"
+                                  size="medium"
+                                />
+                              </div>
+                              <div class="slds-align_absolute-center">
+                                <span class="text-doc"> Carica</span>
+                              </div>
+                            </lightning:layoutItem>
+                          </lightning:layout>
+                        </lightning:layoutItem>
+                      </aura:set>
+                    </aura:renderIf>
+                  </aura:iteration>
+                </lightning:layout>
+              </lightning:layoutItem>
+            </lightning:layout>
+          </aura:if>
+        </aura:if>
+      </aura:if>
+      <!-- FINE SEZIONE DOC 10 -->
+
+      <!-- Sezione doc opty factoring, una per ogni opty -->
+      <aura:if isTrue="{! v.isLoadedFact }">
+        <!-- Se opportunityId è vuoto sono nell'anagrafica e mostra la lista di opportunità con la lista di doc associati -->
+        <!-- TODO RICONTROLLA -->
+
+        <aura:if
+          isTrue="{! v.opportunityId == null || v.opportunityId == undefined || v.opportunityId == '' }"
+        >
+          <aura:iteration var="item" items="{!v.optyFact}" indexVar="ind">
+            <lightning:layout
+              multipleRows="true"
+              class="{! ' slds-m-vertical_medium ' + ( v.isExpandedDocsValid &amp;&amp; item.flip ? ' container-doc-opty-positive ' : ' container-doc-opty-negative ') }"
+            >
+              <lightning:layoutItem
+                size="10"
+                smallDeviceSize="10"
+                mediumDeviceSize="10"
+                largeDeviceSize="11"
+                class="slds-p-around_small border-opty-right"
+              >
+                <lightning:layout multipleRows="true">
+                  <lightning:layoutItem
+                    size="1"
+                    smallDeviceSize="1"
+                    mediumDeviceSize="1"
+                    largeDeviceSize="1"
+                  >
+                    <lightning:icon
+                      iconName="action:clone"
+                      size="small"
+                      variant="inverse"
+                      class="{! ' slds-p-vertical_small slds-align_absolute-center ' + ( v.isExpandedDocsValid &amp;&amp; item.flip ? ' back-icon-positive ' : ' back-icon-negative ') }"
+                    />
+                  </lightning:layoutItem>
+                  <lightning:layoutItem
+                    class="slds-text-title_bold slds-p-left_small slds-p-vertical_xx-small"
+                    size="6"
+                    smallDeviceSize="12"
+                    mediumDeviceSize="6"
+                    largeDeviceSize="6"
+                  >
+                    <div>
+                      <span class="text-doc">Documenti</span>
+                    </div>
+                    <div>
+                      <span
+                        class="opty-link"
+                        style="word-break: break-word"
+                        onclick="{! c.navigateToOpty }"
+                        data-oppId="{! item.Id }"
+                        >{! item.Name }</span
+                      >
+                    </div>
+                  </lightning:layoutItem>
+                </lightning:layout>
+              </lightning:layoutItem>
+              <lightning:layoutItem
+                size="2"
+                smallDeviceSize="2"
+                mediumDeviceSize="2"
+                largeDeviceSize="1"
+                class=""
+              >
+                <lightning:layout multipleRows="true">
+                  <lightning:layoutItem
+                    size="12"
+                    class="slds-text-align_right slds-p-around_small slds-m-vertical_x-small"
+                  >
+                    <aura:if isTrue="{! item.flip == false }">
+                      <lightning:buttonIcon
+                        onclick="{!c.expandDoc}"
+                        iconName="utility:chevrondown"
+                        value="{!ind}"
+                        alternativeText="Settings"
+                        class="{! ( v.isExpandedDocsValid &amp;&amp; item.flip ? ' btn-expand-positive ' : ' btn-expand-negative ') }"
+                      />
+                      <aura:set attribute="else">
+                        <lightning:buttonIcon
+                          onclick="{!c.closeDoc}"
+                          iconName="utility:chevronup"
+                          value="{!ind}"
+                          alternativeText="Settings"
+                          class="{! ( v.isExpandedDocsValid &amp;&amp; item.flip ? ' btn-expand-positive ' : ' btn-expand-negative ') }"
+                        />
+                      </aura:set>
+                    </aura:if>
+                  </lightning:layoutItem>
+                </lightning:layout>
+              </lightning:layoutItem>
+
+              <aura:if isTrue="{! item.flip == true }">
+                <!-- 
+                        <aura:if isTrue="{! v.expandedDocs.length == 0 }">
+
+                            <div style="min-height: 25px;">
+                                <lightning:spinner alternativeText="CARICAMENTO" />
+                            </div>
+                            <aura:set attribute="else">
+                        -->
+                <lightning:layoutItem
+                  size="12"
+                  class="{! ( v.isExpandedDocsValid &amp;&amp; item.flip ? ' all-border-blue ' : ' all-border-red ') }"
+                >
+                  <lightning:layout multipleRows="true">
+                    <aura:iteration
+                      var="itemD"
+                      items="{! v.expandedDocs }"
+                      indexVar="indD"
+                    >
+                      <aura:renderIf isTrue="{! itemD.isFlip }">
+                        <lightning:layoutItem
+                          aura:id="front-card-1"
+                          size="12"
+                          smallDeviceSize="12"
+                          mediumDeviceSize="6"
+                          largeDeviceSize="2"
+                          class="single-doc"
+                        >
+                          <lightning:layout multipleRows="true">
+                            <lightning:layoutItem
+                              size="6"
+                              class="slds-p-around_x-small slds-text-align_left"
+                            >
+                              <aura:if isTrue="{! itemD.required }">
+                                <!-- <lightning:icon iconName="utility:password" size="small" /> -->
+                                <span class="required">Obbligatorio</span>
+                              </aura:if>
+                              <aura:if isTrue="{! itemD.futureDoc }">
+                                <lightning:helptext
+                                  iconVariant="warning"
+                                  iconName="utility:reminder"
+                                  content="Caricamento in corso... Il documento sarà disponibile a breve"
+                                />
+                              </aura:if>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem
+                              size="6"
+                              class="slds-p-around_x-small slds-text-align_right"
+                            >
+                              <lightning:buttonIcon
+                                aura:id="flipDocs"
+                                value="{! itemD }"
+                                iconName="utility:edit"
+                                variant="bare"
+                                size="medium"
+                                onclick="{!c.flipDocsOpty}"
+                              />
+                            </lightning:layoutItem>
+                            <lightning:layoutItem
+                              size="4"
+                              class="slds-p-vertical_small"
+                            >
+                              <lightning:icon
+                                iconName="utility:file"
+                                variant="inverse"
+                                size="small"
+                                class="{! 'slds-p-vertical_small slds-align_absolute-center ' + ( itemD.id != null &amp;&amp; itemD.id != '' &amp;&amp; itemD.id != undefined ? ' back-icon-positive ' : ' back-icon-negative ' ) }"
+                              />
+                            </lightning:layoutItem>
+                            <lightning:layoutItem
+                              size="8"
+                              class="slds-p-around_xx-small"
+                            >
+                              <div class="block">
+                                <aura:if isTrue="{! itemD.valid_to }">
+                                  <span class="text-doc"
+                                    >{! itemD.valid_to }</span
+                                  >
+                                  <aura:set attribute="else">
+                                    <span class="text-doc"
+                                      >{!$Label.c.WGC_Documenti_2_Scade_il}</span
+                                    >
+                                  </aura:set>
+                                </aura:if>
+                              </div>
+                              <div class="block">
+                                <span
+                                  class="slds-text-title_bold"
+                                  style="word-break: break-word"
+                                  >{! itemD.Name }</span
+                                >
+                              </div>
+                              <div class="block">
+                                <span class="text-doc">
+                                  {! itemD.isValid ? 'Valido' : 'Non Valido' }
+                                  <!-- <aura:if isTrue="{! item.isValid }">
+                                                                                Valido
+                                                                                <aura:set attribute="else">
+                                                                                    Non valido
+                                                                                </aura:set>    
+                                                                            </aura:if> -->
+                                </span>
+                              </div>
+                              <div class="block">
+                                <span
+                                  class="text-doc"
+                                  data-optyId="{! ind }"
+                                  data-note="{! itemD.notaId }"
+                                >
+                                  <lightning:input
+                                    type="checkbox"
+                                    label="Non reperibile"
+                                    name="{! itemD }"
+                                    value="{! itemD.isAvailable }"
+                                    checked="{! itemD.isAvailable }"
+                                    onchange="{!c.changeAvailability}"
+                                  />
+                                </span>
+                                <!-- <aura:if isTrue="{! itemD.nota }">
+                                                                            <span class="text-doc">
+                                                                                <lightning:helptext content="{! itemD.nota }" />
+                                                                            </span>
+                                                                        </aura:if> -->
+                              </div>
+                            </lightning:layoutItem>
+                          </lightning:layout>
+                        </lightning:layoutItem>
+                        <aura:set attribute="else">
+                          <lightning:layoutItem
+                            aura:id="back-card-1"
+                            size="12"
+                            smallDeviceSize="12"
+                            mediumDeviceSize="6"
+                            largeDeviceSize="2"
+                            class="single-doc_back"
+                          >
+                            <lightning:layout multipleRows="true">
+                              <lightning:layoutItem
+                                size="12"
+                                class="slds-p-around_x-small slds-text-align_right"
+                              >
+                                <lightning:buttonIcon
+                                  aura:id="flipDocs"
+                                  value="{! itemD }"
+                                  iconName="utility:close"
+                                  size="medium"
+                                  variant="bare"
+                                  onclick="{!c.flipDocsOpty}"
+                                />
+                              </lightning:layoutItem>
+                              <lightning:layoutItem
+                                size="6"
+                                class="slds-p-around_x-small"
+                              >
+                                <div
+                                  class="slds-align_absolute-center"
+                                  data-list="expandedDocs"
+                                  data-mime="{! itemD.mimeType }"
+                                  data-doc="{!itemD.index_value}"
+                                >
+                                  <lightning:buttonIcon
+                                    aura:id="download"
+                                    onclick="{!c.launchDownload}"
+                                    value="{! itemD.id }"
+                                    name="{! itemD.DownloadName }"
+                                    class="{! 'slds-align_absolute-center ' + ( itemD.id != null &amp;&amp; itemD.id != '' &amp;&amp; itemD.id != undefined ? ' back-icon-action-positive ' : ' back-icon-action-negative ' ) }"
+                                    iconName="utility:download"
+                                    size="medium"
+                                  />
+                                </div>
+                                <div class="slds-align_absolute-center">
+                                  <span class="text-doc"
+                                    >{!$Label.c.WGC_Documenti_2_Scarica}</span
+                                  >
+                                </div>
+                              </lightning:layoutItem>
+                              <lightning:layoutItem
+                                size="6"
+                                class="slds-p-around_x-small"
+                              >
+                                <div class="slds-align_absolute-center">
+                                  <lightning:buttonIcon
+                                    aura:id="expandedDocs"
+                                    onclick="{!c.launchUpload}"
+                                    name="{! item.Id }"
+                                    value="{! itemD.index_value }"
+                                    class="{! 'slds-align_absolute-center ' + ( itemD.id != null &amp;&amp; itemD.id != '' &amp;&amp; itemD.id != undefined ? ' back-icon-action-positive ' : ' back-icon-action-negative ' ) }"
+                                    iconName="utility:upload"
+                                    size="medium"
+                                  />
+                                </div>
+                                <div class="slds-align_absolute-center">
+                                  <span class="text-doc"
+                                    >{!$Label.c.WGC_Documenti_2_Carica}</span
+                                  >
+                                </div>
+                              </lightning:layoutItem>
+                            </lightning:layout>
+                          </lightning:layoutItem>
+                        </aura:set>
+                      </aura:renderIf>
+                    </aura:iteration>
+                  </lightning:layout>
+                </lightning:layoutItem>
+                <!-- </aura:set>
+                        </aura:if> -->
+              </aura:if>
+            </lightning:layout>
+          </aura:iteration>
+
+          <aura:set attribute="else">
+            <!-- CARRELLO DOC10 -->
+            <!-- SEZIONE DEBITORI E GARANTI -->
+            <aura:iteration var="attore" items="{! v.attori }" indexVar="ind">
+              <!-- <aura:if isTrue="{! attore.Tipo__c == 'Debitore' }"> -->
+              <lightning:layout
+                multipleRows="true"
+                class="{! 'slds-wrap slds-m-vertical_medium ' + ( attore.isCompleted ? ' container-doc-opty-positive ' : ' container-doc-opty-negative ' ) }"
+              >
+                <!-- container-border-title-blue -->
+                <lightning:layoutItem
+                  size="10"
+                  smallDeviceSize="10"
+                  mediumDeviceSize="10"
+                  largeDeviceSize="11"
+                  class="slds-p-around_small"
+                >
+                  <lightning:layout multipleRows="true">
+                    <lightning:layoutItem
+                      size="1"
+                      smallDeviceSize="1"
+                      mediumDeviceSize="1"
+                      largeDeviceSize="1"
+                    >
+                      <lightning:icon
+                        iconName="utility:file"
+                        size="small"
+                        class="{! 'slds-p-vertical_small slds-align_absolute-center border-opty-right ' + ( attore.isCompleted ? ' back-icon-action-positive ' : ' back-icon-action-negative ' ) }"
+                      />
+                    </lightning:layoutItem>
+                    <lightning:layoutItem
+                      class="slds-text-title_bold slds-p-vertical_xx-small"
+                      size="6"
+                      smallDeviceSize="12"
+                      mediumDeviceSize="6"
+                      largeDeviceSize="6"
+                    >
+                      <div>
+                        <span class="text-doc"
+                          >Documenti {! attore.attore.Tipo__c != undefined ?
+                          attore.attore.Tipo__c : '' }</span
+                        >
+                      </div>
+                      <div>
+                        <aura:if
+                          isTrue="{! attore.attore.Tipo__c != undefined &amp;&amp; attore.attore.Tipo__c != null }"
+                        >
+                          <aura:if
+                            isTrue="{! attore.attore.Account__r.Name != undefined &amp;&amp; attore.attore.Account__r.Name != null }"
+                          >
+                            <span> {! attore.attore.Account__r.Name }</span>
+                            <aura:set attribute="else">
+                              <span>{! attore.attore.Contact__r.Name }</span>
+                            </aura:set>
+                          </aura:if>
+                          <aura:set attribute="else">
+                            <aura:if
+                              isTrue="{! attore.attore.WGC_Esecutore_MAV__c }"
+                            >
+                              <span>Esecutore Adeguata Verifica</span>
+                              <aura:set attribute="else">
+                                <span
+                                  >{! attore.attore.Contact.Name } - Titolare
+                                  Effettivo</span
+                                >
+                              </aura:set>
+                            </aura:if>
+                          </aura:set>
+                        </aura:if>
+                      </div>
+                    </lightning:layoutItem>
+                  </lightning:layout>
+                </lightning:layoutItem>
+                <!-- container-border-content-blue -->
+                <lightning:layoutItem
+                  size="2"
+                  smallDeviceSize="2"
+                  mediumDeviceSize="2"
+                  largeDeviceSize="1"
+                  class="border-opty-left"
+                >
+                  <lightning:layout multipleRows="true">
+                    <!-- 
+                                    <lightning:layoutItem size="10">
+                                        sezioneDOC
+                                    </lightning:layoutItem>
+                                    -->
+                    <lightning:layoutItem
+                      size="12"
+                      class="slds-text-align_right slds-p-around_small slds-m-vertical_x-small"
+                    >
+                      <aura:if isTrue="{! attore.isFlip == false }">
+                        <lightning:buttonIcon
+                          onclick="{!c.expandAttori}"
+                          iconName="utility:chevrondown"
+                          value="{! attore }"
+                          alternativeText="Settings"
+                          class="{! ( attore.isCompleted ? ' btn-expand-positive ' : ' btn-expand-negative ') }"
+                        />
+                        <aura:set attribute="else">
+                          <lightning:buttonIcon
+                            onclick="{!c.closeAttori}"
+                            iconName="utility:chevronup"
+                            value="{! attore }"
+                            alternativeText="Settings"
+                            class="{! ( attore.isCompleted ? ' btn-expand-positive ' : ' btn-expand-negative ') }"
+                          />
+                        </aura:set>
+                      </aura:if>
+                    </lightning:layoutItem>
+                  </lightning:layout>
+                </lightning:layoutItem>
+                <aura:if isTrue="{! attore.isFlip }">
+                  <aura:if isTrue="{! attore.docs.length == 0 }">
+                    <lightning:layoutItem
+                      size="12"
+                      class="{! (attore.isCompleted ? ' all-border-blue ' : ' all-border-red ' ) }"
+                    >
+                      <div class="slds-p-around_small">
+                        <span class="no-button">Nessun documento</span>
+                      </div>
+                    </lightning:layoutItem>
+                    <aura:set attribute="else">
+                      <lightning:layoutItem
+                        size="12"
+                        class="{! (attore.isCompleted ? ' all-border-blue ' : ' all-border-red ' ) }"
+                      >
+                        <lightning:layout multipleRows="true">
+                          <aura:iteration
+                            var="item"
+                            items="{! attore.docs }"
+                            indexVar="indD"
+                          >
+                            <aura:renderIf isTrue="{! item.isFlip }">
+                              <lightning:layoutItem
+                                aura:id="front-card-1"
+                                size="12"
+                                smallDeviceSize="12"
+                                mediumDeviceSize="6"
+                                largeDeviceSize="2"
+                                class="single-doc"
+                              >
+                                <lightning:layout multipleRows="true">
+                                  <lightning:layoutItem
+                                    size="6"
+                                    class="slds-p-around_x-small slds-text-align_left"
+                                  >
+                                    <aura:if isTrue="{! item.required }">
+                                      <!-- <lightning:icon iconName="utility:password" size="small" /> -->
+                                      <span class="required">Obbligatorio</span>
+                                    </aura:if>
+                                    <aura:if isTrue="{! item.futureDoc }">
+                                      <lightning:helptext
+                                        iconVariant="warning"
+                                        iconName="utility:reminder"
+                                        content="Caricamento in corso... Il documento sarà disponibile a breve"
+                                      />
+                                    </aura:if>
+                                  </lightning:layoutItem>
+                                  <lightning:layoutItem
+                                    size="6"
+                                    class="slds-p-around_x-small slds-text-align_right"
+                                  >
+                                    <lightning:buttonIcon
+                                      aura:id="flipDocs"
+                                      value="{! attore.myIndex + ';' + item.myIndex }"
+                                      iconName="utility:edit"
+                                      variant="bare"
+                                      size="medium"
+                                      onclick="{!c.flipDocsAttori}"
+                                    />
+                                  </lightning:layoutItem>
+                                  <lightning:layoutItem
+                                    size="4"
+                                    class="slds-p-vertical_small"
+                                  >
+                                    <!-- class="{! ' slds-p-vertical_small slds-align_absolute-center ' + (v.response.data[0].accountListMTC.length > 0 ? ' back-icon-positive ' : ' back-icon-negative ')}" -->
+                                    <lightning:icon
+                                      iconName="utility:file"
+                                      variant="inverse"
+                                      size="small"
+                                      class="{! 'slds-p-vertical_small slds-align_absolute-center ' + ( ( (item.id &amp;&amp; item.index_value != 'SY0000074') || (item.id &amp;&amp; item.index_value == 'SY0000074' &amp;&amp; attore.attore.Contact.DataInserimentoConsensi__c) ) ? ' back-icon-positive ' : ' back-icon-negative ' ) }"
+                                    />
+                                  </lightning:layoutItem>
+                                  <lightning:layoutItem
+                                    size="8"
+                                    class="slds-p-around_xx-small"
+                                  >
+                                    <div class="block">
+                                      <aura:if isTrue="{! item.valid_to }">
+                                        <span class="text-doc"
+                                          >{! item.valid_to }</span
+                                        >
+                                        <aura:set attribute="else">
+                                          <span class="text-doc"
+                                            >{!$Label.c.WGC_Documenti_2_Scade_il}</span
+                                          >
+                                        </aura:set>
+                                      </aura:if>
+                                    </div>
+                                    <div class="block">
+                                      <span
+                                        class="slds-text-title_bold"
+                                        style="word-break: break-word"
+                                        >{! item.Name }</span
+                                      >
+                                    </div>
+                                    <div class="block">
+                                      <span class="text-doc">
+                                        {! item.isValid ? 'Valido' : 'Non
+                                        Valido' }
+                                        <!-- <aura:if isTrue="{! item.isValid }">
+                                                                                Valido
+                                                                                <aura:set attribute="else">
+                                                                                    Non valido
+                                                                                </aura:set>    
+                                                                            </aura:if> -->
+                                      </span>
+                                    </div>
+                                    <div class="block">
+                                      <span
+                                        class="text-doc"
+                                        data-id="{! ind }"
+                                        data-note="{! item.notaId }"
+                                      >
+                                        <lightning:input
+                                          type="checkbox"
+                                          label="Non reperibile"
+                                          name="{! item }"
+                                          value="{! item.isAvailable }"
+                                          checked="{! item.isAvailable }"
+                                          onchange="{!c.changeAvailabilityAttori}"
+                                        />
+                                      </span>
+                                      <!-- <aura:if isTrue="{! item.nota }">
+                                                                            <span class="text-doc">
+                                                                                <lightning:helptext content="{! item.nota }" />
+                                                                            </span>
+                                                                        </aura:if> -->
+                                    </div>
+                                  </lightning:layoutItem>
+                                </lightning:layout>
+                              </lightning:layoutItem>
+                              <aura:set attribute="else">
+                                <!-- class="{!v.response.data[0].accountListMTC.length > 0 ? 'single-doc_back-positive' : 'single-doc_back-negative'}" -->
+                                <lightning:layoutItem
+                                  aura:id="back-card-1"
+                                  size="12"
+                                  smallDeviceSize="12"
+                                  mediumDeviceSize="6"
+                                  largeDeviceSize="2"
+                                  class="single-doc_back"
+                                >
+                                  <lightning:layout multipleRows="true">
+                                    <aura:if
+                                      isTrue="{! item.index_value != 'SY0000074' }"
+                                    >
+                                      <lightning:layoutItem
+                                        size="12"
+                                        class="slds-p-around_x-small slds-text-align_right"
+                                      >
+                                        <lightning:buttonIcon
+                                          aura:id="flipDocs"
+                                          value="{! attore.myIndex + ';' + item.myIndex }"
+                                          iconName="utility:close"
+                                          size="medium"
+                                          variant="bare"
+                                          onclick="{!c.flipDocsAttori}"
+                                        />
+                                      </lightning:layoutItem>
+                                      <!-- 
+                                                                        <lightning:layoutItem size="4" class="slds-p-around_x-small">
+                                                                            <div class="slds-align_absolute-center">
+                                                                                <lightning:buttonIcon onclick="{!c.LaunchEdit}" class="slds-align_absolute-center back-icon-action-positive" iconName="utility:edit" variant="bare" size="medium" />
+                                                                            </div>
+                                                                            <div class="slds-align_absolute-center">
+                                                                                <span class="text-doc">{!$Label.c.WGC_Documenti_2_Compila}</span>
+                                                                            </div>
+                                                                        </lightning:layoutItem>
+                                                                        -->
+                                      <lightning:layoutItem
+                                        size="6"
+                                        class="slds-p-around_x-small"
+                                      >
+                                        <div
+                                          class="slds-align_absolute-center"
+                                          data-list="attori"
+                                          data-mime="{! item.mimeType }"
+                                          data-doc="{!item.index_value}"
+                                        >
+                                          <lightning:buttonIcon
+                                            aura:id="download"
+                                            onclick="{!c.launchDownload}"
+                                            value="{! item.id }"
+                                            name="{! item.DownloadName }"
+                                            class="{! 'slds-align_absolute-center ' + ( item.id != null &amp;&amp; item.id != '' &amp;&amp; item.id != undefined ? ' back-icon-action-positive ' : ' back-icon-action-negative ' ) }"
+                                            iconName="utility:download"
+                                            size="medium"
+                                          />
+                                        </div>
+                                        <div class="slds-align_absolute-center">
+                                          <span class="text-doc"
+                                            >{!$Label.c.WGC_Documenti_2_Scarica}</span
+                                          >
+                                        </div>
+                                      </lightning:layoutItem>
+                                      <lightning:layoutItem
+                                        size="6"
+                                        class="slds-p-around_x-small"
+                                      >
+                                        <div
+                                          class="slds-align_absolute-center"
+                                          data-attore="{! ind }"
+                                        >
+                                          <lightning:buttonIcon
+                                            aura:id="attoredocs"
+                                            onclick="{!c.launchUpload}"
+                                            value="{! item.index_value }"
+                                            class="{! 'slds-align_absolute-center ' + ( item.id != null &amp;&amp; item.id != '' &amp;&amp; item.id != undefined ? ' back-icon-action-positive ' : ' back-icon-action-negative ' ) }"
+                                            iconName="utility:upload"
+                                            size="medium"
+                                          />
+                                        </div>
+                                        <div class="slds-align_absolute-center">
+                                          <span class="text-doc"
+                                            >{!$Label.c.WGC_Documenti_2_Carica}</span
+                                          >
+                                        </div>
+                                      </lightning:layoutItem>
+                                      <aura:set attribute="else">
+                                        <!-- Sezione per gestire compilazione privacy PF -->
+                                        <lightning:layoutItem
+                                          size="12"
+                                          class="slds-p-around_x-small slds-text-align_right"
+                                        >
+                                          <lightning:buttonIcon
+                                            aura:id="flipDocs"
+                                            value="{! attore.myIndex + ';' + item.myIndex }"
+                                            iconName="utility:close"
+                                            size="medium"
+                                            variant="bare"
+                                            onclick="{!c.flipDocsAttori}"
+                                          />
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem
+                                          size="6"
+                                          class="slds-p-bottom_x-small"
+                                        >
+                                          <div
+                                            class="slds-align_absolute-center"
+                                          >
+                                            <lightning:buttonIcon
+                                              aura:id="PrivacyPF"
+                                              onclick="{!c.LaunchEdit}"
+                                              value="{! attore }"
+                                              class="{! ' slds-align_absolute-center ' + ( attore.attore.Contact.DataInserimentoConsensi__c != null ? ' back-icon-action-positive-small ' : ' back-icon-action-negative-small ' ) }"
+                                              iconName="utility:edit"
+                                              size="small"
+                                            />
+                                          </div>
+                                          <div
+                                            class="slds-align_absolute-center"
+                                          >
+                                            <span class="text-doc"
+                                              >{!$Label.c.WGC_Documenti_2_Compila}</span
+                                            >
+                                          </div>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem
+                                          size="6"
+                                          class="slds-p-bottom_x-small"
+                                        >
+                                          <div
+                                            class="slds-align_absolute-center"
+                                            data-list="attori"
+                                            data-mime="{! item.mimeType }"
+                                            data-att="{! attore.item.composition }"
+                                          >
+                                            <lightning:buttonIcon
+                                              aura:id="PrivacyPF"
+                                              onclick="{!c.generaModulo}"
+                                              value="{! attore.attore.Contact.Id }"
+                                              name="PrivacyPersonaFisica.pdf"
+                                              class="{! ' slds-align_absolute-center ' + ( attore.attore.Contact.DataInserimentoConsensi__c != null ? ' back-icon-action-positive-small ' : ' back-icon-action-negative-small ' ) }"
+                                              iconName="utility:download"
+                                              size="small"
+                                            />
+                                          </div>
+                                          <div
+                                            class="slds-align_absolute-center"
+                                          >
+                                            <span class="text-doc">Genera</span>
+                                          </div>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem
+                                          size="6"
+                                          class="slds-p-bottom_x-small"
+                                        >
+                                          <div
+                                            class="slds-align_absolute-center"
+                                            data-list="attori"
+                                            data-mime="{! item.mimeType }"
+                                            data-doc="{!item.index_value}"
+                                          >
+                                            <lightning:buttonIcon
+                                              aura:id="download"
+                                              onclick="{!c.launchDownload}"
+                                              value="{! item.id }"
+                                              name="{! item.DownloadName }"
+                                              class="{! 'slds-align_absolute-center ' + ( item.id != null &amp;&amp; item.id != '' &amp;&amp; item.id != undefined ? ' back-icon-action-positive-small ' : ' back-icon-action-negative-small ' ) }"
+                                              iconName="utility:download"
+                                              size="small"
+                                            />
+                                          </div>
+                                          <div
+                                            class="slds-align_absolute-center"
+                                          >
+                                            <span class="text-doc"
+                                              >{!$Label.c.WGC_Documenti_2_Scarica}</span
+                                            >
+                                          </div>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem
+                                          size="6"
+                                          class="slds-p-bottom_x-small"
+                                        >
+                                          <div
+                                            class="slds-align_absolute-center"
+                                            data-attore="{! ind }"
+                                          >
+                                            <lightning:buttonIcon
+                                              aura:id="attoredocs"
+                                              onclick="{!c.launchUpload}"
+                                              value="{! item.index_value }"
+                                              class="{! 'slds-align_absolute-center ' + ( item.id != null &amp;&amp; item.id != '' &amp;&amp; item.id != undefined ? ' back-icon-action-positive-small ' : ' back-icon-action-negative-small ' ) }"
+                                              iconName="utility:upload"
+                                              size="small"
+                                            />
+                                          </div>
+                                          <div
+                                            class="slds-align_absolute-center"
+                                          >
+                                            <span class="text-doc"
+                                              >{!$Label.c.WGC_Documenti_2_Carica}</span
+                                            >
+                                          </div>
+                                        </lightning:layoutItem>
+                                      </aura:set>
+                                    </aura:if>
+                                  </lightning:layout>
+                                </lightning:layoutItem>
+                              </aura:set>
+                            </aura:renderIf>
+                          </aura:iteration>
+                        </lightning:layout>
+                      </lightning:layoutItem>
+                    </aura:set>
+                  </aura:if>
+                </aura:if>
+              </lightning:layout>
+            </aura:iteration>
+            <!-- Se sono nel carrello mostro questa sezione -->
+            <aura:if isTrue="{! v.docsOpty.length > 0 }">
+              <lightning:layout
+                multipleRows="true"
+                class="{! 'slds-wrap slds-m-vertical_medium ' + ( v.isDocsOptyValid ? ' container-doc-opty-positive ' : ' container-doc-opty-negative ' ) }"
+              >
+                <!-- container-border-title-blue -->
+                <lightning:layoutItem
+                  size="10"
+                  smallDeviceSize="10"
+                  mediumDeviceSize="10"
+                  largeDeviceSize="11"
+                  class="slds-p-around_small"
+                >
+                  <lightning:layout multipleRows="true">
+                    <lightning:layoutItem
+                      size="1"
+                      smallDeviceSize="1"
+                      mediumDeviceSize="1"
+                      largeDeviceSize="1"
+                    >
+                      <lightning:icon
+                        iconName="utility:file"
+                        size="small"
+                        class="{! 'slds-p-vertical_small slds-align_absolute-center border-opty-right ' + ( v.isDocsOptyValid ? ' back-icon-action-positive ' : ' back-icon-action-negative ' ) }"
+                      />
+                    </lightning:layoutItem>
+                    <lightning:layoutItem
+                      class="slds-text-title_bold slds-p-vertical_xx-small"
+                      size="6"
+                      smallDeviceSize="12"
+                      mediumDeviceSize="6"
+                      largeDeviceSize="6"
+                    >
+                      <div>
+                        <span class="text-doc">Documenti</span>
+                      </div>
+                      <div>
+                        <span>Opportunità</span>
+                      </div>
+                    </lightning:layoutItem>
+                  </lightning:layout>
+                </lightning:layoutItem>
+                <!-- container-border-content-blue -->
+                <lightning:layoutItem
+                  size="2"
+                  smallDeviceSize="2"
+                  mediumDeviceSize="2"
+                  largeDeviceSize="1"
+                  class="border-opty-left"
+                >
+                  <lightning:layout multipleRows="true">
+                    <!-- 
+                                <lightning:layoutItem size="10">
+                                    sezioneDOC
+                                </lightning:layoutItem>
+                                -->
+                    <lightning:layoutItem
+                      size="12"
+                      class="slds-text-align_right slds-p-around_small slds-m-vertical_x-small"
+                    >
+                      <aura:if isTrue="{! v.expandedSingleDoc == false }">
+                        <lightning:buttonIcon
+                          onclick="{!c.expandDocSingle}"
+                          iconName="utility:chevrondown"
+                          value="{! v.expandedSingleDoc }"
+                          alternativeText="Settings"
+                          class="{! ( v.isDocsOptyValid ? ' btn-expand-positive ' : ' btn-expand-negative ' ) }"
+                        />
+                        <aura:set attribute="else">
+                          <lightning:buttonIcon
+                            onclick="{!c.closeDocSingle}"
+                            iconName="utility:chevronup"
+                            value="{! v.expandedSingleDoc }"
+                            alternativeText="Settings"
+                            class="{! ( v.isDocsOptyValid ? ' btn-expand-positive ' : ' btn-expand-negative ' ) }"
+                          />
+                        </aura:set>
+                      </aura:if>
+                    </lightning:layoutItem>
+                  </lightning:layout>
+                </lightning:layoutItem>
+                <aura:if isTrue="{! v.expandedSingleDoc }">
+                  <aura:if isTrue="{! v.docsOpty.length == 0 }">
+                    <lightning:layoutItem
+                      size="12"
+                      class="{! ( v.isDocsOptyValid ? ' all-border-blue ' : ' all-border-red ' ) }"
+                    >
+                      <div class="slds-p-around_small">
+                        <span class="no-button">Nessun documento</span>
+                      </div>
+                    </lightning:layoutItem>
+                    <aura:set attribute="else">
+                      <lightning:layoutItem
+                        size="12"
+                        class="{! ( v.isDocsOptyValid ? ' all-border-blue ' : ' all-border-red ' ) }"
+                      >
+                        <lightning:layout multipleRows="true">
+                          <aura:iteration
+                            var="item"
+                            items="{! v.docsOpty }"
+                            indexVar="ind"
+                          >
+                            <aura:renderIf isTrue="{! item.isFlip }">
+                              <lightning:layoutItem
+                                aura:id="front-card-1"
+                                size="12"
+                                smallDeviceSize="12"
+                                mediumDeviceSize="6"
+                                largeDeviceSize="2"
+                                class="single-doc"
+                              >
+                                <lightning:layout multipleRows="true">
+                                  <lightning:layoutItem
+                                    size="6"
+                                    class="slds-p-around_x-small slds-text-align_left"
+                                  >
+                                    <aura:if isTrue="{! item.required }">
+                                      <!-- <lightning:icon iconName="utility:password" size="x-small" /> -->
+                                      <span class="required">Obbligatorio</span>
+                                    </aura:if>
+                                    <aura:if isTrue="{! item.futureDoc }">
+                                      <lightning:helptext
+                                        iconVariant="warning"
+                                        iconName="utility:reminder"
+                                        content="Caricamento in corso... Il documento sarà disponibile a breve"
+                                      />
+                                    </aura:if>
+                                  </lightning:layoutItem>
+                                  <lightning:layoutItem
+                                    size="6"
+                                    class="slds-p-around_x-small slds-text-align_right"
+                                  >
+                                    <lightning:buttonIcon
+                                      aura:id="flipDocs"
+                                      value="{! item }"
+                                      iconName="utility:edit"
+                                      variant="bare"
+                                      size="medium"
+                                      onclick="{!c.flipDocsSingleOpty}"
+                                    />
+                                  </lightning:layoutItem>
+                                  <lightning:layoutItem
+                                    size="4"
+                                    class="slds-p-vertical_small"
+                                  >
+                                    <!-- class="{! ' slds-p-vertical_small slds-align_absolute-center ' + (v.response.data[0].accountListMTC.length > 0 ? ' back-icon-positive ' : ' back-icon-negative ')}" -->
+                                    <lightning:icon
+                                      iconName="utility:file"
+                                      variant="inverse"
+                                      size="small"
+                                      class="{! 'slds-p-vertical_small slds-align_absolute-center ' + ( item.id != null &amp;&amp; item.id != '' &amp;&amp; item.id != undefined ? ' back-icon-positive ' : ' back-icon-negative ' ) }"
+                                    />
+                                  </lightning:layoutItem>
+                                  <lightning:layoutItem
+                                    size="8"
+                                    class="slds-p-around_xx-small"
+                                  >
+                                    <div class="block">
+                                      <aura:if isTrue="{! item.valid_to }">
+                                        <span class="text-doc"
+                                          >{! item.valid_to }</span
+                                        >
+                                        <aura:set attribute="else">
+                                          <span class="text-doc"
+                                            >{!$Label.c.WGC_Documenti_2_Scade_il}</span
+                                          >
+                                        </aura:set>
+                                      </aura:if>
+                                    </div>
+                                    <div class="block">
+                                      <span
+                                        class="slds-text-title_bold"
+                                        style="word-break: break-word"
+                                        >{! item.Name }</span
+                                      >
+                                    </div>
+                                    <div class="block">
+                                      <span class="text-doc">
+                                        {! item.isValid ? 'Valido' : 'Non
+                                        Valido' }
+                                        <!-- <aura:if isTrue="{! item.isValid }">
+                                                                            Valido
+                                                                            <aura:set attribute="else">
+                                                                                Non valido
+                                                                            </aura:set>    
+                                                                        </aura:if> -->
+                                      </span>
+                                    </div>
+                                    <div class="block">
+                                      <span
+                                        class="text-doc"
+                                        data-id="{! ind }"
+                                        data-note="{! item.notaId }"
+                                      >
+                                        <lightning:input
+                                          type="checkbox"
+                                          label="Non reperibile"
+                                          name="{!item}"
+                                          value="{! item.isAvailable }"
+                                          checked="{! item.isAvailable }"
+                                          onchange="{!c.changeAvailability}"
+                                        />
+                                      </span>
+                                      <!-- <aura:if isTrue="{! item.nota }">
+                                                                        <span class="text-doc">
+                                                                            <lightning:helptext content="{! item.nota }" />
+                                                                        </span>
+                                                                    </aura:if> -->
+                                    </div>
+                                  </lightning:layoutItem>
+                                </lightning:layout>
+                              </lightning:layoutItem>
+                              <aura:set attribute="else">
+                                <!-- class="{!v.response.data[0].accountListMTC.length > 0 ? 'single-doc_back-positive' : 'single-doc_back-negative'}" -->
+                                <lightning:layoutItem
+                                  aura:id="back-card-1"
+                                  size="12"
+                                  smallDeviceSize="12"
+                                  mediumDeviceSize="6"
+                                  largeDeviceSize="2"
+                                  class="single-doc_back"
+                                >
+                                  <lightning:layout multipleRows="true">
+                                    <lightning:layoutItem
+                                      size="12"
+                                      class="slds-p-around_x-small slds-text-align_right"
+                                    >
+                                      <lightning:buttonIcon
+                                        aura:id="flipDocs"
+                                        value="{! item }"
+                                        iconName="utility:close"
+                                        size="medium"
+                                        variant="bare"
+                                        onclick="{!c.flipDocsSingleOpty}"
+                                      />
+                                    </lightning:layoutItem>
+                                    <!-- 
+                                                                <lightning:layoutItem size="4" class="slds-p-around_x-small">
+                                                                    <div class="slds-align_absolute-center">
+                                                                        <lightning:buttonIcon onclick="{!c.LaunchEdit}" class="slds-align_absolute-center back-icon-action-positive" iconName="utility:edit" variant="bare" size="medium" />
+                                                                    </div>
+                                                                    <div class="slds-align_absolute-center">
+                                                                        <span class="text-doc">{!$Label.c.WGC_Documenti_2_Compila}</span>
+                                                                    </div>
+                                                                </lightning:layoutItem>
+                                                                -->
+                                    <lightning:layoutItem
+                                      size="6"
+                                      class="slds-p-around_x-small"
+                                    >
+                                      <div
+                                        class="slds-align_absolute-center"
+                                        data-list="docsOpty"
+                                        data-mime="{! item.mimeType }"
+                                        data-doc="{!item.index_value}"
+                                      >
+                                        <lightning:buttonIcon
+                                          aura:id="download"
+                                          onclick="{!c.launchDownload}"
+                                          value="{! item.id }"
+                                          name="{! item.DownloadName }"
+                                          class="{! 'slds-align_absolute-center ' + ( item.id != null &amp;&amp; item.id != '' &amp;&amp; item.id != undefined ? ' back-icon-action-positive ' : ' back-icon-action-negative ' ) }"
+                                          iconName="utility:download"
+                                          size="medium"
+                                        />
+                                      </div>
+                                      <div class="slds-align_absolute-center">
+                                        <span class="text-doc"
+                                          >{!$Label.c.WGC_Documenti_2_Scarica}</span
+                                        >
+                                      </div>
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem
+                                      size="6"
+                                      class="slds-p-around_x-small"
+                                    >
+                                      <div class="slds-align_absolute-center">
+                                        <lightning:buttonIcon
+                                          aura:id="docsOpty"
+                                          onclick="{!c.launchUpload}"
+                                          value="{! item.index_value }"
+                                          class="{! 'slds-align_absolute-center ' + ( item.id != null &amp;&amp; item.id != '' &amp;&amp; item.id != undefined ? ' back-icon-action-positive ' : ' back-icon-action-negative ' ) }"
+                                          iconName="utility:upload"
+                                          size="medium"
+                                        />
+                                      </div>
+                                      <div class="slds-align_absolute-center">
+                                        <span class="text-doc"
+                                          >{!$Label.c.WGC_Documenti_2_Carica}</span
+                                        >
+                                      </div>
+                                    </lightning:layoutItem>
+                                  </lightning:layout>
+                                </lightning:layoutItem>
+                              </aura:set>
+                            </aura:renderIf>
+                          </aura:iteration>
+                        </lightning:layout>
+                      </lightning:layoutItem>
+                    </aura:set>
+                  </aura:if>
+                </aura:if>
+              </lightning:layout>
+            </aura:if>
+          </aura:set>
+        </aura:if>
+        <aura:set attribute="else">
+          <div style="min-height: 100px">
+            <lightning:spinner alternativeText="CARICAMENTO" />
+          </div>
+        </aura:set>
+      </aura:if>
+      <!-- FINE SEZIONE DOC OPTY -->
+
+      <aura:set attribute="else">
+        <div class="slds-is-relative" style="min-height: 100px">
+          <lightning:spinner alternativeText="CARICAMENTO" />
+        </div>
+      </aura:set>
+    </aura:renderIf>
+  </div>
+</aura:component>

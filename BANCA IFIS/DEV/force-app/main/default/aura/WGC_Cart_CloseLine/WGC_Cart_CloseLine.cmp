@@ -1,0 +1,45 @@
+<aura:component extends="c:WGC_Utility">
+    <!-- ATTRIBUTE -->
+    <aura:attribute name="numLineaCredito" type="String"/>
+    <aura:attribute name="opportunityId" type="String"/>
+    <aura:attribute name="statusPEF" type="String"/>
+    <aura:attribute name="faseLinea" type="String"/>
+    <aura:attribute name="lineId" type="String"/>
+    
+    
+    <aura:attribute name="disableMotivo" type="Boolean" default="true"/>
+
+    <!-- <aura:attribute name="currentOpportunity" type="Object" description="The record object to be displayed"/>
+    <aura:attribute name="opportunityRecord" type="Object" description="A simplified view record object to be displayed"/>
+    <aura:attribute name="recordError" type="String" description="An error message bound to force:recordData"/> -->
+
+    <!-- <force:recordData aura:id="record"
+        layoutType="FULL"
+        recordId="{!v.opportunityId}"
+        targetError="{!v.recordError}"
+        targetRecord="{!v.currentOpportunity}"
+        targetFields="{!v.opportunityRecord}"
+        fields="Id,RecordTypeId"
+    /> -->
+
+    <!-- REGISTER EVENTS -->
+    <aura:registerEvent name="cartCallServer" type="c:WGC_Cart_Call_Server"/>
+    
+    <lightning:notificationsLibrary aura:id="notifLib"/>
+
+    <lightning:recordEditForm
+        aura:id="recordEditForm"
+        onsubmit="{! c.handleSubmit }"
+        onsuccess="{! c.handleSuccess }"
+        objectApiName="WGC_Chiusura_Linea__c">
+        <!-- the messages component is for error messages -->
+        <lightning:messages />
+
+        <lightning:inputField fieldName="Fase__c" aura:id="lineaFase" />
+        <lightning:inputField fieldName="CategoriaChiusuraTrattativa__c" onchange="{! c.onChangeCategoria }" />
+        <lightning:inputField fieldName="MotivoChiusuraTrattativa__c" disabled="{! v.disableMotivo }" />
+        <div class="slds-m-top_medium slds-text-align_right">
+            <lightning:button class="cstm-btn-round cstm-btn-brand" variant="brand" type="submit" name="close" label="Conferma" disabled="{! v.disableMotivo }" />
+        </div>
+    </lightning:recordEditForm>
+</aura:component>

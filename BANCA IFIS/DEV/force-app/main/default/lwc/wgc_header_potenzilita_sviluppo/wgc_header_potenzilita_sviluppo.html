@@ -1,0 +1,212 @@
+<template>
+    <!--<article class="slds-card">
+        <div class="slds-card__body slds-card__body_inner">
+            <lightning-layout multiple-rows="true">
+                <lightning-layout-item size="12" medium-device-size="2" flexibility="auto">
+                    <div class="slds-p-vertical_small slds-p-horizontal_none slds-m-around_none slds-text-align_center" style="background-color:#021F59" >
+                        <lightning-icon icon-name="utility:trending" size="large" alternative-text="trending" variant="inverse"></lightning-icon>
+                        <h1 style="font-size: 0.75rem; color:white;">POTENZIALITA'<br/>DI SVILUPPO</h1>
+                    </div>
+                </lightning-layout-item>
+                <div class="circleBaseStriped"></div>
+                <lightning-layout-item size="4" medium-device-size="2" flexibility="auto">
+                    <div class="slds-p-vertical_small slds-p-horizontal_none slds-m-around_none slds-text-align_center">
+                        <div class="slds-grid">
+                            <div class="circleCamp slds-align_absolute-center" id="lead-con-campagna">{lead24mesiCampagna}</div>
+                            <div class="circleBase type4">
+                                <div class="circleBaseBody" onmouseover={tooltipOn} onmouseout={tooltipOff} aria-describedby="helpLead">{lead24mesi}</div>
+                                <template if:true={tooltip}>
+                                    <div class="slds-align_absolute-center">
+                                        <div class="slds-popover slds-popover_tooltip slds-nubbin_top" role="tooltip" id="helpLead">
+                                            <div class="slds-popover__body">Eccoti qui le aziende vergini o senza attività da più di 24 mesi che Direzione Commerciale ha selezionato per te e che puoi provare a sviluppare</div>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                        <p style="font-size:0.6rem;">LEAD (ZERO<br/>ATTIVITA' O +24<br/>MESI)</p>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="4" medium-device-size="2" flexibility="auto">
+                    <div class="slds-p-vertical_small slds-p-horizontal_none slds-m-around_none slds-text-align_center">
+                        <div class="slds-grid">
+                            <div class="circleCamp slds-align_absolute-center" id="aziende-con-campagna">{aziende1324mesiCampagne}</div>
+                            <div class="circleBase type4">
+                                <div class="circleBaseBody" onmouseover={tooltipOn1} onmouseout={tooltipOff1} aria-describedby="helpAziende">{aziende1324mesi}</div>
+                                <template if:true={tooltip1}>
+                                    <div class="slds-align_absolute-center">
+                                        <div class="slds-popover slds-popover_tooltip slds-nubbin_top" role="tooltip" id="helpAziende">
+                                            <div class="slds-popover__body">Eccoti qui le aziende propsect senza attività negli ultimi 12 mesi che Direzione Commerciale ha selezionato per te e che puoi provare a sviluppare in base alla tua competenza territoriale</div>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                        <p style="font-size:0.6rem;">AZIENDE CON<br/>ATTIVITA' 13-24<br/>MESI)</p>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="4" medium-device-size="2" flexibility="auto">
+                    <div class="slds-p-vertical_small slds-p-horizontal_none slds-m-around_none slds-text-align_center">
+                        <div class="slds-grid">
+                            <div class="circleCamp slds-align_absolute-center" id="clienti-con-campagna">{clientiAltreBUCampagne}</div>
+                            <div class="circleBase type4">
+                                <div class="circleBaseBody" onmouseover={tooltipOn2} onmouseout={tooltipOff2} aria-describedby="helpAClientiAltreBu">{clientiAltreBU}</div>
+                                <template if:true={tooltip2}>
+                                    <div class="slds-align_absolute-center">
+                                        <div class="slds-popover slds-popover_tooltip slds-nubbin_top" role="tooltip" id="helpAClientiAltreBu">
+                                            <div class="slds-popover__body">Eccoti qui le aziende propsect che non hai mai sviluppato negli ultimi 12 mesi con prodotti attivi di altre BU che Direzione Commerciale ha selezionato per te in base alla tua competenza territoriale e che puoi provare a sviluppare</div>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                        <p style="font-size:0.6rem;">CLIENTI ALTRE BU<br/>(es. Leasing)</p>    
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="6" medium-device-size="2" flexibility="auto">
+                    <div class="slds-p-vertical_small slds-p-horizontal_none slds-m-around_none slds-text-align_center">
+                        <div class="slds-grid">
+                            <div class="circleCamp slds-align_absolute-center" id="ex-clienti-con-campagna">{exClientiCampagnae}</div>
+                            <div class="circleBase type4">
+                                <div class="circleBaseBody" onmouseover={tooltipOn3} onmouseout={tooltipOff3} aria-describedby="helpExClienti">{exClienti}</div>
+                                <template if:true={tooltip3}>
+                                    <div class="slds-align_absolute-center">
+                                        <div class="slds-popover slds-popover_tooltip slds-nubbin_top" role="tooltip" id="helpExClienti">
+                                            <div class="slds-popover__body">Eccoti qui le aziende ex clienti senza attività negli ultimi 12 mesi che Direzione Commerciale ha selezionato per te in base alla tua competenza territoriale e che puoi provare a sviluppare</div>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                        <p style="font-size:0.6rem;">EX CLIENTI</p> 
+                        <div class="help " id="help-campaign"></div>
+                        <div class="helpText"><h1>di cui in</h1></div>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="6" medium-device-size="2" flexibility="auto">
+                    <div class="slds-p-vertical_small slds-p-horizontal_none slds-m-around_none slds-text-align_center">
+                        <div class="slds-grid">
+                            <div class="circleCamp slds-align_absolute-center" id="debitori-con-campagna">{debitoriCampagna}</div>
+                            <div class="circleBase type4">
+                                <div class="circleBaseBody" onmouseover={tooltipOn4} onmouseout={tooltipOff4} aria-describedby="helpDebitori">{debitori}</div>
+                                <template if:true={tooltip4}>
+                                    <div class="slds-align_absolute-center">
+                                        <div class="slds-popover slds-popover_tooltip slds-nubbin_top" role="tooltip" id="helpDebitori">
+                                            <div class="slds-popover__body">Eccoti qui i debitori senza attività negli ultimi 12 mesi che Direzione Commerciale ha selezionato per te in base alla tua competenza territoriale e che puoi provare a sviluppare</div>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                        <p style="font-size:0.6rem;">DEBITORI</p>    
+                        <div class="helpText1"><h1>campagna</h1></div>
+                    </div>
+                </lightning-layout-item>
+            </lightning-layout>
+            </div>
+    </article>-->
+    <div class="slds-p-around_none">
+        <lightning-layout multiple-rows="true">
+            <lightning-layout-item size="12" flexibility="abolute" medium-device-size="2">
+                <div class="back-color-black slds-p-vertical_small slds-p-horizontal_none slds-m-around_none slds-text-align_center shadow">
+                    <lightning-icon icon-name="utility:trending" size="large" alternative-text="trending" variant="inverse"></lightning-icon>
+                    <h1 style="font-size: 0.75rem; color:white;">POTENZIALITA'<br/>DI SVILUPPO</h1>
+                </div>
+            </lightning-layout-item>
+            <div class="circleBaseStriped"></div>
+            <lightning-layout-item size="4" flexibility="abolute" medium-device-size="2">
+                <div class="back-color-white central-top slds-p-vertical_small slds-p-horizontal_none slds-m-around_none slds-text-align_center shadow">
+                    <div class="slds-grid">
+                        <div class="circleCamp slds-align_absolute-center" id="lead-con-campagna">{lead24mesiCampagna}</div>
+                        <div class="circleBase type4">
+                            <div class="circleBaseBody" onmouseover={tooltipOn} onmouseout={tooltipOff} aria-describedby="helpLead">{lead24mesi}</div>
+                            <template if:true={tooltip}>
+                                <div class="slds-align_absolute-center">
+                                    <div class="slds-popover slds-popover_tooltip slds-nubbin_top" role="tooltip" id="helpLead">
+                                        <div class="slds-popover__body">Eccoti qui le aziende vergini o senza attività da più di 24 mesi che Direzione Commerciale ha selezionato per te e che puoi provare a sviluppare</div>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                    <p style="font-size:0.6rem;">LEAD (ZERO<br/>ATTIVITA' O +24<br/>MESI)</p>    
+                </div>
+            </lightning-layout-item>
+            <lightning-layout-item size="4" medium-device-size="2" flexibility="abolute">
+                <div class="back-color-white central-top slds-p-vertical_small slds-p-horizontal_none slds-m-around_none slds-text-align_center shadow">
+                    <div class="slds-grid">
+                        <div class="circleCamp slds-align_absolute-center" id="aziende-con-campagna">{aziende1324mesiCampagne}</div>
+                        <div class="circleBase type4">
+                            <div class="circleBaseBody" onmouseover={tooltipOn1} onmouseout={tooltipOff1} aria-describedby="helpAziende">{aziende1324mesi}</div>
+                            <template if:true={tooltip1}>
+                                <div class="slds-align_absolute-center">
+                                    <div class="slds-popover slds-popover_tooltip slds-nubbin_top" role="tooltip" id="helpAziende">
+                                        <div class="slds-popover__body">Eccoti qui le aziende propsect senza attività negli ultimi 12 mesi che Direzione Commerciale ha selezionato per te e che puoi provare a sviluppare in base alla tua competenza territoriale</div>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                    <p style="font-size:0.6rem;">AZIENDE CON<br/>ATTIVITA' 13-24<br/>MESI)</p>    
+                </div>
+            </lightning-layout-item>
+            <lightning-layout-item size="4" flexibility="abolute" medium-device-size="2">
+                <div class="back-color-white central-top slds-p-vertical_small slds-p-horizontal_none slds-m-around_none slds-text-align_center shadow">
+                    <div class="slds-grid">
+                        <div class="circleCamp slds-align_absolute-center" id="clienti-con-campagna">{clientiAltreBUCampagne}</div>
+                        <div class="circleBase type4">
+                            <div class="circleBaseBody" onmouseover={tooltipOn2} onmouseout={tooltipOff2} aria-describedby="helpAClientiAltreBu">{clientiAltreBU}</div>
+                            <template if:true={tooltip2}>
+                                <div class="slds-align_absolute-center">
+                                    <div class="slds-popover slds-popover_tooltip slds-nubbin_top" role="tooltip" id="helpAClientiAltreBu">
+                                        <div class="slds-popover__body">Eccoti qui le aziende propsect che non hai mai sviluppato negli ultimi 12 mesi con prodotti attivi di altre BU che Direzione Commerciale ha selezionato per te in base alla tua competenza territoriale e che puoi provare a sviluppare</div>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                    <p style="font-size:0.6rem;">CLIENTI ALTRE BU<br/>(es. Leasing)</p>    
+                </div>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" flexibility="abolute" medium-device-size="2">
+                <div class="back-color-white central-top slds-p-vertical_small slds-p-horizontal_none slds-m-around_none slds-text-align_center shadow">
+                    <div style="position:relative; ">
+                        <div class="circleCamp slds-align_absolute-center" id="ex-clienti-con-campagna">{exClientiCampagnae}</div>
+                        <div class="circleBase type4">
+                            <div class="circleBaseBody" onmouseover={tooltipOn3} onmouseout={tooltipOff3} aria-describedby="helpExClienti">{exClienti}</div>
+                            <template if:true={tooltip3}>
+                                <div class="slds-align_absolute-center">
+                                    <div class="slds-popover slds-popover_tooltip slds-nubbin_top" role="tooltip" id="helpExClienti">
+                                        <div class="slds-popover__body">Eccoti qui le aziende ex clienti senza attività negli ultimi 12 mesi che Direzione Commerciale ha selezionato per te in base alla tua competenza territoriale e che puoi provare a sviluppare</div>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                    <p style="font-size:0.6rem;">EX CLIENTI</p> 
+                    <div class="help " id="help-campaign"></div>
+                    <div class="helpText"><h1>di cui in</h1></div>
+                </div>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" flexibility="abolute" medium-device-size="2">
+                <div class="back-color-white-last central-top slds-p-vertical_small slds-p-horizontal_none slds-m-around_none slds-text-align_center shadow">
+                    <div class="slds-grid">
+                        <div class="circleCamp slds-align_absolute-center" id="debitori-con-campagna">{debitoriCampagna}</div>
+                        <div class="circleBase type4">
+                            <div class="circleBaseBody" onmouseover={tooltipOn4} onmouseout={tooltipOff4} aria-describedby="helpDebitori">{debitori}</div>
+                            <template if:true={tooltip4}>
+                                <div class="slds-align_absolute-center">
+                                    <div class="slds-popover slds-popover_tooltip slds-nubbin_top" role="tooltip" id="helpDebitori">
+                                        <div class="slds-popover__body">Eccoti qui i debitori senza attività negli ultimi 12 mesi che Direzione Commerciale ha selezionato per te in base alla tua competenza territoriale e che puoi provare a sviluppare</div>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                    <p style="font-size:0.6rem;">DEBITORI</p>    
+                    <div class="helpText1"><h1>campagna</h1></div>
+                </div>
+            </lightning-layout-item>
+        </lightning-layout>
+    </div>
+</template>

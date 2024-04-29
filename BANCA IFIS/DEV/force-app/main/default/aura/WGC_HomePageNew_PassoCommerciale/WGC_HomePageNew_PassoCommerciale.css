@@ -1,0 +1,27 @@
+.THIS {
+}
+
+.THIS .circleBaseBodyTitle {
+    font-size: 10px;
+    text-align: center;
+    font-weight: bolder;
+    color: #000000;
+    padding-top: 15px;
+}
+
+.THIS .circleBaseBodyHeader {
+    font-size: 12px;
+    text-align: center;
+    font-weight: bolder;
+    color: #000000;
+    text-transform: uppercase;
+    padding-top: 15px;
+}
+
+.THIS .circleBaseBodySub {
+    text-align: center;
+    color:#c2c2c2;
+    font-size: 12px;
+    margin-bottom: 5px;
+    margin-top: -3px;
+}

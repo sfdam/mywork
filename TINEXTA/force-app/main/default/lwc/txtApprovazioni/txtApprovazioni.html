@@ -1,0 +1,61 @@
+<!-- sldsValidatorIgnore -->
+<template>
+  <lightning-modal-body>
+  <template if:true={loaded}>
+    <lightning-spinner alternative-text="Loading"></lightning-spinner>
+  </template>
+  <div class="slds-m-bottom_medium">
+    <lightning-button 
+      variant="brand" 
+      label="Approva" 
+      title="Approve" 
+      icon-name="utility:thunder"
+      class="slds-m-left_x-small"
+      disabled={disabilita}
+      onclick={approvaRifiuta}>
+    </lightning-button>
+    <!--icon-name="utility:success"-->
+    <lightning-button 
+      variant="destructive" 
+      label="Rifiuta" 
+      title="Reject" 
+      icon-name="utility:error"
+      class="slds-m-left_x-small"
+      disabled={disabilita}
+      onclick={approvaRifiuta}>
+    </lightning-button>
+    <lightning-button-icon
+      variant="bare"
+      icon-name="utility:refresh"
+      size="large"
+      class="slds-m-left_x-small"
+      alternative-text="Ricarica"
+      onclick={refreshComponent}>
+    </lightning-button-icon>
+  </div>
+    <template if:true={render}>
+    <div style="height: auto;">
+        <lightning-datatable
+                key-field="id"
+                data={data}
+                show-row-number-column
+                row-number-offset={rowOffset}
+                onrowselection={getSelected}
+                columns={columns}
+                default-sort-direction={defaultSortDirection}
+                sorted-direction={sortDirection}
+                sorted-by={sortedBy}
+                onsort={onHandleSort}
+                column-widths-mode="auto">
+        </lightning-datatable> <!--hide-checkbox-column-->
+    </div>
+</template>
+<template if:true={responseStr}>
+    <div class="slds-panel slds-col slds-size_1-of-1 slds-p-vertical_large">
+        <p style="font-weight: bold; overflow-wrap: break-word;" class="slds-text-align_center">
+          {responseStr }
+        </p>
+      </div>
+    </template>
+  </lightning-modal-body>
+</template>

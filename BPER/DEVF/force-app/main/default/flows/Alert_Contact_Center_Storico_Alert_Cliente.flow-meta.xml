@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>55.0</apiVersion>
+    <decisions>
+        <name>Check_if_Alert_is_not_null</name>
+        <label>Check if Alert is not null</label>
+        <locationX>726</locationX>
+        <locationY>420</locationY>
+        <defaultConnector>
+            <targetReference>Update_Alert_Cliente_Alert_Null</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Alert Is null</defaultConnectorLabel>
+        <rules>
+            <name>Alert_is_NOT_null</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.CC_Alert_Messaggio_Cliente__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Alert_Cliente</targetReference>
+            </connector>
+            <label>Alert is NOT null</label>
+        </rules>
+    </decisions>
+    <environments>Default</environments>
+    <formulas>
+        <name>StoricoAlertCliente</name>
+        <dataType>String</dataType>
+        <expression>IF(!ISBLANK( {!$Record.CC_Alert_Messaggio_Cliente__c}), 
+&quot;• &quot; +IF(
+  DAY(TODAY())&lt;10, 
+  &quot;0&quot;+TEXT(DAY(TODAY())), 
+  TEXT(DAY(TODAY()))
+)
+ + &quot;/&quot; + 
+IF(
+  MONTH(TODAY())&lt;10, 
+  &quot;0&quot;+TEXT(MONTH(TODAY())), 
+  TEXT(MONTH(TODAY()))
+)
+ + &quot;/&quot; + 
+TEXT(YEAR(TODAY()))
+ +&quot; - &quot; +  {!$Record.CC_Alert_Messaggio_Cliente__c}
+ + BR() +{!$Record.CC_Storico_Alert_Cliente__c},
+null)</expression>
+    </formulas>
+    <interviewLabel>Alert Contact Center - Storico Alert Cliente {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Alert Contact Center - Storico Alert Cliente</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Update_Alert_Cliente</name>
+        <label>Update Alert Cliente</label>
+        <locationX>504</locationX>
+        <locationY>530</locationY>
+        <connector>
+            <targetReference>Update_Related_Account</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>CC_Alert_Is_Populated__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>CC_Storico_Alert_Cliente__c</field>
+            <value>
+                <elementReference>StoricoAlertCliente</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Alert_Cliente_Alert_Null</name>
+        <label>Update Alert Cliente - Alert Null</label>
+        <locationX>1069</locationX>
+        <locationY>461</locationY>
+        <connector>
+            <targetReference>Update_Related_Account_NO_Alert</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>CC_Alert_Is_Populated__c</field>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Related_Account</name>
+        <label>Update Related Account</label>
+        <locationX>504</locationX>
+        <locationY>683</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Account__c</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>CC_Alert_Cliente_Is_Populated__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <object>Account</object>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Related_Account_NO_Alert</name>
+        <label>Update Related Account NO Alert</label>
+        <locationX>962</locationX>
+        <locationY>692</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Account__c</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>CC_Alert_Cliente_Is_Populated__c</field>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </inputAssignments>
+        <object>Account</object>
+    </recordUpdates>
+    <start>
+        <locationX>650</locationX>
+        <locationY>48</locationY>
+        <connector>
+            <targetReference>Check_if_Alert_is_not_null</targetReference>
+        </connector>
+        <object>Alert_Contact_Center__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

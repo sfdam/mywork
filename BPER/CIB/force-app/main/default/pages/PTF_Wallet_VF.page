@@ -1,0 +1,15 @@
+<apex:page standardController="Wallet__c" recordSetVar="wallets" sidebar="fals" showHeader="false">
+    <apex:includeLightning />
+      <div id="lightning"></div>
+      
+      <script>
+        $Lightning.use("c:MWalletCreation", function() {
+          $Lightning.createComponent("c:MicroWalletCreation",
+          { label : "" },
+          "lightning",
+          function(cmp) {
+            // do some stuff
+          });
+        });
+    </script>
+</apex:page>

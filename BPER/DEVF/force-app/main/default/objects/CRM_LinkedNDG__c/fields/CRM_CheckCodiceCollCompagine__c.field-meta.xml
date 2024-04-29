@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_CheckCodiceCollCompagine__c</fullName>
+    <externalId>false</externalId>
+    <formula>OR (
+				CRM_LinkCode__c = &apos;102&apos;,
+				CRM_LinkCode__c = &apos;103&apos;,
+				CRM_LinkCode__c = &apos;104&apos;,
+				CRM_LinkCode__c = &apos;105&apos;,
+				CRM_LinkCode__c = &apos;106&apos;,
+				CRM_LinkCode__c = &apos;107&apos;,
+				CRM_LinkCode__c = &apos;108&apos;,
+				CRM_LinkCode__c = &apos;109&apos;,
+				CRM_LinkCode__c = &apos;110&apos;,
+				CRM_LinkCode__c = &apos;111&apos;,
+				CRM_LinkCode__c = &apos;112&apos;,
+				CRM_LinkCode__c = &apos;113&apos;,
+				CRM_LinkCode__c = &apos;116&apos;,
+				CRM_LinkCode__c = &apos;117&apos;,
+				CRM_LinkCode__c = &apos;121&apos;,
+				CRM_LinkCode__c = &apos;122&apos;,
+				CRM_LinkCode__c = &apos;123&apos;,
+				CRM_LinkCode__c = &apos;134&apos;,
+				CRM_LinkCode__c = &apos;135&apos;,
+				CRM_LinkCode__c = &apos;137&apos;,
+				CRM_LinkCode__c = &apos;139&apos;,
+				CRM_LinkCode__c = &apos;164&apos;,
+				CRM_LinkCode__c = &apos;165&apos;,
+				CRM_LinkCode__c = &apos;166&apos;,
+				CRM_LinkCode__c = &apos;167&apos;,
+                                CRM_LinkCode__c = &apos;300&apos;,
+                                CRM_LinkCode__c = &apos;302&apos;
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Check codice collegamento - compagine</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

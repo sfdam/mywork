@@ -1,0 +1,32 @@
+<template>
+    <div lwc:dom="manual" class="download-container" ></div>
+    <a download="info.txt" id="downloadlink" style="display: none" class="form-control">Download</a>
+    <lightning-card variant="Narrow" title="">
+        <!-- AL 2024-04-08 - Aggiunta bottone per eliminare -->
+        <lightning-button label="Elimina" slot="actions" onclick={callDelete}></lightning-button>
+        <!-- AD START DE-041_042 -->
+        <lightning-button label={label.ART_Copy} slot="actions" onclick={callClone}></lightning-button>
+        <!-- AD START DE-041_042 -->
+        <lightning-button label={label.ART_CopiaCommissioneDeLabel} title="Download CopiaCommissioneDe" onclick={handleDownloadCopiaCommissioneDe} class="slds-float_right" slot="actions"> <!--LV 24/03/2023-->
+        </lightning-button>
+        <div class="c-container; slds-clearfix">
+            <lightning-layout multiple-rows="false">
+                <lightning-layout-item size="12" padding="horizontal-small" class="slds-clearfix">
+                    <lightning-tabset active-tab-value={selectedTab}>
+                        <lightning-tab label={label.ORDER_HEADER} value="OrderHeader" onactive={handleActive}>
+                            <c-art-advanced-order-edit object-api-name={objectApiName} record-id={recordId} data-item='orderEdit'></c-art-advanced-order-edit>
+                        </lightning-tab>
+                        <lightning-tab label={label.ART_Basket} value="basket" onactive={handleActive}>
+                            <c-art-advanced-order-basket record-id={recordId} object-api-name={objectApiName} is-open-clone={isOpenClone} data-item='orderBasket' onccbdone={handleCcbDone}></c-art-advanced-order-basket>
+                        </lightning-tab>
+                        <template if:true={showWholesaler}>
+                            <lightning-tab label={label.WHOLESALER} value="Wholesaler" onactive={handleActive}>
+                                <c-art-wholesaler record-id={recordId}></c-art-wholesaler>
+                            </lightning-tab>
+                        </template>
+                    </lightning-tabset>
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+    </lightning-card>
+</template>

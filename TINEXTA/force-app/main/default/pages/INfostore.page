@@ -1,0 +1,6 @@
+<apex:page showHeader="false">
+
+<iframe width="1140" height="541.25" src="https://infostore.warrantgroup.it/pages/" frameborder="0" allowFullScreen="true"></iframe>
+<!-- SANDBOX <iframe width="1140" height="541.25" src="https://infostore-test.warrantgroup.it/pages/" frameborder="0" allowFullScreen="true"></iframe> -->
+
+</apex:page>

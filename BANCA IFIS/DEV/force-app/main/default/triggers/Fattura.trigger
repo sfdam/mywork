@@ -1,0 +1,1 @@
+trigger Fattura on Fattura__c (after insert, before update, after update, after delete) {}

@@ -1,0 +1,165 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" 
+    controller="WGC_HomePage_Opportunita_FD_Controller" access="global" >
+    
+    <ltng:require 
+    scripts="{!join(',', 
+             '/resource/WGC_jQuery3x',
+             '/resource/WGC_ChartJs')}"
+    
+    afterScriptsLoaded="{!c.doInit}" />
+    
+    <lightning:navigation aura:id="navService"/>
+    
+    <aura:attribute name="iconName" type="String" description="Definisce l'icona tra le standard"/>
+    <aura:attribute name="title" type="String" default="" description="Title from Container Card"/>
+    <aura:attribute name="Dettaglio" type="String" access="global"/>
+    <aura:attribute name="idDashboard" type="String" default="" />
+
+    <aura:attribute name="userInfo" type="User" default="{'sobjectType':'User'}" />
+    <aura:attribute name="allDataValue" type="Object" default='{}' />
+
+    <aura:attribute name="visite_E" type="Integer" default='0' />
+    <aura:attribute name="visite_P" type="Integer" default='0' />
+    <aura:attribute name="pratiche_V" type="Integer" default='0' />
+    <aura:attribute name="pratiche_A" type="Integer" default='0' />
+    <aura:attribute name="clienti" type="Integer" default='0' />
+    <aura:attribute name="clientiTot" type="Integer" default='0' />
+    <aura:attribute name="annoAttuale" type="Integer" default='0' />
+    <aura:attribute name="annoPrecedente" type="Integer" default='0' />
+    <aura:attribute name="isDirezioneFD" type="Boolean" default="false" />
+	<!-- <aura:attribute name="userRecord" type="Object"/> -->
+
+
+        <lightning:card>
+
+                <!-- <force:recordData aura:id="recordLoader"
+                recordId="{! $SObjectType.CurrentUser.Id }"
+                fields="Name,Profile.Name"
+                targetFields="{!v.userRecord}"
+                /> -->
+
+            <aura:set attribute="title">
+
+            <!-- with container -->
+            <lightning:layout multipleRows="false">
+                <lightning:layoutItem size="10" smallDeviceSize="10" mediumDeviceSize="10" largeDeviceSize="10">
+                    <lightning:icon iconName="{! 'utility:' + v.iconName }" size="small" variant="slds-icon-inverse" />
+                    <div class="title">{! v.title }</div>
+                </lightning:layoutItem>
+                <lightning:layoutItem class="slds-text-align_right iphone" size="2" smallDeviceSize="2" mediumDeviceSize="2"
+                    largeDeviceSize="2">
+                    <aura:if isTrue="{! v.Dettaglio == 'attivo' }">
+                        <div class="header-button">
+                        <lightning:buttonIcon iconName="utility:expand" size="medium" variant="bare" iconClass=""
+                        onclick="{!c.navigateToMyComponent}"
+                        class="" />
+                        </div>
+                    </aura:if>
+                </lightning:layoutItem>
+            </lightning:layout>
+        </aura:set>
+            <div class='container-card'>
+                <div class="slds-grid slds-gutters slds-p-horizontal_x-small">
+                    <div class="slds-col slds-size_1-of-1">
+                        <div class="cstm-title">{! $Label.c.WGC_HomePage_Opportunita_FD_PipelineFiloDiretto }</div>
+                    </div>
+                </div>
+                <div class="slds-grid slds-gutters margin">
+                    <div class="circleBaseStriped"></div>
+                    <div class="slds-col slds-size_1-of-5">
+                        <div class="slds-grid">
+                            <div class="circleBase type4">
+                                <div class="circleBaseBody"><lightning:formattedNumber value="{! v.visite_E }"/></div>
+                                <div class="circleBaseBodySub">{! $Label.c.WGC_HomePage_Opportunita_FD_VCEff }</div>
+                                <div class="circleBaseBodyPerc"><lightning:formattedNumber style="percent" value="{! ( v.visite_P / v.visite_E ) }" /></div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="slds-col slds-size_1-of-5">
+                        <div class="slds-grid">
+                            <div class="circleBase type4">
+                                <div class="circleBaseBody"><lightning:formattedNumber value="{! v.visite_P }"/></div>
+                                <div class="circleBaseBodySub">{! $Label.c.WGC_HomePage_Opportunita_VC_Pos }</div>
+                                <div class="circleBaseBodyPerc"><lightning:formattedNumber style="percent" value="{! ( v.pratiche_V / v.visite_E ) }" /></div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="slds-col slds-size_1-of-5">
+                        <div class="slds-grid">
+                            <div class="circleBase type4">
+                                <div class="circleBaseBody"><lightning:formattedNumber value="{! v.pratiche_V }"/></div>
+                                <div class="circleBaseBodySub">{! $Label.c.WGC_HomePage_Opportunita_FD_PratVal }</div>
+                                <div class="circleBaseBodyPerc"><lightning:formattedNumber style="percent" value="{! ( v.pratiche_A / v.visite_E ) }" /></div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="slds-col slds-size_1-of-5">
+                        <div class="slds-grid">
+                            <div class="circleBase type4">
+                                <div class="circleBaseBody"><lightning:formattedNumber value="{! v.pratiche_A }"/></div>
+                                <div class="circleBaseBodySub">{! $Label.c.WGC_HomePage_Opportunita_FD_PratAppr }</div>
+                                <div class="circleBaseBodyPerc"><lightning:formattedNumber style="percent" value="{! ( v.clienti / v.visite_E ) }" /></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-5">
+                        <div class="slds-grid">
+                            <div class="circleBase type4">
+                                <div class="circleBaseBody"><lightning:formattedNumber value="{! v.clienti }"/></div>
+                                <div class="circleBaseBodySub">Nuovi Clienti</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+
+            <lightning:layout>
+                <lightning:layoutItem size="12" padding="around-small" class="ipad">
+                    <hr/>
+                    <div class="cstm-title">{! $Label.c.WGC_HomePage_New_Business_Clienti_Avviati }</div>
+                </lightning:layoutItem>
+            </lightning:layout>
+
+            <div class="slds-grid slds-gutters margin slds-wrap align-center">
+                    <!-- <div class="circleBaseStripedLarge"></div> -->
+                    <div class="slds-col slds-size_1-of-3">
+                            <div class="slds-grid">
+                                    <div class="circleBase type5 marg-clienti-tot">
+                                            <div class="circleBaseBodyLarge"><lightning:formattedNumber value="{! v.clientiTot }"/></div>
+                                            <!-- {! $Label.c.WGC_HomePage_Opportunita_FD_VCProspect } -->
+                                            <div class="circleBaseBodySubLarge">Totali</div>
+                                        </div>
+                            </div>
+                            
+                    </div>
+                    <div class="firstStripe colorType3"><lightning:formattedNumber style="percent" value="{! ( v.annoAttuale / v.clientiTot ) }"/></div>
+                    <div class="slds-col slds-size_1-of-3 first-margin">
+                            <div class="slds-grid">
+                                    <div class="circleBase type4-bis">
+                                            <div class="circleBaseBodyMedium"><lightning:formattedNumber value="{! v.annoAttuale }"/></div>
+                                            <!-- {! $Label.c.WGC_HomePage_Opportunita_FD_Anno_Attuale } -->
+                                            <div class="circleBaseBodySubMedium">Da visite anno in corso</div>
+                                        </div>
+                            </div>
+                            
+                    </div>
+                    <div class="secondStripe colorType3"><lightning:formattedNumber style="percent" value="{! ( v.annoPrecedente / v.clientiTot ) }"/></div>
+                    <div class="slds-col slds-size_1-of-1 second-margin">
+                        <div class="slds-grid">
+                                <div class="circleBase type4-bis">
+                                        <div class="circleBaseBodyMedium"><lightning:formattedNumber value="{! v.annoPrecedente }"/></div>
+                                        <!-- {! $Label.c.WGC_HomePage_Opportunita_FD_AnnoPrecedente } -->
+                                        <div class="circleBaseBodySubMedium">Da visite anno precedente</div>
+                                    </div>
+                        </div>
+                        
+                </div>
+            </div>
+
+            
+        </div>
+       </lightning:card>
+</aura:component>

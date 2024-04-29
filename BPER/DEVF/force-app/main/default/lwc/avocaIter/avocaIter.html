@@ -1,0 +1,40 @@
+<template>
+    <template if:true={showButtons}>
+        <template if:false={showSecondStep}>
+            <lightning-layout multiple-rows="true">
+                <lightning-layout-item size="12" flexibility="auto">
+                    <button type="submit" class="slds-button slds-button_neutral slds-button_stretch" onclick={handleAction}>{labelBottone}</button>
+                </lightning-layout-item>
+            </lightning-layout>
+        </template>
+        <template if:true={showSecondStep}>
+            <lightning-layout multiple-rows="true">
+                <lightning-layout-item size="12" flexibility="auto" padding="around-small">
+                    <lightning-combobox
+                        name="status"
+                        label="Status"
+                        value={selectedStatus}
+                        placeholder="Seleziona uno tra i servizi disponibili"
+                        options={status}
+                        onchange={onStatusChange} 
+                        message-when-value-missing=" "
+                        required >
+                    </lightning-combobox>
+                </lightning-layout-item>
+                <template if:true={isClose}>
+                    <lightning-layout-item flexibility="auto" padding="around-small" size="12">
+                        <lightning-input type="text" label="Nota" placeholder="Nota..." value={nota} onchange={handleFilter} name="nota"></lightning-input>
+                    </lightning-layout-item>
+                </template>
+                <lightning-layout-item size="12" flexibility="auto" padding="around-small">
+                    <button type="submit" class="slds-button slds-button_neutral slds-button_stretch" onclick={closeIter} disabled={disableAction}>Avoca Iter</button>
+                </lightning-layout-item>
+                <template if:true={loading}>
+                    <div class="spinner-holder">
+                        <lightning-spinner alternative-text="Loading"></lightning-spinner>
+                    </div>
+                </template>
+            </lightning-layout>
+        </template>
+    </template>
+</template>

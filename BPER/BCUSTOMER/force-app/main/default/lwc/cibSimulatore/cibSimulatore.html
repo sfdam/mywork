@@ -1,0 +1,93 @@
+<template>
+    <lightning-card  variant="Narrow"  title=''>
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Ricerca..." variant="brand"></lightning-spinner>
+        </template>
+        <lightning-button-icon  icon-name="utility:add" variant="border-filled" slot="actions" label="NEW" onclick={openModal}></lightning-button-icon>
+        <lightning-layout>
+            <lightning-layout-item size="12" padding="around-small"> 
+                <template if:true={simulazioni}>
+                    <div>
+                        <p>* Dato Present</p>
+                        <lightning-datatable data-item="mwTable" 
+                                                key-field="Id"
+                                                columns={columns}
+                                                data={simulazioni}
+                                                onrowaction={handleRowAction}
+                                                hide-checkbox-column=true
+                                                show-row-number-column=true>
+                        </lightning-datatable>
+                    </div>
+                </template>
+                <template if:false={simulazioni}>
+                    <div class="slds-box">
+                        <p><b>NON CI SONO SIMULAZIONI</b></p>
+                    </div>
+                </template>
+            </lightning-layout-item>
+        </lightning-layout>
+    </lightning-card>
+    <template if:true={isOpenModal}>
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01" class="slds-modal slds-fade-in-open slds-modal_full">
+            <div class="slds-modal__container" style="min-height: 50rem;">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeNdgModal}>
+                        <lightning-icon icon-name="utility:close" size="medium">
+                        </lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <div class="tilte-card"><b>{titolo}</b></div>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium " id="modal-content-id-1" style="min-height: 20rem;">
+                    <lightning-layout multiple-rows=true>
+                        <template if:true={firstStep}>
+                            <lightning-layout-item padding="around-small" size="12">
+                                <div class="slds-box">
+                                    <p><b>{label.SimulatorePrincingIntro}</b></p>
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item padding="around-small" size="12">
+                                <c-custom-lookup data-item="ndg" s-object-name="account" selected-s-object={ndg}
+                                    icon-name="standard:account" field-label='NDG' field-to-like="CRM_NDG__c"
+                                    other-field-to-query = 'CRM_NDG__c'
+                                    field-alternative-in-label="CRM_NDG__c"
+                                    where-condition={whereCondition}
+                                    is-precise=true
+                                    event-to-dispatch="setndg" onsetndg={handleSetNDG}
+                                ></c-custom-lookup>
+                            </lightning-layout-item>
+                        </template>
+                        <template if:true={secondStep}>
+                            <lightning-layout-item padding="around-small" size="12">
+                                <c-cib-simulazione data-item="cibSimulazione" account-id={ndgId} record-id=null hide-footer=true></c-cib-simulazione>
+                            </lightning-layout-item>
+                        </template>
+                    </lightning-layout>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-layout>
+                        <lightning-layout-item size="12">
+                            <lightning-button-group>
+                                <lightning-button label="Annulla" variant="neutral" onclick={closeNdgModal}></lightning-button>
+                                <template if:true={firstStep}>
+                                    <lightning-button label="Avanti" variant="neutral" onclick={handleNextStep}></lightning-button>
+                                </template>
+                                <template if:true={secondStep}>
+                                    <lightning-button label="Indietro" variant="neutral" onclick={handlePrevStep}></lightning-button>
+                                </template>
+                                <template if:true={secondStep}>
+                                    <lightning-button label="Salva" variant="neutral" onclick={handleSaveSim}></lightning-button>
+                                </template>
+                            </lightning-button-group>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </footer>
+            </div>
+            <!-- <template if:false={loaded}>
+                <div class="spinner-holder">
+                    <lightning-spinner alternative-text="Loading"></lightning-spinner>
+                </div>
+            </template> -->
+        </section>
+    </template>
+</template>

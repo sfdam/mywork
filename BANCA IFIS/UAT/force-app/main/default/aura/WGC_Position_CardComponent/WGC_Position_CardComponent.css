@@ -1,0 +1,83 @@
+.THIS.container-card {
+    /*min-height: 345px;*/
+    min-height: 450px;
+}
+
+.THIS .title {
+    display: inline-block;
+    margin-left: 10px;
+        vertical-align: sub;
+}
+
+.THIS .open-component {
+    display: inline-block;
+    position: absolute;
+    right: 10px;
+    vertical-align: super;
+}
+
+.THIS .row {
+        padding: 10px;
+}
+
+.THIS .slds-card__body {
+    margin: 0 10px 10px 10px;
+}
+
+
+.THIS .external {
+    /* width: 300px; */
+    /* height: 300px; */
+    /* vertical-align: middle; */
+    /* text-align: center; */
+    /* border: 1.5px dashed rgba(229, 229, 229, 0.5); */
+    /* border-radius: 50%; */
+    /* padding: 58px; */
+    margin: 0 auto;
+    /* margin: 1px; */
+    /* display: table-cell; */
+    position: relative;
+}
+
+.THIS .internal {
+        /* display: table-row; */
+        /* height: 180px; */
+        /* text-align: center; */
+        vertical-align: middle;
+        /* border: 1.5px dashed rgba(229, 229, 229, 0.5); */
+        /* border-radius: 50%; */
+        position: absolute;
+}
+
+.THIS button.slds-button {
+    height: 40px;
+    margin-bottom: 5px;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 0;
+    width: 90%;
+    padding: 4px;
+    border-radius: 25px;
+    text-overflow: ellipsis;
+}
+
+.THIS .slds-button_brand {
+    color: white;
+    background: #0064B5;
+    border-color: #0064B5;
+}
+
+.THIS .slds-button_grey {
+    color: #6A6A6A;
+    background: rgba(229, 229, 229, 1);
+    border-color: rgb(221, 219, 218);
+}
+
+.THIS hr {
+    margin: 10px 40px 10px 0;
+    opacity: 0.3;
+}
+
+.THIS .chart-container {
+    height: 220px;
+}

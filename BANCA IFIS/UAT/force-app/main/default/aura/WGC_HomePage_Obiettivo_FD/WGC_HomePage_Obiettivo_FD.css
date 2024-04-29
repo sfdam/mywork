@@ -1,0 +1,124 @@
+.THIS {
+    height: 410px;
+}
+
+.THIS .slds-card__body {
+    margin: 0 10px 10px 10px;
+}
+
+.THIS .title{
+    display: inline-block;
+    /* margin-left: 10px; */
+    vertical-align: sub;
+}
+
+.THIS .containerCol{
+    margin-bottom: 20px;
+}
+
+.THIS .calendar-box {
+    box-shadow: 0 0 2px #888888;
+width: 120px;
+height: 135px;
+border-radius: 5px;
+background: white;
+text-align: center;
+/* margin: auto; */
+}
+
+.THIS .calendar-header-left {
+color: white;
+text-align: left;
+background: #0064B5;
+height: 35px;
+border-top-left-radius: 5px 5px;
+border-top-right-radius: 5px 5px;
+}
+
+.THIS .header2 {
+background: transparent;
+}
+
+.THIS .calendar-month {
+padding: 5px 5px 0 5px;
+font-size: 14px;
+text-transform: uppercase;
+letter-spacing: -0.5px;
+font-size: 11px;
+font-weight: bold;
+}
+
+.THIS .black {
+color: #000000;
+}
+
+.THIS .calendar-body {
+margin:5%;
+text-align: center;
+color:black;
+}
+
+.THIS .calendar-day {
+letter-spacing: 2px;
+font-size:38px;
+font-weight: bold;
+}
+
+.THIS .sub {
+	padding: 0 5px 0 5px;
+    color: #888888;
+    font-size: 10px;
+    font-weight: inherit;
+}
+
+/* boxes */
+.THIS .box{
+    text-transform: uppercase;
+    border:1px solid #888888;
+    border-radius: 5px;
+    text-align: center;
+    height:136px;
+}
+
+.THIS .box-header{
+    color:white;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.THIS .box-body{
+    /* text-align: center; */
+    height: 100px;
+}
+
+.THIS .box-text{
+    font-size: 35px;
+    font-weight: bold;
+}
+
+/* colors */
+
+.THIS .back-yellow{
+    background: #F9D61C;
+}
+
+.THIS .back-blue{
+    background: #0064B5;
+}
+
+.THIS .text-yellow{
+    color:#F9D61C;
+}
+
+.THIS .text-blue{
+    color: #0064B5;
+}
+
+.THIS .canvas-container{
+    width: 100%;
+    height: 200px;
+}
+
+.THIS .slds-card__header-title .slds-truncate{
+    width:100% !important;
+}

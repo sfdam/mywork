@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Check_Richiesta__c</fullName>
+    <externalId>false</externalId>
+    <formula>If ( NOT (Lavorato_del__c) &amp;&amp; DATEVALUE(CreatedDate)= TODAY() , TRUE , FALSE )</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Check Richiesta</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_CategoriaCliente__c</fullName>
+    <externalId>false</externalId>
+    <label>Categoria cliente</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>--None--</fullName>
+                <default>true</default>
+                <label>--None--</label>
+            </value>
+            <value>
+                <fullName>Imprenditore</fullName>
+                <default>false</default>
+                <label>Imprenditore</label>
+            </value>
+            <value>
+                <fullName>Manager</fullName>
+                <default>false</default>
+                <label>Manager</label>
+            </value>
+            <value>
+                <fullName>Libero professionista</fullName>
+                <default>false</default>
+                <label>Libero professionista</label>
+            </value>
+            <value>
+                <fullName>Rentier</fullName>
+                <default>false</default>
+                <label>Rentier</label>
+            </value>
+            <value>
+                <fullName>Ex Imprenditore (Attività venduta)</fullName>
+                <default>false</default>
+                <label>Ex Imprenditore (Attività venduta)</label>
+            </value>
+            <value>
+                <fullName>Familiare di una delle precedenti categorie</fullName>
+                <default>false</default>
+                <label>Familiare di una delle precedenti categorie</label>
+            </value>
+            <value>
+                <fullName>Altro</fullName>
+                <default>false</default>
+                <label>Altro</label>
+            </value>
+            <value>
+                <fullName>Lavoratore Dipendente ente privato</fullName>
+                <default>false</default>
+                <label>Lavoratore Dipendente ente privato</label>
+            </value>
+            <value>
+                <fullName>Lavoratore Dipendente ente pubblico</fullName>
+                <default>false</default>
+                <label>Lavoratore Dipendente ente pubblico</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

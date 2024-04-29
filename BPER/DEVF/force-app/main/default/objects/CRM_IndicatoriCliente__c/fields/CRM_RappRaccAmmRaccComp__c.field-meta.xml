@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_RappRaccAmmRaccComp__c</fullName>
+    <externalId>false</externalId>
+    <formula>( CRM_RaccoltaAmministrataMeseCorrente__c /  CRM_RaccoltaComplessivaMeseCorrente__c ) * 100</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>% racc. amministrata/racc. complessiva</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Percent</type>
+</CustomField>

@@ -1,0 +1,119 @@
+<aura:component controller="WGC_ReteCommerciale_FD_DetailController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,lightning:isUrlAddressable" access="global">
+    <!-- attributes -->
+    <aura:attribute name="filiali" type="List" default="[]" />
+    <aura:attribute name="data" type="List" default="[]" />
+    <aura:attribute name="columns" type="List" default="[]" />
+    <aura:attribute name="sortedBy" type="String" />
+    <aura:attribute name="sortedDirection" type="Boolean" />
+    <aura:attribute name="defaultSortDirection" type="Boolean" />
+    <aura:attribute name="isLoaded" type="Boolean" default="false" />
+    <aura:attribute name="dashboardId" type="String" default="" />
+    <aura:attribute name="isDirezioneFD" type="Boolean" default="false" />
+    <!-- handlers -->
+    <lightning:navigation aura:id="navService" />
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }" />
+    <aura:handler name="change" value="{! v.pageReference.state.c__isDirezioneFD }" action="{! c.doInit }" />
+
+    <div>
+        <lightning:layout multipleRows="true">
+            <lightning:layoutItem size="12">
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12" mediumDeviceSize="12"
+                        largeDeviceSize="4">
+                        <div class="page-section page-left">
+                            <c:WGC_Header_Attivita_FD_Oggi isDirezioneFD="{! v.isDirezioneFD }"/>
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12" mediumDeviceSize="12"
+                        largeDeviceSize="4">
+                        <div class="page-section page-center">
+                            <c:WGC_Header_Attivita_FD_Scadute isDirezioneFD="{! v.isDirezioneFD }"/>
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12" mediumDeviceSize="6"
+                        largeDeviceSize="2">
+                        <div class="page-section page-right">
+                            <c:WGC_Header_News />
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem padding="around-small" size="6" smallDeviceSize="6" mediumDeviceSize="3"
+                        largeDeviceSize="1">
+                        <div class="page-section page-right">
+                            <c:WGC_Header_FD_PrevisioneAvvioRapporto isDirezioneFD="{! v.isDirezioneFD }"/>
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem padding="around-small" size="6" smallDeviceSize="6" mediumDeviceSize="3"
+                        largeDeviceSize="1">
+                        <div class="page-section page-right">
+                            <c:WGC_Header_FD_FlowLauncher />
+                        </div>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </lightning:layoutItem>
+        </lightning:layout>
+
+        <lightning:card class="slds-m-around_small">
+            <aura:set attribute="title">
+                <lightning:icon iconName="utility:chart" size="small" variant="slds-icon-inverse" />
+                <div class="title">{! $Label.c.WGC_HomePage_ReteCommerciale }</div>
+                <!-- with container -->
+                <div class="open-component ipad-disabled">
+                    <lightning:button label="{! $Label.c.WGC_ReteCommerciale_Reporto }" class="btn-report" onclick="{! c.navigateToReport }" />
+                    <lightning:button label="{!$Label.c.WGC_ComponentCard_Header_Back_To_Home}"
+                        class=" remove-oppty" variant="container" onclick="{! c.navigateToHome }" />
+                </div>
+            </aura:set>
+            <!-- <aura:set attribute="actions">
+                <lightning:buttonIcon iconName="utility:expand" variant="bare" onclick="{! c.navigateToHome }" alternativeText="Settings" />
+            </aura:set> -->
+
+            <div class="card-body">
+                <lightning:layout>
+                    <lightning:layoutItem size="4">
+                        <div class="slds-box">
+                            <lightning:layout multipleRows="true">
+                                <lightning:layoutItem size="12">
+                                    <span class="side-title">{! $Label.c.WGC_ReteCommerciale_ClassificaFiliali }</span>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="12">
+                                    <ui:scrollerWrapper class="scrollerSize">
+                                        <aura:iteration var="item" items="{! v.filiali }" indexVar="ind">
+                                            <div class="{! item.selected ? ' slds-p-around_xx-small selected ' : ' slds-p-around_xx-small '}" onclick="{! c.loadTableFiliale }" value="{! ind }" data-filiale="{! item.nomeFiliale }">
+                                                <c:CustomTile label1="{! ind == 0 ? $Label.c.WGC_HomePage_ReteCommerciale_LaMigliore : ''}"
+                                                    label2="{! $Label.c.WGC_HomePage_ReteCommerciale_Conversion }"
+                                                    subtitle="&nbsp;"
+                                                    circleValue="{! ind + 1 }"
+                                                    stripColor="{! ind &lt;= 2 ? 'green' : 'grey' }"
+                                                    title="{! item.nomeFiliale }"
+                                                    value="{! item.conversion + ' %' }" />
+                                            </div>
+                                        </aura:iteration>
+                                    </ui:scrollerWrapper>
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="8">
+                        <aura:if isTrue="{! v.isLoaded }">
+                            <div class="slds-p-around_xx-small">
+                                <lightning:datatable 
+                                    keyField="id"
+                                    data="{! v.data }"
+                                    columns="{! v.columns }"
+                                    sortedBy="{! v.sortedBy }"
+                                    sortedDirection="{! v.sortedDirection }"
+                                    defaultSortDirection="{! v.defaultSortDirection }"
+                                    onsort="{! c.updateColumnSorting }"
+                                    hideCheckboxColumn="true"
+                                />
+                            </div>
+                            <aura:set attribute="else">
+                                <lightning:spinner alternativeText="LOADING" />
+                            </aura:set>
+                        </aura:if>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </div>
+        </lightning:card>
+    </div>
+</aura:component>

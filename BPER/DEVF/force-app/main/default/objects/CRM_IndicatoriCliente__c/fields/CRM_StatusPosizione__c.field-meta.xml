@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_StatusPosizione__c</fullName>
+    <externalId>false</externalId>
+    <label>PEG - Status posizione</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Giallo</fullName>
+                <default>false</default>
+                <label>Giallo</label>
+            </value>
+            <value>
+                <fullName>Grigio</fullName>
+                <default>false</default>
+                <label>Grigio</label>
+            </value>
+            <value>
+                <fullName>Nero</fullName>
+                <default>false</default>
+                <label>Nero</label>
+            </value>
+            <value>
+                <fullName>Rosso</fullName>
+                <default>false</default>
+                <label>Rosso</label>
+            </value>
+            <value>
+                <fullName>Verde</fullName>
+                <default>false</default>
+                <label>Verde</label>
+            </value>
+            <value>
+                <fullName>Viola</fullName>
+                <default>false</default>
+                <label>Viola</label>
+            </value>
+            <value>
+                <fullName>Rosso Scuro</fullName>
+                <default>false</default>
+                <label>Rosso Scuro</label>
+            </value>
+            <value>
+                <fullName>Arancio</fullName>
+                <default>false</default>
+                <label>Arancio</label>
+            </value>
+            <value>
+                <fullName>Arancio Scuro</fullName>
+                <default>false</default>
+                <label>Arancio Scuro</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,132 @@
+<!--GPF LWC di visualizzazione data table-->
+<template>
+    <!--BUTTON-->
+    <lightning-layout multiple-rows="true">
+        <lightning-layout-item size="12">
+            <button type="submit" class="slds-button slds-button_neutral slds-button_stretch" onclick={openModal}>{title}</button>
+        </lightning-layout-item>
+    </lightning-layout>
+
+    <!--MODAL-->
+    <template if:true={openmodel}>
+        <div>
+            
+            
+
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_large">
+                <div class="slds-modal__container">
+                    <!--HEADER-->
+                    <header class="slds-modal__header slds-is-relative">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                            <lightning-icon icon-name="utility:close" size="medium">
+                            </lightning-icon>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <div class="tilte-card"><b>{title}</b></div>
+                    </header>
+                    <!--BODY-->
+                    <div class="slds-modal__content slds-p-around_medium slds-is-relative" id="modal-content-id-1">
+                        <template if:false={isRendered}> 
+                            <div>
+                                <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+                            </div>
+                        </template>
+                        <div class="slds-m-around_medium">
+                            <p style="text-align:right"><strong>Attuale referente primario:&nbsp;</strong>{nomeReferentePrimario}</p>
+                        </div>
+                        <div class="tableTitle">Seleziona un referente primario</div>
+                        <div class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none">
+                            <template if:true={isAssigned}>
+                                <lightning-layout multiple-rows="true">
+                                    <lightning-layout-item flexibility="auto" class="slds-col" size="12">
+                                        <lightning-datatable
+                                        data-item="referentiSelezionati"
+                                        key-field="Id"
+                                        data={referentiList}
+                                        columns={columns}
+                                        hide-checkbox-column="true"
+                                        onrowselection={handleReferenteSelection}
+                                        onrowaction={handleRowAction}>
+                                    </lightning-datatable>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </template>
+                            <template if:false={isAssigned}>
+                                
+                                        <div class="slds-box no-button">
+                                            <p>Nessun referente</p>
+                                        </div>
+                                    
+                            </template>
+                        </div>
+                        
+                            <!-- <div>
+                                <template if:true={hasReferenti}>
+                                    <lightning-datatable
+                                        key-field="Id"
+                                        data={referentiList}
+                                        columns={columns}
+                                        max-row-selection="1"
+                                        onrowselection={handleReferenteSelection}>
+                                    </lightning-datatable>
+                                </template>
+                                <template if:false={hasReferenti}>
+                                    <p>{noReferentiMsg}</p>
+                                </template>
+                            </div> -->
+                        
+                        
+                        <div class="tableTitle">Seleziona referenti</div>
+                        <div class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none">
+                            <template if:true={hasData}>
+                                <lightning-layout multiple-rows="true">
+                                    <lightning-layout-item flexibility="auto" class="slds-col" size="12">
+                                        <lightning-datatable
+                                        data-item="referentiDisponibili"
+                                        key-field="Id"
+                                        data={tableData}
+                                        columns={columnsDisponibili}
+                                        onrowselection={handleRefRowSelection}>
+                                    </lightning-datatable>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="12">
+                                        <button type="submit" class="slds-button slds-button_brand slds-button_stretch" onclick={addReferente} disabled={disableAdd}><lightning-icon icon-name="utility:add" alternative-text="Aggiungi referente" variant="inverse" size="x-small"></lightning-icon>Aggiungi Refrente</button>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </template>
+                            <template if:false={hasData}>
+                                
+                                        <div class="slds-box no-button">
+                                            <p>Nessun referente</p>
+                                        </div>
+                                    
+                            </template>
+                        </div>
+                            <!-- <div >
+                                <template if:true={hasData}>
+                                    <lightning-datatable
+                                        key-field="Id"
+                                        data={tableData}
+                                        columns={columns}
+                                        onrowselection={handleRefRowSelection}
+                                        onrowaction={handleRowAction}>
+                                    </lightning-datatable>
+                                </template>
+                                <template if:false={hasData}>
+                                    <p>{noReferentiMsg}</p>
+                                </template>
+                            </div> -->
+                        
+                    </div>
+                    <!--FOOTER-->
+                    <footer class="slds-modal__footer">
+                        <lightning-button-group>
+                            <lightning-button label="Chiudi" variant="neutral" onclick={closeModal}></lightning-button>
+                        </lightning-button-group>                    
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </template>
+</template>

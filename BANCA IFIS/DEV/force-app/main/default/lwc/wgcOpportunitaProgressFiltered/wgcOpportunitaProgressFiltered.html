@@ -1,0 +1,104 @@
+<template>
+  <article class="slds-card">
+    <template if:true={spinner}>
+      <lightning-spinner alternative-text="CARICAMENTO..."></lightning-spinner>
+    </template>
+    <!-- <div class={spinnerClass}>
+            <div class="cstm-spinner-msg-container">
+                <p class="cstm-spinner-msg">{spinnerMessage}</p>
+            </div>
+            <lightning-spinner alternative-text="Caricamento" variant="brand"></lightning-spinner>
+        </div> -->
+    <div class="slds-card__header slds-grid">
+      <header class="slds-media slds-media_center slds-has-flexi-truncate">
+        <div class="slds-media__figure">
+          <lightning-icon icon-name={nomeIcona} size="small"></lightning-icon>
+        </div>
+        <div class="slds-media__body">
+          <h2 class="slds-card__header-title">{title}</h2>
+        </div>
+        <div class="slds-p-horizontal_small">
+          <label>Seleziona Filiale:</label>
+          <select
+            onchange={onChangeFilialeHandler}
+            class="cstm-select slds-p-horizontal_small slds-m-horizontal_x-small"
+          >
+            <option value="">-- Seleziona --</option>
+            <!-- <option value="1">Milano</option> -->
+            <template for:each={filialeOptions.data} for:item="itemFiliale">
+              <option key={itemFiliale.value} value={itemFiliale.value}>
+                {itemFiliale.label}
+              </option>
+            </template>
+          </select>
+        </div>
+        <div class="slds-p-horizontal_small">
+          <!-- <template if:true={commercialeOptions.data}> -->
+          <template if:true={filledFiliale}>  
+            <label>Seleziona Commerciale:</label>
+            <select
+              onchange={onChangeCommercialeHandler}
+              class="cstm-select slds-p-horizontal_small slds-m-horizontal_x-small"
+            >
+              <option value="">-- Seleziona --</option>
+              <template
+                for:each={commercialeOptions.data}
+                for:item="itemCommerciale"
+              >
+                <option
+                  key={itemCommerciale.value}
+                  value={itemCommerciale.value}
+                >
+                  {itemCommerciale.label}
+                </option>
+              </template>
+            </select>
+          </template>
+          <!-- </template> -->
+        </div>
+        <div class="slds-no-flex">
+          <button
+            class="slds-button slds-button_brand cstm-btn"
+            onclick={goToDetail}
+          >
+            Visualizza dettagli
+          </button>
+        </div>
+      </header>
+    </div>
+    <div class="slds-card__body slds-card__body_inner">
+      <div class="container-circles">
+        <span class="circleBaseStriped iphone"></span>
+        <lightning-layout>
+          <lightning-layout-item
+            size="12"
+            small-device-size="12"
+            medium-device-size="12"
+            large-device-size="12"
+          >
+            <div class="slds-grid slds-gutters margin">
+              <template for:each={items} for:item="item">
+                <div key={item.label} class="slds-col slds-size_1-of-7">
+                  <div class="container">
+                    <div class="circleBaseBodyTitle">{item.label}</div>
+                    <div class="circleBaseBodySub">{item.subLabel}</div>
+                    <div class="circle">
+                      <div class={item.cssClassCircleBase}>
+                        <div class={item.cssClassCircleBaseBody}>
+                          {item.counter}
+                        </div>
+                      </div>
+                      <!-- <div class="{! 'circleBase type4 ' + (v.counter.expiredIstruttoriaOpty ? 'background-red border-white' : 'border-grey')}">
+                                                <div class="{! 'circleBaseBody clickable ' + (v.counter.expiredIstruttoriaOpty ? 'found-white' : '')}">{!v.counter.countIstruttoria}</div>
+                                            </div> -->
+                    </div>
+                  </div>
+                </div>
+              </template>
+            </div>
+          </lightning-layout-item>
+        </lightning-layout>
+      </div>
+    </div>
+  </article>
+</template>

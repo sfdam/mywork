@@ -1,0 +1,33 @@
+div.title{
+    display: inline-flex;
+}
+
+.header-table{
+    border:1px solid lightgray;
+}
+
+.table-style{
+    margin: 0 -1px;
+}
+
+.toggle-position{
+    margin: 18px 0 0 10px;
+}
+
+.subtitle-text{
+    color:gray;
+    text-transform:uppercase;
+}
+
+.slds-card__header{
+    display: none;
+}
+
+.select-fix .slds-form-element {
+    width:100%;
+}
+
+.censimento-icon{
+    display: inline-block;
+    padding-right:10px;
+}

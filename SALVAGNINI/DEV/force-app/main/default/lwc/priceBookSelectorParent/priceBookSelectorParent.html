@@ -1,0 +1,16 @@
+<template>
+    <article class="slds-card" style="padding:20px;height:30rem;"> 
+        <lightning-quick-action-panel header="Select PriceBook" style="height:100%;" >
+            
+        <!--Custom Lookup without Pre-Populate Value for account Object-->
+            <c-price-book-selector icon-name="standard:pricebook"
+                                s-object-api-name="pricebook"
+                                label=""
+                                onlookupupdate={lookupRecord}
+                                placeholder="Search pricebook..."></c-price-book-selector>
+                <div class="slds-card__footer">
+                    <lightning-button variant="neutral" label="Salva" class="slds-m-around_xx-small" onclick={handleSubmit}></lightning-button>
+                </div>
+        </lightning-quick-action-panel>
+    </article>                    
+</template>

@@ -1,0 +1,872 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>52.0</apiVersion>
+    <assignments>
+        <name>Set_RT_Id_Consulenti_Finanziari</name>
+        <label>Set RT Id Consulenti Finanziari</label>
+        <locationX>1455</locationX>
+        <locationY>932</locationY>
+        <assignmentItems>
+            <assignToReference>RTId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Snapshot_Consulenti_Finanziari_RT.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>CheckUpBox</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Set_RT_Id_Imprese</name>
+        <label>Set RT Id Imprese</label>
+        <locationX>1238</locationX>
+        <locationY>925</locationY>
+        <assignmentItems>
+            <assignToReference>RTId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Snapshot_Imprese_RT.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>CheckUpBox</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Set_RT_Id_Personal</name>
+        <label>Set RT Id Personal</label>
+        <locationX>974</locationX>
+        <locationY>926</locationY>
+        <assignmentItems>
+            <assignToReference>RTId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Snapshot_Personal_RT.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>CheckUpBox</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Set_RT_Id_Private</name>
+        <label>Set RT Id Private</label>
+        <locationX>710</locationX>
+        <locationY>926</locationY>
+        <assignmentItems>
+            <assignToReference>RTId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Snapshot_Private_RT.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>CheckUpBox</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Show_error</name>
+        <label>Show error</label>
+        <locationX>290</locationX>
+        <locationY>1255</locationY>
+        <assignmentItems>
+            <assignToReference>ShowError</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>CheckUpBox</targetReference>
+        </connector>
+    </assignments>
+    <constants>
+        <name>IconaBarra</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>&lt;img src=&apos;/resource/Barra&apos;/&gt;</stringValue>
+        </value>
+    </constants>
+    <constants>
+        <name>MsgErrore</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Impossibile inserire un nuovo Check Up in quanto il cliente ne possiede già uno; qualora non risultasse visibile, si richiede di aggiornare la pagina.</stringValue>
+        </value>
+    </constants>
+    <decisions>
+        <name>Check_if_Check_Up_presente</name>
+        <label>Check if Check Up presente</label>
+        <locationX>776</locationX>
+        <locationY>566</locationY>
+        <defaultConnector>
+            <targetReference>Check_tipo_Cliente</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Non presente</defaultConnectorLabel>
+        <rules>
+            <name>Gi_presente</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Check_up.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Show_error</targetReference>
+            </connector>
+            <label>Già presente</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Check_if_Check_Up_presente_0</name>
+        <label>Check if Check Up presente</label>
+        <locationX>690</locationX>
+        <locationY>1759</locationY>
+        <defaultConnector>
+            <targetReference>Create_Check_up</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Non presente</defaultConnectorLabel>
+        <rules>
+            <name>Gi_presente_0</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Check_up_0.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Show_error</targetReference>
+            </connector>
+            <label>Già presente</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Check_tipo_Cliente</name>
+        <label>Check tipo Cliente</label>
+        <locationX>1106</locationX>
+        <locationY>685</locationY>
+        <defaultConnectorLabel>Esito predefinito</defaultConnectorLabel>
+        <rules>
+            <name>Private</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_NDG.ModelloDiServizio__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Private</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_NDG.ModelloDiServizio__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Key Client Privati</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_NDG.ModelloDiServizio__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Institutional Wealth</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_NDG.ModelloDiServizio__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Private Sviluppo</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_NDG.ModelloDiServizio__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Lower Private</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Snapshot_Private_RT</targetReference>
+            </connector>
+            <label>Private</label>
+        </rules>
+        <rules>
+            <name>Consulenti_Finanziari</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_NDG.ModelloDiServizio__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Consulenti Finanziari</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Snapshot_Consulenti_Finanziari_RT</targetReference>
+            </connector>
+            <label>Consulenti Finanziari</label>
+        </rules>
+        <rules>
+            <name>Personal</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_NDG.ModelloDiServizio__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Personal</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Snapshot_Personal_RT</targetReference>
+            </connector>
+            <label>Personal</label>
+        </rules>
+        <rules>
+            <name>Imprese</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_NDG.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>IndustriesBusiness</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Snapshot_Imprese_RT</targetReference>
+            </connector>
+            <label>Imprese</label>
+        </rules>
+    </decisions>
+    <description>Sviluppo Polo Wealth + Fix Lower Private</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>Formula_Check1</name>
+        <dataType>Boolean</dataType>
+        <expression>OR (
+{!$Profile.Name} = &apos;NEC_ADMIN&apos;,
+{!$Profile.Name} = &apos;System Administrator&apos;,
+{!$Profile.Name} = &apos;Amministratore del sistema&apos;,
+CONTAINS({!$User.CRM_PermissionSet__c},&apos;NEC_CRM.CAPOGRUPPO.0&apos;),
+CONTAINS({!$User.CRM_PermissionSet__c},&apos;NEC_CRM.CAPOGRUPPO.1&apos;),
+CONTAINS({!$User.CRM_PermissionSet__c},&apos;NEC_CRM.CAPOGRUPPO.2&apos;),
+CONTAINS({!$User.CRM_PermissionSet__c},&apos;NEC_CRM.BANCA.1&apos;),
+CONTAINS({!$User.CRM_PermissionSet__c},&apos;NEC_CRM.AREA.1&apos;)
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_Check2</name>
+        <dataType>Boolean</dataType>
+        <expression>OR(
+AND (
+OR (
+CONTAINS({!$User.CRM_PermissionSet__c},&apos;NEC_CRM.FILIALE.1&apos;),
+CONTAINS({!$User.CRM_PermissionSet__c},&apos;NEC_CRM.FILIALE.2&apos;),
+CONTAINS({!$User.CRM_PermissionSet__c},&apos;NEC_CRM.FILIALE.3&apos;),
+CONTAINS({!$User.CRM_PermissionSet__c},&apos;NEC_CRM.FILIALE.4&apos;),
+CONTAINS({!$User.CRM_PermissionSet__c},&apos;NEC_CRM.CEN.IMPR.RESP.SPEC.1&apos;),
+CONTAINS({!$User.CRM_PermissionSet__c},&apos;NEC_CRM.CEN.IMPR.AMM.2&apos;),
+CONTAINS({!$User.CRM_PermissionSet__c},&apos;NEC_CRM.FIL.CAPOFILA.1&apos;)
+),
+ {!$User.idced__c} = {!Get_NDG.PTF_Filiale__r.PTF_IdCED__c}
+),
+AND (
+OR (
+CONTAINS({!$User.CRM_PermissionSet__c},&apos;NEC_CRM.FIL.CAPOFILA.1&apos;),
+CONTAINS({!$User.CRM_PermissionSet__c},&apos;NEC_CRM.FIL.CAPOFILA.2&apos;),
+CONTAINS({!$User.CRM_PermissionSet__c},&apos;NEC_CRM.FIL.CAPOFILA.3&apos;),
+CONTAINS({!$User.CRM_PermissionSet__c},&apos;NEC_CRM.FIL.CAPOFILA.4&apos;)
+),
+OR ( {!$User.idced__c} = {!Get_NDG.PTF_Capofila__r.PTF_IdCED__c},  {!$User.idced__c} = {!Get_NDG.PTF_Filiale__r.PTF_IdCED__c})
+)
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_CheckMMDSVisibili</name>
+        <dataType>Boolean</dataType>
+        <expression>OR(CONTAINS($User.CRM_MMDSVisibili__c, TEXT({!Get_NDG.ModelloDiServizio__c})), CONTAINS($User.CRM_MMDSVisibili__c, &apos;Tutti&apos;))</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_CheckPermission</name>
+        <dataType>Boolean</dataType>
+        <expression>OR(
+$Profile.Name = &apos;NEC_ADMIN&apos;,
+$Profile.Name = &apos;System Administrator&apos;,
+$Profile.Name = &apos;Amministratore del sistema&apos;,
+CONTAINS($User.CRM_PermissionSet__c,&apos;NEC_CRM.CAPOGRUPPO.0&apos;),
+CONTAINS($User.CRM_PermissionSet__c,&apos;NEC_CRM.CAPOGRUPPO.1&apos;),
+CONTAINS($User.CRM_PermissionSet__c,&apos;NEC_CRM.CAPOGRUPPO.2&apos;),
+CONTAINS($User.CRM_PermissionSet__c,&apos;NEC_CRM.BANCA.1&apos;),
+CONTAINS($User.CRM_PermissionSet__c,&apos;NEC_CRM.AREA.1&apos;),
+AND(
+OR(
+AND (
+OR (
+CONTAINS($User.CRM_PermissionSet__c,&apos;NEC_CRM.FILIALE.1&apos;),
+CONTAINS($User.CRM_PermissionSet__c,&apos;NEC_CRM.FILIALE.2&apos;),
+CONTAINS($User.CRM_PermissionSet__c,&apos;NEC_CRM.FILIALE.3&apos;),
+CONTAINS($User.CRM_PermissionSet__c,&apos;NEC_CRM.FILIALE.4&apos;),
+CONTAINS($User.CRM_PermissionSet__c,&apos;NEC_CRM.CEN.IMPR.RESP.SPEC.1&apos;),
+CONTAINS($User.CRM_PermissionSet__c,&apos;NEC_CRM.CEN.IMPR.AMM.2&apos;),
+CONTAINS($User.CRM_PermissionSet__c,&apos;NEC_CRM.FIL.CAPOFILA.1&apos;)
+),
+$User.idced__c = {!Get_NDG.PTF_Filiale__r.PTF_IdCED__c}
+),
+AND (
+OR (
+CONTAINS($User.CRM_PermissionSet__c,&apos;NEC_CRM.FIL.CAPOFILA.1&apos;),
+CONTAINS($User.CRM_PermissionSet__c,&apos;NEC_CRM.FIL.CAPOFILA.2&apos;),
+CONTAINS($User.CRM_PermissionSet__c,&apos;NEC_CRM.FIL.CAPOFILA.3&apos;),
+CONTAINS($User.CRM_PermissionSet__c,&apos;NEC_CRM.FIL.CAPOFILA.4&apos;)
+),
+OR ($User.idced__c = {!Get_NDG.PTF_Capofila__r.PTF_IdCED__c}, $User.idced__c = {!Get_NDG.PTF_Filiale__r.PTF_IdCED__c})
+)
+),
+OR(CONTAINS($User.CRM_MMDSVisibili__c, TEXT({!Get_NDG.ModelloDiServizio__c}) ), CONTAINS($User.CRM_MMDSVisibili__c, &apos;Tutti&apos;))
+),
+AND(CONTAINS($User.CRM_PermissionSet__c,&apos;NEC_CRM.DR.1&apos;), {!Get_NDG.PTF_Portafoglio__r.CRM_ReferentePortafoglio__r.PTF_User__c} = $User.Id),
+AND(CONTAINS($User.CRM_PermissionSet__c,&apos;NEC_CRM.DR.4&apos;), {!Get_NDG.PTF_Portafoglio__r.CRM_ReferentePortafoglio__r.PTF_User__c} = $User.Id),
+AND(CONTAINS($User.CRM_PermissionSet__c,&apos;NEC_CRM.DR.5&apos;), {!Get_NDG.PTF_Portafoglio__r.CRM_ReferentePortafoglio__r.PTF_User__c} = $User.Id),
+AND(CONTAINS($User.CRM_PermissionSet__c,&apos;NEC_CRM.CONS.FIN.1&apos;), {!Get_NDG.PTF_Portafoglio__r.CRM_ReferentePortafoglio__r.PTF_User__c} = $User.Id),
+AND(CONTAINS($User.CRM_PermissionSet__c,&apos;NEC_CRM.CONS.FIN.2&apos;), {!Get_NDG.PTF_Portafoglio__r.CRM_ReferentePortafoglio__r.PTF_User__c} = $User.Id),
+AND(CONTAINS({!$User.CRM_PermissionSet__c},&apos;NEC_CRM.DR.1&apos;), {!Get_NDG.PTF_Portafoglio__r.CRM_ReferentePortafoglio__r.PTF_User__c} = $User.Id),
+AND(CONTAINS({!$User.CRM_PermissionSet__c},&apos;NEC_CRM.DR.4&apos;), {!Get_NDG.PTF_Portafoglio__r.CRM_ReferentePortafoglio__r.PTF_User__c} = $User.Id),
+AND(CONTAINS({!$User.CRM_PermissionSet__c},&apos;NEC_CRM.DR.5&apos;), {!Get_NDG.PTF_Portafoglio__r.CRM_ReferentePortafoglio__r.PTF_User__c} = $User.Id),
+AND(CONTAINS({!$User.CRM_PermissionSet__c},&apos;NEC_CRM.CONS.FIN.1&apos;), {!Get_NDG.PTF_Portafoglio__r.CRM_ReferentePortafoglio__r.PTF_User__c} = $User.Id),
+AND(CONTAINS({!$User.CRM_PermissionSet__c},&apos;NEC_CRM.CONS.FIN.2&apos;), {!Get_NDG.PTF_Portafoglio__r.CRM_ReferentePortafoglio__r.PTF_User__c} = $User.Id)
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_CheckUpName</name>
+        <dataType>String</dataType>
+        <expression>IF(LEN(&quot;Check Up &quot; + {!Get_NDG.Name}) &gt; 80,
+LEFT(&quot;Check Up &quot; + {!Get_NDG.Name}, 80),
+&quot;Check Up &quot; + {!Get_NDG.Name}
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_HasReadOnly</name>
+        <dataType>Boolean</dataType>
+        <expression>{!$User.CRM_HasReadOnly__c}</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_MMDS</name>
+        <dataType>String</dataType>
+        <expression>IF({!Formula_CheckMMDSVisibili}, {!$User.CRM_MMDSVisibili__c}, &apos;no&apos;)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_SnapshotFormula</name>
+        <dataType>String</dataType>
+        <expression>/* &quot;Snapshot Check Up &quot; + 
+IF(Get_NDG.RecordType.DeveloperName = &quot;IndustriesBusiness&quot;, &quot;Imprese&quot;,  IF(TEXT(Get_NDG.ModelloDiServizio__c) = &apos;Personal&apos;, &quot;Personal&quot;, &quot;Private&quot;))
++  &quot; - &quot; + IF(Get_NDG.RecordType.DeveloperName = &quot;IndustriesBusiness&quot;, Get_NDG.Name, Get_NDG.FirstName + &quot; &quot; + Get_NDG.LastName) */
+&quot;Check Up &quot; + 
+IF(OR(TEXT({!Get_NDG.ModelloDiServizio__c}) = &apos;Business PMI&apos;, TEXT({!Get_NDG.ModelloDiServizio__c}) = &apos;Couco&apos;, TEXT({!Get_NDG.ModelloDiServizio__c}) = &apos;Key Client Imprese&apos;), &quot;Imprese&quot;, IF(TEXT({!Get_NDG.ModelloDiServizio__c}) = &apos;Personal&apos;, &quot;Personal&quot;, &quot;Private&quot;))
++  &quot; - &quot; + {!Get_NDG.Name}</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_SnapshotName</name>
+        <dataType>String</dataType>
+        <expression>/*IF(LEN(&quot;Check Up &quot; + IF(OR(TEXT(Get_NDG.ModelloDiServizio__c) = &apos;Business PMI&apos;, TEXT(Get_NDG.ModelloDiServizio__c) = &apos;Couco&apos;, TEXT(Get_NDG.ModelloDiServizio__c) = &apos;Key Client Imprese&apos;), &quot;Imprese&quot;, IF(TEXT(Get_NDG.ModelloDiServizio__c) = &apos;Personal&apos;, &quot;Personal&quot;, &quot;Private&quot;)) +  &quot; - &quot; + Get_NDG.Name)&gt; 80,
+LEFT(&quot;Check Up &quot; + IF(OR(TEXT(Get_NDG.ModelloDiServizio__c) = &apos;Business PMI&apos;, TEXT(Get_NDG.ModelloDiServizio__c) = &apos;Couco&apos;), &quot;Imprese&quot;,  IF(TEXT(Get_NDG.ModelloDiServizio__c) = &apos;Personal&apos;, &quot;Personal&quot;, &quot;Private&quot;)) +  &quot; - &quot; + Get_NDG.Name, 80),
+&quot;Check Up &quot; + IF(OR(TEXT(Get_NDG.ModelloDiServizio__c) = &apos;Business PMI&apos;, TEXT(Get_NDG.ModelloDiServizio__c) = &apos;Couco&apos;), &quot;Imprese&quot;,  IF(TEXT(Get_NDG.ModelloDiServizio__c) = &apos;Personal&apos;, &quot;Personal&quot;, &quot;Private&quot;)) +  &quot; - &quot; + Get_NDG.Name
+) */
+IF(LEN(&quot;Check Up &quot; + {!NameMDS} +  &quot; - &quot; + {!Get_NDG.Name})&gt; 80,
+LEFT(&quot;Check Up &quot; + {!NameMDS} +  &quot; - &quot; + {!Get_NDG.Name}, 80),
+&quot;Check Up &quot; + {!NameMDS} +  &quot; - &quot; + {!Get_NDG.Name}
+)</expression>
+    </formulas>
+    <formulas>
+        <name>NameMDS</name>
+        <dataType>String</dataType>
+        <expression>IF(
+OR(TEXT({!Get_NDG.ModelloDiServizio__c}) = &apos;Small Business&apos;, TEXT({!Get_NDG.ModelloDiServizio__c}) = &apos;Corporate&apos;, TEXT({!Get_NDG.ModelloDiServizio__c}) = &apos;Large Corporate&apos;), 
+	&quot;Imprese&quot;,
+	IF(TEXT({!Get_NDG.ModelloDiServizio__c}) = &apos;Personal&apos;, 
+	&quot;Personal&quot;,
+		IF(OR(TEXT({!Get_NDG.ModelloDiServizio__c}) = &apos;Private&apos;,TEXT({!Get_NDG.ModelloDiServizio__c}) = &apos;Institutional Wealth&apos;, TEXT({!Get_NDG.ModelloDiServizio__c}) = &apos;Private Sviluppo&apos;, TEXT({!Get_NDG.ModelloDiServizio__c}) = &apos;Lower Private&apos;, TEXT({!Get_NDG.ModelloDiServizio__c}) = &apos;Key Client Privati&apos; ),
+			&quot;Private&quot;,
+			IF(TEXT({!Get_NDG.ModelloDiServizio__c}) = &apos;Consulenti Finanziari&apos;,
+			&quot;Consulenti Finanziari&quot;,
+			&apos;&apos;))))</expression>
+    </formulas>
+    <interviewLabel>Box  Check-up {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Box Check-up</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordCreates>
+        <name>Create_Check_up</name>
+        <label>Create Check-up</label>
+        <locationX>699</locationX>
+        <locationY>1961</locationY>
+        <connector>
+            <targetReference>Create_Empty_Snapshot</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>CRM_Customer__c</field>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Name</field>
+            <value>
+                <elementReference>Formula_CheckUpName</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>RecordTypeId</field>
+            <value>
+                <elementReference>Get_Check_up_Standard_RT.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <object>CRM_CustomerInterview__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordCreates>
+        <name>Create_Empty_Snapshot</name>
+        <label>Create Empty Snapshot</label>
+        <locationX>689</locationX>
+        <locationY>2079</locationY>
+        <inputAssignments>
+            <field>CRM_Customer__c</field>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Name</field>
+            <value>
+                <elementReference>Formula_SnapshotName</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>RecordTypeId</field>
+            <value>
+                <elementReference>RTId</elementReference>
+            </value>
+        </inputAssignments>
+        <object>CRM_CustomerInterview__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordLookups>
+        <name>Get_Check_up</name>
+        <label>Get Check-up</label>
+        <locationX>776</locationX>
+        <locationY>446</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Check_if_Check_Up_presente</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>CRM_Customer__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>RecordTypeId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_Check_up_Standard_RT.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>CRM_CustomerInterview__c</object>
+        <sortField>CRM_CreatedDate__c</sortField>
+        <sortOrder>Desc</sortOrder>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Check_up_0</name>
+        <label>Get Check-up</label>
+        <locationX>894</locationX>
+        <locationY>1588</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Check_if_Check_Up_presente_0</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>CRM_Customer__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>RecordTypeId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_Check_up_Standard_RT.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>CRM_CustomerInterview__c</object>
+        <sortField>CRM_CreatedDate__c</sortField>
+        <sortOrder>Desc</sortOrder>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Check_up_Standard_RT</name>
+        <label>Get Check-up Standard RT</label>
+        <locationX>776</locationX>
+        <locationY>326</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_Check_up</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Check_Up_Standard</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SobjectType</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>CRM_CustomerInterview__c</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>RecordType</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_NDG</name>
+        <label>Get NDG</label>
+        <locationX>776</locationX>
+        <locationY>206</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_Check_up_Standard_RT</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Account</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Snapshot_Consulenti_Finanziari_RT</name>
+        <label>Get Snapshot Consulenti Finanziari RT</label>
+        <locationX>1443</locationX>
+        <locationY>783</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Set_RT_Id_Consulenti_Finanziari</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Snapshot_Check_Up_Consulenti_Finanziari</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SobjectType</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>CRM_CustomerInterview__c</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>RecordType</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Snapshot_Imprese_RT</name>
+        <label>Get Snapshot Imprese RT</label>
+        <locationX>1238</locationX>
+        <locationY>806</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Set_RT_Id_Imprese</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Snapshot_Check_Up_Imprese</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SobjectType</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>CRM_CustomerInterview__c</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>RecordType</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Snapshot_Personal_RT</name>
+        <label>Get Snapshot Personal RT</label>
+        <locationX>974</locationX>
+        <locationY>806</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Set_RT_Id_Personal</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Snapshot_Check_Up_Personal</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SobjectType</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>CRM_CustomerInterview__c</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>RecordType</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Snapshot_Private_RT</name>
+        <label>Get Snapshot Private RT</label>
+        <locationX>710</locationX>
+        <locationY>806</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Set_RT_Id_Private</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Snapshot_Check_Up_Private</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SobjectType</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>CRM_CustomerInterview__c</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>RecordType</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <runInMode>SystemModeWithoutSharing</runInMode>
+    <screens>
+        <name>CheckUpBox</name>
+        <label>CheckUpBox</label>
+        <locationX>950</locationX>
+        <locationY>1442</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>Get_Check_up_0</targetReference>
+        </connector>
+        <fields>
+            <name>CheckUpBox_Section1</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>CheckUpBox_Section1_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>img</name>
+                    <extensionName>flowruntime:image</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>imageName</name>
+                        <value>
+                            <stringValue>CheckUp</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>imageHeight</name>
+                        <value>
+                            <stringValue>24</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>imageWidth</name>
+                        <value>
+                            <stringValue>24</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>2</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>CheckUpBox_Section1_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>CheckUpTitle</name>
+                    <fieldText>&lt;p&gt;&lt;b style=&quot;color: rgb(8, 7, 7); font-size: 16px;&quot;&gt;Check Up&lt;/b&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>3</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>CheckUpBox_Section1_Column3</name>
+                <fieldType>Region</fieldType>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>4</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>CheckUpBox_Section1_Column4</name>
+                <fieldType>Region</fieldType>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>3</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+        </fields>
+        <fields>
+            <name>InserisciCheckUp</name>
+            <extensionName>runtime_industries_lending:flowButton</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>buttonLabel</name>
+                <value>
+                    <stringValue>Inserisci Check Up</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>renderNext</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>ShowError</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>false</booleanValue>
+                    </rightValue>
+                </conditions>
+                <conditions>
+                    <leftValueReference>Formula_HasReadOnly</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>false</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>ErorrMsg</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(255, 0, 0);&quot;&gt;{!MsgErrore}&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>ShowError</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>true</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <showFooter>false</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <start>
+        <locationX>650</locationX>
+        <locationY>48</locationY>
+        <connector>
+            <targetReference>Get_NDG</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>RTId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>ShowError</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
+</Flow>

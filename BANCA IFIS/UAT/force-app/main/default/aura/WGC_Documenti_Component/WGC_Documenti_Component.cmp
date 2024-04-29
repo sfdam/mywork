@@ -1,0 +1,371 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" >
+    <aura:attribute name="AccountId" type="String" />
+    <aura:attribute name="modal" type="Boolean" default="false"/>
+    <aura:attribute name="compila" type="Boolean" default="true"/>
+    <aura:attribute name="carica" type="Boolean" default="false"/>
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+
+        <lightning:layout multipleRows="true">
+            <lightning:layoutItem size="12" padding="around-small">
+                <span class="title">{!$Label.c.WGC_Documenti_DOCUMENTI_PRIMA_VISITA}</span>
+            </lightning:layoutItem>
+            <lightning:layoutItem class="border-doc slds-p-around_x-small" size="12">
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem size="3" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="3" class="slds-m-vertical_small">
+                        <div class="slds-grid slds-wrap slds-p-vertical_medium">
+                            <div class="slds-col slds-size_1-of-4 slds-p-vertical_medium">
+                                <lightning:icon class="icon" variant="inverse" iconName="utility:file" size="small" />
+                            </div>
+                            <div class="slds-col slds-size_3-of-4 slds-p-vertical_medium">
+                                <div>
+                                    <span class="slds-text-title_bold">{!$Label.c.WGC_Documenti_2_Privacy_Persona_Giuridica}</span>
+                                </div>
+                                <div>
+                                    <span style="color:gray;">{!$Label.c.WGC_Documenti_Data_ultimo_aggiornamento}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="4" smallDeviceSize="6" mediumDeviceSize="5" largeDeviceSize="4" class="slds-m-vertical_small">
+                        <div class="tabs-container">
+                            <lightning:tabset class="tabs">
+                                <lightning:tab id="compila" label="COMPILA ONLINE">
+                                    <div class="tab-text">
+                                        <lightning:icon aura:id="ppg" class="icon" variant="inverse" iconName="utility:edit" size="small" onclick="{!c.LaunchComponent}"/>
+                                    </div>         
+                                    <div class="tab-text tabs">
+                                        <span>{Label.c.WGC_Documenti_Compila_i_campi_del_documento}<i>{!$Label.c.WGC_Documenti_online}</i>{!$Label.c.WGC_Documenti_e_poi_scaricalo_per_farlo_firmare_al_cliente}</span> 
+                                    </div>
+                                </lightning:tab>
+                                <lightning:tab id="carica" label="CARICA FIRMATO">
+                                    <div class="tab-text">
+                                        <lightning:icon aura:id="ppg" class="icon" variant="inverse" iconName="utility:file" size="small" onclick="{!c.LaunchComponent}"/>
+                                    </div>         
+                                    <div class="tab-text tabs">
+                                        <span>{!$Label.c.WGC_Documenti_Carica_il_documento_precedentedentemente_compilato_online_e_poi_fa}</span>
+                                    </div>
+                                </lightning:tab>
+                            </lightning:tabset>
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="5" smallDeviceSize="6" mediumDeviceSize="7" largeDeviceSize="5" class="slds-m-vertical_small">
+                        <div class="tabs-container">
+                            <lightning:tabset class="tabs">
+                                <lightning:tab label="SCARICA IN BIANCO">
+                                    <div class="tab-text">
+                                        <lightning:icon aura:id="ppg" class="icon" variant="inverse" iconName="utility:edit" size="small" onclick="{!c.LaunchComponent}"/>
+                                    </div>         
+                                    <div class="tab-text tabs slds-hyphenate">
+                                        <span>{!$Label.c.WGC_Documenti_Scarica_il_documento_con_i_campi}<i>{!$Label.c.WGC_Documenti_in_bianco}</i>{!$Label.c.WGC_Documenti_2_per_poi_compilarlo_a_mano_con_il_cliente}</span>
+                                    </div>
+                                </lightning:tab>
+                                <lightning:tab label="CARICA COMPILATO E FIRMATO">
+                                    <div class="tab-text">
+                                        <lightning:icon aura:id="ppg" class="icon" variant="inverse" iconName="utility:file" size="small" onclick="{!c.LaunchComponent}"/>
+                                    </div>         
+                                    <div class="tab-text tabs">
+                                        <span>{!$Label.c.WGC_Documenti_Carica_il_documento_compilato_a_mano_e_firmato_e_poi_compila_i_cam}</span>
+                                    </div>
+                                </lightning:tab>
+                            </lightning:tabset>
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="3" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="3" class="slds-m-vertical_small">
+                        <div class="slds-grid slds-wrap slds-p-vertical_medium">
+                            <div class="slds-col slds-size_1-of-4 slds-p-vertical_medium">
+                                <lightning:icon class="icon" variant="inverse" iconName="utility:file" size="small" />
+                            </div>
+                            <div class="slds-col slds-size_3-of-4 slds-p-vertical_medium">
+                                <div>
+                                    <span class="slds-text-title_bold">{!$Label.c.WGC_Documenti_2_Modulo_Adeguata_Verifica}</span>
+                                </div>
+                                <div>
+                                    <span style="color:gray;">{!$Label.c.WGC_Documenti_Data_ultimo_aggiornamento}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="4" smallDeviceSize="6" mediumDeviceSize="5" largeDeviceSize="4" class="slds-m-vertical_small ">
+                        <div class="tabs-container">
+                            <lightning:tabset class="tabs">
+                                <lightning:tab id="compila" label="COMPILA ONLINE">
+                                    <div class="tab-text">
+                                        <lightning:icon aura:id="mav" class="icon" variant="inverse" iconName="utility:edit" size="small" onclick="{!c.LaunchComponent}"/>
+                                    </div>         
+                                    <div class="tab-text tabs">
+                                        <span>{Label.c.WGC_Documenti_Compila_i_campi_del_documento}<i>{!$Label.c.WGC_Documenti_online}</i>{!$Label.c.WGC_Documenti_e_poi_scaricalo_per_farlo_firmare_al_cliente}</span>
+                                    </div>
+                                </lightning:tab>
+                                <lightning:tab id="carica" label="CARICA FIRMATO">
+                                    <div class="tab-text">
+                                        <lightning:icon aura:id="mav" class="icon" variant="inverse" iconName="utility:file" size="small" onclick="{!c.LaunchComponent}"/>
+                                    </div>         
+                                    <div class="tab-text tabs">
+                                        <span>{!$Label.c.WGC_Documenti_Carica_il_documento_precedentedentemente_compilato_online_e_poi_fa}</span>
+                                    </div>
+                                </lightning:tab>
+                            </lightning:tabset>
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="5" smallDeviceSize="6" mediumDeviceSize="7" largeDeviceSize="5" class="slds-m-vertical_small ">
+                        <div class="tabs-container">
+                            <lightning:tabset class="tabs">
+                                <lightning:tab label="SCARICA IN BIANCO">
+                                    <div class="tab-text">
+                                        <lightning:icon aura:id="mav" class="icon" variant="inverse" iconName="utility:edit" size="small" onclick="{!c.LaunchComponent}"/>
+                                    </div>         
+                                    <div class="tab-text tabs">
+                                        <span>{!$Label.c.WGC_Documenti_Scarica_il_documento_con_i_campi}<i>{!$Label.c.WGC_Documenti_in_bianco}</i>{!$Label.c.WGC_Documenti_2_per_poi_compilarlo_a_mano_con_il_cliente}</span>
+                                    </div>
+                                </lightning:tab>
+                                <lightning:tab label="CARICA COMPILATO E FIRMATO">
+                                    <div class="tab-text">
+                                        <lightning:icon aura:id="mav" class="icon" variant="inverse" iconName="utility:file" size="small" onclick="{!c.LaunchComponent}"/>
+                                    </div>         
+                                    <div class="tab-text tabs">
+                                        <span>{!$Label.c.WGC_Documenti_Carica_il_documento_compilato_a_mano_e_firmato_e_poi_compila_i_cam}</span>
+                                    </div>
+                                </lightning:tab>
+                            </lightning:tabset>
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="3" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="3" class="slds-m-vertical_small">
+                        <div class="slds-grid slds-wrap slds-p-vertical_medium">
+                            <div class="slds-col slds-size_1-of-4 slds-p-vertical_medium">
+                                <lightning:icon class="icon" variant="inverse" iconName="utility:file" size="small" />
+                            </div>
+                            <div class="slds-col slds-size_3-of-4 slds-p-vertical_medium">
+                                <div>
+                                    <span class="slds-text-title_bold">{!$Label.c.WGC_Documenti_2_Modulo_Tecniche_di_Comunicazione}</span>
+                                </div>
+                                <div>
+                                    <span style="color:gray;">{!$Label.c.WGC_Documenti_Data_ultimo_aggiornamento}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="4" smallDeviceSize="6" mediumDeviceSize="5" largeDeviceSize="4" class="slds-m-vertical_small ">
+                        <div class="tabs-container">
+                            <lightning:tabset class="tabs">
+                                <lightning:tab id="compila" label="COMPILA ONLINE">
+                                    <div class="tab-text">
+                                        <lightning:icon aura:id="mtc" class="icon" variant="inverse" iconName="utility:edit" size="small" onclick="{!c.LaunchComponent}"/>
+                                    </div>         
+                                    <div class="tab-text tabs">
+                                        <span>{Label.c.WGC_Documenti_Compila_i_campi_del_documento}<i>{!$Label.c.WGC_Documenti_online}</i>{!$Label.c.WGC_Documenti_e_poi_scaricalo_per_farlo_firmare_al_cliente}</span>
+                                    </div>
+                                </lightning:tab>
+                                <lightning:tab id="carica" label="CARICA FIRMATO">
+                                    <div class="tab-text">
+                                        <lightning:icon aura:id="mtc" class="icon" variant="inverse" iconName="utility:file" size="small" onclick="{!c.LaunchComponent}"/>
+                                    </div>         
+                                    <div class="tab-text tabs">
+                                        <span>{!$Label.c.WGC_Documenti_Carica_il_documento_precedentedentemente_compilato_online_e_poi_fa}</span>
+                                    </div>
+                                </lightning:tab>
+                            </lightning:tabset>
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="5" smallDeviceSize="6" mediumDeviceSize="7" largeDeviceSize="5" class="slds-m-vertical_small ">
+                        <div class="tabs-container">
+                            <lightning:tabset class="tabs">
+                                <lightning:tab label="SCARICA IN BIANCO">
+                                    <div class="tab-text">
+                                        <lightning:icon aura:id="mtc" class="icon" variant="inverse" iconName="utility:edit" size="small" onclick="{!c.LaunchComponent}"/>
+                                    </div>         
+                                    <div class="tab-text tabs">
+                                        <span>{!$Label.c.WGC_Documenti_Scarica_il_documento_con_i_campi}<i>{!$Label.c.WGC_Documenti_in_bianco}</i>{!$Label.c.WGC_Documenti_2_per_poi_compilarlo_a_mano_con_il_cliente}</span>
+                                    </div>
+                                </lightning:tab>
+                                <lightning:tab label="CARICA COMPILATO E FIRMATO">
+                                    <div class="tab-text">
+                                        <lightning:icon aura:id="mtc" class="icon" variant="inverse" iconName="utility:file" size="small" onclick="{!c.LaunchComponent}"/>
+                                    </div>         
+                                    <div class="tab-text tabs">
+                                        <span>{!$Label.c.WGC_Documenti_Carica_il_documento_compilato_a_mano_e_firmato_e_poi_compila_i_cam}</span>
+                                    </div>
+                                </lightning:tab>
+                            </lightning:tabset>
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="3" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="3" class="slds-m-vertical_small">
+                        <div class="slds-grid slds-wrap slds-p-vertical_medium">
+                            <div class="slds-col slds-size_1-of-4 slds-p-vertical_medium">
+                                <lightning:icon class="icon" variant="inverse" iconName="utility:file" size="small" />
+                            </div>
+                            <div class="slds-col slds-size_3-of-4 slds-p-vertical_medium">
+                                <div>
+                                    <span class="slds-text-title_bold">{!$Label.c.WGC_Documenti_2_Questionario_Qualitativo}</span>
+                                </div>
+                                <div>
+                                    <span style="color:gray;">{!$Label.c.WGC_Documenti_Data_ultimo_aggiornamento}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="4" smallDeviceSize="6" mediumDeviceSize="5" largeDeviceSize="4" class="slds-m-vertical_small ">
+                        <div class="tabs-container">
+                            <lightning:tabset class="tabs">
+                                <lightning:tab id="compila" label="COMPILA ONLINE">
+                                    <div class="tab-text">
+                                        <lightning:icon aura:id="qq" class="icon" variant="inverse" iconName="utility:edit" size="small" onclick="{!c.LaunchComponent}"/>
+                                    </div>         
+                                    <div class="tab-text tabs">
+                                        <span>{Label.c.WGC_Documenti_Compila_i_campi_del_documento}<i>{!$Label.c.WGC_Documenti_online}</i>{!$Label.c.WGC_Documenti_e_poi_scaricalo_per_farlo_firmare_al_cliente}</span>
+                                    </div>
+                                </lightning:tab>
+                                <lightning:tab id="carica" label="CARICA FIRMATO">
+                                    <div class="tab-text">
+                                        <lightning:icon aura:id="qq" class="icon" variant="inverse" iconName="utility:file" size="small" onclick="{!c.LaunchComponent}"/>
+                                    </div>         
+                                    <div class="tab-text tabs">
+                                        <span>{!$Label.c.WGC_Documenti_Carica_il_documento_precedentedentemente_compilato_online_e_poi_fa}</span>
+                                    </div>
+                                </lightning:tab>
+                            </lightning:tabset>
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="5" smallDeviceSize="6" mediumDeviceSize="7" largeDeviceSize="5" class="slds-m-vertical_small ">
+                        <div class="tabs-container">
+                            <lightning:tabset class="tabs">
+                                <lightning:tab label="SCARICA IN BIANCO">
+                                    <div class="tab-text">
+                                        <lightning:icon aura:id="qq" class="icon" variant="inverse" iconName="utility:edit" size="small" onclick="{!c.LaunchComponent}"/>
+                                    </div>         
+                                    <div class="tab-text tabs">
+                                        <span>{!$Label.c.WGC_Documenti_Scarica_il_documento_con_i_campi}<i>{!$Label.c.WGC_Documenti_in_bianco}</i>{!$Label.c.WGC_Documenti_2_per_poi_compilarlo_a_mano_con_il_cliente}</span>
+                                    </div>
+                                </lightning:tab>
+                                <lightning:tab label="CARICA COMPILATO E FIRMATO">
+                                    <div class="tab-text">
+                                        <lightning:icon aura:id="qq" class="icon" variant="inverse" iconName="utility:file" size="small" onclick="{!c.LaunchComponent}"/>
+                                    </div>         
+                                    <div class="tab-text tabs">
+                                        <span>{!$Label.c.WGC_Documenti_Carica_il_documento_compilato_a_mano_e_firmato_e_poi_compila_i_cam}</span>
+                                    </div>
+                                </lightning:tab>
+                            </lightning:tabset>
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="3" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="3" class="slds-m-vertical_small">
+                        <div class="slds-grid slds-wrap slds-p-vertical_medium">
+                            <div class="slds-col slds-size_1-of-4 slds-p-vertical_medium">
+                                <lightning:icon class="icon" variant="inverse" iconName="utility:file" size="small" />
+                            </div>
+                            <div class="slds-col slds-size_3-of-4 slds-p-vertical_medium">
+                                <div>
+                                    <span class="slds-text-title_bold">{!$Label.c.WGC_Documenti_Relazione_prima_visita}</span>
+                                </div>
+                                <div>
+                                    <span style="color:gray;">{!$Label.c.WGC_Documenti_Data_ultimo_aggiornamento}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="4" smallDeviceSize="6" mediumDeviceSize="5" largeDeviceSize="4" class="slds-m-vertical_small ">
+                        <div class="tabs-container">
+                            <lightning:tabset class="tabs">
+                                <lightning:tab id="compila" label="COMPILA ONLINE">
+                                    <div class="tab-text">
+                                        <lightning:icon aura:id="rpv" class="icon" variant="inverse" iconName="utility:edit" size="small" onclick="{!c.LaunchComponent}"/>
+                                    </div>         
+                                    <div class="tab-text tabs">
+                                        <span>{Label.c.WGC_Documenti_Compila_i_campi_del_documento}<i>{!$Label.c.WGC_Documenti_online}</i>{!$Label.c.WGC_Documenti_e_poi_scaricalo_per_farlo_firmare_al_cliente}</span>
+                                    </div>
+                                </lightning:tab>
+                                <lightning:tab id="carica" label="CARICA FIRMATO">
+                                    <div class="tab-text">
+                                        <lightning:icon aura:id="rpv" class="icon" variant="inverse" iconName="utility:file" size="small" onclick="{!c.LaunchComponent}"/>
+                                    </div>         
+                                    <div class="tab-text tabs">
+                                        <span>{!$Label.c.WGC_Documenti_Carica_il_documento_precedentedentemente_compilato_online_e_poi_fa}</span>
+                                    </div>
+                                </lightning:tab>
+                            </lightning:tabset>
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="5" smallDeviceSize="6" mediumDeviceSize="7" largeDeviceSize="5" class="slds-m-vertical_small ">
+                        <div class="tabs-container">
+                            <lightning:tabset class="tabs">
+                                <lightning:tab label="SCARICA IN BIANCO" class="tab-title">
+                                    <div class="tab-text">
+                                        <lightning:icon aura:id="rpv" class="icon" variant="inverse" iconName="utility:edit" size="small" onclick="{!c.LaunchComponent}"/>
+                                    </div>         
+                                    <div class="tab-text tabs">
+                                        <span>{!$Label.c.WGC_Documenti_Scarica_il_documento_con_i_campi}<i>{!$Label.c.WGC_Documenti_in_bianco}</i>{!$Label.c.WGC_Documenti_2_per_poi_compilarlo_a_mano_con_il_cliente}</span>
+                                    </div>
+                                </lightning:tab>
+                                <lightning:tab label="CARICA COMPILATO E FIRMATO" class="tab-title">
+                                    <div class="tab-text">
+                                        <lightning:icon aura:id="rpv" class="icon" variant="inverse" iconName="utility:file" size="small" onclick="{!c.LaunchComponent}"/>
+                                    </div>         
+                                    <div class="tab-text tabs">
+                                        <span>{!$Label.c.WGC_Documenti_Carica_il_documento_compilato_a_mano_e_firmato_e_poi_compila_i_cam}</span>
+                                    </div>
+                                </lightning:tab>
+                            </lightning:tabset>
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="3" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="3" class="slds-m-vertical_small">
+                        <div class="slds-grid slds-wrap slds-p-vertical_medium">
+                            <div class="slds-col slds-size_1-of-4 slds-p-vertical_medium">
+                                <lightning:icon aura:id="facta" class="icon" variant="inverse" iconName="utility:file" size="small" />
+                            </div>
+                            <div class="slds-col slds-size_3-of-4 slds-p-vertical_medium">
+                                <div>
+                                    <span class="slds-text-title_bold">{!$Label.c.WGC_Documenti_Modulo_FACTA}</span>
+                                </div>
+                                <div>
+                                    <span style="color:gray;">{!$Label.c.WGC_Documenti_Data_ultimo_aggiornamento}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="4" smallDeviceSize="6" mediumDeviceSize="5" largeDeviceSize="4" class="slds-m-vertical_small ">
+                        <div class="tabs-container">
+                            <lightning:tabset class="tabs">
+                                <lightning:tab id="compila" label="COMPILA ONLINE">
+                                    <div class="tab-text">
+                                        <lightning:icon aura:id="facta" class="icon" variant="inverse" iconName="utility:edit" size="small" onclick="{!c.LaunchComponent}"/>
+                                    </div>         
+                                    <div class="tab-text tabs">
+                                        <span>{Label.c.WGC_Documenti_Compila_i_campi_del_documento}<i>{!$Label.c.WGC_Documenti_online}</i>{!$Label.c.WGC_Documenti_e_poi_scaricalo_per_farlo_firmare_al_cliente}</span>
+                                    </div>
+                                </lightning:tab>
+                                <lightning:tab id="carica" label="CARICA FIRMATO">
+                                    <div class="tab-text">
+                                        <lightning:icon aura:id="facta" class="icon" variant="inverse" iconName="utility:file" size="small" onclick="{!c.LaunchComponent}"/>
+                                    </div>         
+                                    <div class="tab-text tabs">
+                                        <span>{!$Label.c.WGC_Documenti_Carica_il_documento_precedentedentemente_compilato_online_e_poi_fa}</span>
+                                    </div>
+                                </lightning:tab>
+                            </lightning:tabset>
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="5" smallDeviceSize="6" mediumDeviceSize="7" largeDeviceSize="5" class="slds-m-vertical_small ">
+                        <div class="tabs-container">
+                            <lightning:tabset class="tabs">
+                                <lightning:tab label="SCARICA IN BIANCO">
+                                    <div class="tab-text">
+                                        <lightning:icon aura:id="facta" class="icon" variant="inverse" iconName="utility:edit" size="small" onclick="{!c.LaunchComponent}"/>
+                                    </div>         
+                                    <div class="tab-text tabs">
+                                        <span>{!$Label.c.WGC_Documenti_Scarica_il_documento_con_i_campi}<i>{!$Label.c.WGC_Documenti_in_bianco}</i>{!$Label.c.WGC_Documenti_2_per_poi_compilarlo_a_mano_con_il_cliente}</span>
+                                    </div>
+                                </lightning:tab>
+                                <lightning:tab label="CARICA COMPILATO E FIRMATO">
+                                    <div class="tab-text">
+                                        <lightning:icon aura:id="facta" class="icon" variant="inverse" iconName="utility:file" size="small" onclick="{!c.LaunchComponent}"/>
+                                    </div>         
+                                    <div class="tab-text tabs">
+                                        <span>{!$Label.c.WGC_Documenti_Carica_il_documento_compilato_a_mano_e_firmato_e_poi_compila_i_cam}</span>
+                                    </div>
+                                </lightning:tab>
+                            </lightning:tabset>
+                        </div>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </lightning:layoutItem>
+        </lightning:layout>
+</aura:component>

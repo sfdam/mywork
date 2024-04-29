@@ -1,0 +1,17 @@
+<design:component>
+    
+    <design:attribute name="workflowRecordCandidatoID" />              
+
+    <design:attribute name="flowValidatorAnagrafeErrorsVar" />       
+    <design:attribute name="flowValidatorConfProdErrorsVar" />       
+    <design:attribute name="flowValidatorGaranzieErrorsVar" />    
+    <design:attribute name="flowValidatorPrivacyErrorsVar" />       
+    <design:attribute name="flowValidatorMAVErrorsVar" />   
+    <design:attribute name="flowValidatorTCErrorsVar" />     
+    <design:attribute name="flowValidatorQQErrorsVar" />     
+    <design:attribute name="flowValidatorNoteErrorsVar" />     
+    <design:attribute name="flowValidatorDocErrorsVar" />   
+    
+    <design:attribute name="flowValidatorFinalResultVar" />        
+    
+</design:component>

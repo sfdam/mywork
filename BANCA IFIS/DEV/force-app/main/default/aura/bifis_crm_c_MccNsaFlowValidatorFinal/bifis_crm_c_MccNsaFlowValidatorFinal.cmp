@@ -1,0 +1,17 @@
+<aura:component controller="bifis_crm_c_MccNsaCommonCtrl" implements="lightning:availableForFlowActions" access="global">
+    
+    <aura:attribute name="workflowRecordCandidatoID" type="String"/>       
+    
+	<aura:attribute name="flowValidatorAnagrafeErrorsVar" type="String[]" />       
+	<aura:attribute name="flowValidatorConfProdErrorsVar" type="String[]" />   
+	<aura:attribute name="flowValidatorGaranzieErrorsVar" type="String[]" />       
+	<aura:attribute name="flowValidatorPrivacyErrorsVar" type="String[]" />   
+	<aura:attribute name="flowValidatorMAVErrorsVar" type="String[]" />  
+	<aura:attribute name="flowValidatorTCErrorsVar" type="String[]" />  
+	<aura:attribute name="flowValidatorQQErrorsVar" type="String[]" />  
+	<aura:attribute name="flowValidatorNoteErrorsVar" type="String[]" />  
+	<aura:attribute name="flowValidatorDocErrorsVar" type="String[]" />      
+         
+	<aura:attribute name="flowValidatorFinalResultVar" type="String" />    
+    
+</aura:component>

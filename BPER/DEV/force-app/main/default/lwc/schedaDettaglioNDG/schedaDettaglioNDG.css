@@ -1,0 +1,16 @@
+.tilte-card {
+    display: inline;
+    padding-left: 5px;
+}
+.utilityIcon {
+    --sds-c-icon-color-foreground-default: white;
+}
+br {
+    display: block; /* makes it have a width */
+    content: ""; /* clears default height */
+    margin-top: 10px; /* change this to whatever height you want it */
+ }
+ b{
+    margin-top: 15px;
+    font-size: 130%;
+ }

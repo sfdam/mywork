@@ -1,0 +1,99 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 10-02-2020
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+  Modifications Log 
+  Ver   Date         Author                               Modification
+  1.0   09-29-2020   ChangeMeIn@UserSettingsUnder.SFDoc   Initial Version
+-->
+<template>
+    <lightning-layout if:false={notShowComponent}>
+        <lightning-layout-item size="12" class="slds-card_boundary" >
+            <lightning-card>
+                <div slot="title">
+                    <lightning-icon icon-name={builderIcon} size="small"></lightning-icon>
+                    <div class="tilte-card"><b>{title} ({numberAll})</b></div>
+                </div>
+                <lightning-button-group slot="actions">
+                  <!--  <lightning-button label="Nuovo" onclick={handleClickNew}></lightning-button>-->
+                    <lightning-button-icon icon-name="utility:refresh" alternative-text="Refresh" onclick={refreshClick} ></lightning-button-icon>
+                </lightning-button-group>
+                
+                <div slot="footer" >
+                    <template if:true={isRendered}>
+                        <lightning-button variant="base" label={viewAllLabel} title="View All" class="slds-m-left_x-small" onclick={handleViewAll}></lightning-button>
+                    </template>
+                </div>
+                <template if:false={isRendered}>
+                    <div class="slds-align_absolute-center">
+                        <lightning-spinner alternative-text="CARICAMENTO" size="small"></lightning-spinner>
+                    </div>
+                </template>
+                <template if:true={isRendered}>
+                        <div style="overflow-y: auto; max-height: 300px" >
+                            <c-extended-data-table
+                            data-item="extend"
+                                key-field="id"
+                                data={data}
+                                columns={columns}
+                                sorted-by={sortBy}
+                                sorted-direction={sortDirection}
+                                onsort={doSorting}
+                                hide-checkbox-column="true"
+                                >
+                            </c-extended-data-table>
+                        </div>
+                        <div style="margin-left: 8px; "><p>{noDataMessage}</p></div>    
+                </template>
+            </lightning-card>
+        </lightning-layout-item>
+    </lightning-layout>
+
+    <template if:true={isViewAll}>
+        <div>
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_large">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                            <lightning-icon icon-name="utility:close" size="medium" class="utilityIcon">
+                            </lightning-icon>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <div class="tilte-card">
+                            <div slot="title">
+                                <lightning-icon icon-name="custom:custom53" size="small"></lightning-icon>
+                                <div class="tilte-card"><b>{title} ({numberAll})</b></div>
+                            </div>
+                        </div>
+
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <lightning-layout>
+                            <lightning-layout-item size="12">
+                                <div class="slds-scrollable_y" style="height:300px">
+                                    <c-extended-data-table data-id="datatableRecords"
+                                        columns={allColumns} 
+                                        data={allData} 
+                                        sorted-by={sortByAll}
+                                        sorted-direction={sortDirectionAll}
+                                        onsort={doSortingAll}
+                                        hide-checkbox-column="true" 
+                                        resize-column-disabled="true"
+                                        key-field="id"
+                                        >
+                                    </c-extended-data-table>
+                                </div>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+                    <footer class="slds-modal__footer">
+                            <lightning-button label="Annulla" variant="neutral" onclick={closeModal}></lightning-button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </template>
+</template>

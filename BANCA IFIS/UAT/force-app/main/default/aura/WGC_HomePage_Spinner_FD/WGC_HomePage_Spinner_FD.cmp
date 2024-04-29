@@ -1,0 +1,20 @@
+<aura:component implements="flexipage:availableForAllPageTypes" access="global">
+    <!-- attributes -->
+    <aura:attribute name="isLoading" type="Boolean" default="true" />
+    <aura:attribute name="spinnerMessage" type="String" default="CARICAMENTO DATI" />
+    <!-- handlers -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }" />
+    <aura:handler event="c:WGC_FilterEvent_FD" action="{! c.filter }" />
+    <!-- body -->
+    <aura:if isTrue="{! v.isLoading }">
+        <div aura:id="spinnerWrapper" class="spinnerWrapper ">
+            <!-- <div class="cstm-spinner-msg-container">
+                <p class="cstm-spinner-msg">{! v.spinnerMessage }</p>
+            </div> -->
+            <lightning:spinner aura:id="spinner" alternativeText="Loading" class="cstm-state-lock"/>
+        </div>
+        <aura:set attribute="else">
+            <div></div>
+        </aura:set>
+    </aura:if>
+</aura:component>

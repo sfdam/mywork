@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_IsDatiModelloUnicoVisible__c</fullName>
+    <externalId>false</externalId>
+    <formula>AND (ISBLANK(CRM_FatturatoPeriodo1__c), ISBLANK(CRM_FatturatoPeriodo2__c), ISBLANK(CRM_FatturatoPeriodo3__c),
+ISBLANK(CRM_RisultatoEsercizio1__c), ISBLANK(CRM_RisultatoEsercizio2__c), ISBLANK(CRM_RisultatoEsercizio3__c),
+OR(ISBLANK(CRM_RG12Tot__c)=FALSE, ISBLANK(CRM_RG16spese__c)=FALSE, ISBLANK(CRM_RG24Tot__c)=FALSE, ISBLANK(CRM_RG2Ricavi__c)=FALSE, 
+			ISBLANK(CRM_RG34UtilePerdita__c)=FALSE
+))</formula>
+    <label>IsDatiModelloUnicoVisible</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

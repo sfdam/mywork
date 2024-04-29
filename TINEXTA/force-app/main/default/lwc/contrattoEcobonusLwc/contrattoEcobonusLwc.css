@@ -1,0 +1,11 @@
+.cstm-title {
+  font-size: large;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.cstm-scrollable-container {
+  height: 30rem;
+  border: 1px #e5e5e5dc solid;
+  margin: 0 auto;
+}

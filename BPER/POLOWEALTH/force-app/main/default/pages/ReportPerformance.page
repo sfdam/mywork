@@ -1,0 +1,28 @@
+<apex:page Controller="ReportPerformance" showHeader="false">
+	<style type="text/css">
+	.body {
+		overflow : hidden;
+	}
+	.slds-button .navigateButton .uiButton--default .uiButton
+	{
+		display : none;
+	}
+	.reportFooter	
+	{
+		visibility: collapse;
+
+	}
+	h2 {
+		font-size: 16;
+	}
+	a.analyticsCordaChart {
+     pointer-events: none;
+     cursor: default;
+   	 overflow : hidden!important;
+   }
+	</style>				
+	<analytics:reportChart id="reportDashboard" reportId="{!reportId}" size="large"
+				showRefreshButton="true"
+				cacheResults="true"
+				filter="{!filter}"/>
+</apex:page>

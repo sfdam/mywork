@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>58.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__RecordPage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__RecordPage">
+            <property name="tableType" type="String" label="Key" datasource="Sintesi_singolaLinea,Sintesi_totali,SviluppoAnno1,RARORAC,RACE" default=""/>
+            <property name="titleCard" type="String" default="" />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

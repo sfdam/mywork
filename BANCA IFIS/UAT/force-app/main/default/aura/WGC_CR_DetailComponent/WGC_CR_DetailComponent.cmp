@@ -1,0 +1,958 @@
+<aura:component
+    implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+    controller="WGC_CR_DetailComponent" access="global">
+
+    <ltng:require scripts="{!join(',', 
+         '/resource/WGC_jQuery3x',
+         '/resource/WGC_ChartJs')}" afterScriptsLoaded="{!c.doInit}" />
+
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="wizardItems" type="Object[]" />
+    <aura:attribute name="step" type="String" default="autoliquidanti" />
+    <aura:attribute name="tipoCR" type="Boolean" default="false" />
+
+    <!-- ATTRIBUTI PER GESTIONE MESSAGGI E OPPORTUNITA' -->
+    <aura:attribute name="opportunityId" type="String" />
+    <aura:attribute name="visibleNote" type="Boolean" />
+    <aura:attribute name="config" type="Object"/>
+    <aura:attribute name="debsData" type="Object[]"/>
+    <aura:attribute name="debsColumns" type="Object[]"/>
+    <aura:attribute name="isEstero" type="Boolean" />
+    
+    <!-- REGISTER EVENTS PER GESTIONE MESSAGGI E OPPORTUNITA' -->
+    <aura:registerEvent name="changeWizardEvent" type="c:WGC_Cart_ChangeWizardEvent"/>
+
+    <aura:attribute name="dataultimaCR" type="String" default="" />
+    <aura:attribute name="dataRichiestaCR" type="String" default="" />
+
+    <aura:attribute name="AccordatoComplessivoIfis" type="String[]" description="RecordType associati all'account" />
+    <aura:attribute name="AccordatoComplessivoSistema" type="String[]" description="RecordType associati all'account" />
+    <aura:attribute name="UtilizzatoComplessivoIfis" type="String[]" description="RecordType associati all'account" />
+    <aura:attribute name="UtilizzatoComplessivoSistema" type="String[]"
+        description="RecordType associati all'account" />
+    <aura:attribute name="ComplessivoIfis" type="String[]" description="RecordType associati all'account" />
+    <aura:attribute name="ComplessivoSistema" type="String[]" description="RecordType associati all'account" />
+    <aura:attribute name="AccordatoComplessivoIfisSistema" type="String[]"
+        description="RecordType associati all'account" />
+    <aura:attribute name="UtilizzatoComplessivoIfisSistema" type="String[]"
+        description="RecordType associati all'account" />
+
+
+    <aura:attribute name="AccordatoAutoliquidantiIfis" type="String[]" description="RecordType associati all'account" />
+    <aura:attribute name="AccordatoAutoliquidantiSistema" type="String[]"
+        description="RecordType associati all'account" />
+    <aura:attribute name="UtilizzatoAutoliquidantiIfis" type="String[]"
+        description="RecordType associati all'account" />
+    <aura:attribute name="UtilizzatoAutoliquidantiSistema" type="String[]"
+        description="RecordType associati all'account" />
+    <aura:attribute name="AutoliquidantiIfis" type="String[]" description="RecordType associati all'account" />
+    <aura:attribute name="AutoliquidantiSistema" type="String[]" description="RecordType associati all'account" />
+    <aura:attribute name="AccordatoAutoliquidantiIfisSistema" type="String[]"
+        description="RecordType associati all'account" />
+    <aura:attribute name="UtilizzatoAutoliquidantiIfisSistema" type="String[]"
+        description="RecordType associati all'account" />
+
+    <aura:attribute name="AccordatoRevocaIfis" type="String[]" description="RecordType associati all'account" />
+    <aura:attribute name="AccordatoRevocaSistema" type="String[]" description="RecordType associati all'account" />
+    <aura:attribute name="UtilizzatoRevocaIfis" type="String[]" description="RecordType associati all'account" />
+    <aura:attribute name="UtilizzatoRevocaSistema" type="String[]" description="RecordType associati all'account" />
+    <aura:attribute name="RevocaIfis" type="String[]" description="RecordType associati all'account" />
+    <aura:attribute name="RevocaSistema" type="String[]" description="RecordType associati all'account" />
+    <aura:attribute name="AccordatoRevocaIfisSistema" type="String[]" description="RecordType associati all'account" />
+    <aura:attribute name="UtilizzatoRevocaIfisSistema" type="String[]" description="RecordType associati all'account" />
+
+    <aura:attribute name="AccordatoFirmaIfis" type="String[]" description="RecordType associati all'account" />
+    <aura:attribute name="AccordatoFirmaSistema" type="String[]" description="RecordType associati all'account" />
+    <aura:attribute name="UtilizzatoFirmaIfis" type="String[]" description="RecordType associati all'account" />
+    <aura:attribute name="UtilizzatoFirmaSistema" type="String[]" description="RecordType associati all'account" />
+    <aura:attribute name="FirmaIfis" type="String[]" description="RecordType associati all'account" />
+    <aura:attribute name="FirmaSistema" type="String[]" description="RecordType associati all'account" />
+    <aura:attribute name="AccordatoFirmaIfisSistema" type="String[]" description="RecordType associati all'account" />
+    <aura:attribute name="UtilizzatoFirmaIfisSistema" type="String[]" description="RecordType associati all'account" />
+
+    <aura:attribute name="AccordatoScadenzaIfis" type="String[]" description="RecordType associati all'account" />
+    <aura:attribute name="AccordatoScadenzaSistema" type="String[]" description="RecordType associati all'account" />
+    <aura:attribute name="UtilizzatoScadenzaIfis" type="String[]" description="RecordType associati all'account" />
+    <aura:attribute name="UtilizzatoScadenzaSistema" type="String[]" description="RecordType associati all'account" />
+    <aura:attribute name="ScadenzaIfis" type="String[]" description="RecordType associati all'account" />
+    <aura:attribute name="ScadenzaSistema" type="String[]" description="RecordType associati all'account" />
+    <aura:attribute name="AccordatoScadenzaIfisSistema" type="String[]"
+        description="RecordType associati all'account" />
+    <aura:attribute name="UtilizzatoScadenzaIfisSistema" type="String[]"
+        description="RecordType associati all'account" />
+
+
+    <aura:attribute name="SconfinoAutoliquidantiIfis" type="String[]"
+        default="['0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€']"
+        description="RecordType associati all'account" />
+    <aura:attribute name="SconfinoAutoliquidantiSistema" type="String[]"
+        default="['0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€']"
+        description="RecordType associati all'account" />
+    <aura:attribute name="SconfinoScadenzaIfis" type="String[]"
+        default="['0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€']"
+        description="RecordType associati all'account" />
+    <aura:attribute name="SconfinoScadenzaSistema" type="String[]"
+        default="['0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€']"
+        description="RecordType associati all'account" />
+    <aura:attribute name="SconfinoRevocaIfis" type="String[]"
+        default="['0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€']"
+        description="RecordType associati all'account" />
+    <aura:attribute name="SconfinoRevocaSistema" type="String[]"
+        default="['0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€']"
+        description="RecordType associati all'account" />
+    <aura:attribute name="SconfinoFirmaIfis" type="String[]"
+        default="['0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€']"
+        description="RecordType associati all'account" />
+    <aura:attribute name="SconfinoFirmaSistema" type="String[]"
+        default="['0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€']"
+        description="RecordType associati all'account" />
+
+    <aura:attribute name="SconfinoAutoliquidantiIfis_helper" type="String[]"
+        default="['0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€']"
+        description="RecordType associati all'account" />
+    <aura:attribute name="SconfinoAutoliquidantiSistema_helper" type="String[]"
+        default="['0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€']"
+        description="RecordType associati all'account" />
+    <aura:attribute name="SconfinoScadenzaIfis_helper" type="String[]"
+        default="['0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€']"
+        description="RecordType associati all'account" />
+    <aura:attribute name="SconfinoScadenzaSistema_helper" type="String[]"
+        default="['0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€']"
+        description="RecordType associati all'account" />
+    <aura:attribute name="SconfinoRevocaIfis_helper" type="String[]"
+        default="['0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€']"
+        description="RecordType associati all'account" />
+    <aura:attribute name="SconfinoRevocaSistema_helper" type="String[]"
+        default="['0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€']"
+        description="RecordType associati all'account" />
+    <aura:attribute name="SconfinoFirmaIfis_helper" type="String[]"
+        default="['0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€']"
+        description="RecordType associati all'account" />
+    <aura:attribute name="SconfinoFirmaSistema_helper" type="String[]"
+        default="['0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€', '0,00&nbsp;€']"
+        description="RecordType associati all'account" />
+
+    <aura:attribute name="Segnalanti" type="String[]" default="['', '', '', '', '', '', '', '', '', '', '', '']"
+        description="RecordType associati all'account" />
+    <aura:attribute name="NuoviAffidanti" type="String[]" default="['', '', '', '', '', '', '', '', '', '', '', '']"
+        description="RecordType associati all'account" />
+    <aura:attribute name="PrimaInfo" type="String[]" default="['', '', '', '', '', '', '', '', '', '', '', '']"
+        description="RecordType associati all'account" />
+
+    <aura:attribute name="SofferenzeIfis" type="String[]" default="['', '', '', '', '', '', '', '', '', '', '', '']"
+        description="RecordType associati all'account" />
+    <aura:attribute name="SofferenzeSistema" type="String[]" default="['', '', '', '', '', '', '', '', '', '', '', '']"
+        description="RecordType associati all'account" />
+
+    <aura:attribute name="PresenzaSegnalazione" type="Decimal" default="0" />
+
+    <!-- attributi tabella Indicatori -->
+    <aura:attribute name="IsCollapsed" type="Boolean" default="true" />
+    <aura:attribute name="dataABIA" type="Object" />
+    <aura:attribute name="columnsABIA" type="List" />
+
+    <lightning:navigation aura:id="navService" />
+
+    <aura:attribute name="showSpinner" type="Boolean" default="false" />
+    <aura:attribute name="spinnerMessage" type="String" default="" />
+
+    <!-- FORCE RECORD DATA -->
+    <aura:attribute name="currentAccount" type="Account" />
+    <force:recordData fields="Id, Name, NDGGruppo__c" recordId="{! v.recordId }" targetFields="{!v.currentAccount }"
+        mode="VIEW" />
+
+    <div class="spinnerDiv">
+        <lightning:spinner alternativeText="Loading" size="large" aura:id="mySpinner" class="slds-hide" />
+    </div>
+
+    <lightning:card class="cstm-card-hidden-header">
+        <aura:set attribute="title">
+        </aura:set>
+        <div class='container-card'>
+
+            <aura:if isTrue="{! v.config.msg != '' }">
+                <lightning:layout>
+                    <lightning:layoutItem size="12" padding="around-small">
+                        <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_warning" role="alert">
+                            <h2>{! v.config.msg }</h2>
+                        </div>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </aura:if>
+
+            <aura:if isTrue="{! v.config.graph }">
+
+                <lightning:layout multipleRows="true" pullToBoundary="small" class="">
+
+                    <lightning:layoutItem flexibility="auto" size="12" padding="around-small">
+                        <div class="slds-p-around_xx-small container-table">
+                            <lightning:layout multipleRows="true">
+                                <lightning:layoutItem class="slds-p-around_small" size="10" smallDeviceSize="10"
+                                    mediumDeviceSize="10" largeDeviceSize="10">
+                                    <span class="slds-text-heading_medium title-bis">INDICATORI CENTRALE RISCHI
+                                        <!-- span class="title-corsivo"> {!$Label.c.WGC_TabelleBilancio_DetailComponent_Importi_in_migliaia}</span> -->
+                                    </span>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem class="slds-p-around_small slds-text-align_right" size="2"
+                                    smallDeviceSize="2" mediumDeviceSize="2" largeDeviceSize="2">
+                                    <lightning:buttonIcon iconName="utility:chevronup" size="medium" variant="bare"
+                                        iconClass="title-bis" onclick="{!c.collapse}"
+                                        class="{! 'cstm-accordion-icon ' + (v.IsCollapsed ? 'collapsed' : '') }" />
+                                </lightning:layoutItem>
+                                <aura:if isTrue="{! !v.IsCollapsed }">
+                                    <div class="{! 'cstm-datatable-body ' + (v.IsCollapsed ? 'collapsed' : '') }">
+                                        <lightning:datatable keyField="id" data="{! v.dataABIA }"
+                                            columns="{! v.columnsABIA }" hideCheckboxColumn="true" />
+                                    </div>
+                                </aura:if>
+                            </lightning:layout>
+                        </div>
+                    </lightning:layoutItem>
+                </lightning:layout>
+
+                <lightning:layout multipleRows="true" pullToBoundary="small" class="">
+                    <lightning:layoutItem flexibility="auto" size="2" padding="horizontal-medium" class="reMargin">
+                        <div class="">
+                            <div class="date display-inline">
+                                <div class="date display-inline">
+                                    <aura:if isTrue="{! and(v.dataultimaCR != null, v.dataultimaCR != '') }">
+                                        <lightning:formattedDateTime value="{! v.dataultimaCR }" />
+                                        <aura:set attribute="else">
+                                            -
+                                        </aura:set>
+                                    </aura:if>
+                                </div>
+                                <!-- <div class="display-inline">
+                                    <lightning:buttonIcon iconName="utility:refresh" variant="bare"
+                                        onclick="{! c.handleClick }" alternativeText="Refresh" />
+                                </div> -->
+                            </div>
+                            <div class="date-sub">
+                                {!$Label.c.WGC_CR_Detail_Ultima_rilevazione}
+                            </div>
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem flexibility="auto" size="2" padding="horizontal-medium" class="reMargin">
+                            <div class="">
+                                <div class="date display-inline">
+                                    <aura:if isTrue="{! and(v.dataRichiestaCR != null, v.dataRichiestaCR != '') }">
+                                        <lightning:formattedDateTime value="{! v.dataRichiestaCR }" />
+                                        <aura:set attribute="else">
+                                            -
+                                        </aura:set>
+                                    </aura:if>
+                                    <!-- <div class="display-inline">
+                                        <lightning:buttonIcon iconName="utility:refresh" variant="bare"
+                                            onclick="{! c.handleClick }" alternativeText="Refresh" />
+                                    </div> -->
+                                </div>
+                                <div class="date-sub">
+                                    <!-- {!$Label.c.WGC_CR_Detail_Ultima_rilevazione} -->
+                                    {!$Label.c.WGC_CR_Detail_Richiesta_CR}
+                                </div>
+                            </div>
+                        </lightning:layoutItem>
+                    <lightning:layoutItem alignmentBump="left" padding="horizontal-medium" class="reMargin">
+                        <lightning:button label="VISUALIZZA CR TABELLARE" variant="brand" class="cstm-btn-round"
+                            onclick="{! c.goToUrl }" />
+                    </lightning:layoutItem>
+                </lightning:layout>
+
+                <aura:if isTrue="{! v.PresenzaSegnalazione > 0 }">
+                    <lightning:layout multipleRows="true" pullToBoundary="small" class="">
+
+                        <lightning:layoutItem flexibility="auto" size="12" padding="horizontal-small"
+                            class="slds-align--absolute-center">
+                            <lightning:buttonGroup class="cstm-cr-wizard-wrapper">
+                                <aura:iteration items="{! v.wizardItems }" var="wizItem">
+                                    <lightning:button name="{! wizItem.step }" disabled="{! wizItem.disabled }"
+                                        label="{! wizItem.title + ' ' + wizItem.valPerc + (wizItem.valPerc ? '%' : '') }"
+                                        iconName="{! wizItem.icon }" iconPosition="right" onclick="{! c.selectWizardItem }"
+                                        class="{! 'slds-text-align_center cstm-wizard-item ' + 
+                                                            ( wizItem.completed ? 'completed ' : '' ) + 
+                                                            ( wizItem.disabled ? 'disabled ' : '' ) + 
+                                                            ( wizItem.active ? 'active ' : '' ) }" />
+                                </aura:iteration>
+                            </lightning:buttonGroup>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                    <lightning:layout class="slds-m-top_small" pullToBoundary="small" multipleRows="true">
+                        <lightning:layoutItem flexibility="grow" size="12" smallDeviceSize="12" mediumDeviceSize="12"
+                            largeDeviceSize="6" padding="around-small">
+                            <div class="cstm-border-all">
+                                <div class="title-button">
+                                    <lightning:button aura:Id="ifis" label="IFIS" variant="brand"
+                                        class="button-topBord active" onclick="" />
+                                    <lightning:button aura:Id="sistema" label="SISTEMA" variant="brand"
+                                        class="button-topBord" onclick="" />
+                                </div>
+                                <lightning:card>
+                                    <aura:set attribute="title">
+                                        <div class="title"><span class="uppercase">{!$Label.c.WGC_CR_Detail_Saturazione}
+                                            </span> <span
+                                                class="sub">{!$Label.c.WGC_CR_Detail_UtAcc_ifis_vs_UtAcc_sist}</span></div>
+                                    </aura:set>
+                                    <div class="slds-grid slds-gutters slds-wrap slds-p-horizontal_x-small">
+                                        <div class="slds-col slds-size_1-of-1">
+                                            <div id="container_chartJS_1" class="chart-container">
+                                                <canvas aura:id="chartJS_1" id="chartJS_1" />
+                                            </div>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-1">
+                                            <div id="container_chartJS_2" class="chart-container">
+                                                <canvas aura:id="chartJS_2" id="chartJS_2" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="slds-grid slds-gutters slds-p-horizontal_x-small line">
+                                    <div class="slds-col slds-size_1-of-1">
+                                        <div id="container_chartJS_2" class="chart-container">
+                                            <canvas aura:id="chartJS_2" id="chartJS_2" />
+                                        </div>
+                                    </div>
+                                </div> -->
+                                </lightning:card>
+                            </div>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem flexibility="grow" size="12" smallDeviceSize="12" mediumDeviceSize="12"
+                            largeDeviceSize="6" padding="around-small">
+                            <div class="cstm-border-all">
+                                <lightning:card>
+                                    <aura:set attribute="title">
+                                        <div class="title"><span
+                                                class="uppercase">{!$Label.c.WGC_CR_Detail_Penetrazione_sul_sistema} </span>
+                                            <span class="sub">{!$Label.c.WGC_CR_Detail_UtAcc_ifis_vs_UtAcc_sist_2}</span>
+                                        </div>
+                                    </aura:set>
+                                    <div class="slds-grid slds-gutters slds-wrap slds-p-horizontal_x-small">
+                                        <div class="slds-col slds-size_1-of-1">
+                                            <div id="container_chartJS_3" class="chart-container">
+                                                <canvas aura:id="chartJS_3" id="chartJS_3" />
+                                            </div>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-1">
+                                            <!-- <div ng-if="hasData">
+                                                                    <canvas id="line" class="chart chart-line" data="data" labels="labels" legend="true" series="series" options="options" click="onClick"></canvas>
+                                                                <div> -->
+                                            <div id="container_chartJS_4" class="chart-container">
+                                                <canvas aura:id="chartJS_4" id="chartJS_4" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="slds-grid slds-gutters slds-p-horizontal_x-small line">
+                                    <div class="slds-col slds-size_1-of-1">
+                                        <!- <div ng-if="hasData">
+                                                                    <canvas id="line" class="chart chart-line" data="data" labels="labels" legend="true" series="series" options="options" click="onClick"></canvas>
+                                                                <div> ->
+                                        <div id="container_chartJS_4" class="chart-container">
+                                            <canvas aura:id="chartJS_4" id="chartJS_4" />
+                                        </div>
+                                    </div>
+                                </div> -->
+                                </lightning:card>
+                            </div>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+
+                    <lightning:layout multipleRows="true" pullToBoundary="small" class="">
+                        <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12" mediumDeviceSize="12"
+                            largeDeviceSize="6" padding="around-small">
+                            <div class="cstm-border-all grey radius-top">
+                                <div class="title-button">
+                                    <lightning:button aura:Id="ifis" label="IFIS" variant="brand"
+                                        class="button-topBord active" onclick="" />
+                                </div>
+                                <div class="title">{!$Label.c.WGC_CR_Detail_Sconfini}</div>
+                                <lightning:layout class="slds-m-top_xx-small slds-align--absolute-center container">
+                                    <lightning:layoutItem size="10">
+                                        <div>
+                                            <section class="step-indicator">
+                                                <aura:iteration items="{! v.SconfinoAutoliquidantiIfis_helper }"
+                                                    var="sconfinoAutoliquidanteIfis" indexVar="index">
+                                                    <div class="{! 'indicator-line ' + (index == 0 ? 'slds-hide' : '') }">
+                                                    </div>
+                                                    <div
+                                                        class="{! 'step step' + index + ' ' + (sconfinoAutoliquidanteIfis == '0,00&nbsp;€' ? '' : 'active') }">
+                                                        <div class="step-icon">
+                                                            <div
+                                                                class="{! (sconfinoAutoliquidanteIfis == '0,00&nbsp;€' ? 'slds-hide' : '') }">
+                                                                <lightning:helpText
+                                                                    content="{! sconfinoAutoliquidanteIfis }"
+                                                                    class="helpTextOverride" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </aura:iteration>
+                                            </section>
+
+                                        </div>
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem size="2">
+                                        <div class="text-for-step">{!$Label.c.WGC_CR_Detail_Autoliquidanti}</div>
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                                <lightning:layout class="slds-m-top_xx-small slds-align--absolute-center container">
+                                    <lightning:layoutItem size="10">
+                                        <div>
+                                            <section class="step-indicator">
+                                                <aura:iteration items="{! v.SconfinoScadenzaIfis_helper }"
+                                                    var="sconfinoScadenzaIfis" indexVar="index">
+                                                    <div class="{! 'indicator-line ' + (index == 0 ? 'slds-hide' : '') }">
+                                                    </div>
+                                                    <div
+                                                        class="{! 'step step' + index + ' ' + (sconfinoScadenzaIfis == '0,00&nbsp;€' ? '' : 'active') }">
+                                                        <div class="step-icon">
+                                                            <div
+                                                                class="{! (sconfinoScadenzaIfis == '0,00&nbsp;€' ? 'slds-hide' : '') }">
+                                                                <lightning:helpText content="{! sconfinoScadenzaIfis }"
+                                                                    class="helpTextOverride" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </aura:iteration>
+                                            </section>
+                                        </div>
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem size="2">
+                                        <div class="text-for-step">{!$Label.c.WGC_CR_Detail_Scadenza}</div>
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                                <lightning:layout class="slds-m-top_xx-small slds-align--absolute-center container">
+                                    <lightning:layoutItem size="10">
+                                        <div>
+                                            <section class="step-indicator">
+                                                <aura:iteration items="{! v.SconfinoRevocaIfis_helper }"
+                                                    var="sconfinoRevocaIfis" indexVar="index">
+                                                    <div class="{! 'indicator-line ' + (index == 0 ? 'slds-hide' : '') }">
+                                                    </div>
+                                                    <div
+                                                        class="{! 'step step' + index + ' ' + (sconfinoRevocaIfis == '0,00&nbsp;€' ? '' : 'active') }">
+                                                        <div class="step-icon">
+                                                            <div
+                                                                class="{! (sconfinoRevocaIfis == '0,00&nbsp;€' ? 'slds-hide' : '') }">
+                                                                <lightning:helpText content="{! sconfinoRevocaIfis }"
+                                                                    class="helpTextOverride" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </aura:iteration>
+                                            </section>
+                                        </div>
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem size="2">
+                                        <div class="text-for-step">{!$Label.c.WGC_CR_Detail_Revoca}</div>
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                                <lightning:layout class="slds-m-top_xx-small slds-align--absolute-center container">
+                                    <lightning:layoutItem size="10">
+                                        <div>
+                                            <section class="step-indicator">
+                                                <aura:iteration items="{! v.SconfinoFirmaIfis_helper }"
+                                                    var="sconfinoFirmaIfis" indexVar="index">
+                                                    <div class="{! 'indicator-line ' + (index == 0 ? 'slds-hide' : '') }">
+                                                    </div>
+                                                    <div
+                                                        class="{! 'step step' + index + ' ' + (sconfinoFirmaIfis == '0,00&nbsp;€' ? '' : 'active') }">
+                                                        <div class="step-icon">
+                                                            <div
+                                                                class="{! (sconfinoFirmaIfis == '0,00&nbsp;€' ? 'slds-hide' : '') }">
+                                                                <lightning:helpText content="{! sconfinoFirmaIfis }"
+                                                                    class="helpTextOverride" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </aura:iteration>
+                                            </section>
+                                        </div>
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem size="2">
+                                        <div class="text-for-step">{!$Label.c.WGC_CR_Detail_Firma}</div>
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                            </div>
+                            <div class="cstm-border-all grey radius-bottom">
+                                <div class="title-button">
+                                    <lightning:button aura:Id="sistema" label="SISTEMA" variant="brand"
+                                        class="button-topBord" onclick="" />
+                                </div>
+                                <div class="title"></div>
+                                <lightning:layout class="slds-m-top_xx-small slds-align--absolute-center container">
+                                    <lightning:layoutItem size="10">
+                                        <div>
+                                            <section class="step-indicator">
+                                                <aura:iteration items="{! v.SconfinoAutoliquidantiSistema_helper }"
+                                                    var="sconfinoAutoliquidanteSistema" indexVar="index">
+                                                    <div class="{! 'indicator-line ' + (index == 0 ? 'slds-hide' : '') }">
+                                                    </div>
+                                                    <div
+                                                        class="{! 'step step' + index + ' ' + (sconfinoAutoliquidanteSistema == '0,00&nbsp;€' ? '' : 'active') }">
+                                                        <div class="step-icon">
+                                                            <div
+                                                                class="{! (sconfinoAutoliquidanteSistema == '0,00&nbsp;€' ? 'slds-hide' : '') }">
+                                                                <lightning:helpText
+                                                                    content="{! sconfinoAutoliquidanteSistema }"
+                                                                    class="helpTextOverride" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </aura:iteration>
+                                            </section>
+                                        </div>
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem size="2">
+                                        <div class="text-for-step">{!$Label.c.WGC_CR_Detail_Autoliquidanti}</div>
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                                <lightning:layout class="slds-m-top_xx-small slds-align--absolute-center container">
+                                    <lightning:layoutItem size="10">
+                                        <div>
+                                            <section class="step-indicator">
+                                                <aura:iteration items="{! v.SconfinoScadenzaSistema_helper }"
+                                                    var="sconfinoScadenzaSistema" indexVar="index">
+                                                    <div class="{! 'indicator-line ' + (index == 0 ? 'slds-hide' : '') }">
+                                                    </div>
+                                                    <div
+                                                        class="{! 'step step' + index + ' ' + (sconfinoScadenzaSistema == '0,00&nbsp;€' ? '' : 'active') }">
+                                                        <div class="step-icon">
+                                                            <div
+                                                                class="{! (sconfinoScadenzaSistema == '0,00&nbsp;€' ? 'slds-hide' : '') }">
+                                                                <lightning:helpText content="{! sconfinoScadenzaSistema }"
+                                                                    class="helpTextOverride" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </aura:iteration>
+                                            </section>
+                                        </div>
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem size="2">
+                                        <div class="text-for-step">Scadenza</div>
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                                <lightning:layout class="slds-m-top_xx-small slds-align--absolute-center container">
+                                    <lightning:layoutItem size="10">
+                                        <div>
+                                            <section class="step-indicator">
+                                                <aura:iteration items="{! v.SconfinoRevocaSistema_helper }"
+                                                    var="sconfinoRevocaSistema" indexVar="index">
+                                                    <div class="{! 'indicator-line ' + (index == 0 ? 'slds-hide' : '') }">
+                                                    </div>
+                                                    <div
+                                                        class="{! 'step step' + index + ' ' + (sconfinoRevocaSistema == '0,00&nbsp;€' ? '' : 'active') }">
+                                                        <div class="step-icon">
+                                                            <div
+                                                                class="{! (sconfinoRevocaSistema == '0,00&nbsp;€' ? 'slds-hide' : '') }">
+                                                                <lightning:helpText content="{! sconfinoRevocaSistema }"
+                                                                    class="helpTextOverride" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </aura:iteration>
+                                            </section>
+                                        </div>
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem size="2">
+                                        <div class="text-for-step">{!$Label.c.WGC_CR_Detail_Revoca}</div>
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                                <lightning:layout class="slds-m-top_xx-small slds-align--absolute-center container">
+                                    <lightning:layoutItem size="10">
+                                        <div>
+                                            <section class="step-indicator">
+                                                <aura:iteration items="{! v.SconfinoFirmaSistema_helper }"
+                                                    var="sconfinoFirmaSistema" indexVar="index">
+                                                    <div class="{! 'indicator-line ' + (index == 0 ? 'slds-hide' : '') }">
+                                                    </div>
+                                                    <div
+                                                        class="{! 'step step' + index + ' ' + (sconfinoFirmaSistema == '0,00&nbsp;€' ? '' : 'active') }">
+                                                        <div class="step-icon">
+                                                            <div
+                                                                class="{! (sconfinoFirmaSistema == '0,00&nbsp;€' ? 'slds-hide' : '') }">
+                                                                <lightning:helpText content="{! sconfinoFirmaSistema }"
+                                                                    class="helpTextOverride" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </aura:iteration>
+                                            </section>
+                                        </div>
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem size="2">
+                                        <div class="text-for-step">{!$Label.c.WGC_CR_Detail_Firma}</div>
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+
+
+                                <lightning:layout class="slds-m-top_xx-small container">
+                                    <lightning:layoutItem size="10">
+                                        <div>
+                                            <section class="mese-step-indicator">
+                                                <div class="step step1">
+                                                    <div class="mese-badge">{!$Label.c.WGC_Gennaio}</div>
+                                                </div>
+                                                <div class="indicator-line"></div>
+                                                <div class="step step2">
+                                                    <div class="mese-badge">{!$Label.c.WGC_Febbraio}</div>
+                                                </div>
+                                                <div class="indicator-line"></div>
+                                                <div class="step step3">
+                                                    <div class="mese-badge">{!$Label.c.WGC_Marzo}</div>
+                                                </div>
+                                                <div class="indicator-line"></div>
+                                                <div class="step step4">
+                                                    <div class="mese-badge">{!$Label.c.WGC_Aprile}</div>
+                                                </div>
+                                                <div class="indicator-line"></div>
+                                                <div class="step step5">
+                                                    <div class="mese-badge">{!$Label.c.WGC_Maggio}</div>
+                                                </div>
+                                                <div class="indicator-line"></div>
+                                                <div class="step step6">
+                                                    <div class="mese-badge">{!$Label.c.WGC_Giugno}</div>
+                                                </div>
+                                                <div class="indicator-line"></div>
+                                                <div class="step step7">
+                                                    <div class="mese-badge">{!$Label.c.WGC_Luglio}</div>
+                                                </div>
+                                                <div class="indicator-line"></div>
+                                                <div class="step step8">
+                                                    <div class="mese-badge">{!$Label.c.WGC_Agosto}</div>
+                                                </div>
+                                                <div class="indicator-line"></div>
+                                                <div class="step step9">
+                                                    <div class="mese-badge">{!$Label.c.WGC_Settembre}</div>
+                                                </div>
+                                                <div class="indicator-line"></div>
+                                                <div class="step step10">
+                                                    <div class="mese-badge">{!$Label.c.WGC_Ottobre}</div>
+                                                </div>
+                                                <div class="indicator-line"></div>
+                                                <div class="step step11">
+                                                    <div class="mese-badge">{!$Label.c.WGC_Novembre}</div>
+                                                </div>
+                                                <div class="indicator-line"></div>
+                                                <div class="step step12">
+                                                    <div class="mese-badge">{!$Label.c.WGC_Dicembre}</div>
+                                                </div>
+                                            </section>
+                                        </div>
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                            </div>
+                        </lightning:layoutItem>
+
+                        <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12" mediumDeviceSize="12"
+                            largeDeviceSize="6" padding="around-small">
+                            <lightning:layout multipleRows="true">
+                                <lightning:layoutItem size="12">
+                                    <div class="cstm-border-all grey radius-top">
+                                        <div class="title-button">
+                                            <lightning:button aura:Id="ifis" label="IFIS" variant="brand"
+                                                class="button-topBord active" onclick="" />
+                                        </div>
+                                        <div class="title">{!$Label.c.WGC_CR_Detail_Sofferenze}</div>
+                                        <lightning:layout class="slds-m-top_xx-small slds-align--absolute-center container">
+                                            <lightning:layoutItem size="12">
+                                                <div>
+
+                                                    <section class="step-indicator">
+                                                        <aura:iteration items="{! v.SofferenzeIfis }" var="sIfis"
+                                                            indexVar="index">
+                                                            <div
+                                                                class="{! 'indicator-line ' + (index == 0 ? 'slds-hide' : '') }">
+                                                            </div>
+                                                            <div
+                                                                class="{! 'step step' + index + ' ' + (sIfis == 'Si' ? 'active' : '') }">
+                                                                <div class="step-icon version2">
+                                                                    <aura:if isTrue="{! sIfis == 'Si' }">{! sIfis }
+                                                                    </aura:if>
+                                                                </div>
+                                                            </div>
+                                                        </aura:iteration>
+                                                    </section>
+                                                </div>
+                                            </lightning:layoutItem>
+                                        </lightning:layout>
+
+                                    </div>
+                                    <div class="cstm-border-all grey radius-bottom">
+                                        <div class="title-button">
+                                            <lightning:button aura:Id="sistema" label="SISTEMA" variant="brand"
+                                                class="button-topBord" onclick="" />
+                                        </div>
+                                        <div class="title"></div>
+                                        <lightning:layout class="slds-m-top_xx-small slds-align--absolute-center container">
+                                            <lightning:layoutItem size="12">
+                                                <div>
+                                                    <section class="step-indicator">
+                                                        <aura:iteration items="{! v.SofferenzeSistema }" var="sSistema"
+                                                            indexVar="index">
+                                                            <div
+                                                                class="{! 'indicator-line ' + (index == 0 ? 'slds-hide' : '') }">
+                                                            </div>
+                                                            <div
+                                                                class="{! 'step step' + index + ' ' + (sSistema == 'Si' ? 'active' : '') }">
+                                                                <div class="step-icon version2">
+                                                                    <aura:if isTrue="{! sSistema == 'Si' }">{! sSistema }
+                                                                    </aura:if>
+                                                                </div>
+                                                            </div>
+                                                        </aura:iteration>
+                                                    </section>
+
+
+                                                </div>
+                                            </lightning:layoutItem>
+                                        </lightning:layout>
+                                        <lightning:layout class="slds-m-top_xx-small container">
+                                            <lightning:layoutItem size="12">
+                                                <div>
+                                                    <section class="mese-step-indicator">
+                                                        <div class="step step1">
+                                                            <div class="mese-badge">{!$Label.c.WGC_Gennaio}</div>
+                                                        </div>
+                                                        <div class="indicator-line"></div>
+                                                        <div class="step step2">
+                                                            <div class="mese-badge">{!$Label.c.WGC_Febbraio}</div>
+                                                        </div>
+                                                        <div class="indicator-line"></div>
+                                                        <div class="step step3">
+                                                            <div class="mese-badge">{!$Label.c.WGC_Marzo}</div>
+                                                        </div>
+                                                        <div class="indicator-line"></div>
+                                                        <div class="step step4">
+                                                            <div class="mese-badge">{!$Label.c.WGC_Aprile}</div>
+                                                        </div>
+                                                        <div class="indicator-line"></div>
+                                                        <div class="step step5">
+                                                            <div class="mese-badge">{!$Label.c.WGC_Maggio}</div>
+                                                        </div>
+                                                        <div class="indicator-line"></div>
+                                                        <div class="step step6">
+                                                            <div class="mese-badge">{!$Label.c.WGC_Giugno}</div>
+                                                        </div>
+                                                        <div class="indicator-line"></div>
+                                                        <div class="step step7">
+                                                            <div class="mese-badge">{!$Label.c.WGC_Luglio}</div>
+                                                        </div>
+                                                        <div class="indicator-line"></div>
+                                                        <div class="step step8">
+                                                            <div class="mese-badge">{!$Label.c.WGC_Agosto}</div>
+                                                        </div>
+                                                        <div class="indicator-line"></div>
+                                                        <div class="step step9">
+                                                            <div class="mese-badge">{!$Label.c.WGC_Settembre}</div>
+                                                        </div>
+                                                        <div class="indicator-line"></div>
+                                                        <div class="step step10">
+                                                            <div class="mese-badge">{!$Label.c.WGC_Ottobre}</div>
+                                                        </div>
+                                                        <div class="indicator-line"></div>
+                                                        <div class="step step11">
+                                                            <div class="mese-badge">{!$Label.c.WGC_Novembre}</div>
+                                                        </div>
+                                                        <div class="indicator-line"></div>
+                                                        <div class="step step12">
+                                                            <div class="mese-badge">{!$Label.c.WGC_Dicembre}</div>
+                                                        </div>
+                                                    </section>
+                                                </div>
+                                            </lightning:layoutItem>
+                                        </lightning:layout>
+
+                                    </div>
+                                </lightning:layoutItem>
+
+                                <lightning:layoutItem size="12" class="slds-m-top_large">
+                                    <div class="cstm-border-all grey">
+                                        <div class="title">{!$Label.c.WGC_CR_Detail_Rapporto_con_gli_istituti_di_credico}
+                                        </div>
+                                        <lightning:layout class="slds-m-top_xx-small slds-align--absolute-center container">
+                                            <lightning:layoutItem size="10">
+                                                <div>
+
+
+                                                    <section class="step-indicator">
+                                                        <aura:iteration items="{! v.Segnalanti }" var="segn"
+                                                            indexVar="index">
+                                                            <div
+                                                                class="{! 'indicator-line ' + (index == 0 ? 'slds-hide' : '') }">
+                                                            </div>
+                                                            <div
+                                                                class="{! 'step step' + index + ' ' + (segn > 0 ? 'active' : '') }">
+                                                                <div class="step-iconB">{! segn }</div>
+                                                            </div>
+                                                        </aura:iteration>
+                                                    </section>
+
+                                                </div>
+                                            </lightning:layoutItem>
+                                            <lightning:layoutItem size="2">
+                                                <div class="text-for-step">{!$Label.c.WGC_CR_Detail_Enti_Segnalanti}</div>
+                                            </lightning:layoutItem>
+                                        </lightning:layout>
+                                        <lightning:layout class="slds-m-top_xx-small slds-align--absolute-center container">
+                                            <lightning:layoutItem size="10">
+                                                <div>
+                                                    <section class="step-indicator">
+                                                        <aura:iteration items="{! v.NuoviAffidanti }" var="nAff"
+                                                            indexVar="index">
+                                                            <div
+                                                                class="{! 'indicator-line ' + (index == 0 ? 'slds-hide' : '') }">
+                                                            </div>
+                                                            <div
+                                                                class="{! 'step step' + index + ' ' + (nAff > 0 ? 'active' : '') }">
+                                                                <div class="step-iconB">{! nAff }</div>
+                                                            </div>
+                                                        </aura:iteration>
+                                                    </section>
+                                                </div>
+                                            </lightning:layoutItem>
+                                            <lightning:layoutItem size="2">
+                                                <div class="text-for-step">{!$Label.c.WGC_CR_Detail_Nuovi_affidanti}</div>
+                                            </lightning:layoutItem>
+                                        </lightning:layout>
+                                        <lightning:layout class="slds-m-top_xx-small slds-align--absolute-center container">
+                                            <lightning:layoutItem size="10">
+                                                <div>
+                                                    <section class="step-indicator">
+                                                        <aura:iteration items="{! v.PrimaInfo }" var="pInfo"
+                                                            indexVar="index">
+                                                            <div
+                                                                class="{! 'indicator-line ' + (index == 0 ? 'slds-hide' : '') }">
+                                                            </div>
+                                                            <div
+                                                                class="{! 'step step' + index + ' ' + (pInfo > 0 ? 'active' : '') }">
+                                                                <div class="step-iconB">{! pInfo }</div>
+                                                            </div>
+                                                        </aura:iteration>
+                                                    </section>
+                                                </div>
+                                            </lightning:layoutItem>
+                                            <lightning:layoutItem size="2">
+                                                <div class="text-for-step">{!$Label.c.WGC_CR_Detail_Prima_info_CR}</div>
+                                            </lightning:layoutItem>
+                                        </lightning:layout>
+                                        <lightning:layout class="slds-m-top_xx-small container">
+                                            <lightning:layoutItem size="10">
+                                                <div>
+                                                    <section class="mese-step-indicator">
+                                                        <div class="step step1">
+                                                            <div class="mese-badge">{!$Label.c.WGC_Gennaio}</div>
+                                                        </div>
+                                                        <div class="indicator-line"></div>
+                                                        <div class="step step2">
+                                                            <div class="mese-badge">{!$Label.c.WGC_Febbraio}</div>
+                                                        </div>
+                                                        <div class="indicator-line"></div>
+                                                        <div class="step step3">
+                                                            <div class="mese-badge">{!$Label.c.WGC_Marzo}</div>
+                                                        </div>
+                                                        <div class="indicator-line"></div>
+                                                        <div class="step step4">
+                                                            <div class="mese-badge">{!$Label.c.WGC_Aprile}</div>
+                                                        </div>
+                                                        <div class="indicator-line"></div>
+                                                        <div class="step step5">
+                                                            <div class="mese-badge">{!$Label.c.WGC_Maggio}</div>
+                                                        </div>
+                                                        <div class="indicator-line"></div>
+                                                        <div class="step step6">
+                                                            <div class="mese-badge">{!$Label.c.WGC_Giugno}</div>
+                                                        </div>
+                                                        <div class="indicator-line"></div>
+                                                        <div class="step step7">
+                                                            <div class="mese-badge">{!$Label.c.WGC_Luglio}</div>
+                                                        </div>
+                                                        <div class="indicator-line"></div>
+                                                        <div class="step step8">
+                                                            <div class="mese-badge">{!$Label.c.WGC_Agosto}</div>
+                                                        </div>
+                                                        <div class="indicator-line"></div>
+                                                        <div class="step step9">
+                                                            <div class="mese-badge">{!$Label.c.WGC_Settembre}</div>
+                                                        </div>
+                                                        <div class="indicator-line"></div>
+                                                        <div class="step step10">
+                                                            <div class="mese-badge">{!$Label.c.WGC_Ottobre}</div>
+                                                        </div>
+                                                        <div class="indicator-line"></div>
+                                                        <div class="step step11">
+                                                            <div class="mese-badge">{!$Label.c.WGC_Novembre}</div>
+                                                        </div>
+                                                        <div class="indicator-line"></div>
+                                                        <div class="step step12">
+                                                            <div class="mese-badge">{!$Label.c.WGC_Dicembre}</div>
+                                                        </div>
+                                                    </section>
+                                                </div>
+                                            </lightning:layoutItem>
+                                        </lightning:layout>
+                                    </div>
+                                </lightning:layoutItem>
+
+                            </lightning:layout>
+
+                        </lightning:layoutItem>
+
+                    </lightning:layout>
+
+                    <aura:if isTrue="{! and(v.opportunityId != null, v.config.debs) }">
+                        <div class="slds-m-around_small">
+                            <lightning:datatable
+                                keyField="id"
+                                data="{! v.debsData }"
+                                columns="{! v.debsColumns }"
+                                hideCheckboxColumn="true"/>
+                        </div>
+                    </aura:if>
+
+                    <!-- <aura:set attribute="else">
+                        <lightning:layoutItem size="12">
+                            <div class="slds-box slds-text-align_center">
+                                <span class="slds-text-heading_small">{!$Label.c.WGC_CR_Detail_Vuota}</span>
+                            </div>
+                        </lightning:layoutItem>
+                    </aura:set> -->
+                </aura:if>
+                <aura:set attribute="else">
+                    <aura:if isTrue="{! !v.isEstero }">
+                        <lightning:layout>
+                            <lightning:layoutItem flexibility="auto" size="2" padding="around-small">
+                                <div class="">
+                                    <div class="date display-inline">
+                                        <aura:if isTrue="{! v.config.dataRilevazione != null }">
+                                            <lightning:formattedDateTime value="{! v.config.dataRilevazione }" />
+                                            <aura:set attribute="else">
+                                                -
+                                            </aura:set>
+                                        </aura:if>
+                                    </div>
+                                    <div class="date-sub">
+                                        {!$Label.c.WGC_CR_Detail_Ultima_rilevazione}
+                                    </div>
+                                </div>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem flexibility="auto" size="2" padding="around-small">
+                                <div class="">
+                                    <div class="date display-inline">
+                                        <aura:if isTrue="{! and(v.config.dataRichiesta != null, v.config.dataRichiesta != '') }">
+                                            <lightning:formattedDateTime value="{! v.config.dataRichiesta }" />
+                                            <aura:set attribute="else">
+                                                -
+                                            </aura:set>
+                                        </aura:if>
+                                    </div>
+                                    <div class="date-sub">
+                                        {!$Label.c.WGC_CR_Detail_Richiesta_CR}
+                                    </div>
+                                </div>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </aura:if>
+                </aura:set>
+            </aura:if>
+        </div>
+    </lightning:card>
+
+</aura:component>

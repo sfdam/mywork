@@ -1,0 +1,10 @@
+<aura:component access="global">
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="options" type="Object[]" />
+
+    <!-- HANDLERS -->
+    <!-- <aura:handler name="init" value="{!this}" action="{!c.doInit}"/> -->
+    <!-- <aura:handler name="render" value="{!this}" action="{!c.doInit}"/> -->
+
+    <ui:inputSelect class="cstm-filter-inline" aura:id="cstm-select" options="{! v.options }" />
+</aura:component>

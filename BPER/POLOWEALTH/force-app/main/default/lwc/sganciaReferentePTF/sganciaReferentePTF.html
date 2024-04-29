@@ -1,0 +1,101 @@
+<template>
+    <lightning-card title="">
+        <div>
+            <lightning-layout>
+                <lightning-layout-item flexibility="auto" padding="around-small">
+                    <c-custom-lookup 
+                        class="sizeLookup"
+                        is-from-report-page={isFromReportPage}
+                        s-object-name='Contact'
+                        icon-name="standard:contact"
+                        field-label="Referente"
+                        field-to-like="CRM_NomeReferente__c"
+                        other-field-to-query='PTF_RegistrationNumber__c'
+                        where-condition={contactFilter}
+                        field-alternative-in-label = 'PTF_RegistrationNumber__c'
+                        event-to-dispatch="filialelookup"
+                        onfilialelookup={handleCustomEvent}>
+                    </c-custom-lookup>
+                </lightning-layout-item>
+                </lightning-layout>
+
+                <lightning-layout multiple-rows="true">
+                    <lightning-layout-item size="12">
+           
+                    <template if:true={contactSelected}>
+                        <template if:true={cards}>
+                            <div class="slds-p-around_medium lgc-bg">
+                                <lightning-tile label={nameRef} type="media" href={idContact}>
+                                    <lightning-icon slot="media" icon-name="standard:contact"></lightning-icon>
+                                </lightning-tile>
+                            </div> 
+
+                            <lightning-layout class="lgc-bg">
+                                <lightning-layout-item class="lgc-bg" flexibility="auto" padding="around-small">
+                                 <h1><b>Matricola:</b></h1>
+                                 {registrationNum}
+                                </lightning-layout-item>
+                                <lightning-layout-item class="lgc-bg" flexibility="auto" padding="around-small">
+                                    <h1><b>Tipologia Ruolo:</b></h1>
+                                     {tipologiaRuolo}            
+                                </lightning-layout-item>
+                                <lightning-layout-item class="lgc-bg" flexibility="auto" padding="around-small">
+                                    <h1><b>Lista di macro-modelli di servizio:</b></h1>
+                                    {macroModelli}            
+                                </lightning-layout-item>
+                                <lightning-layout-item class="lgc-bg" flexibility="auto" padding="around-small">
+                                <h1><b>Unità Organizzativa:</b></h1>
+                                     
+                                {unitaOrg}
+            
+                                </lightning-layout-item>
+                                <lightning-layout-item class="lgc-bg" flexibility="auto" padding="around-small">
+                                    <h1><b>OFS:</b></h1>
+                                    <lightning-input type="checkbox" label="" name="" checked={OFS} disabled></lightning-input>
+                                         
+                                </lightning-layout-item>
+                            </lightning-layout>
+
+                        </template>
+                        <template if:true={portafogliList}>
+                            <lightning-layout-item size ="12">
+                                <div class="tableTitle">PORTAFOGLI</div>
+                                    <lightning-datatable 
+                                        data-item="ndgTable"
+                                        key-field="Id"
+                                        data={portafogli}
+                                        columns={columnsPTF}
+                                        selected-rows={selectedPortafogliIds}
+                                        onrowselection={handleSelection}>
+                                    </lightning-datatable>
+                            </lightning-layout-item>
+                            <template if:true={loading}>
+                                <div class="spinner-holder">
+                                    <lightning-spinner alternative-text="Loading"></lightning-spinner>
+                                </div>
+                            </template>
+                            
+                            <lightning-layout-item size ="12" padding="around-small">
+                                <button
+                                    class="slds-button slds-button_neutral slds-button_stretch color-button position-button"
+                                    onclick={handleSganciaReferente}>Sgancia Referente</button>
+                            </lightning-layout-item>
+                        </template>
+                        <template if:false={portafogliList}>
+                            <div>
+                                <lightning-layout>
+                                    <lightning-layout-item flexibility="auto" padding="around-small">
+                                        <div class="slds-box no-button">
+                                            <p>NESSUN PORTAFOGLIO CORRELATO</p>     
+                                        </div>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </div>
+                        </template>
+                    </template>
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+    </lightning-card>
+    
+  </template>

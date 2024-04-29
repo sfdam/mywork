@@ -1,0 +1,30 @@
+<aura:component implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction,forceCommunity:availableForAllPageTypes" access="global" controller="CtrlVueWrapper">
+	<ltng:require styles="{!join(',', $Resource.VueApps + '/index.css', $Resource.SLDS + '/assets/styles/' + (v.type == 'default' ? 'salesforce-lightning-design-system-ltng' : 'community') + '.min.css')}"
+    scripts="{!join(',', $Resource.VueApps + '/index.js')}"
+    afterScriptsLoaded="{!c.scriptsLoaded}"
+  />
+  <!--<ltng:require styles="{!join(',', $Resource.VueApps + '/index.css', $Resource.SLDS + '/assets/styles/salesforce-lightning-design-system-ltng.min.css')}"
+    scripts="{!join(',', $Resource.VueApps + '/index.js')}"
+    afterScriptsLoaded="{!c.scriptsLoaded}"
+  /> //-->
+
+	<aura:attribute name="scriptsLoaded" type="Boolean" default="false" />
+	<aura:attribute name="rendered" type="Boolean" default="false" />
+  <aura:attribute name="staticUrl" type="String" default="{!$Resource.SLDS}" />
+  <aura:attribute name="type" type="String" default="default" />
+  <aura:attribute name="appName" type="String" default="" access="global" />
+  <aura:attribute name="params" type="String" default="" access="global" />
+  <aura:attribute name="theView" type="String" />
+  <aura:attribute name="recordId" type="Id" />
+  <aura:attribute name="langLocale" type="String" default="{!$Locale.langLocale}" />
+
+  <aura:handler event="force:refreshView" action="{!c.refreshView}" />
+  <aura:handler name="destroy" value="{!this}" action="{!c.handleDestroy}"/>
+
+  <div aura:id="theApp" class="{! (v.type == 'default' ? 'tlnxt' : 'tlnxt-com')}">
+  	<div aura:id="theAppInner"></div>
+  </div>
+  <!-- <div aura:id="theApp" class="tlnxt">
+    <div aura:id="theAppInner"></div>
+  </div> //-->
+</aura:component>

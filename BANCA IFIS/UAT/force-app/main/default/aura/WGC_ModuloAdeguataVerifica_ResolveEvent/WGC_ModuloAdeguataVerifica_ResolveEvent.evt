@@ -1,0 +1,4 @@
+<aura:event type="APPLICATION" description="Event template" >
+    <aura:attribute name="json" type="Object" />
+    <aura:attribute name="success" type="Boolean" />
+</aura:event>

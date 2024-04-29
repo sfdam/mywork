@@ -1,0 +1,320 @@
+<template>
+    <div>
+        <template if:false={loaded}>
+            <div class="spinner-holder">
+                <lightning-spinner alternative-text="Loading"></lightning-spinner>
+            </div>
+        </template>
+        <template if:true={loaded}>
+            
+            <lightning-layout multiple-rows=true>
+                <lightning-layout-item padding="around-small" size="12">
+                    <lightning-layout multiple-rows=true>
+                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="4">
+                            <lightning-combobox
+                                name="searchedStatoAssegnazione"
+                                label="Stato assegnazione"
+                                value={searchedStatoAssegnazione}
+                                placeholder="Seleziona uno stato"
+                                options={optionsStato}
+                                onchange={handleFilter}
+                                class="fixin-margin-with-css">
+                            </lightning-combobox>
+                        </lightning-layout-item>
+                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="4">
+                            <lightning-combobox
+                                name="searchedMMDS"
+                                label="MDS"
+                                value={searchedMMDS}
+                                placeholder="Seleziona un MDS"
+                                options={optionsMMDS}
+                                onchange={handleFilter}
+                                class="fixin-margin-with-css">
+                            </lightning-combobox>
+                        </lightning-layout-item>
+                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="4" >
+                            <lightning-combobox
+                            name="searchedEsito"
+                            label="Esito Contatto"
+                            value={searchedEsito}
+                            placeholder="Seleziona un esito"
+                            options={optionsEsito}
+                            onchange={handleFilter}
+                            class="fixin-margin-with-css">
+                            </lightning-combobox>
+                        </lightning-layout-item>
+                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="4" large-device-size="4">
+                            <lightning-input type="text" label="NDG" placeholder="Cerca per NDG..." value={searchedNDG} onchange={handleFilter} name="searchedNDG"></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="4" >
+                            <lightning-input type="text" label="Referente" placeholder="Cerca per Referente..." value={searchedRef} onchange={handleFilter} name="searchedRef"></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="4" large-device-size="4">
+                            <lightning-input type="text" label="Nome Microportafogli" placeholder="Cerca per Nome Microportafogli..." value={searchedNomeMw} onchange={handleFilter} name="searchedNomeMw"></lightning-input>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </lightning-layout-item>
+                <template if:true={showFiltroAttributo1}>
+                    <lightning-layout-item padding="around-small" size="12">
+                        <lightning-layout multiple-rows=true>
+                            <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="4">
+                                <lightning-combobox
+                                    name="selectedNomeAttributo1"
+                                    label="Nome Attributo 1"
+                                    value={selectedNomeAttributo1}
+                                    placeholder="Seleziona un attributo..."
+                                    options={optionsAttributo1}
+                                    onchange={handleFilter}
+                                    class="fixin-margin-with-css">
+                                </lightning-combobox>
+                            </lightning-layout-item>
+                            <template if:true={showRangeNum1}>
+                                <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="4">
+                                    <lightning-input type="text" label="Inizio Valore 1" placeholder="Seleziona inizio range valore 1..." value={selectedValoreAttributo1Start} onchange={handleFilter} name="selectedValoreAttributo1Start"></lightning-input>
+                                </lightning-layout-item>
+                                <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="4">
+                                    <lightning-input type="text" label="Fine Valore 1" placeholder="Seleziona fine range valore 1..." value={selectedValoreAttributo1End} onchange={handleFilter} name="selectedValoreAttributo1End"></lightning-input>
+                                </lightning-layout-item>
+                            </template>
+                            <template if:true={showRangeDate1}>
+                                <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="4">
+                                    <lightning-input type="date" label="Inizio Valore 1" placeholder="Seleziona inizio range valore 1..." value={selectedValoreAttributo1Start} onchange={handleFilter} name="selectedValoreAttributo1Start"></lightning-input>
+                                </lightning-layout-item>
+                                <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="4">
+                                    <lightning-input type="date" label="Fine Valore 1" placeholder="Seleziona fine range valore 1..." value={selectedValoreAttributo1End} onchange={handleFilter} name="selectedValoreAttributo1End"></lightning-input>
+                                </lightning-layout-item>
+                            </template>
+                            <template if:true={showSearchtext1}>
+                                <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="4">
+                                    <lightning-input type="text" label="Valore 1" placeholder="Cerca valore 1..." value={searchedValoreAttributo1} onchange={handleFilter} name="searchedValoreAttributo1"></lightning-input>
+                                </lightning-layout-item>
+                            </template>
+                        </lightning-layout>
+                    </lightning-layout-item>
+                </template>
+                
+                <template if:true={showFiltroAttributo2}>
+                    <lightning-layout-item padding="around-small" size="12">
+                        <lightning-layout multiple-rows=true>
+                            <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="4">
+                                <lightning-combobox
+                                    name="selectedNomeAttributo2"
+                                    label="Nome Attributo 2"
+                                    value={selectedNomeAttributo2}
+                                    placeholder="Seleziona un attributo..."
+                                    options={optionsAttributo2}
+                                    onchange={handleFilter}
+                                    class="fixin-margin-with-css">
+                                </lightning-combobox>
+                            </lightning-layout-item>
+                            <template if:true={showRangeNum2}>
+                                <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="4">
+                                    <lightning-input type="text" label="Inizio Valore 2" placeholder="Seleziona inizio range valore 2..." value={selectedValoreAttributo2Start} onchange={handleFilter} name="selectedValoreAttributo2Start"></lightning-input>
+                                </lightning-layout-item>
+                                <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="4">
+                                    <lightning-input type="text" label="Fine Valore 2" placeholder="Seleziona fine range valore 2..." value={selectedValoreAttributo2End} onchange={handleFilter} name="selectedValoreAttributo2End"></lightning-input>
+                                </lightning-layout-item>
+                            </template>
+                            <template if:true={showRangeDate2}>
+                                <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="4">
+                                    <lightning-input type="date" label="Inizio Valore 2" placeholder="Seleziona inizio range valore 2..." value={selectedValoreAttributo2Start} onchange={handleFilter} name="selectedValoreAttributo2Start"></lightning-input>
+                                </lightning-layout-item>
+                                <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="4">
+                                    <lightning-input type="date" label="Fine Valore 2" placeholder="Seleziona fine range valore 2..." value={selectedValoreAttributo2End} onchange={handleFilter} name="selectedValoreAttributo2End"></lightning-input>
+                                </lightning-layout-item>
+                            </template>
+                            <template if:true={showSearchtext2}>
+                                <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="4">
+                                    <lightning-input type="text" label="Valore 2" placeholder="Cerca valore 2..." value={searchedValoreAttributo2} onchange={handleFilter} name="searchedValoreAttributo2"></lightning-input>
+                                </lightning-layout-item>
+                            </template>
+                        </lightning-layout>
+                    </lightning-layout-item>
+                </template>
+                <lightning-layout-item flexibility="auto" padding="around-small" size="12">
+                    <lightning-button-group class="slds-m-top_large slds-float_right">
+                        <lightning-button
+                            name="reset"
+                            variant="neutral"
+                            label="Reset"
+                            title="Reset"
+                            onclick={handleReset}>
+                        </lightning-button>
+                        <lightning-button 
+                            name="search"
+                            variant="neutral"
+                            label="Cerca"
+                            title="Cerca"
+                            onclick={handleSearch}>
+                        </lightning-button>
+                    </lightning-button-group>
+                </lightning-layout-item>
+            </lightning-layout>
+            
+            <lightning-tile label="ELENCO MEMBRI DI CAMPAGNE" type="media">
+                <lightning-icon slot="media" size="smal" icon-name="standard:account"></lightning-icon>
+                <ul class="slds-list_horizontal slds-has-dividers_right">
+                    <li class="slds-item">Massimo Numero Clienti Affinabili:&nbsp; <b>{maxAff}</b></li>
+                    <li class="slds-item">Totale Clienti Affinati:&nbsp; <b>{clientiInAffinati}</b></li>
+                    <li class="slds-item">Clienti Ancora Affinabili:&nbsp; <b>{clientiDaAff}</b></li>
+                </ul>
+            </lightning-tile>
+
+            <lightning-layout  multiple-rows=true class="paginator">
+                <lightning-layout-item alignment-bump="left">
+                    <lightning-layout class="slds-align_absolute-center">
+                        <lightning-layout-item padding="around-small">
+                            <div>
+                                <lightning-button-icon icon-name="utility:chevronleft"  variant="container"  onclick={handleIndietro} disabled={disabledButtonIndietro}></lightning-button-icon>
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item padding="around-small">
+                            Pag. {page} di {pages.length}
+                        </lightning-layout-item>
+                        <lightning-layout-item padding="around-small">
+                            Totale Membri - {numMembers}
+                        </lightning-layout-item>
+                        <lightning-layout-item padding="around-small">
+                            <div>
+                                <lightning-button-icon icon-name="utility:chevronright"  variant="container"  onclick={handleAvanti} disabled={disabledButtonAvanti}></lightning-button-icon>
+                            </div>                
+                        </lightning-layout-item>
+                        
+                    </lightning-layout>
+                </lightning-layout-item>
+                
+            </lightning-layout>
+            <!--<lightning-layout  multiple-rows=true class="paginator">
+                <lightning-layout-item alignment-bump="left">
+                    <lightning-layout class="slds-align_absolute-center">
+                        <lightning-layout-item padding="around-small">
+                            <div>
+                                MASSIMO NUMERO CLIENTI AFFINABILI: {maxAff}   
+                            </div>
+                        </lightning-layout-item>                                
+                    </lightning-layout>
+                </lightning-layout-item>
+                
+            </lightning-layout>-->
+            <lightning-layout multiple-rows=true>                          
+                <lightning-layout-item size="12" padding="around-small">
+                    <!--<div class="slds-p-around_medium lgc-bg">
+                        <lightning-tile label={selectedCampagna.nomeCampagna} type="media">
+                            <lightning-icon slot="media" size="large" icon-name="standard:campaign"></lightning-icon>
+                            <ul class="slds-list_horizontal slds-has-dividers_right">
+                                <li class="slds-item">Bisogno:&nbsp; <b>{selectedCampagna.bisogno}</b></li>
+                                <li class="slds-item">Data inizio:&nbsp; <b><lightning-formatted-date-time value={selectedCampagna.startDate} year="numeric" month="numeric" day="numeric"></lightning-formatted-date-time></b></li>
+                                <li class="slds-item">Data fine:&nbsp; <b><lightning-formatted-date-time value={selectedCampagna.endDate} year="numeric" month="numeric" day="numeric"></lightning-formatted-date-time></b></li>
+                                <li class="slds-item">Priorita:&nbsp; <b>{selectedCampagna.priorita}</b></li>
+                                <li class="slds-item">Totale Contatti Da Assegnare:&nbsp; <b>{selectedCampagna.totaleContatti}</b></li>
+                            </ul>
+                        </lightning-tile>
+                    </div>-->
+
+                    <lightning-datatable
+                        data-item='campaignMembersTable'
+                        key-field="Id"
+                        data={currentPageData}
+                        columns={campMembColumns}
+                        selected-rows={selectedCMRowIds}
+                        sorted-direction={sortDirection}
+                        sorted-by={sortedBy}
+                        onsort={onHandleSort}
+                        wrap-text-max-lines="2">
+                    </lightning-datatable>
+                </lightning-layout-item>
+                <lightning-layout-item flexibility="auto" padding="around-small" size="12">
+                    <lightning-button-group class="slds-m-top_large slds-float_right">
+                        <lightning-button
+                            variant="neutral"
+                            label="Rimuovi"
+                            title="Rimuovi"
+                            onclick={handleAffinaReferenteRequestCM}
+                            disabled={isUserDisabled}>
+                        </lightning-button>
+                    </lightning-button-group>
+                </lightning-layout-item>
+            </lightning-layout>
+            <template if:true={openDialog}>
+                
+                  
+                   
+              
+                <lightning-card>
+                    <div class="slds-container_small modalBody ">
+                        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                            <div class="slds-modal__container">
+                                <header class="slds-modal__header">
+                                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate"></h2>
+                                </header>
+                                
+                                <template if:true={checkError}>
+
+                               
+                                <template if:true={disableAffinamento}>
+                                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2" style="overflow: initial">
+                                    <p>E' stato raggiunto il numero massimo di clienti affinabili che è di {maxNumClientAff} cliente/i</p>
+                                </div>
+                                </template>
+                                <template if:false={selectedNdg}>
+                                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-3" style="overflow: initial">
+                                    <p>Selezionare almeno un cliente</p>
+                                </div>
+                                </template>
+                                </template>
+                                <template if:false={checkError}>
+                                 
+                                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1" style="overflow: initial">
+                                        <p>Per completare l'affinamento seleziona una motivazione</p>
+                
+                                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="3">
+                                            <lightning-combobox
+                                                name="motivazionePicklist"
+                                                label="Motivazione"
+                                                value={motivazioneValue}
+                                                placeholder="Seleziona una motivazione"
+                                                options={optionsMotivazioni}
+                                                onchange={handlechangeMotivazione}
+                                                class="fixin-margin-with-css"
+                                                required>
+                                            </lightning-combobox>
+                                            
+                                        </lightning-layout-item>
+                                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="3">
+                                    
+                                            
+                                            <lightning-textarea name="noteAffinamentoComponent" value={noteAffinamentoVal} label="Inserisci una nota" onchange={handleChangeNote} ></lightning-textarea>
+                                        </lightning-layout-item>
+            
+                                    </div>
+                                </template>
+                                <footer class="slds-modal__footer">
+                                    <lightning-button variant="neutral"
+                                                      name="cancel"
+                                                      label='Chiudi'
+                                                      title='Cancel'
+                                                      onclick={handleClickDialog} ></lightning-button>
+                                <template if:false={checkError}>    
+                                    <lightning-button variant="brand"
+                                                        name="Conferma"
+                                                        label='Conferma'
+                                                        title='Conferma'
+                                                        onclick={handleClickDialog} ></lightning-button>
+                                </template>
+                                </footer>
+                            </div>
+                            <template if:true={isLoaded}>
+                                <lightning-layout>
+                                    <lightning-layout-item size="12" padding="around-small">
+                                        <lightning-spinner alternative-text="Loading" size="medium" class="spinnerClass"></lightning-spinner>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </template>
+                        </section>
+                        <div class="slds-backdrop slds-backdrop_open"></div>
+                    </div>
+                </lightning-card>
+            </template>
+        </template>
+    </div>
+</template>

@@ -1,0 +1,98 @@
+<aura:component access="global" implements="lightning:availableForFlowScreens" controller="bifis_crm_c_SGACommonCtrl">
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/> 
+    
+    <aura:attribute type="String[]" name="subPathValuesSegnalazionePosizione" default="['Configurazione Segnalazione','Informazioni Quali-quantitative','Documentazione','Controllo ed Invio']" access="private" />       
+    <aura:attribute type="String[]" name="subPathValuesOtherSteps" default="['Configurazione Segnalazione','Informazioni Quali-quantitative','Documentazione','Monitoraggio Pratica']" access="private" />           
+    <aura:attribute type="List" name="pathValues" access="private" />    
+    <aura:attribute type="Boolean" name="subPathVisible" default="false" access="private" />    
+    
+    <aura:attribute name="selectedPathState" type="String" />
+    <aura:attribute name="closingState" type="String" />
+    <aura:attribute name="selectedSubPathValue" type="Integer" default='0' />
+
+    <div class="slds-path">
+        <div class="slds-grid slds-path__track">
+            <div class="slds-grid slds-path__scroller-container">
+                <div class="slds-path__scroller" role="application">
+                    <div class="slds-path__scroller_inner">
+                        <ul class="slds-path__nav" role="listbox" aria-orientation="horizontal">
+                            
+                            <aura:iteration items="{!v.pathValues}" var="pathValue" indexVar="pathValueIndex">   
+                                
+                                <aura:if isTrue="{!empty(v.closingState)}">
+                                
+                                    <li class="{!v.selectedPathState == pathValue.key ? 'slds-path__item slds-is-current slds-is-active' : 'slds-path__item slds-is-incomplete'}" role="presentation">
+                                        <a aria-selected="false" class="slds-path__link" href="javascript:void(0);" id="{!'path-' + pathValueIndex}" role="option" tabindex="-1">
+                                            <span class="slds-path__title">{!pathValue.value}</span>
+                                        </a>
+                                    </li>
+                                    
+                                    <aura:set attribute="else">
+                                    
+                                        <li class="{!v.closingState == pathValue.key ? 'slds-is-lost slds-path__item slds-is-current slds-is-active' : 'slds-path__item slds-is-incomplete'}" role="presentation">
+                                            <a aria-selected="false" class="slds-path__link" href="javascript:void(0);" id="{!'path-' + pathValueIndex}" role="option" tabindex="-1">
+                                                <span class="slds-path__title">{!pathValue.value}</span>
+                                            </a>
+                                        </li>                                    
+                                        
+                                    </aura:set>
+                                    
+                                </aura:if>         
+                                
+                            </aura:iteration>
+                            
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <aura:if isTrue="{!v.subPathVisible}">
+        
+        <div class="slds-path">
+            <div class="slds-grid slds-path__track">
+                <div class="slds-grid slds-path__scroller-container">
+                    <div class="slds-path__scroller" role="application">
+                        <div class="slds-path__scroller_inner">
+                            <ul class="slds-path__nav" role="listbox" aria-orientation="horizontal">
+                                
+                                <aura:if isTrue="{!v.selectedPathState == 'SEGNALAZIONE_POSIZIONE'}">
+                                
+                                    <aura:iteration items="{!v.subPathValuesSegnalazionePosizione}" var="pathValue" indexVar="pathValueIndex">            
+                                        
+                                        <li class="{!v.selectedSubPathValue == pathValueIndex ? 'slds-path__item slds-is-current slds-is-active' : 'slds-path__item slds-is-incomplete'}" role="presentation">
+                                            <a aria-selected="false" class="slds-path__link" href="javascript:void(0);" id="{!'path-' + pathValueIndex}" role="option" tabindex="-1">
+                                                <span class="slds-path__title">{!pathValue}</span>
+                                            </a>
+                                        </li>
+                                        
+                                    </aura:iteration>
+                                    
+                                    <aura:set attribute="else">
+                                        
+                                        <aura:iteration items="{!v.subPathValuesOtherSteps}" var="pathValue" indexVar="pathValueIndex">            
+                                            
+                                            <li class="{!v.selectedSubPathValue == pathValueIndex ? 'slds-path__item slds-is-current slds-is-active' : 'slds-path__item slds-is-incomplete'}" role="presentation">
+                                                <a aria-selected="false" class="slds-path__link" href="javascript:void(0);" id="{!'path-' + pathValueIndex}" role="option" tabindex="-1">
+                                                    <span class="slds-path__title">{!pathValue}</span>
+                                                </a>
+                                            </li>
+                                            
+                                        </aura:iteration>
+                                        
+                                    </aura:set>
+                                    
+                                </aura:if>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>    
+        
+	</aura:if>        
+
+</aura:component>

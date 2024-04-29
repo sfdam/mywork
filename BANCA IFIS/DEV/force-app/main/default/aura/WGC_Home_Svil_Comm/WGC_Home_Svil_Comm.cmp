@@ -1,0 +1,24 @@
+<aura:component implements="lightning:homeTemplate">
+    <aura:attribute name="col1row1" type="Aura.Component[]" />
+    <aura:attribute name="col2row1" type="Aura.Component[]" />
+    <aura:attribute name="col1row2" type="Aura.Component[]" />
+    <aura:attribute name="col2row2" type="Aura.Component[]" />
+	<div>
+        <lightning:layout>
+            <lightning:layoutItem size="6" padding="around-small">
+                {!v.col1row1}
+            </lightning:layoutItem>
+            <lightning:layoutItem size="6" padding="around-small">
+                {!v.col2row1}
+            </lightning:layoutItem>
+        </lightning:layout>
+        <lightning:layout>
+            <lightning:layoutItem size="8" padding="around-small">
+                {!v.col1row2}
+            </lightning:layoutItem>
+            <lightning:layoutItem size="4" padding="around-small">
+                {!v.col2row2}
+            </lightning:layoutItem>
+        </lightning:layout>
+    </div>
+</aura:component>

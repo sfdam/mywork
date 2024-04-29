@@ -1,0 +1,17 @@
+.THIS {
+}
+
+.THIS.container-card{
+    border:1px solid lightgray;
+    border-radius:10px;
+}
+
+.THIS .title{
+    color:#0064B5;
+    font-weight:bold;
+}
+
+.THIS .slds-cell-fixed{
+    background-color:white;
+    border-bottom:2px solid #0064B5; 
+}

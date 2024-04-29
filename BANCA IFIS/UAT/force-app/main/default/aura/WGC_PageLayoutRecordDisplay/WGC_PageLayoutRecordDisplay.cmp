@@ -1,0 +1,152 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+    access="global" controller="WGC_PageLayoutRecordDisplay_Controller" extends="c:WGC_Utility">
+    <aura:attribute name="PageLayoutName" type="String" />
+    <aura:attribute name="PageLayout" type="Object" />
+    <aura:attribute name="layoutName" type="String" />
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="loaded" type="Boolean" default="false" />
+    <aura:attribute name="hasError" type="Boolean" />
+    <aura:attribute access="private" name="errors" type="String[]" default="" />
+    <aura:attribute name="fieldsOverrideList" type="String[]" default="['PaeseCasaMadre__c', 'PaeseSvolgimentoAttivitaPrevalente__c', 'ProvinciaSvolgimentoAttivitaPrevalente__c', 'ProvinciaCCIAA__c', 'BillingCountry__c', 'BillingState__c', 'ShippingState__c', 'ShippingCountry__c', 'MailingState__c', 'ProvinciaNascita__c', 'MailingCountry__c', 'SAE__c', 'PaeseRelazioni1__c', 'PaeseRelazioni2__c', 'PaeseRelazioni3__c', 'PaeseNascita__c', 'Ateco__c']" />
+    <aura:attribute name="fieldsOverrideWithList" type="String[]" default="['optionsPicklistNazione', 'optionsPicklistNazione', 'optionsPicklistProvince', 'optionsPicklistProvince', 'optionsPicklistNazione', 'optionsPicklistProvince', 'optionsPicklistProvince', 'optionsPicklistNazione', 'optionsPicklistProvince', 'optionsPicklistProvince', 'optionsPicklistNazione', 'optionsPicklistSAE', 'optionsPicklistNazione', 'optionsPicklistNazione', 'optionsPicklistNazione', 'optionsPicklistNazione', 'optionsPicklistATECO']" />
+
+    <aura:attribute name="fieldsValue" type="Object" />
+
+    <aura:attribute name="optionsPicklistNazione" type="List" access="PRIVATE" description="selected value" />
+    <aura:attribute name="optionsPicklistProvince" type="List" access="PRIVATE" description="selected value" />
+	<!-- adione CRM ID 207 -->	
+	<aura:attribute name="optionsPicklistSAE" type="List" access="PRIVATE" description="selected value" />
+    <!-- adione CRM ID 323 -->
+	<aura:attribute name="optionsPicklistATECO" type="List" access="PRIVATE" description="selected value" />
+    <aura:attribute name="sObjectName" type="String" default="Account" />
+    <aura:attribute name="currentContact" type="Contact" default="{'sobjectType':'Contact'}" description="RecordType associati al contact" />
+    <aura:attribute access="private" name="CedacriSleepError" type="String[]" default="" />
+    
+    <aura:attribute name="updateOnlyCRM" type="Boolean" default="false" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+
+    <aura:registerEvent name="B2F" type="c:PageLayoutRecordDisplayEvent" />
+
+    <!-- FORCE RECORD DATA -->
+    <aura:attribute name="currentObj" type="Object" />
+    <force:recordData
+        fields="Id, Name, NDGGruppo__c, NaturaGiuridica__c, SAE__c"
+        recordId="{! v.recordId }"
+        targetFields="{! v.currentObj }"
+        mode="VIEW"
+    />
+	
+    <div class="spinnerDiv">
+        <lightning:spinner alternativeText="Loading" size="large" aura:id="spinner" class="slds-hide" />
+    </div>
+
+	<!-- DIV che mostra errore cut-off Cedacri - INIZIO -->
+    <aura:if isTrue="{! !empty(v.CedacriSleepError)}">
+        <div>
+            <div aura:id="errors-container-Cedacri"
+                class="slds-grid slds-wrap slds-theme--shade slds-theme--alert-texture slds-theme_warning slds-p-around_small"
+                role="warning">
+                <div class="slds-col slds-size_12-of-12 slds-large-size_12-of-12">
+                    <div class="slds-form-element">
+                        <lightning:buttonIcon class="slds-float_right white" iconName="utility:close" variant="bare"
+                            size="small" onclick="{! c.closeCedacriError }" alternativeText="Close" />
+                    </div>
+                </div>
+
+                <aura:iteration items="{!v.CedacriSleepError}" var="r">
+                    <div class="slds-col slds-size_12-of-12 slds-large-size_12-of-12">
+                        <div class="slds-form-element">
+                            <li>{!r}</li>
+                        </div>
+                    </div>
+                </aura:iteration>
+            </div>
+        </div>
+    </aura:if>
+	<!-- DIV che mostra errore cut-off Cedacri - FINE -->
+
+    <aura:if isTrue="{! v.loaded }"> <!-- aspetta che il record e i suo dati siano caricati -->
+		<!-- DIV che mostra la lista errori - INIZIO -->
+        <aura:if isTrue="{! !empty(v.errors)}">
+            <div>
+                <div aura:id="errors-container"
+                    class="slds-grid slds-wrap slds-theme_alert-texture slds-theme_error slds-p-around_small"
+                    role="alert">
+                    <div class="slds-col slds-size_12-of-12 slds-large-size_12-of-12">
+                        <div class="slds-form-element">
+                            <lightning:buttonIcon class="slds-float_right white" iconName="utility:close" variant="bare"
+                                size="small" onclick="{! c.closeError }" alternativeText="Close" />
+                        </div>
+                    </div>
+
+                    <aura:iteration items="{!v.errors}" var="r">
+                        <div class="slds-col slds-size_12-of-12 slds-large-size_12-of-12">
+                            <div class="slds-form-element">
+                                <li>{!r}</li>
+                            </div>
+                        </div>
+                    </aura:iteration>
+                </div>
+            </div>
+        </aura:if>
+		<!-- DIV che mostra la lista errori - FINE -->
+    
+        <div class="slds-box slds-theme_default">
+            <lightning:recordEditForm
+                aura:id="recEditForm"
+                recordId="{! v.recordId }"
+                objectApiName="{! v.sObjectName }"
+                onsuccess="{! c.handleSuccess }"
+                onsubmit="{! c.handleSubmit }"
+				onload="{! c.handleOnLoad }">
+                <div class="container-body">
+                        <ui:scrollerWrapper class="scrollerSize">
+                <aura:iteration items="{! v.PageLayout.Sections }" var="section">
+                    <c:WGC_CollapsibleSection title="{! section.Label }">
+                        <div class="slds-grid slds-gutters">
+                            <aura:iteration items="{! section.Columns }" var="column">
+                                <div class="slds-col slds-size_1-of-2">
+                                    <aura:iteration items="{! column.Fields }" var="field">
+                                        <aura:if isTrue="{! field.Override }">
+											<!-- campi testo convertiti a picklist, notare nome che comincia con "override_" p.e. campo provincia -->
+											<!-- viene anche usato specificatamente il lightning:select -->
+                                            <lightning:select name="{! 'override_' + field.APIName }" label="{! field.Label }"
+                                                aura:id="override_select" value="{! field.Value }" >
+                                                
+                                                <aura:iteration items="{! field.SetOfPicklist }" var="option">
+                                                    <option text="{!option.label}" value="{!option.value}" />
+                                                </aura:iteration>
+                                            </lightning:select>
+											<!-- campo input standard, anche le picklist standard son qui: p.e. tipo via -->
+                                            <lightning:inputField class="{! field.hasError ? 'slds-has-error xxx' : 'xxx' }" fieldName="{! field.APIName }" disabled="{! field.Behavior == 'Readonly' }" value="{! field.Value }" />
+                                            <aura:set attribute="else">
+                                                <lightning:inputField class="{! field.hasError ? 'slds-has-error' : '' }" fieldName="{! field.APIName }" disabled="{! field.Behavior == 'Readonly' }"  required="{! field.Required }" onchange="{! c.onchangeValue}" />
+                                            </aura:set>
+                                        </aura:if>
+                                    </aura:iteration>
+                                </div>
+                            </aura:iteration>
+                        </div>
+                    </c:WGC_CollapsibleSection>
+                </aura:iteration>
+                </ui:scrollerWrapper>
+                </div>
+                <footer class="slds-modal__footer cstm-modal-footer">
+                    <lightning:layout>
+                        <lightning:layoutItem flexibility="auto" class="slds-text-align_left">
+                            <aura:if isTrue="{! v.currentObj.NDGGruppo__c == null }">
+                                    <lightning:input type="checkbox" label="{!$Label.c.WGC_PageLayoutRecordDisplay_Aggiorna_solo_su_CRM}" name="updateOnlyCRM" checked="{! v.updateOnlyCRM }"/>
+                            </aura:if>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem flexibility="auto, no-grow" alignmentBump="left">                            
+                            <lightning:button variant="neutral" onclick="{!c.close}" label="{!$Label.c.WGC_EditContactModal_Footer_ANNULLA}" />
+                            <lightning:button type="submit" variant="brand" label="{!$Label.c.WGC_EditContactModal_Footer_SALVA}" />
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                </footer>
+            </lightning:recordEditForm>
+        </div>
+    </aura:if>
+
+</aura:component>

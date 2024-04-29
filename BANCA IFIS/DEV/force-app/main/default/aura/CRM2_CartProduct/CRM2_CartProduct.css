@@ -1,0 +1,202 @@
+.THIS {
+    position: relative;
+}
+
+/* CSTM PRODUCT */
+
+.THIS .cstm-product-wrapper {
+    /* background-color: #EEE;
+    border: 2px solid #EEE; */
+    border: 1px solid #03a2e0;
+    background-color: #FFF;
+
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px #e1e1e1;
+    /* max-height: 76px; */
+    transition: 0.4s;
+}
+
+.THIS .cstm-product-wrapper.clickable {
+    cursor: pointer;
+}
+
+.THIS .cstm-product-wrapper.selected,
+.THIS .cstm-product-wrapper.available
+ {
+    border-color: #03a2e0;
+    background-color: #FFF;
+}
+
+.THIS .cstm-product-wrapper:not(.selected):hover,
+.THIS .cstm-product-wrapper.active {
+    border-color: #0064B5;
+    background-color: #0064B5;
+}
+
+.THIS .cstm-product-wrapper.revisioned
+ {
+    border-color: #0BAD58;
+    background-color: #FFF;
+}
+
+.THIS .cstm-product-wrapper.revisioned.active {
+    border-color: #0BAD58;
+    background-color: #0BAD58;
+}
+
+.THIS .cstm-product-wrapper.locked,
+.THIS .cstm-product-wrapper.locked:hover {
+    border-color: #0BAD58;
+    background-color: #0BAD58;
+}
+
+.THIS .cstm-product-wrapper.revisioned.active .slds-icon_container svg.slds-icon,
+.THIS .cstm-product-wrapper.locked .slds-icon_container svg.slds-icon {
+    fill: #0BAD58;
+}
+
+.THIS .cstm-product-wrapper.revisioned:not(.active) .slds-icon_container {
+    background-color: #0BAD58;
+}
+
+.THIS .cstm-product-wrapper:not(.selected):hover .slds-icon_container,
+.THIS .cstm-product-wrapper .slds-icon_container {
+    background-color: #0064B5;
+}
+
+.THIS .cstm-product-wrapper .slds-icon_container svg.slds-icon,
+.THIS .cstm-remove-product.white .slds-icon_container svg.slds-icon {
+    fill: #FFF;
+}
+
+.THIS .cstm-product-wrapper:not(.selected):hover .slds-icon_container,
+.THIS .cstm-product-wrapper.locked .slds-icon_container,
+.THIS .cstm-product-wrapper.active .slds-icon_container {
+    background-color: #FFF;
+}
+
+.THIS .cstm-product-wrapper:not(.selected):not(.locked):hover .slds-icon_container svg.slds-icon,
+.THIS .cstm-product-wrapper.active .slds-icon_container svg.slds-icon {
+    fill: #0064B5;
+}
+
+.THIS .cstm-product-wrapper:not(.selected):hover .cstm-product-desc .cstm-product-desc-title,
+.THIS .cstm-product-wrapper:not(.selected):hover .cstm-product-desc .cstm-product-desc-subtitle,
+.THIS .cstm-product-wrapper.active .cstm-product-desc .cstm-product-desc-title,
+.THIS .cstm-product-wrapper.active .cstm-product-desc .cstm-product-desc-subtitle,
+.THIS .cstm-product-wrapper.completed .cstm-product-desc .cstm-product-desc-title,
+.THIS .cstm-product-wrapper.completed .cstm-product-desc .cstm-product-desc-subtitle,
+.THIS .cstm-product-wrapper.locked .cstm-product-desc .cstm-product-desc-title,
+.THIS .cstm-product-wrapper.locked .cstm-product-desc .cstm-product-desc-subtitle {
+    color: #FFF;
+}
+
+/* .THIS .cstm-product-wrapper.completed {
+    border-color: #0BAD58;
+    background-color: #0BAD58;
+} */
+
+.THIS .cstm-product-wrapper .cstm-product-desc .cstm-product-desc-subtitle {
+    font-size: 11px;
+    color: #a8a8a8;
+}
+
+.THIS .cstm-product-wrapper .cstm-product-desc .cstm-product-desc-title {
+    font-size: 18px;
+    color: #3a3a3c;
+    font-weight: bold;
+    line-height: 18px;
+}
+
+.THIS .cstm-remove-product {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+}
+
+/* CSTM PRODUCT */
+
+/* CSTM FLIPPER */
+
+.THIS .cstm-flipper-container {
+    width: 48px;
+    min-height: 48px;
+    position: relative;
+    transition: transform 1s;
+    transform-style: preserve-3d;
+    margin: auto;
+}
+.THIS .cstm-flipper-container.isFlipped {
+    transform: rotateY( 180deg );
+}
+
+.THIS .cstm-flipper-container .cstm-icon-flip {
+    position: absolute;
+    /* height: 100%;
+    width: 100%; */
+    backface-visibility: hidden;
+    right: 0;
+    /* transform: rotateY( 180deg ); */
+}
+
+.THIS .cstm-flipper-container .cstm-icon-flip:last-child {
+    transform: rotateY( 180deg );
+}
+
+/* CSTM FLIPPER */
+
+/* CSTM PRODUCT - SUBLINE */
+
+.THIS .full-height {
+    height: 100%;
+}
+
+.THIS .slds-grid.cstm-subLine-wrapper {
+    border: 1px solid #0064B5;
+    border-radius: 5px;
+    font-size: 11px;
+    height: 100%;
+    min-height: 56px;
+    padding: 10px 2px 0px 10px;
+}
+
+.THIS .slds-grid.cstm-subLine-wrapper.clickable{
+    cursor: pointer;
+}
+
+.THIS .cstm-product-wrapper .slds-grid.cstm-subLine-wrapper.revisioned {
+    border-color: #0bad58;
+}
+
+.THIS .slds-grid.cstm-subLine-wrapper.active {
+    background-color: #0064B5;
+    color: #FFF;
+}
+.THIS .cstm-product-wrapper .slds-grid.cstm-subLine-wrapper.active.revisioned {
+    background-color: #0bad58;
+}
+
+.THIS .slds-grid.cstm-subLine-wrapper .cstm-subLine-wrapper-icon,
+.THIS .cstm-product-wrapper:not(.active) .slds-grid.cstm-subLine-wrapper:not(.active) .cstm-subLine-wrapper-icon,
+.THIS .cstm-product-wrapper .slds-grid.cstm-subLine-wrapper.revisioned .cstm-subLine-wrapper-icon {
+    background-color: #FFF;
+}
+.THIS .slds-grid.cstm-subLine-wrapper .cstm-subLine-wrapper-icon.slds-icon_container svg.slds-icon {
+    fill: #0064B5;
+}
+.THIS .cstm-product-wrapper .slds-grid.cstm-subLine-wrapper.revisioned:not(.active) .cstm-subLine-wrapper-icon.slds-icon_container svg.slds-icon {
+    fill: #0bad58;
+}
+
+.THIS .slds-grid.cstm-subLine-wrapper.active .cstm-subLine-wrapper-icon {
+    background-color: #0064B5;
+}
+.THIS .cstm-product-wrapper .slds-grid.cstm-subLine-wrapper.revisioned.active .cstm-subLine-wrapper-icon {
+    background-color: #0bad58;
+}
+.THIS .slds-grid.cstm-subLine-wrapper.active .cstm-subLine-wrapper-icon.slds-icon_container svg.slds-icon {
+    fill: #FFF;
+}
+
+/* CSTM PRODUCT - SUBLINE */

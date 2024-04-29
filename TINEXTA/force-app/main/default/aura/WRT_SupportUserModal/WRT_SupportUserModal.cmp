@@ -1,0 +1,69 @@
+<aura:component implements="force:lightningQuickAction,lightning:actionOverride,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" 
+                access="global" controller="WRT_SupportUserModalController">
+	
+    <!-- HANDLERS-->
+    <aura:attribute name="iconName" type="String" description="Definisce l'icona tra le standard"/>
+    <aura:attribute name="title" type="String" default="" description="Title from Container Card"/>
+    
+    <aura:attribute name="recordId" default="" type="String"/>
+    <aura:attribute name="contactId" default="" type="String"/>
+    <aura:attribute name="SupportList" type="Object[]" />
+    <aura:attribute name="AgentResult" type="Object[]" />
+    <aura:attribute name="AgentSelected" type="Object" />
+
+    <aura:attribute name="selectedItem" default="" type="String"/>
+    
+    <aura:attribute name="disableSelect" type ="Boolean" default= "false"/>
+    <aura:attribute name="userInfo" type="User" default="{'sobjectType':'User'}" />
+
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+
+    <aura:handler event="c:WRT_SupportUserEvent" action="{! c.resolveEvent }" />
+
+    <lightning:navigation aura:id="navService" />    
+    <lightning:overlayLibrary aura:id="overlayLib" />
+    
+    <lightning:card>
+        <aura:set attribute="title">
+
+            <!-- with container -->
+            <lightning:layout multipleRows="false">
+                <lightning:layoutItem size="10" smallDeviceSize="10" mediumDeviceSize="10" largeDeviceSize="10">
+                    <lightning:icon iconName="{! 'utility:' + v.iconName }" size="small" variant="slds-icon-inverse" />
+                    <div class="title">{! v.title }</div>
+                </lightning:layoutItem>
+            </lightning:layout>
+        </aura:set>
+        <div class='container-card'>
+                <lightning:layout >
+                    <lightning:layoutItem size="12" padding="around-small">
+                        <aura:if isTrue="{!not(empty(v.SupportList))}">
+                            <div>
+                                <lightning:select name="select" label="{! $Label.c.WRT_SupportUserModal_SelectUser}" onchange="{! c.setItem }" disabled= "{!v.disableSelect}"> <!--LABEL HERE-->
+                                    <aura:iteration items="{!v.SupportList}" var="agent">
+                                        <option class="{!agent.class}" text="{!agent.label}" value="{!agent.value}" />
+                                    </aura:iteration>
+                                </lightning:select>
+                            </div>
+                            <aura:set attribute="else">
+                                <div class="slds-text-title_caps slds-align_absolute-center">
+                                    {! $Label.c.WRT_SupportUserModal_UsersNotFound }  <!--LABEL HERE-->
+                                </div>
+                            </aura:set>
+                        </aura:if>
+                    </lightning:layoutItem>
+                </lightning:layout>
+                <lightning:layout >
+                                                   
+                    <lightning:layoutItem size="6" padding="around-small" class="slds-text-align_left" >
+                            <aura:if isTrue="{!not(empty(v.SupportList))}">
+                                <div>
+                                    <lightning:button variant="brand" label="{! $Label.c.TXT_SalesAgentModal_ButtonOpenCalendar}" onclick="{! c.openModal }" />
+                                </div>
+                            </aura:if>
+                    </lightning:layoutItem>              
+            </lightning:layout>
+        </div>
+    </lightning:card>
+    
+</aura:component>

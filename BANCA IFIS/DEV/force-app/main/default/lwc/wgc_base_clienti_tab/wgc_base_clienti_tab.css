@@ -1,0 +1,24 @@
+.cstm-title{
+    margin-left:15px;
+    vertical-align: sub;
+    font-size:1rem;
+    text-transform: uppercase;
+}
+
+.cstm-header-box{
+    padding: 7px;
+    font-weight: bold;
+    background-color:#F2F6FA;
+    border: 1px solid lightgray;
+    color: #021F59;
+}
+
+.cstm-table-cell{
+    padding:8px;
+    border:1px solid lightgray;
+}
+
+.cstm-table-cell-month{
+    padding:5px;
+    border-top:1px solid lightgray;
+}

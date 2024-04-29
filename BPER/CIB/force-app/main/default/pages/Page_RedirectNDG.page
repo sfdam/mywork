@@ -1,0 +1,7 @@
+<apex:page controller="RedirectNDGController" action="{!urlRedirection}">
+    <apex:PageBlock >
+        <apex:pageBlockSection rendered="{!IF(ISBLANK(ERRORMESSAGE),False, True)}">
+            <apex:outputText value="{!ERRORMESSAGE}" /> <br/>    
+        </apex:pageBlockSection>
+    </apex:PageBlock>
+</apex:page>

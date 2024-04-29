@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_Valori_Indicazione_Rete__c</fullName>
+    <externalId>false</externalId>
+    <label>Valori Indicazione Rete</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Interessato a nuovo prodotto/servizio</fullName>
+                <default>false</default>
+                <label>Interessato a nuovo prodotto/servizio</label>
+            </value>
+            <value>
+                <fullName>Possesso presso terzi</fullName>
+                <default>false</default>
+                <label>Possesso presso terzi</label>
+            </value>
+            <value>
+                <fullName>Cliente non interessato/adatto</fullName>
+                <default>false</default>
+                <label>Cliente non interessato/adatto</label>
+            </value>
+            <value>
+                <fullName>Non collocabile al Cliente</fullName>
+                <default>false</default>
+                <label>Non collocabile al Cliente</label>
+            </value>
+            <value>
+                <fullName>Prodotto già posseduto in Banca</fullName>
+                <default>false</default>
+                <label>Prodotto già posseduto in Banca</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

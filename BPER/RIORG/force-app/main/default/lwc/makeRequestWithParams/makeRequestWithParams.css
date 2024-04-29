@@ -1,0 +1,17 @@
+.no-button {
+    text-align: center;
+    color: #D3D3D3;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+lightning-helptext {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.color-button {
+    background-color: #01B27C;
+    color: #FFFFFF;
+}

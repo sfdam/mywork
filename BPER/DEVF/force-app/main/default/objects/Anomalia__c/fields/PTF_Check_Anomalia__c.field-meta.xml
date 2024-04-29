@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PTF_Check_Anomalia__c</fullName>
+    <externalId>false</externalId>
+    <formula>AND( PTF_Primario__r.PTF_Portafoglio__c  &lt;&gt;  PTF_Cointestazione__r.PTF_Portafoglio__c ,
+   PTF_Cointestazione__r.PTF_ModelloDiServizio__c   &lt;&gt; &quot;Consulenti Finanziari&quot; ,
+   PTF_Cointestazione__r.PTF_ModelloDiServizio__c   &lt;&gt; &quot;Residuale&quot; , 
+  PTF_Primario__r.PTF_ModelloDiServizio__c &lt;&gt; &quot;Consulenti Finanziari&quot; )</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Check Anomalia</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

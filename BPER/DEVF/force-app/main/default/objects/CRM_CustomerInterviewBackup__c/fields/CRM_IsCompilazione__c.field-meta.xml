@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_IsCompilazione__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>E&apos; true se il check up è una compilazione.</description>
+    <externalId>false</externalId>
+    <label>Is Compilazione</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

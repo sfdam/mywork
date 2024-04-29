@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_TotaleUASistema__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF (
+				OR (
+								ISBLANK(CRM_FlussoCRTotUtilizzatoSistema__c) = true,
+								ISBLANK(CRM_TotAccFlussoCRSistema__c) = true
+				),
+				NULL,
+				CRM_FlussoCRTotUtilizzatoSistema__c/CRM_TotAccFlussoCRSistema__c
+)</formula>
+    <label>Tot. % U/A Sistema</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Percent</type>
+</CustomField>

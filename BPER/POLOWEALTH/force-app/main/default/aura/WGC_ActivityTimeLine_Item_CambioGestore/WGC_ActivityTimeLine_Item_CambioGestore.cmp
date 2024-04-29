@@ -1,0 +1,80 @@
+<aura:component >
+	<aura:attribute name='itemDetail' type='Object' default='{}' />
+
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+	<lightning:navigation aura:id="navService" />
+
+	<li>
+		<div class="{! 'slds-timeline__item_expandable slds-timeline__item_task '  + (v.itemDetail.FieldToSort == 'CreatedDate' ? '' : 'disableOFS ') + (v.itemDetail.IsArchived ? 'IsArchived' : '') }">
+			<span class="slds-assistive-text">Cambio gestore</span>
+			<div class="slds-media">
+				<div class="slds-media__figure">
+					<div class="{! 'slds-icon_container slds-icon-standard-task slds-timeline__icon ' + (v.itemDetail.FieldToSort == 'CreatedDate' ? '' : 'disableOFS ') + (v.itemDetail.IsArchived ? 'IsArchived' : '') }" title="Cambio gestore">
+						<lightning:icon iconName="standard:employee_job_position" />							
+					</div>
+					<aura:if isTrue="{! v.itemDetail.SupportObject }">
+						<lightning:icon class="supportObj" iconName="utility:database" title="Caricamento Pregresso" size="xx-small" />
+					</aura:if>
+				</div>
+				<div class="slds-media__body">
+					<div class="slds-grid slds-grid_align-spread slds-timeline__trigger">
+						<div class="slds-grid slds-grid_vertical-align-center slds-truncate_container_75 slds-no-space">	
+							<h3 class="slds-truncate" title="Cambio Gestore">
+							  	<a >
+									<strong>Cambio Gestore</strong>
+								</a> &nbsp;
+								<aura:if isTrue="{! v.itemDetail.SetFieldIcon }">
+									<lightning:icon iconName="utility:note" title="New note" size="xx-small" />
+								</aura:if>
+							</h3>
+						</div>
+						<div class="slds-timeline__actions slds-timeline__actions_inline">
+								<p class="slds-timeline__date">
+									<!--{! (v.itemDetail.FieldToSort == 'CreatedDate' ? 'Data Attivazione ' : 'Data Disattivazione ') }-->Data:&nbsp;
+									<lightning:formattedDateTime value="{! (v.itemDetail.FieldToSort == 'CreatedDate' ? v.itemDetail.CreatedDate : v.itemDetail.PTF_EndDate__c) }" year="numeric" month="numeric" day="numeric" />
+								</p>
+								<lightning:buttonIcon iconName="utility:down"  size="x-small" alternativeText="View More" onclick="{! c.showArticle }" />
+						</div>
+					</div>
+					<p class="slds-m-horizontal_xx-small">
+					Gestore: &nbsp;<a >{! v.itemDetail.PTF_NominativoReferente__c }</a> 
+					</p>
+					
+				<!--	<aura:if isTrue="{! and(v.isCollapsedItem,v.indexId==v.indice)  }">-->
+					
+						<aura:if isTrue="{! v.itemDetail.isCollapsed }">
+							<article
+								class="{! 'slds-box slds-theme_shade slds-m-top_x-small slds-m-horizontal_xx-small slds-p-around_medium' }"
+								aura:id="{!v.indexId}">
+
+								<lightning:layout multipleRows="true" pullToBoundary="small">
+                    				<lightning:layoutItem flexibility="auto"  padding="horizontal-small" size="4">
+										<div>
+											<span class="slds-text-title slds-p-bottom_xx-small">Matricola</span>
+											<p class="slds-text-body_medium">{! v.itemDetail.PTF_RegistrationNumber__c }</p>
+										</div>        
+                                    </lightning:layoutItem>
+									<lightning:layoutItem flexibility="auto"  padding="horizontal-small" size="4">
+										<div>
+											<span class="slds-text-title slds-p-bottom_xx-small">Data inizio Validità</span>
+											<p class="slds-text-body_medium"><lightning:formattedDateTime value="{! v.itemDetail.CreatedDate }" year="numeric" month="numeric" day="numeric" /></p>
+										</div>        
+                                    </lightning:layoutItem>
+									<lightning:layoutItem flexibility="auto"  padding="horizontal-small" size="4">
+										<div>
+											<span class="slds-text-title slds-p-bottom_xx-small">Ruolo</span>
+											<p class="slds-text-body_medium">{! v.itemDetail.PTF_ReferenteRole__c }</p>
+										</div>        
+                                    </lightning:layoutItem>
+								</lightning:layout>
+
+					
+								
+							</article>
+						</aura:if>
+				</div>
+			</div>
+		</div>
+	</li>
+</aura:component>

@@ -1,0 +1,69 @@
+<aura:component implements="lightning:availableForFlowScreens" controller="BI_PSE_ControllerPrincipale_CTRL" access="global"> 
+	
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/> 
+
+    <aura:attribute name="opzioniTitolaritaSegnalazione" type="List" default="[
+    {'label': 'Il Segnalatore è anche il Referente della pratica', 'value': 'SEGNALATORE'},
+    {'label': 'Il Segnalatore ed il Referente della pratica sono due persone diverse', 'value': 'REFERENTE'}
+    ]"/>
+
+    <aura:attribute name="workflowRecordCandidatoID" type="String"/>
+    <aura:attribute name="workflowRecordCandidatoNEXT" type="WorkflowSegnalatori__c"/>
+    <aura:attribute name="workflowRecordCandidato" type="WorkflowSegnalatori__c"/>
+    <aura:attribute name="workflowRecordCandidatoERROR" type="String"/>
+
+    <force:recordData aura:id="flowRecordHandlerWorkflowCandidatoId"
+                      recordId="{!v.workflowRecordCandidatoID}"
+                      layoutType="FULL"
+                      targetFields="{!v.workflowRecordCandidato}"
+                      targetError="{!v.workflowRecordCandidatoERROR}"
+                      recordUpdated="{!c.handleRecordUpdated}"
+                      targetRecord="{!v.workflowRecordCandidatoNEXT}"
+                      mode="EDIT"                      
+                      />    
+
+    <!-- Display Lightning Data Service errors, if any -->
+    <aura:if isTrue="{!not(empty(v.workflowRecordCandidatoERROR))}">
+        <ui:message title="Errore" severity="error" closable="true">{!v.workflowRecordCandidatoERROR}</ui:message>
+    </aura:if>        
+
+    <c:BI_PSE_FlowPath_LCOM selectedPathValue="1"/>
+ 
+	<lightning:card variant="Narrow" title="Prodotti (1/2) - Owner segnalazione" iconName="standard:record" />
+    
+    <hr style="margin-top:1px;margin-bottom:10px;"/>
+
+    <lightning:card variant="Narrow" title="TITOLARITA’ DELLA SEGNALAZIONE (si intende la persona dell’ente segnalante da contattare per eventuali ulteriori informazioni)" iconName="standard:avatar">
+        <p class="slds-p-horizontal_small">
+				<div class="slds-grid slds-wrap slds-grid_vertical-align-end">       
+					<div class="slds-col slds-size_1-of-6">
+						<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputReferenteNomeInputId" label="Nome Referente" name="flowInputReferenteNomeInput" required="false" value="{!v.workflowRecordCandidato.NomeReferente__c}" maxlength="50" class="customRequired" disabled="{!v.workflowRecordCandidato.Stato__c != 'BOZZA_DATI'}" /></div>
+					</div>
+					<div class="slds-col slds-size_1-of-6">
+						<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputReferenteCognomeInputId" label="Cognome Referente" name="flowInputReferenteCognomeInput" required="false" value="{!v.workflowRecordCandidato.CognomeReferente__c}" maxlength="50" class="customRequired" disabled="{!v.workflowRecordCandidato.Stato__c != 'BOZZA_DATI'}" /></div>
+					</div>
+					<div class="slds-col slds-size_1-of-6">
+						<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputReferenteTelefonoInputId" label="Contatto Telefonico Referente" name="flowInputReferenteTelefonoInput" required="false" value="{!v.workflowRecordCandidato.TelefonoReferente__c}" class="customRequired" disabled="{!v.workflowRecordCandidato.Stato__c != 'BOZZA_DATI'}" /></div>
+					</div>
+					<div class="slds-col slds-size_1-of-6">
+						<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputReferenteEmailInputId" label="Indirizzo Mail Referente" name="flowInputReferenteEmailInput" required="false" value="{!v.workflowRecordCandidato.EmailReferente__c}" disabled="{!v.workflowRecordCandidato.Stato__c != 'BOZZA_DATI'}" /></div>
+					</div>
+					<div class="slds-col slds-col slds-size_1-of-6">
+						<div class="slds-m-around_small"></div>
+					</div>
+					<div class="slds-col slds-col slds-size_1-of-6">
+						<div class="slds-m-around_small"></div>
+					</div>
+					<div class="slds-col slds-col slds-size_1-of-6">
+						<div class="slds-m-around_small"><lightning:button label="COMPILA CON I MIEI DATI" variant="brand" onclick="{!c.handleReferenteMeClick}" disabled="{!v.workflowRecordCandidato.Stato__c != 'BOZZA_DATI'}" /></div>
+					</div>
+					<div class="slds-col slds-col slds-size_5-of-6">
+						<div class="slds-m-around_small"></div>
+					</div>
+				</div>
+		</p>
+	</lightning:card>
+
+    <c:bifis_crm_c_CommonFlowNavigator availableActions="{!v.availableActions}" navigateFlowEvent="{!c.handleNavigate}"/>   
+	
+</aura:component>

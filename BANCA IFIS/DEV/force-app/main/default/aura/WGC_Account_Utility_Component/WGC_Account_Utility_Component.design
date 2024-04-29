@@ -1,0 +1,6 @@
+<design:component>
+
+        <design:attribute name="bilancio" label="Request Bilancio" datasource="false, true" default="false" description="Esegue la request per il Bilancio" />
+        <design:attribute name="eventiNegativi" label="Request Eventi Negativi" datasource="false, true" default="false" description="Esegue la request per gli Eventi Negativi" />
+
+</design:component>

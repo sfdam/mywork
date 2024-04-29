@@ -1,0 +1,39 @@
+<aura:component extends="c:WGC_Utility">
+    <!-- ATTRIBUTE -->
+    <aura:attribute name="opportunityId" type="String"/>
+    <aura:attribute name="disableMotivo" type="Boolean" default="true"/>
+
+    <aura:attribute name="currentOpportunity" type="Object" description="The record object to be displayed"/>
+    <aura:attribute name="opportunityRecord" type="Object" description="A simplified view record object to be displayed"/>
+    <aura:attribute name="recordError" type="String" description="An error message bound to force:recordData"/>
+
+    <force:recordData aura:id="record"
+        layoutType="FULL"
+        recordId="{!v.opportunityId}"
+        targetError="{!v.recordError}"
+        targetRecord="{!v.currentOpportunity}"
+        targetFields="{!v.opportunityRecord}"
+        fields="Id,RecordTypeId"
+    />
+    
+    <lightning:notificationsLibrary aura:id="notifLib"/>
+
+    <lightning:recordEditForm
+        aura:id="recordEditForm"
+        onload="{! c.onLoad }"
+        onsubmit="{! c.handleSubmit }"
+        onsuccess="{! c.handleSuccess }"
+        recordId="{! v.opportunityId }"
+        recordTypeId="{! v.opportunityRecord.RecordTypeId }"
+        objectApiName="Opportunity">
+        <!-- the messages component is for error messages -->
+        <lightning:messages />
+
+        <lightning:inputField fieldName="WGC_Fase__c" aura:id="opportunityFase" value="Persa" disabled="true" />
+        <lightning:inputField fieldName="CategoriaChiusuraTrattativa__c" onchange="{! c.onChangeCategoria }" />
+        <lightning:inputField fieldName="MotivoChiusuraTrattativa__c" disabled="{! v.disableMotivo }" />
+        <div class="slds-m-top_medium slds-text-align_right">
+            <lightning:button class="cstm-btn-round cstm-btn-brand" variant="brand" type="submit" name="close" label="Conferma" disabled="{! v.disableMotivo }" />
+        </div>
+    </lightning:recordEditForm>
+</aura:component>

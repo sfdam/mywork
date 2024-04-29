@@ -1,0 +1,124 @@
+<aura:component implements="lightning:availableForFlowScreens" access="global">  
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/> 
+    
+    <aura:attribute name="disabilitatoSTANDARD" type="Boolean" default="true"/>
+    <aura:attribute name="disabilitatoASSICURATIVO" type="Boolean" default="true"/>
+
+    <aura:attribute name="opzioniLinea" type="List" default="[
+    {'label': 'Mutuo MCC - NSA', 'value': 'STANDARD'},
+    {'label': 'Mutuo MCC - NSA SA', 'value': 'ASSICURATIVO'}
+    ]"/>
+
+    <aura:attribute name="garanziaImporto" type="Decimal" default="80"/>
+    <aura:attribute name="garanziaImportoSA" type="Decimal" default="80"/>
+
+    <aura:attribute name="flowInputTipologiaGaranziaVar" type="String" access="global" default="Specifica"/>           
+    <aura:attribute name="flowInputTipologiaGaranziaSAVar" type="String" access="global" default="Specifica"/>    
+    <aura:attribute name="flowInputDivisaVar" type="String" access="global" default="Euro"/>  
+    <aura:attribute name="flowInputGaranteVar" type="String" access="global" default="Fondo di Garanzia MCC"/>  
+
+    <aura:attribute name="workflowRecordCandidatoID" type="String"/>
+    <aura:attribute name="workflowRecordCandidatoNEXT" type="WorkflowMutui__c"/>
+    <aura:attribute name="workflowRecordCandidato" type="WorkflowMutui__c"/>
+    <aura:attribute name="workflowRecordCandidatoERROR" type="String"/>
+    
+    <force:recordData aura:id="flowRecordHandlerWorkflowCandidatoId"
+                      recordId="{!v.workflowRecordCandidatoID}"
+                      layoutType="FULL"
+                      targetFields="{!v.workflowRecordCandidato}"
+                      targetError="{!v.workflowRecordCandidatoERROR}"
+                      recordUpdated="{!c.handleRecordUpdated}"
+                      targetRecord="{!v.workflowRecordCandidatoNEXT}"
+                      mode="EDIT"                      
+                      />    
+    
+    <c:bifis_crm_c_MccNsaFlowPath selectedPathValue="2"/>
+
+    <c:bifis_crm_c_CommonFlowNavigator availableActions="{!v.availableActions}" navigateFlowEvent="{!c.handleNavigate}"/>
+    
+    <!-- Display Lightning Data Service errors, if any -->
+    <aura:if isTrue="{!not(empty(v.workflowRecordCandidatoERROR))}">
+        <ui:message title="Errore" severity="error" closable="true">{!v.workflowRecordCandidatoERROR}</ui:message>
+    </aura:if>
+
+	<lightning:card variant="Narrow" title="Inserire i dati sulle garanzie e garanti delle linee selezionate" iconName="standard:record" />
+    
+    <hr style="margin-top:1px;margin-bottom:1px;"/>
+
+	<p class="slds-p-horizontal_small">
+		<div class="slds-grid slds-wrap">  
+			<div class="slds-size_2-of-4">
+				<div class="slds-m-around_x-small">
+					<lightning:card aura:id="cardLineaProdottoMccNsa" variant="Narrow" title="MUTUO MCC - NSA" class="slds-text-heading_small slds-card_boundary">
+
+						<lightning:card variant="Narrow" title="GARANZIE" iconName="standard:partner_marketing_budget">
+							<p class="slds-p-horizontal_small">
+								<div class="slds-grid slds-wrap">        
+									<div class="slds-size_2-of-2">
+										<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputTipologiaGaranziaInputId" label="Tipologia Garanzia" name="flowInputTipologiaGaranziaInput" disabled="true" value="{!v.flowInputTipologiaGaranziaVar}" /></div>
+									</div>
+									<div class="slds-size_1-of-2">
+										<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputPercentualeGaranziaInputId" label="Percentuale Garanzia su Importo (%)" type="number" name="flowInputPercentualeGaranziaInput" required="false" value="{!v.workflowRecordCandidato.GaranziaImporto__c}" min="0" max="100" step="0.01" formatter="percent-fixed" disabled="{!v.disabilitatoSTANDARD}"/></div>
+									</div>
+									<div class="slds-size_1-of-2">
+										<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputDivisaInputId" label="Divisa" name="flowInputDivisaInput" disabled="true" value="{!v.flowInputDivisaVar}"  /></div>
+									</div>                
+								</div>
+							</p>
+
+						</lightning:card>
+
+						<lightning:card variant="Narrow" title="GARANTI" iconName="standard:partner_marketing_budget">
+							<p class="slds-p-horizontal_small">
+								<div class="slds-grid slds-wrap">        
+									<div class="slds-size_2-of-2">
+										<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputGaranteInputId" label="Garante" name="flowInputGaranteInput" disabled="true" value="{!v.flowInputGaranteVar}" /></div>
+									</div>             
+								</div>
+							</p>
+						</lightning:card>  
+
+					</lightning:card>					
+				</div>
+			</div>
+			<div class="slds-size_2-of-4">
+				<div class="slds-m-around_x-small">
+					<lightning:card aura:id="cardLineaProdottoMccNsaSA" variant="Narrow" title="MUTUO MCC - NSA SA" class="slds-text-heading_small slds-card_boundary">
+
+						<lightning:card variant="Narrow" title="GARANZIE" iconName="standard:partner_marketing_budget">
+							<p class="slds-p-horizontal_small">
+								<div class="slds-grid slds-wrap">        
+									<div class="slds-size_2-of-2">
+										<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputTipologiaGaranziaSAInputId" label="Tipologia Garanzia" name="flowInputTipologiaGaranziaSAInput" disabled="true" value="{!v.flowInputTipologiaGaranziaSAVar}" /></div>
+									</div>
+									<div class="slds-size_1-of-2">
+										<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputPercentualeGaranziaSAInputId" label="Percentuale Garanzia su Importo (%)" type="number" name="flowInputPercentualeGaranziaSAInput" required="false" value="{!v.workflowRecordCandidato.GaranziaImportoSA__c}" min="0" max="100" step="0.01" formatter="percent-fixed" disabled="{!v.disabilitatoASSICURATIVO}"/></div>
+									</div>
+									<div class="slds-size_1-of-2">
+										<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputDivisaSAInputId" label="Divisa" name="flowInputDivisaSAInput" disabled="true" value="{!v.flowInputDivisaVar}"  /></div>
+									</div>                
+								</div>
+							</p>
+
+						</lightning:card>
+
+						<lightning:card variant="Narrow" title="GARANTI" iconName="standard:partner_marketing_budget">
+							<p class="slds-p-horizontal_small">
+								<div class="slds-grid slds-wrap">        
+									<div class="slds-size_2-of-2">
+										<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputGaranteSAInputId" label="Garante" name="flowInputGaranteSAInput" disabled="true" value="{!v.flowInputGaranteVar}" /></div>
+									</div>             
+								</div>
+							</p>
+						</lightning:card>  
+
+					</lightning:card>					
+				</div>
+			</div>				
+		</div>
+	</p> 
+    
+    <c:bifis_crm_c_CommonFlowNavigator availableActions="{!v.availableActions}" navigateFlowEvent="{!c.handleNavigate}"/>
+    
+</aura:component>

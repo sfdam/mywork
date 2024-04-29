@@ -1,0 +1,7 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes">
+
+    <div style="text-align:center;width:100%;margin-bottom:20px;">
+        <img style=" -webkit-align-self: center; align-self: center;" src="{!$Resource.BancaIFISLogoNew}"/>
+    </div>
+    
+</aura:component>

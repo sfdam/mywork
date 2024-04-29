@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_IsCMContattato__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF( Campaign__r.CRM_TipologiaCampagnaStep__c == &quot;Monostep&quot;, !ISPICKVAL(CRM_EsitoCampagna__r.CRM_TipoEsitazione__c, &quot;Default&quot;) &amp;&amp; !ISBLANK(CRM_EsitoCampagna__c) &amp;&amp;  CRM_EsitoCampagna__r.CRM_NomeEsito__c != &apos;Eliminato&apos;, !ISPICKVAL(CRM_EsitoCampagnaCC__r.CRM_TipoEsitazione__c, &quot;Default&quot;) &amp;&amp; !ISBLANK(CRM_EsitoCampagna__c) &amp;&amp;  CRM_EsitoCampagnaCC__r.CRM_NomeEsito__c != &quot;Eliminato&quot; )</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Is CM contattato (formula)</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

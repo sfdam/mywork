@@ -1,0 +1,1003 @@
+<apex:page id="PdfFatca" renderAs="pdf"  showHeader="false" applyHtmlTag="false" applyBodyTag="false" standardStylesheets="false" standardController="Opportunity" extensions="ExtPdfFatca">
+    <html>
+        <head>
+            <apex:stylesheet value="{!$Resource.CssPdfGeneration}"/>
+            <style>
+             p {
+              margin:0px;
+             }
+
+             p, li, div, span {
+              font-family: sans-serif;
+             }
+
+             p.MsoNormal, li.MsoNormal, div.MsoNormal {
+              margin:0cm;
+              margin-bottom:.0001pt;
+             }
+
+              table.CheckListTable {
+                margin-left: :5px;
+                text-align:justify;
+                margin: 0px;
+              }
+
+              .checkrow {
+                float: right;
+                margin-right: 100px;
+              }
+
+              .ElementList1 {
+                margin:0cm;
+                margin-bottom:.0001pt;
+                font-size:7.5pt;
+                text-align:justify;
+              }
+
+              .checkboxImgNoMargin {
+                width:12px;
+                height:12px;
+              }
+
+              .lineInput {
+                border-bottom: solid;
+                border-bottom-width: 1pt;
+                margin-left: 4pt;
+                margin-right: 4pt;
+                padding-left: 5pt;
+                padding-right: 5pt;
+              }
+
+              .normalLine {
+                padding-left:80pt;
+                border-bottom: solid;
+                border-bottom-width: 1pt;
+                margin-left: 4pt;
+                margin-right: 4pt;
+              }
+
+             p.MsoFootnoteText, li.MsoFootnoteText, div.MsoFootnoteText { 
+              margin:0cm;
+              margin-bottom:.0001pt;
+              font-size:9.0pt;}
+
+             ol
+              {margin-bottom:0cm;}
+             ul
+              {margin-bottom:0cm;
+              margin-top:0cm;}
+              
+             .tableCellParteII {
+                margin-top:2px;
+                vertical-align:top;
+                horizontal-align:left;
+                text-align:left;
+             } 
+            </style>
+        </head>
+        <body>
+            <!--footer and header-->
+            <div class="header_left" style="margin-left:5pt;">
+                <img class="header_logo_img" src="{!$Resource.BancaIfisLogoNew}"/>
+            </div>
+            <div class="footer_center">
+                <p class="docName">MODULO FATCA/CRS PG Novembre 2017</p>
+                <img class="footerLargeImg" src="{!$Resource.FooterIfisPrivacy}"/>
+            </div>
+            <div class="footer_right pageNumberFooter">
+                <span class="pagenumber"/>
+            </div>
+            <p class="MsoFootnoteText" align="center" style="margin-right:-14.3pt;text-align: center">
+                <strong><span  style="color:black"><u>AUTOCERTIFICAZIONE TRASPARENZA FISCALE FATCA E AEOI (CRS) – ENTITA’</u></span></strong>
+            </p>
+            <br/>
+            <p class="paragrafoStandard9">
+                <i>Al fine di ottemperare alle disposizioni contenute nella Legge 18 giugno 2015, n. 95 e nei relativi Decreti di Attuazione emanati dal Ministro dell’Economia e delle Finanze rispettivamente il 6 agosto 2015 (FATCA) e il 28 dicembre 2015 (CRS) e con la finalità di contrastare la frode fiscale e l’evasione fiscale transfrontaliera, la Banca, in qualità di Istituzione Finanziaria italiana tenuta alla Comunicazione (RIFI), è tenuta ad acquisire ed aggiornare i dati identificativi e le residenze fiscali dei propri Clienti, al fine di determinarne l’effettivo status di contribuenti statunitensi e/o esteri, e a provvedere alla relativa segnalazione alla autorità competenti, qualora ne sussistano le condizioni.</i>
+            </p>
+            <p class="paragrafoStandard9">
+                <i>Su queste premesse, Le chiediamo di rispondere alle domande del questionario sotto riportato, fornendo altresì la documentazione eventualmente richiesta.</i>
+            </p>
+            <div class="uniqueBlock" style="margin-top:30px;">
+                <p class="MsoNormal" style="text-align:left">
+                    <span  style="font-size:11.0pt;color:black"><strong>Sezione 1 DATI GENERALI</strong></span>
+                    <br/><br/>
+                    <span  style="font-size:11.0pt;color:black"><strong>Parte I) Dati generali </strong> (da compilare sempre)</span>
+                </p>
+                <br/><span>
+                Il sottoscritto/a 
+                <span class="{! IF(!ISBLANK(linee[0].Contact__r.Name), '', 'veryLongDot')}"> {!linee[0].Contact__r.Name} </span>
+                
+                nato/a 
+                <span class="{! IF(!ISBLANK(linee[0].Contact__r.LuogoNascita__c), '', 'dottedInput')}">{!linee[0].Contact__r.LuogoNascita__c} </span>
+                <br/>
+                
+                il 
+                <span class="{! IF(!ISBLANK(linee[0].Contact__r.Birthdate), '', 'dottedInput')}">
+                    <apex:outputText value="{0, date, ' 'dd'/'MM'/'yyyy}">
+                        <apex:param value="{!linee[0].Contact__r.Birthdate}" /> 
+                    </apex:outputText>
+                </span>
+                
+                residente
+                <span class="{! IF(!ISBLANK(linee[0].Contact__r.MailingStreet), '', 'veryLongDot')}"> {!linee[0].Contact__r.MailingStreet} </span>
+                
+                CAP 
+                <span class="{! IF(!ISBLANK(linee[0].Contact__r.MailingPostalCode), '', 'dottedInput')}"> {!linee[0].Contact__r.MailingPostalCode} </span>
+                <br/>
+                
+                Città 
+                <span class="{! IF(!ISBLANK(linee[0].Contact__r.MailingCity), '', 'dottedInput')}"> {!linee[0].Contact__r.MailingCity} </span>
+                
+                Nazione 
+                <span class="{! IF(!ISBLANK(linee[0].Contact__r.MailingCountry), '', 'dottedInput')}"> {!linee[0].Contact__r.MailingCountry} </span>
+                <br/>               
+                
+                Codice Fiscale 
+                <span class="{! IF(!ISBLANK(linee[0].Contact__r.CF__c), '', 'dottedInput')}"> {!linee[0].Contact__r.CF__c} </span>
+                
+                Documento d'identità (tipo) 
+                <span class="{! IF(!ISBLANK(linee[0].Contact__r.TipoDocumentoIdentita__c), '', 'dottedInput')}"> {!linee[0].Contact__r.TipoDocumentoIdentita__c} </span>
+                <br/>
+                
+                N. 
+                <span class="{! IF(!ISBLANK(linee[0].Contact__r.NumeroDoc__c), '', 'dottedInput')}"> {!linee[0].Contact__r.NumeroDoc__c} </span>
+                
+                rilasciato da 
+                <span class="{! IF(!ISBLANK(linee[0].Contact__r.EnteEmitettenteDocumento__c), '', 'dottedInput')}"> {!linee[0].Contact__r.EnteEmitettenteDocumento__c} </span>
+                
+                in data 
+                <span class="{!IF( !ISBLANK(linee[0].Contact__r.DataEmissioneDoc__c), '', 'dottedInput')}">
+                <apex:outputText value="{0, date, ' 'dd'/'MM'/'yyyy}">
+                    <apex:param value="{!linee[0].Contact__r.DataEmissioneDoc__c}" /> 
+                </apex:outputText>
+                </span>
+                <br/>
+                
+                <i>in qualità di Legale Rappresentante o Delegato della seguente Società:</i><br/><br/>
+                Denominazione sociale {!a.Name} <br/>
+                Partita Iva {!a.piva__c} <br/>
+                Telefono: Prefisso internazionale obbligatorio <span class="dottedInput"></span> 
+                Nr. Telefonico  <span class="veryLongDot"></span> <br/>
+                Luogo di costituzione (<i>come risultante da atto costitutivo ex art. 2521 c.c.</i>) 
+                 <span class="veryLongDot"></span> <span class="veryLongDot"></span> 
+                <br/>
+                </span>
+                <span  style="font-size:10.0pt;color:black"><i><strong>dichiara che, per le finalità legate alle imposte sul reddito, la suddetta Società ha residenza fiscale nei Paesi indicati:</strong></i></span>
+                <table class="MsoTableGrid" border="1" cellspacing="0" cellpadding="0" style="margin-top: 20px; align=center;" width="100%">
+                    <tr>
+                        <td class="tableCellParteII">RESIDENZA FISCALE</td>
+                        <td class="tableCellParteII">CODICE FISCALE/PARTITA IVA/TAXPAYER IDENTIFICATION NUMBER (TIN)</td>
+                        <td class="tableCellParteII">CODICE FISCALE/PARTITA IVA NON PRESENTE</td>
+                    </tr>
+                    <tr>
+                        <td> &nbsp; </td>
+                        <td> &nbsp; </td>
+                        <td> &nbsp; </td>
+                    </tr>
+                    <tr>
+                        <td> &nbsp; </td>
+                        <td> &nbsp; </td>
+                        <td> &nbsp; </td>
+                    </tr>
+                    <tr>
+                        <td> &nbsp; </td>
+                        <td> &nbsp; </td>
+                        <td> &nbsp; </td>
+                    </tr>                       
+                </table>
+                <span  style="font-size:10.0pt"><i>
+                    Nel caso in cui il Paese in cui si dichiara di essere fiscalmente residenti non prevede il rilascio del numero identificativo fiscale(NIF), si richiede di barrare la casella “CODICE FISCALE NON PRESENTE”.
+                </i></span>
+            </div> <!-- fine sezione 1 parte I -->
+            <div class="uniqueBlock" style="margin-top:30px;">
+                <p class="MsoNormal" style="text-align:left">
+                    <span  style="font-size:11.0pt;color:black"><strong>Parte II) – Regime di trasparenza Fiscale <sup>1</sup></strong></span>
+                </p>            
+                <br/>
+                  Regime di trasparenza fiscale
+                  SI <img  class="checkboxImgSmall" src="{!IF( a.RegimeTrasparenzaFiscale__c=='Si', $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>
+                  NO <img  class="checkboxImgSmall" src="{!IF( a.RegimeTrasparenzaFiscale__c!='Si', $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>
+                <br/>
+                <p>Se: <br/>
+                <i>
+                - società di persone: Il regime di trasparenza fiscale rappresenta il regime naturale di tassazione, in quanto, ai sensi dell’art.
+                5, D.P.R. 917/1986, il reddito prodotto dalla società di persone è imputato a ciascun socio, indipendentemente dalla
+                percezione, in proporzione alla quota di partecipazione agli utili. Se rientranti in questa fattispecie di società indicare SI; <br/>
+                - Società di capitali i cui soci sono altre società di capitali: il regime di trasparenza fiscale è opzionale e solo al rispetto di
+                determinati requisiti di cui all’art. 115, D.P.R. 917/1986; <br/>
+                - S.r.l. i cui soci sono esclusivamente persone fisiche: il regime di trasparenza fiscale è opzionale e solo al rispetto di determinati
+                requisiti di cui all’art. 116, D.P.R. 917/1986. Nel caso sia dubbia l’appartenenza al regime di trasparenza fiscale si consiglia di chiedere al proprio commercialista.
+                </i></p>
+            </div> <!-- fine sezione 1 parte II -->
+            <div class="uniqueBlock" style="margin-top:30px;">
+                <p class="MsoNormal" style="margin-left:20.0pt;text-align:justify;text-indent:-18.0pt">
+                    <span style="font-size:11.0pt;color:black"><strong>Sezione 2 – Status ed Entity FATCA</strong> - da compilare sempre</span>
+                </p>
+                <br/>
+                <p class="MsoNormal" style="margin-left:20.0pt;text-align:justify;text-indent:-18.0pt">
+                    <span  style="font-size:11.0pt;color:black"><strong>Parte I) STATUS ed ENTITY FATCA</strong></span>
+                </p>
+                <br/>
+                dichiara che la suddetta Società è:
+                <br/>
+                
+                <img  class="checkboxImgSmall" src="{!IF( AND(a.USPerson__c!='Si', a.SpecifiedUSPerson__c!='Si'), $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>
+                Persona non statunitense <b>(Non US Person)</b> (in tal caso, compilare la Sezione 2, Parte II)<br/>
+                
+                <img  class="checkboxImgSmall" src="{!IF( AND(a.USPerson__c=='Si', a.SpecifiedUSPerson__c=='Si'), $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>
+                <b>Specified U.S. Person*</b>, ovvero soggetto statunitense oggetto di segnalazione FATCA <br/>
+                <span style="margin-left:20pt;"><b>TIN</b></span> <span class="veryLongDot"></span><br/>
+                
+                <img  class="checkboxImgSmall" src="{!IF( OR(a.USPerson__c=='Si', a.SpecifiedUSPerson__c!='Si'), $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                <b>Non Specified U.S. Person*</b> ovvero soggetto statunitense esentato dalla segnalazione ai fini FATCA, indicare una tra le seguenti opzioni:
+                <table class="MsoTableGrid" border="1" cellspacing="0" cellpadding="0" style="margin-top: 5px;margin-left:20pt;" width="90%">
+                    <tr>
+                        <td width="5%">
+                        </td>
+                        <td>
+                            Ente esente da imposta (ad es. Entità statale, organizzazione internazionale o banca centrale o interamente controllata da uno o più di tali soggetti)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="5%">
+                        </td>
+                        <td>
+                            Governo degli Stati Uniti e soggetti da questo controllati
+                        </td>
+                    </tr>                   
+                    <tr>
+                        <td width="5%">
+                        </td>
+                        <td>
+                            Stati e territori statunitensi
+                        </td>
+                    </tr>                   
+                    <tr>
+                        <td width="5%">
+                        </td>
+                        <td>
+                            Società di capitali quotata o di Gruppo statunitense quotato
+                        </td>
+                    </tr>                   
+                    <tr>
+                        <td width="5%">
+                        </td>
+                        <td>
+                            Dealer registrato negli USA
+                        </td>
+                    </tr>                   
+                    <tr>
+                        <td width="5%">
+                        </td>
+                        <td>
+                            Real Estate Investment Trust
+                        </td>
+                    </tr>                   
+                    <tr>
+                        <td width="5%">
+                        </td>
+                        <td>
+                            Regulated Investment Company o Common Trust Fund o Banca Statunitense o Broker Statunitense
+                        </td>
+                    </tr>                   
+                    <tr>
+                        <td width="5%">
+                        </td>
+                        <td>
+                            Trust esente da imposta sec.664
+                        </td>
+                    </tr>                   
+                    <tr>
+                        <td width="5%">
+                        </td>
+                        <td>
+                            Trust esente da imposta sec.403
+                        </td>
+                    </tr>                   
+                </table>
+                <br/>
+                <!-- adione: non credo abbiamo un campo in Account per tracciare questo stato -->
+                <img  class="checkboxImgSmall" src="{!IF( OR(a.USPerson__c=='Si', a.SpecifiedUSPerson__c!='Si'), $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                Persona non statunitense Reportable <b>(Entity Reportable)</b> Entity Reportable <br/>
+                <br/>
+                <span style="font-size:10.0pt">
+                <i>* Se <b>Specified U.S. Person</b> o <b>Non Specified U.S. Person</b> si richiede di allegare apposito Form W9 (Request for Taxpayer Identification Number and Certification) compilato e sottoscritto.</i>
+                </span>
+            </div> <!-- fine sezione 2 parte I -->
+            <br/>
+            <br/>
+            <div style="margin-top:30px;">
+            <p class="MsoNormal" style="margin-left:20.0pt;text-align:justify;text-indent:-18.0pt">
+                <span  style="font-size:11.0pt;color:black"><strong>Parte II) Entity FATCA</strong> - da compilare se il soggetto <strong>è NON US Person:</strong></span>
+            </p>
+            <br/>
+            <table class="MsoTableGrid" border="1" cellspacing="0" cellpadding="0" style="margin-top: 5px;" width="100%">
+                <tr>
+                    <td>
+                        <b>Nel caso in cui il cliente sia un’Istituzione Finanziaria:</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table border="0" width="95%">
+                            <tr>
+                                <td class="tableCellParteII">
+                                    <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                                </td>
+                                <td class="tableCellParteII">
+                                    Istituzione finanziaria estera partecipante (PFFI)
+                                </td>
+                                <td class="tableCellParteII">
+                                    GIIN: <span class="veryLongDot" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="tableCellParteII">
+                                    <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                                </td>
+                                <td class="tableCellParteII">
+                                    Istituzione finanziaria Italiana tenuta alla comunicazione (RIFI)
+                                </td>
+                                <td class="tableCellParteII">
+                                    GIIN: <span class="veryLongDot" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="tableCellParteII">
+                                    <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                                </td>
+                                <td class="tableCellParteII">
+                                    Istituzione finanziaria estera registrata considerata adempiente <br/>
+                                    (RDCFFI) <i>specificare il caso che ricorre</i>
+                                    <ul>
+                                        <li style="list-style-type:circle">Reporting Foreign Financial Institution (Model IGA 1 diverso dall’Italia)</li>
+                                        <li style="list-style-type:circle">Foreign local FFI</li>
+                                        <li style="list-style-type:circle">Foreign non reporting members of participating FFI groups</li>
+                                        <li style="list-style-type:circle">Foreign Qualified Collective Investment Vehicles</li>
+                                        <li style="list-style-type:circle">Foreign Restricted Funds</li>
+                                        <li style="list-style-type:circle">Foreign Qualified Credit Card Issuers</li>
+                                        <li style="list-style-type:circle">Foreign Sponsored investment entities and controlled foreign corporations</li>
+                                    </ul>                                   
+                                </td>
+                                <td class="tableCellParteII">
+                                    GIIN: <span class="veryLongDot" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="tableCellParteII">
+                                    <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                                </td>
+                                <td class="tableCellParteII">
+                                    Istituzione finanziaria italiana registrata considerata adempiente <br/>
+                                    (RDCIFI) <i>specificare il caso che ricorre</i>
+                                    <ul>
+                                        <li style="list-style-type:circle">Italian local FFI</li>
+                                        <li style="list-style-type:circle">Specifiche categorie di OICR</li>
+                                        <li style="list-style-type:circle">Onlus registrate (art. 11, D.lgs. 460/1997)</li>
+                                        <li style="list-style-type:circle">Italian Special Purpose Vehicles</li>
+                                        <li style="list-style-type:circle">Italian non registering local Banks</li>
+                                    </ul>                                   
+                                </td>
+                                <td class="tableCellParteII">
+                                    GIIN: <span class="veryLongDot" />
+                                </td>
+                            </tr> 
+                            <tr>
+                                <td class="tableCellParteII">
+                                    <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                                </td>
+                                <td class="tableCellParteII">
+                                    Istituzione finanziaria estera certificata considerata adempiente <br/>
+                                    (CDCFFI) <i>specificare il caso che ricorre</i>
+                                    <ul>
+                                        <li style="list-style-type:circle">Non registering local Banks</li>
+                                        <li style="list-style-type:circle">FFI with only low value accounts</li>
+                                        <li style="list-style-type:circle">Sponsored closely held investment vehicles</li>
+                                        <li style="list-style-type:circle">Limited life debt investment entities</li>
+                                    </ul>                                   
+                                </td>
+                            </tr>   
+                            <tr>
+                                <td class="tableCellParteII">
+                                    <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                                </td>
+                                <td class="tableCellParteII">
+                                    Istituzione finanziaria estera certificata considerata adempiente <br/>
+                                    (CDCIFI) <i>specificare il caso che ricorre</i>
+                                    <ul>
+                                        <li style="list-style-type:circle">Non reportıng Italian members of financial groups</li>
+                                        <li style="list-style-type:circle">Qualified Italian Collectıve Investment Vehicles</li>
+                                        <li style="list-style-type:circle">Italian Restricted Funds</li>
+                                        <li style="list-style-type:circle">Qualified Italian Credit Card Issuers</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="tableCellParteII">
+                                    <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                                </td>
+                                <td class="tableCellParteII">
+                                    Istituzione Finanziaria non partecipante (NPFI)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="tableCellParteII">
+                                    <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                                </td>
+                                <td class="tableCellParteII">
+                                    Istituzione Finanziaria non partecipante operante come Beneficiario Effettivo Esente (EBO)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="tableCellParteII">
+                                    <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                                </td>
+                                <td class="tableCellParteII">
+                                    Limited FFI /Limited branch
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="tableCellParteII">
+                                    <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                                </td>
+                                <td class="tableCellParteII">
+                                    Istituzione finanziaria estera tenuta alla comunicazione (Model 2 IGA)
+                                </td>
+                                <td class="tableCellParteII">
+                                    GIIN: <span class="veryLongDot" />
+                                </td>
+                            </tr>   
+                            <tr>
+                                <td class="tableCellParteII">
+                                    <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                                </td>
+                                <td class="tableCellParteII">
+                                    una società Owner Document FFI <br/>
+                                    <i>compilare anche la Sezione IV</i>
+                                </td>
+                                <td class="tableCellParteII">
+                                    TIN: <span class="veryLongDot" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="tableCellParteII">
+                                    <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                                </td>
+                                <td class="tableCellParteII">
+                                    una società Sponsored FFI
+                                </td>
+                                <td class="tableCellParteII">
+                                    GIIN: <span class="veryLongDot" /> <br/>
+                                    Indicare la Sponsoring entity: <span class="veryLongDot" />
+                                </td>
+                            </tr>                           
+                        </table>
+                    </td>
+                </tr>
+            </table>
+            <table class="MsoTableGrid" border="1" cellspacing="0" cellpadding="0" style="margin-top: 5px;" width="100%">
+                <tr>
+                    <td>
+                        <b>Nel caso in cui il cliente non sia un Istituzione Finanziaria:</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table border="0" width="95%">
+                            <tr>
+                                <td class="tableCellParteII">
+                                    <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                                </td>
+                                <td class="tableCellParteII">
+                                    Active Non Financial Foreign Entity (NFFE) <br/>
+                                    <i>specificare il caso che ricorre</i>
+                                    <ul>
+                                        <li style="list-style-type:circle">Società con reddito lordo, relativo all’esercizio precedente, derivante in prevalenza (maggiore del 50%) dalla gestione non finanziaria</li>
+                                        <li style="list-style-type:circle">Società di capitali quotata o di Gruppo Quotato</li>
+                                        <li style="list-style-type:circle">Società esente dall'imposta sul reddito nel suo Paese di residenza (ad es. Entità statale, organizzazione internazionale o banca centrale o interamente controllata da uno o più di tali soggetti)</li>
+                                        <li style="list-style-type:circle">Holding di società non finanziarie</li>
+                                        <li style="list-style-type:circle">Start-up</li>
+                                        <li style="list-style-type:circle">Società in liquidazione</li>
+                                        <li style="list-style-type:circle">Società finanziaria captive di gruppo non finanziario</li>
+                                        <li style="list-style-type:circle">Ente no profit</li>
+                                        <li style="list-style-type:circle">Società organizzata in territorio degli USA</li>
+                                        <li style="list-style-type:circle">Organizzazione esente da imposte conformemente alla sezione 501 (c) del regolamento del Tesoro statunitense</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="tableCellParteII">
+                                    <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                                </td>
+                                <td class="tableCellParteII">
+                                    Passive Non Financial Foreign Entity (NFFE) (in tal caso compilare anche la Sezione 4 “TITOLARE EFFETTIVO”) <br/>
+                                    <i>specificare il caso che ricorre</i>
+                                    <ul>
+                                        <li style="list-style-type:circle">Start-up</li>
+                                        <li style="list-style-type:circle">Società in liquidazione</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="tableCellParteII">
+                                    <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                                </td>
+                                <td class="tableCellParteII">
+                                    Società qualificata Direct Reporting ai sensi del regolamento del Tesoro statunitense <br/>
+                                    GIIN: <span class="veryLongDot" />
+                                </td>                               
+                            </tr>
+                            <tr>
+                                <td class="tableCellParteII">
+                                    <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                                </td>
+                                <td class="tableCellParteII">
+                                    Società qualificata Sponsored Direct Reporting ai sensi del regolamento del Tesoro statunitense <br/>
+                                    GIIN: <span class="veryLongDot" />  
+                                </td>                               
+                            </tr>
+                            <tr>
+                                <td class="tableCellParteII">
+                                    <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                                </td>
+                                <td class="tableCellParteII">
+                                    Beneficiario Effettivo Esente (EBO)
+                                </td>                               
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>            
+            </div>  <!-- fine sezione 2 parte II -->
+                       
+            <div class="uniqueBlock" style="margin-top:30px;">
+                <p class="MsoNormal" style="margin-left:20.0pt;text-align:justify;text-indent:-18.0pt">
+                    <span style="font-size:11.0pt;color:black"><strong>Sezione 3 – STATUS ed ENTITY CRS</strong></span>
+                </p>
+                <br/>
+                <p class="MsoNormal" style="margin-left:20.0pt;text-align:justify;text-indent:-18.0pt">
+                    <span  style="font-size:11.0pt;color:black"><strong>Parte I) Status CRS</strong> - da compilare sempre</span>
+                </p>
+                <br/>
+                <div style="margin-left:20px;">
+                <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                CRS Non Reportable Person residente in Italia e/o in USA e/o in paese non partecipante <br/>
+                <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                CRS Reportable Person residente in Italia e/o in USA e/o in paese non partecipante <br/>
+                <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                CRS Reportable Person non residente in Italia e/o in USA e/o in paese non partecipante <br/>
+                </div>
+                <br/>
+                <p class="MsoNormal" style="margin-left:20.0pt;text-align:justify;text-indent:-18.0pt">
+                    <span  style="font-size:11.0pt;color:black"><strong>Parte II) Entity CRS</strong> - da compilare sempre</span>
+                </p>
+                <br/>               
+                <table class="MsoTableGrid" border="1" cellspacing="0" cellpadding="0" style="margin-top: 5px;" width="100%">
+                    <tr>
+                        <td>
+                            <b>Nel caso in cui il cliente sia un’Istituzione Finanziaria:</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table border="0" width="95%">
+                                <tr>
+                                    <td class="tableCellParteII">
+                                        <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                                    </td>
+                                    <td class="tableCellParteII">
+                                        Entità di investimento, selezionare una delle seguenti opzioni:
+                                        <ul>
+                                            <li style="list-style-type:square">Entità di investimento di giurisdizione non partecipante gestita da altra Istituzione finanziaria - con titolare effettivo con residenza fiscale in giurisdizione partecipante</li>
+                                            <li style="list-style-type:square">Entità di investimento di giurisdizione non partecipante gestita da altra Istituzione finanziaria - con titolare effettivo con residenza fiscale in giurisdizione non partecipante</li>
+                                            <li style="list-style-type:square">Entità di investimento diversa dalle precedenti</li>
+                                            <li style="list-style-type:square">Istituzione finanziaria diversa da una Investment Entity (ad es. Deposit Institution, Custodial Institution, Specified Insurance Company)</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <table class="MsoTableGrid" border="1" cellspacing="0" cellpadding="0" style="margin-top: 5px;" width="100%">
+                <tr>
+                    <td>
+                        <b>Nel caso in cui il cliente sia un’Entità non finanziaria:</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table border="0" width="95%">
+                            <tr>
+                                <td class="tableCellParteII">
+                                    Active Non Financial Entity (NFE) <br/>
+                                    <div style="margin-left:20px;">
+                                    <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                                    Altra tipologia di Active NFE – con sede in Italia o con sede solo in giurisdizioni non partecipanti
+                                    <br/>
+                                    <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                                    Società di capitali quotata
+                                    <br/>
+                                    <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                                    Società appartenente a Gruppo Quotato
+                                    <br/>
+                                    <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                                    Ente Governativo o Banca Centrale
+                                    <br/>
+                                    <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                                    Organizzazione Internazionale
+                                    <br/>
+                                    <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                                    Altra tipologia di Active NFE – con sede in almeno una giurisdizione partecipante
+                                    </div>
+                                </td>
+                            </tr>
+                            <hr/>
+                            <tr>
+                                <td class="tableCellParteII">
+                                    Passive Non Financial Entity (NFE), (in tal caso compilare anche la Sezione 4 “TITOLARE EFFETTIVO”) <br/>
+                                    <div style="margin-left:20px;">
+                                    <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                                    Passive NFE non Italiana ma di giurisdizione partecipante – con Titolare effettivo non Italiano ma con residenza fiscale in giurisdizione partecipante
+                                    <br/>
+                                    <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                                    Passive NFE Italiana o di giurisdizione non partecipante – con Titolare effettivo Italiano o con residenza fiscale in una giurisdizione non partecipante
+                                    <br/>
+                                    <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                                    Passive NFE Italiana o di giurisdizione non partecipante – con Titolare effettivo non Italiano ma con residenza fiscale in giurisdizione partecipante
+                                    <br/>
+                                    <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                                    Passive NFE non Italiana ma di giurisdizione partecipante – con Titolare effettivo Italiano o con residenza fiscale in una giurisdizione non partecipante
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>            
+            </div> <!-- fine Sezione 3 -->
+            
+            <div class="uniqueBlock" style="margin-top:30px;">
+                <p class="MsoNormal" style="margin-left:20.0pt;text-align:justify;text-indent:-18.0pt">
+                    <span style="font-size:11.0pt;color:black"><strong>Sezione 4 – TITOLARE EFFETTIVO</strong></span>
+                </p>
+                <br/>
+                Da compilare nel caso di <b>Passive NFFE ai fini Fatca, Passive NFE ai fini CRS</b>, per OGNI persona che esercita il controllo:
+                <br/><br/>
+                
+                <span style="margin-left:20px;"> 1) TITOLARE EFFETTIVO </span> <br/>
+                Nome <span class="veryLongDot" /> Cognome <span class="veryLongDot" /> <br/>
+                Data di nascita <span class="veryLongDot" /> <br/>
+                Luogo e stato di nascita <span class="veryLongDot" /> <br/>
+                Residenza Città e indirizzo <span class="veryLongDot" /> <br/>
+                Nazione <span class="veryLongDot" /> <br/>
+                <table class="MsoTableGrid" border="1" cellspacing="0" cellpadding="0" style="margin-top: 20px; align=center;" width="100%">
+                    <tr>
+                        <td style="text-align:center"><b>RESIDENZA FISCALE</b></td>
+                        <td style="text-align:center"><b>CODICE FISCALE/TAXPAYER IDENTIFICATION NUMBER (TIN)</b></td>
+                        <td style="text-align:center"><b>CODICE FISCALE NON PRESENTE</b></td>
+                    </tr>
+                    <tr>
+                        <td> &nbsp; </td>
+                        <td> &nbsp; </td>
+                        <td> &nbsp; </td>
+                    </tr>
+                    <tr>
+                        <td> &nbsp; </td>
+                        <td> &nbsp; </td>
+                        <td> &nbsp; </td>
+                    </tr>
+                    <tr>
+                        <td> &nbsp; </td>
+                        <td> &nbsp; </td>
+                        <td> &nbsp; </td>
+                    </tr>                       
+                </table>
+                <i>Nel caso in cui il Paese in cui si dichiara di essere fiscalmente residenti non prevede il rilascio del numero identificativo fiscale(NIF), si richiede di barrare la casella “CODICE FISCALE NON PRESENTE”.</i>
+                <br/>
+
+                A.
+                <table class="MsoTableGrid" border="1" cellspacing="0" cellpadding="0" style="margin-top: 5px;" width="100%">
+                    <tr>
+                        <td>
+                            Se la persona giuridica controllata è una <b>persona giuridica <u>diversa</u> da un trust</b> (o dispositivo giuridico simile), selezionare quale tra i seguenti tipi:
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tableCellParteII">
+                            <div style="margin-left:20px;">
+                            <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                            Proprietario (diretto o indiretto)
+                            <br/>
+                            <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                            Funzionario alta direzione
+                            <br/>
+                            <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                            Controllante con altri mezzi
+                            <br/>                           
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                
+                B.
+                <table class="MsoTableGrid" border="1" cellspacing="0" cellpadding="0" style="margin-top: 5px;" width="100%">
+                    <tr>
+                        <td>
+                            Se la persona giuridica controllata è un <b>trust</b>, selezionare quale tra i seguenti tipi:
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tableCellParteII">
+                            <div style="margin-left:20px;">
+                            <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                            Disponente
+                            <br/>
+                            <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                            Fiduciario
+                            <br/>
+                            <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                            Protettore
+                            <br/>       
+                            <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                            Beneficiario
+                            <br/>  
+                            </div>
+                        </td>
+                    </tr>
+                </table>                
+                C.
+                <table class="MsoTableGrid" border="1" cellspacing="0" cellpadding="0" style="margin-top: 5px;" width="100%">
+                    <tr>
+                        <td>
+                            Se la persona giuridica controllata è un <b>dispositivo giuridico <u>diverso</u> da un trust</b>, selezionare quale tra i seguent tipi
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tableCellParteII">
+                            <div style="margin-left:20px;">
+                            <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                            Disponente equivalente
+                            <br/>
+                            <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                            Fiduciario equivalente
+                            <br/>
+                            <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                            Protettore equivalente
+                            <br/>       
+                            <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                            Beneficiario equivalente
+                            <br/>  
+                            <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                            Altro
+                            <br/>       
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <br/><br/>
+                <span style="margin-left:20px;"> 2) TITOLARE EFFETTIVO </span> <br/>
+                Nome <span class="veryLongDot" /> Cognome <span class="veryLongDot" /> <br/>
+                Data di nascita <span class="veryLongDot" /> <br/>
+                Luogo e stato di nascita <span class="veryLongDot" /> <br/>
+                Residenza Città e indirizzo <span class="veryLongDot" /> <br/>
+                Nazione <span class="veryLongDot" /> <br/>
+                <table class="MsoTableGrid" border="1" cellspacing="0" cellpadding="0" style="margin-top: 20px; align=center;" width="100%">
+                    <tr>
+                        <td style="text-align:center"><b>RESIDENZA FISCALE</b></td>
+                        <td style="text-align:center"><b>CODICE FISCALE/TAXPAYER IDENTIFICATION NUMBER (TIN)</b></td>
+                        <td style="text-align:center"><b>CODICE FISCALE NON PRESENTE</b></td>
+                    </tr>
+                    <tr>
+                        <td> &nbsp; </td>
+                        <td> &nbsp; </td>
+                        <td> &nbsp; </td>
+                    </tr>
+                    <tr>
+                        <td> &nbsp; </td>
+                        <td> &nbsp; </td>
+                        <td> &nbsp; </td>
+                    </tr>
+                    <tr>
+                        <td> &nbsp; </td>
+                        <td> &nbsp; </td>
+                        <td> &nbsp; </td>
+                    </tr>                       
+                </table>
+                <i>Nel caso in cui il Paese in cui si dichiara di essere fiscalmente residenti non prevede il rilascio del numero identificativo fiscale(NIF), si richiede di barrare la casella “CODICE FISCALE NON PRESENTE”.</i>
+                <br/>
+
+                A.
+                <table class="MsoTableGrid" border="1" cellspacing="0" cellpadding="0" style="margin-top: 5px;" width="100%">
+                    <tr>
+                        <td>
+                            Se la persona giuridica controllata è una <b>persona giuridica <u>diversa</u> da un trust</b> (o dispositivo giuridico simile), selezionare quale tra i seguenti tipi:
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tableCellParteII">
+                            <div style="margin-left:20px;">
+                            <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                            Proprietario (diretto o indiretto)
+                            <br/>
+                            <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                            Funzionario alta direzione
+                            <br/>
+                            <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                            Controllante con altri mezzi
+                            <br/>                           
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                
+                B.
+                <table class="MsoTableGrid" border="1" cellspacing="0" cellpadding="0" style="margin-top: 5px;" width="100%">
+                    <tr>
+                        <td>
+                            Se la persona giuridica controllata è un <b>trust</b>, selezionare quale tra i seguenti tipi:
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tableCellParteII">
+                            <div style="margin-left:20px;">
+                            <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                            Disponente
+                            <br/>
+                            <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                            Fiduciario
+                            <br/>
+                            <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                            Protettore
+                            <br/>       
+                            <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                            Beneficiario
+                            <br/>  
+                            </div>
+                        </td>
+                    </tr>
+                </table>                
+                C.
+                <table class="MsoTableGrid" border="1" cellspacing="0" cellpadding="0" style="margin-top: 5px;" width="100%">
+                    <tr>
+                        <td>
+                            Se la persona giuridica controllata è un <b>dispositivo giuridico <u>diverso</u> da un trust</b>, selezionare quale tra i seguent tipi
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tableCellParteII">
+                            <div style="margin-left:20px;">
+                            <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                            Disponente equivalente
+                            <br/>
+                            <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                            Fiduciario equivalente
+                            <br/>
+                            <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                            Protettore equivalente
+                            <br/>       
+                            <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                            Beneficiario equivalente
+                            <br/>  
+                            <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                            Altro
+                            <br/>   
+                            </div>                          
+                        </td>
+                    </tr>
+                </table>                
+            </div> <!-- fine sezione 4 -->
+            <br/>
+            <br/>
+            <i>Il sottoscritto, <br/>
+            Cognome e Nome <span class="veryLongDot" /></i>
+            <br/>
+            <span style="font-size:10.0pt"><i> (del soggetto indicato alla Parte I) </i></span>
+            <br/>
+            <br/>
+            <div class="jus">
+            <b>
+            <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/> Legale Rappresentante
+            <img  class="checkboxImgSmall" src="{!IF(true, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/> Delegato
+            </b>
+            </div>
+            <br/>
+
+            <p style="margin-top:30px;"><i>
+            Dichiara che tutte le informazioni fornite con riferimento alle normative FATCA e CRS sono state rese ai sensi dell’art. 46 del D.P.R. 28 dicembre 2000, n. 445, e di essere consapevole delle sanzioni penali previste nel caso di dichiarazioni non veritiere qualora dal controllo effettuato emerga la non veridicità del contenuto di taluna delle dichiarazioni rese (artt. 75 e 76 del citato D.P.R. n. 445/2000.
+            </i></p>
+            <p><i>
+            Si impegna a comunicare, entro 30 giorni dall’evento, alla Banca l’eventuale mutamento della propria residenza fiscale nonché di ogni altra informazione fornita nella presente autocertificazione;
+            </i></p>
+            <p><i>
+            autorizza la Banca a fornire, direttamente o indirettamente, a qualsiasi autorità fiscale competente o a qualsiasi soggetto autorizzato a controllare o eseguire un controllo analogo ai fini fiscali, tutte le informazioni relative all’identificazione FATCA e AEOI.
+            </i></p>
+            
+            <br/><br/>
+            <p text-align="justify"> Firma <span class="veryLongDot" /> Luogo e Data <span class="veryLongDot" /></p>
+            <br/><br/>
+            <u>Allegare copia del documento di identità del dichiarante e copia del documento di identità del/dei titolari effettivi</u>
+            <p class="MsoFootnoteText" align="center" style="margin-right:-14.3pt;text-align:center; margin-top:40px;">
+            <strong><span  style="color:black"><u>DEFINIZIONI</u></span></strong></p>
+            <p class="paragrafoStandard9" style="margin-top:15px;"><strong>1. &nbsp;Persona statunitense (U.S. Person).</strong></p>
+            <p class="paragrafoStandard9" style="margin-left: 16px;">Designa un cittadino statunitense, una persona fisica residente negli Stati Uniti, una società di persone o altra entità fiscalmente trasparente ovvero una società di capitali organizzata negli Stati Uniti o in base alla legislazione degli Stati Uniti o di ogni suo Stato, un trust se (i) un tribunale negli Stati Uniti, conformemente al diritto applicabile, ha competenza a emettere un'ordinanza o una sentenza in merito sostanzialmente a tutte le questioni riguardanti l'amministrazione del trust, e (ii) una o più persone statunitensi hanno l'autorità di controllare tutte le decisioni sostanziali del trust, o di un'eredità giacente di un de cuius che è cittadino statunitense o residente negli Stati Uniti.</p>
+            <p class="paragrafoStandard9" style="margin-top:10px;"><strong>2. &nbsp;Persona statunitense non specificata (Non Specified U.S. Person)</strong></p>
+            <p class="paragrafoStandard9" style="margin-left: 16px;">Designa una persona statunitense appartenente ad una delle seguenti categorie: (i) una società di capitali le cui azioni sono regolarmente negoziate su uno o più mercati mobiliari regolamentati; (ii) qualsiasi società di capitali che è un membro dello stesso Expanded Affiliated Group, di una società di capitali le cui azioni sono regolarmente negoziate su uno o più mercati regolamentati; (iii) gli Stati Uniti o qualsiasi suo ente o agenzia interamente posseduta; (iv) qualsiasi Stato degli Stati Uniti, qualsiasi territorio statunitense, qualsiasi suddivisione politica di uno dei precedenti, o qualsiasi agenzia o ente interamente posseduto di uno o più dei precedenti; (v) qualsiasi organizzazione esente da imposte conformemente alla sezione 501(a) dell'Internal Revenue Code degli Stati Uniti o un piano pensionistico individuale come definito nella sezione 7701(a)(37) dell'Internal Revenue Code degli Stati Uniti; (vi) qualsiasi banca come definita nella sezione 581 dell'Internal Revenue Code degli Stati Uniti; (vii) qualsiasi trust di investimento immobiliare come definito nella sezione 856 dell'Internal Revenue Code degli Stati Uniti; (viii) qualsiasi società di investimento regolamentata come definita nella sezione 851 dell'Internal Revenue Code degli Stati Uniti o qualsiasi entità registrata presso la Securities and Exchange Commission degli Stati Uniti conformemente all'Investment Company Act del 1940; (ix) qualsiasi common trust fund come definito nella sezione 584(a) dell'Internal Revenue Code degli Stati Uniti; (x) qualsiasi trust esente da imposte conformemente alla sezione 664(c) dell'Internal Revenue Code degli Stati Uniti o che è descritto nella sezione 4947(a)(1) dell'Internal Revenue Code degli Stati Uniti; (xi) un operatore in titoli, commodities, o strumenti finanziari derivati (inclusi i contratti su capitali figurativi, futures, forwards e opzioni) che è registrato come tale o in base alla legislazione degli Stati Uniti o di ogni suo Stato; (xii) un intermediario come definito nella sezione 6045(c) dell'Internal Revenue Code degli Stati Uniti; (xiii) ogni trust esente da imposte conformemente a un piano descritto nella sezione 403(b) o nella sezione 457(b) dell'Internal Revenue Code degli Stati.</p>
+            <p class="paragrafoStandard9" style="margin-top:10px;"><strong>3. &nbsp;Persona statunitense specificata (Specified U.S. Person)</strong></p>
+            <p class="paragrafoStandard9" style="margin-left: 16px;">Designa una persona statunitense (U.S. Person) diversa da una Non Specified U.S. Person.</p>
+            <p class="paragrafoStandard9" style="margin-top:10px;"><strong>4. &nbsp;Istituzione Finanziaria (Financial Institution)</strong></p>
+            <p class="paragrafoStandard9" style="margin-left: 16px;">Designa un’istituzione di custodia, un’istituzione di deposito, un’entità di investimento, un’impresa di assicurazioni specificata, come di seguito definiti:</p>
+            <p class="paragrafoStandard9" style="margin-left: 16px;">a) Istituzione di custodia (Custodial Institution)designa ogni entità che detiene, quale parte sostanziale della propria attività, attività finanziarie per conto di terzi.</p><p class="paragrafoStandard9"></p>
+            <p class="paragrafoStandard9" style="margin-left: 16px;">    b) Istituzione di deposito (Depository Institution) designa ogni entità che accetta depositi nell’ambito della propria attività bancaria o similare.</p>
+            <p class="paragrafoStandard9" style="margin-left: 16px;">    c) Entità di investimento (Investment Entity) designa ogni entità che presenta una delle seguenti caratteristiche:</p>
+            <p class="paragrafoStandard9" style="margin-left: 16px;">    i) l’entità svolge principalmente quale attività economica una o più delle seguenti attività o operazioni per conto di un cliente: negoziazione di strumenti del mercato monetario, di valuta estera, di strumenti finanziari su cambi, su tassi di interesse e su indici, di valori mobiliari o di future su merci; gestione individuale o collettiva di portafogli; attività di investimento, di amministrazione o di gestione di denaro o di attività finanziarie;</p>
+            <p class="paragrafoStandard9" style="margin-left: 16px;">    ii) l’entità, il cui reddito lordo deriva principalmente da attività di investimento, reinvestimento o negoziazione di attività finanziarie, è altresì gestita da una istituzione di custodia, di deposito, da un’impresa di assicurazioni specificata o da un’entità di investimento di cui alla precedente punto i);</p>
+            <p class="paragrafoStandard9" style="margin-left: 16px;">    iii) gli organismi di investimento collettivo del risparmio e i veicoli di investimento similari istituiti con la finalità di investire, reinvestire e negoziare attività finanziarie.</p>
+            <p class="paragrafoStandard9" style="margin-left: 16px;">    d) Impresa di assicurazione specificata (Specified Insurance Company) designa ogni entità che è un’impresa di assicurazione, o la holding di una impresa di assicurazione, che emette un contratto di assicurazione per il quale è misurabile un valore maturato o un contratto di rendita ovvero che, in relazione a tali contratti, è obbligata ad effettuare dei pagamenti.</p>
+            <p class="paragrafoStandard9" style="margin-top:10px;"><strong>5. &nbsp;Istituzione Finanziaria Italiana (Italian Financial Institution)</strong></p>
+            <p class="paragrafoStandard9" style="margin-left: 16px;">Designa qualsiasi istituzione finanziaria residente in Italia, ad esclusione di qualsiasi stabile organizzazione di tale istituzione finanziaria che sia situata al di fuori dell’Italia e qualsiasi stabile organizzazione di un’istituzione finanziaria non residente in Italia, se tale stabile organizzazione è situata in Italia.</p>
+            <p class="paragrafoStandard9" style="margin-top:10px;"><strong>6. &nbsp;Istituzione Finanziaria di giurisdizione partecipante (Partner Jurisdiction Financial Institution)</strong></p>
+            <p class="paragrafoStandard9" style="margin-left: 16px;">Designa un’istituzione finanziaria localizzata in Paesi diversi da Italia e USA, che hanno sottoscritto un IGA.</p>
+            <p class="paragrafoStandard9" style="margin-top:10px;"><strong>7. &nbsp;IGA</strong></p>
+            <p class="paragrafoStandard9" style="margin-left: 16px;">Designa un Accordo intergovernativo per migliorare la tax compliance internazionale e per applicare la normativa FATCA (Foreign Account Tax Compliance Act) stipulato dal Governo degli Stati Uniti con un altro Paese. Sono stati sottoscritti un IGA 1 (anche dall’Italia) e un IGA 2.</p>
+            <p class="paragrafoStandard9" style="margin-top:10px;"><strong>8. &nbsp;Global Intermediary Identification Number (GIIN)</strong></p>
+            <p class="paragrafoStandard9" style="margin-left: 16px;">Designa il codice identificativo rilasciato e pubblicato in una apposita lista dall’IRS ed assegnato a una Participating Foreign Financial Institution (PFFI), una Registered Deemed Compliant Foreign Financial Institution (RDCFFI), una Reporting Italian Financial Institution (RIFI), una Registered Deemed Compliant Italian Financial Institution (RDCIFI), nonché a ogni altra entità che deve o può registrarsi presso l’IRS, secondo le pertinenti disposizioni del Tesoro statunitense. </p>
+            <p class="paragrafoStandard9" style="margin-top:10px;"><strong>9. &nbsp;Istituzione Finanziaria Estera Partecipante (Participating Foreign Financial Institution)</strong></p>
+            <p class="paragrafoStandard9" style="margin-left: 16px;">Designa le istituzioni finanziarie tenute alla comunicazione localizzate in Paesi che hanno sottoscritto un IGA 2 nonché quelle localizzate in Paesi che non hanno sottoscritto un IGA 1 ma che hanno firmato singolarmente e autonomamente un accordo con l’IRS.</p>
+            <p class="paragrafoStandard9" style="margin-top:10px;"><strong>10.    &nbsp;Istituzione Finanziaria Estera considerate adempiente (Deemed Compliant Foreign Financial Institution)</strong></p>
+            <p class="paragrafoStandard9" style="margin-left: 25px;">Designa le seguenti istituzioni:</p>
+            <p class="paragrafoStandard9" style="margin-left: 25px;">A) “Registered Deemed Compliant Foreign Financial Institution” - Istituzioni finanziarie estere registrate considerate adempienti (RDCFFI) designa:</p>
+            <p class="paragrafoStandard9" style="margin-left: 25px;">a) le istituzioni finanziarie localizzate in Paesi che non hanno sottoscritto un IGA che sono qualificate come RDCFFI sulla base dei pertinenti Regolamenti del Tesoro statunitense;</p>
+            <p class="paragrafoStandard9" style="margin-left: 25px;">b) le istituzioni finanziarie localizzate in Paesi che hanno sottoscritto un Accordo IGA 1 e che sono tenute alla comunicazione;</p>
+            <p class="paragrafoStandard9" style="margin-left: 25px;">c) le istituzioni finanziarie localizzate in Paesi che hanno sottoscritto un IGA 1 o un IGA 2 qualificate come RDCFFI sulla base della normativa interna di tali ultimi Paesi.</p>
+            <p class="paragrafoStandard9" style="margin-left: 25px;">B) “Certified Deemed Compliant Foreign Financial Institution” - Istituzioni finanziarie estere certificate (CDCFFI) designa:</p>
+            <p class="paragrafoStandard9" style="margin-left: 25px;">a) istituzioni finanziarie estere localizzate in Paesi che non hanno sottoscritto un IGA ma che sono qualificate come CDCFFI dai pertinenti Regolamenti del Tesoro statunitense;</p>
+            <p class="paragrafoStandard9" style="margin-left: 25px;">b) le istituzioni finanziarie localizzate in Paesi che hanno sottoscritto un IGA 1 o un IGA 2, diverse dalle RDCFFI, che sono qualificate come CDCFFI dalla normativa domestica di tali Paesi.</p>
+            <p class="paragrafoStandard9" style="margin-top:10px;"><strong>11.    &nbsp;Istituzione Finanziaria Non Partecipante (Non Participating Financial Institution)</strong></p>
+            <p class="paragrafoStandard9" style="margin-left: 25px;">Designa un’istituzione finanziaria localizzata in un Paese che non ha sottoscritto un IGA, diversa da una Partecipating Foreign Financial Institution, da una Deemed Compliant Foreign Financial Institution e da un Exempt Beneficial Owner in base ai pertinenti Regolamenti del Dipartimento del Tesoro statunitense. In questa definizione rientrano altresì le istituzioni finanziarie italiane escluse dalla lista dell’IRS nonché le Partner Jurisdiction Financial Institution alle quali è stato revocato il GIIN.</p>
+            <p class="paragrafoStandard9" style="margin-top:10px;"><strong>12.    &nbsp;Entità di investimento residente in giurisdizione non partecipante</strong></p>
+            <p class="paragrafoStandard9" style="margin-left: 25px;">Designa un’entità il cui reddito lordo è principalmente attribuibile ad investimenti, reinvestimenti, o negoziazione di attività finanziarie, se l’entità è gestita da un’istituzione di deposito, un’istituzione di custodia, un’impresa di assicurazioni specificata o un’entità di investimento che svolge, quale attività economica principale, per un cliente o per conto di un cliente, una o più delle seguenti attività o operazioni: i) negoziazione di strumenti del mercato monetario, valuta estera, strumenti su cambi, su tassi d’interesse e su indici, valori mobiliari, o negoziazione di future su merci quotate; ii) gestione individuale e collettiva di portafoglio; iii) altre forme di investimento, amministrazione o gestione di attività finanziarie o denaro per conto terzi.</p>
+            <p class="paragrafoStandard9" style="margin-top:10px;"><strong>13.    &nbsp;Beneficiario Effettivo Esente (Exempt Beneficial Owner)</strong></p>
+            <p class="paragrafoStandard9" style="margin-left: 25px;">Designa:</p><p class="paragrafoStandard9" style="margin-left: 25px;"></p>
+            <p class="paragrafoStandard9" style="margin-left: 25px;">  A) Exempt Italian Beneficial Owners – Beneficiari effettivi italiani esenti designa:</p><p class="paragrafoStandard9" style="margin-left: 25px;"></p>
+            <p class="paragrafoStandard9" style="margin-left: 25px;">  i) il Governo Italiano, ogni suddivisione geografica, politica o amministrativa del Governo Italiano, o ogni agenzia o ente strumentale interamente detenuto da uno qualsiasi o più dei soggetti precedenti;</p><p class="paragrafoStandard9" style="margin-left: 25px;"></p>
+            <p class="paragrafoStandard9" style="margin-left: 25px;">  ii) un’organizzazione internazionale pubblica (o una sede italiana di un’organizzazione internazionale pubblica) avente titolo a godere di privilegi, esenzioni e immunità in quanto organizzazione internazionale ai sensi di un trattato o accordo internazionale concluso dall’Italia e ogni agenzia dipendente da tale organizzazione o ente strumentale dalla stessa istituito per il perseguimento, anche indiretto, dei propri scopi;</p><p class="paragrafoStandard9" style="margin-left: 25px;"></p>
+            <p class="paragrafoStandard9" style="margin-left: 25px;">  iii) Banca d’Italia;</p><p class="paragrafoStandard9" style="margin-left: 25px;"></p>
+            <p class="paragrafoStandard9" style="margin-left: 25px;">  iv) Poste Italiane SpA, ad eccezione del patrimonio BancoPosta;</p><p class="paragrafoStandard9" style="margin-left: 25px;"></p>
+            <p class="paragrafoStandard9" style="margin-left: 25px;">  v) Cassa Depositi e Prestiti SpA (CDP);</p><p class="paragrafoStandard9" style="margin-left: 25px;"></p>
+            <p class="paragrafoStandard9" style="margin-left: 25px;">  vi) i fondi pensione e le istituzioni che si qualificano come forme pensionistiche complementari ai sensi della legislazione italiana, compresi i fondi pensione regolati dal decreto legislativo 5 dicembre 2005, n. 252 e gli enti di previdenza e sicurezza sociale privatizzati dal decreto legislativo 30 giugno 1994, n. 509, o istituiti ai sensi del decreto legislativo 10 febbraio 1996, n. 103, a condizione che i contributi individuali volontari al conto siano limitati dalla normativa italiana di riferimento oppure non eccedano in alcun anno 50.000 Euro;</p><p class="paragrafoStandard9" style="margin-left: 25px;"></p>
+            <p class="paragrafoStandard9" style="margin-left: 25px;">  vii) i fondi pensione e le istituzioni che si qualificano come forme pensionistiche complementari ai sensi della legislazione italiana, compresi i fondi pensione regolati dal decreto legislativo 5 dicembre 2005, n. 252 nonché gli enti di previdenza e sicurezza sociale privatizzati dal decreto legislativo 30 giugno 1994, n. 509, o istituiti ai sensi del decreto legislativo 10 febbraio 1996, n. 103, che hanno diritto ai benefici previsti dalla Convenzione del 25 agosto 1999 Italia-Stati Uniti per evitare le doppie imposizioni in materia di imposte sul reddito e per prevenire le frodi o le evasioni fiscali in quanto soggetto residente in Italia ai sensi dell’articolo 4 della predetta Convenzione e in possesso dei requisiti di cui all’articolo 2, lettera f), del protocollo alla Convenzione stessa;</p><p class="paragrafoStandard9" style="margin-left: 25px;"></p>
+            <p class="paragrafoStandard9" style="margin-left: 25px;">  viii) i fondi pensione istituiti dagli EBO di cui ai punti i), ii) e iii) del presente numero 13.A per fornire prestazioni pensionistiche o altri benefici in caso di malattia o morte a partecipanti che sono, o sono stati, dipendenti di tali EBO o a persone designate da tali dipendenti ovvero a persone che, pur non essendo state dipendenti di detti EBO, hanno diritto a ricevere i summenzionati benefici in ragione di servizi personali resi ai medesimi EBO;</p><p class="paragrafoStandard9" style="margin-left: 25px;"></p>
+            <p class="paragrafoStandard9" style="margin-left: 25px;">  ix) entities wholly owned by exempt beneficial owners - Entità di investimento interamente partecipate da beneficiari effettivi esenti designa le entità di investimento, come innanzi definite: a) le cui quote o azioni siano integralmente e direttamente detenute dagli EBO di cui ai punti i, ii, iii, iv, v, vi, vii, viii e ix di cui al presente numero 13.A, nonché dagli EBO di cui al successivo numero 13.B; e b) che assumano prestiti esclusivamente e direttamente da istituzioni di deposito o dai beneficiari effettivi esenti di cui alla lettera a).</p><p class="paragrafoStandard9" style="margin-left: 25px;"></p>
+            <p class="paragrafoStandard9" style="margin-left: 25px;">  B) Exempt Foreign Beneficial Owners – Beneficiari effettivi esteri esenti designa i soggetti localizzati in Paesi che hanno sottoscritto un IGA 1 o un IGA 2 e che sono considerati beneficiari effettivi esenti in base alle legislazione domestica di tali Paesi nonché i soggetti considerati beneficiari effettivi esenti dai pertinenti Regolamenti del Tesoro statunitense.</p><p class="paragrafoStandard9" style="margin-left: 25px;"></p>
+            <p class="paragrafoStandard9" style="margin-top:10px;"><strong>14.    &nbsp;Entità Non Finanziaria Estera (Non Financial Foreign Entity)</strong></p>
+            <p class="paragrafoStandard9" style="margin-left: 25px;">Designa qualunque entità non statunitense che non sia una istituzione finanziaria ai sensi dei pertinenti Regolamenti del Tesoro statunitense ovvero ai sensi delle disposizioni domestiche del Paese di residenza dell’entità, sempreché in tale Paese abbia vigore un accordo IGA.</p>
+            <p class="paragrafoStandard9" style="margin-top:10px;"><strong>15.    &nbsp;Entità Non Finanziaria (Non Financial Entity)</strong></p>
+            <p class="paragrafoStandard9" style="margin-left: 25px;">Designa un’entità che non è un’istituzione finanziaria, ad eccezione di un’Entità di investimento residente in giurisdizione non partecipante come innanzi definita. </p>
+            <p class="paragrafoStandard9" style="margin-top:10px;"><strong>16.    &nbsp;Entità non finanziaria attiva (Active NFFE/ Active NFE)</strong></p>
+            <p class="paragrafoStandard9" style="margin-left: 25px;">Designa una NFFE/ NFE che soddisfa almeno uno dei seguenti criteri:</p><p class="paragrafoStandard9" style="margin-left: 25px;"></p>
+            <p class="paragrafoStandard9" style="margin-left: 25px;">  a) meno del 50 per cento del reddito lordo dell’NFFE/ NFE per l’anno solare precedente o altro adeguato periodo di rendicontazione è reddito passivo e meno del 50 per cento delle attività detenute dall’NFFE/ NFE nel corso dell’anno solare precedente o altro adeguato periodo di rendicontazione sono attività che producono o sono detenute al fine di produrre reddito passivo;</p><p class="paragrafoStandard9" style="margin-left: 25px;"></p>
+            <p class="paragrafoStandard9" style="margin-left: 25px;">  b) il capitale dell’NFFE/ NFE è regolarmente negoziato in un mercato dei titoli regolamentato ovvero l’NFFE/ NFE è membro di un expanded affiliated group che include un’entità il cui capitale azionario è negoziato in un mercato mobiliare regolamentato;</p><p class="paragrafoStandard9" style="margin-left: 25px;"></p>
+            <p class="paragrafoStandard9" style="margin-left: 25px;">  c) l’NFFE è organizzata in un Territorio degli Stati Uniti e tutti i proprietari di tale entità percipiente sono effettivamente residenti di tale territorio degli Stati Uniti;</p><p class="paragrafoStandard9" style="margin-left: 25px;"></p>
+            <p class="paragrafoStandard9" style="margin-left: 25px;">  d) l’NFFE/ NFE è un’entità statale, un’organizzazione internazionale, una banca centrale o un’entità interamente controllata da uno o più di detti soggetti;</p><p class="paragrafoStandard9" style="margin-left: 25px;"></p>
+            <p class="paragrafoStandard9" style="margin-left: 25px;">  e) tutte le attività dell’NFFE/ NFE consistono essenzialmente nella detenzione (in tutto o in parte) delle consistenze dei titoli e nella fornitura di finanziamenti e servizi a una o più controllate impegnate nell’esercizio di un’attività economica o commerciale diversa dall’attività di un’istituzione finanziaria. Una NFFE/ NFE non soddisfa, in ogni caso, i requisiti di cui al periodo precedente se opera o si qualifica quale fondo d’investimento, fondo di private equity, fondo di venture capital, leveraged buyout fund o altro veicolo d’investimento la cui finalità è di acquisire o finanziare società per poi detenere partecipazioni in tali società come capitale immobilizzato ai fini d’investimento;</p><p class="paragrafoStandard9" style="margin-left: 25px;"></p>
+            <p class="paragrafoStandard9" style="margin-left: 25px;">  f) l’NFFE/ NFE non esercita ancora un’attività economica e non l’ha esercitata in passato, ma sta investendo capitale in alcune attività con l’intento di esercitare un’attività economica diversa da quella di un’istituzione finanziaria. Una NFFE/ NFE non soddisfa, in ogni caso, i requisiti di cui al periodo precedente decorsi ventiquattro mesi dalla data della sua costituzione;</p><p class="paragrafoStandard9" style="margin-left: 25px;"></p>
+            <p class="paragrafoStandard9" style="margin-left: 25px;">  g) l’NFFE/ NFE non è stata un’istituzione finanziaria negli ultimi cinque anni, e sta liquidando le sue attività o si sta riorganizzando al fine di continuare o ricominciare a operare in un’attività economica diversa da quella di un’istituzione finanziaria;</p><p class="paragrafoStandard9" style="margin-left: 25px;"></p>
+            <p class="paragrafoStandard9" style="margin-left: 25px;">  h) l’NFFE/ NFE si occupa principalmente di operazioni di finanziamento e operazioni di copertura con o per conto di altri membri del Expanded Affiliated Group che non sono istituzioni finanziarie, e non fornisce servizi di finanziamento o di copertura a entità che non siano membri del Expanded Affiliated Group, a condizione che tale Expanded Affiliated Group si occupi principalmente di un’attività economica diversa da quella di un’istituzione finanziaria;</p><p class="paragrafoStandard9" style="margin-left: 25px;"></p>
+            <p class="paragrafoStandard9" style="margin-left: 25px;">  i) l’NFFE/ NFE soddisfa congiuntamente i seguenti requisiti:</p><p class="paragrafoStandard9" style="margin-left: 25px;"></p>
+            <p class="paragrafoStandard9" style="margin-left: 25px;">  (i) è stata costituita e mantenuta nel suo Paese di residenza esclusivamente per finalità religiose, caritatevoli, scientifiche, artistiche, culturali o educative; ovvero è costituita e gestita nella giurisdizione di residenza ed è un’organizzazione professionale, un’unione di operatori economici, una camera di commercio, un’organizzazione del lavoro, un’organizzazione agricola o orticola, un’unione civica o un’organizzazione attiva esclusivamente per la promozione dell’assistenza sociale;</p><p class="paragrafoStandard9" style="margin-left: 25px;"></p>
+            <p class="paragrafoStandard9" style="margin-left: 25px;">  (ii) è esente dall’imposta sul reddito nel suo Paese di residenza;</p><p class="paragrafoStandard9" style="margin-left: 25px;"></p>
+            <p class="paragrafoStandard9" style="margin-left: 25px;">  (iii) non ha azionisti o soci che hanno un interesse a titolo di proprietari o di beneficiari sul suo reddito o sul patrimonio;</p><p class="paragrafoStandard9" style="margin-left: 25px;"></p>
+            <p class="paragrafoStandard9" style="margin-left: 25px;">  (iv) le leggi applicabili del Paese di residenza dell'entità o gli atti costitutivi dell'entità non consentono che il reddito o patrimonio dell'entità siano distribuiti o destinati ad un privato o a un’entità non caritatevole, salvo che le distribuzioni siano riferibili a scopi di natura caritatevole dell’entità ovvero costituiscano il pagamento di una remunerazione congrua per i servizi resi ovvero costituiscano il pagamento del valore equo di mercato di beni acquistati dall'entità; e</p><p class="paragrafoStandard9" style="margin-left: 25px;"></p>
+            <p class="paragrafoStandard9" style="margin-left: 25px;">  (v) le leggi applicabili del Paese di residenza dell'entità o gli atti costitutivi dell’entità prevedono che, all’atto della liquidazione o dello scioglimento dell'entità, tutto il suo patrimonio sia distribuito ad un’entità governativa o altra organizzazione senza scopo di lucro, o sia devoluto al Paese di residenza dell’entità o a una sua suddivisione politica;</p><p class="paragrafoStandard9" style="margin-left: 25px;"></p>
+            <p class="paragrafoStandard9" style="margin-left: 25px;">  l) l’NFFE è un’entità di cui all’art. 6, co. 1 del Decreto Ministeriale del 28/12/2015 di attuazione della legge 18 giugno 2015, n. 95 e della direttiva 2014/107/UE del Consiglio</p><p class="paragrafoStandard9" style="margin-left: 25px;"></p>
+            <p class="paragrafoStandard9" style="margin-left: 25px;">  m) l’NFFE non è residente in Italia e si qualifica come Excepted NFFE ai sensi dei pertinenti Regolamenti del Tesoro statunitense.</p><p class="paragrafoStandard9" style="margin-left: 25px;"></p>
+            <p class="paragrafoStandard9" style="margin-top:10px;"><strong>17.    &nbsp;Entità non finanziaria passiva (Passive NFFE/ Passive NFE)</strong></p>
+            <p class="paragrafoStandard9" style="margin-left: 25px;">Designa ogni NFFE/ NFE che non è una Active NFFE/ NFE, ovvero una NFFE che non è una withholding foreign partnership o un withholding foreign trust ai sensi dei pertinenti Regolamenti del Dipartimento del Tesoro degli Stati Uniti; ovvero un’entità di investimento residente in giurisdizione non partecipante come innanzi definita.</p>
+            <p class="paragrafoStandard9" style="margin-top:10px;"><strong>18.    &nbsp;Expanded Affiliated Group</strong></p>
+            <p class="paragrafoStandard9" style="margin-left: 25px;">Designa un gruppo di entità in cui un’entità controlla le altre entità, ovvero le entità sono soggette a controllo comune. A tal fine, il controllo comprende il possesso, diretto o indiretto, di più del 50 per cento dei diritti di voto e del valore di un’entità. </p>
+            <p class="paragrafoStandard9" style="margin-top:10px;"><strong>19.    &nbsp;Persona che esercita il controllo</strong></p>
+            <p class="paragrafoStandard9" style="margin-left: 25px;">Designa le persone che esercitano il controllo su un’entità.</p>
+        </body>
+    </html>
+</apex:page>

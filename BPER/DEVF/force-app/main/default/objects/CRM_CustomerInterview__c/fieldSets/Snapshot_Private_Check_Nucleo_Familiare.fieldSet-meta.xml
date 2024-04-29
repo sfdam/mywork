@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FieldSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Snapshot_Private_Check_Nucleo_Familiare</fullName>
+    <description>Flexypage Snapshot check up private</description>
+    <displayedFields>
+        <field>CRM_NoteNucleoFamiliare__c</field>
+        <isFieldManaged>false</isFieldManaged>
+        <isRequired>false</isRequired>
+    </displayedFields>
+    <label>Snapshot Private Check Nucleo Familiare</label>
+</FieldSet>

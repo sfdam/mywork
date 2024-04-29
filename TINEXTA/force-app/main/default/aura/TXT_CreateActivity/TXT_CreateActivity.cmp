@@ -1,0 +1,116 @@
+<aura:component implements="lightning:isUrlAddressable,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+    controller="TXT_CreateActivityController" access="global">
+
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/> 
+    <aura:attribute name="iconName" type="String" description="Definisce l'icona tra le standard"/>
+    <aura:attribute name="title" type="String" default="" description="Title from Container Card"/>   
+    <aura:attribute name="options" type="List" default="[]"/>
+
+    <aura:attribute name="userInfo" type="User"/>
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="task" type="Task" default="{'sobjectType':'Task'}" />
+    <aura:attribute name="stato" type="List" access="PRIVATE" description="selected value" />
+    <aura:attribute name="selectedStatus" type="String"/>
+    <aura:attribute name="today" type="Date"/>
+    <aura:attribute name="subject" type="String"/>
+    <aura:attribute name="startDate" type="DateTime"/>
+    <aura:attribute name="endDate" type="DateTime" />
+    <aura:attribute name="dueDate" type="Date"/>
+    <aura:attribute name="dueTime" type="Date"/>
+    <aura:attribute name="sObjectName" type="String"/>
+    
+    <aura:attribute name="Esito_Chiamata" type="String"/>
+    <aura:attribute name="Motivazione_chiamata" type="String"/>
+    <aura:attribute name="Note_Attivita" type="String"/>
+    <aura:attribute name="Descrizione_Attivita" type="String"/>
+    <aura:attribute name="comment" type="String"/>
+
+    
+
+
+
+    <div >
+        <lightning:tabset selectedTabId="two" class ="slds-m-bottom_large">
+            <lightning:tab label="Nuova Operazione" id="task" >
+                
+                <div onkeyup="{! c.handleKeyUp }">                
+                    <lightning:input
+                                     aura:id="enter-search"
+                                     name="enter-search"
+                                     label="Soggetto"
+                                     type="search"
+                                     class="row slds-p-vertical_x-small"
+                                     value="{! v.subject }"
+                                     />    
+                </div>
+
+                <div class="row slds-p-vertical_x-small">                  
+                    <lightning:input type="date" name="Date" label="Data"  value="{!v.dueDate}" />
+                </div>
+
+                <div class="row slds-p-vertical_x-small">
+                    <lightning:input type="time" name="Time" label="Ora" value="{!v.dueTime}"/>
+                </div>                 
+                
+                <lightning:combobox name="status" label="Stato" placeholder="Seleziona un'opzione" options="{! v.stato }" required="true" class="slds-p-vertical_x-small" onchange="{! c.handleChange}"/>
+                
+                <div class="row slds-p-vertical_x-small">
+                    <lightning:textarea name="comments" label="Esito Chiamata " placeholder="scrivi qui..." value="{!v.Esito_Chiamata}"/>
+                </div> 
+                
+                <div class="row slds-p-vertical_x-small">
+                    <lightning:textarea name="comments" label="Motivazione chiamata" placeholder="scrivi qui..." value="{!v.Motivazione_chiamata}"/>
+                </div> 
+                
+                <div class="row slds-p-vertical_x-small">
+                    <lightning:textarea name="comments" label="Note Attivita" placeholder="scrivi qui..." value="{!v.Note_Attivita}"/>
+                </div> 
+                
+                <div class="row slds-p-vertical_x-small">
+                    <lightning:textarea name="comments" label="Descrizione Attivita" placeholder="scrivi qui..." value="{!v.Descrizione_Attivita}"/>
+                </div> 
+                
+                <div class="row slds-p-vertical_x-small">
+                    <lightning:textarea name="comments" label="Note" placeholder="scrivi qui..." value="{!v.comment}"/>
+                </div> 
+                
+                <div class="slds-text-align_right slds-m-top_small" >
+                    <lightning:button variant="brand" label="Salva" title="Save" onclick="{! c.saveTask }" />            
+                </div>          
+                
+                <hr />
+            </lightning:tab>
+
+            <!-- lightning:tab label="New Event" id="event">
+                <div onkeyup="{! c.handleKeyUp }">                
+                    <lightning:input
+                                     aura:id="search"
+                                     name="enter-search"
+                                     label="Subject"
+                                     type="search"
+                                     class="row slds-p-vertical_x-small"
+                                     value="{! v.subject }"
+                                     />
+                </div>
+
+                <div class="row slds-p-vertical_x-small">                    
+                    <lightning:input type="datetime" name="StartDate" label="Data Inizio"  value="{!v.startDate}"/>
+                </div>
+
+                <div class="row slds-p-vertical_x-small">                    
+                        <lightning:input type="datetime" name="EndDate" label="Data Fine"  value="{!v.endDate}"/>
+                </div>
+                        
+                <div class="row slds-p-vertical_x-small">
+                    <lightning:textarea name="comments" label="Note" placeholder="scrivi qui..." value="{!v.comment}"/>
+                </div>
+                
+                <div class="slds-text-align_right slds-m-top_small" >
+                    <lightning:button variant="brand" label="Salva" title="Save" onclick="{! c.saveEvent }" />            
+                </div>
+                
+                
+            </lightning:tab -->
+        </lightning:tabset>
+    </div>
+</aura:component>

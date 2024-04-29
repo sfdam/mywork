@@ -1,0 +1,61 @@
+.THIS {}
+
+
+.THIS .cstm-accordion-icon {
+    transition: 0.6s;
+}
+
+.THIS .cstm-accordion-icon.collapsed {
+    transform: rotate(180deg);
+}
+
+.THIS .cstm-note-state-wrapper {
+    /* background-color: #fff6b5; */
+    border: 1px solid #0064b5;
+    /* border-right: none; */
+    border-radius: 5px 0 0 5px;
+}
+
+.THIS .cstm-note-state-wrapper.completed .slds-icon_container svg {
+    fill: #0BAD58;
+    /* background-color: #9AC9FF; */
+}
+
+.THIS .cstm-note-textarea-wrapper {
+    border: 1px solid #0064b5;
+    border-left: none;
+    border-radius: 0 5px 5px 0;
+}
+
+.THIS .cstm-note-textarea-wrapper .cstm-note-textarea-title {
+    color: #0064b5;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.THIS .cstm-note-textarea-wrapper .cstm-note-textarea-body {
+    border-top: 1px solid #0064b5;
+}
+
+.THIS .cstm-note-textarea-wrapper .cstm-note-textarea-body .cstm-note-textarea textarea {
+    border: 0 !important;
+}
+
+.THIS .cstm-note-textarea-wrapper .cstm-note-textarea-body .cstm-note-textarea label {
+    font-style: italic;
+}
+
+
+.THIS textarea.cstm-note-textarea {
+    border: none;
+    width: 100%;
+    outline: #0088ff;
+    border-radius: 5px;
+    padding: 5px;
+}
+.THIS textarea.cstm-note-textarea:focus {
+    outline: 0;
+    border-color: #1589ee;
+    background-color: #fff;
+    box-shadow: 0 0 3px #0070D2;
+}

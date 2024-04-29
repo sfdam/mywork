@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_Appuntamento__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <externalId>false</externalId>
+    <label>Appuntamento</label>
+    <referenceTo>ServiceAppointment</referenceTo>
+    <relationshipLabel>Proposte/Simulazioni/Preventivi</relationshipLabel>
+    <relationshipName>Proposte_Simulazioni_Preventivi</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

@@ -1,0 +1,51 @@
+<template>
+    <lightning-card title={title}>
+        <template if:true={showSpinner}>
+            <div class="spinner-holder">
+                <lightning-spinner alternative-text="Loading"></lightning-spinner>
+            </div>
+        </template>
+        <div>
+            <lightning-layout multiple-rows>
+                <template if:true={isStep1}>
+                    <lightning-layout-item size ="12" class="slds-p-around_small">
+                        <lightning-datatable 
+                            key-field="Id"
+                            data={tableData}
+                            columns={columns}
+                            selected-rows={selectedRows}
+                            onrowselection={getSelectedRow}
+                            max-row-selection=1>
+                        </lightning-datatable> 
+                    </lightning-layout-item>
+                    <lightning-layout-item size ="12" class="slds-p-around_small">
+                        <button
+                            class="slds-button slds-button_neutral"
+                            onclick={handleFirstStep}>{firstButtonLabel}</button>
+                    </lightning-layout-item>
+                </template>
+                <template if:true={isStep2}>
+                    <lightning-layout-item size ="6" class="slds-p-around_small">
+                        <button
+                            class="slds-button slds-button_neutral slds-button_stretch"
+                            onclick={handleSecondStep}>{secondButtonLabel}</button>
+                    </lightning-layout-item>
+                    <lightning-layout-item size ="6" class="slds-p-around_small">
+                        <button
+                            class="slds-button slds-button_neutral slds-button_stretch"
+                            onclick={handleBack}>{thirdButtonLabel}</button>
+                    </lightning-layout-item>
+                </template>
+                <template if:true={isStep3}>
+                    <lightning-layout-item size ="12" class="slds-p-around_small">
+                        <div class="box">
+                            <img src={imageUrl} class="slds-p-around_small">
+                            <span class="slds-p-around_small">{thirdStepMessage}</span>
+                        </div>
+                    </lightning-layout-item>
+                </template>                            
+            </lightning-layout>
+        </div>
+    </lightning-card>
+    
+  </template>

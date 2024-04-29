@@ -1,0 +1,29 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,lightning:actionOverride,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes">
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="oppRecord" type="Object"/>
+    <aura:attribute name="recordLoadError" type="String"/>
+    
+    <!-- <force:recordData aura:id="recordLoader"
+    recordId="{!v.recordId}"
+    fields="Name,AccountId,Account.Name"
+    targetFields="{!v.oppRecord}"
+    targetError="{!v.recordLoadError}"
+    /> -->
+
+    <aura:html tag="style">
+        .cuf-content {
+            padding: 0 0rem !important;
+        }
+        .slds-p-around--medium {
+            padding: 0rem !important;
+        }       
+        .slds-modal__content{
+            <!-- overflow-y:hidden !important; -->
+            height:unset !important;
+            max-height:unset !important;
+        }
+    </aura:html>
+
+    <!-- accId="{! v.oppRecord.AccountId }" -->
+    <c:iNF_CreateCase recordId="{! v.recordId }"  onclosequickactionaura="{! c.closeModal }"></c:iNF_CreateCase>
+</aura:component>

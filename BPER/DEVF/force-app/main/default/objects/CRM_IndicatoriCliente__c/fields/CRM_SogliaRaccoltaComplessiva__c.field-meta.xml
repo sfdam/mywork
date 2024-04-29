@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_SogliaRaccoltaComplessiva__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF (
+OR (TEXT(CRM_Account__r.ModelloDiServizio__c) = &apos;Family&apos;, TEXT(CRM_Account__r.ModelloDiServizio__c) = &apos;POE&apos;),
+CRM_RaccoltaComplessivaMeseCorrente__c - CRM_RaccoltaComplessivaStessoMeseAP__c &gt; 5000,
+IF (
+TEXT(CRM_Account__r.ModelloDiServizio__c) = &apos;Personal&apos;,
+CRM_RaccoltaComplessivaMeseCorrente__c - CRM_RaccoltaComplessivaStessoMeseAP__c &gt; 10000,
+IF (
+OR(TEXT(CRM_Account__r.ModelloDiServizio__c) = &apos;Private&apos;, TEXT(CRM_Account__r.ModelloDiServizio__c) = &apos;Institutional Wealth&apos;, TEXT(CRM_Account__r.ModelloDiServizio__c) = &apos;Lower Private&apos;, TEXT(CRM_Account__r.ModelloDiServizio__c) = &apos;Private Sviluppo&apos;),
+CRM_RaccoltaComplessivaMeseCorrente__c - CRM_RaccoltaComplessivaStessoMeseAP__c &gt; 50000, true
+)
+)
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Soglia raccolta complessiva</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

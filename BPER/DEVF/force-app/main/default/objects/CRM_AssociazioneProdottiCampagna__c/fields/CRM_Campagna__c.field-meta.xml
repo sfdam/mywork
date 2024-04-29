@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_Campagna__c</fullName>
+    <externalId>false</externalId>
+    <label>Campagna</label>
+    <referenceTo>Campaign</referenceTo>
+    <relationshipLabel>Prodotti associati alla campagna</relationshipLabel>
+    <relationshipName>Prodotti_associati_alla_campagna</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

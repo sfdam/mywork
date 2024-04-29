@@ -1,0 +1,7 @@
+<design:component>
+	 <design:attribute name="iconName" label="Icona" description="Definisce l'icona tra le standard" />
+    <design:attribute name="title" label="Titolo" description="Definisce il Titolo della Card" />
+    <design:attribute name="Dettaglio" datasource="attivo,disattivo" default="disattivo" />
+    <design:attribute name="idDashboard" label="id Dashboard Dettaglio" description="Dashboard Dettaglio" />
+    <design:attribute name="isDirezioneFD" />
+</design:component>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_Area__c</fullName>
+    <externalId>false</externalId>
+    <label>Area</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Digital Services</fullName>
+                <default>false</default>
+                <label>Digital Services</label>
+            </value>
+            <value>
+                <fullName>Cards</fullName>
+                <default>false</default>
+                <label>Cards</label>
+            </value>
+            <value>
+                <fullName>Other products and services</fullName>
+                <default>false</default>
+                <label>Other products and services</label>
+            </value>
+            <value>
+                <fullName>Channels</fullName>
+                <default>false</default>
+                <label>Channels</label>
+            </value>
+            <value>
+                <fullName>BPER Group</fullName>
+                <default>false</default>
+                <label>BPER Group</label>
+            </value>
+            <value>
+                <fullName>Extraordinary operations</fullName>
+                <default>false</default>
+                <label>Extraordinary operations</label>
+            </value>
+            <value>
+                <fullName>Guida operativa</fullName>
+                <default>false</default>
+                <label>Guida operativa</label>
+            </value>
+            <value>
+                <fullName>Guida applicativo</fullName>
+                <default>false</default>
+                <label>Guida applicativo</label>
+            </value>
+            <value>
+                <fullName>Guida Salesforce</fullName>
+                <default>false</default>
+                <label>Guida Salesforce</label>
+            </value>
+            <value>
+                <fullName>Not Classifiable</fullName>
+                <default>false</default>
+                <label>Not Classifiable</label>
+            </value>
+            <value>
+                <fullName>Email Sent</fullName>
+                <default>false</default>
+                <label>Email Sent</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,445 @@
+<apex:page renderAs="pdf"
+           showHeader="false"
+           applyHtmlTag="false"
+           applyBodyTag="false"
+           standardStylesheets="false"
+           standardController="Opportunity"
+           extensions="ExtPdfAdeguataVerificaClientela">
+  <html>
+    <head>
+      <apex:stylesheet value="{!$Resource.CssPdfGeneration}"/>
+      <!--
+      <meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+      <meta name=Generator content="Microsoft Word 15 (filtered)">
+      -->
+      <title>Request for financial products and services</title>
+
+      <style>
+
+      .bigForm {
+          border-width: 2px;
+          border-color: black;
+          border-style: solid;
+          margin-top: 10pt;
+          padding: 7px;
+      }
+
+      .titolareForm {
+          margin-left:14.2pt;
+          margin-bottom: 7pt;
+          text-indent:35.45pt;
+          line-height:115%;
+      }
+
+      .paragrafoStandard10 {
+          margin:0cm;
+          margin-bottom:.0001pt;
+          font-size:10.0pt;
+          text-align:justify;
+      }
+
+      .servizioFinanziario {
+          font-size:11.0pt;
+          margin-top:20pt;
+          margin-bottom:20pt;
+          margin-left:20pt;
+      }
+
+      .tableFactoring {
+          border-width: 1px;
+          border-color: black;
+          border-style: solid;
+          border-collapse: collapse;
+          margin-top: 20pt;
+      }
+
+      .tableFactoringIntestazione {
+          font-weight: bold;
+          font-size:10pt;
+          border-width: 1px;
+          border-color: black;
+          border-style: solid;
+      }
+
+      .tableFactoringCell {
+          font-size:9pt;
+          border-width: 1px;
+          border-color: black;
+          border-style: solid;
+          min-height: 20pt;
+      }
+
+      .tableFactoringCellCenter {
+          font-size:9pt;
+          border-width: 1px;
+          border-color: black;
+          border-style: solid;
+          min-height: 20pt;
+          text-align: center;
+      }
+
+      p.MsoNormal, li.MsoNormal, div.MsoNormal
+          {margin:0cm;
+          margin-bottom:.0001pt;
+          font-size:9.5pt;}
+
+      /* font definition */
+      p, span, li, div {
+        font-family:sans-serif;
+      }
+
+      /*  List Definitions */
+      ol
+          {margin-bottom:0cm;}
+      ul
+          {margin-bottom:0cm;}
+
+      </style>
+
+    </head>
+    <body>
+      <!--footer and header-->
+
+      <div class="header_left" style="margin-left:5pt;">
+        <img class="header_logo_img" src="{!$Resource.BancaIfisLogoNew}"/>
+      </div>
+
+      <div class="footer_center">
+        <p class="docName">RSF – 29.06.2020</p>
+        <img class="footerLargeImg" src="{!$Resource.FooterIfisEN}"/>
+      </div>
+
+      <div class="footer_right pageNumberFooter">
+        <span class="pagenumber"/>
+      </div>
+
+      <p class="MsoNormal" align="center" style="text-align:center;clear:right;">
+        <b>
+          <u>
+            <span style="font-size:10.0pt;text-transform:uppercase; font-weight: bold;">
+              REQUEST FOR FINANCIAL PRODUCTS AND SERVICES
+            </span>
+          </u>
+        </b>
+      </p>
+
+      <!-- inizio parte iniziale comune -->
+      <div class= "bigForm uniqueBlock midMarginBlock">
+
+        <p class="paragrafoTabella" style="margin-bottom:  4pt;">
+          <b>Company name</b><span class="{!IF( !ISBLANK(opportunity.account.Name), 'hiddenInput', 'veryLongDot')}"/><span class="{!IF( (ISBLANK(opportunity.account.Name)), 'hiddenInput', 'dottedInput')}">{!opportunity.account.Name}</span>
+        </p>
+
+        <p class="paragrafoTabella" style="">
+          VAT registration no.
+            <span class="{!IF( !ISBLANK(opportunity.account.PIVA__c), 'hiddenInput', 'veryLongDot')}"/>
+            <span class="{!IF( (ISBLANK(opportunity.account.PIVA__c)), 'hiddenInput', 'dottedInput')}">{!opportunity.account.PIVA__c}</span>
+        </p>
+
+        <p class="paragrafoTabella">
+          Tax code
+            <span class="{!IF( !ISBLANK(opportunity.account.CF__c), 'hiddenInput', 'veryLongDot')}"/>
+            <span class="{!IF( (ISBLANK(opportunity.account.CF__c)), 'hiddenInput', 'dottedInput')}">{!opportunity.account.CF__c}</span>
+        </p>
+
+        <p class="paragrafoTabella">
+          Chamber of Commerce Company Registration no.<span class="{!IF( !ISBLANK(opportunity.account.CCIAA__c), 'hiddenInput', 'veryLongDot')}"/><span class="{!IF( ISBLANK(opportunity.account.CCIAA__c), 'hiddenInput', 'dottedInput')}">{!opportunity.account.CCIAA__c}</span>
+        </p>
+        <p class="paragrafoTabella">
+          Economic Administrative Register no.<span class="{!IF( !ISBLANK(opportunity.account.REA__c), 'hiddenInput', 'veryLongDot')}"/><span class="dottedInput {!IF( ISBLANK(opportunity.account.REA__c), 'hiddenInput', '')}">{!opportunity.account.REA__c}</span>
+        </p>
+
+        <p class="paragrafoTabella">Registered office</p>
+        <p class="paragrafoTabella">
+          Address <span class="{!IF( !ISBLANK(opportunity.account.BillingStreet), 'hiddenInput', 'veryLongDot')}" ></span><span class = " {!IF( ISBLANK(opportunity.account.BillingStreet), 'hiddenInput', 'dottedInput')}"> {!opportunity.account.BillingStreet} </span>
+          Town <span class="{!IF( !ISBLANK(opportunity.account.BillingCity), 'hiddenInput', 'longDot')}"/><span class = " {!IF( ISBLANK(opportunity.account.BillingCity), 'hiddenInput', 'dottedInput')}"> {!opportunity.account.BillingCity} </span>
+          County <span class="{!IF( !ISBLANK(opportunity.account.BillingState), 'hiddenInput', 'veryShortDot')}"/><span class = " {!IF( ISBLANK(opportunity.account.BillingState), 'hiddenInput', 'dottedInput')}"> {!opportunity.account.BillingState} </span>
+          Postcode <span class="{!IF( !ISBLANK(opportunity.account.BillingPostalCode), 'hiddenInput', 'shortDot')}"/><span class = " {!IF(ISBLANK(opportunity.account.BillingPostalCode), 'hiddenInput', 'dottedInput')}"> {!opportunity.account.BillingPostalCode} </span>
+        </p>
+        <p class="paragrafoTabella">
+          Country <span class="{!IF( !ISBLANK(opportunity.account.BillingCountry), 'hiddenInput', 'shortDot')}"/><span class = "{!IF( ISBLANK(opportunity.account.BillingCountry), 'hiddenInput', 'dottedInput')}"> {!opportunity.account.BillingCountry} </span>
+        </p>
+
+        <p class="paragrafoTabella">Admin office <i>(if different)</i></p>
+        <p class="paragrafoTabella">
+          Address <span class="{!IF( AND(!ISBLANK(opportunity.account.ShippingStreet), !sedeAmmUguale), 'hiddenInput', 'veryLongDot')}"/><span class = "{!IF( OR(ISBLANK(opportunity.account.ShippingStreet), sedeAmmUguale), 'hiddenInput', 'dottedInput')}"> {!opportunity.account.ShippingStreet} </span>
+          Town <span class="{!IF( AND(!ISBLANK(opportunity.account.ShippingCity), !sedeAmmUguale), 'hiddenInput', 'longDot')}"/><span class = "{!IF( OR(ISBLANK(opportunity.account.ShippingCity), sedeAmmUguale), 'hiddenInput', 'dottedInput')}"> {!opportunity.account.ShippingCity} </span>
+          County <span class="{!IF( AND(!ISBLANK(opportunity.account.ShippingState), !sedeAmmUguale), 'hiddenInput', 'shortDot')}"/><span class = " {!IF( OR(ISBLANK(opportunity.account.ShippingState), sedeAmmUguale), 'hiddenInput', 'dottedInput')}"> {!opportunity.account.ShippingState} </span>
+          Postcode <span class="{!IF( AND(!ISBLANK(opportunity.account.ShippingPostalCode), !sedeAmmUguale), 'hiddenInput', 'shortDot')}"/><span class = " {!IF( OR(ISBLANK(opportunity.account.ShippingPostalCode), sedeAmmUguale), 'hiddenInput', 'dottedInput')}"> {!opportunity.account.ShippingPostalCode} </span>
+        </p>
+        <p class="paragrafoTabella">
+          Country <span class="{!IF( AND(!ISBLANK(opportunity.account.ShippingCountry), !sedeAmmUguale), 'hiddenInput', 'shortDot')}"/><span class = " {!IF( OR(ISBLANK(opportunity.account.ShippingCountry), sedeAmmUguale), 'hiddenInput', 'dottedInput')}"> {!opportunity.account.ShippingCountry} </span>
+        </p>
+
+        <p class="paragrafoTabella">
+          Telephone
+          <span class = "{!IF( AND(!ISBLANK(opportunity.account.TelefonoPrefisso__c), !ISBLANK(opportunity.account.TelefonoNumero__c)), 'dottedInput', 'hiddenInput')}"> {!opportunity.account.TelefonoPrefisso__c + opportunity.account.TelefonoNumero__c} </span>
+          <span class = "{!IF( AND(!ISBLANK(opportunity.account.Phone), OR(ISBLANK(opportunity.account.TelefonoPrefisso__c), ISBLANK(opportunity.account.TelefonoNumero__c))), 'dottedInput', 'hiddenInput')}"> {!opportunity.account.Phone} </span>
+          <span class = "{!IF( AND(ISBLANK(opportunity.account.Phone), OR(ISBLANK(opportunity.account.TelefonoPrefisso__c), ISBLANK(opportunity.account.TelefonoNumero__c))), 'normalDot', 'hiddenInput')}"/>
+
+          Fax
+          <span class="{!IF( !ISBLANK(opportunity.account.Fax), 'hiddenInput', 'normalDot')}"/>
+          <span class = "{!IF( (ISBLANK(opportunity.account.Fax)), 'hiddenInput', 'dottedInput')}"> {!opportunity.account.Fax} </span>
+
+          E-mail
+          <span class="{!IF( !ISBLANK(opportunity.account.Email__c), 'hiddenInput', 'normalDot')}"/>
+          <span class = "{!IF( (ISBLANK(opportunity.account.Email__c)), 'hiddenInput', 'dottedInput')}"> {!opportunity.account.Email__c} </span>
+        </p>
+      </div>
+
+      <p class="paragrafoStandard10">For classification purposes, as per banking regulations<sup>1</sup>, we declare that our business sector (field of economic activity) is:
+      <span class="{!IF( ISBLANK(opportunity.account.SAE__c), 'normalDot', 'dottedInput')}">{!opportunity.account.SAE__c}</span></p><br></br>
+  <p class="paragrafoStandard10">and that we have: </p>
+<table class="tableFactoring" width="100%" style="margin-top: 7pt" >
+  <colgroup>
+    <col style="width: 20%"/>
+    <col style="width: 80%"/>
+  </colgroup>
+  <tr>
+      <td class="tableFactoringCell">Number of employees to date:</td>
+      <td class="tableFactoringCell"><span class="{!IF( OR(ISBLANK(opportunity.account.NumberOfEmployees),opportunity.account.NumberOfEmployees=0), 'hiddenInput', 'dottedInput')}">{!opportunity.account.NumberOfEmployees}</span></td>
+  </tr>
+</table>
+<table class="tableFactoring" width="100%" style="margin-top: 7pt; margin-bottom: 9pt" >
+  <colgroup>
+    <col style="width: 20%"/>
+    <col style="width: 80%"/>
+  </colgroup>
+  <tr>
+      <td class="tableFactoringCell">Annual turnover as shown in the last filed annual report:</td>
+      <td class="tableFactoringCell"><span class="{!IF( OR(ISBLANK(opportunity.account.Fatturato__c),opportunity.account.Fatturato__c=0), 'hiddenInput', 'dottedInput')}">{!opportunity.account.Fatturato__c}</span></td>
+  </tr>
+</table>
+      <p class="paragrafoStandard10">According to the information provided above, we understand that we will consequently be classified as a consumer, retail client or company (non-retail client) according to the definitions given below<sup>1</sup>.</p>
+      <p class="paragrafoStandard10">We also acknowledge that, should our status change, we have the right to notify you and have this classification modified accordingly, even after having signed a contract.</p>
+      <p class="paragrafoStandard10">We hereby express our interest in examining the financial products and services offered by you to clients, with the aim of initiating a business relationship with your Bank, where such products, services and financial conditions should suit our requirements. We acknowledge, therefore, that, to this aim, you may request information on us, and on parties connected to us, also from the Central Credit Register.</p>
+      <p class="paragrafoStandard10">Lastly, we are aware that the completion of the present document does not constitute a contractual proposal and we are, therefore, in no way consequently obliged to undersign any contract.</p>
+      <!-- fine parte iniziale comune -->
+<!--
+      <p class="paragrafoStandard10">Based on the definition described below<sup>(1)</sup>, <b>we declare that we are acting as retail clients</b>:
+        <img  class="checkboxImgSmall" style="margin-left: 15pt;" src="{!IF( opportunity.account.ClienteDettaglio__c == TRUE, $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>Yes
+        <img  class="checkboxImgSmall" style="margin-left: 15pt;" src="{!IF( opportunity.account.ClienteDettaglio__c == FALSE, $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>No
+      </p>
+
+      <p class="paragrafoStandard10">We also acknowledge that, should our status change, we have the right to notify you and have this classification modified accordingly, even after having signed a contract.</p>
+      <p class="paragrafoStandard10">We hereby express our interest in examining the financial products and services offered by you to clients, with the aim of initiating a business relationship with your Bank, where such products, services and financial conditions should suit our requirements. We acknowledge, therefore, that, to this aim, you may request information on us, and on parties connected to us, also from the Central Credit Register.</p>
+      <p class="paragrafoStandard10">Lastly, we are aware that the completion of the present document does not constitute a contractual proposal and we are, therefore, in no way consequently obliged to undersign any contract.</p>
+      -->
+      <!-- fine parte iniziale comune -->
+      <!-- PARTE DINAMICA  PARTE DINAMICA  PARTE DINAMICA  PARTE DINAMICA  PARTE DINAMICA  PARTE DINAMICA  PARTE DINAMICA -->
+
+      <!-- FACTORING -->
+      <div class="{!IF( (ndgDebitoriWrap.size != 0), '', 'hiddenInput')}">
+        <p class="servizioFinanziario">
+          <img  class="checkboxImgSmall"  src="{!IF( (ndgDebitoriWrap.size != 0), $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>FACTORING
+        </p>
+        <p class="paragrafoStandard10">With reference to factoring, please find below the names of our clients (who have been duly informed or who we undertake to inform as per Lgs. Decree 196/2003) who may, currently, be proposed in assignment to yourselves: </p>
+
+        <table class="tableFactoring">
+          <tr>
+            <th class="tableFactoringIntestazione">Company name</th>
+            <th class="tableFactoringIntestazione">Tax code</th>
+            <th class="tableFactoringIntestazione">Registered office</th>
+            <th class="tableFactoringIntestazione">Annual turnover by client</th>
+            <th class="tableFactoringIntestazione">Average duration of receivables</th>
+            <th class="tableFactoringIntestazione">Credit cover requested<sup>(2)</sup></th>
+          </tr>
+
+          <tr class="{!IF( ndgDebitoriWrap.size != 0 , 'hiddenInput', 'tableFactoring')}">
+            <td class="tableFactoringCell"></td>
+            <td class="tableFactoringCell"></td>
+            <td class="tableFactoringCell"></td>
+            <td class="tableFactoringCell"></td>
+            <td class="tableFactoringCell"></td>
+            <td class="tableFactoringCell"></td>
+          </tr>
+          <tr class="{!IF( ndgDebitoriWrap.size != 0 , 'hiddenInput', 'tableFactoring')}">
+            <td class="tableFactoringCell"></td>
+            <td class="tableFactoringCell"></td>
+            <td class="tableFactoringCell"></td>
+            <td class="tableFactoringCell"></td>
+            <td class="tableFactoringCell"></td>
+            <td class="tableFactoringCell"></td>
+          </tr>
+          <tr class="{!IF( ndgDebitoriWrap.size != 0 , 'hiddenInput', 'tableFactoring')}">
+            <td class="tableFactoringCell"></td>
+            <td class="tableFactoringCell"></td>
+            <td class="tableFactoringCell"></td>
+            <td class="tableFactoringCell"></td>
+            <td class="tableFactoringCell"></td>
+            <td class="tableFactoringCell"></td>
+          </tr>
+          <tr class="{!IF( ndgDebitoriWrap.size != 0 , 'hiddenInput', 'tableFactoring')}">
+              <td class="tableFactoringCell"></td>
+              <td class="tableFactoringCell"></td>
+              <td class="tableFactoringCell"></td>
+              <td class="tableFactoringCell"></td>
+              <td class="tableFactoringCell"></td>
+              <td class="tableFactoringCell"></td>
+          </tr>
+
+          <apex:repeat value="{!ndgDebitoriWrap}" var="deb">
+            <tr class="tableFactoring">
+              <td class="tableFactoringCell">
+                {!deb.debitore.Name}
+              </td>
+              <td class="tableFactoringCell">
+                {!deb.debitore.CF__c}
+              </td>
+              <td class="tableFactoringCell">
+                {!deb.debitore.BillingStreet} {!deb.debitore.BillingCity} {!deb.debitore.BillingPostalCode} {!deb.debitore.BillingState}
+              </td>
+              <td class="tableFactoringCellCenter">
+                {!deb.fatturato}
+              </td>
+              <td class="tableFactoringCellCenter">
+                {!deb.durataNominale }
+              </td>
+              <td class="tableFactoringCellCenter">
+                {!deb.plafond}
+              </td>
+            </tr>
+          </apex:repeat>
+
+        </table>
+      </div>
+
+      <!-- MUTUO -->
+      <apex:repeat value="{!lineeMutuo}" var="lineaMutuo">
+        <div>
+            <p class="servizioFinanziario">
+                <img  class="checkboxImgSmall"  src="{!$Resource.PrivacyPFCheckbox_selected}"/>LOAN
+            </p>
+            <p class="paragrafoStandard10 midMarginBlock">
+                Limit €
+                <span class="{!IF( !ISBLANK(lineaMutuo.importo), 'hiddenInput', 'normalLine')}"/><span class = "{!IF( (ISBLANK(lineaMutuo.importo)), 'hiddenInput', 'linedInput')}"> {!lineaMutuo.importo} </span>
+                <!-- TODO: trasformare in lettere il numero (in inglese) -->
+                <!-- (<span class="{!IF( !ISBLANK(lineaMutuo.importo), 'hiddenInput', 'normalLine')}"/><span class = "{!IF( (ISBLANK(lineaMutuo.importo)), 'hiddenInput', 'linedInput')}"> {!lineaMutuo.importoLettere} </span>) -->
+                (<span class="normalLine"/>)
+            </p>
+        </div>
+      </apex:repeat>
+
+      <!-- APERTURA DI CREDITO IN CONTO CORRENTE -->
+      <div class="{!IF( lineaFidoDiCassa != null, 'uniqueBlock', 'hiddenInput')}">
+          <p class="servizioFinanziario">
+              <img  class="checkboxImgSmall"  src="{!$Resource.PrivacyPFCheckbox_selected}"/>CURRENT ACCOUNT CREDIT LINE
+          </p>
+          <p class="paragrafoStandard10 midMarginBlock" style="text-align: left;">Limit €
+          <span class="{!IF( !ISBLANK(lineaFidoDiCassa.importo), 'hiddenInput', 'normalLine')}"/><span class = "{!IF( (ISBLANK(lineaFidoDiCassa.importo)), 'hiddenInput', 'linedInput')}"> {!lineaFidoDiCassa.importo} </span>
+          <!-- TODO: trasformare in lettere il numero (in inglese) -->
+          <!-- (<span class="{!IF( !ISBLANK(lineaFidoDiCassa.importo), 'hiddenInput', 'normalLine')}"/><span class = "{!IF( (ISBLANK(lineaFidoDiCassa.importo)), 'hiddenInput', 'linedInput')}"> {!importoFidoLettere} </span>) -->
+          (<span class="normalLine"/>)
+          </p>
+      </div>
+
+      <!-- DILAZIONE DI PAGAMENTO DI CREDITI COMMERCIALI -->
+      <div class="{!IF( lineaPlafondProroga != null, 'uniqueBlock', 'hiddenInput')}">
+        <p class="servizioFinanziario">
+          <img  class="checkboxImgSmall"  src="{!$Resource.PrivacyPFCheckbox_selected}"/>MATURITY SERVICE FOR PAYMENT EXTENSIONS
+        </p>
+        <p class="paragrafoStandard10 midMarginBlock" style="text-align: left;">
+          Days of extension<span class="{!IF( !ISBLANK(lineaPlafondProroga.durataDilazione), 'hiddenInput', 'normalLine')}"/><span class = "{!IF( (ISBLANK(lineaPlafondProroga.durataDilazione)), 'hiddenInput', 'linedInput')}"> {!lineaPlafondProroga.durataDilazione} </span>
+          Maximum of the credit duration<span class="{!IF( !ISBLANK(lineaPlafondProroga.durataMaxCredito), 'hiddenInput', 'normalLine')}"/><span class = "{!IF( (ISBLANK(lineaPlafondProroga.durataMaxCredito)), 'hiddenInput', 'linedInput')}"> {!lineaPlafondProroga.durataMaxCredito} </span>
+        </p>
+      </div>
+
+      <!-- CONTO CORRENTE BANCARIO -->
+      <div class="{!IF( lineaIfisImpresa != null, 'uniqueBlock', 'hiddenInput')}">
+        <p class="servizioFinanziario">
+          <img  class="checkboxImgSmall"  src="{!$Resource.PrivacyPFCheckbox_selected}"/>CURRENT ACCOUNT
+        </p>
+      </div>
+
+      <!-- CONFIRMING -->
+      <div class="{!IF( ndgConfirming.size != 0, 'uniqueBlock', 'hiddenInput')}">
+          <p class="servizioFinanziario">
+              <img  class="checkboxImgSmall"  src="{!$Resource.PrivacyPFCheckbox_selected}"/>CONFIRMING
+          </p>
+          <p class="paragrafoStandard10">Please see Annex A for the names of our suppliers (duly informed or who we undertake to inform as per Regulation EU 2016/6) from whom, at the date hereof, we wish to request the confirming service.</p>
+      </div>
+
+      <!-- (ALTRO) per ora è default NASCOSTA. Da riattivare eventualmente per target -->
+      <!--
+      <div class="uniqueBlock">
+          <p class="servizioFinanziario">
+              <img  class="checkboxImgSmall"  src="{!IF( FALSE, $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>(ALTRO)
+          </p>
+      </div>  -->
+      <!-- FINE PARTE DINAMICA -->
+
+      <!-- PARTE FINALE -->
+      <p class="paragrafoStandard10">&nbsp;</p>
+      <p class="paragrafoStandard10" style="text-autospace:none"><span  >______________________________</span></p>
+      <p class="paragrafoStandard10">&nbsp;</p>
+
+      <p class="paragrafoStandard10">We declare and guarantee that the details given above are fair and true and confirm that we will promptly notify Banca Ifis S.p.A. of any changes to these details.</p>
+      <p class="paragrafoStandard10">Having read and understood the definition of <b>related party</b><sup>(3)</sup> and <b>connected parties</b><sup>(4)</sup> as described in point (5) and (6) below and being aware of the consequences of making false statements and representations (article 137 of the 1993 Banking Law), we undertake to inform Banca Ifis S.p.A., in a timely manner, if our company/legal entity should fall under either of these categories, as well as to provide the Bank with any information useful for it to establish the connected parties (parties related to the Bank and parties connected to these).</p>
+      <p class="paragrafoStandard10">Furthermore, we declare that we are aware that we have no obligation to pay sums of any type to third parties who have been involved in initiating, or have assisted in, the business relationship between ourselves and the bank and we hereby expressly declare that we have not paid, and undertake not to pay, any sum or benefit of any type to third parties as compensation for, or upon, access to Banca Ifis’s services.</p>
+
+      <p class="MsoNormal" style="text-align:justify"><span>&nbsp;</span></p>
+      <p class="MsoNormal" style="text-align:justify;line-height:9.0pt"><span>&nbsp;</span></p>
+
+      <p class="MsoNormal">
+        <span>Date and place_____________________</span>
+        <span style="float:right; margin-right:5pt;"> ________________________________________________</span><br/>
+        <span style="float:right; margin-right:5pt;"> (Stamp, signature and role of Declarer)</span>
+      </p>
+
+      <p class="paragrafoStandard10">&nbsp;</p>
+      <p class="MsoNormal" style="text-autospace:none"><span  >______________________________</span></p>
+
+      <p class="paragrafoStandard8">(1) <b>Retail clients</b> are individuals who carry out professional activities or crafts; non-profit-making organisations; businesses with less than 10 employees and not exceeding 2 million Euro annual turnover or total asset amount. <b>Private individual</b>: physical person not acting for the purpose of his company, craft or profession.</p>
+      <p class="paragrafoStandard8">(2) To request non-recourse credit cover, fill in this section as well;</p>
+      <p class="paragrafoStandard8">(3) Parties that are considered <b>related parties</b> to Banca Ifis S.p.A are: 1. Board members, Statutory auditors and the General Manager; 2. Parties who have been authorised to hold an investment in Banca Ifis’s share capital by the Bank of Italy; 3. Parties who have the right to nominate one or more members of Banca Ifis’s Top management and the Board of Directors (also through agreements of any form or through clauses in the Articles of Incorporation dealing with the exercising of such rights and powers); 4. A company, even if not a corporate body, over which the Bank or a company belonging to the Banking Group can exercise control or significant influence.</p>
+
+
+   <p class="paragrafoStandard8">(4) Persons considered <b>connected parties</b> to Banca Ifis S.p.A.’s related parties are: 1. Companies and entities, even if not corporate, controlled by a related party; 2. Parties who control one of the related parties described in point 2 and 3 above or are subject, directly or indirectly, to common control by the same; 3.Close relatives to the related party and the companies and entities controlled by these relatives.</p>
+
+  <div class= "{!IF( (ndgConfirming.size != 0), '', 'hiddenInput')}" style="page-break-before:always;">
+  <p>Annex A</p>
+      <table class="tableFactoring" width="80%">
+        <colgroup>
+          <col style="width: 33%"/>
+          <col style="width: 33%"/>
+          <col style="width: 33%"/>
+       </colgroup>
+        <tr>
+            <th class="tableFactoringIntestazione">Name of company</th>
+            <th class="tableFactoringIntestazione">Tax code</th>
+            <th class="tableFactoringIntestazione">Registered office</th>
+        </tr>
+
+        <tr>
+            <td class="tableFactoringCell"></td>
+            <td class="tableFactoringCell"></td>
+            <td class="tableFactoringCell"></td>
+        </tr>
+        <tr>
+            <td class="tableFactoringCell"></td>
+            <td class="tableFactoringCell"></td>
+            <td class="tableFactoringCell"></td>
+        </tr>
+        <tr>
+            <td class="tableFactoringCell"></td>
+            <td class="tableFactoringCell"></td>
+            <td class="tableFactoringCell"></td>
+        </tr>
+        <tr>
+            <td class="tableFactoringCell"></td>
+            <td class="tableFactoringCell"></td>
+            <td class="tableFactoringCell"></td>
+        </tr>
+        <tr>
+            <td class="tableFactoringCell"></td>
+            <td class="tableFactoringCell"></td>
+            <td class="tableFactoringCell"></td>
+        </tr>
+    </table>
+
+</div>
+</body>
+
+</html>
+
+</apex:page>

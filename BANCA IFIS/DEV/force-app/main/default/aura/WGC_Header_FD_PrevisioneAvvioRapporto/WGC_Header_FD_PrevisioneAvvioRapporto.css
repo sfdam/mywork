@@ -1,0 +1,35 @@
+.THIS header.slds-card__header.slds-grid {
+    padding: 0;
+}
+
+.THIS header.slds-card__header.slds-grid {
+    display: none;
+}
+
+.THIS.slds-card .slds-card__header.slds-grid{
+    display:none;
+}
+
+.THIS .slds-card__body {
+    height: 110px;
+    margin: 0 !important;
+}
+
+.THIS .black {
+    background: #2E2E2E;
+    height: 100%;
+}
+
+.THIS .slds-card {
+    border: none;
+}
+
+.THIS .count{
+    color: #0064B5;
+    font-weight: bold;
+    font-size:20px;
+}
+
+.THIS .point{
+    cursor: pointer;
+}

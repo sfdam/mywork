@@ -1,0 +1,362 @@
+<!--
+  @description       : 
+  @author            : simone.viglianti@tengroup.it
+  @group             : 
+  @last modified on  : 10-27-2022
+  @last modified by  : simone.viglianti@tengroup.it
+-->
+<aura:component access="global" extends="c:WGC_Utility"  implements="force:hasRecordId">
+    <!-- ATTRIBUTES -->
+        <!-- INHERITED FROM PARENT -->
+        <aura:attribute name="payload" type="Object"/>
+        <aura:attribute name="accountId" type="String"/>
+        <aura:attribute name="opportunityId" type="String"/>
+        <aura:attribute name="items" type="Object[]"/>
+        <aura:attribute name="lockedItems" type="Object[]"/>
+        <aura:attribute name="servizi" type="MatriceServizio__mdt[]"/>
+        <aura:attribute name="debitoriNewFields" type="Object[]"/>
+        <aura:attribute name="picklistOptions" type="Object[]"/>
+        <aura:attribute name="opportunityRecord" type="Object"/>
+        <aura:attribute name="referenti" type="Object[]"/>
+        <aura:attribute name="crossSellingJSON" type="String"/>
+        <aura:attribute name="tipologieMutui" type="Object[]"/>
+        <!-- A.M. Gestione Mutuo Veneto Sviluppo  -->
+        <aura:attribute name="tipologieMutuiVS" type="Object[]"/>    
+        <aura:attribute name="qualificaUtente" type="String"/>
+        <aura:attribute name="labels" type="Object"/>
+        <aura:attribute name="isRevisione" type="Boolean"/>
+        <aura:attribute name="codiciCoppia" type="Object[]"/>
+        <aura:attribute name="readOnly" type="Boolean"/>
+    	<aura:attribute name="readOnlyConst" type="Boolean" default="false"/>
+        <aura:attribute name="esclusioneBEI" type="Boolean"/>
+        <!-- A.M. aggiunto parametro per Bonus Edilizi --> 
+        <aura:attribute name="IdAdE" type="String"/>
+        <!-- CR Lotto 4.2 Id 315 -->
+        <aura:attribute name="esclusionePolizzaCPI" type="Boolean" />
+        <!-- ATTRIBUTES FOR FACTORING FISCALE -->
+        <aura:attribute name="currentUser" type="Object"/>
+
+        <!-- PRIVATE ATTRIBUTES -->
+        <aura:attribute name="selectedItems" type="Object[]"/>
+        <aura:attribute name="debitori" type="Object[]"/>
+        <aura:attribute name="joinLineaAttore" type="Object[]"/>
+        <aura:attribute name="emptyDebitori" type="Boolean" default="true"/>
+        <aura:attribute name="lines" type="Object[]"/>
+        <aura:attribute name="serviziSelected" type="MatriceServizio__mdt[]"/>
+        <!-- <aura:attribute name="serviziSelected" type="Object[]"/> -->
+        <aura:attribute name="itemSection" type="String" default="debitori"/><!-- VALUES: debitori, cselling, sbancario, findiretto, valport -->
+        <aura:attribute name="arrayDebitoriNewFields" type="List" default="[]"/>
+        <aura:attribute name="selectedValPort" type="Object"/>
+        <aura:attribute name="valutazionePortafoglio" type="Boolean"/>
+        <aura:attribute name="valutazioniPortafoglio" type="List"/>
+        <aura:attribute name="yesNoOptions" type="List" default="[{'label': 'Sì', 'value': 'true'},{'label': 'No', 'value': 'false'}]"/>
+        <aura:attribute name="divisaOptions" type="List"/>
+        <aura:attribute name="mercatoOptions" type="List"/>
+        <aura:attribute name="showNext" type="Boolean" default="false"/>
+        <aura:attribute name="serviziBancari" type="Object[]" />
+        <aura:attribute name="plafonds" type="Object[]" />
+        <aura:attribute name="serviziBancariOptions" type="Object[]" />
+        <aura:attribute name="plafondOptions" type="Object[]" />
+        <!-- A.M. Gestione Mutuo Veneto Sviluppo -->
+        <aura:attribute name="itemSubSection" type="String" default="sbancario"/><!-- VALUES: sbancario, venetosviluppo -->
+        <aura:attribute name="VenetoSviluppo" type="Object[]" />
+        <aura:attribute name="VenetoSviluppoOptions" type="Object[]" />
+        <aura:attribute name="crossSelling" type="Object" />
+        <aura:attribute name="valPortHasATD" type="Boolean" />
+        <aura:attribute name="subproducts" type="Object[]" />
+        <aura:attribute name="pivaPerDebitore" type="Object"/>
+        <aura:attribute name="revisionRedirect" type="Boolean" default="false" />
+        <!-- SM-CART-REVI -->
+        <aura:attribute name="uid" type="String"/>
+        <!-- SM - Banca Corporate -->
+        <!-- <aura:attribute name="corporate" type="Object[]" /> -->
+        <aura:attribute name="CorporateOptions" type="Object[]" />
+        <aura:attribute name="CCData" type="Object[]" />
+
+        <!-- SM - TEN: Corporate Estero -->
+        <aura:attribute name="CorporateEsteroOptions" type="Object[]" />
+        <aura:attribute name="picklistGaranzieEstero" type="Object[]" />
+
+    <!-- REGISTER EVENTS -->
+    <aura:registerEvent name="navigateSubWizard" type="c:WGC_NavigateSubWizard"/>
+    <aura:registerEvent name="cartCallServer" type="c:WGC_Cart_Call_Server"/>
+
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    <aura:handler name="change" value="{! v.payload }" action="{! c.reloadPayload }"/>
+    <aura:handler name="change" value="{! v.opportunityRecord }" action="{! c.reloadPayload }"/>
+    <aura:handler name="change" value="{! v.crossSellingJSON }" action="{! c.onChangeCrossSelling }"/>
+    <!-- <aura:handler name="change" value="{! v.serviziBancari }" action="{! c.disableNextBtn }"/>
+    <aura:handler name="change" value="{! v.plafonds }" action="{! c.disableNextBtn }"/> -->
+    <aura:handler name="change" value="{! v.debitoriNewFields }" action="{! c.reloadDebitori }"/>
+    <!-- <aura:handler name="change" value="{! v.items }" action="{! c.reloadItems }"/> -->
+    <!-- CUSTOM EVENT HANDLERS -->
+    <aura:handler name="productClick" event="c:WGC_ProductClickEvent" action="{! c.handleProductClick }"/>
+    <!-- <aura:handler name="removeDebitore" event="c:WGC_Remove_Debitore" action="{! c.onRemoveDebitore }"/> -->
+    <aura:handler name="toggleService" event="c:WGC_Toggle_Service" action="{! c.onToggleService }"/>
+    <aura:handler name="subProductChange" event="c:WGC_SubProduct_Event" action="{! c.onChangeSubProduct }"/>
+    <aura:handler event="c:WGC_CreateAccountResolveEvent" action="{! c.onModalClose }" />
+    <aura:handler event="c:WGC_Remove_Debitore" action="{! c.onRemoveDebitore }" />
+    
+    <!-- SM-CART-REVI -->
+    <aura:handler event="c:WGC_Cart_Resolve_Server" action="{! c.cartResolveServer }"/>
+    <aura:handler name="change" value="{! v.CCData }" action="{! c.reloadCCData }" />
+    
+	<lightning:notificationsLibrary aura:id="notifLib"/>
+
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    
+    <lightning:layout>
+        <lightning:layoutItem size="12" padding="horizontal-small">
+            <aura:if isTrue="{! v.showNext || v.readOnly }">
+                <lightning:button label="Avanti" class="cstm-btn-round slds-float_right slds-m-left_xx-small" variant="brand" onclick="{! c.next }"/>
+                <aura:set attribute="else">
+                    <lightning:button label="Conferma" class="cstm-btn-round slds-float_right slds-m-left_xx-small" variant="brand" onclick="{! c.conferma }"/>
+                </aura:set>
+            </aura:if>
+            <lightning:button label="Indietro" class="cstm-btn-round slds-float_right" onclick="{! c.back }"/>
+        </lightning:layoutItem>
+    </lightning:layout>
+    <!-- SM-CART-REVI Added qualifica utente Leasing -->
+    <!--  -->
+    <c:WGC_Cart_Products_Wrapper
+        title="Prodotti Selezionati"
+        items="{! v.selectedItems }"
+        lockedItems="{! v.lockedItems }"
+        showValPort="{! v.qualificaUtente == 'Sviluppo_Commerciale_Filiali' || v.qualificaUtente == 'IFIS_International' || v.qualificaUtente == 'Leasing EF' || v.qualificaUtente == 'Leasing TR' }"
+        readOnly="{! v.readOnly }"/>
+
+    <lightning:layout class="cstm-border-all slds-p-around_small slds-m-top_small">
+        <lightning:layoutItem size="12">
+
+            <!-- VALUTAZIONE PORTAFOGLIO -->
+            <aura:if isTrue="{! v.itemSection == 'valPort' }">
+                <lightning:layout class="slds-m-top_small">
+                    <lightning:layoutItem size="3" padding="horizontal-small">
+                        <lightning:select name="divisa" label="Divisa" value="{! v.selectedValPort.divisa }" onchange="{! c.disableNextBtn }" disabled="{! v.selectedValPort.notConfirmingDebitore || v.readOnly }">
+                            <option value="">--seleziona--</option>
+                            <aura:iteration items="{! v.divisaOptions }" var="divisaOption">
+                                <option value="{! divisaOption.value }">{! divisaOption.label }</option>
+                            </aura:iteration>
+                        </lightning:select>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="3" padding="horizontal-small">
+                        <lightning:select name="mercato" label="Mercato" value="{! v.selectedValPort.mercato }" onchange="{! c.disableNextBtn }" disabled="{! v.selectedValPort.notConfirmingDebitore || v.readOnly }">
+                            <option value="">--seleziona--</option>
+                            <aura:iteration items="{! v.mercatoOptions }" var="mercatoOption">
+                                <option value="{! mercatoOption.value }">{! mercatoOption.label }</option>
+                            </aura:iteration>
+                        </lightning:select>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="3" padding="horizontal-small">
+                        <span class="slds-form-element__label">Notificato</span><br />
+                        <lightning:input type="toggle" name="aNotifica" checked="{! v.selectedValPort.aNotifica }" disabled="{! v.selectedValPort.confirming || v.readOnly }" onchange="{! c.onChangeNotMat }" variant="label-hidden" messageToggleActive="" messageToggleInactive=""/>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="3" padding="horizontal-small">
+                        <span class="slds-form-element__label">Maturity</span><br />
+                        <lightning:input type="toggle" name="maturity" checked="{! v.selectedValPort.maturity }" disabled="{! v.selectedValPort.confirming || v.valPortHasATD || v.readOnly }" onchange="{! c.onChangeNotMat }" variant="label-hidden" messageToggleActive="" messageToggleInactive=""/>
+                    </lightning:layoutItem>
+                </lightning:layout>
+                <aura:if isTrue="{! v.valPortHasATD }">
+                    <lightning:layout class="slds-m-top_small" multipleRows="true">
+                        <!-- ATD 2.0 -->
+                        <lightning:layoutItem size="4" padding="horizontal-small">
+                            <lightning:radioGroup name="operazioneIAS"
+                                label="{! v.labels.wgc_operazione_ias__c }"
+                                options="{! v.yesNoOptions }"
+                                value="{! v.selectedValPort.operazioneIAS }"
+                                type="radio"
+                                onchange="{! c.onChangeATD }"
+                                disabled="{! v.readOnly }"/>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="4" padding="horizontal-small">
+                            <lightning:radioGroup name="previstaLIR"
+                                label="{! v.labels.wgc_e_prevista_lir__c }"
+                                options="{! v.yesNoOptions }"
+                                value="{! v.selectedValPort.previstaLIR }"
+                                type="radio"
+                                onchange="{! c.onChangeATD }"
+                                disabled="true"/>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="4" padding="horizontal-small">
+                            <lightning:select label="{! v.labels.perfezionamentoacquisto__c }" value="{! v.selectedValPort.momento }" disabled="true">
+                                <option value="Cessione">Cessione</option>
+                            </lightning:select>
+                        </lightning:layoutItem>
+                        <!-- ATD 1.0 -->
+                        <!-- <lightning:layoutItem size="4" padding="horizontal-small">
+                            <lightning:radioGroup name="cessioneContinuativa"
+                                label="{! v.labels.cessionecontinuativa__c }"
+                                options="{! v.yesNoOptions }"
+                                value="{! (v.selectedValPort.cessioneContinuativa != null ? (v.selectedValPort.cessioneContinuativa == true ? 'true' : 'false') : null) }"
+                                onchange="{! c.disableNextBtn }"
+                                type="radio"/>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="4" padding="horizontal-small">
+                            <lightning:radioGroup name="rotativita"
+                                label="{! v.labels.rotativita__c }"
+                                options="{! v.yesNoOptions }"
+                                value="{! (v.selectedValPort.rotativita != null ? (v.selectedValPort.rotativita == true ? 'true' : 'false') : null) }"
+                                onchange="{! c.disableNextBtn }"
+                                type="radio"/>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="4" padding="horizontal-small">
+                            <lightning:select label="{! v.labels.perfezionamentoacquisto__c }" value="{! v.selectedValPort.momento }" disabled="true">
+                                <option value="Cessione">Cessione</option>
+                            </lightning:select>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="4" padding="horizontal-small">
+                            <lightning:radioGroup name="anticipazione"
+                                label="{! v.labels.anticipazione__c }"
+                                options="{! v.yesNoOptions }"
+                                value=""
+                                disabled="true"
+                                type="radio"/>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="4" padding="horizontal-small">
+                            <lightning:select label="{! v.labels.prosolutoatd__c }" value="" disabled="true">
+                                <option value="">seleziona</option>
+                            </lightning:select>
+                        </lightning:layoutItem> -->
+                    </lightning:layout>
+                </aura:if>
+            </aura:if>
+            <!-- END - VALUTAZIONE PORTAFOGLIO -->
+
+            <!-- INSERIMENTO DEBITORI -->
+            <aura:if isTrue="{! v.itemSection == 'debitori' }">            
+                <h2 class="cstm-subheader-title">Inserimento Debitori</h2>
+                <aura:if isTrue="{! !v.emptyDebitori }">
+                    <aura:iteration items="{! v.debitori }" var="debitore">
+                        <!-- <aura:if isTrue="{! !debitore.isRevisione }"> -->
+                            <c:WGC_Cart_Debitore
+                                recordId="{!v.opportunityId}"
+                                debitore="{! debitore }"
+                                servizi="{! v.serviziSelected }"
+                                joinLineaAttore="{! v.joinLineaAttore }"
+                                payload="{! v.payload }"
+                                divisaOptions="{! v.divisaOptions }"
+                                debitoriNewFields="{! v.debitoriNewFields }"
+                                labels="{! v.labels }"
+                                pivaPerDebitore="{! v.pivaPerDebitore }"
+                                codiciCoppia="{! v.codiciCoppia }"
+                                readOnly="{! v.readOnly }"
+                                IdAdE="{! v.IdAdE}"/>
+                        <!-- </aura:if> -->
+                    </aura:iteration>
+                    <aura:set attribute="else">
+                        <div class="cstm-empty-debitori">Nessun debitore inserito</div>
+                    </aura:set>
+                </aura:if>
+
+            </aura:if>
+            <!-- END - INSERIMENTO DEBITORI -->
+
+            <!-- CROSS SELLING -->
+            <aura:if isTrue="{! v.itemSection == 'cselling' }">
+                <h2 class="cstm-subheader-title">Cross Selling</h2>
+                <c:WGC_Cart_CrossSelling
+                    accountId="{! v.accountId }"
+                    crossSelling="{! v.crossSelling }"
+                    referenti="{! v.referenti }"
+                    opportunityRecord="{! v.opportunityRecord }"
+                    items="{! v.selectedItems }"
+                    picklistOptions="{! v.picklistOptions }"
+                    showNext="{! v.showNext }"
+                    qualificaUtente="{! v.qualificaUtente }"
+                    readOnly="{! v.readOnly }"/>
+            </aura:if>
+            <!-- END - CROSS SELLING -->
+            
+            <!-- SERVIZIO BANCARIO -->
+            <aura:if isTrue="{! and(v.itemSection == 'sbancario' , v.itemSubSection == 'sbancario')}">
+                <h2 class="cstm-subheader-title">Servizio Bancario</h2>
+                <c:WGC_SubProduct_Wrapper
+                    subproducts="{! v.subproducts }"
+                    items="{! v.selectedItems }"
+                    rows="{! v.serviziBancari }"
+                    options="{! v.serviziBancariOptions }"
+                    addBtnLabel="Aggiungi servizio bancario"
+                    removeBtnLabel="Rimuovi servizio"
+                    readOnly="{! v.readOnly }"/>
+            </aura:if>
+            <!-- END - SERVIZIO BANCARIO -->
+            
+            <!-- A.M. Muto Veneto Sviluppo -->
+            <aura:if isTrue="{! and (v.itemSection == 'sbancario' , v.itemSubSection == 'venetosviluppo')}">
+                <h2 class="cstm-subheader-title">Servizio Bancario Veneto Sviluppo</h2>
+                <c:WGC_SubProduct_Wrapper
+                    subproducts="{! v.subproducts }"
+                    items="{! v.selectedItems }"
+                    rows="{! v.VenetoSviluppo }"
+                    options="{! v.VenetoSviluppoOptions }"
+                    addBtnLabel="Aggiungi Mutuo"
+                    removeBtnLabel="Rimuovi Mutuo"
+                    readOnly="{! v.readOnly }"/>
+            </aura:if>
+            <!-- END - Mutuo Veneto Sviluppo -->
+
+            <!-- BANCA CORPORATE -->
+            <aura:if isTrue="{! v.itemSection == 'bcorporate' }">
+                <h2 class="cstm-subheader-title">Servizio Bancario</h2>
+                <c:WGC_BC_Product_Wrapper 
+                    items="{! v.selectedItems }"
+                    records="{! v.corporate }"
+                    fields="{! v.CorporateOptions }"
+                    opportunityRecord="{! v.opportunityRecord }"
+                    readOnly="{! v.readOnly }"
+                />
+            </aura:if>
+
+            <!-- END - BANCA CORPORATE -->
+
+            <!-- SM - TEN: Corporate Estero -->
+            <aura:if isTrue="{! v.itemSection == 'estero'}">
+                <h2 class="cstm-subheader-title">Servizio Bancario</h2>
+                <c:WGC_Cart_BCE_Product_Wrapper
+                    items="{! v.selectedItems }"
+                    fields="{! v.CorporateEsteroOptions}"
+                    opportunityRecord="{! v.opportunityRecord }"
+                    readOnly="{! v.readOnly }"
+                />
+            </aura:if>
+            
+            <!-- PLAFOND -->
+            <aura:if isTrue="{! v.itemSection == 'findiretto' }">
+                <h2 class="cstm-subheader-title">Plafond</h2>
+                <c:WGC_SubProduct_Wrapper
+                    subproducts="{! v.payload.pfi }"
+                    items="{! v.selectedItems }"
+                    rows="{! v.plafonds }"
+                    options="{! v.plafondOptions }"
+                    addBtnLabel="Aggiungi plafond"
+                    removeBtnLabel="Rimuovi plafond"
+                    readOnly="{! v.readOnly }"/>
+            </aura:if>
+            <!-- END - PLAFOND -->
+
+            <!-- FACTORING FISCALE -->
+            <aura:if isTrue="{! v.itemSection == 'factfisc' }">
+                <h2 class="cstm-subheader-title">Factoring Fiscale</h2>
+                <c:wgc_pc_cart_info_cedente aura:id="factfisc"
+                    recordId="{! v.opportunityId }"
+                    userInfo="{! v.currentUser }"
+					pReadOnly="{! v.readOnly }"	
+                    onchangefieldval="{! c.onChangeATD }"
+                    oninfocedenterender="{! c.onInfoCedenteRender }"></c:wgc_pc_cart_info_cedente>
+            </aura:if>
+            <!-- END - FACTORING FISCALE -->
+
+            <lightning:layout>
+                <lightning:layoutItem size="12" padding="horizontal-small">
+                    <aura:renderIf isTrue="{! and(v.itemSection == 'debitori', !v.readOnly) }">
+                        <lightning:button class="cstm-big-btn bkg-available slds-m-left_large" onclick="{! c.addNewDeb }">
+                            <lightning:icon iconName="utility:add"/>
+                        </lightning:button>
+                    </aura:renderIf>
+                </lightning:layoutItem>
+            </lightning:layout>
+            
+        </lightning:layoutItem>
+    </lightning:layout>
+</aura:component>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_IsCheckAssicImpresePop__c</fullName>
+    <externalId>false</externalId>
+    <formula>OR (
+				 CRM_V_RameElementare__c ,
+				 CRM_V_ProdottiProtezione__c ,
+				 CRM_V_AssicurazioniVita__c ,
+				 CRM_V_CreditsInsurance__c 
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Is Check Assicurativo Imprese popolato</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

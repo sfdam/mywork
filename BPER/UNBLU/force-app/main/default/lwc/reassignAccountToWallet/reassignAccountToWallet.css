@@ -1,0 +1,28 @@
+.tilte-card {
+    display: inline;
+    padding-left: 5px;
+}
+
+.button-reassign {
+    top: 5px;
+    font-size: 12px;
+}
+
+.button-assign {
+    top: 5px;
+    font-size: 12px;
+}
+
+table tbody tr td.green {
+    background-image: url("/resource/Icone_colori/NPS_Icons/green.png") !important;
+    background-repeat: no-repeat !important;
+    background-position: 5px;
+    background-size: 16px;
+}
+
+table tbody tr td.red {
+    background-image: url("/resource/Icone_colori/NPS_Icons/red.png") !important;
+    background-repeat: no-repeat !important;
+    background-position: 5px;
+    background-size: 16px;
+}

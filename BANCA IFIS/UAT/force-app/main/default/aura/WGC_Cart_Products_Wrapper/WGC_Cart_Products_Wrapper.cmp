@@ -1,0 +1,70 @@
+<aura:component access="global">
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="title" type="String" default=""/>
+    <aura:attribute name="hasConfirmButton" type="Boolean" default="false"/>
+    <aura:attribute name="allClickable" type="Boolean" default="false"/>
+    <aura:attribute name="allRemovable" type="Boolean" default="false"/>
+    <aura:attribute name="allAvailable" type="Boolean" default="false"/>
+    <aura:attribute name="allSelected" type="Boolean" default="false"/>
+    <aura:attribute name="items" type="Object[]"/>
+    <aura:attribute name="lockedItems" type="Object[]"/>
+    <aura:attribute name="selectedProductsIsEmpty" type="Boolean"/>
+    <aura:attribute name="opportunityId" type="String"/>
+    <aura:attribute name="showValPort" type="Boolean" default="false"/>
+    <aura:attribute name="readOnly" type="Boolean" default="false"/>
+
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+
+    <!-- REGISTER EVENTS -->
+    <aura:registerEvent name="navigateSubWizard" type="c:WGC_NavigateSubWizard"/>
+    <aura:registerEvent name="cartCallServer" type="c:WGC_Cart_Call_Server"/>
+    <aura:handler name="change" value="{! v.items }" action="{! c.reloadProducts }"/>
+
+    <aura:if isTrue="{! !v.selectedProductsIsEmpty }">
+        <lightning:layout class="cstm-border-all slds-p-around_small slds-m-top_medium">
+            <lightning:layoutItem size="12">
+                <aura:if isTrue="{! v.title != null }">
+                    <h2 class="cstm-subheader-title">{! v.title }</h2>
+                </aura:if>
+                <lightning:layout multipleRows="true">
+                    <!-- SM-CART-REVI -->
+                    <!-- 
+                    <aura:iteration items="{! v.lockedItems }" var="sItem">
+                        <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="{! sItem.multiLine ? 12 : 6 }" largeDeviceSize="{! sItem.multiLine ? 6 : 3 }" padding="around-small" class="{! sItem.multiLine ? 'cstm-ipad-12-landscape' : 'cstm-ipad-4-landscape' }">
+                            <c:CRM2_CartProduct
+                                item="{! sItem }"
+                                isSelected="false"
+                                isActive="false"
+                                isCompleted="true"
+                                isLocked="true"
+                                isAvailableItem="false"
+                                />
+                        </lightning:layoutItem>
+                    </aura:iteration>
+                    -->
+                    <aura:iteration items="{! v.items }" var="sItem">
+                        <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="{! sItem.multiLine ? 12 : 6 }" largeDeviceSize="{! sItem.multiLine ? 6 : 3 }" padding="around-small" class="{! sItem.multiLine ? 'cstm-ipad-12-landscape' : 'cstm-ipad-4-landscape' }">
+                            <!-- SM-CART-REVI Added condition on showValPort attribute -->
+                            <c:CRM2_CartProduct
+                                item="{! sItem }"
+                                isSelected="{! sItem.isSelected != undefined ? ( sItem.isSelected || v.allSelected ) : v.allSelected }"
+                                isRemovable="{! sItem.isRemovable != undefined ? ( sItem.isRemovable || v.allRemovable ) : v.allRemovable }"
+                                isClickable="{! sItem.isClickable != undefined ? ( sItem.isClickable || v.allClickable ) : v.allClickable }"
+                                isActive="{! sItem.isActive }"
+                                isCompleted="{! sItem.isCompleted }"
+                                isRevisione="{! sItem.isRevisione }"
+                                isAvailableItem="{! sItem.isAvailableItem != undefined ? ( sItem.isAvailableItem || v.allAvailable ) : v.allAvailable }"
+                                showValPort="{! and(v.showValPort, !sItem.isRevisione) }"
+                                readOnly="{! v.readOnly }"
+                                />
+                        </lightning:layoutItem>
+                    </aura:iteration>
+                </lightning:layout>
+                <aura:if isTrue="{! v.hasConfirmButton == true }">
+                    <lightning:button label="Conferma Prodotti" variant="brand" class="cstm-btn-round slds-float_right" onclick="{! c.confermaProdotti }"/>
+                </aura:if>
+            </lightning:layoutItem>
+        </lightning:layout>
+    </aura:if>
+</aura:component>

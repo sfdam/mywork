@@ -1,0 +1,5 @@
+<design:component >
+	<design:attribute name="appName" default="" />
+  <design:attribute name="params" default="" />
+	<design:attribute name="type" default="default" datasource="default,community" />
+</design:component>

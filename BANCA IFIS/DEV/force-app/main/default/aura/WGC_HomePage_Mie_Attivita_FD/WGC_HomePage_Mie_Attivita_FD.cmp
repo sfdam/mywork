@@ -1,0 +1,66 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" controller="WGC_HomePage_Mie_Attivita_FD_Controller" >
+	<!-- attributes -->
+    <!-- attributi primo grafico -->
+    <aura:attribute name="pianificatoTask" type="Decimal" default="0" />
+    <aura:attribute name="obiettivoTask" type="Decimal" default="0" />
+    <aura:attribute name="eseguitoTask" type="Decimal" default="0" />
+    <!-- attributi secondo grafico -->
+    <aura:attribute name="pianificatoPromemoria" type="Decimal" default="0" />
+    <aura:attribute name="obiettivoPromemoria" type="Decimal" default="0" />
+    <aura:attribute name="eseguitoPromemoria" type="Decimal" default="0" />
+    <!-- id dashboard -->
+    <aura:attribute name="dashboardId" type="String" />
+    <aura:attribute name="isDirezioneFD" type="Boolean" default="false"/>
+    <aura:attribute name="title" type="String" default="LE TUE ATTIVITA'" />
+    <!-- scripts -->
+    <ltng:require scripts="{!join(',', 
+             '/resource/WGC_jQuery3x',
+             '/resource/WGC_ChartJs')}" afterScriptsLoaded="{!c.doInit}" />
+    
+    <lightning:navigation aura:id="navService" />
+    <!-- handlers -->
+    <aura:handler event="c:WGC_FilterEvent_FD" action="{! c.filter }" />
+    
+    <lightning:card>
+        <aura:set attribute="title">
+            <lightning:layout>
+                <lightning:layoutItem size="1">
+                    <lightning:icon iconName="utility:event" size="small" />
+                </lightning:layoutItem>
+                <lightning:layoutItem size="1">
+                    <div class="title">{! v.title }</div>
+                </lightning:layoutItem>
+            </lightning:layout>
+        </aura:set>
+        <aura:set attribute="actions">
+            <lightning:buttonIcon iconName="utility:expand" variant="bare" onclick="{! c.navigateToMyComponent }" alternativeText="Settings" />
+        </aura:set>
+        <div class="card-body">
+            <lightning:layout>
+                <lightning:layoutItem size="6" class="slds-p-around_x-small">
+                    <div class="chart-container">
+                        <div class="chart-title slds-p-left_xx-small ">{! $Label.c.WGC_HomePage_Mie_Attivita_Aziende }</div>
+                        <div class="chart-subtitle slds-p-left_xx-small">{! $Label.c.WGC_HomePage_Mie_Attivita_Da_Contattare } <span class="chart-subtitle legend-chart slds-p-left_xx-small">{! $Label.c.WGC_HomePage_Mie_Attivita_Pianificato }  <lightning:formattedNumber class="grassetto slds-p-left_xx-small" value="{! v.pianificatoTask }" /></span></div>
+                        <!-- chart -->
+                        <div class="canvas-container">
+                            <canvas aura:id="barChartAziende" id="barChartAziende" style="height:37vh"/>
+                        </div>
+                    </div>
+                </lightning:layoutItem>
+                <lightning:layoutItem size="6" class="slds-p-around_x-small">
+                    <div class="chart-container">
+                        <div class="chart-title slds-p-left_xx-small">{! $Label.c.WGC_HomePage_Mie_Attivita_Commerciali }</div>
+                        <div class="chart-subtitle slds-p-left_xx-small">{! $Label.c.WGC_HomePage_Mie_Attivita_Da_Contattare } <span class="chart-subtitle legend-chart slds-p-left_xx-small">{! $Label.c.WGC_HomePage_Mie_Attivita_Pianificato }  <lightning:formattedNumber class="grassetto slds-p-left_xx-small" value="{! v.pianificatoPromemoria }" /></span></div>
+                        <!-- chart -->
+                        <div class="canvas-container">
+                            <canvas aura:id="barChartCommerciali" id="barChartCommerciali" style="height:37vh" />
+                        </div>
+                    </div>
+                </lightning:layoutItem>
+                <!-- <lightning:layoutItem size="2">
+
+                </lightning:layoutItem> -->
+            </lightning:layout>
+        </div>
+    </lightning:card>
+</aura:component>

@@ -1,0 +1,7 @@
+<aura:component  implements="force:lightningQuickAction,lightning:actionOverride,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" 
+                access="global">
+    <lightning:navigation aura:id="navService" />    
+    <lightning:overlayLibrary aura:id="overlayLib" />
+    <!-- <aura:handler name="ModalCloseEvent" event="c:INF_SendEmailComponent_CloseModal" action="{!c.closeAction}"/> -->  
+     <lightning:button variant="brand" label="{! $Label.c.INF_OpenSendEmailButton_buttonLabel}" title="Send Email" onclick="{! c.onclick }"/> 
+</aura:component>

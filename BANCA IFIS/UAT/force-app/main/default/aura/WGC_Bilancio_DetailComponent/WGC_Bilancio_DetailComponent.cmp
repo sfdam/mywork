@@ -1,0 +1,63 @@
+<aura:component controller="WGC_BilancioController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+    access="global">
+
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="title" type="String" default="BILANCIO" />
+    <!-- DATATABLE ATTRIBUTES -->
+    <!-- 
+    <aura:attribute name="dataABIA" type="Object"/>
+    <aura:attribute name="columnsABIA" type="List"/>
+    <aura:attribute name="dataAP" type="Object"/>
+    <aura:attribute name="columnsAP" type="List"/>
+    <aura:attribute name="dataPP" type="Object"/>
+    <aura:attribute name="columnsPP" type="List"/>
+    <aura:attribute name="dataCE" type="Object"/>
+    <aura:attribute name="columnsCE" type="List"/>
+    -->
+    <aura:attribute name="IsCollapsed" type="Boolean" default="true"/>
+    <aura:attribute name="IsCollapsed2" type="Boolean" default="true"/>
+    <aura:attribute name="IsCollapsed3" type="Boolean" default="true"/>
+
+    <aura:attribute name="record" type="Object" />
+    <aura:attribute name="simpleRecord" type="Object" />
+    <aura:attribute name="error" type="String" />
+    <!-- HANDLERS-->
+    <aura:handler name="init" value="{! this }" action="{! c.init }"/>
+
+    <force:recordData aura:id="forceRecordCmp"
+        recordId="{!v.recordId}"
+        layoutType="FULL"
+        fields="Id,Name,NDGGruppo__c, NDGGruppoGiuridico__c, WGC_NDG_controllante__c"
+        mode="VIEW"
+        targetRecord="{!v.record}"
+        targetFields="{!v.simpleRecord}"
+        targetError="{!v.error}" />
+
+    <aura:if isTrue="{!v.simpleRecord.Id != null || v.simpleRecord.Id != undefined}">
+        <lightning:tabset>
+            <lightning:tab label="Civilistico" id="civilistico">
+
+                <c:WGC_TabelleBilancio_DetailComponent recordId="{!v.recordId}" tipoBilancio="Civilistico" ndgGruppo="{!v.simpleRecord.NDGGruppo__c}" />
+
+            </lightning:tab>
+            <aura:renderIf isTrue="{!v.simpleRecord.NDGGruppoGiuridico__c != null &amp;&amp; v.simpleRecord.NDGGruppoGiuridico__c != undefined &amp;&amp; v.simpleRecord.NDGGruppoGiuridico__c != ''}">
+                <lightning:tab label="Consolidato" id="consolidato">
+
+                    <c:WGC_TabelleBilancio_DetailComponent recordId="{!v.recordId}" tipoBilancio="Consolidato" ndgGruppo="{!v.simpleRecord.NDGGruppoGiuridico__c}" />
+
+                </lightning:tab>
+            </aura:renderIf>
+            <aura:renderIf isTrue="{! v.simpleRecord.WGC_NDG_controllante__c != null &amp;&amp; v.simpleRecord.WGC_NDG_controllante__c != undefined &amp;&amp; v.simpleRecord.WGC_NDG_controllante__c != ''}">
+                <lightning:tab label="Controllante" id="controllante">
+
+                    <c:WGC_TabelleBilancio_DetailComponent recordId="{!v.recordId}" tipoBilancio="Controllante" ndgGruppo="{!v.simpleRecord.WGC_NDG_controllante__c}" />
+
+                </lightning:tab>
+            </aura:renderIf>
+        </lightning:tabset>
+        <aura:set attribute="else">
+            <lightning:spinner alternativeText="Caricamento" />
+        </aura:set>
+    </aura:if>
+
+</aura:component>

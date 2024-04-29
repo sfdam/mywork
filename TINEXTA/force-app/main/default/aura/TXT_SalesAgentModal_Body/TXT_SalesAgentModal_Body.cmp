@@ -1,0 +1,37 @@
+<aura:component controller="TXT_SalesAgentModalController" >
+
+    <!-- REGISTER EVENT -->
+    <aura:registerEvent name="resolveEvent" type="c:TXT_SalesAgentEvent" />
+
+    <!-- HANDLERS -->
+    <!--aura:handler name="init" value="{!this}" action="{!c.doInit}" /-->
+    <aura:handler event="c:TXT_SalesAgentCalendarEvent" action="{! c.manageF2B }" />
+
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="selectedId" type="String" />
+
+    <!-- INSERT CUSTOM ATTRIBUTES HERE -->
+
+    <lightning:navigation aura:id="navService" />
+    <lightning:overlayLibrary aura:id="overlayLib" />
+
+    <!-- DEFAULT ITERATION TO PRINT CONTENT -->
+    <!-- DEFAULT ITERATION TO PRINT CONTENT -->
+
+    <!-- INSERT CUSTOM CONTENT HERE -->
+    <!-- NEW COMPONENT -->
+    
+    <!--
+    <c:WGC_PageLayoutRecordDisplay currentContact="{! v.currentContact }" recordId="{! v.recordId }" PageLayout="{! v.PageLayout }" sObjectName="Contact"/>
+    --> 
+    
+    <lightning:layout>
+        <lightning:layoutItem size="12" padding="around-small" class="slds-text-align_right">
+            <div>
+                <c:CalendarContainer recordId="{! v.recordId }" sObjectName="Lead" selectedId="{! v.selectedId }"/>
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+
+</aura:component>

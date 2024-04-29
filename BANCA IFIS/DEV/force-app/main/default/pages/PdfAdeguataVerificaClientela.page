@@ -1,0 +1,735 @@
+<!-- IMPORTANTE per community TiAnticipo: lasciare custom controller per recuperare Opportunity -->
+<apex:page renderAs="pdf" showHeader="false" applyHtmlTag="false" applyBodyTag="false" standardStylesheets="false" controller="ExtPdfAdeguataVerificaClientela">
+    <html>
+        <head>
+            <apex:stylesheet value="{!$Resource.CssPdfGeneration}"/>
+            <title>Modulo di Adeguata verifica della Clientela</title>
+            <style>
+                .cellaTitolo {
+                  width:524.5pt;
+                  border:solid;
+                  border-width: 1px;
+                }
+
+                .cellaParagrafo {
+                  padding: 5.4pt 5.4pt 5.4pt 5.4pt;
+                  border:solid;
+                  border-width: 1px;
+                }
+
+                .titoloParagrafoTabella {
+                  line-height:115%;
+                  font-weight: bold;
+                  margin:0cm;
+                  margin-left:6pt;
+                  margin-bottom:.0001pt;
+                  font-size:10.0pt;
+                }
+
+                .tabellaSottile {
+                  margin-top: 0pt;
+                  margin-bottom: 0pt;
+                  border-width: 1px;
+                  border-bottom: 0px;
+                  border-color: black;
+                  border-style: solid;
+                  border-collapse: collapse;
+                }
+
+                .titolareEffettivoRow {
+                  margin-left:30px;
+                  font-size:9.5pt;
+                  margin-bottom:3pt;
+                  margin-right:0pt;
+                  margin-top:3pt;
+                }
+
+                .rapportoContinuativoCell {
+                  vertical-align: text-top;
+                }
+
+                /* font definition */
+                p, span, li, div {
+                  font-family:Calibri;
+                }
+
+                 /* Style Definitions */
+                 p.MsoNormal, li.MsoNormal, div.MsoNormal
+                  {margin:0cm;
+                  margin-bottom:.0001pt;
+                  font-size:9.5pt;}
+                p.MsoFootnoteText, li.MsoFootnoteText, div.MsoFootnoteText
+                  {margin:0cm;
+                  margin-bottom:.0001pt;
+                  font-size:8.5pt;}
+
+
+                 /* List Definitions */
+                 ol
+                  {margin-bottom:0cm;}
+                ul
+                  {margin-bottom:0cm;}
+            </style>
+        </head>
+        <body>
+            <!--footer and header-->
+            <div class="header_left" style="margin-left:5pt;">
+                <img class="header_logo_img" src="{!$Resource.BancaIfisLogoNew}"/>
+            </div>
+            <div class="footer_center">
+                <p class="docName">1_Modulo_adeguata_verifica_clientela_PG_IT_Ed. Aprile 2021.docx</p>
+                <img class="footerLargeImg" src="{!$Resource.FooterIfis}"/>
+            </div>
+            <div class="footer_right pageNumberFooter">
+                <span class="pagenumber"/>
+            </div>
+            <p class="MsoNormal" align="center" style="text-align:center">
+                <b>
+                    <span style="font-size:11.0pt;">MODULO DI ADEGUATA VERIFICA DELLA CLIENTELA</span>
+                </b>
+            </p>
+            <p class="MsoNormal" align="center" style="text-align:center">
+                <b>
+                    <i>
+                        <span style="font-size:8.0pt;"> (art. 17 e ss. del Decreto Legislativo 21 novembre 2007, n. 231)</span>
+                    </i>
+                </b>
+                <span >  -
+                </span>
+                <b>
+                    <i>
+                        <span  style="font-size:8.0pt;">Scheda Identificazione della Clientela PERSONE GIURIDICHE -</span>
+                    </i>
+                </b>
+            </p>
+            <p class="MsoNormal" style="text-align:justify">
+                <span  style="font-size:9.0pt;">&nbsp;</span>
+            </p>
+            <p class="paragrafoStandard9">Ai sensi dell’art. 22 del Decreto antiriciclaggio il Cliente è tenuto a fornire, sotto la propria responsabilità, tutte le informazioni necessarie ed aggiornate per consentire alla Banca di procedere all’adeguata verifica della propria clientela, sia in fase di instaurazione che in corso di rapporto. Anche in conformità agli obblighi di controllo costante nel corso del rapporto continuativo previsti dal Decreto, la Banca potrà effettuare ulteriori verifiche e richiedere l’aggiornamento di alcune informazioni sulla base della valutazione del rischio di riciclaggio o di finanziamento del terrorismo. L’eventuale rifiuto di fornire tali dati comporterà l'impossibilità per la Banca di instaurare o proseguire il rapporto (art. 42 del Decreto antiriciclaggio).</p>
+            <p class="MsoNormal">
+                <span  style="font-size:9.0pt;">&nbsp;</span>
+            </p>
+            <!-- dati identificativi cliente -->
+            <table class="uniqueBlock tabellaSottile"  cellspacing="0" cellpadding="0">
+                <tr>
+                    <td class= "cellaTitolo" width="1049">
+                        <p class="titoloParagrafoTabella">DATI IDENTIFICATIVI CLIENTE</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class = "cellaParagrafo" width="1049" valign="top">
+                        <p class="paragrafoTabella" style="margin-bottom:  4pt;">
+                            <b>Ragione / Denominazione sociale</b>
+                            <span class="{!IF( !ISBLANK(a.Name), 'hiddenInput', 'veryLongDot')}"/>
+                            <span class="{!IF( (ISBLANK(a.Name)), 'hiddenInput', 'dottedInput')}">{!a.Name}</span>
+                        </p>
+                        <p class="paragrafoTabella" style="">
+                            Partita IVA
+                            <span class="{!IF( !ISBLANK(a.PIVA__c), 'hiddenInput', 'veryLongDot')}"/>
+                            <span class="{!IF( (ISBLANK(a.PIVA__c)), 'hiddenInput', 'dottedInput')}">{!a.PIVA__c}</span>
+                        </p>
+                        <p class="paragrafoTabella">
+                            Codice Fiscale
+                            <span class="{!IF( !ISBLANK(a.CF__c), 'hiddenInput', 'veryLongDot')}"/>
+                            <span class="{!IF( (ISBLANK(a.CF__c)), 'hiddenInput', 'dottedInput')}">{!a.CF__c}</span>
+                        </p>
+                        <p class="paragrafoTabella">
+                            CCIAA di<span class="{!IF( !ISBLANK(a.ProvinciaCCIAA__c), 'hiddenInput', 'veryLongDot')}"/>
+                            <span class="{!IF( ISBLANK(a.ProvinciaCCIAA__c), 'hiddenInput', 'dottedInput')}">{!a.ProvinciaCCIAA__c}</span>
+                            R.E.A nr.<span class="{!IF( !ISBLANK(a.REA__c), 'hiddenInput', 'normalDot')}"/>
+                            <span class="{!IF( ISBLANK(a.REA__c), 'hiddenInput', 'dottedInput')}">{!a.REA__c}</span>
+                            Data iscrizione<span class="{!IF( !ISBLANK(a.DataIscrizioneCCIAA__c), 'hiddenInput', 'normalDot')}"/>
+                            <span class = "{!IF( ISBLANK(a.DataIscrizioneCCIAA__c), 'hiddenInput', 'dottedInput')}">
+                                <apex:outputText value="{0,date,dd'/'MM'/'yyyy}">
+                                    <apex:param value="{!a.DataIscrizioneCCIAA__c}" />
+                                </apex:outputText>
+                            </span>
+                        </p>
+                        <p class="paragrafoTabella">Sede legale</p>
+                        <p class="paragrafoTabella">
+                            Indirizzo <span class="{!IF( !ISBLANK(a.BillingStreet), 'hiddenInput', 'veryLongDot')}" />
+                            <span class = " {!IF( ISBLANK(a.BillingStreet), 'hiddenInput', 'dottedInput')}"> {!a.BillingStreet} </span>
+                            Città <span class="{!IF( !ISBLANK(a.BillingCity), 'hiddenInput', 'normalDot')}"/>
+                            <span class = " {!IF( ISBLANK(a.BillingCity), 'hiddenInput', 'dottedInput')}"> {!a.BillingCity} </span>
+                            CAP <span class="{!IF( !ISBLANK(a.BillingPostalCode), 'hiddenInput', 'shortDot')}"/>
+                            <span class = " {!IF(ISBLANK(a.BillingPostalCode), 'hiddenInput', 'dottedInput')}"> {!a.BillingPostalCode} </span>
+                            Provincia <span class="{!IF( !ISBLANK(a.BillingState), 'hiddenInput', 'veryShortDot')}"/>
+                            <span class = " {!IF( ISBLANK(a.BillingState), 'hiddenInput', 'dottedInput')}"> {!a.BillingState} </span>
+                            Paese<span class="{!IF( !ISBLANK(a.BillingCountry), 'hiddenInput', 'shortDot')}"/>
+                            <span class = "{!IF( ISBLANK(a.BillingCountry), 'hiddenInput', 'dottedInput')}"> {!a.BillingCountry} </span>
+                        </p>
+                        <p class="paragrafoTabella">Sede amministrativa <i>(ove diversa dalla sede legale)</i>
+                        </p>
+                        <p class="paragrafoTabella">
+                            Indirizzo <span class="{!IF( AND(!ISBLANK(a.ShippingStreet), !sedeAmmUguale), 'hiddenInput', 'veryLongDot')}"/>
+                            <span class = "{!IF( OR(ISBLANK(a.ShippingStreet), sedeAmmUguale), 'hiddenInput', 'dottedInput')}"> {!a.ShippingStreet} </span>
+                            Città <span class="{!IF( AND(!ISBLANK(a.ShippingCity), !sedeAmmUguale), 'hiddenInput', 'normalDot')}"/>
+                            <span class = "{!IF( OR(ISBLANK(a.ShippingCity), sedeAmmUguale), 'hiddenInput', 'dottedInput')}"> {!a.ShippingCity} </span>
+                            CAP <span class="{!IF( AND(!ISBLANK(a.ShippingPostalCode), !sedeAmmUguale), 'hiddenInput', 'shortDot')}"/>
+                            <span class = " {!IF( OR(ISBLANK(a.ShippingPostalCode), sedeAmmUguale), 'hiddenInput', 'dottedInput')}"> {!a.ShippingPostalCode} </span>
+                            Provincia <span class="{!IF( AND(!ISBLANK(a.ShippingState), !sedeAmmUguale), 'hiddenInput', 'veryShortDot')}"/>
+                            <span class = " {!IF( OR(ISBLANK(a.ShippingState), sedeAmmUguale), 'hiddenInput', 'dottedInput')}"> {!a.ShippingState} </span>
+                            Paese <span class="{!IF( AND(!ISBLANK(a.ShippingCountry), !sedeAmmUguale), 'hiddenInput', 'shortDot')}"/>
+                            <span class = " {!IF( OR(ISBLANK(a.ShippingCountry), sedeAmmUguale), 'hiddenInput', 'dottedInput')}"> {!a.ShippingCountry} </span>
+                        </p>
+                        <p class="paragrafoTabella">
+                            Telefono
+                            <span class = "{!IF( AND(!ISBLANK(a.TelefonoPrefisso__c), !ISBLANK(a.TelefonoNumero__c)), 'dottedInput', 'hiddenInput')}"> {!a.TelefonoPrefisso__c + a.TelefonoNumero__c} </span>
+                            <span class = "{!IF( AND(!ISBLANK(a.Phone), OR(ISBLANK(a.TelefonoPrefisso__c), ISBLANK(a.TelefonoNumero__c))), 'dottedInput', 'hiddenInput')}"> {!a.Phone} </span>
+                            <span class = "{!IF( AND(ISBLANK(a.Phone), OR(ISBLANK(a.TelefonoPrefisso__c), ISBLANK(a.TelefonoNumero__c))), 'veryLongDot', 'hiddenInput')}"/>
+                            Fax
+                            <span class="{!IF( !ISBLANK(a.Fax), 'hiddenInput', 'veryLongDot')}"/>
+                            <span class = "{!IF( ISBLANK(a.Fax), 'hiddenInput', 'dottedInput')}"> {!a.Fax} </span>
+                        </p>
+                    </td>
+                </tr>
+            </table>
+            <!-- Profilo cliente-->
+            <table class="uniqueBlock tabellaSottile"  cellspacing="0" cellpadding="0">
+                <tr>
+                    <td class= "cellaTitolo" width="1049">
+                        <p class="titoloParagrafoTabella">Profilo Cliente</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class = "cellaParagrafo" width="1049" valign="top">
+                        <p class="paragrafoTabella">
+                            SAE<span class="{!IF( !ISBLANK(a.SAE__c), 'hiddenInput', 'normalDot')}"/>
+                            <span class = "{!IF( ISBLANK(a.SAE__c), 'hiddenInput', 'dottedInput')}"> {!a.SAE__c} </span>
+                            ATECO<span class="{!IF( !ISBLANK(a.ATECO__c), 'hiddenInput', 'normalDot')}"/>
+                            <span class = "{!IF( ISBLANK(a.ATECO__c), 'hiddenInput', 'dottedInput')}"> {!a.ATECO__c} </span>
+                        </p>
+                        <p class="paragrafoTabella">Paese Casa Madre
+                            <span class = "{!IF( AND(ISBLANK(a.PaeseCasaMadre__c), o.TiAnticipo__c = TRUE), 'dottedInput', 'hiddenInput')}"> ITALIA </span>
+                            <span class = "{!IF( AND(ISBLANK(a.PaeseCasaMadre__c), o.TiAnticipo__c = FALSE), 'normalDot', 'hiddenInput')}"/>
+                            <span class = "{!IF( !ISBLANK(a.PaeseCasaMadre__c), 'dottedInput', 'hiddenInput')}"> {!a.PaeseCasaMadre__c} </span>
+                        </p>
+                        <p class="paragrafoTabella">
+                            Paese di svolgimento dell’attività in via prevalente<span class="{!IF( !ISBLANK(a.PaeseSvolgimentoAttivitaPrevalente__c), 'hiddenInput', 'normalDot')}"/>
+                            <span class = "{!IF( ISBLANK(a.PaeseSvolgimentoAttivitaPrevalente__c), 'hiddenInput', 'dottedInput')}"> {!a.PaeseSvolgimentoAttivitaPrevalente__c} </span>
+                        </p>
+                        <p class="paragrafoTabella">
+                            Provincia di svolgimento dell’attività in via prevalente<span class="{!IF( !ISBLANK(a.ProvinciaAttivitaPrevalente__c), 'hiddenInput', 'veryShortDot')}"/>
+                            <span class = "{!IF( ISBLANK(a.ProvinciaAttivitaPrevalente__c), 'hiddenInput', 'dottedInput')}"> {!a.ProvinciaAttivitaPrevalente__c} </span>
+                        </p>
+                        <!-- TODO metto la condizione -->
+                        <p class="paragrafoTabella">
+                            Paesi relazioni di lavoro/commerciali:
+                            Paese 1
+                            <span class = "{!IF( AND(ISBLANK(a.PaeseRelazioni1__c), o.TiAnticipo__c = TRUE), 'dottedInput', 'hiddenInput')}"> ITALIA </span>
+                            <span class = "{!IF( AND(ISBLANK(a.PaeseRelazioni1__c), o.TiAnticipo__c = FALSE), 'normalDot', 'hiddenInput')}"/>
+                            <span class = "{!IF( !ISBLANK(a.PaeseRelazioni1__c), 'dottedInput', 'hiddenInput')}"> {!a.PaeseRelazioni1__c} </span>
+                            Paese 2 <span class="{!IF( !ISBLANK(a.PaeseRelazioni2__c), 'hiddenInput', 'normalDot')}"/>
+                            <span class = "{!IF( ISBLANK(a.PaeseRelazioni2__c), 'hiddenInput', 'dottedInput')}"> {!a.PaeseRelazioni2__c} </span>
+                            Paese 3 <span class="{!IF( !ISBLANK(a.PaeseRelazioni3__c), 'hiddenInput', 'shortDot')}"/>
+                            <span class = "{!IF( ISBLANK(a.PaeseRelazioni3__c), 'hiddenInput', 'dottedInput')}"> {!a.PaeseRelazioni3__c} </span>
+                        </p>
+                    </td>
+                </tr>
+            </table>
+            <!-- Titolare effettivo-->
+            <table class=" tabellaSottile"  cellspacing="0" cellpadding="0">
+                <tr>
+                    <td class= "cellaTitolo" width="1049">
+                        <p class="titoloParagrafoTabella">Titolare Effettivo</p>
+                    </td>
+                </tr>
+                <tr style="page-break-inside: auto;">
+                    <td class="cellaParagrafo" width="1049" valign="top" >
+                        <p class="MsoNormal" style="text-align:justify;line-height:115%; margin-bottom: 10pt;">Preso atto della definizione di Titolare Effettivo<sup>(1)</sup>, in relazione al Cliente sopra indicato, si dichiara:</p>
+                        <div class="midMarginBlock">
+                            <p class="MsoNormal" style="text-align:justify;line-height:115%">
+                                <img  class="checkboxImgSmall" src="{!IF( titolariSize = 0, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                                <b>la sussistenza di n <span class="dottedInput">{!titolariSize}</span> Titolari Effettivi </b>i cui dati identificativi sono di seguito riportati:
+                            </p>
+                        </div>
+                        <!-- titolari effettivi -->
+                        <apex:repeat value="{!ndgTitolariWrap}" var="ndg" >
+                            <div class="uniqueBlock midMarginBlock">
+                                <p class="titolareEffettivoRow">
+                                    <b>{!ndg.counter})</b> Cognome <span class="{!IF( !ISBLANK(ndg.titolare.LastName), 'hiddenInput', 'veryLongDot')}"/>
+                                    <span class = "{!IF( ISBLANK(ndg.titolare.LastName), 'hiddenInput', 'dottedInput')}"> {!ndg.titolare.LastName} </span>
+                                    Nome<span class="{!IF( !ISBLANK(ndg.titolare.FirstName), 'hiddenInput', 'veryLongDot')}"/>
+                                    <span class = "{!IF( ISBLANK(ndg.titolare.FirstName), 'hiddenInput', 'dottedInput')}"> {!ndg.titolare.FirstName} </span>
+                                </p>
+                                <p class="titolareEffettivoRow">
+                                    Data di nascita
+                                    <span class="{!IF( !ISBLANK(ndg.titolare.Birthdate), 'hiddenInput', 'normalDot')}"/>
+                                    <span class = "{!IF( ISBLANK(ndg.titolare.Birthdate), 'hiddenInput', 'dottedInput')}">
+                                        <apex:outputText value="{0,date,dd'/'MM'/'yyyy}">
+                                            <apex:param value="{!ndg.titolare.Birthdate}" />
+                                        </apex:outputText>
+                                    </span>
+                                    Luogo di nascita<span class="{!IF( !ISBLANK(ndg.titolare.LuogoNascita__c), 'hiddenInput', 'normalDot')}"/>
+                                    <span class = "{!IF( ISBLANK(ndg.titolare.LuogoNascita__c), 'hiddenInput', 'dottedInput')}"> {!ndg.titolare.LuogoNascita__c} </span>
+                                    Provincia<span class="{!IF( !ISBLANK(ndg.titolare.ProvinciaNascita__c), 'hiddenInput', 'veryShortDot')}"/>
+                                    <span class = "{!IF( ISBLANK(ndg.titolare.ProvinciaNascita__c), 'hiddenInput', 'dottedInput')}"> {!ndg.titolare.ProvinciaNascita__c} </span>
+                                    Paese<span class="{!IF( !ISBLANK(ndg.titolare.PaeseNascita__c), 'hiddenInput', 'normalDot')}"/>
+                                    <span class = "{!IF( ISBLANK(ndg.titolare.PaeseNascita__c), 'hiddenInput', 'dottedInput')}"> {!ndg.titolare.PaeseNascita__c} </span>
+                                </p>
+                                <p class="titolareEffettivoRow">
+                                    Cittadinanza<span class="{!IF( !ISBLANK(ndg.titolare.Cittadinanza__c), 'hiddenInput', 'normalDot')}"/>
+                                    <span class = "{!IF( ISBLANK(ndg.titolare.Cittadinanza__c), 'hiddenInput', 'dottedInput')}"> {!ndg.titolare.Cittadinanza__c} </span>
+                                    Sesso    <img class="checkboxImgSmall" src="{!IF( ndg.titolare.Sesso__c = 'M', $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>M&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img  class="checkboxImgSmall" src="{!IF( ndg.titolare.Sesso__c = 'F', $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>F
+                                </p>
+                                <p class="titolareEffettivoRow">
+                                    Indirizzo residenza<span class="{!IF( !ISBLANK(ndg.titolare.MailingStreet),  'hiddenInput', 'veryLongDot')}"/>
+                                    <span class = "{!IF( ISBLANK(ndg.titolare.MailingStreet), 'hiddenInput', 'dottedInput')}"> {!ndg.titolare.MailingStreet} </span>
+                                    Città<span class="{!IF( !ISBLANK(ndg.titolare.MailingCity), 'hiddenInput', 'normalDot')}"/>
+                                    <span class = "{!IF( ISBLANK(ndg.titolare.MailingCity), 'hiddenInput', 'dottedInput')}"> {!ndg.titolare.MailingCity} </span>
+                                    CAP<span class="{!IF( !ISBLANK(ndg.titolare.MailingPostalCode), 'hiddenInput', 'shortDot')}"/>
+                                    <span class = "{!IF( ISBLANK(ndg.titolare.MailingPostalCode), 'hiddenInput', 'dottedInput')}"> {!ndg.titolare.MailingPostalCode} </span>
+                                    Provincia<span class="{!IF( !ISBLANK(ndg.titolare.MailingState), 'hiddenInput', 'veryShortDot')}"/>
+                                    <span class = "{!IF( ISBLANK(ndg.titolare.MailingState), 'hiddenInput', 'dottedInput')}"> {!ndg.titolare.MailingState} </span>
+                                    Paese<span class="{!IF( !ISBLANK(ndg.titolare.MailingCountry), 'hiddenInput', 'shortDot')}"/>
+                                    <span class = "{!IF( ISBLANK(ndg.titolare.MailingCountry), 'hiddenInput', 'dottedInput')}"> {!ndg.titolare.MailingCountry} </span>
+                                </p>
+                                <p class="titolareEffettivoRow" style="margin-top: 5pt;">
+                                    Codice Fiscale
+                                        <span class="{!IF( !ISBLANK(ndg.titolare.CF__c), 'hiddenInput', 'veryLongDot')}"/>
+                                        <span class="{!IF( (ISBLANK(ndg.titolare.CF__c)), 'hiddenInput', 'dottedInput')}">{!ndg.titolare.CF__c}</span>
+                                </p>
+                                <p class="titolareEffettivoRow">Documento d’identità:
+                                    Tipo documento<span class="{!IF( !ISBLANK(ndg.titolare.TipoDocumentoIdMav__c), 'hiddenInput', 'veryLongDot')}"/>
+                                    <span class = "{!IF( (ISBLANK(ndg.titolare.TipoDocumentoIdMav__c)), 'hiddenInput', 'dottedInput')}"> {!ndg.titolare.TipoDocumentoIdMav__c} </span>
+                                    N°<span class="{!IF( !ISBLANK(ndg.titolare.NumeroDoc__c), 'hiddenInput', 'veryLongDot')}"/>
+                                    <span class = "{!IF( (ISBLANK(ndg.titolare.NumeroDoc__c)), 'hiddenInput', '')}"> {!ndg.titolare.NumeroDoc__c} </span>
+                                </p>
+                                <p class="titolareEffettivoRow">
+                                    Luogo emissione<span class="{!IF( !ISBLANK(ndg.titolare.LuogoEmissioneDoc__c), 'hiddenInput', 'normalDot')}"/>
+                                    <span class = "{!IF( ISBLANK(ndg.titolare.LuogoEmissioneDoc__c), 'hiddenInput', 'dottedInput')}"> {!ndg.titolare.LuogoEmissioneDoc__c} </span>
+                                    Data emissione<span class="{!IF( !ISBLANK(ndg.titolare.DataEmissioneDoc__c), 'hiddenInput', 'normalDot')}"/>
+                                    <span class = "{!IF( ISBLANK(ndg.titolare.DataEmissioneDoc__c), 'hiddenInput', 'dottedInput')}">
+                                        <apex:outputText value="{0,date,dd'/'MM'/'yyyy}">
+                                            <apex:param value="{!ndg.titolare.DataEmissioneDoc__c}" />
+                                        </apex:outputText>
+                                    </span>
+                                    Data scadenza<span class="{!IF( !ISBLANK(ndg.titolare.DataScadenzaDoc__c), 'hiddenInput', 'normalDot')}"/>
+                                    <span class = "{!IF( ISBLANK(ndg.titolare.DataScadenzaDoc__c), 'hiddenInput', 'dottedInput')}">
+                                        <apex:outputText value="{0,date,dd'/'MM'/'yyyy}">
+                                            <apex:param value="{!ndg.titolare.DataScadenzaDoc__c}" />
+                                        </apex:outputText>
+                                    </span>
+                                </p>
+                                <p class="titolareEffettivoRow" style="margin-top: 4pt;">Persona Politicamente Esposta (PEP)
+                                    <sup class="{!IF(ndg.counter = 1, '', 'hiddenInput' )}">(2)</sup>
+                                    <img class="checkboxImgSmall" src="{!IF( ndg.titolare.PEP__c = TRUE, $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>
+                                    Sì&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <img class="checkboxImgSmall" src="{!IF( ndg.titolare.PEP__c = FALSE, $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>
+                                    No
+                                    </p>
+                                    <p class="titolareEffettivoRow" style="margin-top: 4pt;">Se "Sì" specificare il tipo di carica ricoperta:
+                                        <span class="{!IF( !ISBLANK(ndg.titolare.PEPTipoCarica__c), 'hiddenInput', 'normalDot')}"/>
+                                        <span class="{!IF( ISBLANK(ndg.titolare.PEPTipoCarica__c), 'hiddenInput', 'dottedInput')}"> {!ndg.titolare.PEPTipoCarica__c} </span>
+                                    </p>
+                                    <p class="titolareEffettivoRow" style="margin-top: 4pt;">
+                                        Tipologia di Titolare Effettivo
+                                    </p>
+                                    <p class="titolareEffettivoRow">
+                                        <img class="checkboxImgSmall" src="{!IF( ndg.tipologia = 'Proprietà diretta', $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>Proprietà Diretta&nbsp;&nbsp;
+                                        <img class="checkboxImgSmall" src="{!IF( ndg.tipologia = 'Proprietà indiretta', $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>Proprietà Indiretta&nbsp;&nbsp;
+                                        <img class="checkboxImgSmall" src="{!IF( ndg.tipologia = 'Controllo', $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>Controllo&nbsp;&nbsp;
+                                        <img class="checkboxImgSmall" src="{!IF( ndg.tipologia = 'Potere di amministrazione e direzione', $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>Potere di Amministrazione e Direzione
+                                    </p>
+                                    <p class="titolareEffettivoRow">
+                                        Tipo Attivit&agrave; Economica (TAE) <sup>(3)</sup>
+                                        <span class="{!IF( !ISBLANK(ndg.titolare.TAECode__c), 'hiddenInput', 'veryLongDot')}"/>
+                                        <span class = "{!IF( (ISBLANK(ndg.titolare.TAECode__c)), 'hiddenInput', 'dottedInput')}"> {!ndg.titolare.TAECode__c} </span>
+                                        Professione<span class="{!IF( !ISBLANK(ndg.titolare.Professione__c), 'hiddenInput', 'veryLongDot')}"/>
+                                        <span class = "{!IF( (ISBLANK(ndg.titolare.Professione__c)), 'hiddenInput', 'dottedInput')}"> {!ndg.titolare.Professione__c} </span>
+                                    </p>
+
+                                    <p class="titolareEffettivoRow" style="margin-top:8pt;">
+                                        <span>_______________________________________________________________________________</span>
+                                    </p>
+                                </div>
+                            </apex:repeat>
+                            <!-- checkbox consensi
+<div class="midMarginBlock">
+  <p class="MsoNormal" style=";text-align:justify;margin-left:16pt;text-indent:-16pt;margin-top: 1pt; margin-bottom:  1pt;">
+    <img  class="checkboxImgSmall" src="{!IF(a.BeneficiarioAVsemplificata__c,$Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>che la società/ente giuridico beneficia dell’adeguata verifica semplificata ai sensi dell’art. 25 c. 1 e 3<sup>(5)</sup>;
+  </p>
+  <p class="MsoNormal" style=";text-align:justify;margin-left:16pt;text-indent:-16pt;margin-top: 1pt; margin-bottom:  1pt;">
+    <img  class="checkboxImgSmall" src="{!IF(a.ControlloSoggettoAVSemplificata__c,$Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>che la società/ente giuridico è controllata/o da un soggetto che beneficia dell’adeguata verifica semplificata ai sensi dell’art. 25 c. 1 e 3<sup>(6)</sup>;
+  </p>
+  <p class="MsoNormal" style=";text-align:justify;margin-left:16pt;text-indent:-16pt;margin-top: 1pt; margin-bottom:  1pt;">
+    <img  class="checkboxImgSmall" src="{!IF(a.PartecipazioneSocietaFiduciarie__c,$Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>che la società/ente giuridico è partecipata/o direttamente o indirettamente da una o più Società Fiduciarie per una quota superiore al 25% (in proposito, si autorizza Banca Ifis SpA a richiedere l’informazione relativa al/i Titolare/i Effettivo/i direttamente alla/e suddetta/e Società Fiduciaria/e);
+  </p>
+  <p class="MsoNormal" style=";text-align:justify;margin-left:16pt;text-indent:-16pt;margin-top: 1pt; margin-bottom:  1pt;">
+    <img  class="checkboxImgSmall" src="{!IF(a.NonSussistenzaTitolariEffettivi__c,$Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>la non sussistenza di titolari effettivi.
+  </p>
+</div>
+-->
+                            <!-- checkbox consensi -->
+                            <div class="midMarginBlock">
+                                <p class="MsoNormal" style=";text-align:justify;margin-left:16pt;text-indent:-16pt;margin-top: 1pt; margin-bottom:  1pt;">
+                                    <img class="checkboxImgSmall" src="{!IF(a.PartecipazioneSocietaFiduciarie2__c,$Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>che la società/ente giuridico è <b>partecipata/o direttamente o indirettamente da una o più Società Fiduciarie</b> per una quota superiore al 25% (in proposito, si autorizza Banca Ifis SpA a richiedere l’informazione relativa al/i Titolare/i Effettivo/i direttamente alla/e suddetta/e Società Fiduciaria/e).
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <!-- dati identificativi esecutore-->
+                <table class="uniqueBlock tabellaSottile"  cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td class= "cellaTitolo" width="1049">
+                            <p class="titoloParagrafoTabella">DATI IDENTIFICATIVI ESECUTORE</p>
+                        </td>
+                    </tr>
+                    <tr style="page-break-inside: auto;">
+                        <td class="cellaParagrafo" width="1049" valign="top">
+                            <div class = "midMarginBlock">
+                                <!-- tipo esecutore-->
+                                <p class="MsoNormal" style="margin-top: 7px;">Tipo Esecutore:&nbsp;&nbsp;&nbsp;
+                                <img  class="checkboxImgSmall" src="{!IF( esecutore.description = 'legale', $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>Legale rappresentante&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <img  class="checkboxImgSmall" src="{!IF( esecutore.description = 'procuratore', $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>Procuratore/delegato&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <img  class="checkboxImgSmall" src="{!IF( esecutore.description <> 'legale' && esecutore.description <> 'procuratore', $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>Altro <i>(specificare)</i> {!esecutore.description}
+                                </p>
+                                <!-- nome e cognome-->
+                                <p class="paragrafoTabella" style="margin-top: 4pt;">
+                                    <b>Cognome</b>
+                                    <span class="{!IF( !ISBLANK(esecutore.LastName), 'hiddenInput', 'veryLongDot')}"/>
+                                    <span class = "{!IF( ISBLANK(esecutore.LastName), 'hiddenInput', 'dottedInput')}"> {!esecutore.LastName} </span>
+                                    <b>Nome</b>
+                                    <span class="{!IF( !ISBLANK(esecutore.FirstName), 'hiddenInput', 'veryLongDot')}"/>
+                                    <span class = "{!IF( ISBLANK(esecutore.FirstName), 'hiddenInput', 'dottedInput')}"> {!esecutore.FirstName} </span>
+                                </p>
+                                <!--dati su nascita-->
+                                <p class="paragrafoTabella">
+                                    Data di nascita
+                                    <span class="{!IF( !ISBLANK(esecutore.Birthdate), 'hiddenInput', 'normalDot')}"/>
+                                    <span class = "{!IF( ISBLANK(esecutore.Birthdate), 'hiddenInput', 'dottedInput')}">
+                                        <apex:outputText value="{0,date,dd'/'MM'/'yyyy}">
+                                            <apex:param value="{!esecutore.Birthdate}" />
+                                        </apex:outputText>
+                                    </span>
+                                    Luogo di nascita<span class="{!IF( !ISBLANK(esecutore.LuogoNascita__c), 'hiddenInput', 'normalDot')}"/>
+                                    <span class = "{!IF( ISBLANK(esecutore.LuogoNascita__c), 'hiddenInput', 'dottedInput')}"> {!esecutore.LuogoNascita__c} </span>
+                                    Provincia<span class="{!IF( !ISBLANK(esecutore.ProvinciaNascita__c), 'hiddenInput', 'veryShortDot')}"/>
+                                    <span class = "{!IF( ISBLANK(esecutore.ProvinciaNascita__c), 'hiddenInput', 'dottedInput')}"> {!esecutore.ProvinciaNascita__c} </span>
+                                    Paese<span class="{!IF( !ISBLANK(esecutore.PaeseNascita__c), 'hiddenInput', 'shortDot')}"/>
+                                    <span class = "{!IF( ISBLANK(esecutore.PaeseNascita__c), 'hiddenInput', 'dottedInput')}"> {!esecutore.PaeseNascita__c} </span>
+                                </p>
+                                <p class="paragrafoTabella">
+                                    Cittadinanza<span class="{!IF( !ISBLANK(esecutore.Cittadinanza__c), 'hiddenInput', 'normalDot')}"/>
+                                    <span class = "{!IF( ISBLANK(esecutore.Cittadinanza__c), 'hiddenInput', 'dottedInput')}"> {!esecutore.Cittadinanza__c} </span>
+                                    Sesso    <img class="checkboxImgSmall" src="{!IF( esecutore.Sesso__c = 'M', $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>M&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img  class="checkboxImgSmall" src="{!IF( esecutore.Sesso__c = 'F', $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>F
+                                </p>
+                                <!-- residenza -->
+                                <p class="paragrafoTabella">Residenza</p>
+                                <p class="paragrafoTabella">
+                                    Indirizzo<span class="{!IF( !ISBLANK(esecutore.MailingStreet), 'hiddenInput', 'veryLongDot')}"/>
+                                    <span class = "{!IF( ISBLANK(esecutore.MailingStreet), 'hiddenInput', 'dottedInput')}"> {!esecutore.MailingStreet} </span>
+                                    Città<span class="{!IF( !ISBLANK(esecutore.MailingCity), 'hiddenInput', 'normalDot')}"/>
+                                    <span class = "{!IF( ISBLANK(esecutore.MailingCity), 'hiddenInput', 'dottedInput')}"> {!esecutore.MailingCity} </span>
+                                    CAP<span class="{!IF( !ISBLANK(esecutore.MailingPostalCode), 'hiddenInput', 'shortDot')}"/>
+                                    <span class = "{!IF( ISBLANK(esecutore.MailingPostalCode), 'hiddenInput', 'dottedInput')}"> {!esecutore.MailingPostalCode} </span>
+                                    Provincia<span class="{!IF( !ISBLANK(esecutore.MailingState), 'hiddenInput', 'veryShortDot')}"/>
+                                    <span class = "{!IF( ISBLANK(esecutore.MailingState), 'hiddenInput', 'dottedInput')}"> {!esecutore.MailingState} </span>
+                                    Paese<span class="{!IF( !ISBLANK(esecutore.MailingCountry), 'hiddenInput', 'shortDot')}"/>
+                                    <span class = "{!IF( ISBLANK(esecutore.MailingCountry), 'hiddenInput', 'dottedInput')}"> {!esecutore.MailingCountry} </span>
+                                </p>
+                                <!-- domicilio -->
+                                <p class="paragrafoTabella">Domicilio <i>(ove diverso dalla residenza)</i>
+                                </p>
+                                <p class="paragrafoTabella">
+                                    Indirizzo<span class="{!IF( AND(!ISBLANK(esecutore.OtherStreet), !sedeAmmUguale), 'hiddenInput', 'veryLongDot')}"/>
+                                    <span class = "{!IF( OR(ISBLANK(esecutore.OtherStreet), sedeAmmUguale), 'hiddenInput', 'dottedInput')}"> {!esecutore.OtherStreet} </span>
+                                    Città<span class="{!IF( AND(!ISBLANK(esecutore.OtherCity), !sedeAmmUguale), 'hiddenInput', 'normalDot')}"/>
+                                    <span class = "{!IF( OR(ISBLANK(esecutore.OtherCity), sedeAmmUguale), 'hiddenInput', 'dottedInput')}"> {!esecutore.OtherCity} </span>
+                                    CAP<span class="{!IF( AND(!ISBLANK(esecutore.OtherPostalCode), !sedeAmmUguale), 'hiddenInput', 'shortDot')}"/>
+                                    <span class = "{!IF( OR(ISBLANK(esecutore.OtherPostalCode), sedeAmmUguale), 'hiddenInput', 'dottedInput')}"> {!esecutore.OtherPostalCode} </span>
+                                    Provincia<span class="{!IF( AND(!ISBLANK(esecutore.OtherState), !sedeAmmUguale), 'hiddenInput', 'veryShortDot')}"/>
+                                    <span class = "{!IF( OR(ISBLANK(esecutore.OtherState), sedeAmmUguale), 'hiddenInput', 'dottedInput')}"> {!esecutore.OtherState} </span>
+                                    Paese<span class="{!IF( AND(!ISBLANK(esecutore.OtherCountry), !sedeAmmUguale), 'hiddenInput', 'shortDot')}"/>
+                                    <span class = "{!IF( OR(ISBLANK(esecutore.OtherCountry), sedeAmmUguale), 'hiddenInput', 'dottedInput')}"> {!esecutore.OtherCountry} </span>
+                                </p>
+                                <!--
+  <p class="paragrafoTabella">
+    Telefono <i>(facoltativo)</i>
+    <span class = "{!IF( AND(!ISBLANK(esecutore.TelefonoPrefisso__c), !ISBLANK(esecutore.TelefonoNumero__c)), 'dottedInput', 'hiddenInput')}"> {!esecutore.TelefonoPrefisso__c + esecutore.TelefonoNumero__c} </span>
+    <span class = "{!IF( AND(!ISBLANK(esecutore.Phone), OR(ISBLANK(esecutore.TelefonoPrefisso__c), ISBLANK(esecutore.TelefonoNumero__c))), 'dottedInput', 'hiddenInput')}"> {!esecutore.Phone} </span>
+    <span class = "{!IF( AND(ISBLANK(esecutore.Phone), OR(ISBLANK(esecutore.TelefonoPrefisso__c), ISBLANK(esecutore.TelefonoNumero__c))), 'veryLongDot', 'hiddenInput')}"/>
+
+    Fax <i>(facoltativo)</i>
+    <span class = "{!IF( !ISBLANK(esecutore.Fax), 'hiddenInput', 'veryLongDot')}"/>
+    <span class = "{!IF( ISBLANK(esecutore.Fax), 'hiddenInput', 'dottedInput')}"> {!esecutore.Fax} </span>
+  </p>
+  -->
+                                <!-- codice fiscale -->
+                                <p class="paragrafoTabella" style="margin-top: 4pt;">
+                                    Codice Fiscale
+                                        <span class="{!IF( !ISBLANK(esecutore.CF__c), 'hiddenInput', 'veryLongDot')}"/>
+                                        <span class="{!IF( (ISBLANK(esecutore.CF__c)), 'hiddenInput', 'dottedInput')}">{!esecutore.CF__c}</span>
+                                </p>
+                                <p class="paragrafoTabella">Documento d’identità</p>
+                                <!-- dati documento di identità-->
+                                <p class="paragrafoTabella">
+                                    Tipo documento<span class="{!IF( !ISBLANK(esecutore.TipoDocumentoIdMav__c), 'hiddenInput', 'veryLongDot')}"/>
+                                    <span class = "{!IF( (ISBLANK(esecutore.TipoDocumentoIdMav__c)), 'hiddenInput', 'dottedInput')}"> {!esecutore.TipoDocumentoIdMav__c} </span>
+                                    N°<span class="{!IF( !ISBLANK(esecutore.NumeroDoc__c), 'hiddenInput', 'veryLongDot')}"/>
+                                    <span class = "{!IF( (ISBLANK(esecutore.NumeroDoc__c)), 'hiddenInput', '')}"> {!esecutore.NumeroDoc__c} </span>
+                                </p>
+                                <p class="paragrafoTabella">
+                                    Luogo emissione<span class="{!IF( !ISBLANK(esecutore.LuogoEmissioneDoc__c), 'hiddenInput', 'normalDot')}"/>
+                                    <span class = "{!IF( ISBLANK(esecutore.LuogoEmissioneDoc__c), 'hiddenInput', 'dottedInput')}"> {!esecutore.LuogoEmissioneDoc__c}</span>
+                                    Data emissione<span class="{!IF( !ISBLANK(esecutore.DataEmissioneDoc__c), 'hiddenInput', 'normalDot')}"/>
+                                    <span class = "{!IF( ISBLANK(esecutore.DataEmissioneDoc__c), 'hiddenInput', 'dottedInput')}">
+                                        <apex:outputText value="{0,date,dd'/'MM'/'yyyy}">
+                                            <apex:param value="{!esecutore.DataEmissioneDoc__c}" />
+                                        </apex:outputText>
+                                    </span>
+                                    Data scadenza<span class="{!IF( !ISBLANK(esecutore.DataScadenzaDoc__c), 'hiddenInput', 'normalDot')}"/>
+                                    <span class = "{!IF( ISBLANK(esecutore.DataScadenzaDoc__c), 'hiddenInput', 'dottedInput')}">
+                                        <apex:outputText value="{0,date,dd'/'MM'/'yyyy}">
+                                            <apex:param value="{!esecutore.DataScadenzaDoc__c}" />
+                                        </apex:outputText>
+                                    </span>
+                                </p>
+                                <!-- PEP -->
+                                <p class="paragrafoTabella" style="margin-top: 4pt;">Persona Politicamente Esposta (PEP)
+                                    <img class="checkboxImgSmall" src="{!IF( esecutore.PEP__c = TRUE, $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>
+                                    Sì&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <img class="checkboxImgSmall" src="{!IF( esecutore.PEP__c = FALSE, $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>
+                                    No
+                                </p>
+                                <p class="paragrafoTabella" style="margin-top: 4pt;">Se "Sì" specificare il tipo di carica ricoperta:
+                                    <span class="{!IF( !ISBLANK(esecutore.PEPTipoCarica__c), 'hiddenInput', 'normalDot')}"/>
+                                    <span class="{!IF( ISBLANK(esecutore.PEPTipoCarica__c), 'hiddenInput', 'dottedInput')}"> {!esecutore.PEPTipoCarica__c} </span>
+                                </p>
+                                <!--
+    <p class="paragrafoTabella">Persona Politicamente
+    Esposta (PEP) Domestica   <img  class="checkboxImgSmall" src="{!IF( esecutore.PEPDomestica__c = TRUE, $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>Sì&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img  class="checkboxImgSmall" src="{!IF( esecutore.PEPDomestica__c = FALSE, $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>No</p>
+    -->
+                                <p class="paragrafoTabella">
+                                    Tipo Attivit&agrave; Economica (TAE)<span class="{!IF( !ISBLANK(esecutore.TAECode__c), 'hiddenInput', 'veryLongDot')}"/>
+                                    <span class = "{!IF( (ISBLANK(esecutore.TAECode__c)), 'hiddenInput', 'dottedInput')}"> {!esecutore.TAECode__c} </span>
+                                    Professione<span class="{!IF( !ISBLANK(esecutore.Professione__c), 'hiddenInput', 'veryLongDot')}"/>
+                                    <span class = "{!IF( (ISBLANK(esecutore.Professione__c)), 'hiddenInput', 'dottedInput')}"> {!esecutore.Professione__c} </span>
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <!--Informazioni sul rapporto continuativo-->
+                <table class="uniqueBlock tabellaSottile"  cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td class= "cellaTitolo" width="1049">
+                            <p class="titoloParagrafoTabella">INFORMAZIONI SUL RAPPORTO CONTINUATIVO</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="cellaParagrafo" width="1049" valign="top">
+                            <!--
+                            <p class="paragrafoTabella">
+                                Natura del rapporto continuativo <span class="{!IF( !ISBLANK(adegVerifica.NaturaRapportoContinuativoFD__c), 'hiddenInput', 'veryLongDot')}"/>
+                                <span class = "{!IF( (ISBLANK(adegVerifica.NaturaRapportoContinuativoFD__c)), 'hiddenInput', 'dottedInput')}"> {!adegVerifica.NaturaRapportoContinuativoFD__c} </span>
+                            </p>
+                            -->
+                            <!-- adione - adeguamento MAV Aprile 2020 -->
+                            <p class="paragrafoTabella">Natura del rapporto continuativo:</p>
+                                <table>
+                                    <tr>
+                                        <td width="400px" class="rapportoContinuativoCell">
+                                            <p class="paragrafoTabella">
+                                                <img  class="checkboxImgSmall" src="{!$Resource.PrivacyPFCheckbox}"/>Factoring</p>
+                                        </td>
+                                        <!-- valore fisso a "Finanziamenti" vedi classe TrgCessione.upsertOpportunity -->
+                                        <td width="349px" class="rapportoContinuativoCell">
+                                            <p class="paragrafoTabella">
+                                                <img  class="checkboxImgSmall" src="{!$Resource.PrivacyPFCheckbox_selected}"/>Finanziamenti</p>
+                                        </td>
+                                        <td width="300px" class="rapportoContinuativoCell">
+                                            <p class="paragrafoTabella">
+                                                <img  class="checkboxImgSmall" src="{!$Resource.PrivacyPFCheckbox}"/>Servizi bancari</p>
+                                        </td>
+                                    </tr>
+                                </table>
+                            <p class="paragrafoTabella">
+                                Scopo del rapporto continuativo:
+                            </p>
+                            <table>
+                                <tr>
+                                    <td width="350px" class="rapportoContinuativoCell">
+                                        <p class="paragrafoTabella">
+                                            <img  class="checkboxImgSmall" src="{!IF(adegVerifica.ScopoFD12__c = TRUE, $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>Affidamenti concessi</p>
+                                    </td>
+                                    <td width="350px" class="rapportoContinuativoCell">
+                                        <p class="paragrafoTabella">
+                                            <!-- adione - adeguamento MAV Aprile 2020: voce non più presente
+                                            <img  class="checkboxImgSmall" src="{!IF(adegVerifica.ScopoFD13__c = TRUE, $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>Attività di investimento
+                                            -->
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="400px" class="rapportoContinuativoCell">
+                                        <p class="paragrafoTabella">
+                                            <img  class="checkboxImgSmall" src="{!IF(adegVerifica.ScopoFD14__c = TRUE, $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>Gestione inc/pag. az. - cc su basi attive</p>
+                                    </td>
+                                    <td width="349px" class="rapportoContinuativoCell">
+                                        <p class="paragrafoTabella">
+                                            <img  class="checkboxImgSmall" src="{!IF(adegVerifica.ScopoFD15__c = TRUE, $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>Smobilizzo crediti commerciali Italia</p>
+                                    </td>
+                                    <td width="300px" class="rapportoContinuativoCell">
+                                        <p class="paragrafoTabella">
+                                            <img  class="checkboxImgSmall" src="{!IF(adegVerifica.ScopoFD16__c = TRUE, $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>Gestione stipendi dei dipendenti</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="349px" class="rapportoContinuativoCell">
+                                        <p class="paragrafoTabella">
+                                            <img  class="checkboxImgSmall" src="{!IF(adegVerifica.ScopoFD17__c = TRUE, $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>Gestione fornitori</p>
+                                    </td>
+                                    <td width="350px" class="rapportoContinuativoCell">
+                                        <p class="paragrafoTabella">
+                                            <img  class="checkboxImgSmall" src="{!IF(adegVerifica.ScopoFD18__c = TRUE, $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>Smobilizzo crediti commerciali estero</p>
+                                    </td>
+                                    <td width="350px" class="rapportoContinuativoCell">
+                                        <p class="paragrafoTabella">
+                                            <img  class="checkboxImgSmall" src="{!IF(adegVerifica.ScopoFD19__c = TRUE, $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>Regolamento transazioni da e per estero</p>
+                                    </td>
+                                </tr>
+                            </table>
+                            <p class="paragrafoTabella">
+                            Origine dei fondi:
+                            </p>
+                            <table>
+                                <tr>
+                                    <td width="350px" class="rapportoContinuativoCell" style="vertical-align: text-top;">
+                                        <p class="paragrafoTabella">
+                                            <img  class="checkboxImgSmall" src="{!IF(adegVerifica.OrigineFondi1__c = TRUE, $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>Proventi dell’attività d’impresa</p>
+                                    </td>
+                                    <td width="350px" class="rapportoContinuativoCell">
+                                        <p class="paragrafoTabella">
+                                            <img  class="checkboxImgSmall" src="{!IF(adegVerifica.OrigineFondi2__c = TRUE, $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>Proventi straordinari</p>
+                                    </td>
+                                    <td width="350px" class="rapportoContinuativoCell">
+                                        <p class="paragrafoTabella">
+                                            <img  class="checkboxImgSmall" src="{!IF(adegVerifica.OrigineFondi3__c = TRUE, $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>Cessione di beni</p>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <p class="paragrafoTabella">
+                                            <img class="checkboxImgSmall" src="{!IF(adegVerifica.OrigineFondi4__c = TRUE, $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>Altro (specificare)
+                                            <span class = "{!IF ( OR( AND (adegVerifica.OrigineFondi4__c = TRUE, ISBLANK(adegVerifica.OrigineFondiAltro__c)), adegVerifica.OrigineFondi4__c = FALSE), 'veryLongDot', 'hiddenInput')}"/>
+                                            <span class = "{!IF (AND (adegVerifica.OrigineFondi4__c = TRUE, !ISBLANK(adegVerifica.OrigineFondiAltro__c)), 'dottedInput', 'hiddenInput')}">
+                                            {!adegVerifica.OrigineFondiAltro__c}
+                                            </span>
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <p class="paragrafoStandard9" style="margin-top:20px">
+                    Il sottoscritto esecutore, consapevole delle responsabilità previste dall’art. 55 e seguenti del D.lgs. 231/2007 in caso di omissione o false informazioni, dichiara di aver fornito nel presente modulo tutte le informazioni necessarie ed aggiornate di cui è a conoscenza, anche relativamente al titolare effettivo del rapporto / dell'operazione, garantisce che le stesse sono esatte e veritiere e si impegna a comunicarne ogni futura ed eventuale modifica.
+                </p>
+                <div class="uniqueBlock midMarginBlock" style="margin-top:20px">
+                    <p class="MsoNormal">
+                        <span>
+                            Luogo e Data
+                            <span class = "{!IF(!isTiAnticipo, '', 'hiddenInput')}">_____________________</span>
+                            <span class = "{!IF(AND(isTiAnticipo, !ISBLANK(a.BillingCity)), 'linedInput', 'hiddenInput')}"> {!a.BillingCity} </span>
+                            <span class = "{!IF(AND(isTiAnticipo, ISBLANK(a.BillingCity)), '', 'hiddenInput')}">__________</span>
+                            <span class = "{!IF(isTiAnticipo, 'linedInput', 'hiddenInput')}">
+                                <apex:outputText value="{0,date,dd'/'MM'/'yyyy}">
+                                    <apex:param value="{!TODAY()}" />
+                                </apex:outputText>
+                            </span>
+                        </span>
+                        <span style="float:right; margin-right:5pt;"> _________________________________</span>
+                        <br/>
+                        <span style="float:right; margin-right:15pt;"> (Timbro e firma dell'esecutore)</span>
+                    </p>
+                </div>
+                <div class="uniqueBlock midMarginBlock" style="margin-top: 25pt;">
+                    <div class="spazioRiservatobanca midMarginBlock" style="clear:right;">
+                        <p style="font-weight:bold;font-size:10pt;text-align:center;float:center;margin-top: 0px;">Spazio riservato alla Banca – da compilare solo in caso di identificazione effettuata in presenza del cliente</p>
+                        <p style="font-size:8.5pt;">Il sottoscritto ……………………………… dichiaro sotto la mia responsabilità anche ai sensi del D.lgs. 231/2007 che la/le firma/e apposta/te sul modulo sono vere ed autentiche e che sono state apposte personalmente in mia presenza dal/i soggetto/i, i cui dati personali sono stati da me verificati.
+                        </p>
+                        <span style="font-size:7.5pt;margin-top: 5pt;margin-left: 25px;">_______________________________</span>
+                        <span style="font-size:7.5pt;float:right; margin-right:60px;">Cod. interno ______________________</span>
+                        <br/>
+                        <span style="font-size:7.5pt;">(visto per l’identificazione e l’autenticità della firma)</span>
+                    </div>
+                </div>
+                <!-- fine tabella e fine aprte dinamica-->
+                <!--  parte statica -->
+                <p class="MsoFootnoteText" style="text-align:justify">
+                    <span>_________________________________</span>
+                </p>
+                <p class="MsoFootnoteText" style="text-align:justify">
+                    <span style="font-size:5.0pt;">&nbsp;</span>
+                </p>
+                <p class="MsoFootnoteText" style="text-align:justify">
+                    <span style="font-size:8.5pt;">(1)<b> DEFINIZIONE DI TITOLARE EFFETTIVO</b>
+                    </span>
+                </p>
+                <p class="MsoFootnoteText" style="text-align:justify">
+                    <b>Art. 1, c. 2, lett. pp), D.Lgs. 21 novembre 2007, n. 231 – “titolare effettivo</b>”: “la persona fisica o le persone fisiche, diverse dal cliente, nell'interesse della quale o delle quali, in ultima istanza, il rapporto continuativo e' istaurato, la prestazione professionale e' resa o l'operazione e' eseguita””.</p>
+
+                <p class="MsoFootnoteText" style="text-align:justify">
+                    <b>Art. 20, D. Lgs. 21 novembre 2007, n. 231 e ss.mm. - Criteri per la determinazione della titolarità effettiva di clienti diversi dalle persone fisiche.</b>
+                </p>
+                <p class="MsoFootnoteText" style="text-align:justify">1. Il titolare effettivo di clienti diversi dalle persone fisiche coincide con la persona fisica o le persone fisiche cui, in ultima istanza, è attribuibile la proprietà diretta o indiretta dell'ente ovvero il relativo controllo.</p>
+                <p class="MsoFootnoteText" style="text-align:justify">2. Nel caso in cui il cliente sia una società di capitali:</p>
+                <ol style="list-style-type: lower-latin;text-align:justify; margin-top:.0001pt; margin-bottom:.0001pt; font-size:8.5pt;">
+                    <li>costituisce indicazione di proprietà diretta la titolarità di una partecipazione superiore al 25 per cento del capitale del cliente, detenuta da una persona fisica;</li>
+                    <li>costituisce indicazione di proprietà indiretta la titolarità di una percentuale di partecipazioni superiore al 25 per cento del capitale del cliente, posseduto per il tramite di società controllate, società fiduciarie o per interposta persona.</li>
+                </ol>
+                <p class="MsoFootnoteText" style="text-align:justify">3. Nelle ipotesi in cui l'esame dell'assetto proprietario non consenta di individuare in maniera univoca la persona fisica o le persone fisiche cui è attribuibile la proprietà diretta o indiretta dell'ente, il titolare effettivo coincide con la persona fisica o le persone fisiche cui, in ultima istanza, è attribuibile il controllo del medesimo in forza:</p>
+                <ol style="list-style-type: lower-latin;text-align:justify; margin-top:.0001pt; margin-bottom:.0001pt; font-size:8.5pt;">
+                    <li>del controllo della maggioranza dei voti esercitabili in assemblea ordinaria;</li>
+                    <li>del controllo di voti sufficienti per esercitare un'influenza dominante in assemblea ordinaria; </li>
+                    <li>dell'esistenza di particolari vincoli contrattuali che consentano di esercitare un'influenza dominante.</li>
+                </ol>
+                <p class="MsoFootnoteText" style="text-align:justify">4. Nel caso in cui il cliente sia una persona giuridica privata, di cui al decreto del Presidente della Repubblica 10 febbraio 2000, n. 361, sono cumulativamente individuati, come titolari effettivi:</p>
+                <ol style="list-style-type: lower-latin;text-align:justify; margin-top:.0001pt; margin-bottom:.0001pt; font-size:8.5pt;">
+                    <li>i fondatori, ove in vita;</li>
+                    <li>i beneficiari, quando individuati o facilmente individuabili;</li>
+                    <li>i titolari di poteri di rappresentanza legale, direzione e amministrazione.</li>
+                </ol>
+                <p class="MsoFootnoteText" style="text-align:justify">5. Qualora l'applicazione dei criteri di cui ai precedenti commi non consenta di individuare univocamente uno o più titolari effettivi, il titolare effettivo coincide con la persona fisica o le persone fisiche titolari, conformemente ai rispettivi assetti organizzativi o statutari, di poteri di rappresentanza legale, amministrazione o direzione della società o del cliente comunque diverso dalla persona fisica.</p>
+                <p class="MsoFootnoteText" style="text-align:justify">6. I soggetti obbligati conservano traccia delle verifiche effettuate ai fini dell'individuazione del titolare effettivo nonché, con specifico riferimento al titolare effettivo individuato ai sensi del comma 5, delle ragioni che non hanno consentito di individuare il titolare effettivo ai sensi dei commi 1, 2, 3 e 4 del presente articolo.</p>
+
+
+                <p class="MsoFootnoteText" style="text-align:justify">
+                    <b>
+                        <span style="font-size:5.0pt;">&nbsp;</span>
+                    </b>
+                </p>
+
+                <p class="MsoFootnoteText" style="text-align:justify">
+                    <span style="font-size:8.5pt;">(2) <b>DEFINIZIONE DI PERSONA POLITICAMENTE ESPOSTA</b>
+                    </span>
+                </p>
+
+                <p class="MsoFootnoteText" style="text-align:justify;">
+                    <b>Art. 1, c. 2, lett. dd), D.Lgs. 21 novembre 2007, n. 231 – “Persone politicamente esposte”</b>: persone politicamente esposte: le persone fisiche che occupano o hanno cessato di occupare da meno di un anno importanti cariche pubbliche, nonche' i loro familiari e coloro che con i predetti soggetti intrattengono notoriamente stretti legami, come di seguito elencate:</p>
+                <p class="MsoFootnoteText" style="text-align:justify;">1) sono persone fisiche che occupano o hanno occupato importanti cariche pubbliche coloro che ricoprono o hanno ricoperto la carica di: </p>
+                <p class="MsoFootnoteText" style="text-align:justify;">1.1 Presidente della Repubblica, Presidente del Consiglio, Ministro, Vice-Ministro e Sottosegretario, Presidente di Regione, assessore regionale, Sindaco di capoluogo di provincia o citta' metropolitana, Sindaco di comune con popolazione non inferiore a 15.000 abitanti nonche' cariche analoghe in Stati esteri; </p>
+                <p class="MsoFootnoteText" style="text-align:justify;">1.2 deputato, senatore, parlamentare europeo, consigliere regionale nonche' cariche analoghe in Stati esteri; </p>
+                <p class="MsoFootnoteText" style="text-align:justify;">1.3 membro degli organi direttivi centrali di partiti politici;</p>
+                <p class="MsoFootnoteText" style="text-align:justify;">1.4 giudice della Corte Costituzionale, magistrato della Corte di Cassazione o della Corte dei conti, consigliere di Stato e altri componenti del Consiglio di Giustizia Amministrativa per la Regione siciliana nonche' cariche analoghe in Stati esteri; </p>
+                <p class="MsoFootnoteText" style="text-align:justify;">1.5 membro degli organi direttivi delle banche centrali e delle autorita' indipendenti; </p>
+                <p class="MsoFootnoteText" style="text-align:justify;">1.6 ambasciatore, incaricato d'affari ovvero cariche equivalenti in Stati esteri, ufficiale di grado apicale delle forze armate ovvero cariche analoghe in Stati esteri; </p>
+                <p class="MsoFootnoteText" style="text-align:justify;">1.7 componente degli organi di amministrazione, direzione o controllo delle imprese controllate, anche indirettamente, dallo Stato italiano o da uno Stato estero ovvero partecipate, in misura prevalente o totalitaria, dalle Regioni, da comuni capoluoghi di provincia e citta' metropolitane e da comuni con popolazione complessivamente non inferiore a 15.000 abitanti; </p>
+                <p class="MsoFootnoteText" style="text-align:justify;">1.8 direttore generale di ASL e di azienda ospedaliera, di azienda ospedaliera universitaria e degli altri enti del servizio sanitario nazionale. </p>
+                <p class="MsoFootnoteText" style="text-align:justify;">1.9 direttore, vicedirettore e membro dell'organo di gestione o soggetto svolgenti funzioni equivalenti in organizzazioni internazionali; </p>
+                <p class="MsoFootnoteText" style="text-align:justify;">2) sono familiari di persone politicamente esposte: i genitori, il coniuge o la persona legata in unione civile o convivenza di fatto o istituti assimilabili alla persona politicamente esposta, i figli e i loro coniugi nonche' le persone legate ai figli in unione civile o convivenza di fatto o istituti assimilabili; </p>
+                <p class="MsoFootnoteText" style="text-align:justify;">3) sono soggetti con i quali le persone politicamente esposte intrattengono notoriamente stretti legami: </p>
+                <p class="MsoFootnoteText" style="text-align:justify;">3.1 le persone fisiche che, ai sensi del presente decreto detengono, congiuntamente alla persona politicamente esposta, la titolarità effettiva di enti giuridici, trust e istituti giuridici affini ovvero che intrattengono con la persona politicamente esposta stretti rapporti;</p>
+                <p class="MsoFootnoteText" style="text-align:justify;">3.2 le persone fisiche che detengono solo formalmente il controllo totalitario di un'entita' notoriamente costituita, di fatto, nell'interesse e a beneficio di una persona politicamente esposta.</p>
+
+                <p class="MsoFootnoteText" style="text-align:justify; margin-top:20px">(3) Per TAE (Tipo Attività Economica) si intende la specificazione del settore economico delle Persone Fisiche, similmente a quanto richiesto per le Persone Non Fisiche con il RAE (Ramo Attività Economica) e l’ATECO  (Attività Economica), es. produzione di prodotti chimici, carpenteria, edilizia, commercio prodotti alimentari, coltivazione prodotti agricoli, servizi di noleggio e locazione ecc.</p>
+
+            </body>
+
+        </html>
+
+    </apex:page>

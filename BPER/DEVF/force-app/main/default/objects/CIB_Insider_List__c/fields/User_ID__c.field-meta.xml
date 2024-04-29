@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>User_ID__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(ISNULL(Utente__r.FederationIdentifier),&apos;N.D.&apos;,&apos;U&apos;+Utente__r.FederationIdentifier)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>User ID</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

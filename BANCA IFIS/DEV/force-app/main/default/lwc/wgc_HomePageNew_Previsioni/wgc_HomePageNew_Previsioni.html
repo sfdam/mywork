@@ -1,0 +1,12 @@
+<template>
+    <lightning-card title={title} icon-name={iconName}>
+        <lightning-button-icon icon-name="utility:zoomin" slot="actions" variant="brand" title="Mostra dettagli"  onclick={viewAll}></lightning-button-icon>
+        <lightning-layout>
+            <lightning-layout-item size="12">  
+                <div class="slds-text-align_center" padding="around-small">
+                    <canvas class="donut " lwc:dom="manual" style="max-height: 800px; max-width: 1000px; margin: auto;"></canvas>
+                  </div>
+            </lightning-layout-item>
+        </lightning-layout>
+    </lightning-card>
+</template>

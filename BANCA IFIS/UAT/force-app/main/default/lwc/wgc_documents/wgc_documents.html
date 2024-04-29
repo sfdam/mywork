@@ -1,0 +1,770 @@
+<template>    
+
+    <!-- MODALE UPLOAD -->
+    <template if:true={showUploadModal}>
+        <c-wgc_file_uploader dati-doc-note={datiDocNote} show-lista={notAvailable} list-to-update={listToUpdate} note-doc={noteDoc} id-nota={idNota} list record-id={recId} dati-doc={doc} doc-fisso={docFisso} indice-attore={indiceAttore} opty-id={optyId} soggetti={soggetti}></c-wgc_file_uploader>
+    </template>
+ 
+    <!-- MODALE SCELTA LINGUA -->    
+    <template if:true={showLanguageModal}>
+        <c-wgc_scelta_lingua></c-wgc_scelta_lingua>
+    </template>   
+
+    <!-- MODALE MODULO MAV -->
+    <template if:true={showMavModal}>
+        <c-wgc_modulo_mav account-id={accountId} tipologia-m-a-v={tipologiaMav}></c-wgc_modulo_mav>
+    </template> 
+
+    <!-- MODALE PRIVACY -->
+    <template if:true={showPrivacyModal}>
+        <c-wgc_modulo_privacy record-id={privacyRecordId} is-account={privacyIsAccount}></c-wgc_modulo_privacy>
+    </template> 
+
+    <div>
+
+        <!-- SPINNER -->
+        <template if:false={rendered}>
+            <lightning-spinner variant="brand"></lightning-spinner>
+        </template> 
+   
+        <template if:true={showDocumentComponent}>
+            <div class="slds-box slds-p-top_small">
+                <!-- SCELTA LINGUA -->
+                <lightning-layout>
+
+                    <!-- RADIO BUTTON -->
+                    <lightning-layout-item size="11" class="slds-text-align_right" alignment-bump="left">
+                        <lightning-radio-group name="radioButtonGroupRequired" 
+                                            label="Seleziona lingua documenti"
+                                            options={lingue} 
+                                            value={sceltaLingua}
+                                            type="button"
+                                            onchange={setLanguage}>
+                        </lightning-radio-group>
+                    </lightning-layout-item>
+
+                    <!-- UTILITY BUTTONS -->
+                    <lightning-layout-item size="1" class="slds-text-align_right" alignment-bump="left">
+                        <!-- AGGIUNTA DOCUMENTO -->
+                        <lightning-button-icon class="btn-header" data-id="upload" icon-class="slds-button_icon-inverse" value="new" onclick={launchUpload} icon-name="utility:add" ></lightning-button-icon>
+                        <!-- REFRESH DOCUMENTI -->
+                        <lightning-button-icon class="btn-header ctm-margin-left" icon-class="slds-button_icon-inverse" value="refresh" onclick={refresh} icon-name="utility:refresh"></lightning-button-icon>
+                    </lightning-layout-item> 
+                </lightning-layout>   
+                
+                <!-- CONTAINER -->
+                <lightning-layout class="slds-m-vertical_medium">
+
+                    <!-- PRIMO BOX -->
+                    <lightning-layout-item size="4" large-device-size="2" class={borderColorFirstBoxCSS}>
+                        <lightning-layout multiple-rows="true">
+                            <lightning-layout-item class="slds-text-title_bold" size="12" small-device-size="12" medium-device-size="6" large-device-size="6">
+                                <div>
+                                    <span class="text-doc">{label.documentiBase}</span>
+                                </div>
+                                <div>
+                                    <span>{label.documentiPrimaVisita}</span>                        
+                                </div>
+                            </lightning-layout-item>
+                        </lightning-layout> 
+                    </lightning-layout-item>
+
+                    <!-- SECONDO BOX -->
+                    <lightning-layout-item size="8" large-device-size="10" class={borderColorSecondBoxCSS}>
+                        <lightning-layout multiple-rows="true" class="parent-single-doc">
+
+                            <template for:each={boxes} for:item="box">
+                                <div key={box.Id} class="contents"> 
+                                
+                                    <template if:true={box.showFront}>
+                                        <lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="2" class="single-doc">
+                                            <lightning-layout multiple-rows="true">
+
+                                                <lightning-layout-item size="8" class="slds-p-around_x-small slds-text-align_left">
+                                                    <template if:true={box.docs.required}>
+                                                        <span class="required">Obbligatorio</span>
+                                                    </template>
+                                                    <template if:true={box.docs.futureDoc}>
+                                                        <lightning-helptext icon-variant="warning" icon-name="utility:reminder" content="Caricamento in corso... Il documento sarà disponibile a breve"></lightning-helptext>
+                                                    </template>
+                                                </lightning-layout-item>
+
+                                                <!-- PULSANTE EDIT -->
+                                                <lightning-layout-item size="4" class="slds-p-around_x-small slds-text-align_right">
+                                                    <lightning-button-icon icon-name="utility:edit" variant="bare" size="medium" data-caller={box.index} data-front="true" onclick={doFlip}></lightning-button-icon>
+                                                </lightning-layout-item>
+                                                
+                                                <lightning-layout-item size="4" class="slds-p-vertical_small">                                   
+                                                    <lightning-icon icon-name="utility:file" variant="inverse" size="small" class={box.documentLoaded}></lightning-icon>
+                                                </lightning-layout-item> 
+
+                                                <lightning-layout-item size="8" class="slds-p-around_xx-small"> 
+                                                    <div class="block"> 
+                                                        <template if:true={box.validTo}>
+                                                            <span class="text-doc">{box.docs.valid_to}</span>
+                                                        </template>
+                                                        <template if:false={box.validTo}>
+                                                            <span class="text-doc">{label.documentiScadenza}</span>
+                                                        </template>                      
+                                                    </div>
+                                                    <div class="block">
+                                                        <span class="slds-text-title_bold">{box.name}</span>
+                                                    </div>
+                                                    <div class="block">
+                                                        <span class="text-doc">
+                                                            {box.validity}                                           
+                                                        </span>
+                                                    </div>                                                    
+                                                    <div class="block">
+                                                        <span class="text-doc">
+                                                            {box.docs.noteDoc}                                           
+                                                        </span>
+                                                    </div>                                                                                                       
+                                                </lightning-layout-item>
+
+                                            </lightning-layout>
+                                        </lightning-layout-item>
+                                    </template> 
+                                
+                                    <template if:false={box.showFront}>
+                                        <lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="2" class="single-doc">
+                                            <lightning-layout multiple-rows="true">
+
+                                                <!-- PULSANTE CHIUSURA -->
+                                                <lightning-layout-item size="12" class="slds-p-around_x-small slds-text-align_right">
+                                                    <lightning-button-icon icon-name="utility:close" variant="bare" size="medium" data-caller={box.index} data-front="false" onclick={doFlip}></lightning-button-icon>
+                                                </lightning-layout-item>
+
+                                                <!-- PULSANTE COMPILA -->
+                                                <lightning-layout-item size="6" class="slds-p-bottom_x-small">
+                                                    <div class="slds-align_absolute-center">
+                                                        <lightning-button-icon onclick={launchEdit} class={box.compilaModuloCSS} icon-name="utility:edit" size="medium" data-id={box.id}></lightning-button-icon>
+                                                    </div>
+                                                    <div class="slds-align_absolute-center">
+                                                        <span class="text-doc">{label.documentiCompila}</span>
+                                                    </div>
+                                                </lightning-layout-item> 
+                                                
+                                                <!-- PULSANTE GENERA -->
+                                                <lightning-layout-item size="6" class="slds-p-bottom_x-small">
+                                                    <div class="slds-align_absolute-center">                                   
+                                                        <lightning-button-icon onclick={generaModulo} value={box.docs.id} name={box.filename} data-id={box.id}
+                                                                                class={box.generaModuloCSS} icon-name="utility:download" size="medium"
+                                                                                data-list={box.list} data-att={box.docs.composition}>
+                                                        </lightning-button-icon> 
+                                                    </div>
+                                                    <div class="slds-align_absolute-center">
+                                                        <span class="text-doc">Genera</span> 
+                                                    </div>
+                                                </lightning-layout-item>
+                                                
+                                                <!-- PULSANTE SCARICA -->
+                                                <lightning-layout-item size="6">
+                                                    <div class="slds-align_absolute-center">
+                                                        <lightning-button-icon  onclick={launchDownload} value={box.docs.id} name={box.downloadName} data-id={box.id}
+                                                                                class={box.downloadCSS} icon-name="utility:download" size="medium" data-cod ={box.docs.index_value}
+                                                                                disabled={disableDownloadButton} data-list={box.list} data-att={box.docs.composition}>
+                                                        </lightning-button-icon>                                   
+                                                    </div> 
+                                                    <div class="slds-align_absolute-center">
+                                                        <span class="text-doc">{label.documentiScarica}</span>
+                                                    </div>
+                                                </lightning-layout-item>
+
+                                                <!-- PULSANTE CARICA -->
+                                                <lightning-layout-item size="6">
+                                                    <div class="slds-align_absolute-center">
+                                                        <lightning-button-icon value={box.toUpload} onclick={launchUpload} class={box.uploadCSS} data-id={box.list}
+                                                                            icon-name="utility:upload" size="medium" 
+                                                                            disabled={disableDownloadButton}>
+                                                        </lightning-button-icon>
+                                                    </div>
+                                                    <div class="slds-align_absolute-center">
+                                                        <span class="text-doc">{label.documentiCarica}</span>
+                                                    </div>
+                                                </lightning-layout-item>
+                                                
+                                            </lightning-layout>
+                                        </lightning-layout-item>                  
+                                    </template>
+                                </div>
+                            </template>   
+
+                        </lightning-layout>
+                    </lightning-layout-item>  
+                </lightning-layout>
+
+                <!-- SEZIONE DEBITORI E GARANTI -->
+                <template for:each={attori} for:item="attore" for:index="ind">
+                    <lightning-layout multiple-rows="true" key={attore} class={attore.isCompletedCSS}>
+
+                        <lightning-layout-item size="10" small-device-size="10" medium-device-size="10" large-device-size="11" class="slds-p-around_small">
+                            <lightning-layout multiple-rows="true">
+
+                                <!-- ICONA -->
+                                <lightning-layout-item size="1" small-device-size="1" medium-device-size="1" large-device-size="1">
+                                    <lightning-icon icon-name="utility:file" size="small" class={attore.iconCSS}>
+                                    </lightning-icon>
+                                </lightning-layout-item>
+
+                                <!-- TITOLO -->
+                                <lightning-layout-item class="slds-text-title_bold slds-p-vertical_xx-small" size="6" small-device-size="12" medium-device-size="6" large-device-size="6">
+                                    <div>
+                                        <span class="text-doc">Documenti <!--{attore.attore.Tipo__c}--></span>
+                                    </div>
+                                    <div>  
+                                        <template if:true={attore.existTipo}>
+                                            <template if:true={attore.existAccountName}>
+                                                <span> {attore.attore.Account__r.Name}</span>
+                                            </template>
+                                            <template if:false={attore.existAccountName}>
+                                                <span>{attore.attore.Contact__r.Name }</span>
+                                            </template>
+                                        </template>
+                
+                                        <template if:false={attore.existTipo}>
+                                            <template if:true={attore.existEsecutoreMav}>
+                                                <span>Esecutore Adeguata Verifica</span>
+                                            </template>
+                                            <template if:false={attore.existEsecutoreMav}>
+                                                <span>{attore.attore.Contact.Name} - Titolare Effettivo</span>
+                                            </template>
+                                        </template>
+                                        <!-- <span>Esecutore Adeguata Verifica</span> -->
+                                    </div>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </lightning-layout-item>
+
+                        <!-- PULSATE -->
+                        <lightning-layout-item size="2" small-device-size="2" medium-device-size="2" large-device-size="1" class="border-opty-left">
+                            <lightning-layout multiple-rows="true">                                        
+                                <lightning-layout-item size="12" class="slds-text-align_right slds-p-around_small slds-m-vertical_x-small">
+                                    <template if:false={attore.isFlip}>
+                                        <lightning-button-icon onclick={expandAttori} icon-name="utility:chevrondown" value={attore} 
+                                                                alternative-text="Settings" class={attore.completedCSS}>
+                                        </lightning-button-icon>
+                                    </template>
+        
+                                    <template if:true={attore.isFlip}>
+                                        <lightning-button-icon onclick={closeAttori} icon-name="utility:chevronup" value={attore}
+                                                                alternative-text="Settings" class={attore.completedCSS}>                                                    
+                                        </lightning-button-icon>
+                                    </template>                                            
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </lightning-layout-item>
+                    
+
+                        <!-- SEZIONE ESPANSA -->
+                        <template if:true={attore.isFlip}>
+
+                            <!-- NESSUN DOCUMENTO -->
+                            <template if:true={attore.noDocuments}>
+                                <lightning-layout-item size=12 class={attore.completedCSS2}>
+                                    <div class="slds-p-around_small">
+                                        <span class="no-button">Nessun documento</span>
+                                    </div>
+                                </lightning-layout-item>  
+                            </template>
+
+                            <!-- DOCUMENTI -->
+                            <template if:false={attore.noDocuments}>
+                                <lightning-layout-item size="12" class={attore.completedCSS2}>
+                                    <lightning-layout multiple-rows="true">
+                                        <template for:each={attore.docs} for:item="item" for:index="indD">
+
+                                            <!-- FRONT -->
+                                            <template if:true={item.isFlip} >
+                                                <lightning-layout-item key={item} data-id="front-card-1" size="12" small-device-size="12" medium-device-size="6" large-device-size="2" class="single-doc">
+                                                    <lightning-layout multiple-rows="true">
+        
+                                                        <lightning-layout-item size="6" class="slds-p-around_x-small slds-text-align_left">
+                                                            <template if:true={item.required}>
+                                                                <span class="required">Obbligatorio</span>
+                                                            </template>    
+                                                            
+                                                            <template if:true={item.futureDoc}>
+                                                                <lightning-helptext icon-variant="warning" icon-name="utility:reminder" content="Caricamento in corso... Il documento sarà disponibile a breve"></lightning-helptext>
+                                                            </template>  
+                                                        </lightning-layout-item>
+        
+                                                        <!-- PULSANTE EDIT -->
+                                                        <lightning-layout-item size="6" class="slds-p-around_x-small slds-text-align_right">
+                                                            <lightning-button-icon data-id="flipDocs" value={item.indexValue}  icon-name="utility:edit"
+                                                                                    variant="bare" size="medium"  onclick={flipDocsAttori}>
+                                                            </lightning-button-icon>
+                                                        </lightning-layout-item>
+        
+                                                        <lightning-layout-item size="4" class="slds-p-vertical_small">                                                                    
+                                                            <lightning-icon icon-name="utility:file" variant="inverse" size="small" 
+                                                                            class={item.fileIconCSS}>
+                                                            </lightning-icon>
+                                                        </lightning-layout-item>
+        
+                                                        <lightning-layout-item size="8" class="slds-p-around_xx-small">
+                                                            <div class="block">                                                                        
+                                                                <template if:true={item.valid_to}>
+                                                                    <span class="text-doc">{item.valid_to}</span>
+                                                                </template>
+        
+                                                                <template if:false={item.valid_to}>
+                                                                    <span class="text-doc">{label.documentiScadenza}</span>
+                                                                </template>  
+                                                            </div>
+        
+                                                            <div class="block">
+                                                                <span class="slds-text-title_bold" style="word-break: break-word;">{item.Name}</span>
+                                                            </div>
+        
+                                                            <div class="block">
+                                                                <span class="text-doc">{item.isValidText}</span>
+                                                            </div>
+        
+                                                            <div class="block">
+                                                                <span class="text-doc">
+                                                                    <lightning-input type="checkbox" label="Non reperibile" name={item}  
+                                                                                        checked={item.isAvailable} onchange={changeAvailabilityAttori}
+                                                                                        data-id={ind} data-note={item.notaId} data-index={item.index_value}>
+                                                                    </lightning-input>
+                                                                </span>                                                                       
+                                                            </div>
+        
+                                                        </lightning-layout-item>
+                                                    </lightning-layout>
+                                                </lightning-layout-item>
+                                            </template>
+
+                                            <!-- BACK -->
+                                            <template if:false={item.isFlip}>
+                                                <lightning-layout-item key={item} data-id="back-card-1" size="12" small-device-size="12" medium-device-size="6" large-device-size="2" class="single-doc_back">
+                                                    <lightning-layout multiple-rows="true">
+        
+                                                        <template if:true={item.index_valueCondition}>                                                                
+                                                            
+                                                            <!-- PULSANTE CHIUSURA -->
+                                                            <lightning-layout-item size="12" class="slds-p-around_x-small slds-text-align_right">
+                                                                <lightning-button-icon data-id="flipDocs" value={item.indexValue}
+                                                                                        icon-name="utility:close" size="medium" variant="bare" onclick={flipDocsAttori}>
+                                                                </lightning-button-icon>
+                                                            </lightning-layout-item>
+                                                            
+                                                            <!-- PULSANTE SCARICA -->
+                                                            <lightning-layout-item size="6" class="slds-p-around_x-small">
+                                                                <div class="slds-align_absolute-center">
+                                                                    <lightning-button-icon data-id="download" onclick={launchDownload} value={item.id} name={item.DownloadName} 
+                                                                                            class={item.downloadCSS} icon-name="utility:download" size="medium"
+                                                                                            data-cod ={item.index_value} data-list="attori" data-mime={item.mimeType}>
+                                                                    </lightning-button-icon>
+                                                                </div>
+                                                                <div class="slds-align_absolute-center">
+                                                                    <span class="text-doc">{label.documentiScarica}</span>
+                                                                </div>
+                                                            </lightning-layout-item>
+                                                            
+                                                            <!-- PULSANTE UPLOAD -->
+                                                            <lightning-layout-item size="6" class="slds-p-around_x-small">
+                                                                <div class="slds-align_absolute-center">
+                                                                    <lightning-button-icon data-id="attoredocs" data-attore={ind} onclick={launchUpload} value={item.index_value} 
+                                                                                            class={item.downloadCSS} icon-name="utility:upload" size="medium">
+                                                                    </lightning-button-icon>
+                                                                </div>
+                                                                <div class="slds-align_absolute-center">
+                                                                    <span class="text-doc">{label.documentiCarica}</span>
+                                                                </div>
+                                                            </lightning-layout-item>
+                                                        </template>   
+
+                                                        <!-- SEZIONE PER GESTIRE COMPILAZIONE PRIVACY-->
+                                                        <template if:false={item.index_valueCondition}> 
+
+                                                                <!-- PULSANTE CHIUSURA -->
+                                                                <lightning-layout-item size="12" class="slds-p-around_x-small slds-text-align_right">
+                                                                <lightning-button-icon data-id="flipDocs" value={item.indexValue}
+                                                                                        icon-name="utility:close" size="medium" variant="bare" onclick={flipDocsAttori}>
+                                                                </lightning-button-icon>
+                                                            </lightning-layout-item>
+
+                                                            <!-- PULSANTE COMPILA -->
+                                                            <lightning-layout-item size="6" class="slds-p-bottom_x-small">
+                                                                <div class="slds-align_absolute-center">
+                                                                    <lightning-button-icon data-id="privacyPF" onclick={launchEdit} value={attore} name={item.DownloadName} 
+                                                                                            class={item.privacyCSS} icon-name="utility:edit" size="medium"
+                                                                                            data-list="attori" data-mime={item.mimeType}>
+                                                                    </lightning-button-icon>
+                                                                </div>
+                                                                <div class="slds-align_absolute-center">
+                                                                    <span class="text-doc">{label.documentiCompila}</span>
+                                                                </div>
+                                                            </lightning-layout-item>
+
+                                                            <!-- PULSANTE GENERA -->
+                                                            <lightning-layout-item size="6" class="slds-p-bottom_x-small">
+                                                                <div class="slds-align_absolute-center">
+                                                                    <lightning-button-icon data-id="PrivacyPF" onclick={generaModulo} value={attore.attore.Contact.Id} name="PrivacyPersonaFisica.pdf" 
+                                                                                            class={item.privacyCSS} icon-name="utility:download" size="medium"
+                                                                                            data-list="attori" data-mime={item.mimeType}>
+                                                                    </lightning-button-icon>
+                                                                </div>
+                                                                <div class="slds-align_absolute-center">
+                                                                    <span class="text-doc">Genera</span>
+                                                                </div>
+                                                            </lightning-layout-item>
+                                                            
+                                                            <!-- PULSANTE SCARICA -->
+                                                            <lightning-layout-item size="6" class="slds-p-bottom_x-small">
+                                                                <div class="slds-align_absolute-center">
+                                                                    <lightning-button-icon data-id="download" onclick={launchDownload} value={item.id} name={item.DownloadName} 
+                                                                                            class={item.privacyCSS} icon-name="utility:download" size="medium"
+                                                                                            data-cod ={item.index_value}>
+                                                                    </lightning-button-icon>
+                                                                </div>
+                                                                <div class="slds-align_absolute-center">
+                                                                    <span class="text-doc">{label.documentiScarica}</span>
+                                                                </div>
+                                                            </lightning-layout-item>
+                                                            
+                                                            <!-- PULSANTE UPLOAD -->
+                                                            <lightning-layout-item size="6" class="slds-p-bottom_x-small">
+                                                                <div class="slds-align_absolute-center">
+                                                                    <lightning-button-icon data-id="attoredocs" onclick={launchUpload} value={item.index_value} 
+                                                                                            class={item.privacyCSS} icon-name="utility:upload" size="medium"
+                                                                                            data-attore={ind}>
+                                                                    </lightning-button-icon>
+                                                                </div>
+                                                                <div class="slds-align_absolute-center">
+                                                                    <span class="text-doc">{label.documentiCarica}</span>
+                                                                </div>
+                                                            </lightning-layout-item>                                                              
+                                                        </template>
+                                                    </lightning-layout>
+                                                </lightning-layout-item>
+                                            </template>
+                                        </template>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </template>
+                        </template>                       
+                    </lightning-layout>                        
+                </template>
+
+                <!-- SEZIONE ASSUNTORE START -->
+                <template if:true={checkAssuntore}>
+                    <lightning-layout multiple-rows="true" class={assuntoreSezioneCSS}>
+                                            
+                        <lightning-layout-item size="10" small-device-size="10" medium-device-size="10" large-device-size="11" class="slds-p-around_small">
+                            <lightning-layout multiple-rows="true">
+
+                                <lightning-layout-item size="1" small-device-size="1" medium-device-size="1" large-device-size="1">
+                                    <lightning-icon icon-name="utility:file" size="small" class={assuntoreSezioneCSS2}></lightning-icon>
+                                </lightning-layout-item>
+
+                                <lightning-layout-item class="slds-text-title_bold slds-p-vertical_xx-small" size="6" small-device-size="12" medium-device-size="6" large-device-size="6">
+                                    <div>
+                                        <span class="text-doc">Documenti</span>
+                                    </div>
+                                    <div>
+                                        <span >Procedura</span>
+                                    </div>
+                                </lightning-layout-item>                        
+                            </lightning-layout>
+                        </lightning-layout-item>
+                                    
+                        <lightning-layout-item size="2" small-device-size="2" medium-device-size="2" large-device-size="1" class=" border-opty-left">
+                            <lightning-layout multiple-rows="true">
+                                
+                                <!-- PULSANTE -->
+                                <lightning-layout-item size="12" class="slds-text-align_right slds-p-around_small slds-m-vertical_x-small">
+                                    <template if:false={expandedAssuntoreDoc}>
+                                        <lightning-button-icon onclick={toggleDocAssuntore} icon-name="utility:chevrondown" value={expandedAssuntoreDoc}
+                                                                alternative-text="Settings" class={assuntoreSezioneCSS3}>
+                                        </lightning-button-icon>
+                                    </template>
+                                    <template if:true={expandedAssuntoreDoc}>
+                                        <lightning-button-icon onclick={toggleDocAssuntore} icon-name="utility:chevronup" value={expandedAssuntoreDoc} 
+                                                                alternative-text="Settings" class={assuntoreSezioneCSS3}>
+                                        </lightning-button-icon>
+                                    </template>
+                                </lightning-layout-item>
+                    
+                            </lightning-layout>
+                        </lightning-layout-item>
+                                    
+                        <template if:true={expandedAssuntoreDoc}>
+                            <template if:true={sizeDocsAssuntore}>
+
+                                <!-- NESSUN DOCUMENTO -->
+                                <lightning-layout-item size="12" class={assuntoreSezioneCSS4}>
+                                    <div class="slds-p-around_small">
+                                        <span class="no-button">Nessun documento</span>
+                                    </div>
+                                </lightning-layout-item>
+                            </template>
+                        
+                            <template if:false={sizeDocsAssuntore}>
+                                <lightning-layout-item size="12" class={assuntoreSezioneCSS4}>                                    
+                                    <lightning-layout multiple-rows="true">
+                                        <template for:each={docsAssuntore} for:item="item" for:index="ind">
+
+                                            <!-- FRONT -->
+                                            <template if:true={item.isFlip}>
+                                                <lightning-layout-item key={item} aura:id="front-card-1" size="12" small-device-size="12" medium-device-size="6" large-device-size="2" class="single-doc">
+                                                    <lightning-layout multiple-rows="true">
+                    
+                                                        <lightning-layout-item size="6" class="slds-p-around_x-small slds-text-align_left">
+                                                            <template if:true={item.required}>
+                                                                <span class="required">Obbligatorio</span>
+                                                            </template>
+                    
+                                                            <template if:true={item.futureDoc}>
+                                                                <lightning-helptext icon-variant="warning" icon-name="utility:reminder" content="Caricamento in corso... Il documento sarà disponibile a breve"></lightning-helptext>                                                            
+                                                            </template>                                                          
+                                                        </lightning-layout-item>
+                                                        
+                                                        <!-- PULSANTE EDIT -->
+                                                        <lightning-layout-item size="6" class="slds-p-around_x-small slds-text-align_right">
+                                                            <lightning-button-icon data-id="flipDocs" value={item} icon-name="utility:edit" variant="bare" 
+                                                                                    size="medium"  onclick={flipDocsAssuntore}>
+                                                            </lightning-button-icon>
+                                                        </lightning-layout-item>
+                    
+                                                        <lightning-layout-item size="4" class="slds-p-vertical_small">                                                          
+                                                            <lightning-icon icon-name="utility:file" variant="inverse" size="small" class={item.fileIconCSS}></lightning-icon>
+                                                        </lightning-layout-item>
+                    
+                                                        <lightning-layout-item size="8" class="slds-p-around_xx-small">
+                                                            <div class="block">
+                                                                <template if:true={item.valid_to}>
+                                                                    <span class="text-doc">{item.valid_to}</span>
+                                                                </template>
+                                                                <template if:false={item.valid_to}>
+                                                                    <span class="text-doc">{label.documentiScadenza}</span>
+                                                                </template>  
+                                                            </div>
+                                                            <div class="block">
+                                                                <span class="slds-text-title_bold" style="word-break: break-word;">{item.Name}</span>
+                                                            </div>
+                                                            <div class="block">
+                                                                <span class="text-doc">{item.isValidText}</span>
+                                                            </div>
+                                                            <div class="block">
+                                                                <span class="text-doc">
+                                                                    <lightning-input type="checkbox" label="Non reperibile" name={item} value={item.isAvailable}
+                                                                                    checked={item.isAvailable} onchange={changeAvailabilityAssuntore}
+                                                                                    data-id={ind} data-note={item.notaId} data-index={item.index_value}>
+                                                                    </lightning-input>
+                                                                </span>                                                              
+                                                            </div>
+                                                        </lightning-layout-item>
+                    
+                                                    </lightning-layout>
+                                                </lightning-layout-item>
+                                            </template>
+                                            
+                                            <!-- BACK -->
+                                            <template if:false={item.isFlip}>
+                                                <lightning-layout-item  key={item} aura:id="back-card-1" size="12" small-device-size="12" medium-device-size="6" large-device-size="2" class="single-doc_back">
+                                                    <lightning-layout multiple-rows="true">
+                    
+                                                        <lightning-layout-item size="12" class="slds-p-around_x-small slds-text-align_right">
+                                                            <lightning-button-icon data-id="flipDocs" value={item} icon-name="utility:close" size="medium" variant="bare" onclick={flipDocsAssuntore}></lightning-button-icon>
+                                                        </lightning-layout-item>
+                                                        
+                                                        <!-- PULSANTE SCARICA -->
+                                                        <lightning-layout-item size="6" class="slds-p-around_x-small">
+                                                            <div class="slds-align_absolute-center" data-list="docsOpty" data-mime={item.mimeType}>
+                                                                <lightning-button-icon data-id="download" onclick={launchDownload} value={item.id} name={item.DownloadName} 
+                                                                                        class= {item.buttonCSS} icon-name="utility:download" size="medium"
+                                                                                        data-cod ={item.index_value}>
+                                                                </lightning-button-icon>
+                                                            </div>
+                                                            <div class="slds-align_absolute-center">
+                                                                <span class="text-doc">{label.documentiScarica}</span>
+                                                            </div>
+                                                        </lightning-layout-item>
+                                                        
+                                                        <!-- PULSANTE CARICA -->
+                                                        <lightning-layout-item size="6" class="slds-p-around_x-small">
+                                                            <div class="slds-align_absolute-center">
+                                                                <lightning-button-icon data-id="docsAssuntore" onclick={launchUpload} value={item.index_value} 
+                                                                                        class={item.buttonCSS} icon-name="utility:upload" size="medium">
+                                                                </lightning-button-icon>
+                                                            </div>
+                                                            <div class="slds-align_absolute-center">
+                                                                <span class="text-doc">{label.documentiCarica}</span>
+                                                            </div>
+                                                        </lightning-layout-item>
+                    
+                                                    </lightning-layout>
+                                                </lightning-layout-item>
+                                            </template>
+                                        </template>                                        
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </template>
+                        </template>                        
+                    </lightning-layout>
+                </template>
+                <!-- SEZIONE ASSUNTORE END -->
+                
+                <!-- DOCUMENTI OPPORTUNITA' -->
+                <template if:false={sizeDocsOpty}>
+                    <lightning-layout multiple-rows="true" class={altraSezioneCSS}>
+                                        
+                        <lightning-layout-item size="10" small-device-size="10" medium-device-size="10" large-device-size="11" class="slds-p-around_small">
+                            <lightning-layout multiple-rows="true">
+
+                                <lightning-layout-item size="1" small-device-size="1" medium-device-size="1" large-device-size="1">
+                                    <lightning-icon icon-name="utility:file" size="small" class={altraSezioneCSS2}></lightning-icon>
+                                </lightning-layout-item>
+
+                                <lightning-layout-item class="slds-text-title_bold slds-p-vertical_xx-small" size="6" small-device-size="12" medium-device-size="6" large-device-size="6">
+                                    <div>
+                                        <span class="text-doc">Documenti</span>
+                                    </div>
+                                    <div>
+                                        <span >Opportunità</span>
+                                    </div>
+                                </lightning-layout-item>                        
+                            </lightning-layout>
+                        </lightning-layout-item>
+                                    
+                        <lightning-layout-item size="2" small-device-size="2" medium-device-size="2" large-device-size="1" class=" border-opty-left">
+                            <lightning-layout multiple-rows="true">
+                                
+                                <!-- PULSANTE -->
+                                <lightning-layout-item size="12" class="slds-text-align_right slds-p-around_small slds-m-vertical_x-small">
+                                    <template if:false={expandedSingleDoc}>
+                                        <lightning-button-icon onclick={expandDocSingle} icon-name="utility:chevrondown" value={expandedSingleDoc}
+                                                                alternative-text="Settings" class={altraSezioneCSS3}>
+                                        </lightning-button-icon>
+                                    </template>
+                                    <template if:true={expandedSingleDoc}>
+                                        <lightning-button-icon onclick={closeDocSingle} icon-name="utility:chevronup" value={expandedSingleDoc} 
+                                                                alternative-text="Settings" class={altraSezioneCSS3}>
+                                        </lightning-button-icon>
+                                    </template>
+                                </lightning-layout-item>
+                    
+                            </lightning-layout>
+                        </lightning-layout-item>
+                                    
+                        <template if:true={expandedSingleDoc}>
+                            <template if:true={sizeDocsOpty}>
+
+                                <!-- NESSUN DOCUMENTO -->
+                                <lightning-layout-item size="12" class={altraSezioneCSS4}>
+                                    <div class="slds-p-around_small">
+                                        <span class="no-button">Nessun documento</span>
+                                    </div>
+                                </lightning-layout-item>
+                            </template>
+                        
+                            <template if:false={sizeDocsOpty}>
+                                <lightning-layout-item size="12" class={altraSezioneCSS4}>                                    
+                                    <lightning-layout multiple-rows="true">
+                                        <template for:each={docsOpty} for:item="item" for:index="ind">
+
+                                            <!-- FRONT -->
+                                            <template if:true={item.isFlip}>
+                                                <lightning-layout-item key={item} aura:id="front-card-1" size="12" small-device-size="12" medium-device-size="6" large-device-size="2" class="single-doc">
+                                                    <lightning-layout multiple-rows="true">
+                    
+                                                        <lightning-layout-item size="6" class="slds-p-around_x-small slds-text-align_left">
+                                                            <template if:true={item.required}>
+                                                                <span class="required">Obbligatorio</span>
+                                                            </template>
+                    
+                                                            <template if:true={item.futureDoc}>
+                                                                <lightning-helptext icon-variant="warning" icon-name="utility:reminder" content="Caricamento in corso... Il documento sarà disponibile a breve"></lightning-helptext>                                                            
+                                                            </template>                                                          
+                                                        </lightning-layout-item>
+                                                        
+                                                        <!-- PULSANTE EDIT -->
+                                                        <lightning-layout-item size="6" class="slds-p-around_x-small slds-text-align_right">
+                                                            <lightning-button-icon data-id="flipDocs" value={item} icon-name="utility:edit" variant="bare" 
+                                                                                    size="medium"  onclick={flipDocsSingleOpty}>
+                                                            </lightning-button-icon>
+                                                        </lightning-layout-item>
+                    
+                                                        <lightning-layout-item size="4" class="slds-p-vertical_small">                                                          
+                                                            <lightning-icon icon-name="utility:file" variant="inverse" size="small" class={item.fileIconCSS}></lightning-icon>
+                                                        </lightning-layout-item>
+                    
+                                                        <lightning-layout-item size="8" class="slds-p-around_xx-small">
+                                                            <div class="block">
+                                                                <template if:true={item.valid_to}>
+                                                                    <span class="text-doc">{item.valid_to}</span>
+                                                                </template>
+                                                                <template if:false={item.valid_to}>
+                                                                    <span class="text-doc">{label.documentiScadenza}</span>
+                                                                </template>  
+                                                            </div>
+                                                            <div class="block">
+                                                                <span class="slds-text-title_bold" style="word-break: break-word;">{item.Name}</span>
+                                                            </div>
+                                                            <div class="block">
+                                                                <span class="text-doc">{item.isValidText}</span>
+                                                            </div>
+                                                            <div class="block">
+                                                                <span class="text-doc">
+                                                                    <lightning-input type="checkbox" label="Non reperibile" name={item} value={item.isAvailable}
+                                                                                    checked={item.isAvailable} onchange={changeAvailability}
+                                                                                    data-id={ind} data-note={item.notaId} data-index={item.index_value}>
+                                                                    </lightning-input>
+                                                                </span>                                                              
+                                                            </div>
+                                                        </lightning-layout-item>
+                    
+                                                    </lightning-layout>
+                                                </lightning-layout-item>
+                                            </template>
+                                            
+                                            <!-- BACK -->
+                                            <template if:false={item.isFlip}>
+                                                <lightning-layout-item  key={item} aura:id="back-card-1" size="12" small-device-size="12" medium-device-size="6" large-device-size="2" class="single-doc_back">
+                                                    <lightning-layout multiple-rows="true">
+                    
+                                                        <lightning-layout-item size="12" class="slds-p-around_x-small slds-text-align_right">
+                                                            <lightning-button-icon data-id="flipDocs" value={item} icon-name="utility:close" size="medium" variant="bare" onclick={flipDocsSingleOpty}></lightning-button-icon>
+                                                        </lightning-layout-item>
+                                                        
+                                                        <!-- PULSANTE SCARICA -->
+                                                        <lightning-layout-item size="6" class="slds-p-around_x-small">
+                                                            <div class="slds-align_absolute-center" data-list="docsOpty" data-mime={item.mimeType}>
+                                                                <lightning-button-icon data-id="download" onclick={launchDownload} value={item.id} name={item.DownloadName} 
+                                                                                        class= {item.buttonCSS} icon-name="utility:download" size="medium"
+                                                                                        data-cod ={item.index_value}>
+                                                                </lightning-button-icon>
+                                                            </div>
+                                                            <div class="slds-align_absolute-center">
+                                                                <span class="text-doc">{label.documentiScarica}</span>
+                                                            </div>
+                                                        </lightning-layout-item>
+                                                        
+                                                        <!-- PULSANTE CARICA -->
+                                                        <lightning-layout-item size="6" class="slds-p-around_x-small">
+                                                            <div class="slds-align_absolute-center">
+                                                                <lightning-button-icon data-id="docsOpty" onclick={launchUpload} value={item.index_value} 
+                                                                                        class={item.buttonCSS} icon-name="utility:upload" size="medium">
+                                                                </lightning-button-icon>
+                                                            </div>
+                                                            <div class="slds-align_absolute-center">
+                                                                <span class="text-doc">{label.documentiCarica}</span>
+                                                            </div>
+                                                        </lightning-layout-item>
+                    
+                                                    </lightning-layout>
+                                                </lightning-layout-item>
+                                            </template>
+                                        </template>                                        
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </template>
+                        </template>                        
+                    </lightning-layout>
+                </template>
+            </div>
+        </template>    
+    </div>    
+</template>

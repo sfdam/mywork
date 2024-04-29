@@ -1,0 +1,25 @@
+.slds-button_brand {
+    font-size: 17px;
+    font-family: "Ubuntu",sans-serif;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 21px;
+    padding: 12px 40px;
+    color: #fff;
+    text-align: center;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: all .5s;
+    border: none;
+
+    width: 227px;
+    height: 46px;
+
+    background: #04724D;
+    border-radius: 100px;
+}
+
+.cta:hover {
+    background: #045c3e;
+    transition: all .5s;
+}

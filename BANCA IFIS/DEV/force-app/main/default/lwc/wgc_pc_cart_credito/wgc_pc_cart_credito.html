@@ -1,0 +1,59 @@
+<template>
+    <template if:true={rendered}>
+        <template if:true={showModal}>
+            <c-wgc_generic_modal onclosemodal={handleCloseModal} params={modalParams} show-close-btn="true" cmp-name={cmpModal} record-id={recordId} record-type-id={recordTypeId}></c-wgc_generic_modal>
+        </template>
+        <div class="slds-box">
+            <lightning-layout multiple-rows="true">
+                <template for:each={sections} for:item="section" for:index="ind">
+                    <lightning-layout-item key={section.name} size="12">
+                        <template if:true={section.renderInvia}>
+                            <p class="slds-p-bottom_small cstm-subtitle"><b><lightning-input type="checkbox" value={state.WGC_Invia_Credito__c} checked={state.WGC_Invia_Credito__c} label="Conferma Credito" disabled={readOnly} onchange={updateSelection}></lightning-input></b></p>
+                        </template>
+                    </lightning-layout-item>
+                    <template if:true={section.isVisible}>
+                        <lightning-layout-item key={section.name} size="1" class="slds-p-top_medium">
+                            <h2 class="cstm-subtitle">{section.name}</h2>
+                        </lightning-layout-item>
+                        <lightning-layout-item key={section.name} size="11">
+                            <lightning-layout multiple-rows="true">
+                                <template for:each={section.fields} for:item="field" for:index="field_index">
+                                    <!--  -->
+                                    <template if:true={field.visibility}>
+                                        <template if:true={field.flexibility}>
+                                            <lightning-layout-item key={field.apiName} padding="around-small" flexibility="auto">
+                                                <span>
+                                                    <c-wgc_pc_cart_field label={field.label} name={field.apiName} type={field.type} formatter={field.formatter} read-only={field.readOnly}
+                                                                            value={field.value} lookup-title={field.title} visibility={field.visibility} step-field={field.step} 
+                                                                            options={field.options} object-name={field.objectName} icon={field.icon} onchangefieldval={updateField} ></c-wgc_pc_cart_field>
+                                                    <template if:true={field.showBtn}>
+                                                        <lightning-button icon-name="utility:refresh" variant="brand" class="cstm-btn-refresh" name={field.btnActionName} title={field.btnLabel} disabled={readOnly} onclick={handleBtn}></lightning-button>
+                                                    </template>
+                                                </span>
+                                            </lightning-layout-item>
+                                        </template>
+                                        <template if:false={field.flexibility}>
+                                            <lightning-layout-item key={field.apiName} padding="around-small" flexibility="auto, no-grow">
+                                                <span>
+                                                    <c-wgc_pc_cart_field label={field.label} name={field.apiName} type={field.type} formatter={field.formatter} read-only={field.readOnly}
+                                                                            value={field.value} lookup-title={field.title} visibility={field.visibility} 
+                                                                            options={field.options} object-name={field.objectName} icon={field.icon} onchangefieldval={updateField} ></c-wgc_pc_cart_field>
+                                                    <template if:true={field.showBtn}>
+                                                        <lightning-button icon-name="utility:refresh" variant="brand" class="cstm-btn-refresh" name={field.btnActionName} title={field.btnLabel} disabled={readOnly} onclick={handleBtn}></lightning-button>
+                                                    </template>
+                                                </span>
+                                            </lightning-layout-item>
+                                        </template>
+                                    </template>
+                                </template>
+                            </lightning-layout>
+                        </lightning-layout-item>
+                    </template>
+                </template>
+            </lightning-layout>
+        </div>
+    </template>
+    <template if:false={rendered}>
+        <lightning-spinner variant="brand"></lightning-spinner>
+    </template>
+</template>

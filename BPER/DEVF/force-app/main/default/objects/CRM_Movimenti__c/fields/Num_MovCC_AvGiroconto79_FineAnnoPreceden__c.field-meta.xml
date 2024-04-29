@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Num_MovCC_AvGiroconto79_FineAnnoPreceden__c</fullName>
+    <description>Dettaglio movimenti di CC &gt; Avere - Giroconto 79 &gt; Fine anno precedente &gt; Numero</description>
+    <externalId>false</externalId>
+    <label>Numero</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

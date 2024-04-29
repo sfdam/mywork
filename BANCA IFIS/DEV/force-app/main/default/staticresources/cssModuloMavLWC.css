@@ -1,0 +1,32 @@
+c-wgc_modulo_mav .slds-form-element{
+    float: left;
+}
+
+c-wgc_modulo_mav .btn .slds-button{
+    background-color: #0064B5;
+    border-color: #0064B5;
+    color: rgb(255, 255, 255);
+ }
+
+c-wgc_modulo_mav .slds-radio__label .slds-radio_faux {
+    margin: 0 .5rem 0 0;
+    width:20px;
+    height: 20px;
+}
+
+c-wgc_modulo_mav .slds-radio__label .slds-form-element__label{
+    color: rgb(62, 62, 60);
+    font-weight: bold;
+    padding: 0 10px 10px 0;
+    font-size:medium;
+    vertical-align:super;
+    float:right;
+}
+
+c-wgc_modulo_mav .label-fix .slds-form-element__label{
+    display:none;
+}
+
+c-wgc_modulo_mav .label-hidden > label {
+    display: none; 
+}

@@ -1,0 +1,7 @@
+.title-card {
+    display: inline;
+    padding-left: 5px;
+}
+.utilityIcon {
+    --sds-c-icon-color-foreground-default: white;
+}

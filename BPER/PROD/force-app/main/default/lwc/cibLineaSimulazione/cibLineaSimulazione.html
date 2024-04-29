@@ -1,0 +1,290 @@
+<template>
+    <lightning-card variant="Narrow" class="sldx-box" title={titolo}>
+        <lightning-button-icon icon-name="action:clone" variant="border-filled" alternative-text="Clona" slot="actions" onclick={handleClone}></lightning-button-icon>
+        <lightning-button-icon icon-name="utility:delete" variant="border-filled" alternative-text="Elimina" slot="actions" onclick={handleDelete}></lightning-button-icon>
+
+        <!-- ***************** LINEA 1 ***************** -->
+        <lightning-accordion active-section-name={sezioniAttive} allow-multiple-sections-open>
+            <lightning-accordion-section name="sezione1" label="Struttura Linea">
+                <lightning-layout multiple-rows>
+                    <lightning-layout-item padding="around-small" size="12" medium-device-size="1">Informazioni di base</lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12" medium-device-size="2">
+                        <lightning-combobox name="Formatecnica__c" value={lineaSimulazione.Formatecnica__c} data-item="formaTecnica" class="validateLinea" label="Forma tecnica" placeholder="Seleziona una Forma tecnica" options={optionsFormaTecnica} onchange={handleFilter} required></lightning-combobox>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12" medium-device-size="2">
+                        <lightning-combobox name="Tipo_funding__c" value={lineaSimulazione.Tipo_funding__c} data-item="tipoFunding" class="validateLinea" label="Tipo Funding" placeholder="Seleziona un Tipo Funding" options={optionsTipoFunding} onchange={handleFilter} required></lightning-combobox>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12" medium-device-size="1">
+                        <!-- <label for="termOutOption" class="slds-form-element__label">
+                            <span class="slds-required">*</span>Term Out Option
+                        </label>
+                        <br>
+                        <lightning-input id="termOutOption" value={lineaSimulazione.termOutOption} name="Term_Out_option__c" data-item="termOutOption" class="validateLinea" type="checkbox" onchange={handleFilter} checked></lightning-input> -->
+                        <lightning-radio-group name="Termoutoption__c"
+                            label="Term Out Option"
+                            options={optionsSINO}
+                            value={lineaSimulazione.Termoutoption__c}
+                            type="radio"
+                            onchange={handleFilter}
+                            class="validateLinea"
+                            required>
+                        </lightning-radio-group>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12" medium-device-size="2">
+                        <lightning-input name="Importo__c" value={lineaSimulazione.Importo__c} data-item="importo" class="validateLinea" type="number" label="Importo" placeholder="Inserire Importo" onchange={handleFilter} required></lightning-input>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12" medium-device-size="2">
+                        <lightning-combobox name="Valuta__c" value={lineaSimulazione.Valuta__c} data-item="valuta" class="validateLinea" label="Valuta" placeholder="Seleziona una Valuta" options={optionsValuta} onchange={handleFilter} required></lightning-combobox>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12" medium-device-size="2">
+                        <lightning-combobox name="Tipo_di_ammortamento__c" value={lineaSimulazione.Tipo_di_ammortamento__c} data-item="tipoAmmortamento" class="validateLinea" label="Tipo di ammortamento" placeholder="Seleziona un Tipo di ammortamento" options={optionsTipoDiAmmortamento} onchange={handleFilter} required></lightning-combobox>
+                    </lightning-layout-item>
+
+                    <lightning-layout-item padding="around-small" size="12" medium-device-size="1"></lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12" medium-device-size="1">
+                        <lightning-combobox name="Durata__c" value={lineaSimulazione.Durata__c} data-item="durata" class="validateLinea" label="Durata" placeholder="Seleziona una Durata" options={optionsDurata} onchange={handleFilter} required></lightning-combobox>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12" medium-device-size="2">
+                        <lightning-combobox name="Periodicita_rata__c" value={lineaSimulazione.Periodicita_rata__c} data-item="periodicitaRata" class="validateLinea" label="Priodicità Rata" placeholder="Seleziona una Priodicità Rata" options={optionsPeriodicitaRata} onchange={handleFilter} required></lightning-combobox>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12" medium-device-size="2">
+                        <lightning-input name="Numerodirate__c" value={lineaSimulazione.Numerodirate__c} data-item="numeroRate" class="validateLinea" type="number" label="Numero di rate" placeholder="Inserire Numero di rate" onchange={handleFilter} required></lightning-input>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12" medium-device-size="2">
+                        <lightning-input name="baloonFinalePercentuale__c" value={lineaSimulazione.baloonFinalePercentuale__c} data-item="baloonFinale" class="validateLinea" type="number" formatter="percent-fixed" label="Baloon finale" placeholder="Inserire Baloon finale" onchange={handleFilter}></lightning-input>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12" medium-device-size="2">
+                        <lightning-combobox name="Preammortamento__c" value={lineaSimulazione.Preammortamento__c} data-item="preammortamento" class="validateLinea" label="Preammortamento" placeholder="Seleziona una Preammortamento" options={optionsPreammortamento} onchange={handleFilter} required></lightning-combobox>
+                    </lightning-layout-item>
+                    <!-- <lightning-layout-item padding="around-small" size="12" medium-device-size="2">
+                        <lightning-input name="PeriodiPreammortamento__c" value={lineaSimulazione.PeriodiPreammortamento__c} data-item="periodiPreammortamento" class="validateLinea" type="number" label="Periodi di Preammortamento" placeholder="Inserire Periodi di Preammortamento" onchange={handleFilter}></lightning-input>
+                    </lightning-layout-item> -->
+                </lightning-layout>
+
+                <lightning-layout multiple-rows>
+                    <lightning-layout-item padding="around-small" size="12" medium-device-size="1">SAL</lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12" medium-device-size="1">
+                        <!-- <label for="sal" class="slds-form-element__label">
+                            <span class="slds-required">*</span>SAL
+                        </label>
+                        <br>
+                        <lightning-input id="sal" name="SAL__c" value={lineaSimulazione.SAL__c} data-item="sal" class="validateLinea" type="checkbox" onchange={handleFilter} checked={lineaSimulazione.SAL__c}></lightning-input> -->
+                        <lightning-radio-group name="SAL__c"
+                            label="SAL"
+                            options={optionsSINO}
+                            value={lineaSimulazione.SAL__c}
+                            type="radio"
+                            onchange={handleFilter}
+                            class="validateLinea"
+                            required>
+                        </lightning-radio-group>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12" medium-device-size="2">
+                        <lightning-combobox name="Numero_periodi_di_erogazione__c" value={lineaSimulazione.Numero_periodi_di_erogazione__c} data-item="numeroPeriodiErogazione" class="validateLinea" label="Numero periodi di erogazione" placeholder="Seleziona un Numero periodi di erogazione" options={optionsNumeroPeriodiDiErogazione} onchange={handleFilter} required></lightning-combobox>
+                    </lightning-layout-item>
+
+                    <lightning-layout-item padding="around-small" size="12" medium-device-size="2">
+                        <lightning-combobox name="Numerorata__c" value={lineaSimulazione.Numerorata__c} data-item="numeroRata" class="validateLinea" label="Numero Rata" placeholder="Seleziona un Numero Rata" options={optionsNumeroRata} onchange={handleFilter} required></lightning-combobox>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12" medium-device-size="2">
+                        <lightning-input name="Erogato__c" value={lineaSimulazione.Erogato__c} data-item="erogato" class="validateLinea" type="number" label="Erogato" placeholder="Inserire Erogato" onchange={handleFilter} required></lightning-input>
+                    </lightning-layout-item>
+                    <!-- <lightning-layout-item padding="around-small" size="12" medium-device-size="2">
+                        <lightning-input name="Periododierogazionifondi__c" value={lineaSimulazione.Periododierogazionifondi__c} data-item="perErogazioniFondi" class="validateLinea" type="number" label="Periodo di erogazioni fondi" placeholder="Inserire Periodo di erogazioni fondi" onchange={handleFilter} required></lightning-input>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12" medium-device-size="2">
+                        <lightning-input name="Numeroanniequivalenti__c" value={lineaSimulazione.Numeroanniequivalenti__c} data-item="numeroAnniEquiv" class="validateLinea" type="number" label="Numero anni equivalenti" placeholder="Inserire Numero anni equivalenti" onchange={handleFilter} required></lightning-input>
+                    </lightning-layout-item> -->
+                </lightning-layout>
+            </lightning-accordion-section>
+
+            <lightning-accordion-section name="sezione3" label="Garanzia">
+                <lightning-layout multiple-rows>
+                    <lightning-layout-item padding="around-small" size="12" medium-device-size="1">Garanzia</lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12" medium-device-size="1">
+                        <!-- <label for="garanzia" class="slds-form-element__label">
+                            <span class="slds-required">*</span>Garanzia
+                        </label>
+                        <br>
+                        <lightning-input id="garanzia" name="Garanzia__c" value={lineaSimulazione.Garanzia__c} data-item="garanzia" class="validateLinea" type="checkbox" onchange={handleFilter} checked={lineaSimulazione.Garanzia__c}></lightning-input> -->
+                        <lightning-radio-group name="Garanzia__c"
+                            label="Garanzia"
+                            options={optionsSINO}
+                            value={lineaSimulazione.Garanzia__c}
+                            type="radio"
+                            onchange={handleFilter}
+                            class="validateLinea"
+                            required>
+                        </lightning-radio-group>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12" medium-device-size="2">
+                        <lightning-combobox name="Tipo_garanzia__c" value={lineaSimulazione.Tipo_garanzia__c} data-item="tipoGaranzia" class="validateLinea" label="Tipo Garanzia" placeholder="Seleziona un Tipo Garanzia" options={optionsTipoGaranzia} onchange={handleFilter} required></lightning-combobox>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12" medium-device-size="2">
+                        <lightning-input name="Valore_del_pegno_SACE__c" value={lineaSimulazione.Valore_del_pegno_SACE__c} data-item="valorePegnoSACE" class="validateLinea" type="number" label="valorePegnoSACE" placeholder="Inserire Valore del pegno/SACE" onchange={handleFilter} required></lightning-input>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </lightning-accordion-section>
+
+            <template if:true={showTassoAttivo}>
+                <lightning-accordion-section name="sezione4" label="Pricing – Tasso attivo">
+                    <lightning-layout multiple-rows>
+                        <lightning-layout-item padding="around-small" size="12" medium-device-size="1">Informazioni di base</lightning-layout-item>
+                        <lightning-layout-item padding="around-small" size="12" medium-device-size="2">
+                            <lightning-combobox name="Tipo_tasso__c" value={lineaSimulazione.Tipo_tasso__c} data-item="tipoTasso" class="validateLinea" label="Tipo Tasso" placeholder="Seleziona un Tipo Tasso" options={optionsTipoTasso} onchange={handleFilter} required></lightning-combobox>
+                        </lightning-layout-item>
+                        <!-- <lightning-layout-item padding="around-small" size="12" medium-device-size="2">
+                            <lightning-input name="Fisso__c" value={lineaSimulazione.Fisso__c} data-item="fisso" class="validateLinea" type="text" label="Fisso" placeholder="Inserire Valore Fisso" onchange={handleFilter} required></lightning-input>
+                        </lightning-layout-item> -->
+                        <lightning-layout-item padding="around-small" size="12" medium-device-size="2">
+                            <lightning-combobox name="Sensitivity__c" value={lineaSimulazione.Sensitivity__c} data-item="sensitivity" class="validateLinea" label="Sensitivity" placeholder="Seleziona un Sensitivity" options={optionsSensitivity} onchange={handleFilter}></lightning-combobox>
+                        </lightning-layout-item>
+                        <lightning-layout-item padding="around-small" size="12" medium-device-size="7"></lightning-layout-item>
+                        
+                        <lightning-layout-item padding="around-small" size="12" medium-device-size="1">Interest Step</lightning-layout-item>
+                        <lightning-layout-item padding="around-small" size="12" medium-device-size="1">
+                            <!-- <label for="interestStep" class="slds-form-element__label">
+                                Interest Step
+                            </label>
+                            <br>
+                            <lightning-input id="interestStepTassoAttivo" name="Intereststep__c" value={lineaSimulazione.Intereststep__c} data-item="interestStep" class="validateLinea" type="checkbox" onchange={handleFilter} checked={lineaSimulazione.Intereststep__c}></lightning-input> -->
+                            <lightning-radio-group name="Intereststep__c"
+                                label="Interest Step"
+                                options={optionsSINO}
+                                value={lineaSimulazione.Intereststep__c}
+                                type="radio"
+                                onchange={handleFilter}
+                                class="validateLinea"
+                                required>
+                            </lightning-radio-group>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </lightning-accordion-section>
+            </template>
+
+            <template if:true={showCommisioneDiFirma}>
+                <lightning-accordion-section name="sezione4" label="Pricing - Commisione di firma">
+                    <lightning-layout multiple-rows>
+                        <lightning-layout-item padding="around-small" size="12" medium-device-size="1">Commissione di firma</lightning-layout-item>
+                        <!-- <lightning-layout-item padding="around-small" size="12" medium-device-size="2">
+                            <lightning-input name="Fisso__c" value={lineaSimulazione.Fisso__c} data-item="fisso" class="validateLinea" type="text" label="Fisso" placeholder="Inserire Valore Fisso" onchange={handleFilter} required></lightning-input>
+                        </lightning-layout-item> -->
+                        <lightning-layout-item padding="around-small" size="12" medium-device-size="2">
+                            <lightning-combobox name="Sensitivity__c" value={lineaSimulazione.Sensitivity__c} data-item="sensitivity" class="validateLinea" label="Sensitivity" placeholder="Seleziona un Sensitivity" options={optionsSensitivity} onchange={handleFilter}></lightning-combobox>
+                        </lightning-layout-item>
+                        <lightning-layout-item padding="around-small" size="12" medium-device-size="2">
+                            <lightning-input name="Fissocommissionedifirma__c" value={lineaSimulazione.Fissocommissionedifirma__c} data-item="CommissioneDiFirma" class="validateLinea" type="number" label="Commissione di firma" placeholder="Inserire Commissione di firma" onchange={handleFilter}></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item padding="around-small" size="12" medium-device-size="7"></lightning-layout-item>
+                        
+                        <lightning-layout-item padding="around-small" size="12" medium-device-size="1">Interest Step</lightning-layout-item>
+                        <lightning-layout-item padding="around-small" size="12" medium-device-size="1">
+                            <lightning-radio-group name="Intereststep__c"
+                                label="Interest Step"
+                                options={optionsSINO}
+                                value={lineaSimulazione.Intereststep__c}
+                                type="radio"
+                                onchange={handleFilter}
+                                class="validateLinea"
+                                required>
+                            </lightning-radio-group>
+                            
+                            <!-- <label for="interestStep" class="slds-form-element__label">
+                                Interest Step
+                            </label>
+                            <br>
+                            <lightning-input id="interestStepCommisioniFirma" name="Intereststep__c" value={lineaSimulazione.Intereststep__c} data-item="interestStep" class="validateLinea" type="checkbox" onchange={handleFilter} checked={lineaSimulazione.Intereststep__c}></lightning-input> -->
+                        </lightning-layout-item>
+                        <lightning-layout-item padding="around-small" size="12" medium-device-size="2">
+                            <lightning-combobox name="Ratacorrispondentemodificatasso__c" value={lineaSimulazione.Ratacorrispondentemodificatasso__c} data-item="rataCorrispondenteModificaTasso" class="validateLinea" label="Rata corrispondente modifica tasso" placeholder="Seleziona una Rata corrispondente modifica tasso" options={optionsModificaTasso} onchange={handleFilter} required></lightning-combobox>
+                        </lightning-layout-item>
+                        <lightning-layout-item padding="around-small" size="12" medium-device-size="2">
+                            <lightning-input name="Delta_Spread__c" value={lineaSimulazione.Delta_Spread__c} data-item="deltaTassoSpread" class="validateLinea" type="number" label="Delta Tasso Spread" placeholder="Inserire Delta Tasso Spread" onchange={handleFilter} required></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item padding="around-small" size="12" medium-device-size="2">
+                            <lightning-input name="Periodicitcorrispondente__c" value={lineaSimulazione.Periodicitcorrispondente__c} data-item="periodicitaCorrispondente" class="validateLinea" type="text" label="Periodicità corrispondente" placeholder="Inserire Periodicità corrispondente" onchange={handleFilter} required></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item padding="around-small" size="12" medium-device-size="2">
+                            <lightning-input name="Numeroanniequivalenti__c" value={lineaSimulazione.Numeroanniequivalenti__c} data-item="numeroAnniEquivalenti" class="validateLinea" type="number" label="Numero anni equivalenti" placeholder="Inserire Numero anni equivalenti" onchange={handleFilter} required></lightning-input>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </lightning-accordion-section>
+            </template>
+
+            <lightning-accordion-section name="sezione5" label="Pricing - Commissioni">
+                <lightning-layout multiple-rows>
+                    <lightning-layout-item padding="around-small" size="12" medium-device-size="1">CMU</lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12" medium-device-size="2">
+                        <lightning-input name="CMUannuale__c" value={lineaSimulazione.CMUannuale__c} data-item="cmuAnnuale" class="validateLinea" type="text" label="CMU annuale" placeholder="Inserire Valore CMU annuale" onchange={handleFilter}></lightning-input>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12" medium-device-size="9"></lightning-layout-item>
+                    
+                    <lightning-layout-item padding="around-small" size="12" medium-device-size="1">Upfront</lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12" medium-device-size="1">
+                        <lightning-radio-group name="UpFrontValorePerc__c"
+                          label=""
+                          options={optionsTipoVal}
+                          checked={lineaSimulazione.UpFrontValorePerc__c}
+                          type="radio"
+                          onchange={handleFilter}>
+                        </lightning-radio-group>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12" medium-device-size="2">
+                        <lightning-input name="Up_Front__c" value={lineaSimulazione.Up_Front__c} data-item="upFront" class="validateLinea" type="number" label="Up Front" placeholder="Inserire Valore Up Front" onchange={handleFilter}></lightning-input>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12" medium-device-size="2">
+                        <lightning-input name="Up_Front_perc__c" value={lineaSimulazione.Up_Front_perc__c} data-item="upFrontPer" class="validateLinea" type="number" label="Up Front %" placeholder="Inserire Valore Up Front %" onchange={handleFilter}></lightning-input>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12" medium-device-size="6"></lightning-layout-item>
+
+                    <lightning-layout-item padding="around-small" size="12" medium-device-size="1">Running</lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12" medium-device-size="1">
+                        <lightning-radio-group name="RunningValorePerc__c"
+                          label=""
+                          options={optionsTipoVal}
+                          checked={lineaSimulazione.RunningValorePerc__c}
+                          type="radio"
+                          onchange={handleFilter}
+                        ></lightning-radio-group>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12" medium-device-size="2">
+                        <lightning-input name="Commissione_running_annuale__c" value={lineaSimulazione.Commissione_running_annuale__c} data-item="commissioneRunningAnnuale" class="validateLinea" type="number" label="Commissione running annuale" placeholder="Inserire Commissione running annuale" onchange={handleFilter}></lightning-input>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12" medium-device-size="2">
+                        <lightning-input name="Commissione_running_annuale_perc__c" value={lineaSimulazione.Commissione_running_annuale_perc__c} data-item="commissioneRunningAnnualePer" class="validateLinea" type="number" label="Commissione running annuale %" placeholder="Inserire Commissione running annuale %" onchange={handleFilter}></lightning-input>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12" medium-device-size="2">
+                        <lightning-input name="Tasso_running_periodale__c" value={lineaSimulazione.Tasso_running_periodale__c} data-item="tassoRunningPeriodale" class="validateLinea" type="number" label="Tasso running annuale" placeholder="Inserire Tasso running annuale" onchange={handleFilter}></lightning-input>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12" medium-device-size="2">
+                        <lightning-input name="Commissione_running_periodale__c" value={lineaSimulazione.Commissione_running_periodale__c} data-item="commissioneRunningPeriodale" class="validateLinea" type="number" label="Commissione running periodale" placeholder="Inserire Commissione running periodale" onchange={handleFilter}></lightning-input>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12" medium-device-size="2"></lightning-layout-item>
+                    
+                    <lightning-layout-item padding="around-small" size="12" medium-device-size="1">Altro</lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12" medium-device-size="1">
+                        <lightning-radio-group name="AltroValorePerc__c"
+                          label=""
+                          options={optionsTipoVal}
+                          checked={lineaSimulazione.AltroValorePerc__c}
+                          type="radio"
+                          onchange={handleFilter}
+                        ></lightning-radio-group>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12" medium-device-size="2">
+                        <lightning-input name="Altroesderivato__c" value={lineaSimulazione.Altroesderivato__c} data-item="altroEsDerivato" class="validateLinea" type="number" label="Altro ES. Derivato" placeholder="Inserire Valore Altro ES. Derivato" onchange={handleFilter}></lightning-input>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12" medium-device-size="2">
+                        <lightning-input name="Altro_es_derivato_perc__c" value={lineaSimulazione.Altro_es_derivato_perc__c} data-item="altroEsDerivatoPer" class="validateLinea" type="number" label="Altro ES. Derivato %" placeholder="Inserire Valore Altro ES. Derivato %" onchange={handleFilter}></lightning-input>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12" medium-device-size="6"></lightning-layout-item>
+
+                    <lightning-layout-item padding="around-small" size="12" medium-device-size="1">Note</lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12" medium-device-size="11">
+                        <lightning-textarea name="Note__c" value={lineaSimulazione.Note__c} data-item="note" class="validateLinea" type="text" label="Note" placeholder="Inserire Valore Note" onchange={handleFilter}></lightning-textarea>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </lightning-accordion-section>
+        </lightning-accordion>
+    </lightning-card>
+</template>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>55.0</apiVersion>
+    <decisions>
+        <name>Check_Product_Opportunit_Campagna</name>
+        <label>Check Product Opportunità - Campagna</label>
+        <locationX>455</locationX>
+        <locationY>405</locationY>
+        <defaultConnectorLabel>Not Empty</defaultConnectorLabel>
+        <rules>
+            <name>Empty_field</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.CC_Riferimento_Prodotto_Opty_Campaign__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Prodotto_Campagna_to_Altro</targetReference>
+            </connector>
+            <label>Empty field</label>
+        </rules>
+    </decisions>
+    <environments>Default</environments>
+    <interviewLabel>Campaign - Set Rif. Opty Campagna to Altro {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Campaign - Set Rif. Opty Campagna to Altro</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Update_Prodotto_Campagna_to_Altro</name>
+        <label>Update Prodotto Campagna to Altro</label>
+        <locationX>722</locationX>
+        <locationY>560</locationY>
+        <inputAssignments>
+            <field>CC_Riferimento_Prodotto_Opty_Campaign__c</field>
+            <value>
+                <stringValue>Altro</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>330</locationX>
+        <locationY>48</locationY>
+        <connector>
+            <targetReference>Check_Product_Opportunit_Campagna</targetReference>
+        </connector>
+        <object>Campaign</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

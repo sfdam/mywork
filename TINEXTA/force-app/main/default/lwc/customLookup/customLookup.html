@@ -1,0 +1,72 @@
+<template>
+    <lightning-layout>
+        <lightning-layout-item size="12">
+            <div class="slds-form-element">
+                <template if:true={required}>
+                    <span style="color:rgb(194, 57, 52);">*</span>
+                </template>
+                <label class="slds-form-element__label">{fieldLabel}</label>
+                <div class="slds-form-element__control">
+                    <div class="slds-combobox_container">
+                        <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="false" aria-haspopup="listbox" role="combobox">
+                            <template if:false={hasSelection}>
+                                <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_left-right" role="none" style={errorRequired} >
+                                    <span class="slds-icon_container slds-combobox__input-entity-icon" title={sObjectName}>
+                                        <lightning-icon icon-name={iconName} size="small"></lightning-icon>
+                                        <span class="slds-assistive-text">{sObjectName}</span>
+                                    </span>
+                                    <!-- <span class="slds-icon_container slds-input__icon slds-input__icon_left">
+                                        <lightning-icon icon-name={iconName} size="small"></lightning-icon>
+                                    </span> -->
+                                    <input type="search" class="slds-input slds-combobox__input" value={strSearch} placeholder={placeholderInput} onclick={clickSearch} onblur={blurInput} onkeyup={changeFilter}/>
+                                    <span class="slds-icon_container slds-icon-utility-search slds-input__icon slds-input__icon_right" readonly={pReadOnly} required={required}>
+                                        <lightning-icon icon-name="utility:search" size="xx-small"></lightning-icon>
+                                    </span>
+                                </div>
+                            </template>
+                            <template if:true={hasSelection}>
+                                <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_left-right" role="none">
+                                    <span class="slds-icon_container slds-combobox__input-entity-icon" title={selectedSObject.sObjectName}>
+                                        <lightning-icon icon-name={selectedSObject.iconName} size="xx-small"></lightning-icon>
+                                        <span class="slds-assistive-text">{selectedSObject.sObjectName}</span>
+                                    </span>
+                                    <input type="search" class="slds-input slds-combobox__input slds-combobox__input-value" value={selectedSObject.name} placeholder={placeholderInput} onclick={clickSearch} onblur={blurInput} onkeyup={changeFilter} readonly />
+                                    <lightning-button-icon icon-name="utility:close" variant="bare" class="cstm-btn-remove slds-input__icon slds-input__icon_right" title="Rimuovi" onclick={removeSelectedItem} disabled={pReadOnly}></lightning-button-icon>
+                                </div>
+                            </template>
+                            <div class="cstm-dropdown slds-dropdown slds-dropdown_length-with-icon-5 slds-dropdown_fluid" role="listbox">
+                                <template if:false={isLoading}>
+                                    <template if:true={hasResult}>
+                                        <ul class="slds-listbox slds-listbox_vertical" role="presentation">                                    
+                                            <template for:each={results} for:item="item">
+                                                <li key={item.objId} role="presentation" class="slds-listbox__item" data-value={item.objId} onmousedown={selectItem}>
+                                                    <div class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta" role="option">
+                                                        <span class="slds-media__figure slds-listbox__option-icon">
+                                                        <span class="slds-icon_container slds-icon-standard-account">
+                                                            <lightning-icon icon-name={item.iconName} size="small"></lightning-icon>
+                                                        </span>
+                                                        </span>
+                                                        <span class="slds-media__body">
+                                                        <span class="slds-listbox__option-text slds-listbox__option-text_entity">{item.name}</span>
+                                                        <!-- <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">Opportunity • {item.name}</span> -->
+                                                        </span>
+                                                    </div>
+                                                </li>
+                                            </template>
+                                        </ul>
+                                    </template>
+                                    <template if:false={hasResult}>
+                                        <label class="slds-form-element__label">{noResultMsg}</label>
+                                    </template>
+                                </template>
+                                <template if:true={isLoading}>
+                                    <lightning-spinner alternative-text="Ricerca..." variant="brand"></lightning-spinner>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

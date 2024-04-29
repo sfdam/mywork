@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>HasQuery__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Campo che indica se l&apos;xml recupererà dati tramite query</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Campo che indica se l&apos;xml recupererà dati tramite query</inlineHelpText>
+    <label>Has Query</label>
+    <type>Checkbox</type>
+</CustomField>

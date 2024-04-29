@@ -1,0 +1,28 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" controller="WGC_Header_Attivita_FD_Controller">
+    <!-- attributes -->
+    <aura:attribute name="countPrevisioneAvvioRapporto" type="Decimal" default="0" />
+    
+    <aura:attribute name="isDirezioneFD" type="Boolean" default="false" />
+    <aura:attribute name="linkReport" type="String" default="Previsione_Avvio_Rapporto" />
+    
+    <lightning:navigation aura:id="navService" />
+
+    <!-- handlers -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }" />
+    <aura:handler event="c:WGC_FilterEvent_FD" action="{! c.filter }" />
+    <aura:handler name="change" value="{! v.isDirezioneFD }" action="{! c.doInit }" />
+
+    <lightning:card>
+        <div class="body point" onclick="{! c.navigateToReport }">
+            <lightning:layout multipleRows="true">
+                <lightning:layoutItem size="12" class="slds-p-around_xx-small slds-text-align_center">
+                    <h1 style="text-transform: uppercase;">{! $Label.c.WGC_Header_PrevisioneAvvioRapporto }</h1>
+                </lightning:layoutItem>
+                <lightning:layoutItem size="12" class="slds-p-around_xx-small slds-text-align_center">
+                    <lightning:formattedNumber class="count" value="{! v.countPrevisioneAvvioRapporto }" />
+                    <!-- <span class="count">{! v.countPrevisioneAvvioRapporto }</span> -->
+                </lightning:layoutItem>
+            </lightning:layout>
+        </div>
+    </lightning:card>
+</aura:component>

@@ -1,0 +1,1341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_Level1__c</fullName>
+    <externalId>false</externalId>
+    <label>1° Level</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>CRM_Scope__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>true</sorted>
+            <value>
+                <fullName>3D Secure</fullName>
+                <default>false</default>
+                <label>3D Secure</label>
+            </value>
+            <value>
+                <fullName>Accesso</fullName>
+                <default>false</default>
+                <label>Accesso</label>
+            </value>
+            <value>
+                <fullName>Accesso e navigazione</fullName>
+                <default>false</default>
+                <label>Accesso e navigazione</label>
+            </value>
+            <value>
+                <fullName>Accesso e navigazione IB</fullName>
+                <default>false</default>
+                <label>Accesso e navigazione IB</label>
+            </value>
+            <value>
+                <fullName>Accesso e navigazione wizard</fullName>
+                <default>false</default>
+                <label>Accesso e navigazione wizard</label>
+            </value>
+            <value>
+                <fullName>Accesso IB</fullName>
+                <default>false</default>
+                <label>Accesso IB</label>
+            </value>
+            <value>
+                <fullName>Aggiornamento documento</fullName>
+                <default>false</default>
+                <label>Aggiornamento documento</label>
+            </value>
+            <value>
+                <fullName>Aggiornamento prodotti</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Aggiornamento prodotti</label>
+            </value>
+            <value>
+                <fullName>Allineamento disponibilità</fullName>
+                <default>false</default>
+                <label>Allineamento disponibilità</label>
+            </value>
+            <value>
+                <fullName>Altre comunicazioni</fullName>
+                <default>false</default>
+                <label>Altre comunicazioni</label>
+            </value>
+            <value>
+                <fullName>Altri prodotti e servizi</fullName>
+                <default>false</default>
+                <label>Altri prodotti e servizi</label>
+            </value>
+            <value>
+                <fullName>Altro</fullName>
+                <default>false</default>
+                <label>Altro</label>
+            </value>
+            <value>
+                <fullName>Altro blocco</fullName>
+                <default>false</default>
+                <label>Altro blocco</label>
+            </value>
+            <value>
+                <fullName>Ambiente e logistica</fullName>
+                <default>false</default>
+                <label>Ambiente e logistica</label>
+            </value>
+            <value>
+                <fullName>App Tocca a me</fullName>
+                <default>false</default>
+                <label>App Tocca a me</label>
+            </value>
+            <value>
+                <fullName>Area riservata disattivata</fullName>
+                <default>false</default>
+                <label>Area riservata disattivata</label>
+            </value>
+            <value>
+                <fullName>Assicurazioni</fullName>
+                <default>false</default>
+                <label>Assicurazioni</label>
+            </value>
+            <value>
+                <fullName>ATM</fullName>
+                <default>false</default>
+                <label>ATM</label>
+            </value>
+            <value>
+                <fullName>Attivazione carta</fullName>
+                <default>false</default>
+                <label>Attivazione carta</label>
+            </value>
+            <value>
+                <fullName>Biglietti</fullName>
+                <default>false</default>
+                <label>Biglietti</label>
+            </value>
+            <value>
+                <fullName>Temporaneo</fullName>
+                <default>false</default>
+                <label>Blocco Temporaneo</label>
+            </value>
+            <value>
+                <fullName>Body Card</fullName>
+                <default>false</default>
+                <label>Body Card</label>
+            </value>
+            <value>
+                <fullName>Cambio Filiale</fullName>
+                <default>false</default>
+                <label>Cambio Filiale</label>
+            </value>
+            <value>
+                <fullName>Cambio IBAN</fullName>
+                <default>false</default>
+                <label>Cambio IBAN</label>
+            </value>
+            <value>
+                <fullName>Canali disponibili</fullName>
+                <default>false</default>
+                <label>Canali disponibili</label>
+            </value>
+            <value>
+                <fullName>Caratteristiche prodotto</fullName>
+                <default>false</default>
+                <label>Caratteristiche prodotto</label>
+            </value>
+            <value>
+                <fullName>Carte</fullName>
+                <default>false</default>
+                <label>Carte</label>
+            </value>
+            <value>
+                <fullName>Carte di credito</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Carte di credito</label>
+            </value>
+            <value>
+                <fullName>Carte di debito</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Carte di debito</label>
+            </value>
+            <value>
+                <fullName>Carte prepagate</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Carte prepagate</label>
+            </value>
+            <value>
+                <fullName>Certificazione dati e contatti</fullName>
+                <default>false</default>
+                <label>Certificazione dati e contatti</label>
+            </value>
+            <value>
+                <fullName>Certificazione email</fullName>
+                <default>false</default>
+                <label>Certificazione email</label>
+            </value>
+            <value>
+                <fullName>Chiusura</fullName>
+                <default>false</default>
+                <label>Chiusura</label>
+            </value>
+            <value>
+                <fullName>Chiusura conto</fullName>
+                <default>false</default>
+                <label>Chiusura conto</label>
+            </value>
+            <value>
+                <fullName>Codice di sicurezza</fullName>
+                <default>false</default>
+                <label>Codice di sicurezza</label>
+            </value>
+            <value>
+                <fullName>Codice fiscale</fullName>
+                <default>false</default>
+                <label>Codice fiscale</label>
+            </value>
+            <value>
+                <fullName>Completezza/Chiarezza/Trasparenza</fullName>
+                <default>false</default>
+                <label>Completezza/Chiarezza/Trasparenza</label>
+            </value>
+            <value>
+                <fullName>Compravendita telefonica</fullName>
+                <default>false</default>
+                <label>Compravendita telefonica</label>
+            </value>
+            <value>
+                <fullName>Comprensibilità/Fruibilità</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Comprensibilità/Fruibilità</label>
+            </value>
+            <value>
+                <fullName>Conclusione Wizard</fullName>
+                <default>false</default>
+                <label>Conclusione Wizard</label>
+            </value>
+            <value>
+                <fullName>Condizioni economiche</fullName>
+                <default>false</default>
+                <label>Condizioni economiche</label>
+            </value>
+            <value>
+                <fullName>Condizioni economiche/ info operative</fullName>
+                <default>false</default>
+                <label>Condizioni economiche/ info operative</label>
+            </value>
+            <value>
+                <fullName>Condizioni economiche IB</fullName>
+                <default>false</default>
+                <label>Condizioni economiche IB</label>
+            </value>
+            <value>
+                <fullName>Condizioni e coperture</fullName>
+                <default>false</default>
+                <label>Condizioni e coperture</label>
+            </value>
+            <value>
+                <fullName>Configurazione prodotto</fullName>
+                <default>false</default>
+                <label>Configurazione prodotto</label>
+            </value>
+            <value>
+                <fullName>Consulenti</fullName>
+                <default>false</default>
+                <label>Consulenti</label>
+            </value>
+            <value>
+                <fullName>Consultazione</fullName>
+                <default>false</default>
+                <label>Consultazione</label>
+            </value>
+            <value>
+                <fullName>Conteggi estintivi</fullName>
+                <default>false</default>
+                <label>Conteggi estintivi</label>
+            </value>
+            <value>
+                <fullName>Contenuti</fullName>
+                <default>false</default>
+                <label>Contenuti</label>
+            </value>
+            <value>
+                <fullName>Conti Correnti</fullName>
+                <default>false</default>
+                <label>Conti Correnti</label>
+            </value>
+            <value>
+                <fullName>Continuità operativa</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Continuità operativa</label>
+            </value>
+            <value>
+                <fullName>Conto online</fullName>
+                <default>false</default>
+                <label>Conto online</label>
+            </value>
+            <value>
+                <fullName>Credenziali</fullName>
+                <default>false</default>
+                <label>Credenziali</label>
+            </value>
+            <value>
+                <fullName>Credenziali IB</fullName>
+                <default>false</default>
+                <label>Credenziali IB</label>
+            </value>
+            <value>
+                <fullName>Criteri Eleggibilità</fullName>
+                <default>false</default>
+                <label>Criteri Eleggibilità</label>
+            </value>
+            <value>
+                <fullName>Disponibilità e saldo</fullName>
+                <default>false</default>
+                <label>Disponibilità e saldo</label>
+            </value>
+            <value>
+                <fullName>Documentazione ricevuta</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Documentazione ricevuta</label>
+            </value>
+            <value>
+                <fullName>Documentazione spese titoli</fullName>
+                <default>false</default>
+                <label>Documentazione spese titoli</label>
+            </value>
+            <value>
+                <fullName>Email di recapito</fullName>
+                <default>false</default>
+                <label>Email di recapito</label>
+            </value>
+            <value>
+                <fullName>Enrollment II utenza</fullName>
+                <default>false</default>
+                <label>Enrollment II utenza</label>
+            </value>
+            <value>
+                <fullName>Estratto conto</fullName>
+                <default>false</default>
+                <label>Estratto conto</label>
+            </value>
+            <value>
+                <fullName>Finanziamenti</fullName>
+                <default>false</default>
+                <label>Finanziamenti</label>
+            </value>
+            <value>
+                <fullName>Frode</fullName>
+                <default>false</default>
+                <label>Frode</label>
+            </value>
+            <value>
+                <fullName>Funzionalità</fullName>
+                <default>false</default>
+                <label>Funzionalità</label>
+            </value>
+            <value>
+                <fullName>Funzionalità IB</fullName>
+                <default>false</default>
+                <label>Funzionalità IB</label>
+            </value>
+            <value>
+                <fullName>Furto e smarrimento</fullName>
+                <default>false</default>
+                <label>Furto e smarrimento</label>
+            </value>
+            <value>
+                <fullName>Guasto</fullName>
+                <default>false</default>
+                <label>Guasto</label>
+            </value>
+            <value>
+                <fullName>Immobili</fullName>
+                <default>false</default>
+                <label>Immobili</label>
+            </value>
+            <value>
+                <fullName>Incassi e Pagamenti aziendali</fullName>
+                <default>false</default>
+                <label>Incassi e Pagamenti aziendali</label>
+            </value>
+            <value>
+                <fullName>Indagine di soddisfazione</fullName>
+                <default>false</default>
+                <label>Indagine di soddisfazione</label>
+            </value>
+            <value>
+                <fullName>Indirizzo di spedizione</fullName>
+                <default>false</default>
+                <label>Indirizzo di spedizione</label>
+            </value>
+            <value>
+                <fullName>Informativa precontrattuale</fullName>
+                <default>false</default>
+                <label>Informativa precontrattuale</label>
+            </value>
+            <value>
+                <fullName>Informazioni</fullName>
+                <default>false</default>
+                <label>Informazioni</label>
+            </value>
+            <value>
+                <fullName>Informazioni finanziarie</fullName>
+                <default>false</default>
+                <label>Informazioni finanziarie</label>
+            </value>
+            <value>
+                <fullName>Informazioni varie</fullName>
+                <default>false</default>
+                <label>Informazioni varie</label>
+            </value>
+            <value>
+                <fullName>Inserimento richiesta</fullName>
+                <default>false</default>
+                <label>Inserimento richiesta</label>
+            </value>
+            <value>
+                <fullName>Internet Banking</fullName>
+                <default>false</default>
+                <label>Internet Banking</label>
+            </value>
+            <value>
+                <fullName>Investimenti</fullName>
+                <default>false</default>
+                <label>Investimenti</label>
+            </value>
+            <value>
+                <fullName>Invio cartaceo</fullName>
+                <default>false</default>
+                <label>Invio cartaceo</label>
+            </value>
+            <value>
+                <fullName>Invio elettronico</fullName>
+                <default>false</default>
+                <label>Invio elettronico</label>
+            </value>
+            <value>
+                <fullName>Iscrizione</fullName>
+                <default>false</default>
+                <label>Iscrizione</label>
+            </value>
+            <value>
+                <fullName>Istruzioni Migrazione prodotti</fullName>
+                <default>false</default>
+                <label>Istruzioni Migrazione prodotti</label>
+            </value>
+            <value>
+                <fullName>Localizzazione</fullName>
+                <default>false</default>
+                <label>Localizzazione</label>
+            </value>
+            <value>
+                <fullName>Mancato prelievo/transazione</fullName>
+                <default>false</default>
+                <label>Mancato prelievo/transazione</label>
+            </value>
+            <value>
+                <fullName>Modalità di emissione</fullName>
+                <default>false</default>
+                <label>Modalità di emissione</label>
+            </value>
+            <value>
+                <fullName>Modalità di utilizzo</fullName>
+                <default>false</default>
+                <label>Modalità di utilizzo</label>
+            </value>
+            <value>
+                <fullName>Modifica contatti</fullName>
+                <default>false</default>
+                <label>Modifica contatti</label>
+            </value>
+            <value>
+                <fullName>Monitoraggio Spedizione</fullName>
+                <default>false</default>
+                <label>Monitoraggio Spedizione</label>
+            </value>
+            <value>
+                <fullName>Movimenti</fullName>
+                <default>false</default>
+                <label>Movimenti</label>
+            </value>
+            <value>
+                <fullName>Mutui</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Mutui</label>
+            </value>
+            <value>
+                <fullName>Navigazione</fullName>
+                <default>false</default>
+                <label>Navigazione</label>
+            </value>
+            <value>
+                <fullName>Numero di recapito</fullName>
+                <default>false</default>
+                <label>Numero di recapito</label>
+            </value>
+            <value>
+                <fullName>Nuovo IB</fullName>
+                <default>false</default>
+                <label>Nuovo IB</label>
+            </value>
+            <value>
+                <fullName>OAD Prestito Digital</fullName>
+                <default>false</default>
+                <label>OAD Prestito Digital</label>
+            </value>
+            <value>
+                <fullName>Operatività</fullName>
+                <default>false</default>
+                <label>Operatività</label>
+            </value>
+            <value>
+                <fullName>Operatività e servizi di cassa</fullName>
+                <default>false</default>
+                <label>Operatività e servizi di cassa</label>
+            </value>
+            <value>
+                <fullName>Operazioni e funzionalità</fullName>
+                <default>false</default>
+                <label>Operazioni e funzionalità</label>
+            </value>
+            <value>
+                <fullName>Opportunità di lavoro</fullName>
+                <default>false</default>
+                <label>Opportunità di lavoro</label>
+            </value>
+            <value>
+                <fullName>Orari e contatti</fullName>
+                <default>false</default>
+                <label>Orari e contatti</label>
+            </value>
+            <value>
+                <fullName>Phone credit</fullName>
+                <default>false</default>
+                <label>Phone credit</label>
+            </value>
+            <value>
+                <fullName>PIN view</fullName>
+                <default>false</default>
+                <label>PIN view</label>
+            </value>
+            <value>
+                <fullName>Prestiti Personali</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Prestiti Personali</label>
+            </value>
+            <value>
+                <fullName>Privacy</fullName>
+                <default>false</default>
+                <label>Privacy</label>
+            </value>
+            <value>
+                <fullName>Prodotti migrati</fullName>
+                <default>false</default>
+                <label>Prodotti migrati</label>
+            </value>
+            <value>
+                <fullName>Raggiungibilità</fullName>
+                <default>false</default>
+                <label>Raggiungibilità</label>
+            </value>
+            <value>
+                <fullName>Rallentamenti/Pagina non raggiungibile/Errore generico</fullName>
+                <default>false</default>
+                <label>Rallentamenti/Pagina non raggiungibile/Errore generico</label>
+            </value>
+            <value>
+                <fullName>Rapporti collegati</fullName>
+                <default>false</default>
+                <label>Rapporti collegati</label>
+            </value>
+            <value>
+                <fullName>Rapporti e collegamenti</fullName>
+                <default>false</default>
+                <label>Rapporti e collegamenti</label>
+            </value>
+            <value>
+                <fullName>Rata in conto</fullName>
+                <default>false</default>
+                <label>Rata in conto</label>
+            </value>
+            <value>
+                <fullName>Restituzione</fullName>
+                <default>false</default>
+                <label>Restituzione</label>
+            </value>
+            <value>
+                <fullName>Ricerche e tesi</fullName>
+                <default>false</default>
+                <label>Ricerche e tesi</label>
+            </value>
+            <value>
+                <fullName>Ricezione nuove credenziali</fullName>
+                <default>false</default>
+                <label>Ricezione nuove credenziali</label>
+            </value>
+            <value>
+                <fullName>Richiesta</fullName>
+                <default>false</default>
+                <label>Richiesta</label>
+            </value>
+            <value>
+                <fullName>Richiesta contatto</fullName>
+                <default>false</default>
+                <label>Richiesta contatto</label>
+            </value>
+            <value>
+                <fullName>RID - Stipendi - Pensioni</fullName>
+                <default>false</default>
+                <label>RID - Stipendi - Pensioni</label>
+            </value>
+            <value>
+                <fullName>Riepilogo e firma</fullName>
+                <default>false</default>
+                <label>Riepilogo e firma</label>
+            </value>
+            <value>
+                <fullName>Riferimenti</fullName>
+                <default>false</default>
+                <label>Riferimenti</label>
+            </value>
+            <value>
+                <fullName>Rinnovo</fullName>
+                <default>false</default>
+                <label>Rinnovo</label>
+            </value>
+            <value>
+                <fullName>Ritardo</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Ritardo</label>
+            </value>
+            <value>
+                <fullName>Sblocco</fullName>
+                <default>false</default>
+                <label>Sblocco</label>
+            </value>
+            <value>
+                <fullName>Sblocco nuova carta (Revoca Poker)</fullName>
+                <default>false</default>
+                <label>Sblocco nuova carta (Revoca Poker)</label>
+            </value>
+            <value>
+                <fullName>SCA</fullName>
+                <default>false</default>
+                <label>SCA</label>
+            </value>
+            <value>
+                <fullName>SCA IB</fullName>
+                <default>false</default>
+                <label>SCA IB</label>
+            </value>
+            <value>
+                <fullName>Scollegamento</fullName>
+                <default>false</default>
+                <label>Scollegamento</label>
+            </value>
+            <value>
+                <fullName>SDD</fullName>
+                <default>false</default>
+                <label>SDD</label>
+            </value>
+            <value>
+                <fullName>Sicurezza</fullName>
+                <default>false</default>
+                <label>Sicurezza</label>
+            </value>
+            <value>
+                <fullName>Sicurezza IB</fullName>
+                <default>false</default>
+                <label>Sicurezza IB</label>
+            </value>
+            <value>
+                <fullName>Sorriso</fullName>
+                <default>false</default>
+                <label>Sorriso</label>
+            </value>
+            <value>
+                <fullName>Sottoscrizione</fullName>
+                <default>false</default>
+                <label>Sottoscrizione</label>
+            </value>
+            <value>
+                <fullName>Sponsorizzazioni</fullName>
+                <default>false</default>
+                <label>Sponsorizzazioni</label>
+            </value>
+            <value>
+                <fullName>Stato pratica</fullName>
+                <default>false</default>
+                <label>Stato pratica</label>
+            </value>
+            <value>
+                <fullName>Stato richiesta</fullName>
+                <default>false</default>
+                <label>Stato richiesta</label>
+            </value>
+            <value>
+                <fullName>Stato sottoscrizione</fullName>
+                <default>false</default>
+                <label>Stato sottoscrizione</label>
+            </value>
+            <value>
+                <fullName>Stato sottoscrizione conto on line</fullName>
+                <default>false</default>
+                <label>Stato sottoscrizione conto on line</label>
+            </value>
+            <value>
+                <fullName>Stato spedizione</fullName>
+                <default>false</default>
+                <label>Stato spedizione</label>
+            </value>
+            <value>
+                <fullName>Survey NPS</fullName>
+                <default>false</default>
+                <label>Survey NPS</label>
+            </value>
+            <value>
+                <fullName>Tempi di emissione</fullName>
+                <default>false</default>
+                <label>Tempi di emissione</label>
+            </value>
+            <value>
+                <fullName>Tokenizzazione</fullName>
+                <default>false</default>
+                <label>Tokenizzazione</label>
+            </value>
+            <value>
+                <fullName>Unilaterale obbligatoria (prima comunicazione)</fullName>
+                <default>false</default>
+                <label>Unilaterale obbligatoria (prima comunicazione)</label>
+            </value>
+            <value>
+                <fullName>Utilizzo</fullName>
+                <default>false</default>
+                <label>Utilizzo</label>
+            </value>
+            <value>
+                <fullName>Variazione condizioni</fullName>
+                <default>false</default>
+                <label>Variazione condizioni</label>
+            </value>
+            <value>
+                <fullName>Varie</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Varie</label>
+            </value>
+            <value>
+                <fullName>Veridicità comunicazione</fullName>
+                <default>false</default>
+                <label>Veridicità comunicazione</label>
+            </value>
+            <value>
+                <fullName>Verifica contatti</fullName>
+                <default>false</default>
+                <label>Verifica contatti</label>
+            </value>
+            <value>
+                <fullName>Verifica dati anagrafici</fullName>
+                <default>false</default>
+                <label>Verifica dati anagrafici</label>
+            </value>
+            <value>
+                <fullName>Verifica rapporti</fullName>
+                <default>false</default>
+                <label>Verifica rapporti</label>
+            </value>
+            <value>
+                <fullName>Welcome letter</fullName>
+                <default>false</default>
+                <label>Welcome letter</label>
+            </value>
+            <value>
+                <fullName>Wizard</fullName>
+                <default>false</default>
+                <label>Wizard</label>
+            </value>
+            <value>
+                <fullName>Wizard sottoscrizione Conto on line</fullName>
+                <default>false</default>
+                <label>Wizard sottoscrizione Conto on line</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Migrazione Internet banking</controllingFieldValue>
+            <valueName>Accesso e navigazione wizard</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Migrazione Internet banking</controllingFieldValue>
+            <valueName>Certificazione dati e contatti</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Migrazione Internet banking</controllingFieldValue>
+            <valueName>Conclusione Wizard</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Migrazione Internet banking</controllingFieldValue>
+            <valueName>Rapporti collegati</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Altre informazioni</controllingFieldValue>
+            <valueName>ATM</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Altre informazioni</controllingFieldValue>
+            <valueName>Cambio Filiale</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Altre informazioni</controllingFieldValue>
+            <valueName>Cambio IBAN</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Altre informazioni</controllingFieldValue>
+            <valueName>Rapporti e collegamenti</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Nuovo IB</controllingFieldValue>
+            <controllingFieldValue>CBI</controllingFieldValue>
+            <valueName>Accesso</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Nuovo IB</controllingFieldValue>
+            <valueName>Enrollment II utenza</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Nuovo IB</controllingFieldValue>
+            <valueName>Prodotti migrati</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Nuovo IB</controllingFieldValue>
+            <valueName>Ricezione nuove credenziali</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Area riservata e Smart BPERCard</controllingFieldValue>
+            <valueName>Accesso e navigazione</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Area riservata e Smart BPERCard</controllingFieldValue>
+            <valueName>Area riservata disattivata</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Area riservata e Smart BPERCard</controllingFieldValue>
+            <valueName>Credenziali</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Area riservata e Smart BPERCard</controllingFieldValue>
+            <valueName>Funzionalità</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Area riservata e Smart BPERCard</controllingFieldValue>
+            <valueName>Iscrizione</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Area riservata e Smart BPERCard</controllingFieldValue>
+            <valueName>SCA</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Area riservata e Smart BPERCard</controllingFieldValue>
+            <valueName>Sicurezza</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Internet Banking</controllingFieldValue>
+            <valueName>Accesso e navigazione IB</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Internet Banking</controllingFieldValue>
+            <valueName>Codice di sicurezza</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Internet Banking</controllingFieldValue>
+            <valueName>Condizioni economiche IB</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Internet Banking</controllingFieldValue>
+            <valueName>Credenziali IB</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Internet Banking</controllingFieldValue>
+            <valueName>Funzionalità IB</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Internet Banking</controllingFieldValue>
+            <valueName>SCA IB</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Internet Banking</controllingFieldValue>
+            <valueName>Sicurezza IB</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>CBI</controllingFieldValue>
+            <controllingFieldValue>Operatività carta</controllingFieldValue>
+            <controllingFieldValue>Carta Conto</controllingFieldValue>
+            <controllingFieldValue>Finanziamenti</controllingFieldValue>
+            <controllingFieldValue>Investimenti</controllingFieldValue>
+            <controllingFieldValue>Conti correnti</controllingFieldValue>
+            <valueName>Condizioni economiche</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>CBI</controllingFieldValue>
+            <controllingFieldValue>X-pay</controllingFieldValue>
+            <valueName>Utilizzo</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Anagrafica BPERCard</controllingFieldValue>
+            <valueName>Modifica contatti</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Anagrafica BPERCard</controllingFieldValue>
+            <valueName>Verifica contatti</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Blocco/sblocco</controllingFieldValue>
+            <valueName>Altro blocco</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Blocco/sblocco</controllingFieldValue>
+            <valueName>Temporaneo</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Blocco/sblocco</controllingFieldValue>
+            <valueName>Frode</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Blocco/sblocco</controllingFieldValue>
+            <valueName>Furto e smarrimento</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Blocco/sblocco</controllingFieldValue>
+            <valueName>Sblocco</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Documenti (EC, giacenza…)</controllingFieldValue>
+            <valueName>Consultazione</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Documenti (EC, giacenza…)</controllingFieldValue>
+            <valueName>Modalità di emissione</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Documenti (EC, giacenza…)</controllingFieldValue>
+            <valueName>Tempi di emissione</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Operatività carta</controllingFieldValue>
+            <valueName>3D Secure</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Operatività carta</controllingFieldValue>
+            <valueName>Allineamento disponibilità</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Operatività carta</controllingFieldValue>
+            <valueName>Attivazione carta</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Operatività carta</controllingFieldValue>
+            <valueName>Body Card</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Operatività carta</controllingFieldValue>
+            <valueName>Disponibilità e saldo</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Operatività carta</controllingFieldValue>
+            <valueName>Mancato prelievo/transazione</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Operatività carta</controllingFieldValue>
+            <valueName>Modalità di utilizzo</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Operatività carta</controllingFieldValue>
+            <valueName>Monitoraggio Spedizione</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Operatività carta</controllingFieldValue>
+            <valueName>Movimenti</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Operatività carta</controllingFieldValue>
+            <valueName>Phone credit</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Operatività carta</controllingFieldValue>
+            <valueName>Restituzione</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Operatività carta</controllingFieldValue>
+            <valueName>Rinnovo</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Operatività carta</controllingFieldValue>
+            <valueName>SDD</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Servizi di cassa e di consulenza</controllingFieldValue>
+            <controllingFieldValue>Altri prodotti e servizi</controllingFieldValue>
+            <controllingFieldValue>Incassi e pagamenti aziendali</controllingFieldValue>
+            <valueName>Informazioni varie</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Aggiornamento prodotti</controllingFieldValue>
+            <controllingFieldValue>Continuità operativa prodotti</controllingFieldValue>
+            <valueName>Altri prodotti e servizi</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Aggiornamento prodotti</controllingFieldValue>
+            <controllingFieldValue>Continuità operativa prodotti</controllingFieldValue>
+            <valueName>Assicurazioni</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Aggiornamento prodotti</controllingFieldValue>
+            <controllingFieldValue>Continuità operativa prodotti</controllingFieldValue>
+            <controllingFieldValue>Conto On Demand</controllingFieldValue>
+            <valueName>Carte</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Aggiornamento prodotti</controllingFieldValue>
+            <controllingFieldValue>Continuità operativa prodotti</controllingFieldValue>
+            <valueName>Conti Correnti</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Aggiornamento prodotti</controllingFieldValue>
+            <controllingFieldValue>Continuità operativa prodotti</controllingFieldValue>
+            <valueName>Finanziamenti</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Aggiornamento prodotti</controllingFieldValue>
+            <controllingFieldValue>Continuità operativa prodotti</controllingFieldValue>
+            <valueName>Incassi e Pagamenti aziendali</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Aggiornamento prodotti</controllingFieldValue>
+            <controllingFieldValue>Continuità operativa prodotti</controllingFieldValue>
+            <valueName>Internet Banking</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Aggiornamento prodotti</controllingFieldValue>
+            <controllingFieldValue>Continuità operativa prodotti</controllingFieldValue>
+            <valueName>Investimenti</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Continuità operativa prodotti</controllingFieldValue>
+            <valueName>Rata in conto</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Continuità operativa prodotti</controllingFieldValue>
+            <valueName>RID - Stipendi - Pensioni</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Contact Center</controllingFieldValue>
+            <valueName>Canali disponibili</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Contact Center</controllingFieldValue>
+            <valueName>Consulenti</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Contact Center</controllingFieldValue>
+            <controllingFieldValue>Filiali</controllingFieldValue>
+            <valueName>Indagine di soddisfazione</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Contact Center</controllingFieldValue>
+            <controllingFieldValue>Filiali</controllingFieldValue>
+            <valueName>Orari e contatti</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Contact Center</controllingFieldValue>
+            <controllingFieldValue>SMS</controllingFieldValue>
+            <valueName>Richiesta contatto</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Contact Center</controllingFieldValue>
+            <controllingFieldValue>SMS</controllingFieldValue>
+            <controllingFieldValue>Comunicazioni cartacee</controllingFieldValue>
+            <valueName>Veridicità comunicazione</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Filiali</controllingFieldValue>
+            <controllingFieldValue>DEM</controllingFieldValue>
+            <controllingFieldValue>SMS</controllingFieldValue>
+            <controllingFieldValue>Collaborazioni</controllingFieldValue>
+            <controllingFieldValue>Investimenti</controllingFieldValue>
+            <controllingFieldValue>Eventi</controllingFieldValue>
+            <controllingFieldValue>Investor relations</controllingFieldValue>
+            <valueName>Altro</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Filiali</controllingFieldValue>
+            <valueName>Ambiente e logistica</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Filiali</controllingFieldValue>
+            <valueName>App Tocca a me</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Filiali</controllingFieldValue>
+            <valueName>Operatività e servizi di cassa</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>DEM</controllingFieldValue>
+            <valueName>Email di recapito</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>DEM</controllingFieldValue>
+            <controllingFieldValue>SMS</controllingFieldValue>
+            <valueName>Privacy</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>DEM</controllingFieldValue>
+            <controllingFieldValue>SMS</controllingFieldValue>
+            <valueName>Survey NPS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>DEM</controllingFieldValue>
+            <controllingFieldValue>Comunicazioni cartacee</controllingFieldValue>
+            <valueName>Variazione condizioni</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Attivazione nuova plastica (sblocco Poker)</controllingFieldValue>
+            <valueName>Sblocco nuova carta (Revoca Poker)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>SMS</controllingFieldValue>
+            <valueName>Numero di recapito</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Conto On Demand</controllingFieldValue>
+            <valueName>Accesso IB</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Conto On Demand</controllingFieldValue>
+            <valueName>Condizioni economiche/ info operative</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Conto On Demand</controllingFieldValue>
+            <valueName>Criteri Eleggibilità</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Conto On Demand</controllingFieldValue>
+            <controllingFieldValue>Filiale</controllingFieldValue>
+            <controllingFieldValue>Offerta a Distanza</controllingFieldValue>
+            <valueName>Stato sottoscrizione</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Conto On Demand</controllingFieldValue>
+            <valueName>Wizard</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Comunicazioni cartacee</controllingFieldValue>
+            <valueName>Altre comunicazioni</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Comunicazioni cartacee</controllingFieldValue>
+            <valueName>Documentazione spese titoli</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Comunicazioni cartacee</controllingFieldValue>
+            <valueName>Estratto conto</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Comunicazioni cartacee</controllingFieldValue>
+            <valueName>Indirizzo di spedizione</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Privacy</controllingFieldValue>
+            <valueName>OAD Prestito Digital</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sito internet</controllingFieldValue>
+            <valueName>Contenuti</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sito internet</controllingFieldValue>
+            <valueName>Navigazione</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sito internet</controllingFieldValue>
+            <valueName>Raggiungibilità</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Prodotti</controllingFieldValue>
+            <valueName>Richiesta</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Collaborazioni</controllingFieldValue>
+            <valueName>Immobili</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Collaborazioni</controllingFieldValue>
+            <valueName>Opportunità di lavoro</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Collaborazioni</controllingFieldValue>
+            <valueName>Ricerche e tesi</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Collaborazioni</controllingFieldValue>
+            <valueName>Sponsorizzazioni</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Richiesta PIN</controllingFieldValue>
+            <valueName>Invio cartaceo</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Richiesta PIN</controllingFieldValue>
+            <valueName>Invio elettronico</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Richiesta PIN</controllingFieldValue>
+            <valueName>PIN view</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Richiesta PIN</controllingFieldValue>
+            <controllingFieldValue>Carta Conto</controllingFieldValue>
+            <valueName>Stato richiesta</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>X-pay</controllingFieldValue>
+            <valueName>Scollegamento</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>X-pay</controllingFieldValue>
+            <valueName>Tokenizzazione</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ATM</controllingFieldValue>
+            <valueName>Guasto</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ATM</controllingFieldValue>
+            <valueName>Localizzazione</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ATM</controllingFieldValue>
+            <valueName>Operazioni e funzionalità</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Carta Conto</controllingFieldValue>
+            <valueName>Chiusura</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Carta Conto</controllingFieldValue>
+            <valueName>Sottoscrizione</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Finanziamenti</controllingFieldValue>
+            <valueName>Conteggi estintivi</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Finanziamenti</controllingFieldValue>
+            <controllingFieldValue>Investimenti</controllingFieldValue>
+            <controllingFieldValue>Assicurazioni</controllingFieldValue>
+            <controllingFieldValue>Conti correnti</controllingFieldValue>
+            <valueName>Operatività</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Finanziamenti</controllingFieldValue>
+            <controllingFieldValue>Assicurazioni</controllingFieldValue>
+            <valueName>Stato pratica</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Investimenti</controllingFieldValue>
+            <valueName>Compravendita telefonica</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Assicurazioni</controllingFieldValue>
+            <valueName>Condizioni e coperture</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Assicurazioni</controllingFieldValue>
+            <controllingFieldValue>Conti correnti</controllingFieldValue>
+            <valueName>Configurazione prodotto</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Assicurazioni</controllingFieldValue>
+            <valueName>Sorriso</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Conti correnti</controllingFieldValue>
+            <valueName>Chiusura conto</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Conti correnti</controllingFieldValue>
+            <valueName>Stato sottoscrizione conto on line</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Richiesta documentazione</controllingFieldValue>
+            <valueName>Codice fiscale</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Richiesta documentazione</controllingFieldValue>
+            <valueName>Conto online</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Filiale</controllingFieldValue>
+            <controllingFieldValue>Offerta a Distanza</controllingFieldValue>
+            <valueName>Caratteristiche prodotto</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Filiale</controllingFieldValue>
+            <controllingFieldValue>Offerta a Distanza</controllingFieldValue>
+            <valueName>Stato spedizione</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Eventi</controllingFieldValue>
+            <valueName>Biglietti</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Eventi</controllingFieldValue>
+            <valueName>Informazioni</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Offerta a Distanza</controllingFieldValue>
+            <valueName>Inserimento richiesta</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Investor relations</controllingFieldValue>
+            <valueName>Informazioni finanziarie</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Investor relations</controllingFieldValue>
+            <valueName>Riferimenti</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Wizard</controllingFieldValue>
+            <valueName>Aggiornamento documento</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Wizard</controllingFieldValue>
+            <valueName>Certificazione email</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Wizard</controllingFieldValue>
+            <valueName>Informativa precontrattuale</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Wizard</controllingFieldValue>
+            <valueName>Rallentamenti/Pagina non raggiungibile/Errore generico</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Wizard</controllingFieldValue>
+            <valueName>Riepilogo e firma</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Wizard</controllingFieldValue>
+            <valueName>Verifica dati anagrafici</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Wizard</controllingFieldValue>
+            <valueName>Verifica rapporti</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

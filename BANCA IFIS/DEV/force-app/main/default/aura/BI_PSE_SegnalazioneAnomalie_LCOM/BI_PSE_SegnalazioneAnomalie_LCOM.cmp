@@ -1,0 +1,128 @@
+<aura:component implements="lightning:availableForFlowScreens" controller="BI_PSE_ControllerPrincipale_CTRL" access="global">  
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/> 
+    
+    <aura:attribute name="flowValidatorFinalResultVar" type="String" default="" />    
+    
+    <aura:attribute name="flowValidatorAnagrafeErrorsVar" type="String[]" />     
+    <aura:attribute name="flowValidatorConfProdErrorsVar" type="String[]" />          
+    <aura:attribute name="flowValidatorDocErrorsVar" type="String[]" />    
+    
+    <aura:attribute name="availableActionsCustomOK" type="String[]" default="['BACK','NEXT']" />
+    <aura:attribute name="availableActionsCustomKO" type="String[]" default="['BACK']" />
+
+    <aura:attribute name="workflowRecordCandidatoID" type="String"/>      
+    
+    <c:BI_PSE_FlowPath_LCOM selectedPathValue="3"/>
+    
+    <lightning:card variant="Narrow" title="Controllo ed Invio" iconName="standard:timesheet_entry" />
+    
+    <hr style="margin-top:1px;margin-bottom:10px;"/>    
+    
+	<aura:if isTrue="{!v.flowValidatorFinalResultVar eq 'KO'}">
+
+		<div class="slds-scoped-notification slds-media slds-media_center" role="status">
+			<div class="slds-media__figure">
+				<span class="slds-icon_container slds-icon-utility-error" title="PRATICA NON INVIABILE">
+					<lightning:icon iconName="utility:error" alternativeText="Errore" variant="error"/>
+				</span>
+			</div>
+			<div class="slds-media__body slds-text-heading_small slds-text-color_error">
+				<p>La pratica non ha passato i controlli formali e di obbligatorietà. Sono state verificate le anomalie sotto riportate</p>
+			</div>
+		</div>
+    
+		<p class="slds-p-horizontal_small">
+            
+				<lightning:tabset>
+                
+					<aura:if isTrue="{!not(empty(v.flowValidatorAnagrafeErrorsVar))}">
+                    
+						<lightning:tab label="Anagrafica">
+                                
+							<div class="slds-grid slds-wrap">  
+                                    
+								<aura:iteration var="errorItemAnagrafe" items="{!v.flowValidatorAnagrafeErrorsVar}" indexVar="indxAnagrafe">
+                
+									<div class="slds-size_4-of-4">
+										<div class="slds-m-around_x-small"><lightning:icon iconName="utility:right" size="small"/>{!errorItemAnagrafe}</div>
+									</div>              
+                                
+								</aura:iteration>    
+                            
+							</div>
+                        
+						</lightning:tab>
+                    
+					</aura:if>
+                
+					<aura:if isTrue="{!not(empty(v.flowValidatorConfProdErrorsVar))}">
+                    
+						<lightning:tab label="Prodotti">
+                                
+							<div class="slds-grid slds-wrap">  
+                                    
+								<aura:iteration var="errorItemConfProd" items="{!v.flowValidatorConfProdErrorsVar}" indexVar="indxConfProd">
+                
+									<div class="slds-size_4-of-4">
+										<div class="slds-m-around_x-small"><lightning:icon iconName="utility:right" size="small"/>{!errorItemConfProd}</div>
+									</div>              
+                                
+								</aura:iteration>    
+                            
+							</div>
+                        
+						</lightning:tab>
+                    
+					</aura:if>                
+                                
+					<aura:if isTrue="{!not(empty(v.flowValidatorDocErrorsVar))}">
+                    
+						<lightning:tab label="Documentazione">
+                                
+							<div class="slds-grid slds-wrap">  
+                                    
+								<aura:iteration var="errorItemDoc" items="{!v.flowValidatorDocErrorsVar}" indexVar="indxDoc">
+                
+									<div class="slds-size_4-of-4">
+										<div class="slds-m-around_x-small"><lightning:icon iconName="utility:right" size="small"/>{!errorItemDoc}</div>
+									</div>              
+                                
+								</aura:iteration>    
+                            
+							</div>
+                        
+						</lightning:tab>
+                    
+					</aura:if>  
+                
+    			</lightning:tabset>    
+		</p>      
+
+	</aura:if>
+
+	<aura:if isTrue="{!v.flowValidatorFinalResultVar eq 'OK'}">
+
+		<div class="slds-scoped-notification slds-media slds-media_center" role="status">
+			<div class="slds-media__figure">
+				<span class="slds-icon_container slds-icon-utility-info" title="PRATICA INVIABILE">
+					<lightning:icon iconName="utility:info" alternativeText="Info"/>
+				</span>
+			</div>
+			<div class="slds-media__body slds-text-heading_small slds-text-color_success">
+				<p>La pratica ha passato i controlli formali e di obbligatorietà. Proseguendo è possibile effettuare l'invio a Banca Ifis.</p>
+			</div>
+		</div> 
+
+	</aura:if>
+
+    <hr style="margin-top:1px;margin-bottom:10px;"/>     
+    
+	<aura:if isTrue="{!v.flowValidatorFinalResultVar eq 'KO'}">
+		<c:bifis_crm_c_CommonFlowNavigator availableActions="{!v.availableActionsCustomKO}" navigateFlowEvent="{!c.handleNavigate}"/>           
+    </aura:if>
+	<aura:if isTrue="{!v.flowValidatorFinalResultVar eq 'OK'}">
+		<c:bifis_crm_c_CommonFlowNavigator availableActions="{!v.availableActionsCustomOK}" navigateFlowEvent="{!c.handleNavigate}"/>           
+    </aura:if>
+
+</aura:component>

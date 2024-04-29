@@ -1,0 +1,72 @@
+<template>
+    <lightning-card title={title} variant="Narrow">
+        <template if:true={isSpinner}>
+            <lightning-spinner alternative-text="Loading" size="medium" variant="brand"></lightning-spinner>
+        </template>
+        <lightning-record-edit-form object-api-name={objectApiName} record-type-id={recordTypeId} record-id={recordId}>
+            <div class="c-container">
+                <lightning-layout multiple-rows="true">
+                    <lightning-layout-item size="12" padding="around-small">
+                        <div class="page-section page-header slds-section-title--divider">
+                            <h3>{label.IDENTIFICATION}</h3>
+                        </div>
+                    </lightning-layout-item>
+                    <template for:each={layouts} for:item="layout">
+                        <lightning-layout-item size="6" padding="around-small" key={layout.key}>
+                            <template for:each={layout.items} for:item="item">
+                                <template if:false={item.hidden}>
+                                    <template if:true={item.editable}>
+                                        <template if:true={item.custom}>
+                                            <template if:true={item.isPicklist}>
+                                                <lightning-combobox name={item.fieldName} value={item.value} options={item.picklistOptions} required={item.required} key={item.fieldName} label={item.label} variant="label-stacked" data-id="input_field" data-fieldname={item.fieldName} onchange={handleChangePicklist}></lightning-combobox>
+                                            </template>
+                                            <template if:true={item.isMultiPicklist}>
+                                                <lightning-dual-listbox name={item.fieldName} value={item.value} options={item.picklistOptions} required={item.required} key={item.fieldName} label={item.label} variant="label-stacked" data-id="input_field" data-fieldname={item.fieldName} onchange={handleChangePicklist} source-label="Available" selected-label="Selected"></lightning-dual-listbox>
+                                            </template>
+                                        </template>
+                                        <template if:false={item.custom}>
+                                            <template if:true={item.showLabel}>
+                                                <label class="slds-form-element__label" for={item.fieldName} key={item.fieldName}><template if:true={item.required}><span class="slds-required">*</span></template>{item.label}</label>
+                                            </template>
+                                            <lightning-input-field field-name={item.fieldName} required={item.required} key={item.fieldName} variant={item.labelVariant} data-id="input_field" data-fieldname={item.fieldName}></lightning-input-field>
+                                        </template>
+                                    </template>
+                                    <template if:false={item.editable}>
+                                        <template if:true={item.custom}>
+                                            <div class={item.cssClassFormElement} key={item.fieldName}>
+                                                <template if:true={item.showLabel}>
+                                                    <label class="slds-form-element__label" for={item.fieldName}>{item.label}</label>
+                                                </template>
+                                                <div class={item.inputClass}>
+                                                    <template if:true={item.isText}>
+                                                        <lightning-formatted-text value={item.value}></lightning-formatted-text>
+                                                    </template>
+                                                    <template if:true={item.isNumber}>
+                                                        <lightning-formatted-number value={item.value} minimum-fraction-digits={item.minFractionDigits} maximum-fraction-digits="2"></lightning-formatted-number>
+                                                    </template>
+                                                </div>
+                                            </div>
+                                        </template>
+                                        <template if:false={item.custom}>
+                                            <template if:true={item.showLabel}>
+                                                <label class="slds-form-element__label" for={item.fieldName} key={item.fieldName}>{item.label}</label>
+                                            </template>
+                                            <lightning-output-field field-name={item.fieldName} key={item.fieldName} variant={item.labelVariant}></lightning-output-field>
+                                        </template>
+                                    </template>
+                                </template>
+                            </template>
+                        </lightning-layout-item>
+                    </template>
+                </lightning-layout>
+            </div>
+        </lightning-record-edit-form>
+        <div slot="footer" class="slds-clearfix"> 
+            <template if:true={showButtons}>
+                <lightning-button label={label.CANCEL_ORDER} title={label.CANCEL_ORDER} onclick={handelCancelOrder}></lightning-button>&nbsp;
+                <lightning-button label={label.Submit_for_Approval} title={label.Submit_for_Approval} onclick={handleNullPicklist}></lightning-button>&nbsp;
+            </template>
+            <lightning-button label={label.SAVE} title={label.SAVE} variant="brand" onclick={handleSave}></lightning-button>
+        </div>
+    </lightning-card>
+</template>

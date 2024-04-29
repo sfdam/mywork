@@ -1,0 +1,72 @@
+<aura:component access="global" implements="force:appHostable,flexipage:availableForAllPageTypes">
+	<!-- ATTRIBUTES -->
+    <aura:attribute name="isDashboard" type="Boolean" default="false"/>
+    <aura:attribute name="isDeroga" type="Boolean" default="false"/>
+    <aura:attribute name="parametri" type="Object"/>
+    <aura:attribute name="isRevisione" type="Boolean" default="false"/>
+    <aura:attribute name="disableRevisionedLines" type="Boolean" default="false"/>
+    <aura:attribute name="readOnly" type="Boolean" default="false"/>
+    <!-- <aura:attribute name="sezioneParametriMap" type="Object[]"/> -->
+
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    <aura:handler name="change" value="{! v.parametri }" action="{! c.reloadParameters }"/>
+    <aura:handler event="c:WGC_Parametri_Filter_Dashboard_Event" action="{! c.resetParameters }"/>
+
+    <!-- REGISTER EVENT -->
+    <aura:registerEvent name="selectParameter" type="c:WGC_Parametri_Filter_Dashboard_Event"/>
+    
+    <lightning:spinner aura:id="mySpinner" class="slds-hide" alternativeText="Caricamento parametri..."/>
+    <aura:iteration items="{! v.parametri }" var="sezioneParams">
+        <lightning:layout class="{! 'slds-p-around_small ' + sezioneParams.class }">
+            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="4" largeDeviceSize="2" class="cstm-form-section-title cstm-ipad-3-landscape">
+                {! sezioneParams.title }
+            </lightning:layoutItem>
+            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="8" largeDeviceSize="10" class="cstm-form-section cstm-ipad-9-landscape">
+                <lightning:layout multipleRows="true">
+                    <aura:iteration items="{! sezioneParams.parameters }" var="param">
+                        <!-- SM-CART-REVI -->
+                        <!-- ,param.isVisible) -->
+                        <aura:if isTrue="{! and(param.soloDeroga, param.isVisible) }">
+                            <!-- SOLO DEROGA -->
+                            <lightning:layoutItem size="12" class="cstm-form-element">
+                                <aura:if isTrue="{! v.isDashboard }">
+                                    <div class="cstm-field-overlay" onclick="{! c.selectParameter }" data-param="{! param.codice }"></div>
+                                </aura:if>
+                                <lightning:layout>
+                                    <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="4" padding="horizontal-small" class="cstm-form-section-derogato-wrapper slds-p-top_xx-small slds-p-bottom_xx-small">
+                                        <div class="cstm-form-section-derogato">{! param.nomeDebitore }</div>
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="4" padding="horizontal-small" class="slds-p-top_xx-small slds-p-bottom_xx-small">
+                                        <c:WGC_Parametro parameter="{! param }" isDashboard="{! v.isDashboard }" isDeroga="{! v.isDeroga }" isRevisione="{! v.isRevisione }" disableRevisionedLines="{! v.disableRevisionedLines }" readOnly="{! v.readOnly }"/>
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                            </lightning:layoutItem>
+                            <!-- END - SOLO DEROGA -->
+
+                            <!-- PARAMETRO -->
+                            <aura:set attribute="else">
+                                <aura:if isTrue="{! and(param.isShowing, param.isVisible) }">
+                                    <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="4" padding="horizontal-small" class="cstm-form-element cstm-ipad-6-landscape">
+                                        <aura:if isTrue="{! v.isDashboard }">
+                                            <div class="cstm-field-overlay" onclick="{! c.selectParameter }" data-param="{! param.codice }"></div>
+                                        </aura:if>
+                                        <c:WGC_Parametro parameter="{! param }" isDashboard="{! v.isDashboard }" isDeroga="{! v.isDeroga }" isRevisione="{! v.isRevisione }" disableRevisionedLines="{! v.disableRevisionedLines }" readOnly="{! v.readOnly }"/>
+                                    </lightning:layoutItem>
+                                </aura:if>
+                            </aura:set>
+                            <!-- END - PARAMETRO -->
+                        </aura:if>
+                    </aura:iteration>
+                </lightning:layout>
+            </lightning:layoutItem>
+        </lightning:layout>
+    </aura:iteration>
+
+    <aura:if isTrue="{! v.isDashboard }">
+        <aura:if isTrue="{! !v.parametri }">
+            <h2 class="slds-text-align_center">-Nessun elemento da visualizzare-</h2>
+        </aura:if>
+    </aura:if>
+
+</aura:component>

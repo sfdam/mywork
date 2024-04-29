@@ -1,0 +1,114 @@
+<aura:component implements="lightning:isUrlAddressable,lightningsnapin:prechatUI" description="Sample custom pre-chat component for Embedded Chat. Implemented using Aura.">
+<!--<aura:component controller="NewPreChatAuraController" implements="lightning:isUrlAddressable,lightningsnapin:prechatUI" description="Sample custom pre-chat component for Embedded Chat. Implemented using Aura.">-->
+        <!-- You must implement "lightningsnapin:prechatUI" for this component to appear in the "Pre-chat Component" customization dropdown in the Embedded Service setup -->
+
+    <!-- Pre-chat field components to render -->
+    <aura:attribute name="isPrivati" type="Boolean" default="false" />
+    <aura:attribute name="isImprese" type="Boolean" default="false" />
+
+    <aura:attribute name="isLoggedUser" type="Boolean" default="false" />
+    <!--<aura:attribute name="hideOutcome" type="Boolean" default="false" /> valerio.salvati 06/07/2022-->
+    <aura:attribute name="userCode" type="String" default="" />
+    <aura:attribute name="hostingSite" type="String" default="" />
+
+    <aura:attribute name="prechatPrivatiMap" type="Map" description="A map of objects representing the pre-chat fields specified in pre-chat setup."/>
+    <aura:attribute name="prechatImpreseMap" type="Map" description="A map of objects representing the pre-chat fields specified in pre-chat setup."/>
+
+    <aura:attribute name="prechatPrivatiComponents" type="List" description="An array of objects representing the pre-chat fields specified in pre-chat setup."/>
+    <aura:attribute name="prechatImpreseComponents" type="List" description="An array of objects representing the pre-chat fields specified in pre-chat setup."/>
+    <aura:attribute name="policyAcceptance" type="Boolean" default="false" />
+    <aura:attribute name="showError" type="Boolean" default="false" />
+    <aura:attribute name="showEmptyFieldsError" type="Boolean" default="false" />
+    <aura:attribute name="showInvalidFieldsError" type="Boolean" default="false" />
+    <aura:attribute name="case" type="Case" default="{ 'sobjectType': 'Case' }"/>
+    <aura:attribute name="options" type="List" default="[]"/>
+
+    <aura:attribute name="hasLoadedStyle" type="Boolean" default="false" />
+
+
+    <!--<aura:attribute name="motiviOptions" type="List" default="[]"/>-->
+
+    <!--<aura:attribute name="motivoSelected" type="String" />-->
+
+    <!-- Handler for when this component is initialized -->
+    <aura:handler name="init" value="{!this}" action="{!c.onInit}" />
+    <aura:handler name="render" value="{!this}" action="{!c.doneRendering}"/>
+
+
+    <!-- For Aura performance -->
+    <aura:locator target="startButton" description="Pre-chat form submit button."/>
+    
+    <!-- Contains methods for getting pre-chat fields, starting a chat, and validating fields -->
+    <lightningsnapin:prechatAPI aura:id="prechatAPI"/>
+    <lightningsnapin:settingsAPI aura:id="settingsAPI"/>
+
+    
+    <div class="prechatUiSfdc">
+        <div class="prechatContentSfdc" >
+            <div class="fieldsListSfdc" >
+                    <!--<div class="motivoChatPicklistContainerSfdc" id="motivoChatPicklistContainerSfdc">
+                        <p class="motivoChatTitleSfdc">Motivo della Chat</p>
+                        <select onchange="{!c.motivoSelezionato}" class="motivoChatPicklistSfdc" name="motiviSfdc" id="motiviSfdc" value="{!v.motivoSelected}">
+                            <aura:iteration items="{!v.motiviOptions}" var="option" indexVar="i">
+                                <option class="optionsSfdc" value="{!option.value}" data-value="{!option.value}">{!option.label}</option>
+                            </aura:iteration>
+                        </select>
+                    </div>-->
+                    <br/><br/>
+                <aura:if isTrue="{!!v.isLoggedUser}">
+
+                    <!-- Tab links -->
+                    <div class="tabSfdc">
+                        <button class="tablinksSfdc" onclick="{!c.openTabPrivati}" id="defaultOpenSfdc">Privati</button>
+                        <button class="tablinksSfdc" onclick="{!c.openTabImprese}">Imprese</button>
+                    </div>
+                    
+                    <!-- Tab content -->
+                    <div id="Privati" class="tabcontentSfdc">
+                        {!v.prechatPrivatiComponents}
+                    </div>
+                    
+                    <div id="Imprese" class="tabcontentSfdc">
+                        {!v.prechatImpreseComponents}
+                    </div>
+                </aura:if>
+
+            
+
+
+
+                <!-- Look in the controller's onInit function. This component dynamically creates the pre-chat field components -->
+
+            </div>
+            <div class="policyContentSfdc" id="policyContentSfdc" >
+                <div class="policyDivSfdc" id="policyDivSfdc">
+                    <ui:inputCheckbox aura:id="checkboxSfdc" class="checkboxClassSfdc slds-align_absolute-center" value="{!v.policyAcceptance}" />
+                       <p class="policyTextSfdc">* Confermo di aver preso visione del trattamento dei dati personali.</p>
+                </div>
+                    <div class="divInformativaSfdc" > <p class="linkInformativaSfdc" id="linkInformativaSfdc"><a href="https://www.bper.it/footer/privacy-policy?_ga=2.151884863.789317946.1611231782-400313743.1557833061" target="_blank">Informativa</a></p>
+                    </div> 
+            </div>
+            
+            <div class="divNoteSfdc">
+                <aura:if isTrue="{!!v.isLoggedUser}">
+                    <span >
+                        <p class="mandatoryFieldsTextSfdc">*Campo obbligatorio</p>
+                    </span>
+                </aura:if>
+				<aura:if isTrue="{!v.showEmptyFieldsError}">
+                	<div >
+                    	<p class="invalidValuesSfdc" >Campi obbligatori</p>
+                    </div>
+                </aura:if>
+				<aura:if isTrue="{!v.showInvalidFieldsError}">
+                	<div >
+                    	<p class="invalidValuesSfdc" >Valori non validi</p>
+                    </div>
+                </aura:if>
+            </div>
+        </div>
+    </div>
+    <div class="startButtonWrapperSfdc">
+        <ui:button aura:id="startButtonSfdc" class="startButtonSfdc" label="{!$Label.c.LA_PreChat_Base_StartChat_04I1q000000Cag2_6099871}" press="{!c.handleStartButtonClick}"/>
+    </div>
+</aura:component>

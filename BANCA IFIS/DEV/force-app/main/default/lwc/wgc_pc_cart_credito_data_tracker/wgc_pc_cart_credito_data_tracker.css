@@ -1,0 +1,19 @@
+button.slds-button.slds-button_brand {
+    background-color: #0064b5;
+    border-color: #0064b5;
+}
+
+button.slds-button.slds-button_brand:disabled {
+    background-color: #E5E5E5;
+    border-color: #E5E5E5;
+}
+
+.cstm-btn-refresh > button.slds-button.slds-button_brand {
+    background-color: #0064b5 !important;
+    border-color: #0064b5 !important;
+    padding: 0 0 0 10px !important;
+}
+
+.cstm-subtitle{
+    color: #0064b5;
+}

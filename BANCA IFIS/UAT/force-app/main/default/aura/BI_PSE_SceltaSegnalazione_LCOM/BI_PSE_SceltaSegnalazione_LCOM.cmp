@@ -1,0 +1,71 @@
+<aura:component implements="lightning:availableForFlowScreens" controller="BI_PSE_ControllerPrincipale_CTRL" access="global">  
+
+    <aura:attribute name="opzioniLineaLeasingFactoring" type="List" default="[
+    {'label': 'Factoring e/o Mutuo (Finanziamento Chirografario MLT)', 'value': 'FACTORING'},
+    {'label': 'Leasing e/o Rental', 'value': 'LEASING'}
+    ]"/>
+
+	<aura:attribute name="opzioniLineaFactoring" type="List" default="[
+    {'label': 'Factoring e/o Mutuo (Finanziamento Chirografario MLT)', 'value': 'FACTORING'}
+    ]"/>
+	
+	<aura:attribute name="abilitaProdottiMultipli" type="boolean"/>
+    <aura:attribute name="workflowRecordCandidatoID" type="String"/>
+    <aura:attribute name="workflowRecordCandidatoNEXT" type="WorkflowSegnalatori__c"/>
+    <aura:attribute name="workflowRecordCandidato" type="WorkflowSegnalatori__c"/>
+    <aura:attribute name="workflowRecordCandidatoERROR" type="String"/>
+    
+    <force:recordData aura:id="flowRecordHandlerWorkflowCandidatoId"
+                      recordId="{!v.workflowRecordCandidatoID}"
+                      fields="Tipo_Segnalazione__c,Stato__c,PRD_LEASING_JSON__c,PRD_RENTAL_JSON__c,PRD_FACTORING_JSON__c,PRD_MUTUO_JSON__c,Ente_segnalante__c"
+                      targetFields="{!v.workflowRecordCandidato}"
+                      targetError="{!v.workflowRecordCandidatoERROR}"
+                      recordUpdated="{!c.recordUpdated}"
+                      targetRecord="{!v.workflowRecordCandidatoNEXT}"
+                      mode="EDIT"                      
+                      />    
+    
+    <c:BI_PSE_FlowPath_LCOM selectedPathValue="1"/>
+    
+    <aura:if isTrue="{!not(empty(v.workflowRecordCandidatoERROR))}">
+        <ui:message title="Errore" severity="error" closable="true">{!v.workflowRecordCandidatoERROR}</ui:message>
+    </aura:if>
+    
+    <lightning:card variant="Narrow" title="Che tipo di segnalazione vuoi effettuare?" iconName="standard:record" />
+    
+    <hr style="margin-top:1px;margin-bottom:10px;"/>
+
+    <p class="slds-p-horizontal_small">
+        <div class="slds-grid slds-wrap">  
+            <div class="slds-size_4-of-4">
+				<div class="slds-m-around_x-small">
+					<aura:if isTrue="{! v.abilitaProdottiMultipli }">
+						<lightning:radioGroup aura:id="flowInputSceltaProdottoLeasingFactoringInputId" name="flowInputLineaInput"
+							  label="Seleziona la tipologia:"
+							  options="{! v.opzioniLineaLeasingFactoring }"
+							  value="{!v.workflowRecordCandidato.Tipo_Segnalazione__c}"
+							  required="true"
+							  type="radio"
+							  onchange="{! c.handleChange }"							  
+							  disabled="{!v.workflowRecordCandidato.Stato__c != 'BOZZA_DATI'}">
+						</lightning:radioGroup>
+					<aura:set attribute="else">
+						<lightning:radioGroup aura:id="flowInputSceltaProdottoFactoringInputId" name="flowInputLineaInput"
+							  label="Seleziona la tipologia:"
+							  options="{! v.opzioniLineaFactoring }"
+							  value="{!v.workflowRecordCandidato.Tipo_Segnalazione__c}"
+							  required="true"
+							  type="radio"
+							  onchange="{! c.handleChange }"							  
+							  disabled="{!v.workflowRecordCandidato.Stato__c != 'BOZZA_DATI'}">
+						</lightning:radioGroup>
+					</aura:set>
+					</aura:if> 
+				</div>
+            </div>
+        </div>
+    </p>
+    
+    <c:bifis_crm_c_CommonFlowNavigator availableActions="{!v.availableActions}" navigateFlowEvent="{!c.handleNavigate}"/>
+    
+</aura:component>

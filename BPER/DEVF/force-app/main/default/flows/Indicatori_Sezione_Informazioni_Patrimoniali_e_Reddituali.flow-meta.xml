@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>51.0</apiVersion>
+    <environments>Default</environments>
+    <formulas>
+        <name>Formula_DataInizioProfessione</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Get_current_NDG.CRM_DataInizioProfessione__c}) = false,
+IF(VALUE(TEXT(DAY({!Get_current_NDG.CRM_DataInizioProfessione__c}))) &lt; 10, &quot;0&quot; + TEXT(DAY({!Get_current_NDG.CRM_DataInizioProfessione__c})), TEXT(DAY({!Get_current_NDG.CRM_DataInizioProfessione__c}))) + &quot;/&quot; + 
+IF(VALUE(TEXT(MONTH({!Get_current_NDG.CRM_DataInizioProfessione__c}))) &lt; 10, &quot;0&quot; + TEXT(MONTH({!Get_current_NDG.CRM_DataInizioProfessione__c})), TEXT(MONTH({!Get_current_NDG.CRM_DataInizioProfessione__c}))) + &quot;/&quot; + 
+TEXT(YEAR({!Get_current_NDG.CRM_DataInizioProfessione__c})),
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_DataInizioSituazioneAbitativa</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Get_current_NDG.CRM_DataInizioSituazioneAbitativa__c}) = false,
+IF(VALUE(TEXT(DAY({!Get_current_NDG.CRM_DataInizioSituazioneAbitativa__c}))) &lt; 10, &quot;0&quot; + TEXT(DAY({!Get_current_NDG.CRM_DataInizioSituazioneAbitativa__c})), TEXT(DAY({!Get_current_NDG.CRM_DataInizioSituazioneAbitativa__c}))) + &quot;/&quot; + 
+IF(VALUE(TEXT(MONTH({!Get_current_NDG.CRM_DataInizioSituazioneAbitativa__c}))) &lt; 10, &quot;0&quot; + TEXT(MONTH({!Get_current_NDG.CRM_DataInizioSituazioneAbitativa__c})), TEXT(MONTH({!Get_current_NDG.CRM_DataInizioSituazioneAbitativa__c}))) + &quot;/&quot; + 
+TEXT(YEAR({!Get_current_NDG.CRM_DataInizioSituazioneAbitativa__c})),
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_DiCuiReddito</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Get_current_NDG.CRM_DiCuiPercepisceReddito__c}) = false,
+TEXT({!Get_current_NDG.CRM_DiCuiPercepisceReddito__c}),
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_EntrateContinuative</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Get_current_NDG.CRM_EntrateContinuative__c}) = false,
+IF( 
+ {!Get_current_NDG.CRM_EntrateContinuative__c} &gt;= 1000000000, 
+  TEXT(FLOOR({!Get_current_NDG.CRM_EntrateContinuative__c} / 1000000000)) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+  {!Get_current_NDG.CRM_EntrateContinuative__c} &gt;= 1000000, 
+  right(TEXT(FLOOR({!Get_current_NDG.CRM_EntrateContinuative__c} / 1000000)),3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+{!Get_current_NDG.CRM_EntrateContinuative__c} &gt;= 1000, 
+  RIGHT(TEXT(FLOOR({!Get_current_NDG.CRM_EntrateContinuative__c} / 1000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+RIGHT(TEXT(FLOOR({!Get_current_NDG.CRM_EntrateContinuative__c})), 3) &amp; &quot; €&quot;,
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_ImpTotAnnCompNucleo</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Get_current_NDG.CRM_ImpTotAnnAltriCompNucleoFam__c}) = false,
+IF( 
+ {!Get_current_NDG.CRM_ImpTotAnnAltriCompNucleoFam__c} &gt;= 1000000000, 
+  TEXT(FLOOR({!Get_current_NDG.CRM_ImpTotAnnAltriCompNucleoFam__c} / 1000000000)) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+  {!Get_current_NDG.CRM_ImpTotAnnAltriCompNucleoFam__c} &gt;= 1000000, 
+  right(TEXT(FLOOR({!Get_current_NDG.CRM_ImpTotAnnAltriCompNucleoFam__c} / 1000000)),3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+{!Get_current_NDG.CRM_ImpTotAnnAltriCompNucleoFam__c} &gt;= 1000, 
+  RIGHT(TEXT(FLOOR({!Get_current_NDG.CRM_ImpTotAnnAltriCompNucleoFam__c} / 1000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+RIGHT(TEXT(FLOOR({!Get_current_NDG.CRM_ImpTotAnnAltriCompNucleoFam__c})), 3) &amp; &quot; €&quot;,
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_NumComponentiNucleo</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Get_current_NDG.CRM_NrComponentiNucleoFamiliare__c}) = false,
+TEXT({!Get_current_NDG.CRM_NrComponentiNucleoFamiliare__c}),
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_RetribuzioneAnnua</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Get_current_NDG.CRM_RetribuzioneAnnuaNetta__c}) = false,
+IF( 
+  {!Get_current_NDG.CRM_RetribuzioneAnnuaNetta__c} &gt;= 1000000000, 
+  TEXT(FLOOR({!Get_current_NDG.CRM_RetribuzioneAnnuaNetta__c} / 1000000000)) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+  {!Get_current_NDG.CRM_RetribuzioneAnnuaNetta__c} &gt;= 1000000, 
+  right(TEXT(FLOOR({!Get_current_NDG.CRM_RetribuzioneAnnuaNetta__c} / 1000000)),3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ {!Get_current_NDG.CRM_RetribuzioneAnnuaNetta__c} &gt;= 1000, 
+  RIGHT(TEXT(FLOOR({!Get_current_NDG.CRM_RetribuzioneAnnuaNetta__c} / 1000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+RIGHT(TEXT(FLOOR({!Get_current_NDG.CRM_RetribuzioneAnnuaNetta__c})), 3) &amp; &quot; €&quot;,
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_SoluzioneAbitativa</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Get_current_NDG.CRM_SituazioneAbitativa__c}) = false,
+{!Get_current_NDG.CRM_SituazioneAbitativa__c},
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_ThumbUpDown</name>
+        <dataType>Boolean</dataType>
+        <expression>{!Get_current_NDG.CRM_MifidDueDate__c} &gt;= TODAY()</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_TipoContratto</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Get_current_NDG.CRM_TipoContratto__c}) = false,
+{!Get_current_NDG.CRM_TipoContratto__c},
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_UsciteContinuative</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Get_current_NDG.CRM_UsciteContinuative__c}) = false,
+IF( 
+ {!Get_current_NDG.CRM_UsciteContinuative__c} &gt;= 1000000000, 
+  TEXT(FLOOR({!Get_current_NDG.CRM_UsciteContinuative__c} / 1000000000)) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+  {!Get_current_NDG.CRM_UsciteContinuative__c} &gt;= 1000000, 
+  right(TEXT(FLOOR({!Get_current_NDG.CRM_UsciteContinuative__c} / 1000000)),3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+{!Get_current_NDG.CRM_UsciteContinuative__c} &gt;= 1000, 
+  RIGHT(TEXT(FLOOR({!Get_current_NDG.CRM_UsciteContinuative__c} / 1000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+RIGHT(TEXT(FLOOR({!Get_current_NDG.CRM_UsciteContinuative__c})), 3) &amp; &quot; €&quot;,
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Privati</name>
+        <dataType>String</dataType>
+        <expression>&apos;https://intrawseal.gbbper.priv/schede/SchedaPrivati/#/schede/&apos; + LPAD({!Get_current_NDG.CRM_NDG__c},9,&apos;0&apos;) + &apos;/&apos; + LPAD({!Get_current_NDG.CRM_NDGGoverno__c},11,&apos;0&apos;) + &apos;?abi=&apos; + LPAD({!Get_current_NDG.FinServ__BankNumber__c},5,&apos;0&apos;)</expression>
+    </formulas>
+    <interviewLabel>Indicatori - Sezione {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Indicatori - Sezione Informazioni Patrimoniali e Reddituali</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordLookups>
+        <name>Get_current_NDG</name>
+        <label>Get current NDG</label>
+        <locationX>10</locationX>
+        <locationY>159</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_RT_Indicatori_Flat</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Account</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_RT_Indicatori_Flat</name>
+        <label>Get RT Indicatori Flat</label>
+        <locationX>113</locationX>
+        <locationY>303</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Indicatore</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Flat</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>RecordType</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Indicatore</name>
+        <label>Indicatore</label>
+        <locationX>275</locationX>
+        <locationY>197</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Indicatori</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>CRM_Account__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>RecordTypeId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_RT_Indicatori_Flat.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>CRM_IndicatoriCliente__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <runInMode>SystemModeWithoutSharing</runInMode>
+    <screens>
+        <name>Indicatori</name>
+        <label>Indicatori</label>
+        <locationX>451</locationX>
+        <locationY>229</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>Indicatori_Section1</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Indicatori_Section1_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>ImmagineInfoPatrimonialiRedd</name>
+                    <extensionName>flowruntime:image</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>imageName</name>
+                        <value>
+                            <stringValue>InformazioniPatrimonialieReddituali</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>horizontalAlignment</name>
+                        <value>
+                            <stringValue>center</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>10</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Indicatori_Section1_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>Links</name>
+                    <fieldText>&lt;p&gt;&lt;a href=&quot;{!Privati}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: var(--lwc-fontSize3,0.8125rem); font-family: var(--lwc-fontFamily,-apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, Helvetica, Arial, sans-serif, &amp;quot;Apple Color Emoji&amp;quot;, &amp;quot;Segoe UI Emoji&amp;quot;, &amp;quot;Segoe UI Symbol&amp;quot;); color: rgb(32, 38, 221);&quot;&gt;&lt;u&gt;Scheda Privati&lt;/u&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://intrawseal.gbbper.priv/SchedaImmobili/SchedaImmobili&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: var(--lwc-fontSize3,0.8125rem); font-family: var(--lwc-fontFamily,-apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, Helvetica, Arial, sans-serif, &amp;quot;Apple Color Emoji&amp;quot;, &amp;quot;Segoe UI Emoji&amp;quot;, &amp;quot;Segoe UI Symbol&amp;quot;); color: rgb(32, 38, 221);&quot;&gt;&lt;u&gt;Scheda Immobili&lt;/u&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>2</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+        </fields>
+        <fields>
+            <name>Indicatori_Section2</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Indicatori_Section2_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>AnnualRevenue</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 12px; background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;Retribuzione annua netta&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); font-size: 14px;&quot;&gt;{!Formula_RetribuzioneAnnua}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; color: rgb(62, 62, 60);&quot;&gt;Tipo di contratto&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(8, 7, 7); font-size: 14px;&quot;&gt;{!Formula_TipoContratto}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;﻿{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; color: rgb(62, 62, 60);&quot;&gt;Data inizio professione&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; background-color: rgb(255, 255, 255); color: rgb(8, 7, 7);&quot;&gt;{!Formula_DataInizioProfessione}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); background-color: rgb(255, 255, 255);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); font-size: 12px;&quot;&gt;Entrate continuative&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); background-color: rgb(255, 255, 255); font-size: 14px;&quot;&gt;{!Formula_EntrateContinuative}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); background-color: rgb(255, 255, 255);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;Uscite continuative&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); background-color: rgb(255, 255, 255); font-size: 14px;&quot;&gt;{!Formula_UsciteContinuative}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); background-color: rgb(255, 255, 255);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Indicatori_Section2_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>TipoContratto</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 12px; background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;Soluzione abitativa&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(8, 7, 7); font-size: 14px;&quot;&gt;{!Formula_SoluzioneAbitativa}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;﻿&lt;/span&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 11px; background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;﻿&lt;/span&gt;&lt;span style=&quot;font-size: 12px; background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;Dal&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); font-size: 14px;&quot;&gt;{!Formula_DataInizioSituazioneAbitativa}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); font-size: 12px;&quot;&gt;Numero componenti nucleo familiare&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); font-size: 14px;&quot;&gt;{!Formula_NumComponentiNucleo}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;Di cui percepisco﻿no reddito&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(8, 7, 7); font-size: 14px;&quot;&gt;{!Formula_DiCuiReddito}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; color: rgb(62, 62, 60);&quot;&gt;Importo tot. ann. altri comp. nucleo familiare&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; background-color: rgb(255, 255, 255); color: rgb(8, 7, 7);&quot;&gt;{!Formula_ImpTotAnnCompNucleo}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>Get_current_NDG.RecordType.DeveloperName</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <stringValue>PersonAccount</stringValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <showFooter>false</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <start>
+        <locationX>113</locationX>
+        <locationY>35</locationY>
+        <connector>
+            <targetReference>Get_current_NDG</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <textTemplates>
+        <name>LinkERating</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;&lt;a href=&quot;www.google.com&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 14px;&quot;&gt;E-rating&lt;/a&gt;&lt;/p&gt;</text>
+    </textTemplates>
+    <variables>
+        <name>IconaBarra</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <stringValue>&lt;img src=&apos;/resource/Barra&apos;/&gt;</stringValue>
+        </value>
+    </variables>
+    <variables>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>testcheckbox</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
+</Flow>

@@ -1,0 +1,87 @@
+.align-right {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.content {
+    border-top: 1px solid #beb9b4;
+    border-bottom: 1px solid #beb9b4;
+    border-left: 1px solid #beb9b4;
+    border-right: 1px solid #beb9b4;
+}
+
+.text-weight-bold {
+    font-weight: 700;
+}
+
+/***********************************************************************
+ *  input-search
+ **********************************************************************/
+.input-search-container {
+    position:relative;
+}
+
+.input-search-container .input-search-tooltip {
+    position:absolute;bottom: 135%;
+    display: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .input-search-container:hover .input-search-tooltip {
+      display: inline-block;
+  }
+}
+
+/***********************************************************************
+ *  neutral-button
+ **********************************************************************/
+.neutral-button, .neutral-button:visited, .neutral-button:link, .neutral-button:focus {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    padding: 0 1rem;
+    background-clip: border-box;
+    border: 1px solid #BEB9B5;
+    border-radius: .25rem;
+    line-height: 1.875rem;
+    text-decoration: none;
+    -webkit-appearance: none;
+    white-space: normal;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    text-align: center;
+    vertical-align: middle;
+    justify-content: center;
+    transition: border .15s linear;
+    background-color: #FFFFFF;
+    color: #004692;
+    cursor: pointer;
+    outline: 0;
+    box-shadow: none;
+}
+
+.neutral-button:hover {
+    text-decoration: none;
+    outline: 0;
+    box-shadow: none;
+    background-color: #EEF1F6;
+    border-color: #BEB9B5;
+    color: #003265;
+}
+
+.neutral-button:active {
+    text-decoration: none;
+    background-color: #FFFFFF;
+    border-color: #BEB9B5;
+    color: #004692;
+}
+
+.neutral-button:disabled {
+    cursor: default;
+    text-decoration: none;
+    background-color: #FFFFFF;
+    border-color: #BEB9B5;
+    color: #BEB9B5;
+}

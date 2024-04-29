@@ -1,0 +1,87 @@
+<aura:component >
+	<aura:attribute name='itemDetail' type='Object' default='{}' />
+    <aura:attribute name="userInfo" type="User" default="{'sobjectType':'User'}" />
+
+	<lightning:navigation aura:id="navService" />
+
+	<li>
+		<div class="{! 'slds-timeline__item_expandable slds-timeline__item_task ' + (v.itemDetail.IsArchived ? 'IsArchived' : '') }">
+			<span class="slds-assistive-text">task</span>
+			<div class="slds-media">
+				<div class="slds-media__figure">
+					<div class="{! 'slds-icon_container slds-icon-standard-task slds-timeline__icon ' + (v.itemDetail.IsArchived ? 'IsArchived' : '') }" title="task">
+						<lightning:icon iconName="standard:task" />							
+					</div>
+				</div>
+				<div class="slds-media__body">
+					<div class="slds-grid slds-grid_align-spread slds-timeline__trigger">
+						<div class="slds-grid slds-grid_vertical-align-center slds-truncate_container_75 slds-no-space">	
+                            <h3 class="slds-truncate" title="{! v.itemDetail.Subject }">
+                                <aura:if isTrue="{! v.itemDetail.OwnerId == v.userInfo.Id }">
+                                    <a onclick="{! c.navigateToActivity }">
+										<strong>{! v.itemDetail.Subject }</strong>
+									</a>
+                                    <aura:set attribute="else">
+                                            <div>
+                                            	<strong>{! v.itemDetail.Subject }</strong>
+                                            </div>
+                                        </aura:set>
+                                </aura:if>
+							</h3>
+						</div>
+						<div class="slds-timeline__actions slds-timeline__actions_inline">
+								<p class="slds-timeline__date">
+									<lightning:formattedDateTime value="{! v.itemDetail.ActivityDate }" year="numeric" month="numeric" day="numeric" hour="2-digit" minute="2-digit" hour12="false" />
+								</p>
+								<lightning:buttonIcon iconName="utility:down"  size="x-small" alternativeText="View More" onclick="{! c.showArticle }" />
+						</div>
+					</div>
+					<p class="slds-m-horizontal_xx-small">
+					task assegnato a
+					<!-- &nbsp;<a onclick="{! c.navigateToUser }">{! v.itemDetail.Owner.Name }</a> -->
+                    &nbsp;{! v.itemDetail.Owner.Name }
+					</p>
+
+					<aura:if isTrue="{! !v.itemDetail.isCollapsed }">
+							<article class="{! 'slds-box slds-theme_shade slds-m-top_x-small slds-m-horizontal_xx-small slds-p-around_medium' }" id="task-item-expanded" >
+								<!-- ul class="slds-list_horizontal slds-wrap">
+                                    <li class="slds-grid slds-grid_vertical slds-size_1-of-1 slds-p-bottom_small">
+                                        <span class="slds-text-title slds-p-bottom_xx-small">Assegnato</span>
+                                        <span class="slds-text-body_medium slds-truncate" title="{! v.itemDetail.Owner.Name }">
+                                            <!-|- a onclick="{! c.navigateToUser }">{! v.itemDetail.Owner.Name }</a -|->
+                                            <div>{! v.itemDetail.Owner.Name }</div>
+
+                                        </span>
+                                    </li>
+                                </ul -->
+                                <ul class="slds-list_horizontal slds-wrap">
+                                    <li class="slds-grid slds-grid_vertical slds-size_1-of-1 slds-small-size_1-of-1	slds-medium-size_1-of-2	slds-large-size_1-of-2 slds-p-bottom_small">
+                                        <span class="slds-text-title slds-p-bottom_xx-small">Stato</span>
+                                        <p class="slds-text-body_medium slds-truncate">{! v.itemDetail.Status }</p>
+                                    </li>
+                                    <li class="slds-grid slds-grid_vertical slds-size_1-of-1 slds-small-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 slds-p-bottom_small">
+                                        <span class="slds-text-title slds-p-bottom_xx-small">Priorità</span>
+                                        <p class="slds-text-body_medium slds-truncate">{! v.itemDetail.Priority }</p>
+                                    </li>
+                                </ul>
+                                <ul class="slds-list_horizontal slds-wrap">
+                                	<li class="slds-grid slds-grid_vertical slds-size_1-of-1 slds-p-bottom_small">
+                                        <span class="slds-text-title slds-p-bottom_xx-small">Note Attività</span>
+                                        <p class="slds-text-body_medium">{! v.itemDetail.Note_Attivita__c }</p>
+                                    </li>
+                                </ul>
+                                <ul class="slds-list_horizontal slds-wrap">
+                                	<li class="slds-grid slds-grid_vertical slds-size_1-of-1 slds-p-bottom_small">
+                                        <span class="slds-text-title slds-p-bottom_xx-small">Commenti</span>
+                                        <p class="slds-text-body_medium">{! v.itemDetail.Description }</p>
+                                    </li>
+                                </ul>
+									
+								</article>
+					</aura:if>
+					
+				</div>
+			</div>
+		</div>
+	</li>
+</aura:component>

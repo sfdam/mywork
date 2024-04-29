@@ -1,0 +1,133 @@
+.sdgborder {
+  border: 1px solid rgb(221, 219, 218);
+  border-radius: 0.25rem;
+  background: white;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
+}
+
+.cstm-err {
+  color:red;
+}
+
+.referent-header {
+  padding-left: 20px;
+  font-weight: bold;
+  color: #b9b9b9;
+}
+
+.title-header {
+  padding: 10px 20px;
+  font-weight: bold;
+}
+
+hr {
+  margin: 10px 0px;
+}
+
+.attivo {
+  color: #0064b5;
+}
+
+/* TODO: Implementa classe apex custom per fare override */
+/* .slds-button_brand,
+.slds-button--brand {
+  background: #0064b5;
+  border-color: #0064b5;
+} */
+
+.clearFloats:before,
+.clearFloats:after {
+  content: " ";
+  display: table !important;
+}
+
+.clearFloats:after {
+  clear: both;
+}
+.clearFloats {
+  *zoom: 1;
+}
+
+.container {
+  position: relative;
+  font-size: 120px;
+  width: 1em;
+  height: 1em;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  border-radius: 50%;
+  float: left;
+  margin: 0 0.1em 0.1em 0;
+  background-color: #cccccc;
+  -webkit-transition-property: all;
+  -moz-transition-property: all;
+  -o-transition-property: all;
+  transition-property: all;
+  -webkit-transition-duration: 0.2s;
+  -moz-transition-duration: 0.2s;
+  -o-transition-duration: 0.2s;
+  transition-duration: 0.2s;
+  -webkit-transition-timing-function: ease-in;
+  -moz-transition-timing-function: ease-in;
+  -o-transition-timing-function: ease-in;
+  transition-timing-function: ease-in;
+}
+
+.container.small {
+  font-size: 50px;
+  box-shadow: 0 0 15px 5px rgb(46, 46, 46, 0.2);
+  border-width: 3px;
+  border-style: solid;
+  border-radius: 50%;
+}
+
+.container.small:hover {
+  cursor: default;
+  border-width: 5px;
+}
+/* .container.blue {
+  border-color: #307bbb;
+}
+
+.container.green {
+  border-color: #4db53c;
+}
+
+.container.orange {
+  border-color: #dd9d22;
+} */
+
+.container.grey {
+  border-color: #e1e1e1;
+}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 2) {
+  /* STYLES GO HERE */
+}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) and (-webkit-min-device-pixel-ratio: 2) {
+  /* STYLES GO HERE */
+}
+
+/* 
+    ##Device = Low Resolution Tablets, Mobiles (Landscape)
+    ##Screen = B/w 481px to 767px
+  */
+
+@media only screen and (min-width: 481px) and (max-width: 767px) and (orientation: landscape) {
+  /* STYLES GO HERE */
+}
+
+/* 
+    ##Device = Most of the Smartphones Mobiles (Portrait)
+    ##Screen = B/w 320px to 479px
+  */
+
+@media only screen and (min-width: 320px) and (max-width: 480px) and (orientation: portrait) {
+  /* STYLES GO HERE */
+  .iphone {
+    display: none;
+  }
+}

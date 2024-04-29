@@ -1,0 +1,609 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_Level3__c</fullName>
+    <externalId>false</externalId>
+    <label>3° Level</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>CRM_Level2__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>true</sorted>
+            <value>
+                <fullName>3D Secure</fullName>
+                <default>false</default>
+                <label>3D Secure</label>
+            </value>
+            <value>
+                <fullName>Accredito stipendio/pensione</fullName>
+                <default>false</default>
+                <label>Accredito stipendio/pensione</label>
+            </value>
+            <value>
+                <fullName>Aggiornamento documento d&apos;identità</fullName>
+                <default>false</default>
+                <label>Aggiornamento documento d&apos;identità</label>
+            </value>
+            <value>
+                <fullName>Altro</fullName>
+                <default>false</default>
+                <label>Altro</label>
+            </value>
+            <value>
+                <fullName>Area riservata disattivata</fullName>
+                <default>false</default>
+                <label>Area riservata disattivata</label>
+            </value>
+            <value>
+                <fullName>Assegni</fullName>
+                <default>false</default>
+                <label>Assegni</label>
+            </value>
+            <value>
+                <fullName>Attivazione/disattivazione Posta on line</fullName>
+                <default>false</default>
+                <label>Attivazione/disattivazione Posta on line</label>
+            </value>
+            <value>
+                <fullName>Bollo auto e moto</fullName>
+                <default>false</default>
+                <label>Bollo auto e moto</label>
+            </value>
+            <value>
+                <fullName>Budget</fullName>
+                <default>false</default>
+                <label>Budget</label>
+            </value>
+            <value>
+                <fullName>Caricamento/invio documenti</fullName>
+                <default>false</default>
+                <label>Caricamento/invio documenti</label>
+            </value>
+            <value>
+                <fullName>Categorie</fullName>
+                <default>false</default>
+                <label>Categorie</label>
+            </value>
+            <value>
+                <fullName>Certificazione interessi passivi</fullName>
+                <default>false</default>
+                <label>Certificazione interessi passivi</label>
+            </value>
+            <value>
+                <fullName>Codice di sicurezza</fullName>
+                <default>false</default>
+                <label>Codice di sicurezza</label>
+            </value>
+            <value>
+                <fullName>Collegamento carta in rubrica</fullName>
+                <default>false</default>
+                <label>Collegamento carta in rubrica</label>
+            </value>
+            <value>
+                <fullName>Condizioni applicate</fullName>
+                <default>false</default>
+                <label>Condizioni applicate</label>
+            </value>
+            <value>
+                <fullName>Configurazione prodotti</fullName>
+                <default>false</default>
+                <label>Configurazione prodotti</label>
+            </value>
+            <value>
+                <fullName>Consensi</fullName>
+                <default>false</default>
+                <label>Consensi</label>
+            </value>
+            <value>
+                <fullName>Consultazione</fullName>
+                <default>false</default>
+                <label>Consultazione</label>
+            </value>
+            <value>
+                <fullName>Credenziali errate</fullName>
+                <default>false</default>
+                <label>Credenziali errate</label>
+            </value>
+            <value>
+                <fullName>Disponibilità e archiviazione</fullName>
+                <default>false</default>
+                <label>Disponibilità e archiviazione</label>
+            </value>
+            <value>
+                <fullName>Domiciliazione utenze</fullName>
+                <default>false</default>
+                <label>Domiciliazione utenze</label>
+            </value>
+            <value>
+                <fullName>Estinzione Finanziamento</fullName>
+                <default>false</default>
+                <label>Estinzione Finanziamento</label>
+            </value>
+            <value>
+                <fullName>Gestione ordini</fullName>
+                <default>false</default>
+                <label>Gestione ordini</label>
+            </value>
+            <value>
+                <fullName>Importo rateizzato</fullName>
+                <default>false</default>
+                <label>Importo rateizzato</label>
+            </value>
+            <value>
+                <fullName>Impostazioni</fullName>
+                <default>false</default>
+                <label>Impostazioni</label>
+            </value>
+            <value>
+                <fullName>Info stato Pratica</fullName>
+                <default>false</default>
+                <label>Info stato Pratica</label>
+            </value>
+            <value>
+                <fullName>Inserimento</fullName>
+                <default>false</default>
+                <label>Inserimento</label>
+            </value>
+            <value>
+                <fullName>Key6</fullName>
+                <default>false</default>
+                <label>Key6</label>
+            </value>
+            <value>
+                <fullName>Modifica contatti</fullName>
+                <default>false</default>
+                <label>Modifica contatti</label>
+            </value>
+            <value>
+                <fullName>Modifica rata</fullName>
+                <default>false</default>
+                <label>Modifica rata</label>
+            </value>
+            <value>
+                <fullName>Notifica Push/OTP offline</fullName>
+                <default>false</default>
+                <label>Notifica Push/OTP offline</label>
+            </value>
+            <value>
+                <fullName>Offerta a distanza Fondi</fullName>
+                <default>false</default>
+                <label>Offerta a distanza Fondi</label>
+            </value>
+            <value>
+                <fullName>Offerta fuori sede</fullName>
+                <default>false</default>
+                <label>Offerta fuori sede</label>
+            </value>
+            <value>
+                <fullName>Operatività e Condizioni</fullName>
+                <default>false</default>
+                <label>Operatività e Condizioni</label>
+            </value>
+            <value>
+                <fullName>Pagina di avvio wizard non raggiungibile</fullName>
+                <default>false</default>
+                <label>Pagina di avvio wizard non raggiungibile</label>
+            </value>
+            <value>
+                <fullName>Pagina di login non raggiungibile</fullName>
+                <default>false</default>
+                <label>Pagina di login non raggiungibile</label>
+            </value>
+            <value>
+                <fullName>Pagina post login wizard non raggiungibile</fullName>
+                <default>false</default>
+                <label>Pagina post login wizard non raggiungibile</label>
+            </value>
+            <value>
+                <fullName>Password</fullName>
+                <default>false</default>
+                <label>Password</label>
+            </value>
+            <value>
+                <fullName>Portafoglio</fullName>
+                <default>false</default>
+                <label>Portafoglio</label>
+            </value>
+            <value>
+                <fullName>Post login non raggiungibile</fullName>
+                <default>false</default>
+                <label>Post login non raggiungibile</label>
+            </value>
+            <value>
+                <fullName>Prodotti assicurativi</fullName>
+                <default>false</default>
+                <label>Prodotti assicurativi</label>
+            </value>
+            <value>
+                <fullName>Rallentamenti nella navigazione</fullName>
+                <default>false</default>
+                <label>Rallentamenti nella navigazione</label>
+            </value>
+            <value>
+                <fullName>Rateizzazione</fullName>
+                <default>false</default>
+                <label>Rateizzazione</label>
+            </value>
+            <value>
+                <fullName>Report</fullName>
+                <default>false</default>
+                <label>Report</label>
+            </value>
+            <value>
+                <fullName>Revoca</fullName>
+                <default>false</default>
+                <label>Revoca</label>
+            </value>
+            <value>
+                <fullName>Ricarica prepagata</fullName>
+                <default>false</default>
+                <label>Ricarica prepagata</label>
+            </value>
+            <value>
+                <fullName>Ricerca e consultazione</fullName>
+                <default>false</default>
+                <label>Ricerca e consultazione</label>
+            </value>
+            <value>
+                <fullName>Richiesta carta di pagamento</fullName>
+                <default>false</default>
+                <label>Richiesta carta di pagamento</label>
+            </value>
+            <value>
+                <fullName>Riepilogo</fullName>
+                <default>false</default>
+                <label>Riepilogo</label>
+            </value>
+            <value>
+                <fullName>Rinnovo</fullName>
+                <default>false</default>
+                <label>Rinnovo</label>
+            </value>
+            <value>
+                <fullName>Saldo e Movimenti</fullName>
+                <default>false</default>
+                <label>Saldo e Movimenti</label>
+            </value>
+            <value>
+                <fullName>Servizo Dipiù</fullName>
+                <default>false</default>
+                <label>Servizo Dipiù</label>
+            </value>
+            <value>
+                <fullName>Sms conto</fullName>
+                <default>false</default>
+                <label>Sms conto</label>
+            </value>
+            <value>
+                <fullName>SMS OTP</fullName>
+                <default>false</default>
+                <label>SMS OTP</label>
+            </value>
+            <value>
+                <fullName>Sottoscrizione</fullName>
+                <default>false</default>
+                <label>Sottoscrizione</label>
+            </value>
+            <value>
+                <fullName>Time out sessione</fullName>
+                <default>false</default>
+                <label>Time out sessione</label>
+            </value>
+            <value>
+                <fullName>User</fullName>
+                <default>false</default>
+                <label>User</label>
+            </value>
+            <value>
+                <fullName>User e password</fullName>
+                <default>false</default>
+                <label>User e password</label>
+            </value>
+            <value>
+                <fullName>Utenza/SCA bloccata</fullName>
+                <default>false</default>
+                <label>Utenza/SCA bloccata</label>
+            </value>
+            <value>
+                <fullName>Utenza bloccata o non valida per la migrazione</fullName>
+                <default>false</default>
+                <label>Utenza bloccata o non valida per la migrazione</label>
+            </value>
+            <value>
+                <fullName>Utenza già migrata</fullName>
+                <default>false</default>
+                <label>Utenza già migrata</label>
+            </value>
+            <value>
+                <fullName>Utenza migrata non ha mai ricevuto la password</fullName>
+                <default>false</default>
+                <label>Utenza migrata non ha mai ricevuto la password</label>
+            </value>
+            <value>
+                <fullName>Utenza NON migrata non riceve la password</fullName>
+                <default>false</default>
+                <label>Utenza NON migrata non riceve la password</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Bollo auto</controllingFieldValue>
+            <controllingFieldValue>Bollettini CBILL-PagoPa</controllingFieldValue>
+            <controllingFieldValue>Bollettini MAV/RAV/Freccia</controllingFieldValue>
+            <controllingFieldValue>Bollettini postali</controllingFieldValue>
+            <controllingFieldValue>Bonifico</controllingFieldValue>
+            <controllingFieldValue>Ri.ba</controllingFieldValue>
+            <controllingFieldValue>Ricarica Amazon</controllingFieldValue>
+            <controllingFieldValue>Ricarica telefonica</controllingFieldValue>
+            <controllingFieldValue>F24</controllingFieldValue>
+            <controllingFieldValue>Anticipo fatture</controllingFieldValue>
+            <valueName>Inserimento</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Bollo auto</controllingFieldValue>
+            <controllingFieldValue>Bollettini CBILL-PagoPa</controllingFieldValue>
+            <controllingFieldValue>Bollettini MAV/RAV/Freccia</controllingFieldValue>
+            <controllingFieldValue>Bollettini postali</controllingFieldValue>
+            <controllingFieldValue>Bonifico</controllingFieldValue>
+            <controllingFieldValue>Carte</controllingFieldValue>
+            <controllingFieldValue>Conti correnti</controllingFieldValue>
+            <controllingFieldValue>Investimenti</controllingFieldValue>
+            <controllingFieldValue>Trading</controllingFieldValue>
+            <controllingFieldValue>Finanziamenti</controllingFieldValue>
+            <controllingFieldValue>Ri.ba</controllingFieldValue>
+            <controllingFieldValue>Ricarica Amazon</controllingFieldValue>
+            <controllingFieldValue>Ricarica telefonica</controllingFieldValue>
+            <controllingFieldValue>Rubrica</controllingFieldValue>
+            <controllingFieldValue>F24</controllingFieldValue>
+            <valueName>Notifica Push/OTP offline</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Bollo auto</controllingFieldValue>
+            <controllingFieldValue>Bollettini CBILL-PagoPa</controllingFieldValue>
+            <controllingFieldValue>Bollettini MAV/RAV/Freccia</controllingFieldValue>
+            <controllingFieldValue>Bollettini postali</controllingFieldValue>
+            <controllingFieldValue>Bonifico</controllingFieldValue>
+            <controllingFieldValue>Trading</controllingFieldValue>
+            <controllingFieldValue>Finanziamenti</controllingFieldValue>
+            <controllingFieldValue>Ri.ba</controllingFieldValue>
+            <controllingFieldValue>Ricarica telefonica</controllingFieldValue>
+            <controllingFieldValue>F24</controllingFieldValue>
+            <valueName>Operatività e Condizioni</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Bollo auto</controllingFieldValue>
+            <controllingFieldValue>Bollettini CBILL-PagoPa</controllingFieldValue>
+            <controllingFieldValue>Bollettini MAV/RAV/Freccia</controllingFieldValue>
+            <controllingFieldValue>Bollettini postali</controllingFieldValue>
+            <controllingFieldValue>Bonifico</controllingFieldValue>
+            <controllingFieldValue>Finanziamenti</controllingFieldValue>
+            <controllingFieldValue>Ri.ba</controllingFieldValue>
+            <controllingFieldValue>Ricarica Amazon</controllingFieldValue>
+            <controllingFieldValue>Ricarica telefonica</controllingFieldValue>
+            <controllingFieldValue>Rubrica</controllingFieldValue>
+            <controllingFieldValue>F24</controllingFieldValue>
+            <valueName>Ricerca e consultazione</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Paga Poi</controllingFieldValue>
+            <controllingFieldValue>Rata in conto</controllingFieldValue>
+            <valueName>Altro</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Paga Poi</controllingFieldValue>
+            <controllingFieldValue>Rata in conto</controllingFieldValue>
+            <valueName>Estinzione Finanziamento</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Paga Poi</controllingFieldValue>
+            <controllingFieldValue>Rata in conto</controllingFieldValue>
+            <valueName>Rateizzazione</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Paga Poi</controllingFieldValue>
+            <controllingFieldValue>Bonifico</controllingFieldValue>
+            <controllingFieldValue>Rata in conto</controllingFieldValue>
+            <valueName>Revoca</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Paga Poi</controllingFieldValue>
+            <controllingFieldValue>Rata in conto</controllingFieldValue>
+            <controllingFieldValue>Anticipo fatture</controllingFieldValue>
+            <valueName>Riepilogo</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Credenziali</controllingFieldValue>
+            <valueName>Area riservata disattivata</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Credenziali</controllingFieldValue>
+            <controllingFieldValue>Credenziali IB</controllingFieldValue>
+            <valueName>Password</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Credenziali</controllingFieldValue>
+            <controllingFieldValue>Credenziali IB</controllingFieldValue>
+            <valueName>User</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Credenziali</controllingFieldValue>
+            <controllingFieldValue>Credenziali IB</controllingFieldValue>
+            <valueName>User e password</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Navigazione pagine</controllingFieldValue>
+            <controllingFieldValue>Navigazione pagine IB</controllingFieldValue>
+            <valueName>Pagina di login non raggiungibile</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Navigazione pagine</controllingFieldValue>
+            <controllingFieldValue>Navigazione pagine IB</controllingFieldValue>
+            <valueName>Post login non raggiungibile</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Navigazione pagine</controllingFieldValue>
+            <controllingFieldValue>Navigazione pagine IB</controllingFieldValue>
+            <valueName>Rallentamenti nella navigazione</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Navigazione pagine</controllingFieldValue>
+            <controllingFieldValue>Navigazione pagine IB</controllingFieldValue>
+            <valueName>Time out sessione</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Credenziali IB</controllingFieldValue>
+            <valueName>Codice di sicurezza</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Credenziali IB</controllingFieldValue>
+            <valueName>Utenza/SCA bloccata</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Bollettini CBILL-PagoPa</controllingFieldValue>
+            <valueName>Bollo auto e moto</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Bollettini CBILL-PagoPa</controllingFieldValue>
+            <controllingFieldValue>Bollettini MAV/RAV/Freccia</controllingFieldValue>
+            <controllingFieldValue>Bollettini postali</controllingFieldValue>
+            <controllingFieldValue>Bonifico</controllingFieldValue>
+            <controllingFieldValue>Carte</controllingFieldValue>
+            <controllingFieldValue>Conti correnti</controllingFieldValue>
+            <controllingFieldValue>Investimenti</controllingFieldValue>
+            <controllingFieldValue>Trading</controllingFieldValue>
+            <controllingFieldValue>Finanziamenti</controllingFieldValue>
+            <controllingFieldValue>Ri.ba</controllingFieldValue>
+            <controllingFieldValue>Ricarica Amazon</controllingFieldValue>
+            <controllingFieldValue>Ricarica telefonica</controllingFieldValue>
+            <controllingFieldValue>Rubrica</controllingFieldValue>
+            <controllingFieldValue>F24</controllingFieldValue>
+            <valueName>SMS OTP</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Carte</controllingFieldValue>
+            <valueName>3D Secure</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Carte</controllingFieldValue>
+            <controllingFieldValue>Comunicazioni e documenti</controllingFieldValue>
+            <valueName>Consultazione</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Carte</controllingFieldValue>
+            <valueName>Key6</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Carte</controllingFieldValue>
+            <valueName>Ricarica prepagata</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Carte</controllingFieldValue>
+            <valueName>Richiesta carta di pagamento</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Comunicazioni e documenti</controllingFieldValue>
+            <valueName>Attivazione/disattivazione Posta on line</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Comunicazioni e documenti</controllingFieldValue>
+            <valueName>Disponibilità e archiviazione</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Conti correnti</controllingFieldValue>
+            <valueName>Accredito stipendio/pensione</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Conti correnti</controllingFieldValue>
+            <valueName>Assegni</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Conti correnti</controllingFieldValue>
+            <valueName>Condizioni applicate</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Conti correnti</controllingFieldValue>
+            <valueName>Domiciliazione utenze</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Conti correnti</controllingFieldValue>
+            <valueName>Saldo e Movimenti</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Conti correnti</controllingFieldValue>
+            <valueName>Servizo Dipiù</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Conti correnti</controllingFieldValue>
+            <valueName>Sms conto</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Investimenti</controllingFieldValue>
+            <valueName>Offerta a distanza Fondi</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Investimenti</controllingFieldValue>
+            <valueName>Offerta fuori sede</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Investimenti</controllingFieldValue>
+            <valueName>Portafoglio</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Trading</controllingFieldValue>
+            <valueName>Gestione ordini</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Finanziamenti</controllingFieldValue>
+            <valueName>Caricamento/invio documenti</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Finanziamenti</controllingFieldValue>
+            <valueName>Certificazione interessi passivi</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Finanziamenti</controllingFieldValue>
+            <valueName>Info stato Pratica</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Finanziamenti</controllingFieldValue>
+            <valueName>Sottoscrizione</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Rubrica</controllingFieldValue>
+            <valueName>Collegamento carta in rubrica</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Rubrica</controllingFieldValue>
+            <controllingFieldValue>Profilo</controllingFieldValue>
+            <valueName>Modifica contatti</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Profilo</controllingFieldValue>
+            <valueName>Aggiornamento documento d&apos;identità</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Profilo</controllingFieldValue>
+            <valueName>Configurazione prodotti</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Profilo</controllingFieldValue>
+            <valueName>Consensi</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Rata in conto</controllingFieldValue>
+            <valueName>Importo rateizzato</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Rata in conto</controllingFieldValue>
+            <valueName>Modifica rata</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Rinnovo polizza</controllingFieldValue>
+            <valueName>Prodotti assicurativi</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Rinnovo polizza</controllingFieldValue>
+            <valueName>Rinnovo</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

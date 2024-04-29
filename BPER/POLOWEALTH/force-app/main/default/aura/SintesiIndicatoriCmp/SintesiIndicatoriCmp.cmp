@@ -1,0 +1,61 @@
+<aura:component controller="IndicatoriController" implements="flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes,force:hasRecordId" access="global">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+	<aura:attribute name="reportName" type="String" default="" access="global" />
+	<aura:attribute name="lcBaseURL" type="String" default="" access="global" />
+    <aura:attribute name="benchmarkMINTER" type="String" access="global"/>
+    <aura:attribute name="benchmarkCS" type="String" access="global"/>
+    <aura:attribute name="benchmarkRaccolta" type="String" access="global"/>
+    <aura:attribute name="benchmarkAccordato" type="String" access="global"/>
+    <aura:attribute name="benchmarkUtilizzato" type="String" access="global"/>
+    <aura:attribute name="benchmarkSmartIndex" type="String" access="global"/>
+    <aura:attribute name="benchmarkSOW" type="String" access="global"/>
+    <aura:attribute name="percScostDareImporti" type="String" access="global" />
+    <aura:attribute name="percScostDareNumeri" type="String" access="global" />
+    <aura:attribute name="percScostAvereImporti" type="String" access="global" />
+    <aura:attribute name="percScostAvereNumeri" type="String" access="global" />
+    <aura:attribute name="percScostDareImportiStyle" type="String" access="global" />
+    <aura:attribute name="percScostDareNumeriStyle" type="String" access="global" />
+    <aura:attribute name="percScostAvereImportiStyle" type="String" access="global" />
+    <aura:attribute name="percScostAvereNumeriStyle" type="String" access="global" />
+    <aura:attribute name="isIndividual" type="Boolean" access="global" />
+    <aura:attribute name="isBusiness" type="Boolean" access="global" />
+
+    <div class="slds-grid slds-wrap slds-align_absolute-center" style="justify-content:center">
+        <div class="slds-col slds-size_12-of-12 slds-align_absolute-center">
+            <div>
+                <p>Trend VS stesso mese AP: <img src="{!$Resource.arrowup}"/></p>
+                <iframe aura:id="benchmarkMINTER" width="300px" height="280px" src="{!v.benchmarkMINTER}" frameBorder="0"/><br/>
+            </div>
+            <div>
+                <p>Trend VS stesso mese AP: <img src="{!$Resource.arrowup}"/></p>
+                <iframe aura:id="benchmarkCS" width="300px" height="280px" src="{!v.benchmarkCS}" frameBorder="0"/>
+            </div>
+            <div>
+                <p>Trend VS stesso mese AP: <img src="{!$Resource.arrowdown}"/></p>
+                <iframe aura:id="benchmarkSmartIndex" width="300px" height="280px" src="{!v.benchmarkSmartIndex}" frameBorder="0"/>
+            </div>
+        </div>
+        <div class="slds-col slds-size_12-of-12 slds-align_absolute-center">
+            <aura:if isTrue="{!v.isIndividual}">
+                <div>
+                    <p>Trend VS stesso mese AP: <img src="{!$Resource.arrowdown}"/></p>
+                    <iframe aura:id="benchmarkRaccolta" width="300px" height="280px" src="{!v.benchmarkRaccolta}" frameBorder="0"/>
+                </div>
+            </aura:if>
+            <div>
+                <p>Trend VS stesso mese AP: <img src="{!$Resource.arrowdown}"/></p>
+                <iframe aura:id="benchmarkAccordato" width="300px" height="280px" src="{!v.benchmarkAccordato}" frameBorder="0"/>
+            </div>
+            <div>
+                <p>Trend VS stesso mese AP: <img src="{!$Resource.arrowup}"/></p>
+                <iframe aura:id="benchmarkUtilizzato" width="300px" height="280px" src="{!v.benchmarkUtilizzato}" frameBorder="0"/>
+            </div>
+            <aura:if isTrue="{!v.isBusiness}">
+                <div>
+                    <p>Trend VS stesso mese AP: <img src="{!$Resource.arrowdown}"/></p>
+                    <iframe aura:id="benchmarkSOW" width="300px" height="280px" src="{!v.benchmarkSOW}" frameBorder="0"/>
+                </div>
+            </aura:if>
+        </div>
+    </div>
+</aura:component>

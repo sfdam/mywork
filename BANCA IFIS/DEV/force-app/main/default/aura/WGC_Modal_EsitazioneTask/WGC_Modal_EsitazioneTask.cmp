@@ -1,0 +1,69 @@
+<aura:component implements="flexipage:availableForAllPageTypes,lightning:isUrlAddressable,lightning:availableForFlowScreens" access="global" controller="WGC_FiloDirettoController" extends="c:WGC_Utility">
+    <!-- attributes -->
+    <aura:attribute name="taskId" type="String" default="" />
+    <aura:attribute name="rtId" type="String" default="" />
+
+    <aura:attribute name="loading" type="Boolean" default="true" />
+    <aura:attribute name="labels" type="Object" />
+    <aura:attribute name="isValid" type="Boolean"/>
+    
+    <aura:attribute name="activityType" type="String" />
+    <aura:attribute name="resultLevel1" type="String" default="" />
+    <aura:attribute name="resultLevel2" type="String" default="" />
+    <aura:attribute name="resultNotes" type="String" default="" />
+    <aura:attribute name="recontactDate" type="String" default="" />
+
+    <aura:attribute name="picklistValuesContainer" type="List" />
+    <aura:attribute name="pickActivityType" type="List" />
+    <aura:attribute name="pickResultLevel1" type="List" />
+    <aura:attribute name="pickResultLevel2" type="List" />
+
+    <!-- handlers -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }" />
+
+    <aura:if isTrue="{! v.loading }">
+        <lightning:spinner />
+    </aura:if>
+
+    <!-- body -->
+    <div class="container">
+        <ui:scrollerWrapper class="scrollerSize">
+            <lightning:layout multipleRows="true" class="slds-p-around_small">
+                <lightning:layoutItem size="12" padding="around-small">
+                    <lightning:select aura:id="esitazioneField" name="TipoAttivita__c" label="{! v.labels.tipoattivita__c }" value="{! v.activityType }" required="true" onchange="{! c.onChangePicklist }">
+                        <option value="">--Nessuno--</option>
+                        <aura:iteration var="item" items="{! v.pickActivityType }">
+                            <option value="{! item.value }" selected="{! item.selected }">{! item.label }</option>
+                        </aura:iteration>
+                    </lightning:select>
+                </lightning:layoutItem>
+
+                <lightning:layoutItem size="12" padding="around-small">
+                    <lightning:select aura:id="esitazioneField" name="EsitoLivello1__c" label="{! v.labels.esitolivello1__c }" value="{! v.resultLevel1 }" disabled="{! empty(v.pickResultLevel1) }" required="{! not(empty(v.pickResultLevel1)) }" onchange="{! c.onChangePicklist }">
+                        <option value="">--Nessuno--</option>
+                        <aura:iteration var="item" items="{! v.pickResultLevel1 }">
+                            <option value="{! item.value }">{! item.label }</option>
+                        </aura:iteration>
+                    </lightning:select>
+                </lightning:layoutItem>
+                
+                <lightning:layoutItem size="12" padding="around-small">
+                    <lightning:select aura:id="esitazioneField" name="EsitoLivello2__c" label="{! v.labels.esitolivello2__c }" value="{! v.resultLevel2 }" disabled="{! empty(v.pickResultLevel2) }" required="{! not(empty(v.pickResultLevel2)) }" onchange="{! c.onChangePicklist }">
+                        <option value="">--Nessuno--</option>
+                        <aura:iteration var="item" items="{! v.pickResultLevel2 }">
+                            <option value="{! item.value }">{! item.label }</option>
+                        </aura:iteration>
+                    </lightning:select>
+                </lightning:layoutItem>
+                
+                <lightning:layoutItem size="12" padding="around-small">
+                    <lightning:input aura:id="esitazioneField" name="CommentiEsito__c" label="{! v.labels.commentiesito__c }" maxlength="255" required="true" value="{! v.resultNotes }" onchange="{! c.onChangeField }"/>
+                </lightning:layoutItem>
+                
+                <lightning:layoutItem size="12" padding="around-small">
+                    <lightning:input aura:id="esitazioneField" name="DataRicontatto__c" label="{! v.labels.dataricontatto__c }" type="date" value="{! v.recontactDate }" onchange="{! c.onChangeField }"/>
+                </lightning:layoutItem>
+            </lightning:layout>
+        </ui:scrollerWrapper>
+    </div>
+</aura:component>

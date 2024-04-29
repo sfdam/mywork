@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>58.0</apiVersion>
+    <decisions>
+        <name>Check_Oppty_Access_Level</name>
+        <label>Check Oppty Access Level</label>
+        <locationX>314</locationX>
+        <locationY>431</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Read_Only</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Opportunity_Share.OpportunityAccessLevel</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Read</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.OpportunityAccessLevel</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Read</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Visibilit_Team_Oppty_Read_Only</targetReference>
+            </connector>
+            <label>Read Only</label>
+        </rules>
+        <rules>
+            <name>Edit</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Opportunity_Share.OpportunityAccessLevel</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Edit</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.OpportunityAccessLevel</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Edit</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Visibilit_Team_Oppty_Edit</targetReference>
+            </connector>
+            <label>Edit</label>
+        </rules>
+    </decisions>
+    <environments>Default</environments>
+    <formulas>
+        <name>OpptyEdit_AddAlias</name>
+        <dataType>String</dataType>
+        <expression>IF(CONTAINS({!$Record.Opportunity.CIB_Opportunity_Edit__c}, {!$Record.User.Alias}),
+      {!$Record.Opportunity.CIB_Opportunity_Edit__c},
+      {!$Record.Opportunity.CIB_Opportunity_Edit__c} &amp; {!$Record.User.Alias} &amp; &apos;,&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>OpptyEdit_AddRole</name>
+        <dataType>String</dataType>
+        <expression>IF(CONTAINS({!$Record.Opportunity.CIB_EditRole_OP_Team__c}, {!$Record.User.CRM_PermissionSet__c}),
+      {!$Record.Opportunity.CIB_EditRole_OP_Team__c},
+      {!$Record.Opportunity.CIB_EditRole_OP_Team__c} &amp; {!$Record.User.CRM_PermissionSet__c} &amp; &apos;,&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>OpptyEdit_RemoveAlias</name>
+        <dataType>String</dataType>
+        <expression>IF(CONTAINS({!$Record.Opportunity.CIB_Opportunity_Edit__c}, {!$Record.User.Alias}),
+      SUBSTITUTE({!$Record.Opportunity.CIB_Opportunity_Edit__c}, {!$Record.User.Alias} &amp; &apos;,&apos;, &apos;&apos;),
+      {!$Record.Opportunity.CIB_Opportunity_Edit__c}
+)</expression>
+    </formulas>
+    <formulas>
+        <name>OpptyEdit_RemoveRole</name>
+        <dataType>String</dataType>
+        <expression>IF(CONTAINS({!$Record.Opportunity.CIB_EditRole_OP_Team__c}, {!$Record.User.CRM_PermissionSet__c}),
+      SUBSTITUTE({!$Record.Opportunity.CIB_EditRole_OP_Team__c}, {!$Record.User.CRM_PermissionSet__c} &amp; &apos;,&apos;, &apos;&apos;),
+      {!$Record.Opportunity.CIB_EditRole_OP_Team__c}
+   )</expression>
+    </formulas>
+    <formulas>
+        <name>OpptyReadOnly_AddAlias</name>
+        <dataType>String</dataType>
+        <expression>IF(CONTAINS({!$Record.Opportunity.CIB_Opportunity_ReadOnly__c}, {!$Record.User.Alias}),
+      {!$Record.Opportunity.CIB_Opportunity_ReadOnly__c},
+      {!$Record.Opportunity.CIB_Opportunity_ReadOnly__c} &amp; {!$Record.User.Alias} &amp; &apos;,&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>OpptyReadOnly_AddRole</name>
+        <dataType>String</dataType>
+        <expression>IF(CONTAINS({!$Record.Opportunity.CIB_ReadOnlyRole_OP_Team__c}, {!$Record.User.CRM_PermissionSet__c}),
+      {!$Record.Opportunity.CIB_ReadOnlyRole_OP_Team__c},
+      {!$Record.Opportunity.CIB_ReadOnlyRole_OP_Team__c} &amp; {!$Record.User.CRM_PermissionSet__c} &amp; &apos;,&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>OpptyReadOnly_RemoveAlias</name>
+        <dataType>String</dataType>
+        <expression>IF(CONTAINS({!$Record.Opportunity.CIB_Opportunity_ReadOnly__c}, {!$Record.User.Alias}),
+      SUBSTITUTE({!$Record.Opportunity.CIB_Opportunity_ReadOnly__c}, {!$Record.User.Alias} &amp; &apos;,&apos;, &apos;&apos;),
+      {!$Record.Opportunity.CIB_Opportunity_ReadOnly__c}
+)</expression>
+    </formulas>
+    <formulas>
+        <name>OpptyReadOnly_RemoveRole</name>
+        <dataType>String</dataType>
+        <expression>IF(CONTAINS({!$Record.Opportunity.CIB_ReadOnlyRole_OP_Team__c}, {!$Record.User.CRM_PermissionSet__c}),
+      SUBSTITUTE({!$Record.Opportunity.CIB_ReadOnlyRole_OP_Team__c}, {!$Record.User.CRM_PermissionSet__c} &amp; &apos;,&apos;, &apos;&apos;),
+      {!$Record.Opportunity.CIB_Opportunity_ReadOnly__c}
+   )</expression>
+    </formulas>
+    <interviewLabel>Update Opportunity Team {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Update Opportunity Team</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <name>Get_Opportunity_Share</name>
+        <label>Get Opportunity Share</label>
+        <locationX>314</locationX>
+        <locationY>323</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Check_Oppty_Access_Level</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>OpportunityId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.OpportunityId</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>UserOrGroupId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.UserId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>OpportunityShare</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <name>Update_Visibilit_Team_Oppty_Edit</name>
+        <label>Update Visibilità Team Oppty Edit</label>
+        <locationX>314</locationX>
+        <locationY>539</locationY>
+        <inputAssignments>
+            <field>CIB_EditRole_OP_Team__c</field>
+            <value>
+                <elementReference>OpptyEdit_AddRole</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>CIB_Opportunity_Edit__c</field>
+            <value>
+                <elementReference>OpptyEdit_AddAlias</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>CIB_Opportunity_ReadOnly__c</field>
+            <value>
+                <elementReference>OpptyReadOnly_RemoveAlias</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>CIB_ReadOnlyRole_OP_Team__c</field>
+            <value>
+                <elementReference>OpptyReadOnly_RemoveRole</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record.Opportunity</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Visibilit_Team_Oppty_Read_Only</name>
+        <label>Update Visibilità Team Oppty Read Only</label>
+        <locationX>50</locationX>
+        <locationY>539</locationY>
+        <inputAssignments>
+            <field>CIB_EditRole_OP_Team__c</field>
+            <value>
+                <elementReference>OpptyEdit_RemoveRole</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>CIB_Opportunity_Edit__c</field>
+            <value>
+                <elementReference>OpptyEdit_RemoveAlias</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>CIB_Opportunity_ReadOnly__c</field>
+            <value>
+                <elementReference>OpptyReadOnly_AddAlias</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>CIB_ReadOnlyRole_OP_Team__c</field>
+            <value>
+                <elementReference>OpptyReadOnly_AddRole</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record.Opportunity</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>188</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_Opportunity_Share</targetReference>
+        </connector>
+        <object>OpportunityTeamMember</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

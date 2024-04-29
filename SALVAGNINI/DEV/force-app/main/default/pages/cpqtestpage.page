@@ -1,0 +1,27 @@
+<apex:page controller="cpqVFController" showheader="false" sidebar="false">
+
+	<apex:includeScript value="/lightning/lightning.out.js"/>
+
+	<div id="lightning" />
+    {!UrlParameterJSON}
+    {!QLJSON}
+    {!quoteId}
+	<script>
+		const componentName = 'cart-visualizer';
+		const urlParam = "{!$CurrentPage.URL}";
+        const quoteId = "{!quoteId}";
+		console.log('app urlParam '+JSON.stringify({!UrlParameterJSON}));
+        console.log('app window.top.location.href  '+window.location.href);
+        console.log(' quoteId '+quoteId);
+		
+        $Lightning.use('c:cpqConfiguratorApp', function() {
+            console.log('app connected');
+            $Lightning.createComponent("c:cartVisualizer", { recordId : "{!quoteId}"}, "lightning", function(cmp){
+                console.log('component loaded');
+            });
+        });
+		
+
+	</script>
+
+</apex:page>

@@ -1,0 +1,4 @@
+<!--
+ - Created by ccardinale on 12/05/2017.
+ -->
+<apex:page contentType="application/json" showHeader="false" applyHtmlTag="false" standardStylesheets="false">"{!$Api.Session_ID}"</apex:page>

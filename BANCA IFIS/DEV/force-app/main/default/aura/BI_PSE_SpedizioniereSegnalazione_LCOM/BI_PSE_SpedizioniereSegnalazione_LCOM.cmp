@@ -1,0 +1,5 @@
+<aura:component controller="BI_PSE_ControllerPrincipale_CTRL" implements="lightning:availableForFlowActions" access="global">
+    
+    <aura:attribute name="workflowRecordCandidatoID" type="String"/>      
+    
+</aura:component>

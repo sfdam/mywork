@@ -1,0 +1,30 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId,force:hasSObjectName" access="global" 
+                controller="GenericCanvasController">
+    <aura:attribute name="canvasParameters" type="String" access="private" default=""/>
+    <aura:attribute name="devName" type="String" default=""/>
+    <aura:attribute name="connectedApp" type="String" default=""/>
+    <aura:attribute name="width" type="String" default="450px"/>
+    <aura:attribute name="height" type="String" default="450px"/>
+    <aura:attribute name="isLoaded" type="Boolean" default="false"/>
+    <aura:attribute name="showCanvas" type="Boolean" default="false"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <lightning:notificationsLibrary aura:id="notifLib"/>
+	<div class="slds">
+        <aura:if isTrue="{!v.isLoaded}">
+            <aura:if isTrue="{!v.showCanvas}">
+        		<force:canvasApp aura:id="GenericCanvas"
+            		             parameters="{!v.canvasParameters}"
+                		         developerName="{!v.connectedApp}"
+                    		     applicationName="Canvas"
+                        		 onCanvasAppError="{!c.onCanvasAppError}"
+                             	onCanvasAppLoad="{!c.onCanvasAppLoad}"
+                             	width="{!v.width}"
+                             	height="{!v.height}"/>
+                <aura:set attribute="else">
+                    <lightning:formattedText value="{!$Label.c.showCanvasError}"/>
+                </aura:set>
+            </aura:if>
+        </aura:if>
+    </div>
+</aura:component>

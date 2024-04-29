@@ -1,0 +1,126 @@
+<template>
+    <template if:false={loaded}>
+        <lightning-spinner alternative-text={label.SEARCH} variant="brand"></lightning-spinner>
+    </template>
+    <template if:true={loaded}>
+    <lightning-card title={label.ART_CustomerRelationshipNew} variant="Narrow">
+        <div class="c-container">
+
+            <div class="slds-m-top_medium slds-m-bottom_x-large">
+                <!--<h2 class="slds-text-heading_medium slds-m-bottom_medium">
+                Customer Relationship
+                </h2>
+
+                
+                <div class="slds-p-around_medium lgc-bg">
+                    <lightning-input type="text" label="Enter some text"></lightning-input>
+                </div>-->
+                <lightning-layout-item padding="around-small" size="12">
+                                <div class="page-section page-header slds-section-title--divider">
+                                    <h2>{label.Identification}</h2>
+                                </div>
+                            </lightning-layout-item>
+
+                <lightning-layout-item padding="around-small" size="12">
+                    <lightning-layout multiple-rows="true">
+
+                        <lightning-layout-item padding="around-small" size="1">
+                            <div class="page-section page-main">                            
+                            </div>
+                        </lightning-layout-item>
+
+                        
+                        <lightning-layout-item padding="around-small" size="4">
+                            <!--<label >Customer :</label>-->
+
+                            <div class="page-section page-main">
+                                <!-- Customer -->
+                                <c-custom-lookup selected-s-object={prepopulatedAccount} s-object-name="Account"
+                                icon-name="standard:account" field-label={label.ART_CustomerName} field-to-like="Name,THR_CustomerIdentificationCode__c"
+                                    other-field-to-query = 'THR_CustomerIdentificationCode__c'
+                                    field-alternative-in-label="THR_CustomerIdentificationCode__c" 
+                                    required={required} p-read-only=true
+                                    >
+                                </c-custom-lookup>
+                                <!-- Related Customer -->
+                                <c-custom-lookup data-item="customLookupRelatedCustomer" s-object-name="Account"
+                                    icon-name="standard:account" field-label={label.ART_Related_Customer} field-to-like="Name,THR_CustomerIdentificationCode__c"
+                                        other-field-to-query = 'THR_CustomerIdentificationCode__c' where-condition={accountFilter}
+                                        field-alternative-in-label="THR_CustomerIdentificationCode__c" 
+                                        event-to-dispatch="filialelookup" onfilialelookup={handleRelatedCustomerEvent}
+                                        required={required} disabled="true"  p-read-only={relationshipIsSelect}
+                                        >
+                                </c-custom-lookup>
+                                
+                                <!-- start date -->
+                                <lightning-input  required="true" type="date" name="startDate" label={label.ART_Start_Date} value={currentStartDate} onchange={startDatechange}></lightning-input> 
+                            </div>
+                        </lightning-layout-item>
+
+                        <lightning-layout-item padding="around-small" size="2">
+                            <div class="page-section page-main">                            
+                            </div>
+                        </lightning-layout-item>
+                        
+                        <lightning-layout-item padding="around-small" size="4" style="margin-top:auto">
+                            
+                            <div class="page-section page-main">
+                                
+                                <label>{label.ART_Customer_Identification_Code}</label>
+
+                                <!-- Relationship Type-->
+                                <lightning-combobox
+                                label={label.ART_Relationship_Type}
+                                name="progress"
+                                value={relationshipType}
+                                placeholder="Select value"
+                                options={options}
+                                onchange={handleChange} 
+                                required="true" ></lightning-combobox>
+
+                                <!-- end date -->
+                                <lightning-input type="date" name="endDate" label={label.ART_End_Date} value={currentEndDate} onchange={endDatechange} required></lightning-input> 
+                            </div>
+                            
+                        </lightning-layout-item>
+
+                        <lightning-layout-item padding="around-small" size="1">
+                            <div class="page-section page-main">                            
+                            </div>
+                        </lightning-layout-item>
+
+                        
+                    </lightning-layout>
+
+
+                    <lightning-layout multiple-rows="true">
+
+                        <lightning-layout-item padding="around-small" size="5">
+                            <div class="page-section page-main">                            
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item padding="around-small" size="2" style="padding-left:3%">
+                            <div class="page-section page-main" >
+                               
+                                <lightning-button label={label.CancelLabel} title={label.CancelLabel} onclick={cancelInsert}></lightning-button>&nbsp;
+                                <lightning-button label={label.ART_Save_Button} title={label.ART_Save_Button} variant="brand" onclick={handlerSave}></lightning-button>
+                                                         
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item padding="around-small" size="5">
+                            <div class="page-section page-main">                            
+                            </div>
+                        </lightning-layout-item>
+
+                    </lightning-layout>
+
+                </lightning-layout-item>
+
+
+            </div>
+
+        </div>
+    </lightning-card>
+    </template>
+
+</template>

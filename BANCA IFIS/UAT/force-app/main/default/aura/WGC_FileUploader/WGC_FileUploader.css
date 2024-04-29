@@ -1,0 +1,17 @@
+.THIS {
+}
+
+.THIS .slds-modal__footer{
+    margin:-15px -15px -31px -15px;
+}
+
+.THIS .btn {
+    background-color: #0064B5;
+    border-color: #0064B5;
+    color: rgb(255, 255, 255);
+ }
+
+ .THIS .notes{
+     font-weight: bold;
+     font-size: 15px;
+ }

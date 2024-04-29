@@ -1,0 +1,105 @@
+.THIS {
+    font-family: 'Roboto', sans-serif;
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.THIS .main-container {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.THIS .blue-container {
+    width: 900px;
+    height: 490px;
+    background-color: #00477D;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.THIS .message-container {
+    width: 700px;
+    height: 110px;
+    margin-top: 50px;
+    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.THIS .title {
+    font-size: 44px;
+    font-weight: 700;
+    color: #FFFFFF;
+}
+
+.THIS .subtitle {
+    font-size: 40px;
+    font-weight: 400;
+    color: #FFFFFF;
+}
+
+.THIS .countdown-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.THIS .days-container,
+.THIS .hours-container,
+.THIS .minutes-container,
+.THIS .seconds-container {
+    font-size: 45px;
+    font-weight: 400;
+    color: #FFFFFF;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.THIS .days-container,
+.THIS .hours-container,
+.THIS .minutes-container {
+    margin-right: 22px;
+}
+
+.THIS .days,
+.THIS .hours,
+.THIS .minutes,
+.THIS .seconds {
+    width: 200px;
+    height: 200px;
+    background-color: #FFFFFF;
+    font-size: 120px;
+    font-weight: 400;
+    color: #00477D;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.THIS .days-label,
+.THIS .hours-label,
+.THIS .minutes-label,
+.THIS .seconds-label {
+    text-align: center;
+}
+
+.THIS .footer {
+    font-size: 18px;
+    font-weight: 400;
+    color: #000000;
+    margin-top: 150px;
+    text-align: center;
+}

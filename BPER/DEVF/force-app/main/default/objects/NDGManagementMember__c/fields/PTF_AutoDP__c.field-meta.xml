@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PTF_AutoDP__c</fullName>
+    <externalId>false</externalId>
+    <formula>AND (
+				RecordType.DeveloperName = &apos;DoppioPresidio&apos;,
+				PTF_NDG__r.PTF_ModelloDiServizio__c = &apos;Private&apos;
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>DP Automatico</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

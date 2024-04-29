@@ -1,0 +1,31 @@
+<aura:component description="WGC_SceltaModuloMAV">
+
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="tipologiaScelta" type="String" default="false"/>
+    <aura:attribute name="tipologiaMav" type="List"/>
+    <aura:attribute name="referenceAttribute" type="String" default=""/>
+    <aura:attribute name="disableButton" type="Boolean" default="true"/>
+
+    <aura:handler name="init"  value="{!this}" action="{!c.doInit}"/>
+
+    <!-- LIBRARIES -->
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+
+    <div>
+        <div class="bodyContainer">
+            <lightning:layout multipleRows="true" class="slds-p-around_small">
+                <lightning:layoutItem size="12" class="slds-p-around_small slds-align_absolute-center">
+                    <lightning:radioGroup name="tipologia" label="Seleziona tipologia MAV" options="{!v.tipologiaMav}"
+                                          value="{!v.tipologiaScelta}" type="button" onchange="{!c.typeSelected}"/>
+                </lightning:layoutItem>
+            </lightning:layout>
+
+            <div class="slds-p-vertical_medium">
+                <footer class="slds-modal__footer">
+                    <lightning:button variant="neutral" onclick="{!c.close}" label="ANNULLA"/>
+                    <lightning:button class="btn" variant="neutral" onclick="{!c.selezionaTipologia}" label="SELEZIONA" disabled="{!v.disableButton}"/>
+                </footer>
+            </div>
+        </div> 
+    </div>
+</aura:component>

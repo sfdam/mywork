@@ -1,0 +1,100 @@
+<template>
+    <lightning-layout multiple-rows="true">
+        <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="4" class="slds-var-p-around_small">
+            <lightning-combobox name="_feedback-Business_Area__c" label="Business Area" value={_feedback.Business_Area__c} options={businnessAreaOpts} onchange={handleChangeFieldEvent} placeholder={placeholder} required>
+            </lightning-combobox>
+        </lightning-layout-item>
+        <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="4" class="slds-var-p-around_small">
+            <c-custom-lookup object-name="Product2" s-object-name="Product2" icon-name="standard:product" field-label="Articolo" required={articoloRequired} where-condition=" Societ__c = 'WarrantHub'" ></c-custom-lookup>
+        </lightning-layout-item>
+        <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="4" class="slds-var-p-around_small">
+            <lightning-combobox name="_feedback-Target__c" label="Target" value={_feedback.Target__c} options={targetOpts} onchange={handleChangeFieldEvent} placeholder={placeholder} required >
+            </lightning-combobox>
+        </lightning-layout-item>
+        <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="4" class="slds-var-p-around_small">
+            <lightning-combobox name="_feedback-Esito__c" label="Esito" value={_feedback.Esito__c} options={esitoOpts} onchange={handleChangeFieldEvent} placeholder={placeholder} required >
+            </lightning-combobox>
+        </lightning-layout-item>
+        <template if:true={nonInteressato}>
+            <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="4" class="slds-var-p-around_small">
+                <lightning-combobox name="_feedback-Motivo_di_non_interesse__c" label="Motivo di non interesse" value={_feedback.Motivo_di_non_interesse__c} options={nonInteressatoOpts} placeholder={placeholder} onchange={handleChangeFieldEvent} required >
+                </lightning-combobox>
+            </lightning-layout-item>
+            <template if:true={altriConsulenti}>
+                <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="4" class="slds-var-p-around_small">
+                    <lightning-combobox name="_feedback-Consulente__c" label="Consulente" value={_feedback.Consulente__c} options={consulenteOpts} onchange={handleChangeFieldEvent} placeholder={placeholder} required >
+                    </lightning-combobox>
+                </lightning-layout-item>
+            </template>
+        </template>
+        <lightning-layout-item size="12" class="slds-var-p-around_small">
+            <lightning-input-rich-text
+                name="_feedback-Note__c"
+                value={_feedback.Note__c}
+                placeholder="Inserisci qui le tue note..."
+                onchange={handleChangeFieldEvent}>
+            </lightning-input-rich-text>
+            <!-- <lightning-textarea label="Note" name="_feedback-Note__c" value={_feedback.Note__c} onchange={handleChangeFieldEvent} placeholder="Inserisci qui le tue note..."></lightning-textarea> -->
+        </lightning-layout-item>
+        <lightning-layout-item size="12" class="slds-var-p-top_small">
+            <lightning-accordion>
+                <template if:true={isAccountParentEvent}>
+                    <lightning-accordion-section name="Opportunity" label="Sezione Opportunità">
+                        <lightning-input type="checkbox" label="Crea Opportunità ?" value={createOpty} onchange={handleChangeOpty}></lightning-input>
+                    </lightning-accordion-section>
+                </template>
+                <lightning-accordion-section name="Task" label="Sezione Task">
+                    <lightning-layout multiple-rows="true">
+                        <lightning-layout-item size="12">
+                            <lightning-input type="checkbox" label="Crea Task ?" value={createTask} onchange={handleChangeTask} ></lightning-input>
+                        </lightning-layout-item>
+                        <template if:true={createTask}>
+                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="4" class="slds-var-p-around_small">
+                                <c-custom-lookup field-label="Correlato a" where-condition={calculatedWhereCondition} selected-s-object={prepopulatedAccount} p-read-only=true></c-custom-lookup>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="2" class="slds-var-p-around_small">
+                                <lightning-input type="date" name="task-ActivityDate" label="Scadenza" value={task.ActivityDate} onchange={handleChangeFieldEvent}></lightning-input>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="2" class="slds-var-p-around_small">
+                                <label class="slds-form-element__label">Promemoria impostato</label>
+                                <lightning-input type="checkbox" name="task-IsReminderSet" checked={task.IsReminderSet} value={task.IsReminderSet} onchange={handleChangeCheckboxEvent} ></lightning-input>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="4" class="slds-var-p-horizontal_small" style="margin-top:-10px;">
+                                <lightning-input type="datetime" name="task-ReminderDateTime" label="Promemoria" value={task.ReminderDateTime} onchange={handleChangeFieldEvent}></lightning-input>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" class="slds-var-p-around_small">
+                                <lightning-input type="text" name="task-Subject" label="Oggetto" value={task.Subject} onchange={handleChangeFieldEvent} ></lightning-input>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" class="slds-var-p-around_small">
+                                <lightning-textarea type="textarea" name="task-Description" label="Note" value={task.Description} onchange={handleChangeFieldEvent} placeholder="Inserisci qui le tue note..."></lightning-textarea>
+                            </lightning-layout-item>
+                        </template>
+                    </lightning-layout>
+                </lightning-accordion-section>
+                <!-- <template if:true={visitaAnnullata}>
+                    <lightning-accordion-section name="Evento" label="Sezione Evento">
+                        <lightning-layout multiple-rows="true">
+                            <lightning-layout-item size="12">
+                                <lightning-input type="checkbox" label="Crea Evento ?" value={createEvent} onchange={handleChangeEvent} ></lightning-input>
+                            </lightning-layout-item>
+                            <template if:true={createEvent}>
+                                <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="4" class="slds-var-p-around_small">
+                                    <lightning-input type="datetime" name="event-StartDateTime" label="Inizio" value={_event.StartDateTime} onchange={handleChangeFieldEvent}></lightning-input>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="4" class="slds-var-p-around_small">
+                                    <lightning-input type="datetime" name="event-EndDateTime" label="Fine" value={_event.EndDateTime} onchange={handleChangeFieldEvent}></lightning-input>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="4" class="slds-var-p-around_small" style="padding-top:32px;">
+                                    <lightning-input type="text" name="event-Subject" label="Oggetto" value={_event.Subject} onchange={handleChangeFieldEvent} ></lightning-input>
+                                </lightning-layout-item>
+                            </template>
+                        </lightning-layout>
+                    </lightning-accordion-section>
+                </template> -->
+                <!-- <lightning-accordion-section name="Referenti" label="Sezione Referente">
+                    <p>Referente</p>
+                </lightning-accordion-section> -->
+            </lightning-accordion>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

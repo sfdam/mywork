@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="urn:metadata.tooling.soap.sforce.com" fqn="wgc_portafoglio_clienti">
+    <apiVersion>52.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__HomePage</target>
+        <target>lightning__RecordPage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__HomePage">
+            <property name="title" type="String" label="Titolo" default="Portafoglio Clienti" description="Definisci il titolo del componente"/>
+            <property name="iconName" type="String" label="Icona" default="standard:chart" description="Definisci l'icona"/>
+            <property name="showComponent" type="Boolean" label="Mostra Componente" default="false" description="Definisci se mostrare il componente aperto"/>
+            <property name="chart1title" type="String" default="Distribuzione per Operatività" label="Titolo Chart1" description="Inserire titolo del primo chart" />
+            <property name="chart2title" type="String" default="Distribuzione per Prodotti" label="Titolo Chart2" description="Inserire titolo del secondo chart" />
+            <property name="report1" type="String" default="" label="Report Chart1" description="Inserire id del report Chart1" />
+            <property name="report2" type="String" default="" label="Report Chart2" description="Inserire id del report Chart2" />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

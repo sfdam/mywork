@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_StepsTagliandoImprese__c</fullName>
+    <externalId>false</externalId>
+    <label>Steps tagliando imprese</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Info iniziali</fullName>
+                <default>false</default>
+                <label>Info iniziali</label>
+            </value>
+            <value>
+                <fullName>Check Finanziamenti</fullName>
+                <default>false</default>
+                <label>Check Finanziamenti</label>
+            </value>
+            <value>
+                <fullName>Check Transazionale</fullName>
+                <default>false</default>
+                <label>Check Transazionale</label>
+            </value>
+            <value>
+                <fullName>Check Assicurativo</fullName>
+                <default>false</default>
+                <label>Check Assicurativo</label>
+            </value>
+            <value>
+                <fullName>Check Patrimonio</fullName>
+                <default>false</default>
+                <label>Check Patrimonio</label>
+            </value>
+            <value>
+                <fullName>Check Altri</fullName>
+                <default>false</default>
+                <label>Check Altri</label>
+            </value>
+            <value>
+                <fullName>Altre attività effettuate durante l&apos;incontro</fullName>
+                <default>false</default>
+                <label>Altre attività effettuate durante l&apos;incontro</label>
+            </value>
+            <value>
+                <fullName>Piano d&apos;azione</fullName>
+                <default>false</default>
+                <label>Piano d&apos;azione sul Cliente</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

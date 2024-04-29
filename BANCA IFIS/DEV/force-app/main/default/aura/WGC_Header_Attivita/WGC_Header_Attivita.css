@@ -1,0 +1,189 @@
+.THIS header.slds-card__header.slds-grid {
+    padding: 0;
+}
+
+.THIS header.slds-card__header.slds-grid {
+    display: none;
+}
+
+.THIS.slds-card .slds-card__header.slds-grid{
+    display:none;
+}
+
+.THIS .slds-card__body {
+    height: 110px;
+    margin: 0 !important;
+}
+
+.THIS .black {
+    background: #2E2E2E;
+    height: 100%;
+}
+
+.THIS .slds-card {
+    border: none;
+}
+
+.THIS .badge{
+   /*background-color:#4891E6;*/
+   color:white;
+   /* padding:4px 7px; */
+   border-radius:50%;
+}
+
+.THIS .positive{
+    background-color:#0064B5;
+}
+
+.THIS .negative{
+    background-color:#ED495B;
+}
+
+.THIS .number{
+    text-align:center; 
+    font-weight:bold; 
+    display:block;
+}
+
+.THIS .slds-truncate{
+    white-space:pre-line;
+}
+
+.THIS .central-top{
+    padding:10px 0 10px 0;
+    text-align:center;
+}
+
+.THIS .height-max{
+    height:100%;
+    z-index:10;
+}
+
+.THIS .div-col{
+    display:block;
+}
+
+.THIS .span-number{
+    font-weight:bold;
+    font-size: 18px;
+}
+
+.THIS .span-title{
+    color:grey;
+    font-size:x-small;
+}
+
+.THIS .no-padding{
+    padding:0;
+}
+
+.THIS .back-color-black{
+    background-color:#021F59;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.THIS .white-text{
+    color:white;
+}
+
+.THIS .vl-bottom-dashed{
+    border-bottom: 1px dashed #4891E6;
+    position: absolute;
+    width: 65%;
+    margin-top: 22px;
+    margin-left: 65px;
+}
+
+.THIS .horizontal-bkg-container > div .div-col:first-child {
+    background-image: url("/resource/WGC_horizontalBkg");
+    background-repeat: repeat-x;
+    background-position-y: 16px;
+}
+
+.THIS .horizontal-bkg-container > div:first-child .div-col:first-child {
+    margin-left: 42%;
+    text-align: left;
+}
+.THIS .horizontal-bkg-container > div:last-child .div-col:first-child {
+    margin-right: 42%;
+    text-align: right;
+}
+
+.THIS .slds-grid.slds-wrap.height-max.horizontal-bkg-container {
+    padding-top: 10px;
+}
+
+.THIS .pointer {
+    cursor: pointer;
+}
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : landscape)
+and (-webkit-min-device-pixel-ratio: 2) { 
+    /* STYLES GO HERE */
+
+}
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : portrait)
+and (-webkit-min-device-pixel-ratio: 2) { 
+    /* STYLES GO HERE */ 
+}
+
+/* 
+  ##Device = Low Resolution Tablets, Mobiles (Landscape)
+  ##Screen = B/w 481px to 767px
+*/
+
+@media only screen 
+and (min-width: 481px) 
+and (max-width: 767px)
+and (orientation : landscape) {
+    /* STYLES GO HERE */
+    
+    
+}
+  
+/* 
+  ##Device = Most of the Smartphones Mobiles (Portrait)
+  ##Screen = B/w 320px to 479px
+*/
+  
+@media only screen 
+and (min-width: 320px) 
+and (max-width: 480px)
+and (orientation : portrait) {
+    /* STYLES GO HERE */
+    .THIS {
+        font-size: 10px;
+    }
+
+    .THIS .iphone {
+        display: none;
+    }
+
+    .THIS .slds-icon_large, .THIS .slds-icon--large {
+        width: 2rem;
+        height: 2rem;
+    }
+
+    .THIS .span-number {
+        font-size: 14px;
+    }
+
+    .THIS .span-title {
+        font-size: 8px;
+    }
+
+    .THIS .horizontal-bkg-container > div:first-child .div-col:first-child {
+        margin-left: 30%;
+    }
+    .THIS .horizontal-bkg-container > div:last-child .div-col:first-child {
+        margin-right: 30%;
+    }
+}

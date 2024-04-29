@@ -1,0 +1,130 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" >
+    
+    <ltng:require scripts="{!join(',', 
+             '/resource/WGC_jQuery3x',
+             '/resource/WGC_ChartJs')}"
+        afterScriptsLoaded="{!c.doInit}" />
+
+    <lightning:navigation aura:id="navService" />
+
+    <aura:attribute name="title" type="String" default="" />
+    <aura:attribute name="val1" type="String" default="3" />
+    <aura:attribute name="val2" type="String" default="2" />
+    <aura:attribute name="val3" type="String" default="4"/>
+    <aura:attribute name="data" type="String" default="31 Ott. 2018"/>
+    <aura:attribute name="progress1" type="String" default="82"/>
+    <aura:attribute name="progress2" type="String" default="18"/>
+
+    <lightning:card>
+<!--
+        <aura:set attribute="title">
+            <div class="title">{! v.title }</div>
+        </aura:set>
+-->
+    <div class="container slds-p-around_xx-small">
+            <lightning:layout multipleRows="true">
+                <lightning:layoutItem class="slds-border_right" size="2" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="3">
+                    <lightning:layout class="slds-p-horizontal_x-small" multipleRows="true">
+                        <lightning:layoutItem size="12">
+                            <span class="xx-small-text text-gray">INIZIATIVE PIAN. COMMERCIALE</span>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem class="slds-align_absolute-center" size="1">
+                            <span class="number text-blue">1</span>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem class="slds-text-align_center slds-p-vertical_small" size="7">
+                            <span class="xx-small-text text-gray">Scade il {!v.data}</span>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem class="slds-align_absolute-center slds-p-vertical_small" size="4">
+                            <button class="btn" title="Vedi" label="Vendi">Vedi</button>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                </lightning:layoutItem>
+                <lightning:layoutItem class="slds-border_right" size="2" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="3">
+                    <lightning:layout class="slds-p-horizontal_x-small" multipleRows="true">
+                        <lightning:layoutItem size="12">
+                            <span class="xx-small-text text-gray">POTENZIALE SVILUPPO</span>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="3">
+                            <div>
+                                <lightning:icon iconName="utility:shopping_bag" size="x-small"/>
+                            </div>
+                            <div>
+                                <span class="xx-small-text text-gray">Factoring</span>
+                            </div>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="3">
+                            <div>
+                                <lightning:icon iconName="utility:shopping_bag" size="x-small"/>
+                            </div>
+                            <div>
+                                <span class="text-blue  xx-small-text">Lending</span>
+                            </div>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="3">
+                            <div>
+                                <lightning:icon iconName="utility:shopping_bag" size="x-small"/>
+                            </div>
+                            <div>
+                                <span class="xx-small-text text-gray">Leasing</span>
+                            </div>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem>
+                            <div>
+                                <lightning:icon iconName="utility:shopping_bag" size="x-small"/>
+                            </div>
+                            <div>
+                                <span class="xx-small-text text-gray">Altro</span>
+                            </div>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                </lightning:layoutItem>
+                <lightning:layoutItem class="slds-border_right" size="2" smallDeviceSize="6" mediumDeviceSize="6" largeDeviceSize="1">
+                    <lightning:layout class="slds-p-horizontal_x-small" multipleRows="true">
+                        <lightning:layoutItem size="12">
+                            <span class="xx-small-text text-gray">FASCIA MCC</span>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="12">
+                            <span class="number">1</span>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                </lightning:layoutItem>
+                <lightning:layoutItem class="slds-border_right" size="2" smallDeviceSize="6" mediumDeviceSize="6" largeDeviceSize="1">
+                    <lightning:layout class="slds-p-horizontal_x-small" multipleRows="true">
+                        <lightning:layoutItem size="12">
+                            <span class="xx-small-text text-gray">DEB. ATTIVI</span>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="12">
+                            <span class="number">2</span>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                </lightning:layoutItem>
+                <lightning:layoutItem class="slds-border_right" size="2" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="2">
+                    <lightning:layout class="slds-p-horizontal_x-small" multipleRows="true">
+                        <lightning:layoutItem size="12">
+                            <span class="xx-small-text text-gray">SATURAZIONE DELLE LINEE</span>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="4">
+                            <span class="number">{!v.progress1}</span>%
+                        </lightning:layoutItem>
+                        <lightning:layoutItem class="slds-m-left_medium slds-p-vertical_small" size="6">
+                            <lightning:progressBar class="progress-color" variant="circular" value="{!v.progress1}"/>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                </lightning:layoutItem>
+                <lightning:layoutItem size="2" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="2">
+                    <lightning:layout class="slds-p-horizontal_x-small" multipleRows="true">
+                        <lightning:layoutItem size="12">
+                            <span class="xx-small-text text-gray">QUOTA FLUSSI IFIS</span>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="4">
+                            <span class="number">{!v.progress2}</span>%
+                        </lightning:layoutItem>
+                        <lightning:layoutItem class="slds-m-left_medium slds-p-vertical_small" size="6">
+                            <lightning:progressBar class="progress-color" variant="circular" value="{!v.progress2}"/>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                </lightning:layoutItem>
+            </lightning:layout>
+        </div>
+    </lightning:card>
+</aura:component>

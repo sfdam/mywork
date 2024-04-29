@@ -1,0 +1,13 @@
+<design:component>
+    <design:attribute name="title" label="Titolo" description="Definisce il Titolo della Card" />
+	<design:attribute name="iconName" label="Icona" description="Definisce l'icona tra le standard" />
+
+	<design:attribute name="isModalFull" label="Visualizzazione Filtri" />
+	<design:attribute name="isExtendedDescription" label="Extended description" />
+	<design:attribute name="objectList" label="Lista Oggetti" />
+	<design:attribute name="referentProfile" label="Lista Id Profili Referente" description="Lista di profili Id che vedono solo record CO di cui sono referenti (Fabio è un minchione)"  />
+	
+	<design:attribute name="numberOfRecords" label="Numero record da visualizzare" datasource="1,2,3,4,5,10,20" />
+		<design:attribute name="heigthSet" label="Numero record da visualizzare" default="400px" />
+
+</design:component>

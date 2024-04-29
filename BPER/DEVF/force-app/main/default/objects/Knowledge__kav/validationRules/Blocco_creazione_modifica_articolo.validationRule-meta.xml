@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Blocco_creazione_modifica_articolo</fullName>
+    <active>true</active>
+    <description>Blocco creazione articolo se utente è un agente del CC (check viene fatto da un flow in before insert/update)</description>
+    <errorConditionFormula>CRM_BloccoCreazioneArticolo__c = true</errorConditionFormula>
+    <errorMessage>Non si dispone dei permessi necessari per creare o modificare articoli di knowledge</errorMessage>
+</ValidationRule>

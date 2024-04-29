@@ -1,0 +1,25 @@
+lightning-helptext {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.font-appearance{
+
+
+    font-weight: bold;
+
+}
+
+.button-alignment{
+    margin-top: 23px;
+}
+
+.button-margin{
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.my-width-button {
+    width: auto;
+}

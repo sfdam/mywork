@@ -1,0 +1,178 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+    access="global" controller="WGC_Profilo_Card_Controller">
+
+    <ltng:require scripts="{!join(',', 
+             '/resource/WGC_jQuery3x',
+             '/resource/WGC_ChartJs')}"
+        afterScriptsLoaded="{!c.doInit}" />
+
+    <lightning:navigation aura:id="navService" />
+
+    <aura:attribute name="title" type="String" default="PROFILO" />
+    <aura:attribute name="valData" type="String" />
+    <aura:attribute name="recordId" type="String" />
+
+    <aura:attribute name="result" type="Object" />
+    <aura:attribute name="numFornitori" type="Integer" />
+    <aura:attribute name="numClienti" type="Integer" />
+    <aura:attribute name="numCompetitor" type="Integer" />
+    <aura:attribute name="numFCI" type="Integer" />
+    <aura:attribute name="numTribunali" type="Integer" />
+    <aura:attribute name="numIntermediariLeasing" type="Integer" />
+    <aura:attribute name="numGruppo" type="Integer" />
+    <aura:attribute name="numGeografia" type="Integer" />
+    <aura:attribute name="numRefEffettuati" type="Integer" />
+    <aura:attribute name="numRefRicevuti" type="Integer" />
+
+    <lightning:card class="container-card">
+        <aura:set attribute="title">
+            <div class="title">{!$Label.c.WGC_Profilo_Card_Titolo}</div>
+            <!-- with container -->
+            <!-- <div class="open-component">
+                <lightning:buttonIcon iconName="utility:expand" variant="container" alternativeText="Settings" onclick="{!c.navigateToMyComponent}" />
+            </div> -->
+        </aura:set>
+
+        <lightning:layout multipleRows="true" verticalAlign="" class="slds-p-vertical_small">
+            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="7"
+                largeDeviceSize="7" padding="around-small">
+                <div class="circle-border-external">
+                    <div class="circle-border-internal">
+                        <div class="{!v.numClienti > 0 ? 'circle3 circleColorBlu' : 'circle3 circleColorRed'}">{!v.numClienti}
+                            <div class="circleTitle">{!$Label.c.WGC_Profilo_Card_Fornitori}</div>
+                        </div>
+                        <div class="{!v.numRefEffettuati > 0 ? 'circle2 circleColorBlu' : 'circle2 circleColorGrey'}">{!v.numRefEffettuati}
+                            <div class="circleTitle">{!$Label.c.WGC_Profilo_Card_Referral_Effettuato}</div>
+                        </div>
+                        <div class="{!v.numFornitori > 0 ? 'circle1 circleColorBlu' : 'circle1 circleColorRed'}">{!v.numFornitori}
+                            <div class="circleTitle">{!$Label.c.WGC_Profilo_Card_Clienti}</div>
+                        </div>
+                        <div class="{!v.numGruppo > 0 ? 'circle4 circleColorBlu' : 'circle4 circleColorGrey'}">{!v.numGruppo}
+                            <div class="circleTitle">{!$Label.c.WGC_Profilo_Card_Gruppi}</div>
+                        </div>
+                        <div class="{!v.numFCI > 0 ? 'circle5 circleColorBlu' : 'circle5 circleColorGrey'}">{!v.numFCI}
+                            <div class="circleTitle">{!$Label.c.WGC_Profilo_Card_FCI}</div>
+                        </div>
+                        <div class="{!v.numGeografia > 0 ? 'circle6 circleColorBlu' : 'circle6 circleColorGrey'}">{!v.numGeografia}
+                            <div class="circleTitle">{!$Label.c.WGC_Profilo_Card_Geografia}</div>
+                        </div>
+                        <div class="{!v.numCompetitor > 0 ? 'circle7 circleColorBlu' : 'circle7 circleColorGrey'}">{!v.numCompetitor}
+                            <div class="circleTitle">{!$Label.c.WGC_Profilo_Card_Competitor}</div>
+                        </div>
+                        <div class="{!v.numTribunali > 0 ? 'circle8 circleColorBlu' : 'circle8 circleColorGrey'}">{!v.numTribunali}
+                            <div class="circleTitle">{!$Label.c.WGC_Profilo_Card_Tribunali}</div>
+                        </div>
+                        <div class="{!v.numIntermediariLeasing > 0 ? 'circle9 circleColorBlu' : 'circle9 circleColorGrey'}">{!v.numIntermediariLeasing}
+                            <div class="circleTitle">{!$Label.c.WGC_Profilo_Card_Intermediari_Leasing}</div>
+                        </div>
+                        <div class="{!v.numIntermediariLeasing > 0 ? 'circle10 circleColorBlu' : 'circle10 circleColorGrey'}">{!v.numIntermediariLeasing}
+                            <div class="circleTitle">{!$Label.c.WGC_Profilo_Card_Clienti_Partner_Leasing}</div>
+                        </div>
+                        <div class="{!v.numRefRicevuti > 0 ? 'circle11 circleColorBlu' : 'circle11 circleColorGrey'}">{!v.numRefRicevuti}
+                            <div class="circleTitle">{!$Label.c.WGC_Profilo_Card_Referral_Ricevuti}</div>
+                        </div>
+                        <div class="circleBase type1">
+                            <img src="{! $Resource.WGC_Profilo_Azienda }" />
+                        </div>
+                    </div>
+                </div>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="5"
+                largeDeviceSize="5" class="">
+                <!-- SDCHG-5172 Rivista la sezione impostando solo i ruoli attivi del Team Ifis -->
+				<!-- <lightning:layout multipleRows="true">
+                    <lightning:layoutItem size="5">
+                        <span class="prop">{!$Label.c.WGC_Profilo_Card_Ateco}</span>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="7">
+                        <span class="val slds-text-color_weak">{! v.result.ateco }</span>
+                        <lightning:helpText content="{! v.result.descrizioneAteco != null || v.result.descrizioneAteco != undefined ? v.result.descrizioneAteco : 'Nessuna descrizione Ateco' }" />
+                    </lightning:layoutItem>
+                </lightning:layout>
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem size="5">
+                        <span class="prop">{!$Label.c.WGC_Profilo_Card_Sede_Legale}</span>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="7">
+                        <span class="val slds-text-color_weak">
+                            <lightning:formattedAddress city="{! v.result.city }" province="{! v.result.state }"
+                                postalCode="{! v.result.postalCode }" /></span>
+                    </lightning:layoutItem>
+                </lightning:layout>
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem size="5">
+                        <span class="prop">{!$Label.c.WGC_Profilo_Card_Natura_Giuridica}</span>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="7">
+                        <span class="val slds-text-color_weak">{! v.result.naturaGiuridica }</span>
+                        <lightning:helpText content="{! v.result.naturaGiuridicaDescrizione != null? v.result.naturaGiuridicaDescrizione : 'Nessuna descrizione' }" />
+                    </lightning:layoutItem>
+                </lightning:layout>
+                <aura:if isTrue="{! v.result.phone }">
+                    <hr />
+                    <div class="slds-text-title_caps slds-m-bottom_xx-small">{!$Label.c.WGC_Profilo_Card_Contatto_Principale}</div>
+                    <lightning:layout multipleRows="true">
+                        <lightning:layoutItem>
+                            <p>
+                                <lightning:formattedName class="prop" aura:id="shortName" firstName="Centralino"
+                                    middleName="" lastName="" informalName="" suffix="" salutation="" format="short" />
+                            </p>
+                            <p>
+                                <lightning:formattedPhone value="{! v.result.phone }"></lightning:formattedPhone>
+                            </p>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                </aura:if> -->
+
+                <aura:if isTrue="{! v.result.teamIFIS.length > 0 }">
+                    <div class="subtitle">{!$Label.c.WGC_Profilo_Card_Team_IFIS}</div>
+                    <lightning:layout multipleRows="true">
+                        <aura:iteration items="{! v.result.teamIFIS }" var="contactIfis">
+                            <lightning:layoutItem size="12">
+							<!-- SDCHG-5172 Rivista la sezione in cui si riportano le info del team ifis -->
+                                <p Class="linee">
+                                    <!-- <lightning:formattedName class="prop" aura:id="shortName" firstName="{! contactIfis.name }"
+                                        middleName="" lastName="" informalName="" suffix="" salutation="" /> -->
+									<span class="ifisRole"> {! contactIfis.role } </span>
+								</p>
+                                <p>
+                                    <!-- <lightning:formattedPhone value="{! contactIfis.phone }"></lightning:formattedPhone> -->
+									<lightning:formattedName class="prop" aura:id="shortName" firstName="{! contactIfis.name }"
+                                        middleName="" lastName="" informalName="" suffix="" salutation="" />
+                                </p>
+                            </lightning:layoutItem>
+                        </aura:iteration>
+
+                    </lightning:layout>
+                </aura:if>
+
+            </lightning:layoutItem>
+        </lightning:layout>
+
+
+        <!--
+                
+                <div class="slds-col slds-size_1-of-1">
+                    <div class="slds-grid">
+                        <div class="slds-col slds-m-left_large slds-m-right_large slds-m-top_xx-small slds-m-bottom_xx-small">
+                                <hr />
+                            <div class="slds-text-title_caps">AZIENDE CORRELATE</div>
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-size_1-of-1">
+                                        <c:StatusDot color="4B8FE2" label="Fornitori" />
+                                        <c:StatusDot color="0BBA5B" label="Clienti" />
+                                        <c:StatusDot color="ee485e" label="Competitor" />
+                                        <c:StatusDot color="87c2e8" label="Vicinanza Geografica" />
+                                        <c:StatusDot color="fd59a0" label="Intermediari Leasing" />
+                                        <c:StatusDot color="f9d71d" label="Tribunali" />
+                                        <c:StatusDot color="ff852e" label="FCI" />
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                -->
+
+    </lightning:card>
+</aura:component>

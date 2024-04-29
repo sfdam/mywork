@@ -1,0 +1,10 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+    controller="WGC_BestPractice_Controller" access="global">
+
+    <!-- REGISTER EVENT -->
+    <aura:registerEvent name="B2F" type="c:WGC_BestPractice_Event" />
+
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+	
+</aura:component>

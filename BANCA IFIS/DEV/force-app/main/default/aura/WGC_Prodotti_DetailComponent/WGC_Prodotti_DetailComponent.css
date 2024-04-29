@@ -1,0 +1,171 @@
+.THIS .title{
+    text-transform: uppercase;
+}
+
+.THIS .selected-tab{
+    background: #004196;
+    color:white;
+}
+
+.THIS .active-prod{
+    border:2px solid #0064b5;
+    border-radius:15px;
+    box-shadow: 2px 2px 2px 2px lightgrey;
+}
+
+.THIS .blocked-prod{
+    border:2px solid #ED495B;
+    border-radius:15px;
+    box-shadow: 2px 2px 2px 2px lightgrey;
+}
+
+.THIS .extinct-prod{
+    border:2px solid rgb(146, 144, 144);
+    border-radius:15px;
+    box-shadow: 2px 2px 2px 2px lightgrey;
+}
+
+.THIS .blue-dot{
+    display:inline-block; 
+    border-radius:25px; 
+    background:#5598e2;
+    color: white;
+    width:20px; 
+    height:20px;
+    line-height: 20px;
+    margin: 0 2px;
+    slds-p-bottom_medium: 9px;
+    text-align: center;
+}
+
+.THIS .red-dot{
+    display:inline-block; 
+    border-radius:25px; 
+    background:#ED495B;
+    color: white;
+    width:20px; 
+    height:20px;
+    line-height: 20px;
+    margin: 0 2px;
+    font-size: 9px;
+    text-align: center;
+}
+
+.THIS .grey-dot{
+    display:inline-block; 
+    border-radius:25px; 
+    background:rgb(146, 144, 144);
+    color: white;
+    width:20px; 
+    height:20px;
+    line-height: 20px;
+    margin: 0 2px;
+    font-size: 9px;
+    text-align: center;
+}
+
+.THIS .slds-form-element__static{
+    font-weight: bold;
+}
+
+.THIS .container-prod{
+    background-color: white;
+    color: black;
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 1px 10px rgb(136, 136, 136, 0.5);
+}
+
+.THIS .tab:hover{
+    cursor: pointer;
+}
+
+
+.THIS .cstm-wizard-wrapper {
+    width: 100%;
+}
+
+.THIS .cstm-wizard-wrapper .cstm-wizard-item {
+    width: 100%;
+    height: 90px;
+    color: #002378;
+    text-transform: uppercase;
+    font-weight: bold;
+    border-top: 1px solid #004196;
+    border-bottom: 1px solid #004196;
+    border-left: none;
+    font-size: 12px;
+    /* padding: 4px 0;
+    cursor: pointer; */
+}
+
+.THIS .cstm-wizard-wrapper .cstm-wizard-item:not(.disabled):hover,
+.THIS .cstm-wizard-wrapper .cstm-wizard-item.active {
+    background-color: #004196;
+    color: #FFF;
+}
+
+.THIS .cstm-wizard-wrapper .cstm-wizard-item.disabled {
+    color: #a0a0a0;
+    cursor: default;
+}
+
+.THIS .cstm-wizard-wrapper .cstm-wizard-item:first-child {
+    border-left: 1px solid #004196;
+    border-radius: 5px 0 0 5px;
+}
+
+.THIS .cstm-wizard-wrapper .cstm-wizard-item:last-child {
+    border-right: 1px solid #004196;
+    border-radius: 0 5px 5px 0;
+}
+
+.THIS .slds-text-heading_medium {
+    font-weight: bold;
+}
+
+.THIS .no-button {
+    text-align: center;
+    color: #D3D3D3;
+    font-weight: 800;
+}
+
+.THIS .clickCol{
+    cursor: pointer;
+}
+
+.THIS .cstm-lookup .slds-form-element__static{
+    text-decoration: underline;
+    color:#0064b5;
+    cursor: pointer;
+}
+
+.THIS .slds-form-element__label{
+    padding-right:0px;
+}
+
+.THIS .update-field .slds-form-element__label, .THIS .update-field .slds-form-element__control .slds-form-element__static, .THIS .label-last-update {
+    color: #0064b5;
+}
+
+.THIS .btn-header {
+    background-color: #0064b5;
+    border-color: #0064b5;
+    color: rgb(255, 255, 255);
+}
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : landscape)
+and (-webkit-min-device-pixel-ratio: 2) { 
+    /* STYLES GO HERE */
+
+}
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : portrait)
+and (-webkit-min-device-pixel-ratio: 2) { 
+    /* STYLES GO HERE */ 
+}

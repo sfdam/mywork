@@ -1,0 +1,134 @@
+{
+    "lingua": "it",
+    "idSessioneChiamante": "CRM",
+    "idApplicazioneChiamante": "CRM",
+    "codiceIstituto3N": %codiceIstituto3N%,
+    "sesso": "%sesso%",
+    "ndg": "%ndg%",
+    "naturaGiuridica": {
+        "codice": "%naturaGiuridica%"
+    },
+    "codiceFiscale": "%codiceFiscale%",
+    "anagrafeVariazione": {
+        "notastatus": {
+            "codiceLingua": "I"
+        },
+        "codiceTAE": "%codiceTAE%",
+        "documento": {
+            "codiceTipo": "%tipoDoc%",
+            "numero": "%numeroDoc%",
+            "data": "%dataEmissioneDoc%",
+            "ente": "%enteDoc%"
+        },
+        "dataScadenzaDocumento": "%dataScadenzaDocumento%",
+        "infoNascita": {
+            "data": "%dataDiNascita%",
+            "luogo": "%luogoDiNascita%",
+            "provincia": "%provinciaDiNascita%"
+        },
+//if %dataConsensi%
+        "tabellaPrivacy": {
+            "elementoPrivacy": [
+                {
+                    "data": "%dataConsensi%",
+                    "consenso": "%consensoProfilazione%",
+                    "codiceDato": 6020,
+                    "agenzia": 0
+                },
+                {
+                    "data": "%dataConsensi%",
+                    "consenso": "%consensoProdMkt%",
+                    "codiceDato": 6021,
+                    "agenzia": 0
+                },
+                {
+                    "data": "%dataConsensi%",
+                    "consenso": "%consensoProdTerzi%",
+                    "codiceDato": 6022,
+                    "agenzia": 0
+                },
+                {
+                    "data": "%dataConsensi%",
+                    "consenso": "%consensoPromozMkt%",
+                    "codiceDato": 6023,
+                    "agenzia": 0
+                },
+                {
+                    "data": "%dataConsensi%",
+                    "consenso": "%consensoPromozTerzi%",
+                    "codiceDato": 6024,
+                    "agenzia": 0
+                },
+                {
+                    "data": "%dataConsensi%",
+                    "consenso": "%consensoModTradiz%",
+                    "codiceDato": 6025,
+                    "agenzia": 0
+                }
+            ]
+        },
+//endif
+        "residenzaLegale": {
+            "via": {
+                "tipo": "%billingStreetType%",
+                "numero": "%billingStreetNumber%",
+                "nome": "%billingStreetName%"
+            },
+            "provincia": "%billingState%",
+            "comune": "%billingCity%",
+            "cap": "%billingPostalCode%"
+        },
+        "partitaIVA": "%partitaIVA%",
+        "naturaGiuridica": {
+            "codice": "%naturaGiuridica%"
+        },
+        "intestazione": {
+            "nome": "%nomeV%",
+            "cognome": "%cognomeV%",
+            "attivita": "%attivitaV%"
+        },
+//if %ISNOTBLANK(rea)%
+        "infoCCIAA": {
+            "dataIscrizioneLegale": "%dataIscrizioneLegale%",
+            "provinciaSedeLegale": "%billingState%",
+            "numeroIscrizioneLegale": "%rea%",
+            "dataIscrizioneAmministrativa": "%amministrativa%",
+            "provinciaAmministrativa": "%amministrativa%",
+            "numeroIscrizioneAmministrativa": "%amministrativa%"            
+        },
+//endif
+        "domiciliazioneAmministrativa": {
+            "indirizzo": {
+                "via": {
+                    "tipo": "%shippingStreetType%",
+                    "numero": "%shippingStreetNumber%",
+                    "nome": "%shippingStreetName%"
+                },
+                "provincia": "%shippingState%",
+                "comune": "%shippingCity%",
+                "cap": "%shippingPostalCode%"
+            }
+        },
+        "codiceFiscale": "%codiceFiscale%",
+        "attivitaEcononica": {
+            "sae": %sae%,
+            "rae": null
+        },
+        "numeroAddetti": "%numeroAddetti%",
+        "telefono": {
+            "prefisso": "%prefissoTelefonoFisso%",
+            "numero": "%numeroTelefonoFisso%"
+        },
+        "email": "%email%",
+        "numeroCellulare": "%numeroCellulare%",
+        "numeroTelefonoAlternativo": "%numeroTelefonoAlternativo%",
+        "codiceProfessione": "%codiceProfessione%",
+        "ateco": "%ateco%"
+//if %presenzaDatiAggiuntivi%
+        ,"datiAggiuntivi": "%datiAggiuntivi%"
+//endif
+//if %presenzaDatiAggiuntiviComplementari%
+        ,"datiAggiuntiviComplementari": "%datiAggiuntiviComplementari%"
+//endif
+    }
+}

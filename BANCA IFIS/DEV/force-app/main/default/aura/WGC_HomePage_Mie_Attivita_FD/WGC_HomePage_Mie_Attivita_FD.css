@@ -1,0 +1,79 @@
+.THIS {
+    height: 410px;
+}
+
+.THIS .slds-card__body {
+    margin: 0 10px 10px 10px;
+}
+
+/* .THIS canvas{
+} */
+
+.THIS .canvas-container{
+    width:100%;
+    max-height: 295px;
+}
+
+.THIS .title{
+    display: inline-block;
+    /* margin-left: 10px; */
+    vertical-align: sub;
+}
+
+.THIS .chart-container{
+    background-image: linear-gradient(to top,#e6e6e6, white);
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    /* box-shadow: 2px 2px lightgray; */
+}
+
+.THIS .chart-title{
+    color: black;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+
+.THIS .chart-subtitle{
+    color: grey;
+    font-size: 13px;
+}
+
+.THIS .legend-chart{
+    color: #0064B5;
+}
+
+.THIS .grassetto{
+    font-weight: bold;
+}
+
+.THIS .slds-card__header-title .slds-truncate{
+    width:100% !important;
+}
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : landscape)
+and (-webkit-min-device-pixel-ratio: 2) { 
+    /* STYLES GO HERE */
+    
+    .THIS .canvas-container{
+        width:100%;
+        height: 50px !important;
+    }
+
+}
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : portrait)
+and (-webkit-min-device-pixel-ratio: 2) { 
+    /* STYLES GO HERE */
+
+    .THIS .canvas-container{
+        width:100%;
+        height: 50px !important;
+    }
+}

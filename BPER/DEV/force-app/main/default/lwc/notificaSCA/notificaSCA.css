@@ -1,0 +1,38 @@
+.container {
+    text-align: left;
+    border: 1px solid #d8dde6; /* Definisce il bordo del rettangolo */
+    border-radius: 0.25rem; /* Arrotonda gli angoli del rettangolo */
+    padding: 1rem; /* Aggiunge spazio interno al rettangolo */
+}
+
+.scrollable-content {
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.icon-and-title-container {
+    display: flex;
+    align-items: center;
+}
+
+.icon {
+    margin-right: 10px;
+}
+
+.title {
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.description {
+    margin-bottom: 10px;
+}
+
+.buttons lightning-button {
+    margin-top: 20px;
+}
+
+.custom-icon-gray {
+    color: gray !important;
+}

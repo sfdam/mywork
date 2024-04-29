@@ -1,0 +1,1623 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_FAQ</fullName>
+    <active>true</active>
+    <label>F.A.Q.</label>
+    <picklistValues>
+        <picklist>CRM_AmbitoCluster__c</picklist>
+        <values>
+            <fullName>CANALI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CUSTOMER HELP CENTER</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LEGALE</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ORGANIZZAZONE %26 MODELLI DI SERVIZIO</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PRODOTTI %26 SERVIZI</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>CRM_AnomalyStatus__c</picklist>
+        <values>
+            <fullName>Due</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ended</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ongoing</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>CRM_Area__c</picklist>
+        <values>
+            <fullName>BPER Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Cards</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Channels</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Digital Services</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Email Sent</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Extraordinary operations</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Guida Salesforce</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Guida applicativo</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Guida operativa</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not Classifiable</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other products and services</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>CRM_Classificazione__c</picklist>
+        <values>
+            <fullName>Commerciale</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>CRM_Cluster__c</picklist>
+        <values>
+            <fullName>ACCESSO_CON_NUOVE_CREDENZIALI_BPER</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ASSEGNI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ATM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BANCASSURANCE_DANNI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CANALI_CBI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CANALI_IB_APP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CARTE</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CASSETTE_DI_SICUREZZA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CONDIZIONI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CONTACT_CENTER</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CONTI_CORRENTI_E_DEPOSITI_RISPARMIO</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CREAZIONE_NUOVE_CREDENZIALI_BPER_SMART</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CREDITI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ESTERO</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>FINANZA_VITA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>FINANZIAMENTI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>IMPRESE</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LEGALE</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LOGIN_INIZIALE_CON_CODICI_DI_ACCESSO_UBI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PAGAMENTI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>POS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PRICING</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PRIVATE_BANKING</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PROCESSI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SUCCESSIONI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TESORERIA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>VERIFICA_CONTATTI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>VERIFICA_PRODOTTI</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>CRM_Level1__c</picklist>
+        <values>
+            <fullName>3D Secure</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ATM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Accesso</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Accesso IB</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Accesso e navigazione</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Accesso e navigazione IB</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Accesso e navigazione wizard</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Allineamento disponibilità</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Altre comunicazioni</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Altri prodotti e servizi</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Altro</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Altro blocco</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ambiente e logistica</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>App Tocca a me</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Area riservata disattivata</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Assicurazioni</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Attivazione carta</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Biglietti</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Body Card</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Cambio Filiale</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Cambio IBAN</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Canali disponibili</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Caratteristiche prodotto</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Carte</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Certificazione dati e contatti</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Chiusura</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Chiusura conto</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Codice di sicurezza</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Codice fiscale</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Completezza%2FChiarezza%2FTrasparenza</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Compravendita telefonica</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Conclusione Wizard</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Condizioni e coperture</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Condizioni economiche</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Condizioni economiche IB</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Condizioni economiche%2F info operative</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Configurazione prodotto</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Consulenti</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Consultazione</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Conteggi estintivi</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Contenuti</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Conti Correnti</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Conto online</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Credenziali</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Credenziali IB</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Criteri Eleggibilità</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Disponibilità e saldo</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Documentazione spese titoli</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Email di recapito</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Estratto conto</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Finanziamenti</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Frode</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Funzionalità</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Funzionalità IB</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Furto e smarrimento</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Guasto</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Immobili</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Incassi e Pagamenti aziendali</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Indagine di soddisfazione</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Indirizzo di spedizione</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Informazioni</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Informazioni finanziarie</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Informazioni varie</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Inserimento richiesta</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Internet Banking</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Investimenti</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Invio cartaceo</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Invio elettronico</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Iscrizione</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Istruzioni Migrazione prodotti</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Localizzazione</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mancato prelievo%2Ftransazione</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Modalità di emissione</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Modalità di utilizzo</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Modifica contatti</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Monitoraggio Spedizione</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Movimenti</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Navigazione</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Numero di recapito</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>OAD Prestito Digital</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Operatività</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Operatività e servizi di cassa</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Operazioni e funzionalità</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Opportunità di lavoro</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Orari e contatti</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PIN view</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Phone credit</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Privacy</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RID - Stipendi - Pensioni</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Raggiungibilità</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rapporti collegati</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rapporti e collegamenti</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rata in conto</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Restituzione</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ricerche e tesi</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Richiesta</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Richiesta contatto</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Riferimenti</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rinnovo</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SCA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SCA IB</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SDD</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sblocco</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sblocco nuova carta %28Revoca Poker%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Scollegamento</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sicurezza</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sicurezza IB</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sorriso</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sottoscrizione</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sponsorizzazioni</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Stato pratica</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Stato richiesta</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Stato sottoscrizione</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Stato sottoscrizione conto on line</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Stato spedizione</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Survey NPS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Tempi di emissione</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Temporaneo</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Tokenizzazione</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unilaterale obbligatoria %28prima comunicazione%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Utilizzo</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Variazione condizioni</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Veridicità comunicazione</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Verifica contatti</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Welcome letter</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Wizard</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Wizard sottoscrizione Conto on line</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>CRM_Level2__c</picklist>
+        <values>
+            <fullName>3D Secure</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Acquisizione documenti</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Adeguata Verifica</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Altro</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Anticipo fatture</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Apri Conto</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Attivazione carte</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Attivazione nuovo piano</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Biometria</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Biometria e Smart PIN</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bollettini CBILL-PagoPa</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bollettini MAV%2FRAV%2FFreccia</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bollettini postali</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bollo auto</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bonifico</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Carta non funzionante</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Carte</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Carte di credito</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Carte di debito</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Carte prepagate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Carte visualizzate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Certificazione contatti</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Codice di sicurezza</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Codice utente</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Comprensibilità%2FFruibilità</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Comunicazioni e documenti</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Condizioni e coperture</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Consensi</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Consensi Privacy</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Consutazione piani attivi</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Contatti</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Conti correnti</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Controlli</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Credenziali</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Credenziali IB</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Credenziali wizard</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>De-enrollment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Diniego autorizzativo</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Documento di riconoscimento</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Enrollment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Enrollment multidevice</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Enrollment multiutenza</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Errore autorizzazione negata</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Estinzione totale</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Estratto Conto</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>F24</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Finanziamenti</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Firma del contratto</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Frode</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Gestione dispositivi</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Informazioni sinistro</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Interessi passivi</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Investimenti</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Invio comunicazioni</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Lista movimenti</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Migrabilità</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Migrazione da SCA 2019</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Movimenti</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mutui</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>My money</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Navigazione pagine</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Navigazione pagine IB</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Navigazione pagine wizard</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Non riceve la password provvisoria</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Notifica Push</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Notifica Push%2FOTP offline</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Notifiche</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>POS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Paga Poi</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pagina bianca dopo ricezione password provvisoria</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pagina di login non raggiungibile</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pagina non raggiungibile%2F rallentamenti</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Password temporanea</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Personalizzazione menù</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Phishing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pin</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pin view</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Post login non raggiungibile</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Prestiti Personali</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Primo accesso</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Profilo</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rallentamenti nella navigazione</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rapporti collegati</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rata in conto</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ri%2Eba</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ricarica Amazon</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ricarica telefonica</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ricezione Pin email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ricezione Pin telefonico</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Riconoscimento</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rimozione altri blocchi %28furto%2Fsmarrimento%2Ffrode%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rinnovo polizza</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ritardo</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rubrica</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SMS OTP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sblocco PIN per superamento tentativi</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Scelta filiale</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Servizio Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Smart Desk</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Smart Pin</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sms Bodycard</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Stato sottoscrizione</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Stato spedizione</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Time out sessione</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Tokenizzazione</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Trading</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>User ID</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Utenza%2FSCA bloccata</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Verifica Dati</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Wizard sottoscrizione</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>CRM_Level3__c</picklist>
+        <values>
+            <fullName>3D Secure</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Accredito stipendio%2Fpensione</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Aggiornamento documento d%27identità</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Altro</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Area riservata disattivata</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Assegni</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Attivazione%2Fdisattivazione Posta on line</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bollo auto e moto</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Budget</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Caricamento%2Finvio documenti</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Categorie</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Certificazione interessi passivi</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Codice di sicurezza</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Collegamento carta in rubrica</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Condizioni applicate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Configurazione prodotti</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Consensi</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Consultazione</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Credenziali errate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Disponibilità e archiviazione</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Domiciliazione utenze</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Estinzione Finanziamento</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Gestione ordini</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Importo rateizzato</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Impostazioni</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Info stato Pratica</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Inserimento</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Key6</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Modifica contatti</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Modifica rata</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Notifica Push%2FOTP offline</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Offerta a distanza Fondi</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Offerta fuori sede</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Operatività e Condizioni</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pagina di avvio wizard non raggiungibile</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pagina di login non raggiungibile</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pagina post login wizard non raggiungibile</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Password</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Portafoglio</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Post login non raggiungibile</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Prodotti assicurativi</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rallentamenti nella navigazione</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rateizzazione</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Report</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Revoca</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ricarica prepagata</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ricerca e consultazione</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Richiesta carta di pagamento</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Riepilogo</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rinnovo</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SMS OTP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Saldo e Movimenti</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Servizo Dipiù</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sms conto</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sottoscrizione</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Time out sessione</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>User</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>User e password</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Utenza NON migrata non riceve la password</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Utenza bloccata o non valida per la migrazione</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Utenza già migrata</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Utenza migrata non ha mai ricevuto la password</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Utenza%2FSCA bloccata</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>CRM_Portale__c</picklist>
+        <values>
+            <fullName>Solo portale Ex-UBI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Solo portale esterno</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Solo portale interno</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Tutti</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>CRM_Scope__c</picklist>
+        <values>
+            <fullName>ATM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Aggiornamento prodotti</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Altre informazioni</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Altri prodotti e servizi</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Altro</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Anagrafica BPERCard</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Area riservata e Smart BPERCard</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Assicurazioni</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Attivazione nuova plastica %28sblocco Poker%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Blocco%2Fsblocco</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CBI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Carta Conto</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Collaborazioni</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Comunicazioni cartacee</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Condizioni economiche</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Contact Center</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Contatti uffici interni%2Fcentralino</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Conti correnti</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Continuità operativa prodotti</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Conto On Demand</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DEM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Documentazione ricevuta</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Documenti %28EC%2C giacenza%E2%80%A6%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Eventi</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Filiale</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Filiali</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Finanziamenti</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Incassi e pagamenti aziendali</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Internet Banking</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Investimenti</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Investor relations</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Migrazione Internet banking</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Offerta a Distanza</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Operatività carta</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Privacy</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Prodotti</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Richiesta PIN</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Richiesta documentazione</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SMS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Servizi di cassa e di consulenza</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sito internet</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Wizard</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>X-pay</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Origine_Opportunity__c</picklist>
+        <values>
+            <fullName>Comparatori Online</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

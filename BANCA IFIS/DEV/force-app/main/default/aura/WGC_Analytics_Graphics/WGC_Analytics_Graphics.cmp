@@ -1,0 +1,94 @@
+<aura:component
+    implements="lightning:isUrlAddressable,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+    controller="WGC_Analytics_Graphics_Controller" access="global">
+
+    <ltng:require scripts="{!join(',', 
+             '/resource/WGC_jQuery3x',
+             '/resource/WGC_ChartJs')}" afterScriptsLoaded="{!c.doInit}" />
+
+    <lightning:navigation aura:id="navService" />
+
+    <aura:attribute name="recordId" type="String" />
+
+    <aura:attribute name="iconName" type="String" description="Definisce l'icona tra le standard" />
+    <aura:attribute name="title" type="String" default="" description="Title from Container Card" />
+    <aura:attribute name="Flip" type="String" access="global" />
+    <aura:attribute name="Dettaglio" type="String" access="global" />
+
+    <aura:attribute name="Grafico" type="String" description="Id from Analitycs grafic" />
+    <aura:attribute name="Filtro" type="String" description="Filter for Analitycs grafic" />
+    <aura:attribute name="Altezza" type="String" access="global" default="340" />
+    <aura:attribute name="TabApiName" type="String" access="global" default="Monitoraggio" />
+
+    <aura:attribute name="calculateParametersInFilter" type="Boolean" default="false" />
+
+    <aura:attribute name="IsCollapsed" type="Boolean" default="true" />
+
+    <aura:attribute name="iPhone" type="Boolean" default="FALSE" />
+    <aura:attribute name="ShowToIPhone" type="Boolean" default="false" access="global" />
+
+    <!-- FORCE RECORD DATA -->
+    <aura:attribute name="currentUser" type="User" />
+    <!-- <aura:attribute name="currentUser" type="User" />
+    <force:recordData
+        fields="Id, Name, NDGGruppo__c"
+        recordId="{!$SObjectType.CurrentUser.Id}"
+        targetFields="{!v.currentUser}"
+        mode="VIEW"
+    />         -->
+
+    <aura:if isTrue="{! !v.iPhone }">
+        <lightning:card class="card-lightning">
+            <aura:set attribute="title">
+
+                <!-- with container -->
+                <lightning:layout multipleRows="false">
+                    <lightning:layoutItem size="10" smallDeviceSize="10" mediumDeviceSize="10" largeDeviceSize="10">
+                        <lightning:icon iconName="{! 'utility:' + v.iconName }" size="small"
+                            variant="slds-icon-inverse" />
+                        <div class="title">{! v.title }</div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem class="slds-text-align_right" size="2" smallDeviceSize="2"
+                        mediumDeviceSize="2" largeDeviceSize="2">
+                        <aura:if isTrue="{! v.Dettaglio == 'attivo' }">
+                            <div class="header-button">
+                                <lightning:buttonIcon iconName="utility:expand" size="medium" variant="bare"
+                                    iconClass="" onclick="{!c.navigateToComponent}" class="" />
+                            </div>
+                        </aura:if>
+                        <aura:if isTrue="{! v.Flip == 'attivo' }">
+                            <div class="header-button">
+                                <lightning:buttonIcon iconName="utility:chevronup" size="medium" variant="bare"
+                                    iconClass="" onclick="{!c.collapse}"
+                                    class="{! 'cstm-accordion-icon ' + (v.IsCollapsed ? '' : 'collapsed') }" />
+                            </div>
+                        </aura:if>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </aura:set>
+            <aura:if isTrue="{! !v.IsCollapsed }">
+                <div class='container-card'>
+                    <div class="container-wave">
+                        <aura:if isTrue="{! v.calculateParametersInFilter }">
+                            <wave:waveDashboard recordId="{! v.recordId }" dashboardId="{! v.Grafico }"
+                                filter="{! v.Filtro }" height="{! v.Altezza }" showHeader="false" showTitle="false" />
+                        </aura:if>
+                    </div>
+                </div>
+            </aura:if>
+        </lightning:card>
+
+        <aura:set attribute="else">
+            <aura:If isTrue="{! v.ShowToIPhone }">
+                <lightning:layout multipleRows="true" class="slds-box">
+                    <lightning:layoutItem flexibility="auto">
+                        <div class="no-button">
+                            {!$Label.c.WGC_Homepage_Sistema_Incentivante_Not_Show_Mobile}
+                        </div>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </aura:If>
+        </aura:set>
+    </aura:if>
+
+</aura:component>

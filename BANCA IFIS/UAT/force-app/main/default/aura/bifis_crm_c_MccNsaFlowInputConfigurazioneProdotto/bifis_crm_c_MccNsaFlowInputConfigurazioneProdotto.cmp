@@ -1,0 +1,191 @@
+<aura:component implements="lightning:availableForFlowScreens" access="global">  
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/> 
+    
+    <aura:attribute name="speseIncassoRataStandard" type="Decimal" default="1.8"/>
+    <aura:attribute name="tassoRiferimentoStandard" type="String" default="Euribor 3 Mesi"/>
+    
+	<aura:attribute name="speseIncassoRataAssicurativo" type="Decimal" default="0.0"/>
+    <aura:attribute name="spreadPositivoAssicurativo" type="Decimal" default="0.0"/>
+    <aura:attribute name="tassoRiferimentoAssicurativo" type="Decimal" default="0.0"/>
+    <aura:attribute name="speseIstruttoriaAssicurativo" type="Decimal" default="0.0"/>
+    <aura:attribute name="costoMediazioneAssicurativo" type="Decimal" default="0.0"/>
+
+    <aura:attribute name="periodicitaRate" type="String" default="Mensile"/>
+
+    <aura:attribute name="disabilitatoSTANDARD" type="Boolean" default="true"/>
+    <aura:attribute name="disabilitatoASSICURATIVO" type="Boolean" default="true"/>
+
+    <aura:attribute name="opzioniLinea" type="List" default="[
+    {'label': 'Mutuo MCC - NSA', 'value': 'STANDARD'},
+    {'label': 'Mutuo MCC - NSA SA', 'value': 'ASSICURATIVO'},
+    {'label': 'Mista (NSA + NSA SA)', 'value': 'MISTO'}
+    ]"/>
+
+    <aura:attribute name="workflowRecordCandidatoID" type="String"/>
+    <aura:attribute name="workflowRecordCandidatoNEXT" type="WorkflowMutui__c"/>
+    <aura:attribute name="workflowRecordCandidato" type="WorkflowMutui__c"/>
+    <aura:attribute name="workflowRecordCandidatoERROR" type="String"/>
+    
+    <force:recordData aura:id="flowRecordHandlerWorkflowCandidatoId"
+                      recordId="{!v.workflowRecordCandidatoID}"
+                      layoutType="FULL"
+                      targetFields="{!v.workflowRecordCandidato}"
+                      targetError="{!v.workflowRecordCandidatoERROR}"
+                      recordUpdated="{!c.handleRecordUpdated}"
+                      targetRecord="{!v.workflowRecordCandidatoNEXT}"
+                      mode="EDIT"                      
+                      />    
+    
+    <c:bifis_crm_c_MccNsaFlowPath selectedPathValue="1"/>
+
+    <c:bifis_crm_c_CommonFlowNavigator availableActions="{!v.availableActions}" navigateFlowEvent="{!c.handleNavigate}"/>
+    
+    <aura:if isTrue="{!not(empty(v.workflowRecordCandidatoERROR))}">
+        <ui:message title="Errore" severity="error" closable="true">{!v.workflowRecordCandidatoERROR}</ui:message>
+    </aura:if>
+    
+    <lightning:card variant="Narrow" title="Inserire i parametri particolari del mutuo" iconName="standard:record" />
+    
+    <hr style="margin-top:1px;margin-bottom:10px;"/>
+
+    <lightning:card variant="Narrow" title="LINEA PRODOTTO" iconName="standard:decision">
+
+        <p class="slds-p-horizontal_small">
+            <div class="slds-grid slds-wrap">  
+                <div class="slds-size_4-of-4">
+					<div class="slds-m-around_x-small"><lightning:radioGroup aura:id="flowInputLineaInputId" type="button" name="flowInputLineaInput" options="{! v.opzioniLinea }" value="{!v.workflowRecordCandidato.Tipologia_Mutuo__c}" required="false" onchange="{! c.handleRadioGroupLineaChange }" /></div>
+                </div>
+            </div>
+        </p>
+
+	</lightning:card>
+	
+    <p class="slds-p-horizontal_small">
+        <div class="slds-grid slds-wrap">  
+            <div class="slds-size_2-of-4">
+				<div class="slds-m-around_x-small">
+					<lightning:card aura:id="cardLineaProdottoMccNsa" variant="Narrow" title="MUTUO MCC - NSA" class="slds-text-heading_small slds-card_boundary">
+
+						<lightning:card variant="Narrow" title="DATI PRINCIPALI" iconName="standard:partner_marketing_budget">
+							<p class="slds-p-horizontal_small">
+								<div class="slds-grid slds-wrap">        
+									<div class="slds-size_1-of-2">
+										<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputImportoMutuoInputId" label="Importo" type="number" name="flowInputImportoMutuoInput" required="false" value="{!v.workflowRecordCandidato.Importo__c}" maxlength="7" min="1" formatter="currency" onchange="{!c.calculateExpenses}" disabled="{!v.disabilitatoSTANDARD}" /></div>
+									</div>
+									<div class="slds-size_1-of-2">
+										<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputDurataPreAmmortamentoMutuoInputId" label="Durata Pre Ammoratamento (mesi - max 24)" type="number" name="flowInputDurataPreAmmortamentoMutuoInput" required="false" value="{!v.workflowRecordCandidato.DurataPreAmmortamento__c}" max="24" min="1" maxlength="3" onchange="{!c.calculateAmmortamentoStandard}" disabled="{!v.disabilitatoSTANDARD}" /></div>
+									</div>
+									<div class="slds-size_1-of-2">
+										<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputDurataAmmortamentoMutuoInputId" label="Durata Ammortamento (mesi)" type="number" name="flowInputDurataAmmortamentoMutuoInput" required="false" disabled="true" /></div>
+									</div>
+									<div class="slds-size_1-of-2">
+										<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputDurataTotaleMutuoInputId" label="Durata Totale (mesi - max 96)" type="number" name="flowInputDurataTotaleMutuoInput" required="false" value="{!v.workflowRecordCandidato.DurataTotale__c}" max="96" min="1" onchange="{!c.calculateAmmortamentoStandard}" disabled="{!v.disabilitatoSTANDARD}" /></div>
+									</div>
+									<div class="slds-size_2-of-2">
+										<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputFinalitaMutuoInputId" label="Finalità" name="flowInputFinalitaMutuoInput" required="false" value="{!v.workflowRecordCandidato.Finalita__c}"  maxlength="255"  disabled="{!v.disabilitatoSTANDARD}" /></div>
+									</div>                
+								</div>
+							</p>
+						</lightning:card>
+
+						<lightning:card variant="Narrow" title="CONDIZIONI ECONOMICHE" iconName="standard:partners">
+							<p class="slds-p-horizontal_small">
+								<div class="slds-grid slds-wrap">        
+									<div class="slds-size_1-of-2">
+										<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputSpreadPositivoInputId" label="Spread Positivo (%)" type="number" name="flowInputSpreadPositivoInput" required="false" value="{!v.workflowRecordCandidato.SpreadPositivo__c}" min="0" max="9" step="0.01" onchange="{!c.copyToFloorStandard}" formatter="percent-fixed" disabled="{!v.disabilitatoSTANDARD}"/></div>
+									</div>
+									<div class="slds-size_1-of-2">
+										<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputTassoRiferimentoInputId" label="Tasso di Riferimento (%)" name="flowInputTassoRiferimentoInput" required="false" disabled="true" /></div>
+									</div>           
+									<div class="slds-size_1-of-2">
+										<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputFloorInputId" label="Floor (%)" type="number" name="flowInputFloorInput" required="false" value="{!v.workflowRecordCandidato.Floor__c}" min="0" max="9" step="0.01" formatter="percent-fixed" disabled="true"/></div>
+									</div>    
+									<div class="slds-size_1-of-2">
+										<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputSpeseIstruttoriaInputId" label="Spese Istruttoria" type="number" formatter="currency" name="flowInputSpeseIstruttoriaInput" required="false" value="{!v.workflowRecordCandidato.SpeseIstruttoria__c}" disabled="true"/></div>
+									</div>    
+									<div class="slds-size_1-of-2">
+										<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputPeriodoRateInputId" label="Periodicità Rate" name="flowInputPeriodoRateInput" required="false" disabled="true" /></div>
+									</div>         
+									<div class="slds-size_1-of-2">
+										<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputSpeseIncassoRataInputId" label="Spese Incasso Rata" type="number" name="flowInputSpeseIncassoRataInput" required="false" formatter="currency" disabled="true" /></div>
+									</div>
+									<div class="slds-size_1-of-2">
+										<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputSpeseCommissioneInputId" label="Importo Commissione MCC" type="number" name="flowInputSpeseCommissioneInput" required="false" value="{!v.workflowRecordCandidato.SpeseCommissione__c}" min="0" max="9999999999" formatter="currency" disabled="{!v.disabilitatoSTANDARD}"/></div>
+									</div>           
+									<div class="slds-size_1-of-2">
+										<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputCostoMediazioneInputId" label="Costo di Mediazione" type="number" name="flowInputCostoMediazioneInput" required="false" value="{!v.workflowRecordCandidato.CostoMediazione__c}" min="0" max="9999999999" formatter="currency" disabled="{!v.disabilitatoSTANDARD}"/></div>
+									</div>                  
+								</div>
+							</p>
+						</lightning:card>
+
+					</lightning:card>
+				</div>
+            </div>
+            <div class="slds-size_2-of-4">
+				<div class="slds-m-around_x-small">
+					<lightning:card aura:id="cardLineaProdottoMccNsaSA" variant="Narrow" title="MUTUO MCC - NSA SA" class="slds-text-heading_small slds-card_boundary">
+
+						<lightning:card variant="Narrow" title="DATI PRINCIPALI" iconName="standard:partner_marketing_budget">
+							<p class="slds-p-horizontal_small">
+								<div class="slds-grid slds-wrap">        
+									<div class="slds-size_1-of-2">
+										<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputImportoMutuoSAInputId" label="Importo" type="number" name="flowInputImportoMutuoSAInput" required="false" value="{!v.workflowRecordCandidato.ImportoSA__c}" maxlength="7" min="1" formatter="currency" disabled="{!v.disabilitatoASSICURATIVO}" /></div>
+									</div>
+									<div class="slds-size_1-of-2">
+										<div class="slds-m-around_x-small slds-hide"><lightning:input aura:id="flowInputDurataPreAmmortamentoMutuoSAInputId" label="Durata Pre Ammoratamento (mesi - max 12)" type="number" name="flowInputDurataPreAmmortamentoMutuoSAInput" required="false" value="{!v.workflowRecordCandidato.DurataPreAmmortamentoSA__c}" max="12" min="1" onchange="{!c.calculateAmmortamentoAssicurativo}" disabled="{!v.disabilitatoASSICURATIVO}" /></div>
+									</div>
+									<div class="slds-size_1-of-2">
+										<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputDurataAmmortamentoMutuoSAInputId" label="Durata Ammortamento (mesi)" type="number" name="flowInputDurataAmmortamentoMutuoSAInput" required="false" disabled="true" /></div>
+									</div>
+									<div class="slds-size_1-of-2">
+										<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputDurataTotaleMutuoSAInputId" label="Durata Totale (mesi - max 36)" type="number" name="flowInputDurataTotaleMutuoSAInput" required="false" value="{!v.workflowRecordCandidato.DurataTotaleSA__c}" max="36" min="1" onchange="{!c.calculateAmmortamentoAssicurativo}" disabled="{!v.disabilitatoASSICURATIVO}" /></div>
+									</div>
+									<div class="slds-size_2-of-2">
+										<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputFinalitaMutuoSAInputId" label="Finalità" name="flowInputFinalitaMutuoSAInput" required="false" value="{!v.workflowRecordCandidato.FinalitaSA__c}"  maxlength="255"  disabled="{!v.disabilitatoASSICURATIVO}" /></div>
+									</div>                
+								</div>
+							</p>
+						</lightning:card>
+
+						<lightning:card variant="Narrow" title="CONDIZIONI ECONOMICHE" iconName="standard:partners">
+							<p class="slds-p-horizontal_small">
+								<div class="slds-grid slds-wrap">        
+									<div class="slds-size_1-of-2">
+										<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputSpreadPositivoSAInputId" label="Spread Positivo (%)" type="number" name="flowInputSpreadPositivoSAInput" required="false" value="{!v.workflowRecordCandidato.SpreadPositivoSA__c}" min="0" max="9" step="0.1" onchange="{!c.copyToFloorAssicurativo}" formatter="percent-fixed" disabled="true"/></div>
+									</div>
+									<div class="slds-size_1-of-2">
+										<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputTassoRiferimentoSAInputId" label="Tasso di Riferimento (%)" type="number" name="flowInputTassoRiferimentoSAInput" step="0.1" required="false" formatter="percent-fixed" disabled="true" /></div>
+									</div>           
+									<div class="slds-size_1-of-2">
+										<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputFloorSAInputId" label="Floor (%)" type="number" name="flowInputFloorSAInput" required="false" value="{!v.workflowRecordCandidato.FloorSA__c}" min="0" max="9" step="0.1" formatter="percent-fixed" disabled="true"/></div>
+									</div>    
+									<div class="slds-size_1-of-2">
+										<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputSpeseIstruttoriaSAInputId" label="Spese Istruttoria" type="number" formatter="currency" name="flowInputSpeseIstruttoriaSAInput" required="false" value="{!v.workflowRecordCandidato.SpeseIstruttoriaSA__c}" disabled="true"/></div>
+									</div>    
+									<div class="slds-size_1-of-2">
+										<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputPeriodoRateSAInputId" label="Periodicità Rate" name="flowInputPeriodoRateSAInput" required="false" disabled="true" /></div>
+									</div>         
+									<div class="slds-size_1-of-2">
+										<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputSpeseIncassoRataSAInputId" label="Spese Incasso Rata" type="number" name="flowInputSpeseIncassoRataSAInput" required="false" formatter="currency" disabled="true" /></div>
+									</div>
+									<div class="slds-size_1-of-2">
+										<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputSpeseCommissioneSAInputId" label="Importo Commissione MCC" type="number" name="flowInputSpeseCommissioneSAInput" required="false" value="{!v.workflowRecordCandidato.SpeseCommissioneSA__c}" min="0" max="9999999999" formatter="currency" disabled="{!v.disabilitatoASSICURATIVO}"/></div>
+									</div>           
+									<div class="slds-size_1-of-2">
+										<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputCostoMediazioneSAInputId" label="Costo di Mediazione" type="number" name="flowInputCostoMediazioneSAInput" required="false" value="{!v.workflowRecordCandidato.CostoMediazioneSA__c}" min="0" formatter="currency" disabled="true"/></div>
+									</div>                  
+								</div>
+							</p>
+						</lightning:card>
+
+					</lightning:card>					
+				</div>
+            </div>
+        </div>
+    </p>
+    
+    <c:bifis_crm_c_CommonFlowNavigator availableActions="{!v.availableActions}" navigateFlowEvent="{!c.handleNavigate}"/>
+    
+</aura:component>

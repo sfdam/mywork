@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="urn:metadata.tooling.soap.sforce.com" fqn="wgc_potenzialita_di_sviluppo">
+    <apiVersion>52.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__HomePage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__HomePage">
+            <property name="reportProspectConAttivita" type="String" label="Report Prospect Con Attività" default="" description="Definisci l'Id del report per Prospect Con Attività"/>
+            <property name="reportProspectSenzaAttivita" type="String" label="Report Prospect Senza Attività" default="" description="Definisci l'Id del report per Prospect Senza Attività"/>
+            <property name="reportClienteAltreBU" type="String" label="Report Clienti Altre BU" default="" description="Definisci l'Id del report per Clienti Altre BU"/>
+            <property name="reportExClienti" type="String" label="Report Ex Clienti" default="" description="Definisci l'Id del report per Ex Clienti"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

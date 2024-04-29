@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>QueryWhereCondition__c</fullName>
+    <description>Indicare le condizioni della Query successive al WHERE, iniziando con AND (es: AND Id != NULL)</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Indicare le condizioni della Query successive al WHERE, iniziando con AND (es: AND Id != NULL)
+DEFAULT: AND Id != NULL</inlineHelpText>
+    <label>Query Where Condition</label>
+    <length>255</length>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

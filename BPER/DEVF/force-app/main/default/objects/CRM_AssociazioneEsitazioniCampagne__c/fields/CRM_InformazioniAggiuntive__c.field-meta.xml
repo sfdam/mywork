@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_InformazioniAggiuntive__c</fullName>
+    <externalId>false</externalId>
+    <label>Motivi di rifiuto</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Interesse per altre tipologie di prodotti</fullName>
+                <default>false</default>
+                <label>Interesse per altre tipologie di prodotti</label>
+            </value>
+            <value>
+                <fullName>Possesso del prodotto presso altra banca</fullName>
+                <default>false</default>
+                <label>Possesso del prodotto presso altra banca</label>
+            </value>
+            <value>
+                <fullName>Il cliente non ha le caratteristiche per questa campagna</fullName>
+                <default>false</default>
+                <label>Il cliente non ha le caratteristiche per questa campagna</label>
+            </value>
+            <value>
+                <fullName>Cliente non disponibile</fullName>
+                <default>false</default>
+                <label>Cliente non disponibile</label>
+            </value>
+            <value>
+                <fullName>Cliente non si fida</fullName>
+                <default>false</default>
+                <label>Cliente non si fida</label>
+            </value>
+            <value>
+                <fullName>Cliente chiude chiamata</fullName>
+                <default>false</default>
+                <label>Cliente chiude chiamata</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

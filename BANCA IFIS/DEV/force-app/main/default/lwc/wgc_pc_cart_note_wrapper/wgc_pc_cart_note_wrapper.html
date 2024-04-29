@@ -1,0 +1,54 @@
+<template>
+    <div class="slds-box">
+        <template for:each={listaNote} for:item="nota" for:index="ind">
+            <lightning-layout key={nota.label} class="slds-p-vertical_small">
+                <lightning-layout-item size="2" class="cstm-note-state-wrapper slds-p-around_large">
+                    <span><b>{nota.stateLabel}</b></span>
+                    <template if:true={nota.showIcon}>
+                        <template if:true={nota.isCompleted}>
+                            <lightning-icon icon-name="utility:check" variant="success" class="slds-p-left_small" size="x-small"></lightning-icon>
+                        </template>
+                        <template if:false={nota.isCompleted}>
+                            <lightning-icon icon-name="utility:warning" class="slds-p-left_small" size="x-small"></lightning-icon>
+                        </template>
+                    </template>
+                </lightning-layout-item>
+                <lightning-layout-item size="10" class="cstm-note-textarea-wrapper">
+                    <lightning-layout class="slds-p-left_large">
+                        <lightning-layout-item size="12">
+                            <lightning-layout class="slds-p-vertical_small">
+                                <lightning-layout-item size="10" class="slds-p-vertical_small">
+                                    <h2 class="cstm-note-textarea-title">{nota.label}</h2>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="2" class="slds-p-vertical_small slds-p-right_large slds-text-align_right">
+                                    <lightning-button-icon variant="bare" name={nota.label} icon-name="utility:chevrondown" class={nota.class} onclick={toggleNote}></lightning-button-icon>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                            <template if:true={nota.isOpen}>
+                                <lightning-layout class="cstm-note-textarea-body slds-p-vertical_small">
+                                    <lightning-layout-item size="12" class="slds-p-right_large slds-p-vertical_small">
+                                        <!-- <template if:true={nota.disabled}> -->
+                                            <!-- <lightning-formatted-rich-text value={nota.value}></lightning-formatted-rich-text> -->
+                                        <!-- </template> -->
+                                        <!-- <template if:false={nota.disabled}> -->
+                                            <textarea name={nota.apiName} class="cstm-note-textarea" placeholder={nota.placeholder} disabled={nota.disabled} onchange={changeNotaVal}>{nota.value}</textarea>
+                                        <!-- </template> -->
+                                        <template if:false={privateReadOnly}>
+                                            <template if:true={nota.showBtnConferma}>
+                                                <lightning-layout>
+                                                    <lightning-layout-item size="12" class="slds-text-align_right slds-p-top_small">
+                                                        <lightning-button label="Conferma" name={nota.apiName} value={nota.value} variant="brand" class="cstm-btn-round" onclick={confirmNote}></lightning-button>
+                                                    </lightning-layout-item>
+                                                </lightning-layout>
+                                            </template>
+                                        </template>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </template>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </lightning-layout-item>
+            </lightning-layout>
+        </template>
+    </div>
+</template>

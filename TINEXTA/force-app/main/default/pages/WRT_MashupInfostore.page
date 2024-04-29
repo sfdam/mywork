@@ -1,0 +1,4 @@
+<apex:page controller="WRT_MashupInfostoreCtrl" sidebar="false" showHeader="false">
+    <!-- <iframe height="600px" id="theIframe" name="theIframe" src="https://salesforce-test.warranthub.it/v1/Wh/Quote/Pricing/View/{!$CurrentPage.parameters.id}" width="100%"></iframe> -->
+    <apex:outputText escape="false" value="{!iframeData}"></apex:outputText>
+</apex:page>

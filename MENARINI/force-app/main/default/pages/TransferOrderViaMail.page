@@ -1,0 +1,34 @@
+<apex:page standardController="cgcloud__Order__c" renderAs="pdf">
+
+<!--<apex:stylesheet value="{!URLFOR($Resource.Styles,'pdf.css')}"/>-->
+
+<h1>TRANSFER ORDER ETICO</h1>
+<br/>
+<h1><apex:outputText value="{!cgcloud__Order__c .cgcloud__Wholesaler__r.Name}"/></h1>
+<hr/>
+
+<table>
+<tr><th>N. Ordine</th>
+    <td><apex:outputText value="{!cgcloud__Order__c.Name}"/></td>
+    </tr>
+<tr><th>Data Delivery</th>
+    <td><apex:outputText value="{!cgcloud__Order__c.cgcloud__Delivery_Date__c}"/></td>
+    </tr>
+<tr><th>Azienda Prodotto</th>
+    <td><apex:outputText value="{!$Label.Azienda_Prodotto}"/></td>
+    </tr>
+<tr><th>Cod. Cliente Spedizione</th>
+    <td><apex:outputText value="{!cgcloud__Order__c.cgcloud__Delivery_Recipient__r.THR_CustomerIdentificationCode__c}"/></td>
+    </tr>
+<tr><th>P.Iva cliente</th>
+    <td><apex:outputText value="{!cgcloud__Order__c.cgcloud__Delivery_Recipient__r.THR_VATNumber__c}"/></td>
+    </tr>
+<tr><th>Rag. Sociale</th>
+    <td><apex:outputText value="{!cgcloud__Order__c.cgcloud__Delivery_Recipient__r.Name}"/></td>
+    </tr>
+<tr><th>Indirizzo, Comune, Provincia</th>
+<!--    <td><apex:outputText value="{!cgcloud__Order__c.BillingAddress}"/></td>>-->
+    </tr>    
+</table>
+<hr/>
+</apex:page>

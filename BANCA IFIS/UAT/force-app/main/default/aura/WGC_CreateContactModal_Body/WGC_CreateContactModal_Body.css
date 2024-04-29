@@ -1,0 +1,267 @@
+.THIS .container-card {
+    min-height: 345px;
+}
+
+.THIS .title {
+    display: inline-block;
+    margin-left: 10px;
+    vertical-align: sub;
+}
+
+.THIS .sub-title {
+    color: #0064B5;
+    font-weight: bold;
+}
+
+.THIS .open-component {
+    display: inline-block;
+    position: absolute;
+    right: 10px;
+    vertical-align: super;
+}
+
+.THIS .row {
+        padding: 10px;
+}
+
+.THIS .slds-card__body {
+    margin: 0 10px 10px 10px;
+}
+
+.THIS .containerCol{
+    border:1px solid #DAD7D8;
+    border-radius:5px;
+    padding: 25px;
+    margin-bottom: 20px;
+}
+
+.THIS li.slds-tabs_default__item {
+    width: 150px;
+    text-align: center;
+}
+
+.THIS .slds-tabs_default__nav, .THIS .slds-tabs--default__nav {
+    width: 300px;
+    margin: 0 auto;
+}
+
+.THIS li.slds-tabs_default__item.slds-tabs_default__overflow-button {
+    display: none;
+}
+
+.THIS .slds-tabs_default__link[tabindex="0"]:focus, .THIS .slds-tabs--default__link[tabindex="0"]:focus {
+    text-decoration: none;
+}
+
+.THIS .slds-tabs_default__content {
+    height: 265px;
+}
+
+.THIS span.slds-checkbox_on, .THIS span.slds-checkbox_off {
+    visibility: hidden;
+}
+
+.THIS .custom-box span {
+    display: inline-flex;
+}
+
+.THIS .resultSelected {
+    border: 1px solid #ECEBEA;
+    border-radius: 5px;
+    padding: 5px;
+    margin-bottom: 15px;
+    cursor: pointer;
+}
+
+.THIS .resultSelectedAccount {
+    border: 1px solid #ECEBEA;
+    border-radius: 5px;
+    padding: 5px;
+    cursor: default;
+}
+
+.THIS .selected {
+    background-color: #F3F2F2;
+}
+
+.THIS .slds-media__figure {
+        margin: auto .75rem auto 0;
+}
+
+.THIS .btn {
+    padding: 0 10px;
+        width: 100%;
+    font-size: 10px;
+    text-transform: uppercase;
+    background-color: #00338c;
+    border-color: #00338c;
+    color: rgb(255, 255, 255);
+}
+
+.THIS .btn:hover {
+    background-color: #0064B5;
+    border-color: #0064B5;
+    color: rgb(255, 255, 255);
+}
+
+.THIS .disabled {
+    background-color: rgb(214, 213, 212);
+    border-color: rgb(197, 197, 197);
+}
+
+.THIS .disabled:hover {
+    background-color: rgb(184, 184, 184);
+    border-color: rgb(197, 197, 197);
+}
+
+.THIS .btnMargin {
+    margin-top: 24px;
+}
+
+.THIS hr {
+        margin: 1rem 0;
+}
+
+.THIS .CRM svg {
+    background-color: rgba(200, 247, 222, 1);
+}
+
+.THIS .Cedacri svg{
+    background-color: rgba(252, 255, 165, 1);
+}
+
+.THIS .Ribes svg{
+    background-color: rgba(	255, 240, 213, 1);
+}
+
+.THIS .inactiveLink {
+   pointer-events: none;
+   cursor: default;
+}
+
+.THIS .spinnerDiv {
+    position: fixed !important;
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+}
+.THIS .slds-spinner_container{
+    background-color: transparent;
+}
+
+.THIS .notShow {
+        display: none;
+}
+
+.THIS .personal-margin {
+        margin: -20px -20px 10px -20px;
+}
+
+.THIS .white {
+    color: #FFF;
+}
+
+.THIS .customRequired{
+    font-weight: 400; 
+}
+.THIS .customRequired:before{ 
+    content: "*";
+    margin: 0 0.125rem 0 0.125rem;
+    color: rgb(194, 57, 52);
+    float: left; 
+}
+
+.THIS .flex-position {
+    position: fixed;
+    float: right;
+    right: 35px;
+    margin-top: -60px;
+}
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : landscape)
+and (-webkit-min-device-pixel-ratio: 2) { 
+    /* STYLES GO HERE */
+    .THIS .scrollerSize {
+        height:480px;
+    }
+
+}
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : portrait)
+and (-webkit-min-device-pixel-ratio: 2) { 
+    /* STYLES GO HERE */ 
+    .THIS .scrollerSize {
+        height:480px;
+    }
+}
+
+/* 
+  ##Device = Low Resolution Tablets, Mobiles (Landscape)
+  ##Screen = B/w 481px to 767px
+*/
+
+@media only screen 
+and (min-width: 481px) 
+and (max-width: 767px)
+and (orientation : landscape) {
+    /* STYLES GO HERE */
+    
+    
+}
+  
+/* 
+  ##Device = Most of the Smartphones Mobiles (Portrait)
+  ##Screen = B/w 320px to 479px
+*/
+  
+@media only screen 
+and (min-width: 320px) 
+and (max-width: 480px)
+and (orientation : portrait) {
+    /* STYLES GO HERE */
+    .THIS .iphone {
+        display: none;
+    }
+
+    .THIS .slds-tabs_default__nav, .THIS .slds-tabs--default__nav {
+        width: 240px;
+    }
+    
+
+    .THIS li.slds-tabs_default__item {
+        width: 120px;
+        font-size: 12px;
+    }
+
+    .THIS .toggle-estero {
+        margin-top: 20px;
+    }
+
+    .THIS .slds-input::placeholder {
+        font-size: 12px;
+    }
+
+    .THIS .slds-tile .slds-media__body h3.slds-truncate {
+        font-size: 10px;
+    }
+
+    .THIS .slds-avatar_medium, .THIS .slds-avatar--medium {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+
+    .THIS .slds-tile__detail.slds-text-body_small {
+        font-size: 8px;
+    }
+
+    .THIS .overflow-span {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}

@@ -1,0 +1,101 @@
+.section-container{
+    border: 1px solid #0064b5;
+    border-radius: 5px;
+}
+
+/* CSTM MAIN WIZARD */
+
+/* .cstm-main-wizard-wrapper .cstm-main-wizard-progress-bar {
+    width: 80%;
+    display: block;
+    margin: auto;
+} */
+
+.cstm-main-wizard-wrapper .cstm-main-wizard-progress-bar .slds-progress-bar__value {
+    background-color: #0064b5 !important;
+}
+
+.cstm-main-wizard-wrapper .cstm-main-wizard-item {
+    display: inline-block;
+    width: 25%;
+    text-align: center;
+    cursor: pointer;
+    vertical-align: top;
+}
+
+.cstm-main-wizard-items.isRinnovo .cstm-main-wizard-item:first-child {
+    margin-right: 60%;
+}
+
+.cstm-main-wizard-wrapper .cstm-main-wizard-item .cstm-main-wizard-dot {
+    width: 14px;
+    height: 14px;
+    background-color: #a0a0a0;
+    border-radius: 50%;
+    margin: auto;
+    margin-top: -8px;
+    position: relative;
+}
+
+.cstm-main-wizard-wrapper .cstm-main-wizard-item.inProgress .cstm-main-wizard-dot,
+.cstm-main-wizard-wrapper:not(.dataTracker) .cstm-main-wizard-item:hover .cstm-main-wizard-dot {
+    background-color: #0064b5;
+}
+
+.cstm-main-wizard-wrapper .cstm-main-wizard-item.completed .cstm-main-wizard-dot {
+    background-color: #0BAD58;
+}
+
+.cstm-main-wizard-wrapper .cstm-main-wizard-item.failed .cstm-main-wizard-dot {
+    background-color: #ED495B;
+}
+
+.cstm-main-wizard-wrapper .cstm-main-wizard-item .cstm-main-wizard-label {
+    color: #a0a0a0;
+    padding-top: 4px;
+    text-transform: uppercase;
+}
+
+.cstm-main-wizard-wrapper.dataTracker .cstm-main-wizard-item .cstm-main-wizard-label {
+    text-transform: none;
+    font-size: 12px;
+}
+
+.cstm-main-wizard-wrapper .cstm-main-wizard-item.active .cstm-main-wizard-label,
+.cstm-main-wizard-wrapper:not(.dataTracker) .cstm-main-wizard-item:hover .cstm-main-wizard-label {
+    color: #0064b5;
+    font-weight: bold;
+}
+
+.cstm-main-wizard-wrapper .cstm-main-wizard-item .cstm-main-wizard-time {
+    font-size: 10px;
+}
+
+.cstm-main-wizard-wrapper .cstm-main-wizard-item .cstm-main-wizard-time .slds-icon {
+    width: .9rem;
+    margin-right: 2px;
+    height: .9rem;
+}
+
+.remove-oppty{
+    margin-top:8%;
+    margin-left: var(--lwc-spacingXxSmall,0.25rem);
+}
+
+.cstm-btn-time-margin{
+    /*margin-right:50px;*/
+}
+
+/* CSTM MAIN WIZARD */
+
+/* TABELLA DEBITORI - START */
+
+.cstm-datatable-title {
+    text-align: center;
+    background-color: rgb(250, 250, 249);
+    padding: 5px 0;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgb(221, 219, 218);
+    color: #080707;
+}
+/* TABELLA DEBITORI - END */

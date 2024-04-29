@@ -1,0 +1,12 @@
+<template>
+
+    <template if:true={error}>
+        <lightning-card title="Errore!!" icon-name="utility:error" class="card">
+            <lightning-layout>
+                <lightning-layout-item flexibility="auto" padding="around-small" size="12">
+                    <p>{errorMessage}</p>
+                </lightning-layout-item>
+            </lightning-layout>
+        </lightning-card>
+    </template>
+</template>

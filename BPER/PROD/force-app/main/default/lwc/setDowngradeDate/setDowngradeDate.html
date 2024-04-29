@@ -1,0 +1,26 @@
+<template>
+    <template if:true={utenteAutorizzato}>
+        <lightning-card variant="Narrow" title={title} icon-name={iconName}>
+            <template if:true={loaded}>
+                <lightning-layout multiple-rows="true">
+                    <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="6" large-device-size="6">
+                        <lightning-input type="date" label="Data Inizio Finestra" placeholder="Data Inizio Finestra" value={record.PTF_DowngradeReqStartDate__c} onchange={handleFilter} name="startDate" data-item="date" required></lightning-input>
+                    </lightning-layout-item>
+                    <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="6" large-device-size="6">
+                        <lightning-input type="date" label="Data Fine Finestra" placeholder="Data Fine Finestra" value={record.PTF_DowngradeReqEndDate__c} onchange={handleFilter} name="endDate" data-item="date" required></lightning-input>
+                    </lightning-layout-item>
+                    <lightning-layout-item flexibility="auto" padding="around-small" size="12">
+                        <!-- <lightning-button-group class="slds-float_right"> -->
+                            <button if:true={showSave} onclick={handleSave} class="slds-button slds-button_neutral slds-button_stretch">Salva</button>
+                        <!-- </lightning-button-group> -->
+                    </lightning-layout-item>
+                </lightning-layout>
+            </template>
+            <template if:false={loaded}>
+                <div class="spinner-holder">
+                    <lightning-spinner alternative-text="Loading"></lightning-spinner>
+                </div>
+            </template>
+        </lightning-card>
+    </template>
+</template>

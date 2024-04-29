@@ -1,0 +1,41 @@
+.THIS .border-title{
+    border-left:3px solid #0064B5;
+    margin: 0 0 -15px -5px;
+}
+
+.THIS .border-title-deb{
+    border-left:3px solid #1100d3;
+    margin: 0 0 -15px -5px;
+}
+
+.THIS .slds-form-element__control{
+    padding: 0;
+}
+
+.THIS .slds-form-element__static{
+    font-weight:bold;
+}
+
+.THIS .logo{
+    max-width:58px; 
+    max-height:30px; 
+    margin:8px 0 0 0;
+}
+
+.THIS .logo-container-layout {
+    margin: -15px -10px 0 -15px;
+}
+
+.THIS .transparent {
+    color: transparent;
+}
+
+.THIS .update-field .slds-form-element__label, .THIS .update-field .slds-form-element__control .slds-form-element__static, .THIS .label-last-update {
+    color: #0064B5;
+}
+
+.THIS .btn-header {
+    background-color: #0064B5;
+    border-color: #0064B5;
+    color: rgb(255, 255, 255);
+}

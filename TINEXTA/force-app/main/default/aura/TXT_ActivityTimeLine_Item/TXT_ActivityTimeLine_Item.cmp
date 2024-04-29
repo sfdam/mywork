@@ -1,0 +1,16 @@
+<aura:component >
+    
+    <!-- Aura Attribute -->
+    <aura:attribute name='activityType' type='String' default='Task' />
+    <aura:attribute name='itemDetail' type='Object' default='{}' />
+    <aura:attribute name="userInfo" type="User" default="{'sobjectType':'User'}" />
+
+    <aura:If isTrue="{! v.activityType == 'Task'}" >
+        <c:TXT_ActivityTimeLine_Item_Task itemDetail="{! v.itemDetail }" userInfo="{! v.userInfo }" />
+    </aura:If>
+    
+    <aura:If isTrue="{! v.activityType == 'Event'}" >
+         <c:TXT_ActivityTimeLine_Item_Event itemDetail="{! v.itemDetail }" userInfo="{! v.userInfo }" />
+    </aura:If>
+	
+</aura:component>

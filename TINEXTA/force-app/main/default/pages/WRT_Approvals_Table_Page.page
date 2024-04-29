@@ -1,0 +1,20 @@
+<apex:page > 
+    <h1>Welcome to Salesforce</h1><br/>
+    This is your new Page 
+    
+    <apex:includeLightning />    
+    <div id="LightningComponentid" />    
+    <script>
+    $Lightning.use("c:HelloLWCExampleApp", function() {
+        $Lightning.createComponent("c:helloComponentForVFLWC",
+          { 
+          },
+          "LightningComponentid",
+          function(cmp) {
+             console.log('LWC Componenet added in VF page');
+          });
+    });
+    </script>
+    
+    <!-- link: https://tinextagroup--full--c.sandbox.vf.force.com/one/one.app#/alohaRedirect/apex/WRT_Approvals_Table_Page -->
+</apex:page>

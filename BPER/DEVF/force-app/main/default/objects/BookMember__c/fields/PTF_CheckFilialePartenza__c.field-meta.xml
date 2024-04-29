@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PTF_CheckFilialePartenza__c</fullName>
+    <externalId>false</externalId>
+    <formula>OR(
+AND (PTF_PreviousMicroWallet__r.PTF_Filiale__r.PTF_IdCED__c == $User.idced__c, $User.idced__c != null),
+AND (PTF_PreviousMicroWallet__r.PTF_Capofila__r.PTF_IdCED__c == $User.idced__c, $User.idced__c != null)
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Check Filiale partenza</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,6 @@
+<aura:event type="APPLICATION" description="Event to manage server side request in cart components">
+    <aura:attribute name="method" type="String"/>
+    <aura:attribute name="params" type="Object"/>
+    <aura:attribute name="lockStateSpinner" type="Boolean" default="false"/>
+    <aura:attribute name="spinnerMessage" type="String"/>
+</aura:event>

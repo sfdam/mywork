@@ -1,0 +1,19 @@
+<template>
+    <lightning-card  variant="Narrow"  title="Aggiorna TAG" icon-name="standard:account">
+        
+        <lightning-textarea class="slds-p-horizontal_small" name="input2" value={ndgValue} onchange={handleChange}></lightning-textarea>
+        
+        <p slot="footer">
+            
+            <button type="submit"  onclick={handleClick} class="slds-button slds-button_neutral slds-button_stretch">Modifica</button>
+            <!--<lightning-button label="Modifica"   onclick={handleClick} class="slds-m-left_x-small"></lightning-button>-->
+              
+        </p>
+
+    </lightning-card>
+    <template if:true={loadedData}>
+        <div class="spinner-holder">
+            <lightning-spinner alternative-text="Loading"></lightning-spinner>
+        </div>
+    </template>
+</template>

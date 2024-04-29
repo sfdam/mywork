@@ -1,0 +1,3 @@
+<apex:page standardController="Appuntamento_Consulenza_Finanziaria__c">
+    <h1>Non è possibile creare appuntamenti tramite la funzione 'Salva e Nuovo', per creare un nuovo appuntamento è necessario accedere alla scheda cliente desiderata e cliccare sul pulsante 'Appuntamenti Consulenza Finanziaria Avanzata'.</h1>
+</apex:page>

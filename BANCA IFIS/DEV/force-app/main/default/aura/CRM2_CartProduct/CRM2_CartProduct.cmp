@@ -1,0 +1,91 @@
+<aura:component access="global">
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="item" type="Object"/>
+    <aura:attribute name="isRemovable" type="Boolean" default="false"/>
+    <aura:attribute name="isActive" type="Boolean" default="false"/>
+    <aura:attribute name="isSelected" type="Boolean" default="false"/>
+    <aura:attribute name="isAvailableItem" type="Boolean" default="false"/>
+    <aura:attribute name="isCompleted" type="Boolean" default="false"/>
+    <aura:attribute name="isClickable" type="Boolean" default="false"/>
+    <aura:attribute name="isLocked" type="Boolean" default="false"/>
+    <aura:attribute name="isRevisione" type="Boolean" default="false"/>
+    <aura:attribute name="showValPort" type="Boolean" default="false"/>
+    <aura:attribute name="readOnly" type="Boolean" default="false"/>
+
+    <!-- REGISTER EVENT -->
+    <aura:registerEvent name="productClick" type="c:WGC_ProductClickEvent"/>
+
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+
+    <div onclick="{! c.onProductClick }">
+        <aura:if isTrue="{! v.isRemovable }">
+            <div class="{! 'cstm-remove-product' + (v.isSelected ? ' white' : '') }" onclick="{! c.onRemoveProductClick }">
+                <lightning:icon iconName="utility:close" size="x-small"/>
+            </div>
+        </aura:if>
+        <!-- ( v.isCompleted == true ? 'completed ' : '' ) + -->
+        <lightning:layout class="{! 'cstm-product-wrapper ' + 
+                                    ( v.isAvailableItem == true ? 'available ' : '' ) +
+                                    ( v.isSelected == true ? 'selected ' : '' ) +
+                                    ( v.isActive == true ? 'active ' : '' ) +
+                                    ( v.isClickable == true ? 'clickable ' : '' ) +
+                                    ( v.isRevisione == true ? 'revisioned ' : '' ) +
+                                    ( v.isLocked == true ? 'locked ' : '' ) }" multipleRows="true">
+            <lightning:layoutItem size="{! v.item.multiLine ? 2 : 3 }" class="slds-text-align_center" padding="around-small">
+                <div class="{! 'cstm-flipper-container ' + (v.isCompleted == true ? 'isFlipped' : '') }">
+                    <lightning:icon iconName="{! (v.item.icon ? v.item.icon : 'custom:custom9') }" size="large" class="cstm-icon-flip"/>
+                    <lightning:icon iconName="standard:task2" size="large" class="cstm-icon-flip"/>
+                </div>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="{! v.item.multiLine ? 4 : 9 }" class="cstm-product-desc" padding="around-small">
+                <!-- <p class="cstm-product-desc-subtitle">{! v.item.debitori != null ? (v.item.debitori > 0 ? 'Debitori associati: ' + v.item.debitori : 'Nessun debitore associato') : (v.item.area ? v.item.area : '-') }</p>
+                <h2 class="cstm-product-desc-title">{! v.item.name ? v.item.name : v.item.nome }</h2> -->
+                <p class="cstm-product-desc-subtitle">{! v.item.subtitle }</p>
+                <h2 class="cstm-product-desc-title">{! v.item.title }</h2>
+            </lightning:layoutItem>
+            <aura:if isTrue="{! v.item.multiLine }">
+                <aura:iteration items="{! v.item.subLines }" var="subLine">
+                    <lightning:layoutItem size="3" class="slds-p-around_x-small">
+                        <div class="full-height" onclick="{! c.onProductClick }" data-line="{! subLine.line.id }">
+                            <lightning:layout class="{! 'cstm-subLine-wrapper ' + 
+                                        ( subLine.isActive == true ? 'active ' : '' ) + 
+                                        ( subLine.isClickable == true ? 'clickable ' : '' ) + 
+                                        ( subLine.isRevisione == true ? 'revisioned ' : '' ) }">
+                                        <lightning:layoutItem size="2">
+                                            <aura:if isTrue="{! subLine.isCompleted }">
+                                                <lightning:icon iconName="utility:check" size="x-small" class="cstm-subLine-wrapper-icon"/>
+                                                <aura:set attribute="else">
+                                                    <c:StatusDot color="{! (subLine.isActive ? 'FFFFFF' : 'CCCCCC') }"/>
+                                                </aura:set>
+                                            </aura:if>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem size="10">{! subLine.line.nome }</lightning:layoutItem>
+                            </lightning:layout>
+                        </div>
+                    </lightning:layoutItem>
+                </aura:iteration>
+            </aura:if>
+        </lightning:layout>
+    </div>
+    <aura:if isTrue="{! and(v.item.area == 'Factoring - Cedente', v.showValPort) }">
+        <lightning:layout class="slds-m-top_xx-small">
+            <lightning:layoutItem size="10">
+                <p>Valutazione Portafoglio:</p>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="2" class="slds-text-align_right">
+                <lightning:input type="toggle" name="valPort" checked="{! v.item.hasValPort }" disabled="{! v.item.codice == 'AtdConProrogaConfirming' || v.readOnly }" onchange="{! c.onValPortClick }" messageToggleActive="" messageToggleInactive=""/>
+            </lightning:layoutItem>
+        </lightning:layout>
+    </aura:if>
+    <aura:if isTrue="{! and(v.item.codice == 'Confirming', v.showValPort) }">
+        <lightning:layout class="slds-m-top_xx-small">
+            <lightning:layoutItem size="10">
+                <p>Valutazione Portafoglio:</p>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="2" class="slds-text-align_right">
+                <lightning:input type="toggle" name="valPort" checked="true" disabled="true" messageToggleActive="" messageToggleInactive=""/>
+            </lightning:layoutItem>
+        </lightning:layout>
+    </aura:if>
+</aura:component>

@@ -1,0 +1,24 @@
+<template>
+    <div>
+        <template if:false={rendered}>
+            <lightning-spinner alternative-text="CARICAMENTO" variant="brand"></lightning-spinner>
+        </template>
+        <template if:true={rendered}>
+            <lightning-layout multiple-rows="true" class="slds-p-around_medium">
+                <lightning-layout-item size="12" class="slds-p-around_small">
+                    <!-- <lightning-input label="Data contratto" type="date" value={obj.dataContratto}></lightning-input> -->
+                        <lightning-input label="Data contratto" name="WGC_Data_Contratto__c" type="date" value={credito.WGC_Data_Contratto__c} onchange={changeFieldVal}></lightning-input>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" class="slds-p-around_small">
+                    <lightning-textarea label="Note B/O" name="WGC_Note_BO__c" value={credito.WGC_Note_BO__c} onchange={changeFieldVal}></lightning-textarea>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" class="slds-p-around_small">
+                    <lightning-textarea label="Ultima Nota"></lightning-textarea>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" class="slds-p-around_medium slds-text-align_right">
+                    <lightning-button label="Conferma" class="cstm-btn-round" variant="brand" onclick={confirm}></lightning-button>
+                </lightning-layout-item>
+            </lightning-layout>
+        </template>
+    </div>
+</template>

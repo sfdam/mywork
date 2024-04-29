@@ -1,0 +1,76 @@
+.THIS {
+  background-color: #eee;
+  border-radius: 5px;
+}
+
+.THIS .cstm-activity-header-block {
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+.THIS .cstm-activity-header-block.active,
+.THIS .cstm-activity-header-block:hover {
+  border-bottom: 3px solid #0064b5;
+}
+
+.THIS .cstm-activity-header-block .cstm-activity-header-main {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.THIS .cstm-activity-header-block.active .cstm-activity-header-main,
+.THIS .cstm-activity-header-block:hover .cstm-activity-header-main {
+  color: #0064b5;
+}
+
+.THIS .cstm-activity-header-block .cstm-activity-header-desc {
+  font-size: 12px;
+  color: #aaa;
+}
+
+.THIS .cstm-activity-header-desc-event {
+  margin-top: -10px;
+}
+
+.THIS .no-button {
+  text-align: center;
+  color: #d3d3d3;
+  font-weight: 800;
+}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 2) {
+  /* STYLES GO HERE */
+}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) and (-webkit-min-device-pixel-ratio: 2) {
+  /* STYLES GO HERE */
+}
+
+/* 
+  ##Device = Low Resolution Tablets, Mobiles (Landscape)
+  ##Screen = B/w 481px to 767px
+*/
+
+@media only screen and (min-width: 481px) and (max-width: 767px) and (orientation: landscape) {
+  /* STYLES GO HERE */
+}
+
+/* 
+  ##Device = Most of the Smartphones Mobiles (Portrait)
+  ##Screen = B/w 320px to 479px
+*/
+
+@media only screen and (min-width: 320px) and (max-width: 480px) and (orientation: portrait) {
+  /* STYLES GO HERE */
+  .THIS .iphone {
+    display: none;
+  }
+
+  .THIS .cstm-activity-header-block .cstm-activity-header-main {
+    font-size: 14px;
+  }
+
+  .THIS .cstm-activity-header-block .cstm-activity-header-desc {
+    font-size: 8px;
+  }
+}

@@ -1,0 +1,85 @@
+<aura:component>
+	<aura:attribute name='itemDetail' type='Object' default='{}' />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+	<lightning:navigation aura:id="navService" />
+
+
+	<li>
+		<div
+			class="{! 'slds-timeline__item_expandable slds-timeline__item_task ' + (v.itemDetail.IsArchived ? 'IsArchived' : '') }">
+			<span class="slds-assistive-text">Opportunità</span>
+			<div class="slds-media">
+				<div class="slds-media__figure">
+					<div class="{! 'slds-icon_container slds-icon-standard-opportunity slds-timeline__icon ' + (v.itemDetail.IsArchived ? 'IsArchived' : '') }"
+						title="Opportunità">
+						<lightning:icon iconName="standard:opportunity" />
+					</div>
+					<aura:if isTrue="{! v.itemDetail.SupportObject }">
+						<lightning:icon class="supportObj" iconName="utility:database" title="Caricamento Pregresso" size="xx-small" />
+					</aura:if>
+				</div>
+				<div class="slds-media__body">
+					<div class="slds-grid slds-grid_align-spread slds-timeline__trigger">
+						<div class="slds-grid slds-grid_vertical-align-center slds-truncate_container_75 slds-no-space">
+							<h3 class="slds-truncate" title="{! v.itemDetail.CRM_Titolo__c }">
+								Nome opportunità:&nbsp; 
+								<a onclick="{! c.navigateToActivity }">
+									<strong>{! v.itemDetail.CRM_Titolo__c } &nbsp; 
+										<aura:if isTrue="{! v.itemDetail.SetFieldIcon }">
+											<lightning:icon iconName="utility:note" title="New note" size="xx-small" />
+										</aura:if>
+									</strong>
+								</a>
+							</h3>
+						</div>
+						<div class="slds-timeline__actions slds-timeline__actions_inline">
+							<!--<p class="slds-timeline__date">{! '' + v.itemDetail.FieldToSort }</p>-->
+							<!--<p class="slds-timeline__date">{! '' + (v.itemDetail.CambioStato ? 'Data Cambio di Stato' : 'Data Creazione') }</p>-->
+							<p class="slds-timeline__date">Data: </p>
+							<p class="slds-timeline__date">
+							<!--<lightning:formattedDateTime value="{! '' + (v.itemDetail.CambioStato ? v.itemDetail.CambioStatoDate : v.itemDetail.CreatedDate) }" year="numeric" month="numeric" day="numeric" />-->
+                                <lightning:formattedDateTime value="{! '' + (v.itemDetail.LastModifiedDate) }" year="numeric" month="numeric" day="numeric" />
+							</p>
+							<lightning:buttonIcon iconName="utility:down" size="x-small" alternativeText="View More" onclick="{! c.showArticle }" />
+						</div>
+					</div>
+					<p class="slds-m-horizontal_xx-small">
+						NDG:&nbsp;<a onclick="{! c.navigateToNDG }">{! v.itemDetail.CRM_FormulaAccountNDG__c }</a>
+                        Categoria di prodotto:&nbsp;{! v.itemDetail.CRM_FormulaCategoria__c }
+                        Esito:&nbsp;{! v.itemDetail.CRM_EsitoContatto__c }
+                        Autore:&nbsp;{!v.itemDetail.CRM_AutoreCH__c }
+                        Referente:&nbsp;{! v.itemDetail.Account.CRM_ReferenteNameFormula__c }
+                        Fase:&nbsp;{! v.itemDetail.StageName }
+						<!--Assegnato a:&nbsp;<a onclick="{! c.navigateToUser }">{! v.CRM_Assegnatario__r.Name }</a>-->
+					</p>
+						<aura:if isTrue="{! v.itemDetail.isCollapsed  }">
+							<article
+								class="{! 'slds-box slds-theme_shade slds-m-top_x-small slds-m-horizontal_xx-small slds-p-around_medium' }"
+								aura:id="{!v.indexId}">
+								
+								<lightning:layout multipleRows="true" pullToBoundary="small">
+                    				<lightning:layoutItem flexibility="auto"  padding="horizontal-small" size="12">
+										<div>
+                                            <aura:if isTrue="{! v.itemDetail.UseDescription_CH__c }" >
+                                                <span class="slds-text-title slds-p-bottom_xx-small">Note</span>
+												<p class="slds-text-body_medium">{! v.itemDetail.Description }</p>
+                                                <aura:set attribute="else">
+													<span class="slds-text-title slds-p-bottom_xx-small">Note</span>
+													<p class="slds-text-body_medium">{! v.itemDetail.Note__c }</p>
+                                                </aura:set>
+                                            </aura:if>	
+											<aura:if isTrue="{!AND(v.itemDetail.CRM_Canale__c == 'FOL', v.itemDetail.CRM_Filiale_non_di_relazione_scelta__c) }">
+												<span class="slds-text-title slds-p-bottom_xx-small">Filiale di appuntamento</span>
+												<p class="slds-text-body_medium">{! v.itemDetail.CRM_Filiale_non_di_relazione_scelta__c }</p>
+											</aura:if>
+										</div>        
+                                    </lightning:layoutItem>
+								</lightning:layout>
+							</article>
+						</aura:if>
+				</div>
+			</div>
+		</div>
+	</li>
+</aura:component>

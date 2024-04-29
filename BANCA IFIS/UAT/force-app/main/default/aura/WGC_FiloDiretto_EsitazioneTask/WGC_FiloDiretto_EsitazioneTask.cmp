@@ -1,0 +1,534 @@
+<aura:component controller="WGC_FiloDirettoController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction,lightning:isUrlAddressable" extends="c:WGC_Utility">  
+    <!-- ATTRIBUTE -->
+    <aura:attribute name="taskId" type="String" />
+    <!-- dati passati dalla riga della tabella da cui seleziono il task -->
+    <aura:attribute name="rowData" type="Object" />
+    <!-- dati del record del referente -->
+    <aura:attribute name="ContactRecord" type="Object" />
+    <!-- flag sviluppato e sovrascrivi -->
+    <aura:attribute name="developed" type="Boolean" default="false" />
+    <aura:attribute name="overwrite" type="Boolean" default="false" />
+    <aura:attribute name="insviluppo" type="Boolean" default="false" />
+    <!-- picklist -->
+    <aura:attribute name="PicklistContainer" type="Object" />
+    <aura:attribute name="tipoAtt" type="Object" />
+    <aura:attribute name="picklist0" type="Object" />
+    <aura:attribute name="picklist1" type="Object" />
+    <aura:attribute name="picklist2" type="Object" />
+    <aura:attribute name="picklist3" type="Object" />
+    <aura:attribute name="picklist4" type="Object" />
+    <!-- attributi per controllare l'attivazione delle picklist -->
+    <aura:attribute name="picklist0disabled" type="Boolean" default="true"/>
+    <aura:attribute name="picklist1disabled" type="Boolean" default="true"/>
+    <aura:attribute name="picklist2disabled" type="Boolean" default="true"/>
+    <aura:attribute name="picklist3disabled" type="Boolean" default="true"/>
+    <aura:attribute name="picklist4disabled" type="Boolean" default="true"/>
+    <aura:attribute name="dataricontattodisabled" type="Boolean" default="false"/>
+    <!-- -->
+    <aura:attribute name="isLoaded" type="Boolean" />
+    <aura:attribute name="disabled" type="Boolean" default="true"/>
+    <aura:attribute name="isTaskSaved" type="Boolean" default="false" />
+    
+    <!-- attributo che contiene i possibili assegnatari della visita commerciale in base al comune selezionato -->
+    <aura:attribute name="assegnatari" type="Map[]" />
+    <aura:attribute name="calendar" type="Map" />
+    <aura:attribute name="isValidComune" type="Boolean" default="false"/>
+    <aura:attribute name="isActiveComune" type="Boolean" default="true" />
+    <!-- attributi che contengono oggetti task & eventi -->
+    <aura:attribute name="tsk" type="Task" default="{'sobjectType' : 'Task'}"/>
+    <aura:attribute name="visita" type="Event" default="{'sobjectType' : 'Event'}"/>
+    <aura:attribute name="visiteC" type="List"/>
+    <aura:attribute name="isVisitaCommerciale" type="Boolean" default="true" />
+    <!-- new attributes -->
+    <aura:attribute name="optionsSubject" type="List" 
+    default="[{ label : 'Contatto telefonico' , value : 'Contatto telefonico'},
+            { label : 'Ricontatto telefonico' , value : 'Ricontatto telefonico'},
+            { label : 'Contatto telefonico campagna' , value : 'Contatto telefonico campagna'}]" />
+    <aura:attribute name="selectedSubject" type="String" default="" />
+    <!-- HANDLERS -->
+    <lightning:navigation aura:id="navService" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler name="change" value="{!v.tsk.CommentiEsito__c}" action="{!c.checkValidInput}" />
+    <aura:handler name="change" value="{!v.tsk.ActivityDate}" action="{!c.checkValidInput}" />
+    <!-- COMUNE -->
+    <aura:attribute name="comuneSelected" type="Comune__c" default="{'sobjectType':'Comune__c'}" />
+    <aura:handler name="change" value="{! v.comuneSelected }" action="{! c.onChangeComune }" />
+
+    <aura:if isTrue="{!v.isLoaded}">
+        <lightning:card>
+            <!-- <aura:set attribute="title"> -->
+                <!-- 
+                <lightning:icon iconName="standard:call_history" />
+                <div class="slds-m-left_small" style="vertical-align: middle; display: inline-block;">
+                    <p class="slds-text-title_caps">Console Filo Diretto</p>
+                    <p>Clienti da contattare</p>
+                </div>
+                -->
+                <lightning:layout class="slds-p-horizontal_small">
+                    <lightning:layoutItem size="2" class="">
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label">{!$Label.c.WGC_FiloDiretto_EsitazioneTask_Task_in_oggetto}</label>
+                            <p>
+                                <lightning:icon iconName="standard:task" size="x-small" /> &nbsp; {!v.rowData.Subject}
+                            </p>
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="2" class="">
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label">{!$Label.c.WGC_FiloDiretto_EsitazioneTask_Referente}</label>
+                            <p>
+                                <span>{!v.ContactRecord.FirstName}</span>&nbsp;<span>{!v.ContactRecord.LastName}</span>
+                            </p>
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="4" class="">
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label">{!$Label.c.WGC_FiloDiretto_EsitazioneTask_Account}</label>
+                            <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                <aura:if isTrue="{!v.rowData.What}">
+                                    <lightning:formattedUrl value="{!'/'+v.rowData.WhatId}" label="{!v.rowData.What.Name}" target="_blank" />
+                                    <aura:set attribute="else">
+                                        <aura:if isTrue="{!v.ContactRecord.AccountId}">
+                                            <lightning:formattedUrl value="{!'/'+v.ContactRecord.AccountId}" label="{!v.ContactRecord.Account.Name}" target="_blank" />
+                                        </aura:if>
+                                    </aura:set> 
+                                </aura:if>
+                            </p>
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="1" class="slds-p-left_small">
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label">{!$Label.c.WGC_FiloDiretto_EsitazioneTask_Data}</label>
+                            <div>
+                                <lightning:formattedDateTime value="{!v.rowData.ActivityDate}" year="numeric" month="numeric" day="numeric" />
+                            </div>
+                            <!-- 
+                            <p>
+                                
+                                {!v.rowData.ActivityDate}
+                            </p>
+                            -->
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="1" class="">
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label">{!$Label.c.WGC_FiloDiretto_EsitazioneTask_Telefono}</label>
+                            <aura:if isTrue="{!v.ContactRecord.Phone}">
+                                <p>{!v.ContactRecord.Phone}</p>
+                                <aura:set attribute="else">
+                                    <aura:if isTrue="{!v.ContactRecord.Phone}">
+                                        <p>{!v.ContactRecord.Phone}</p>
+                                        <aura:set attribute="else">
+                                            <p>&nbsp;-&nbsp;</p>
+                                        </aura:set>
+                                    </aura:if>
+                                </aura:set>
+                            </aura:if>
+        
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="2" class="">
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label">{!$Label.c.WGC_FiloDiretto_EsitazioneTask_Email}</label>
+                            <aura:if isTrue="{!v.ContactRecord.Email}">
+                                <p>{!v.ContactRecord.Email}</p>
+                                <aura:set attribute="else">
+                                    <aura:if isTrue="{!v.ContactRecord.Email}">
+                                        <p>{!v.ContactRecord.Email}</p>
+                                        <aura:set attribute="else">
+                                            <p>&nbsp;-&nbsp;</p>
+                                        </aura:set>
+                                    </aura:if>
+                                </aura:set>
+                            </aura:if>
+                        </div>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            <!-- </aura:set> -->
+        </lightning:card>
+        <lightning:layout multipleRows="true">
+            <lightning:layoutItem size="4" class="slds-p-right_small slds-p-vertical_small">
+                <lightning:card class="card-contact">
+                    <aura:set attribute="title">
+                        <lightning:icon iconName="standard:user" />
+                        <aura:if isTrue="{!v.ContactRecord.FirstName || v.ContactRecord.LastName}">
+                                <span class="slds-p-left_small">{!v.ContactRecord.FirstName}</span>&nbsp;<span>{!v.ContactRecord.LastName}</span>
+                            <aura:set attribute="else">
+                                <span>&nbsp; - &nbsp;</span>
+                            </aura:set>
+                        </aura:if>
+                    </aura:set>
+                    <lightning:layout>
+                        <lightning:layoutItem size="12" class="slds-p-around_small">
+                            <lightning:layout multipleRows="true">
+                                <!-- 
+                                <lightning:layoutItem size="12" class="slds-p-vertical_xx-small">
+                                    
+                                    <lightning:layoutItem size="12" class="">
+                                        <label>Nome</label>
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem size="12" class="">
+                                        
+                                        <aura:if isTrue="{!v.ContactRecord.FirstName || v.ContactRecord.LastName}">
+                                                <span>{!v.ContactRecord.FirstName}</span>&nbsp;<span>{!v.ContactRecord.LastName}</span>
+                                            <aura:set attribute="else">
+                                                <span>&nbsp; - &nbsp;</span>
+                                            </aura:set>
+                                        </aura:if>
+                                        
+                                    </lightning:layoutItem>
+                                    
+                                </lightning:layoutItem>
+                                -->
+                                <lightning:layoutItem size="12" class="slds-p-vertical_xx-small">
+                                    <lightning:layoutItem size="12" class="">
+                                        <label>{!$Label.c.WGC_FiloDiretto_EsitazioneTask_Ruolo}</label>
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem size="12" class="">
+                                        <aura:if isTrue="{!v.ContactRecord.Ruolo__c}">
+                                            <span>{!v.ContactRecord.Ruolo__c}</span>
+                                            <aura:set attribute="else">
+                                                <span>&nbsp; - &nbsp;</span>
+                                            </aura:set>
+                                        </aura:if>
+                                    </lightning:layoutItem>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="12" class="slds-p-vertical_xx-small">
+                                    <lightning:layoutItem size="12" class="">
+                                        <label>{!$Label.c.WGC_FiloDiretto_EsitazioneTask_Anagrafica}</label>
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem size="12" class="">
+                                        <aura:if isTrue="{!v.ContactRecord.Account.Name}">
+                                            <span>{!v.ContactRecord.Account.Name}</span>
+                                            <!-- <aura:set attribute="else">
+                                                <aura:if isTrue="{!v.objAcc.Name}">
+                                                    <span>{!v.objAcc.Name}</span> -->
+                                                    <aura:set attribute="else">
+                                                        <span>&nbsp; - &nbsp;</span>
+                                                    </aura:set>
+                                                <!-- </aura:if>
+                                            </aura:set> -->
+                                        </aura:if>
+                                        <!-- <span>{!v.ContactRecord.Account.Name}</span> -->
+                                    </lightning:layoutItem>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="12" class="slds-p-vertical_xx-small">
+                                    <lightning:layoutItem size="12" class="">
+                                        <label>{!$Label.c.WGC_FiloDiretto_EsitazioneTask_Partita_IVA}</label>
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem size="12" class="">
+                                        <aura:if isTrue="{!v.ContactRecord.Account.PIVA__c}">
+                                            <span>{!v.ContactRecord.Account.PIVA__c}</span>
+                                            <aura:set attribute="else">
+                                                <span>&nbsp; - &nbsp;</span>
+                                            </aura:set>
+                                        </aura:if>
+                                    </lightning:layoutItem>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="12" class="slds-p-vertical_xx-small">
+                                    <lightning:layoutItem size="12" class="">
+                                        <label>{!$Label.c.WGC_FiloDiretto_EsitazioneTask_Telefono}</label>
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem size="12" class="">
+                                        <aura:if isTrue="{!v.ContactRecord.Phone}">
+                                            <!-- <span>{!v.ContactRecord.Phone}</span> -->
+                                            <ui:outputPhone value="{!v.ContactRecord.Phone}" />
+                                            <aura:set attribute="else">
+                                                <span>&nbsp; - &nbsp;</span>
+                                            </aura:set>
+                                        </aura:if>
+                                    </lightning:layoutItem>
+                                </lightning:layoutItem>
+                                <!-- SDHDFNZ-77918 adione-->
+                                <lightning:layoutItem size="12" class="slds-p-vertical_xx-small">
+                                    <lightning:layoutItem size="12" class="">
+                                        <label>{!$Label.c.WGC_FiloDiretto_EsitazioneTask_Web_Form_Phone}</label>
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem size="12" class="">
+                                        <aura:if isTrue="{!v.ContactRecord.OtherPhone}">
+                                            <ui:outputPhone value="{!v.ContactRecord.OtherPhone}" />
+                                            <aura:set attribute="else">
+                                                <span>&nbsp; - &nbsp;</span>
+                                            </aura:set>
+                                        </aura:if>
+                                    </lightning:layoutItem>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="12" class="slds-p-vertical_xx-small">
+                                    <lightning:layoutItem size="12" class="">
+                                        <label>{!$Label.c.WGC_FiloDiretto_EsitazioneTask_Email}</label>
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem size="12" class="">
+                                        <aura:if isTrue="{!v.ContactRecord.Email}">
+                                            <ui:outputEmail value="{!v.ContactRecord.Email}" />
+                                            <!-- <span>{!v.ContactRecord.Email}</span> -->
+                                            <aura:set attribute="else">
+                                                <span>&nbsp; - &nbsp;</span>
+                                            </aura:set>
+                                        </aura:if>
+                                    </lightning:layoutItem>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="12" class="slds-p-vertical_xx-small">
+                                    <lightning:layoutItem size="12" class="">
+                                        <label class="slds-label">{!$Label.c.WGC_FiloDiretto_EsitazioneTask_Indirizzo_sede_operativa}</label>
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem size="12" class="">
+                                        <aura:if isTrue="{! v.ContactRecord.Account.BillingStreet || v.ContactRecord.Account.BillingCity || v.ContactRecord.Account.BillingState || v.ContactRecord.Account.BillingPostalCode || v.ContactRecord.Account.BillingCountry }">
+                                                <p>{!v.ContactRecord.Account.BillingStreet}, {!v.ContactRecord.Account.BillingCity},</p>
+                                                <p>{!v.ContactRecord.Account.BillingState}, {!v.ContactRecord.Account.BillingPostalCode}, {!v.ContactRecord.Account.BillingCountry}</p>    
+                                            <aura:set attribute="else">
+                                                <p>&nbsp; - &nbsp;</p>
+                                            </aura:set>
+                                        </aura:if>
+                                    </lightning:layoutItem>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="12" class="slds-p-vertical_xx-small">
+                                    <lightning:layoutItem size="12" class="">
+                                        <label>{!$Label.c.WGC_FiloDiretto_EsitazioneTask_Fatturato}</label>
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem size="12" class="">
+                                        <aura:if isTrue="{!v.ContactRecord.Account.Fatturato__c}">
+                                            <ui:outputCurrency value="{!v.ContactRecord.Account.Fatturato__c}" />
+                                            <aura:set attribute="else">
+                                                <span>&nbsp; - &nbsp;</span>
+                                            </aura:set>
+                                        </aura:if>
+                                    </lightning:layoutItem>
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                </lightning:card>
+            </lightning:layoutItem>
+            <!-- mostro questa sezione solo se devo creare un evento -->
+            <aura:if isTrue="{!v.isVisitaCommerciale}">
+                <lightning:layoutItem size="8" class="slds-p-left_small slds-p-vertical_small">
+                    <lightning:card>
+                        <aura:set attribute="title">
+                            <lightning:icon iconName="standard:task" class="slds-m-right_small" />
+                            {!$Label.c.WGC_FiloDiretto_EsitazioneTask_Esitazione_Task}
+                        </aura:set>
+                        <lightning:layout>
+                            <lightning:layoutItem size="12" class="slds-p-around_medium">
+                                <div class="slds-form">
+                                <div class="slds-form-element slds-m-top_xx-small">
+                                        <!-- <label class="slds-form-element__label" for="form-element-02">Campagna</label> -->
+                                        <div class="slds-grid slds-wrap">
+                                            <div class="slds-col slds-size_1-of-1">
+                                                <lightning:radioGroup name="subjectBtn"
+                                                    label="Task in oggetto"
+                                                    options="{! v.optionsSubject }"
+                                                    value="{! v.selectedSubject }"
+                                                    type="button"/>
+                                            </div>
+                                            <div class="slds-col slds-size_11-of-12">
+                                            <c:WGC_CustomLookup objectAPIName="Campaign" IconName="standard:campaign" label="Campagna:"
+                                                selectedRecord="{!v.rowData.Campagna__r}" />
+                                            </div>
+                                            <div class="slds-col slds-size_1-of-12 slds-p-top_large slds-p-left_medium">
+                                                <lightning:button variant="brand" label="Salva" title="salva" onclick="{!c.saveCampagnaSubject}" />
+                                            </div>
+                                        </div>
+                                            <!-- 
+                                        <aura:if isTrue="{!v.rowData.Campagna__r.Name != null}">
+                                            <p>{!v.rowData.Campagna__r.Name}</p>
+                                            <aura:set attribute="else">
+                                                <span>&nbsp; - &nbsp;</span>
+                                            </aura:set>
+                                        </aura:if>
+                                            -->
+                                    </div>
+                                    <div class="slds-form-element slds-m-top_xx-small">
+                                        <lightning:select aura:id="TipoAtt" name="TipoAttivita" label="Tipo Attività" required="{! !v.developed }" value="{!v.tsk.TipoAttivita__c}" onchange="{!c.onChangePickValue}">
+                                            <option value=""> {!$Label.c.WGC_FiloDiretto_EsitazioneTask_seleziona}</option>
+                                            <aura:iteration items="{!v.tipoAtt}" indexVar="id" var="item">
+                                                <option selected="{! item.label == 'Sviluppo Diretto' }">{!item.label}</option>
+                                            </aura:iteration>
+                                        </lightning:select>
+                                    </div>
+                                    <div class="slds-form-element slds-m-top_xx-small">
+                                        <lightning:select aura:id="EsitoLivello1" name="EsitoLivello1" label="Esito Livello 1" required="true" value="{!v.tsk.EsitoLivello1__c}" onchange="{!c.onChangePickValue}" disabled="{!v.picklist0disabled}">
+                                            <option value=""> {!$Label.c.WGC_FiloDiretto_EsitazioneTask_seleziona}</option>
+                                            <aura:iteration items="{!v.picklist0}" indexVar="id" var="item">
+                                                <option>{!item.label}</option>
+                                            </aura:iteration>
+                                        </lightning:select>
+                                    </div>
+                                    <div class="slds-form-element slds-m-top_xx-small">
+                                        <lightning:select aura:id="EsitoLivello2" name="EsitoLivello2" label="Esito Livello 2"  value="{!v.tsk.EsitoLivello2__c}" onchange="{!c.onChangePickValue}" required="{!!v.picklist1disabled}" disabled="{!v.picklist1disabled}">
+                                            <option value=""> {!$Label.c.WGC_FiloDiretto_EsitazioneTask_seleziona}</option>
+                                            <aura:if isTrue="{!v.picklist1disabled}">
+                                                <!-- non mostra i valori se la picklist è disabilitata -->
+                                                <aura:set attribute="else">
+                                                    <aura:iteration items="{!v.picklist1}" indexVar="id" var="item" >
+                                                        <option>{!item.label}</option>
+                                                    </aura:iteration>
+                                                </aura:set>
+                                            </aura:if>
+                                        </lightning:select>
+                                    </div>
+                                    <div class="slds-form-element slds-m-top-xx-small">
+                                        <lightning:input type="date" value="{!v.rowData.ActivityDate}" placeholder="Data scadenza..." label="Data Scadenza" />
+                                    </div>
+                                    <div class="slds-form-element slds-m-top_x-small">
+                                        <!-- TOLTO PER CR LOTTO 3.1 -->
+                                        <!-- onchange="{!c.hideOverwrite}" -->
+                                        <lightning:input type="toggle" label="Cliente già sviluppato" name="developed" value="{!v.developed}" checked="{! v.developed }" disabled="{! v.insviluppo }" messageToggleActive="" messageToggleInactive="" />
+                                    </div>
+                                    <div class="slds-form-element slds-m-top_x-small">
+                                        <!-- Aggiunto PER CR LOTTO FD -->
+                                        <lightning:input type="toggle" label="Sviluppo in corso" name="insviluppo" value="{!v.insviluppo}" checked="{! v.insviluppo }" disabled="{! v.developed }" messageToggleActive="" messageToggleInactive="" />
+                                    </div>
+                                    <!-- TOLTO PER CR LOTTO 3.1 -->
+                                    <!-- <div class="slds-form-element slds-m-top_xx-small">
+                                        <aura:if isTrue="{!v.developed}">
+                                            <aura:set attribute="else">
+                                                <lightning:input type="toggle" label="Non sovrascrivere" name="overwrite" value="{!v.overwrite}" messageToggleActive="" messageToggleInactive="" onchange="{!c.setOverwrite}"/>
+                                            </aura:set>
+                                        </aura:if>
+                                    </div> -->
+                                    <div class="slds-form-element slds-m-top_xx-small">
+                                        <lightning:textarea aura:id="note" name="note" value="{!v.tsk.CommentiEsito__c}" label="Note" required="true" />
+                                    </div>
+                                    <!--<div class="{! v.rowData.Subject == 'Contatto telefonico campagna' ? ' slds-form-element slds-m-top_xx-small ' : ' slds-hide ' }">-->
+                                    <div class="slds-form-element slds-m-top_xx-small">
+                                        <lightning:textarea aura:id="descrizione" name="descrizione" value="{!v.tsk.Description}" label="Descrizione" />
+                                    </div>
+                                    <div class="slds-form-element slds-m-top_xx-small">
+                                        <lightning:input aura:id="dataricontatto" value="{!v.tsk.ActivityDate}" type="date" name="dataRicontatto" label="Data ricontatto" required="{!v.dataricontattodisabled}" />
+                                        <aura:renderIf isTrue="{!v.dataricontattodisabled}">
+                                            <small aura:id="dataRicHelpBlock" style="font-weight: bold;">{!$Label.c.Data_Ricontatto_Obbligatoria}</small> <!--custom ;label-->
+                                        </aura:renderIf>
+                                    </div>
+                                </div>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                        <lightning:layout>
+                            <lightning:layoutItem size="12" class="slds-text-align_right slds-p-horizontal_medium">
+                                <lightning:button label="Annulla" title="Annulla" onclick="{! c.cancel }" />
+                                <lightning:button variant="brand" label="Esita Task" title="Esita Task" disabled="{!v.disabled}" onclick="{! c.esitaTask }" />
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </lightning:card>
+                </lightning:layoutItem>
+                <aura:set attribute="else">
+                    <lightning:layoutItem size="8" class="slds-p-around_small">
+                        <lightning:card>
+                            <aura:set attribute="title">
+                                <lightning:icon iconName="standard:event" />
+                                {!$Label.c.WGC_FiloDiretto_EsitazioneTask_Crea_Visita_Commerciale}
+                            </aura:set>
+                            <lightning:layout multipleRows="true">
+                                <lightning:layoutItem size="12" class="slds-p-horizontal_medium">
+                                    <div class="slds-form">
+                                        <div class="slds-form-element slds-m-top_xx-small">
+                                            <lightning:input type="text" value="{!v.visita.Subject}" name="oggetto" label="Oggetto" required="true" />
+                                        </div>
+                                        <div class="slds-form-element slds-m-top_xx-small">
+                                            <lightning:input type="text" value="{!v.visita.Location}" name="luogo" label="Luogo" required="true" />
+                                        </div>
+                                        <div class="slds-form-element slds-m-top_xx-small">
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="6" class="slds-p-right_small">
+                                                    <!-- <lightning:recordEditForm objectApiName="AssegnazioneAnagrafica__c">
+                                                        <lightning:inputField fieldName="Comune__c" onchange="{!c.onChangeComune}" />
+                                                    </lightning:recordEditForm> -->
+
+                                                    <!-- SV FIX FOR FLAG STORICO -->
+                                                    <c:WGC_CustomLookup objectAPIName="Comune__c" IconName="standard:address"
+                                                        label="Città"
+                                                        selectedRecord="{!v.comuneSelected}"
+                                                        returnFields="{! 'Id, Name, Cab__c, FlagStorico__c' }"
+                                                        showField="{! 'Name| |Cab__c' }"
+                                                        soqlSearch= 'true'
+                                                        whereCondition = '###Name### AND FlagStorico__c = FALSE'/>
+
+                                                </lightning:layoutItem>
+                                                <lightning:layoutItem size="6" class="slds-p-left_small">
+                                                    <lightning:select aura:id="OwnerVisitaCommerciale" label="Assegnato a" name="assegnato" required="{!v.isValidComune}" disabled="{!v.isActiveComune}" onchange="{!c.onChangeAssegnatario}">
+                                                        <!-- iteration sugli utenti recuperati dalla tabella assegnazione anagrafica
+                                                            dopo aver recuperato i possibili referenti una volta inserito il comune -->
+                                                        <option value="">{!$Label.c.WGC_FiloDiretto_EsitazioneTask_seleziona}</option>
+                                                        <aura:iteration items="{!v.assegnatari}" var="item" indexVar="ind">
+                                                            <optgroup label="{!item.gruppo}"></optgroup>
+                                                            <aura:iteration items="{!item.valori}" var="element">
+                                                                <option value="{!element.Id}" label="{!element.FirstName + ' ' + element.LastName}"></option>
+                                                            </aura:iteration>
+                                                        </aura:iteration>
+                                                    </lightning:select>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                        </div>
+                                        <div class="slds-form-element slds-m-top_xx-small">
+                                            <lightning:input type="datetime" value="{!v.visita.StartDateTime}" name="Inizio" label="Data Inizio" required="true" onchange="{!c.onChangeStartDateTimeVisita}"/>
+                                        </div>
+                                        <div class="slds-form-element slds-m-top_xx-small">
+                                            <lightning:input type="datetime" value="{!v.visita.EndDateTime}" name="Fine" label="Fine" required="true" onchange="{!c.onChangeEndDateTimeVisita}"/>
+                                        </div>
+                                        <div class="slds-form-element slds-m-top_xx-small">
+                                            <lightning:textarea name="Descrizione" label="Descrizione" value="{!v.visita.Description}"/>
+                                        </div>
+                                        <lightning:layoutItem size="12" class="slds-p-vertical_small slds-text-align_right">
+                                            <div>
+                                                <lightning:button label="Annulla" onclick="{!c.AnnullaEsitazioneEvento}"/>
+                                                <lightning:button label="Crea Visita" variant="brand" onclick="{!c.EsitaVisitaCommerciale}" />
+                                            </div>
+                                        </lightning:layoutItem>
+                                    </div>
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                        </lightning:card>
+                </lightning:layoutItem>
+                <lightning:layoutItem size="12" class="slds-p-around_small">
+                    <lightning:card>
+                        <aura:set attribute="title">
+                            <lightning:icon iconName="standard:case"/>
+                            {!$Label.c.WGC_FiloDiretto_EsitazioneTask_Calendario_Sviluppatore_Commerciale} <lightning:formattedDateTime year="numeric" month="2-digit" day="2-digit" value="{!v.visita.EndDateTime}" />
+                        </aura:set>
+                        <div class="slds-p-around_small">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <td>Sviluppatore</td>
+                                        <td>6:00</td>
+                                        <td>7:00</td>
+                                        <td>8:00</td>
+                                        <td>9:00</td>
+                                        <td>10:00</td>
+                                        <td>11:00</td>
+                                        <td>12:00</td>
+                                        <td>13:00</td>
+                                        <td>14:00</td>
+                                        <td>15:00</td>
+                                        <td>16:00</td>
+                                        <td>17:00</td>
+                                        <td>18:00</td>
+                                        <td>19:00</td>
+                                    </tr>
+                                </thead>
+                                <tbody >
+                                    <aura:iteration items="{!v.calendar}" var="item">
+                                        <tr>
+                                            <td>{!item.sviluppatore.FirstName + ' ' + item.sviluppatore.LastName}</td>
+                                            <aura:iteration items="{!item.agenda}" var="agenda">
+                                                <aura:if isTrue="{!agenda.available == true}">
+                                                    <td></td>
+                                                    <aura:set attribute="else">
+                                                        <td>{!agenda.evento}</td>
+                                                    </aura:set>
+                                                </aura:if>
+                                            </aura:iteration>
+                                        </tr>
+                                    </aura:iteration>
+                                </tbody>
+                            </table>
+                        </div>
+                    </lightning:card>
+                </lightning:layoutItem>
+                </aura:set>
+            </aura:if>
+        </lightning:layout>
+        <aura:set attribute="else">
+            <lightning:spinner alternativeText="Caricamento" />
+        </aura:set>
+    </aura:if>
+</aura:component>

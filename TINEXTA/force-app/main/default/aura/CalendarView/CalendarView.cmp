@@ -1,0 +1,113 @@
+<aura:component controller="CalendarController" implements="force:hasRecordId,force:hasSObjectName">
+<ltng:require styles="/resource/gpcal_lex_yo_SLDS0121/assets/styles/salesforce-lightning-design-system-ltng.css,/resource/gpcal_lex_yo_fullcalendar/fullcalendar-2.6.0/fullcalendar.css" 
+	scripts="/resource/gpcal_lex_yo_jquery,/resource/gpcal_lex_yo_fullcalendar/fullcalendar-2.6.0/lib/moment.min.js,/resource/gpcal_lex_yo_fullcalendar/fullcalendar-2.6.0/fullcalendar.js,/resource/gpcal_lex_yo_fullcalendar/fullcalendar-2.6.0/lang/it.js,/resource/gpcal_lex_yo_fullcalendar/fullcalendar-2.6.0/lib/moment-timezone-with-data.min.js"
+	afterScriptsLoaded="{!c.doInit}"
+/>
+
+	<aura:attribute name="status" type="String" access="global" default="calendar"/>
+
+	<aura:attribute name="recordId" type="String" access="global"/>
+	<aura:attribute name="sObjectName" type="String" access="global"/>	
+	<aura:attribute name="user_id" type="String" />
+	<aura:attribute name="socName" type="String" />
+    <aura:attribute name="userInfo" type="User" default="{'sobjectType':'User'}" />
+
+	<aura:handler event="c:CalendarUserId" action="{!c.loadCalendar}"/>
+	<aura:handler event="c:ltng_cal_object_record_selected" action="{!c.recordSelected}"/>
+
+	<aura:attribute name="start" type="String" />
+	<aura:attribute name="end" type="String" />
+
+	
+
+	<aura:attribute name="title" type="String" />
+	<aura:attribute name="note" type="String" />
+    
+    <!-- Innolva - Direct Marketing Esterno -->
+	<aura:attribute name="noteAgente" type="String" />
+	<aura:attribute name="noteAgenteOptions" type="List" />
+	<aura:attribute name="motivazioneChiamata" type="String" />
+	<aura:attribute name="location" type="String" />
+	<aura:attribute name="descrizioneAttivita" type="String" />
+	<aura:attribute name="noteAttivita" type="String" />
+
+	<!-- CoMark -->
+	<aura:attribute name="selectedRecord" type="Object" />
+
+	<aura:handler name="change" value="{! v.status }" action="{! c.doInit }" />
+
+	<div class="{! (v.status == 'calendar' ? '' : 'slds-hide') }">
+		<div id='calendar'></div>
+	</div>
+
+	<div class="{! (v.status == 'send' ? '' : 'slds-hide') }">
+		<lightning:layout >
+            <lightning:layoutItem size="6" padding="around-small">
+				<lightning:input type="datetime" disabled="true" name="start" label="Inizio appuntamento" value="{! v.start }"/>
+			</lightning:layoutItem>
+			<lightning:layoutItem size="6" padding="around-small">
+				<lightning:input type="datetime" disabled="false" name="end" label="Fine appuntamento" value="{! v.end }"/>
+			</lightning:layoutItem>
+		</lightning:layout>
+        
+		<aura:if isTrue="{! v.userInfo.Societa__c == 'Innolva' }">
+			<lightning:layout >
+            	<lightning:layoutItem size="12" padding="around-small">
+					<lightning:input name="sobject" label="Oggetto" value="{! v.title }"/>
+				</lightning:layoutItem>
+			</lightning:layout>
+            <lightning:layout >
+            	<lightning:layoutItem size="6" padding="around-small">
+					<lightning:combobox  name="noteAgente" label="Note Agente" placeholder="inserisci qui le note per l'agente..."  options="{! v.noteAgenteOptions }" value="{! v.noteAgente }" />
+					<!-- <lightning:textarea name="noteAgente" label="Note Agente" placeholder="inserisci qui le note per l'agente..." value="{! v.noteAgente }"/> -->
+				</lightning:layoutItem>
+                <lightning:layoutItem size="6" padding="around-small">
+					<lightning:textarea name="motivazioneChiamata" label="Motivazione Chiamata" placeholder="inserisci qui le motivazioni della chiamata..." value="{! v.motivazioneChiamata }"/>
+				</lightning:layoutItem>
+			</lightning:layout>
+            <lightning:layout >
+            	<lightning:layoutItem size="12" padding="around-small">
+					<lightning:input name="location" label="Luogo" placeholder="inserisci qui il luogo..." value="{! v.location }"/>
+				</lightning:layoutItem>
+            </lightning:layout>
+            <lightning:layout >
+                <lightning:layoutItem size="6" padding="around-small">
+					<lightning:textarea name="descrizioneAttivita" label="Descrizione Attività" placeholder="inserisci qui la descrizione dell'attività..." value="{! v.descrizioneAttivita }"/>
+				</lightning:layoutItem>
+                <lightning:layoutItem size="6" padding="around-small">
+					<lightning:textarea name="noteAttivita" label="Note Attività" placeholder="inserisci qui le note dell'attività..." value="{! v.noteAttivita }"/>
+				</lightning:layoutItem>
+			</lightning:layout>
+		</aura:if>
+        
+        <aura:if isTrue="{! v.userInfo.Societa__c != 'Innolva' }">
+            <lightning:layout >
+                <lightning:layoutItem size="12" padding="around-small">
+                    <lightning:textarea name="input3" label="Note" placeholder="inserisci qui le tue note..." value="{! v.note }"/>
+                </lightning:layoutItem>
+            </lightning:layout>
+        </aura:if>
+
+		<!-- SM - AMS-000006 -->
+		<aura:if isTrue="{! and(v.userInfo.Societa__c == 'CoMark',v.sObjectName == 'Account') }">
+			<lightning:layout>
+				<lightning:layoutItem size="12" padding="around-small">
+					<c:SV_CustomLookup objectAPIName="Contact" 
+						IconName="standard:contact"  
+						label="Cerca per nome"  
+						selectedRecord="{!v.selectedRecord}" 
+						returnFields="{! 'Id, Name' }"  
+						showField="{! 'Name' }" 
+						soqlSearch= 'true' 
+						whereCondition = "{! '###Name### AND AccountId = \''+v.recordId+'\'' }" />
+				</lightning:layoutItem>
+			</lightning:layout>
+		</aura:if>
+        
+		<lightning:buttonGroup>
+			<lightning:button label="Return" onclick="{!c.return}" />
+			<lightning:button label="Save" onclick="{!c.save}" />
+		</lightning:buttonGroup>	
+	</div>
+
+</aura:component>

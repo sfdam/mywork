@@ -1,0 +1,180 @@
+.THIS header.slds-card__header.slds-grid {
+    padding: 0;
+}
+
+.THIS header.slds-card__header.slds-grid {
+    display: none;
+}
+
+.THIS.slds-card .slds-card__header.slds-grid{
+    display:none;
+}
+
+.THIS .slds-card__body {
+    height: 110px;
+    margin: 0 !important;
+}
+
+.THIS .black {
+    background: #2E2E2E;
+    height: 100%;
+}
+
+.THIS .slds-card {
+    border: none;
+}
+
+.THIS .number{
+    text-align:center; 
+    font-weight:bold; 
+    display:block;
+}
+
+.THIS .BlueCircle{
+    margin:25px auto;
+    width:50px; 
+    height:50px; 
+    text-align:center; 
+    border-radius:50%; 
+    background-color:#4891E6; 
+    color:white; 
+    box-shadow:0px 0px 2px 2px #888888;
+}
+
+.THIS .BlueCircleTitle{
+    font-weight:bold; 
+    font-size:medium;
+}
+
+.THIS .BlueCircleSpan{
+    text-align:center; 
+    font-size:x-small;
+}
+
+.THIS .slds-truncate{
+    white-space:pre-line;
+}
+
+.THIS .central-top{
+    padding:10px 0 10px 0;
+    text-align:center;
+}
+
+.THIS .height-max{
+    height:100%;
+    z-index:10;
+}
+
+.THIS .div-col{
+    display:block;
+}
+
+.THIS .span-number-xx-small{
+    font-weight:bold;
+    font-size:xx-small;
+}
+
+.THIS .span-xx-small{
+    font-size:xx-small;
+}
+
+.THIS .no-padding{
+    padding:0;
+}
+
+.THIS .back-color-black{
+    background-color:#021F59;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.THIS .white-text{
+    color:white;
+}
+
+.THIS .slds-carousel__autoplay {
+    display: none;
+}
+
+.THIS .slds-carousel__indicators {
+    display: none;
+}
+
+.THIS .slds-carousel__image{
+    display: none;
+} 
+
+.THIS .slds-carousel__content {
+    padding: 5px 5px 20px 5px;
+    height: 6.5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.THIS .pippo {
+    height: 100px;
+}
+
+.THIS .slds-carousel__content-title {
+    font-size: 13px;
+}
+
+.THIS .slds-carousel__content p {
+    font-size: 11px;
+}
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : landscape)
+and (-webkit-min-device-pixel-ratio: 2) { 
+    /* STYLES GO HERE */
+
+}
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : portrait)
+and (-webkit-min-device-pixel-ratio: 2) { 
+    /* STYLES GO HERE */ 
+}
+
+/* 
+  ##Device = Low Resolution Tablets, Mobiles (Landscape)
+  ##Screen = B/w 481px to 767px
+*/
+
+@media only screen 
+and (min-width: 481px) 
+and (max-width: 767px)
+and (orientation : landscape) {
+    /* STYLES GO HERE */
+    
+    
+}
+  
+/* 
+  ##Device = Most of the Smartphones Mobiles (Portrait)
+  ##Screen = B/w 320px to 479px
+*/
+  
+@media only screen 
+and (min-width: 320px) 
+and (max-width: 480px)
+and (orientation : portrait) {
+    /* STYLES GO HERE */
+    .THIS {
+        font-size: 10px;
+    }
+
+    .THIS .iphone {
+        display: none;
+    }
+
+    .THIS .slds-icon_large, .THIS .slds-icon--large {
+        width: 2rem;
+        height: 2rem;
+    }
+
+}

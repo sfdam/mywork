@@ -1,0 +1,113 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+    controller="WGC_HomePage_New_BusinessController" access="global">
+
+    <ltng:require scripts="{!join(',', 
+             '/resource/WGC_jQuery3x',
+             '/resource/WGC_ChartJs')}" afterScriptsLoaded="{!c.doInit}" />
+
+    <lightning:navigation aura:id="navService" />
+
+    <aura:attribute name="iconName" type="String" description="Definisce l'icona tra le standard"/>
+    <aura:attribute name="title" type="String" default="" description="Title from Container Card"/>
+    <aura:attribute name="Dettaglio" type="String" access="global"/>
+    
+    <aura:attribute name="valData" type="String" />
+    <aura:attribute name="budgetList" type="Object[]" />
+    <aura:attribute name="budgetMounth" type="Object" />
+
+    <aura:attribute name="accountList" type="Object[]" />
+    <aura:attribute name="clientiAttiviMounth" type="Decimal" default='0' />
+    <aura:attribute name="clientiAttiviWeek" type="Decimal" default='0' />
+
+    <aura:attribute name="weekEvent" type="Decimal" default='0' />
+    <aura:attribute name="mounthEvent" type="Decimal" default='0' />
+    <aura:attribute name="weekOpp" type="Decimal" default='0' />
+    <aura:attribute name="mounthOpp" type="Decimal" default='0' />
+
+
+    <!-- <c:GlobalUtilityComponent />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" /> -->
+
+    <lightning:card>
+        <aura:set attribute="title">
+
+            <!-- with container -->
+            <lightning:layout multipleRows="false">
+                <lightning:layoutItem size="10" smallDeviceSize="10" mediumDeviceSize="10" largeDeviceSize="10">
+                    <lightning:icon iconName="{! 'utility:' + v.iconName }" size="small" variant="slds-icon-inverse" />
+                    <div class="title">{! v.title }</div>
+                </lightning:layoutItem>
+                <lightning:layoutItem class="slds-text-align_right iphone" size="2" smallDeviceSize="2" mediumDeviceSize="2"
+                    largeDeviceSize="2">
+                    <aura:if isTrue="{! v.Dettaglio == 'attivo' }">
+                        <div class="header-button">
+                        <lightning:buttonIcon iconName="utility:expand" size="medium" variant="bare" iconClass=""
+                        onclick="{!c.navigateToMyComponent}"
+                        class="" />
+                        </div>
+                    </aura:if>
+                </lightning:layoutItem>
+            </lightning:layout>
+        </aura:set>
+        <!-- <aura:set attribute="actions">
+            <lightning:icon iconName="utility:expand" onclick="{!c.navigateToMyComponent}" size="x-small" />
+        </aura:set> -->
+        <div class='container-card'>
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_1-of-3">
+                    <div class="containerCol slds-p-horizontal_x-small">
+                        <!-- BUTTON BOX -->
+                        <div class="calendar-box">
+                            <div class="calendar-header-left header2">
+                                <div class="calendar-month black" id="month">{!$Label.c.WGC_HomePage_New_Business_Obiettivo}</div>
+                                <div class="calendar-month sub">{!$Label.c.WGC_HomePage_New_Business_Clienti_Avviati}</div>
+                            </div>
+                            <div class="calendar-body">
+                                <div class="calendar-day" id="day">
+                                    <c:WGC_Circular_Progress theme="{! ( v.clientiAttiviMounth >= v.budgetMounth.Clienti_avviati__c ? 'green' : 'red' ) }" size="small" totalProgress="{! v.budgetMounth.Clienti_avviati__c }" actualProgress="{! v.clientiAttiviMounth }" condition="actual-total-percent"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_2-of-3 slds-p-right_x-small">
+                    <lightning:layout class="cstm-border-top">
+                        <lightning:layoutItem size="12">
+                            <span class="cstm-title slds-m-top_xx-small slds-m-bottom_xx-small">{!$Label.c.WGC_HomePage_New_Business_Passo_Commerciale}</span>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                    <lightning:layout class="cstm-colored-table cstm-header-row">
+                        <lightning:layoutItem size="3"></lightning:layoutItem>
+                        <lightning:layoutItem size="3"><span title="Visite">{!$Label.c.WGC_HomePage_New_Business_Visite}</span></lightning:layoutItem>
+                        <lightning:layoutItem size="3"><span title="Opportunità">{!$Label.c.WGC_HomePage_New_Business_Opportunita}</span></lightning:layoutItem>
+                        <lightning:layoutItem size="3"><span title="Clienti attivati">{!$Label.c.WGC_HomePage_New_Business_Clienti_Attivati}</span></lightning:layoutItem>
+                    </lightning:layout>
+                    <lightning:layout class="cstm-colored-table cstm-body-row">
+                        <lightning:layoutItem size="3"><b>{!$Label.c.WGC_HomePage_New_Business_Settimana}</b><br />{!$Label.c.WGC_HomePage_New_Business_In_Corso}</lightning:layoutItem>
+                        <lightning:layoutItem size="3"><span class="cstm-cell">{! v.weekEvent }</span></lightning:layoutItem>
+                        <lightning:layoutItem size="3"><span class="cstm-cell">{! v.weekOpp }</span></lightning:layoutItem>
+                        <lightning:layoutItem size="3"><span class="cstm-cell">{! v.clientiAttiviWeek }</span></lightning:layoutItem>
+                    </lightning:layout>
+                    <lightning:layout class="cstm-colored-table cstm-body-row">
+                        <lightning:layoutItem size="3"><b>{!$Label.c.WGC_HomePage_New_Business_Mese}</b><br />{!$Label.c.WGC_HomePage_New_Business_In_Corso}</lightning:layoutItem>
+                        <lightning:layoutItem size="3"><span class="{! v.budgetMounth.Visite_esitate__c > v.mounthEvent ? 'cstm-cell red' : 'cstm-cell' }">{! v.mounthEvent }<span class="cstm-small">({! v.budgetMounth.Visite_esitate__c })</span></span></lightning:layoutItem>
+                        <lightning:layoutItem size="3"><span class="{! v.budgetMounth.Pratiche_presentate__c > v.mounthOpp ? 'cstm-cell red' : 'cstm-cell' }">{! v.mounthOpp }<span class="cstm-small">({! v.budgetMounth.Pratiche_presentate__c })</span></span></lightning:layoutItem>
+                        <lightning:layoutItem size="3"><span class="{! v.budgetMounth.Clienti_avviati__c > v.clientiAttiviMounth ? 'cstm-cell red' : 'cstm-cell' }">{! v.clientiAttiviMounth }<span class="cstm-small">({! v.budgetMounth.Clienti_avviati__c })</span></span></lightning:layoutItem>
+                    </lightning:layout>
+                </div>
+            </div>
+            <div class="slds-grid slds-gutters slds-p-horizontal_x-small">
+                <div class="slds-col slds-size_1-of-1">
+                    <hr />
+                    <div class="cstm-title slds-m-top_xx-small">{!$Label.c.WGC_HomePage_New_Business_Actual_vs_Budget}</div>
+                    <div class="calendar-month sub" title="Clienti attivati">{!$Label.c.WGC_HomePage_New_Business_Clienti_Attivati}</div>
+
+                    <div class="chart-container">
+                        <canvas aura:id="chartJS_Home_NB" id="chartJS_Home_NB" />
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </lightning:card>
+</aura:component>

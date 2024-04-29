@@ -1,0 +1,164 @@
+<template>
+    <lightning-layout>
+        <lightning-layout-item size="12" class="slds-card_boundary">
+            <lightning-card>
+                <div slot="title" class="title">
+                    <lightning-icon icon-name={iconName} size="small"></lightning-icon>
+                    <div class="tilte-card"><b>{title} ({totalElement})</b></div>
+                        <div class="slds-float--right">  
+                            <lightning-button-group>
+                                <template if:true={button_reassign}>
+                                        <lightning-button class="button-reassign"  label="Riassegna" title="Riassegna" onclick={handleReassign} ></lightning-button>
+                                </template>
+                                <template if:true={button_assign}>
+                                        <lightning-button class="button-assign" label="Assegna" title="Assegna" onclick={handleAssign} ></lightning-button>
+                                </template>
+                            </lightning-button-group>
+                        </div>
+                    </div>
+                <template if:false={isRendered}>
+                    <div class="slds-align_absolute-center">
+                        <lightning-spinner alternative-text="CARICAMENTO" size="small"></lightning-spinner>
+                    </div>
+                </template>
+                <template if:true={isRendered}>
+                    <template if:true={notEmptyList}>
+                        <lightning-layout>
+                            <lightning-layout-item size="12">
+                                <div class="recordsTable">
+                                    <lightning-datatable 
+                                        data-id="datatableRecords"
+                                        columns={columns} 
+                                        data={listViewData} 
+                                        key-field="Id"
+                                        selected-rows={selectedRows}
+                                        onrowselection={getSelectedRows}
+                                        onrowaction={handleRowAction}>
+                                    </lightning-datatable>
+                                </div>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                        <lightning-layout>
+                            <lightning-layout-item size="12" class="slds-align_absolute-center">
+                                <lightning-button variant="base" label="View All" title="View All" onclick={handleViewAll} class="slds-m-left_x-small"></lightning-button>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </template>
+                </template>
+            </lightning-card>       
+        </lightning-layout-item>
+    </lightning-layout>
+
+    <!-- MODAL -->
+    <template if:true={openmodel}>
+        <div>
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_large">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                            <lightning-icon icon-name="utility:close" size="medium">
+                            </lightning-icon>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <div class="tilte-card"><b>{title} ({totalElement})</b></div>
+
+                        <!-- <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate"></h2> -->
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <lightning-layout>
+                            <lightning-layout-item size="12">
+                                <template if:false={isRendered}>
+                                    <div class="modal-spinner">
+                                        <lightning-spinner alternative-text="CARICAMENTO" size="small"></lightning-spinner>
+                                    </div>
+                                </template>
+                                <template if:true={stepModal1}>
+                                    <div class="recordsTable slds-scrollable_y" style="height:20rem">
+                                        <lightning-datatable data-id="datatableRecords"
+                                            columns={columns} 
+                                            data={listViewDataAll} 
+                                            key-field="Id"
+                                            selected-rows={selectedRows}
+                                            onrowselection={getSelectedRows}
+                                            onrowaction={handleRowAction}>
+                                        </lightning-datatable>
+                                    </div>
+                                </template>
+                                <template if:true={stepModal2}>
+                                        <div class="recordsTable slds-scrollable_y" style="height:20rem">
+                                            <lightning-datatable data-id="datatableRecordsMW"
+                                                columns={columnsMW} 
+                                                data={listViewMW} 
+                                                key-field="Id"
+                                                selected-rows={selectedRowsMW}
+                                                max-row-selection="1"
+                                                onrowselection={getSelectedRowsMW}
+                                                onrowaction={handleRowActionMW}>
+                                            </lightning-datatable>
+                                        </div>
+                                </template>
+                                
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning-button-group>
+                            <lightning-button label="Annulla" variant="neutral" onclick={closeModal}></lightning-button>
+                            <lightning-button label="Avanti" if:false={stepModal2} variant="neutral" onclick={handleReassign}></lightning-button>
+                            <lightning-button label="Indietro" if:true={stepModal2} variant="neutral" onclick={handleViewAll}></lightning-button>
+                            <lightning-button label="Riassegna" if:true={stepModal2} variant="neutral" onclick={reassignAccount}></lightning-button>
+                        </lightning-button-group>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </template>
+    <!-- MODAL Assign -->
+    <template if:true={openmodelAssign}>
+        <div>
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-02" aria-modal="true" aria-describedby="modal-content-id-2" class="slds-modal slds-fade-in-open slds-modal_large">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModalAssign}>
+                            <lightning-icon icon-name="utility:close" size="medium">
+                            </lightning-icon>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <div class="tilte-card"><b>Assegna</b></div>
+
+                        <!-- <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate"></h2> -->
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
+                        <lightning-layout>
+                            <lightning-layout-item size="12">
+                                <template if:false={isRendered}>
+                                    <div class="modal-spinner">
+                                        <lightning-spinner alternative-text="CARICAMENTO" size="small"></lightning-spinner>
+                                    </div>
+                                </template>
+                                
+                                <div class="recordsTable slds-scrollable_y" style="height:20rem">
+                                    <lightning-datatable data-id="datatableRecordsAssign"
+                                        columns={columns} 
+                                        data={listViewAssign} 
+                                        key-field="Id"
+                                        onrowselection={getSelectedRowsAssign}>
+                                    </lightning-datatable>
+                                </div>
+                                
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning-button-group>
+                            <lightning-button label="Annulla" variant="neutral" onclick={closeModalAssign}></lightning-button>
+                            <lightning-button label="Assegna"  variant="neutral" onclick={assignAccount}></lightning-button>
+                        </lightning-button-group>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </template>
+</template>

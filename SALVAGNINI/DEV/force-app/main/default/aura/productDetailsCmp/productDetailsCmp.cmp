@@ -1,0 +1,38 @@
+<aura:component controller = "productDetailsController" implements="flexipage:availableForRecordHome,force:lightningQuickAction,force:hasRecordId,force:hasSObjectName,lightning:isUrlAddressable" access="global">
+   <aura:attribute name="recordId" type="String" access="global" />
+   <aura:attribute name="options" type="List" default="[
+   {'label': 'Italiano', 'value': 'ITA'},
+   {'label': 'English', 'value': 'ENG'},
+   {'label': 'Deutsch', 'value': 'DEU'},
+   {'label': 'Français', 'value': 'FRA'},
+   {'label': 'Español', 'value': 'ESP'},
+   {'label': 'Português', 'value': 'PT'},
+   {'label': 'Polski', 'value': 'POL'},
+   {'label': 'Русский', 'value': 'RUS'},
+   {'label': '廣州話', 'value': 'CHN'},
+   ]"/>
+   <aura:attribute name="descriptionToShow" type="String"/>
+   <aura:attribute name="shortDescriptionToShow" type="String"/>
+   <aura:attribute name="imgURL" type="String"/>
+   <aura:attribute name="selectedLanguage" type="String"/>
+   <aura:attribute name="descriptions" type="Map" default="{}"/>
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <lightning:card title="Product description">
+        <lightning:combobox name="Language" label="Language" value = "{!v.selectedLanguage}" placeholder="Seleziona Lingua" options="{! v.options }" onchange="{! c.handleChange }"/>
+        <br />
+        <!-- Mostro prima la combo Product Name - Short description -->
+        <p class="slds-p-horizontal_small">
+            <lightning:formattedRichText value="{!v.shortDescriptionToShow}"/>
+        </p>
+        <br />
+        <!-- Mostro la descrizione completa -->
+        <p class="slds-p-horizontal_small">
+            <lightning:formattedRichText value="{!v.descriptionToShow}"/>
+        </p>
+        <br />
+        <!-- Se presente, mostro l'immagine -->
+        <aura:if isTrue="{!v.imgURL}">
+            <img src="{!v.imgURL}"/>
+        </aura:if>
+    </lightning:card>
+</aura:component>

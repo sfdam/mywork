@@ -1,0 +1,81 @@
+<template>
+    <div class="modal-header slds-docked-form-header slds-modal__header ">
+        <h4 class="title slds-text-heading--medium" >Scarica PDF</h4>
+    </div>
+    <div class="slds-modal__content slds-p-around_x-small" style="min-height : 10rem;">
+        <template if:false={showSpinner}>
+            <template if:true={canChoose}>
+                <lightning-layout multiple-rows=true>
+                    <lightning-layout-item size="6" padding="around-small">
+                        <lightning-combobox
+                            label="Seleziona Sezione"
+                            name="selectAllPicklist"
+                            data-item="selectAllPicklist"
+                            placeholder="Seleziona quali sezioni stampare"
+                            options={optionsSezione}
+                            value={defaultSelection}
+                            onchange={handlePickListChange} >
+                        </lightning-combobox>
+                        <template if:true={showDataTable}>
+                            <lightning-layout-item size="6" padding="around-small">
+                                <lightning-datatable class="slds-scrolLabel_y"
+                                    data-id = 'SectionsTable'
+                                    key-field="Ordine__c"
+                                    data={sectionsTableData}
+                                    columns={sectionsTableColumns}
+                                    onrowselection={sectionsTableRowSelection}
+                                    >
+                                </lightning-datatable>
+                            </lightning-layout-item>
+                        </template>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="6" padding="around-small">
+                        <lightning-tile label={accountData.Name} type="media">
+                            <lightning-icon slot="media" size="large" icon-name={iconName}></lightning-icon>
+                            <p title="Banca">Banca: {accountData.CRM_FormulaBanca__c}</p>
+                            <p title="MDS">MDS: {accountData.ModelloDiServizio__c}</p>
+                            <p title="Filiale">Filiale: {accountData.CRM_FilialeToDisplay__c}</p>
+                            <p title="Portafoglio">Portafoglio: {accountData.CRM_NomePortafoglio__c}</p>
+                            <p title="Gestore di riferimento">Gestore di riferimento: {nameReferente}</p>
+                            <template if:true={showPrivacy}>
+                                <p title="Privacy">
+                                    Privacy: 
+                                    <lightning-formatted-rich-text value={privacy}></lightning-formatted-rich-text>
+                                </p>
+                            </template>
+                            <p title="Data Ultimo Contratto">Data Ultimo Contatto: -</p>
+                        </lightning-tile>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </template>
+            <template if:true={canChoose}>
+                <lightning-layout>
+                    <lightning-layout-item size="6" padding="around-small"></lightning-layout-item>
+                    <lightning-layout-item size="6" padding="around-small">
+                        <lightning-button-group style="float: right;">
+                            <lightning-button label={buttonAnnullaLabel} variant="neutral" onclick={closeModal}></lightning-button>
+                            <lightning-button label={buttonDownloadLabel} variant="brand" onclick={downloadPDF}></lightning-button>
+                        </lightning-button-group>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </template>
+        </template>
+        <!-- <lightning-layout style="text-align: center;">
+            <lightning-layout-item size="12" padding="around-small">
+                <template if:true={pdfGenerato}>
+                    <h4><lightning-icon icon-name="action:approval" alternative-text="Approved" title="Approved" size="small"></lightning-icon>PDF GENERATO</h4>
+                </template>
+            </lightning-layout-item>
+        </lightning-layout> -->
+        <lightning-layout style="text-align: center;">
+            <lightning-layout-item size="12" padding="around-medium">
+                <lightning-spinner if:true={showSpinner}
+                    variant="brand" 
+                    alternative-text="STO GIRANDO..."     
+                    size="small"
+                    class="slds-align_absolute-center trasparent">
+                </lightning-spinner>
+            </lightning-layout-item>
+        </lightning-layout>
+    </div>
+</template>

@@ -1,0 +1,93 @@
+<aura:component controller="ReportPerformance" implements="flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes,force:hasRecordId" access="global">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+	<aura:attribute name="reportName" type="String" default="" access="global" />
+	<aura:attribute name="lcBaseURL" type="String" default="" access="global" />
+	<aura:attribute name="ndgMdsPtf" type="String" access="global"/>
+	<aura:attribute name="distribNdgRoleMDS" type="String" access="global"/>
+    <aura:attribute name="distribNDG_NEW" type="String" access="global"/>
+	<aura:attribute name="utilizzatoNDG" type="String" access="global"/>
+	<aura:attribute name="redditoFatturatoNDG" type="String" access="global"/>
+	<aura:attribute name="accordatoNDG" type="String" access="global"/>
+	<aura:attribute name="patrimonioNDG" type="String" access="global"/>
+	<aura:attribute name="nucleiMDSPtf" type="String" access="global"/>
+    <aura:attribute name="isGruppo" type="Boolean" access="global" default="false" />
+    <aura:attribute name="encodedCrossReports" type="List" access="global" />
+    <aura:attribute name="idCed" type="String" access="global" />
+	<aura:attribute name="ptf0078" type="String" access="global"/>
+    
+	<div class="slds-grid slds-wrap slds-align_absolute-center" style="justify-content:center">
+        <div class="slds-col slds-size_5-of-12 slds-box slds-m-around_x-small">
+            <iframe aura:id="ndgMdsPtf" width="100%" height="600px" src="{!v.ndgMdsPtf}" frameBorder="0"/>
+            <aura:if isTrue="{!v.idCed != undefined}">
+                <div class="slds-m-top_medium">
+                    <c:reportLink reportDevName="PERF_NDG_mmds_ptf_LINK" idCed="{!v.idCed}" noFilter="true" isGruppo="{!v.isGruppo}"/>
+                </div>
+            </aura:if>
+        </div>
+        <div class="slds-col slds-size_5-of-12 slds-box slds-m-around_x-small">
+            <iframe aura:id="distribNDGRoleMDS" width="100%" height="600px" src="{!v.distribNdgRoleMDS}" frameBorder="0"/>
+            <aura:if isTrue="{!v.idCed != undefined}">
+                <div class="slds-m-top_medium">
+                    <!--p style="padding:5px;font-style:italic;">I Macro-modelli di servizio Family e POE non sono inclusi nel report grafico.</p-->
+                    <c:reportLink reportDevName="Distribuzione_NDG_per_Ruolo_e_MMDS_v11_lfq" idCed="{!v.idCed}" noFilter="true" isGruppo="{!v.isGruppo}"/><!--Perf_Distribuzione_NDG_per_Ruolo_e_MDS_3Tw_LINK -->
+                </div>
+            </aura:if>
+        </div>
+		<div class="slds-col slds-size_5-of-12 slds-box slds-m-around_x-small">
+            <iframe aura:id="PTF0078" width="100%" height="600px" src="{!v.ptf0078}" frameBorder="0"/>
+            <aura:if isTrue="{!v.idCed != undefined}">
+                <div class="slds-m-top_medium">
+                    <c:reportLink reportDevName="Distribuzione_NDG_per_MDS_dashboard_v7Q" idCed="{!v.idCed}" noFilter="true" isGruppo="{!v.isGruppo}"/>
+                	<p style="padding:5px;font-style:italic;">I dati sono aggiornati al giorno lavorativo precedente</p>
+                </div>
+            </aura:if>
+        </div>
+        <div class="slds-col slds-size_5-of-12 slds-box slds-box slds-m-around_x-small">
+            <iframe aura:id="nucleiMDSPtf" width="100%%" height="600px" src="{!v.nucleiMDSPtf}" frameBorder="0"/>
+            <aura:if isTrue="{!v.idCed != undefined}">
+                <div class="slds-m-top_medium">
+                    <c:reportLink reportDevName="Nuclei_per_MMDS_e_PTF_Jvg" idCed="{!v.idCed}" isGruppo="{!v.isGruppo}"/>
+                	<p style="padding:5px;font-style:italic;">I dati sono aggiornati al giorno lavorativo precedente</p>
+                </div> 
+            </aura:if>
+        </div>
+		<div class="slds-col slds-size_5-of-12 slds-box slds-m-around_x-small">
+            <iframe aura:id="distribNDGRoleMDSNew" width="100%" height="600px" src="{!v.distribNDG_NEW}" frameBorder="0"/>
+            <aura:if isTrue="{!v.idCed != undefined}">
+                <div class="slds-m-top_medium">
+                    <c:reportLink reportDevName="PTF_0128_Nuovo_Distribuzione_NDG_9Wv" idCed="{!v.idCed}" noFilter="true" isGruppo="{!v.isGruppo}"/>
+                </div>
+            </aura:if>
+        </div>
+        <div class="slds-col slds-size_5-of-12 slds-box slds-box slds-m-around_x-small">
+            <iframe aura:id="patrimonio" width="100%" height="600px" src="{!v.patrimonioNDG}" frameBorder="0"/>
+            <aura:if isTrue="{!v.idCed != undefined}">
+                <div class="slds-m-top_medium">
+                    <c:reportLink reportDevName="Perf_Patrimonio_per_MDS_YZL_LINK" idCed="{!v.idCed}" isGruppo="{!v.isGruppo}"/>
+                </div>
+            </aura:if>
+        </div>
+        <div class="slds-col slds-size_5-of-12 slds-box slds-box slds-m-around_x-small">
+            <iframe aura:id="accordatoNDG" width="100%" height="600px" src="{!v.accordatoNDG}" frameBorder="0"/>
+            <aura:if isTrue="{!v.idCed != undefined}">
+                <div class="slds-m-top_medium">
+                    <c:reportLink reportDevName="Perf_Accordato_per_MDS_aeh_LINK" idCed="{!v.idCed}" isGruppo="{!v.isGruppo}"/>
+                </div>
+            </aura:if>
+        </div>
+        <div class="slds-col slds-size_5-of-12 slds-box slds-box slds-m-around_x-small">
+            <iframe aura:id="utilizzatoNDG" width="100%" height="600px" src="{!v.utilizzatoNDG}" frameBorder="0"/>
+            <aura:if isTrue="{!v.idCed != undefined}">
+                <div class="slds-m-top_medium">
+                    <c:reportLink reportDevName="Perf_Utilizzato_per_MDS_QkI_LINK" idCed="{!v.idCed}" isGruppo="{!v.isGruppo}"/>
+                </div>
+            </aura:if>
+        </div>
+        <div class="slds-col slds-size_5-of-12 slds-box slds-box slds-m-around_x-small">
+            <iframe aura:id="redditoFatturato" width="100%" height="600px" src="{!v.redditoFatturatoNDG}" frameBorder="0"/>
+            <aura:if isTrue="{!v.idCed != undefined}">
+                <c:reportLink reportDevName="Perf_RedditoFatturato_complessivo_per_MDS_szp_LINK" idCed="{!v.idCed}" isGruppo="{!v.isGruppo}"/>
+            </aura:if>
+        </div>
+    </div>
+</aura:component>

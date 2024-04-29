@@ -1,0 +1,117 @@
+<template>
+    <div class="slds-is-relative">
+        <lightning-spinner></lightning-spinner>
+        <div class="sdgborder">
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_1-of-1 slds-p-around_small">
+                    <h2 class="title-header">KNET</h2>
+                    <template if:true={showErrorMsg}>
+                        <p class="cstm-err">{errorMsg}</p>
+                    </template>
+                    <hr>
+                </div>
+                <!-- START -->
+                <div class="slds-p-around_small slds-col slds-size_12-of-12 slds-medium-size_4-of-12 slds-large-size_3-of-12">
+                    <div class="cstm-box">
+                        <div class="referent-header slds-text-title_caps">
+                            {label.settoristaLabel}
+                        </div>
+                        <div class="information slds-p-around_xx-small">
+                            <div class="slds-grid">
+                                <div class="slds-col slds-size_4-of-12 slds-p-around_small">
+                                    <div class="slds-align_absolute-center clearFloats">
+                                        <img src={UserImage} height="50" width="50" class="container small grey" />
+                                    </div>
+                                </div>
+                                <div class="slds-col slds-size_8-of-12 slds-p-vertical_medium">
+                                    <div>
+                                        {infoSettorista.nome}
+                                    </div>
+                                    <!-- <div class="attivo">
+                                        {infoSettorista.telefono}
+                                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END -->
+                <div class="slds-p-around_small slds-col slds-size_12-of-12 slds-medium-size_4-of-12 slds-large-size_3-of-12">
+                    <div class="cstm-box">
+                        <div class="referent-header slds-text-title_caps">
+                            {label.presentatoreLabel}
+                        </div>
+                        <div class="information slds-p-around_xx-small">
+                            <div class="slds-grid">
+                                <div class="slds-col slds-size_4-of-12 slds-p-around_small">
+                                    <div class="slds-align_absolute-center clearFloats">
+                                        <img src={UserImage} height="50" width="50" class="container small grey" />
+                                    </div>
+                                </div>
+                                <div class="slds-col slds-size_8-of-12 slds-p-vertical_medium">
+                                    <div>
+                                        {infoPresentatore.nome}
+                                    </div>
+                                    <!-- <div class="attivo">
+                                        {infoPresentatore.telefono}
+                                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END -->
+                <div class="slds-p-around_small slds-col slds-size_12-of-12 slds-medium-size_4-of-12 slds-large-size_3-of-12">
+                    <div class="cstm-box">
+                        <div class="referent-header slds-text-title_caps">
+                            {label.gestoreClienteLabel}
+                        </div>
+                        <div class="information slds-p-around_xx-small">
+                            <div class="slds-grid">
+                                <div class="slds-col slds-size_4-of-12 slds-p-around_small ">
+                                    <div class="slds-align_absolute-center clearFloats">
+                                        <img src={UserImage} height="50" width="50" class="container small grey" />
+                                    </div>
+                                </div>
+                                <div class="slds-col slds-size_8-of-12 slds-p-vertical_medium">
+                                    <div>
+                                        {infoGestoreCliente.nome}
+                                    </div>
+                                    <!-- <div class="attivo">
+                                        {infoGestoreCliente.telefono}
+                                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END -->
+                <div class="slds-p-around_small slds-col slds-size_12-of-12 slds-medium-size_4-of-12 slds-large-size_3-of-12">
+                    <div class="cstm-box">
+                        <div class="referent-header slds-text-title_caps">
+                            {label.gestoreDebitoreLabel}
+                        </div>
+                        <div class="information slds-p-around_xx-small">
+                            <div class="slds-grid">
+                                <div class="slds-col slds-size_4-of-12 slds-p-around_small">
+                                    <div class="slds-align_absolute-center clearFloats">
+                                        <img src={UserImage} height="50" width="50" class="container small grey" />
+                                    </div>
+                                </div>
+                                <div class="slds-col slds-size_8-of-12 slds-p-vertical_medium">
+                                    <div>
+                                        {infoGestoreDebitore.nome}
+                                    </div>
+                                    <!-- <div class="attivo">
+                                        {infoGestoreDebitore.telefono}
+                                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END -->
+            </div>
+        </div>
+    </div>
+</template>

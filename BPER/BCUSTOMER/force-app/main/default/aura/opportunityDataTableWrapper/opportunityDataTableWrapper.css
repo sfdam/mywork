@@ -1,0 +1,27 @@
+.THIS .l_lookupLookup .THIS .synebo-lookup {
+    max-width: 100%;
+    min-height: 40px;
+}
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : landscape)
+and (-webkit-min-device-pixel-ratio: 2) { 
+    /* STYLES GO HERE */
+    .THIS .scrollerSize {
+        height:480px;
+    }
+
+}
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : portrait)
+and (-webkit-min-device-pixel-ratio: 2) { 
+    /* STYLES GO HERE */
+    .THIS .scrollerSize {
+        height:480px;
+    } 
+}

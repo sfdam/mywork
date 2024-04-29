@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PTF_EliminazioneEnable__c</fullName>
+    <externalId>false</externalId>
+    <formula>OR (
+$Profile.Name = &apos;NEC_D.0&apos;,
+$Profile.Name = &apos;NEC_ADMIN&apos;,
+$Profile.Name = &apos;NEC_SYSADMIN&apos;,
+AND ($Profile.Name = &apos;NEC_D.2&apos;, $User.abi__c =&apos;01015&apos;, $User.idced__c =&apos;6929&apos;)
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Abilitazione eliminazione portafoglio</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Oggetto__c</fullName>
+    <externalId>false</externalId>
+    <formula>CASE( Name ,
+&quot;Alert&quot;,&quot;Scadenziari&quot;,
+&quot;Account_CI&quot;,&quot;Account&quot;,
+&quot;Account_PTF&quot;,&quot;Account&quot;,
+&quot;Account_SC&quot;,&quot;Account&quot;,
+&quot;CRM_AccountJoint__c&quot;,&quot;Relazione di co-intestazione&quot;,
+&quot;CRM_Channel__c&quot;,&quot;Servizio Digitale&quot;,
+&quot;CRM_Claims__c&quot;,&quot;Reclamo&quot;,
+&quot;CRM_LinkedNDG__c&quot;,&quot;NDG collegati&quot;,
+&quot;FinancialAccount__c_Child&quot;,&quot;Possessi Livello 2&quot;,
+&quot;FinancialAccount__c_Parent&quot;,&quot;Possessi Livello 1&quot;,
+&quot;FinancialAccount__c_Sibling&quot;,&quot;Possessi Livello 3&quot;,
+&quot;FinancialAccountRole__c&quot;,&quot;Financial Account Role&quot;,
+&quot;IdentityDocument&quot;,&quot;Identity Document&quot;,
+&quot;Ldap__c&quot;,&quot;Ldap&quot;,
+&quot;Product2&quot;,&quot;Catalogo Prodotto&quot;,
+&quot;RoleMDS__c&quot;,&quot;MDS per Ruolo&quot;,
+&quot;StrutturaBanca__c&quot;,&quot;Struttura Banca&quot;,
+&quot;Movimenti&quot;,&quot;Movimenti&quot;,
+&quot;Particolarita&quot;, &quot;Particolarità&quot;,
+&quot;Pico&quot;, &quot;Pico&quot;,
+&quot;Estero&quot;, &quot;Estero&quot;,
+&quot;NDG_Estero&quot;, &quot;NDG Estero&quot;,
+&quot;Indicatori&quot;, &quot;Indicatori&quot;,
+&quot;Contact&quot;, &quot;Contact&quot;,	
+&quot;FinancialAccount__c_2&quot;,&quot;Possessi Livello 2&quot;,
+&quot;FinancialAccount__c_1&quot;,&quot;Possessi Livello 1&quot;,
+&quot;FinancialAccount__c_3&quot;,&quot;Possessi Livello 3&quot;,	
+&quot;FinancialAccount__c_4&quot;,&quot;Possessi Livello 4&quot;,	
+&quot;Pico&quot;,&quot;Pico&quot;,	
+&quot;Campaign&quot;,&quot;Campaign&quot;,					
+&quot;CampaignMember&quot;,&quot;CampaignMember&quot;,					
+&quot;Associa_PC&quot;,&quot;Associa Prodotti-Campagna&quot;,
+&quot;PoliticheCreditizie&quot;,&quot;Politiche Creditizie&quot;,						
+Oggetto_SFDC__c)</formula>
+    <label>Oggetto</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

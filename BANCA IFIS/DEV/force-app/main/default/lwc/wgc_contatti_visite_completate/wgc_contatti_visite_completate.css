@@ -1,0 +1,52 @@
+.back-color-black{
+    background-color:#021F59;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.back-color-white{
+    background-color:#FFFFFF;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.central-top{
+    padding: 10px 0 10px 0;
+    text-align:center;
+}
+
+.shadow {
+    padding: 0.2rem;
+    box-shadow: 0.05rem 0.15rem rgb(0, 0, 0, 0.1);
+}
+
+
+:host .custombutton {
+    --sds-c-button-neutral-color-background: #ffc000;
+    --sds-c-button-sizing-border: none;
+    --sds-c-button-text-color: black;
+    --sds-c-button-sizing-border: none;
+    --sds-c-button-neutral-margin: 1px 1px;
+    --sds-c-button-margin: : 1px 1px;
+    --sds-c-button-radius-border: 8px;
+    --sds-c-button-neutral-radius-border: 8px;
+    --sds-c-button-sizing-border: 0px;
+    --sds-c-button-spacing-inline-end: 0;
+  }
+
+  :host .custombutton2 {
+    --sds-c-button-neutral-color-background: #ed7d31;
+    --sds-c-button-sizing-border: none;
+    --sds-c-button-text-color: black;
+    --sds-c-button-sizing-border: none;
+    --sds-c-button-neutral-margin: 1px 1px;
+    --sds-c-button-margin: : 1px 1px;
+    --sds-c-button-radius-border: 8px;
+    --sds-c-button-neutral-radius-border: 8px;
+    --sds-c-button-sizing-border: 0px;
+    --sds-c-button-spacing-inline-end: 0;
+  }

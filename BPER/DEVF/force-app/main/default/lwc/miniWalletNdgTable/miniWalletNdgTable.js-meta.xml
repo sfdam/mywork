@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="urn:metadata.tooling.soap.sforce.com" fqn="miniWalletNdgTable">
+    <apiVersion>52.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__RecordPage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__RecordPage">
+            <property name="defaultLimit" type="String" default="5" datasource="5,10,15,20,25,50,100,200"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

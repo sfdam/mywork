@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>55.0</apiVersion>
+    <environments>Default</environments>
+    <formulas>
+        <name>StoricoAlertCliente</name>
+        <dataType>String</dataType>
+        <expression>IF(!ISBLANK( {!$Record.CC_Alert_Messaggio_Cliente__c}), 
+&quot;• &quot; + SUBSTITUTE(TEXT(DATETIMEVALUE(TEXT(DATEVALUE({!$Flow.CurrentDateTime})) + &quot; &quot; + TEXT(VALUE(MID(TEXT({!$Flow.CurrentDateTime}), 12, 2)) + 2) + &quot;:&quot; + MID(TEXT({!$Flow.CurrentDateTime}), 15, 2) + &quot;:&quot; + MID(TEXT({!$Flow.CurrentDateTime}), 18, 2))), &apos;Z&apos;, &apos; &apos;)
+ +&quot; - &quot; +  {!$Record.CC_Alert_Messaggio_Cliente__c}
+ + BR() +{!$Record.CC_Storico_Alert_Cliente__c},
+null)</expression>
+    </formulas>
+    <interviewLabel>Account - Aggiorna visibilità alert cliente {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Account - Aggiorna Visibilità Box Storico Esitazioni Alert Cliente</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Update_Related_Account</name>
+        <label>Update Related Account</label>
+        <locationX>776</locationX>
+        <locationY>413</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Account__r.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>CC_Storico_Alert_Cliente_Visibility__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <object>Account</object>
+    </recordUpdates>
+    <start>
+        <locationX>650</locationX>
+        <locationY>48</locationY>
+        <connector>
+            <targetReference>Update_Related_Account</targetReference>
+        </connector>
+        <object>Alert_Contact_Center__c</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

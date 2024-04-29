@@ -1,0 +1,62 @@
+<aura:component implements="lightning:availableForFlowScreens" access="global">  
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/> 
+    
+    <aura:attribute name="fileRecapColumns" type="List"/> 
+
+    <aura:attribute name="jsonDocumentFileData" type="Object"/>
+    <aura:attribute name="aggiuntaTipologiaDocumento" type="String" default="GENERICO"/>
+    <aura:attribute name="uploadDisabled" type="Boolean" default="false"/>
+
+    <aura:attribute name="tipologiaDocumenti" type="List" default="[
+    {'label': 'GENERICO', 'value': 'GENERICO'}
+    ]"/>
+
+    <aura:attribute name="workflowRecordCandidatoID" type="String"/>
+    <aura:attribute name="workflowRecordCandidatoNEXT" type="WorkflowSegnalatori__c"/>
+    <aura:attribute name="workflowRecordCandidato" type="WorkflowSegnalatori__c"/>
+    <aura:attribute name="workflowRecordCandidatoERROR" type="String"/>
+    
+    <force:recordData aura:id="flowRecordHandlerWorkflowCandidatoId"
+                      recordId="{!v.workflowRecordCandidatoID}"
+                      fields="Name, ATECO__c, CapLegale__c, CittaLegale__c, CivicoLegale__c, CognomeReferente__c, DataInvioIfis__c, EmailReferente__c, ErroriTecnici__c, IndirizzoLegale__c, MotivazioneRifiutoPrevalutazione__c, Natura_Giuridica__c, NomeReferente__c, PartitaIVA__c, ProvinciaCCIAA__c, ProvinciaLegale__c, RAE__c, REA__c, DOCUMENTI_JSON__c, Ragione_Sociale__c, SAE__c, Stato__c, TIMELINE_JSON__c, TelefonoReferente__c, TipoViaLegale__c, Tipologia_Segnalazione__c, Ente_segnalante__c, CommentoEsito__c, Ente_segnalante_descrizione__c, Tipo_Segnalatore__c, Tipo_Segnalazione__c"
+                      targetFields="{!v.workflowRecordCandidato}"
+                      targetError="{!v.workflowRecordCandidatoERROR}"
+                      recordUpdated="{!c.handleRecordUpdated}"
+                      targetRecord="{!v.workflowRecordCandidatoNEXT}"
+                      mode="EDIT"                      
+                      />    
+
+    <!-- Display Lightning Data Service errors, if any -->
+    <aura:if isTrue="{!not(empty(v.workflowRecordCandidatoERROR))}">
+        <ui:message title="Errore" severity="error" closable="true">{!v.workflowRecordCandidatoERROR}</ui:message>
+    </aura:if>  
+
+    <c:BI_PSE_FlowPath_LCOM selectedPathValue="2"/>
+    
+    <lightning:card variant="Narrow" title="Documentazione – allegare eventuale documentazione a supporto" iconName="standard:record" />
+    
+    <hr style="margin-top:1px;margin-bottom:10px;"/>
+
+    <p class="slds-p-horizontal_small">
+        <div class="slds-grid slds-wrap">
+            <div class="slds-size_1-of-4 slds-p-right_large">
+				<lightning:combobox label= "Tipologia Documento" required="false" aura:id="flowInputTipologiaDocumentoInputId" name="flowInputTipologiaDocumentoInput" value="{!v.aggiuntaTipologiaDocumento}"  onblur="" options="{!v.tipologiaDocumenti}" onchange="{! c.handleComboTipologiaDocumentiChange}" disabled="false"/>
+            </div>
+            <div class="slds-size_1-of-4">
+				<lightning:fileUpload name="flowFileUploaderDocumentFile" accept="{!v.acceptFileExtensions}" recordId="{!v.workflowRecordCandidatoID}" onuploadfinished="{! c.handleUploadDocumentFileFinished }" disabled = "{!or(v.uploadDisabled, v.workflowRecordCandidato.Stato__c != 'BOZZA_DATI')}"/>
+            </div>
+            <div class="slds-size_2-of-4">
+                <lightning:datatable aura:id="flowDatatableDocumentFile" data="{!v.jsonDocumentFileData}" columns="{!v.fileRecapColumns}" keyField="id" hideCheckboxColumn="true" resizeColumnDisabled="true" showRowNumberColumn="true" onrowaction="{! c.handleRowActionDocumentFile }"/>
+            </div>
+            <div class="slds-size_4-of-4">
+                <lightning:input aura:id="flowInputDocumentFileJsonId" name="flowInputDocumentFileJson" required="false" value="{!v.workflowRecordCandidato.DOCUMENTI_JSON__c}" class="slds-hide"/>
+            </div>
+        </div>
+    </p>
+
+    <hr style="margin-top:10px;margin-bottom:10px;"/>     
+    
+    <c:bifis_crm_c_CommonFlowNavigator availableActions="{!v.availableActions}" navigateFlowEvent="{!c.handleNavigate}"/>    
+
+</aura:component>

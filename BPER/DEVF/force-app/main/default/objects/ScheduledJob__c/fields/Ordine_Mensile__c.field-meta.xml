@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Ordine_Mensile__c</fullName>
+    <externalId>false</externalId>
+    <label>Ordine Mensile</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Primo</fullName>
+                <default>false</default>
+                <label>Primo</label>
+            </value>
+            <value>
+                <fullName>Secondo</fullName>
+                <default>false</default>
+                <label>Secondo</label>
+            </value>
+            <value>
+                <fullName>Terzo</fullName>
+                <default>false</default>
+                <label>Terzo</label>
+            </value>
+            <value>
+                <fullName>Quarto</fullName>
+                <default>false</default>
+                <label>Quarto</label>
+            </value>
+            <value>
+                <fullName>Ultimo</fullName>
+                <default>false</default>
+                <label>Ultimo</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

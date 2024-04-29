@@ -1,0 +1,21 @@
+<template>
+    <div class="">
+        <lightning-record-edit-form object-api-name="Opportunity" record-id={recordId} record-type-id={recordTypeId} onsubmit={handleSubmit} onsuccess={handleSuccessDelete} >
+            <div class="slds-p-around_medium">
+                <lightning-messages>
+                </lightning-messages>
+                <!-- <p>Chiudi Opp</p> -->
+                    <lightning-input-field field-name='WGC_Fase__c' value="Persa" disabled ></lightning-input-field>
+                    <lightning-input-field field-name='CategoriaChiusuraTrattativa__c' onchange={changeCategoria} ></lightning-input-field>
+                    <lightning-input-field field-name='MotivoChiusuraTrattativa__c'></lightning-input-field>
+                    <div class="slds-m-top_medium slds-text-align_right">
+                        <lightning-button class="cstm-btn-round" variant="brand" type="submit" name="save" label="Conferma" disabled={btnDisabled}></lightning-button>
+                    </div>
+            </div>
+            <!-- <footer class="slds-modal__footer modal-hidden">
+                <lightning-button label="Annulla" onclick={cancel}></lightning-button>
+                <slot name="footer" onslotchange={handleSlotFooterChange}></slot>
+            </footer> -->
+        </lightning-record-edit-form>
+    </div>
+</template>

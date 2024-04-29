@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="urn:metadata.tooling.soap.sforce.com" fqn="wgc_base_clienti_tab">
+    <apiVersion>50.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__AppPage</target>
+        <target>lightning__HomePage</target>
+        <target>lightning__RecordPage</target>
+    </targets>
+    <!-- <targetConfigs>
+        <targetConfig targets="lightning__RecordPage,lightning__AppPage,lightning__HomePage">
+            <property description="API Name del record del metadato WGC_Chart__mdt" label="Record Metadato" required="true" type="String" name="chartName"></property>
+            <property description="Titolo" label="Titolo" type="String" name="title"></property>
+            <property description="Icona" label="Icona" type="String" name="iconName"></property>
+            <property description="Mostra Icona" label="Mostra Icona" type="Boolean" name="showIcon"></property>
+            <property description="Abilita accordion" label="Abilita accordion" type="Boolean" name="enableAccordion"></property>
+            <property description="Abilita espandi" label="Abilita espandi" type="Boolean" name="enableDetail"></property>
+            <property description="Il componente è in HomePage? Utilizzato per comandare il css" label="HomePage" type="Boolean" name="isHomePage"></property>
+        </targetConfig>
+    </targetConfigs> --></LightningComponentBundle>

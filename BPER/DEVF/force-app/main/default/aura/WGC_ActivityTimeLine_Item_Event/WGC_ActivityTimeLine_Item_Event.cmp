@@ -1,0 +1,117 @@
+<aura:component >
+    <aura:attribute name='itemDetail' type='Object' default='{}' />
+    
+    <lightning:navigation aura:id="navService" />
+
+    <li>
+            <div class="{! 'slds-timeline__item_expandable slds-timeline__item_event ' + (v.itemDetail.IsArchived ? 'IsArchived' : '') }">
+                <span class="slds-assistive-text">Evento</span>
+                <div class="slds-media">
+                    <div class="slds-media__figure">
+                        <div class="{! 'slds-icon_container slds-icon-standard-event slds-timeline__icon ' + (v.itemDetail.IsArchived ? 'IsArchived' : '') }" title="Evento">
+                            <lightning:icon iconName="standard:event" />							
+                        </div>
+                        <aura:if isTrue="{! v.itemDetail.SupportObject }">
+                            <lightning:icon class="supportObj" iconName="utility:database" title="Caricamento Pregresso" size="xx-small" />
+                        </aura:if>
+                    </div>
+                    <div class="slds-media__body">
+                        <!--supportObject-->
+                        <aura:if isTrue="{! v.itemDetail.SupportObject}">
+                            <div class="slds-grid slds-grid_align-spread slds-timeline__trigger">
+                                <div class="slds-grid slds-grid_vertical-align-center slds-truncate_container_75 slds-no-space">	
+                                    Oggetto:&nbsp;
+                                    <h3 class="slds-truncate" title="{! v.itemDetail.CRM_Subject__c }">
+                                        <a onclick="{! c.navigateToActivity }">
+                                            <strong>{! v.itemDetail.CRM_Subject__c }</strong>
+                                        </a>&nbsp;
+                                        <aura:if isTrue="{! v.itemDetail.SetFieldIcon }">
+                                            <lightning:icon iconName="utility:note" title="New note" size="xx-small" />
+                                        </aura:if>
+                                    </h3>
+                                </div>
+                                <div class="slds-timeline__actions slds-timeline__actions_inline">
+                                        <p class="slds-timeline__date">
+                                            Data:&nbsp;
+                                            <lightning:formattedDateTime value="{! v.itemDetail.CRM_StartDateTime__c }" year="numeric" month="numeric" day="numeric" />
+                                        </p>
+                                            <lightning:buttonIcon iconName="utility:down"  size="x-small" alternativeText="View More" onclick="{! c.showArticle }" />
+                                        </div>
+                            </div>
+                            <p class="slds-m-horizontal_xx-small">
+                                NDG:&nbsp;<a>{! v.itemDetail.CRM_NDG__c }</a>
+                                Data appuntamento:&nbsp;<lightning:formattedDateTime value="{! v.itemDetail.CRM_StartDateTime__c }" year="numeric" month="numeric" day="numeric" hour="numeric" minute="numeric"/>
+                                <!--Motivo:&nbsp;{! v.itemDetail.Oggetto_dell_appuntamento__c }-->
+                                Esito:&nbsp;{! v.itemDetail.CRM_EventStatus__c }
+                                Assegnato a:&nbsp;<a onclick="{! c.navigateToUser }">{! v.itemDetail.CRM_Autore__c }</a>
+                                Referente:&nbsp;{! v.itemDetail.CRM_ReferenteNameFormula__c }
+                            </p>
+                                    <aura:if isTrue="{! v.itemDetail.isCollapsed  }">
+                                        <article
+                                            class="{! 'slds-box slds-theme_shade slds-m-top_x-small slds-m-horizontal_xx-small slds-p-around_medium' }"
+                                            aura:id="{!v.indexId}">
+    
+                                            <lightning:layout multipleRows="true" pullToBoundary="small">
+                                                <lightning:layoutItem flexibility="auto"  padding="horizontal-small" size="12">
+                                                    <div>
+                                                        <span class="slds-text-title slds-p-bottom_xx-small">Nota Autore</span>
+                                                        <p class="slds-text-body_medium">{! v.itemDetail.Description__c}</p>
+                                                    </div>        
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                        </article>
+                                    </aura:if>
+                        </aura:if> 
+                        <!--Non supportObject-->
+                        <aura:if isTrue="{! !v.itemDetail.SupportObject}">
+                                <div class="slds-grid slds-grid_align-spread slds-timeline__trigger">
+                            <div class="slds-grid slds-grid_vertical-align-center slds-truncate_container_75 slds-no-space">	
+								Oggetto:&nbsp;
+                                <h3 class="slds-truncate" title="{! v.itemDetail.Subject }">
+                                    <a onclick="{! c.navigateToActivity }">
+									    <strong>{! v.itemDetail.Subject }</strong>
+                                    </a>&nbsp;
+								    <aura:if isTrue="{! v.itemDetail.SetFieldIcon }">
+									    <lightning:icon iconName="utility:note" title="New note" size="xx-small" />
+								    </aura:if>
+                                </h3>
+                            </div>
+                            <div class="slds-timeline__actions slds-timeline__actions_inline">
+                                    <p class="slds-timeline__date">
+										Data:&nbsp;
+										<lightning:formattedDateTime value="{! v.itemDetail.StartDateTime }" year="numeric" month="numeric" day="numeric" />
+									</p>
+                                        <lightning:buttonIcon iconName="utility:down"  size="x-small" alternativeText="View More" onclick="{! c.showArticle }" />
+                                    </div>
+                            </div>
+                            <p class="slds-m-horizontal_xx-small">
+                                NDG:&nbsp;<a onclick="{! c.navigateToNDG }">{! v.itemDetail.Account.CRM_NDG__c }</a>
+                                Data appuntamento:&nbsp;<lightning:formattedDateTime value="{! v.itemDetail.StartDateTime }" year="numeric" month="numeric" day="numeric" hour="numeric" minute="numeric"/>
+                                <!--Motivo:&nbsp;{! v.itemDetail.Oggetto_dell_appuntamento__c }-->
+                                Esito:&nbsp;{! v.itemDetail.CRM_EventStatus__c }
+                                Assegnato a:&nbsp;<a onclick="{! c.navigateToUser }">{! v.itemDetail.CreatedBy.Name }</a>
+                                Referente:&nbsp;{! v.itemDetail.Account.CRM_ReferenteNameFormula__c }
+                            </p>
+                                    <aura:if isTrue="{! v.itemDetail.isCollapsed  }">
+                                        <article
+                                            class="{! 'slds-box slds-theme_shade slds-m-top_x-small slds-m-horizontal_xx-small slds-p-around_medium' }"
+                                            aura:id="{!v.indexId}">
+
+                                            <lightning:layout multipleRows="true" pullToBoundary="small">
+                                                <lightning:layoutItem flexibility="auto"  padding="horizontal-small" size="12">
+                                                    <div>
+                                                        <span class="slds-text-title slds-p-bottom_xx-small">Nota Autore</span>
+                                                        <p class="slds-text-body_medium">{! v.itemDetail.Description }</p>
+                                                    </div>        
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            
+                                        </article>
+                                    </aura:if>
+                        </aura:if>
+                    </div>
+                </div>
+            </div>
+        </li>
+</aura:component>

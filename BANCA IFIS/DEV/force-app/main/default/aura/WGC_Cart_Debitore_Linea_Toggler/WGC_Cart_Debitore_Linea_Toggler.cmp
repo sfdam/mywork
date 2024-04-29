@@ -1,0 +1,25 @@
+<aura:component access="global">
+    <aura:attribute name="servizio" type="Object"/>
+    <aura:attribute name="debitore" type="Object"/>
+    <aura:attribute name="size" type="Integer"/>
+    <aura:attribute name="readOnly" type="Boolean" default="false"/>
+
+    <!-- REGISTER EVENTS -->
+    <aura:registerEvent name="toggleService" type="c:WGC_Toggle_Service"/>
+
+    <lightning:layoutItem class="slds-text-align_center" size="{! v.size }">
+        <!-- SM-CART-REVI OLD -->
+        <!-- <lightning:button class="{! 'cstm-btn-toggler ' + (v.servizio.selected ? 'bkg-brand' : 'bkg-neutral') }" onclick="{! c.onToggleBtn }"> -->
+        <!-- SM-CART-REVI NEW -->
+        <lightning:button class="{! 'cstm-btn-toggler ' + (v.servizio.selected ? 'bkg-brand' : 'bkg-neutral') + (v.servizio.disabled ? ' disabled' : '') }" onclick="{! c.onToggleBtn }">
+            <aura:if isTrue="{! v.servizio.selected }">
+                <lightning:icon iconName="utility:check" class="added-icon"/>
+                <aura:set attribute="else">
+                    <lightning:icon iconName="utility:add" class="addable-icon"/>
+                </aura:set>
+            </aura:if>
+        </lightning:button>
+        <br />
+        <p>{! v.servizio.serv.WGC_Famiglia__c }</p>
+    </lightning:layoutItem>
+</aura:component>

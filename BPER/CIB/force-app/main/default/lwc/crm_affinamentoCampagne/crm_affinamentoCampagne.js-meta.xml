@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="urn:metadata.tooling.soap.sforce.com" fqn="crm_affinamentoCampagne">
+    <apiVersion>52.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__RecordPage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__RecordPage">
+            <property name="profiliAutorizzati" type="String" label="Name Profili Autorizzati" description="Lista profili autorizzati separati da ';'"/>
+            <property name="defaultLimit" type="Integer" label="Numero elementi per pagina" description="Se vuoto verrannomostarti 15 elementi per pagina"/>
+            <objects>
+                <object>Campaign</object>
+            </objects>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

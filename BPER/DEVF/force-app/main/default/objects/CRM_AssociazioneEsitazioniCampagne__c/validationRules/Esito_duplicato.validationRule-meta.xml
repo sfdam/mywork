@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Esito_duplicato</fullName>
+    <active>true</active>
+    <errorConditionFormula>CRM_EsitoDuplicato__c</errorConditionFormula>
+    <errorDisplayField>CRM_EsitazioneCampagna__c</errorDisplayField>
+    <errorMessage>E&apos; già stato inserito un esito con questo nome per questa campagna.</errorMessage>
+</ValidationRule>

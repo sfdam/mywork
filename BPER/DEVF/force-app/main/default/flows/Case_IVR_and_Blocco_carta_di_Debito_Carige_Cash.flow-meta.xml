@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>55.0</apiVersion>
+    <description>Il flow setta Area, ambito e tipologia carta per i casi provenienti da Visual IVR e con motivo di contatto uguale a Blocco carta di debito Carige Cash</description>
+    <environments>Default</environments>
+    <interviewLabel>Case - IVR and Blocco carta di Debito Carige Cash {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Case - IVR and Blocco carta di Debito Carige Cash</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Update_Case_Area_Scope_Tipologia_Carta</name>
+        <label>Update Case Area, Scope, Tipologia Carta</label>
+        <locationX>441</locationX>
+        <locationY>515</locationY>
+        <inputAssignments>
+            <field>CC_Tipologia_carta__c</field>
+            <value>
+                <stringValue>Carta di debito</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>CRM_Area__c</field>
+            <value>
+                <stringValue>Cards</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>CRM_Scope__c</field>
+            <value>
+                <stringValue>Blocco/sblocco</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>330</locationX>
+        <locationY>48</locationY>
+        <connector>
+            <targetReference>Update_Case_Area_Scope_Tipologia_Carta</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Origin</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Phone</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>CRM_MotivoDellaChat__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Blocco carta di debito carige cash</stringValue>
+            </value>
+        </filters>
+        <object>Case</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

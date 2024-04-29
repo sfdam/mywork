@@ -1,0 +1,7 @@
+.response {
+    position: relative;
+    z-index: 1;
+    margin-bottom: -42px;
+    margin-right: 10px;
+    margin-left: 75%;
+}

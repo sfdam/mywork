@@ -1,0 +1,8 @@
+.pluto .slds-card .slds-card__header.slds-grid {
+    display: none;
+}
+
+.slds-card__body.slds-card__body_inner {
+    margin: 0;
+    padding: 0;
+}

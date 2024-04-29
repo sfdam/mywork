@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CIB_Check_Erogata</fullName>
+    <active>false</active>
+    <errorConditionFormula>IF(AND(Erogata__c = true,TEXT(Opportunity__r.StageName) &lt;&gt; &apos;In erogazione&apos;),true,false)</errorConditionFormula>
+    <errorMessage>Il Flag di Erogazione può essere inserito solo nello stato &apos;In erogazione&apos;</errorMessage>
+</ValidationRule>

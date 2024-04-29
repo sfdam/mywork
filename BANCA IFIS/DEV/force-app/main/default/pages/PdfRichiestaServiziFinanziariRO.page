@@ -1,0 +1,369 @@
+<apex:page renderAs="pdf"
+           showHeader="false"
+           applyHtmlTag="false"
+           applyBodyTag="false"
+           standardStylesheets="false"
+           standardController="Opportunity"
+           extensions="ExtPdfAdeguataVerificaClientela">
+  <html>
+    <head>
+      <apex:stylesheet value="{!$Resource.CssPdfGeneration}"/>
+      <!--
+      <meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+      <meta name=Generator content="Microsoft Word 15 (filtered)">
+      -->
+      <title>CERERE DE PRODUSE SI SERVICII FINANCIARE</title>
+
+      <style>
+
+      .bigForm {
+          border-width: 2px;
+          border-color: black;
+          border-style: solid;
+          margin-top: 10pt;
+          padding: 7px;
+      }
+
+      .titolareForm {
+          margin-left:14.2pt;
+          margin-bottom: 7pt;
+          text-indent:35.45pt;
+          line-height:115%;
+      }
+
+      .paragrafoStandard10 {
+          margin:0cm;
+          margin-bottom:.0001pt;
+          font-size:10.0pt;
+          text-align:justify;
+      }
+
+      .servizioFinanziario {
+          font-size:11.0pt;
+          margin-top:20pt;
+          margin-bottom:20pt;
+          margin-left:20pt;
+      }
+
+      .tableFactoring {
+          border-width: 1px;
+          border-color: black;
+          border-style: solid;
+          border-collapse: collapse;
+          margin-top: 20pt;
+      }
+
+      .tableFactoringIntestazione {
+          font-weight: bold;
+          font-size:10pt;
+          border-width: 1px;
+          border-color: black;
+          border-style: solid;
+      }
+
+      .tableFactoringCell {
+          font-size:9pt;
+          border-width: 1px;
+          border-color: black;
+          border-style: solid;
+          min-height: 20pt;
+      }
+
+      .tableFactoringCellCenter {
+          font-size:9pt;
+          border-width: 1px;
+          border-color: black;
+          border-style: solid;
+          min-height: 20pt;
+          text-align: center;
+      }
+
+      p.MsoNormal, li.MsoNormal, div.MsoNormal
+          {margin:0cm;
+          margin-bottom:.0001pt;
+          font-size:9.5pt;}
+
+      /* font definition */
+      p, span, li, div {
+        font-family: Arial, Arial Unicode MS;
+      }
+
+      /*  List Definitions */
+      ol
+          {margin-bottom:0cm;}
+      ul
+          {margin-bottom:0cm;}
+
+      </style>
+
+    </head>
+    <body>
+      <!--footer and header-->
+
+      <div class="header_left" style="margin-left:5pt;">
+        <img class="header_logo_img" src="{!$Resource.BancaIfisLogoNew}"/>
+      </div>
+
+      <div class="footer_center">
+        <p class="docName">RSF – 29.06.2020</p>
+        <img class="footerLargeImg" src="{!$Resource.FooterIfisRO}"/>
+      </div>
+
+      <div class="footer_right pageNumberFooter">
+        <span class="pagenumber"/>
+      </div>
+
+      <p class="MsoNormal" align="center" style="text-align:center;clear:right;">
+        <b>
+          <u>
+            <span style="font-size:10.0pt;text-transform:uppercase; font-weight: bold;">
+              CERERE DE PRODUSE SI SERVICII FINANCIARE
+            </span>
+          </u>
+        </b>
+      </p>
+
+      <!-- inizio parte iniziale comune -->
+      <div class= "bigForm uniqueBlock midMarginBlock">
+
+        <p class="paragrafoTabella" style="margin-bottom:  4pt;">
+          <b>Societatea</b><span class="{!IF( !ISBLANK(opportunity.account.Name), 'hiddenInput', 'veryLongDot')}"/><span class="{!IF( (ISBLANK(opportunity.account.Name)), 'hiddenInput', 'dottedInput')}">{!opportunity.account.Name}</span>
+        </p>
+
+        <p class="paragrafoTabella" style="">
+          Cod TVA
+            <span class="{!IF( !ISBLANK(opportunity.account.PIVA__c), 'hiddenInput', 'veryLongDot')}"/>
+            <span class="{!IF( (ISBLANK(opportunity.account.PIVA__c)), 'hiddenInput', 'dottedInput')}">{!opportunity.account.PIVA__c}</span>
+        </p>
+
+        <p class="paragrafoTabella">
+          Cod fiscal
+            <span class="{!IF( !ISBLANK(opportunity.account.CF__c), 'hiddenInput', 'veryLongDot')}"/>
+            <span class="{!IF( (ISBLANK(opportunity.account.CF__c)), 'hiddenInput', 'dottedInput')}">{!opportunity.account.CF__c}</span>
+        </p>
+
+        <p class="paragrafoTabella">
+          Nr. Reg. Com.<span class="{!IF( !ISBLANK(opportunity.account.CCIAA__c), 'hiddenInput', 'veryLongDot')}"/><span class="{!IF( ISBLANK(opportunity.account.CCIAA__c), 'hiddenInput', 'dottedInput')}">{!opportunity.account.CCIAA__c}</span>
+        </p>
+        <p class="paragrafoTabella">
+          Nr. R.E.A.<span class="{!IF( !ISBLANK(opportunity.account.REA__c), 'hiddenInput', 'veryLongDot')}"/><span class="dottedInput {!IF( ISBLANK(opportunity.account.REA__c), 'hiddenInput', '')}">{!opportunity.account.REA__c}</span>
+        </p>
+
+        <p class="paragrafoTabella">Sediu legal</p>
+        <p class="paragrafoTabella">
+          Adresă <span class="{!IF( !ISBLANK(opportunity.account.BillingStreet), 'hiddenInput', 'veryLongDot')}" ></span><span class = " {!IF( ISBLANK(opportunity.account.BillingStreet), 'hiddenInput', 'dottedInput')}"> {!opportunity.account.BillingStreet} </span>
+          Oraş <span class="{!IF( !ISBLANK(opportunity.account.BillingCity), 'hiddenInput', 'longDot')}"/><span class = " {!IF( ISBLANK(opportunity.account.BillingCity), 'hiddenInput', 'dottedInput')}"> {!opportunity.account.BillingCity} </span>
+          Cod poştal <span class="{!IF( !ISBLANK(opportunity.account.BillingPostalCode), 'hiddenInput', 'shortDot')}"/><span class = " {!IF(ISBLANK(opportunity.account.BillingPostalCode), 'hiddenInput', 'dottedInput')}"> {!opportunity.account.BillingPostalCode} </span>
+          Provincie <span class="{!IF( !ISBLANK(opportunity.account.BillingState), 'hiddenInput', 'veryShortDot')}"/><span class = " {!IF( ISBLANK(opportunity.account.BillingState), 'hiddenInput', 'dottedInput')}"> {!opportunity.account.BillingState} </span>
+        </p>
+        <!-- todo: TOGLIERE
+          <p class="paragrafoTabella">
+            Country <span class="{!IF( !ISBLANK(opportunity.account.BillingCountry), 'hiddenInput', 'shortDot')}"/><span class = "{!IF( ISBLANK(opportunity.account.BillingCountry), 'hiddenInput', 'dottedInput')}"> {!opportunity.account.BillingCountry} </span>
+          </p>
+        -->
+
+        <p class="paragrafoTabella">Sediul administrativ <i>(dacă este diferit de sediul legal)</i></p>
+        <p class="paragrafoTabella">
+          Adresă <span class="{!IF( AND(!ISBLANK(opportunity.account.ShippingStreet), !sedeAmmUguale), 'hiddenInput', 'veryLongDot')}"/><span class = "{!IF( OR(ISBLANK(opportunity.account.ShippingStreet), sedeAmmUguale), 'hiddenInput', 'dottedInput')}"> {!opportunity.account.ShippingStreet} </span>
+          Oraş <span class="{!IF( AND(!ISBLANK(opportunity.account.ShippingCity), !sedeAmmUguale), 'hiddenInput', 'longDot')}"/><span class = "{!IF( OR(ISBLANK(opportunity.account.ShippingCity), sedeAmmUguale), 'hiddenInput', 'dottedInput')}"> {!opportunity.account.ShippingCity} </span>
+          Cod poştal <span class="{!IF( AND(!ISBLANK(opportunity.account.ShippingPostalCode), !sedeAmmUguale), 'hiddenInput', 'shortDot')}"/><span class = " {!IF( OR(ISBLANK(opportunity.account.ShippingPostalCode), sedeAmmUguale), 'hiddenInput', 'dottedInput')}"> {!opportunity.account.ShippingPostalCode} </span>
+          Provincie <span class="{!IF( AND(!ISBLANK(opportunity.account.ShippingState), !sedeAmmUguale), 'hiddenInput', 'shortDot')}"/><span class = " {!IF( OR(ISBLANK(opportunity.account.ShippingState), sedeAmmUguale), 'hiddenInput', 'dottedInput')}"> {!opportunity.account.ShippingState} </span>
+        </p>
+
+        <!-- todo: TOGLIERE
+          <p class="paragrafoTabella">
+            Country <span class="{!IF( AND(!ISBLANK(opportunity.account.ShippingCountry), !sedeAmmUguale), 'hiddenInput', 'shortDot')}"/><span class = " {!IF( OR(ISBLANK(opportunity.account.ShippingCountry), sedeAmmUguale), 'hiddenInput', 'dottedInput')}"> {!opportunity.account.ShippingCountry} </span>
+          </p>
+        -->
+
+        <p class="paragrafoTabella">
+          Telefon
+          <span class = "{!IF( AND(!ISBLANK(opportunity.account.TelefonoPrefisso__c), !ISBLANK(opportunity.account.TelefonoNumero__c)), 'dottedInput', 'hiddenInput')}"> {!opportunity.account.TelefonoPrefisso__c + opportunity.account.TelefonoNumero__c} </span>
+          <span class = "{!IF( AND(!ISBLANK(opportunity.account.Phone), OR(ISBLANK(opportunity.account.TelefonoPrefisso__c), ISBLANK(opportunity.account.TelefonoNumero__c))), 'dottedInput', 'hiddenInput')}"> {!opportunity.account.Phone} </span>
+          <span class = "{!IF( AND(ISBLANK(opportunity.account.Phone), OR(ISBLANK(opportunity.account.TelefonoPrefisso__c), ISBLANK(opportunity.account.TelefonoNumero__c))), 'normalDot', 'hiddenInput')}"/>
+
+          Fax
+          <span class="{!IF( !ISBLANK(opportunity.account.Fax), 'hiddenInput', 'normalDot')}"/>
+          <span class = "{!IF( (ISBLANK(opportunity.account.Fax)), 'hiddenInput', 'dottedInput')}"> {!opportunity.account.Fax} </span>
+
+          Email
+          <span class="{!IF( !ISBLANK(opportunity.account.Email__c), 'hiddenInput', 'normalDot')}"/>
+          <span class = "{!IF( (ISBLANK(opportunity.account.Email__c)), 'hiddenInput', 'dottedInput')}"> {!opportunity.account.Email__c} </span>
+
+        </p>
+      </div>
+
+      <p class="paragrafoStandard10">În sensul definiţiei de mai jos <sup>(1)</sup>, <b>declarăm că acţionăm în calitate de client cu amănuntul</b>:
+        <img  class="checkboxImgSmall" style="margin-left: 15pt;" src="{!IF( opportunity.account.ClienteDettaglio__c == TRUE, $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>Da
+        <img  class="checkboxImgSmall" style="margin-left: 15pt;" src="{!IF( opportunity.account.ClienteDettaglio__c == FALSE, $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>Nu
+      </p>
+
+      <p class="paragrafoStandard10">De asemenea, în urma încheierii unui eventual contract, în cazul în care sunt îndeplinite condiţiile necesare, vom avea dreptul de a comunica şi de a obţine o schimbare a acestui statut.</p>
+      <p class="paragrafoStandard10">Vă confirmăm interesul nostru de a analiza oferta Dvs. de produse şi servicii financiare, în scopul instaurării unei eventuale colaborări cu Banca, în cazul în care suntem interesaţi de tipul de produs, serviciu şi condiţii economice. Am luat la cunoştinta că în acest scop se pot solicita informaţii la Centrala de Risc şi, de asemenea, chiar referitoare la societăţi conexe.</p>
+      <p class="paragrafoStandard10">Vă precizăm, în cele din urmă, că semnarea acestui formular nu constituie o propunere de contract, si nici nu ne angajează, prin urmare, la încheierea unui contract.</p>
+      <!-- fine parte iniziale comune -->
+
+      <!-- PARTE DINAMICA  PARTE DINAMICA  PARTE DINAMICA  PARTE DINAMICA  PARTE DINAMICA  PARTE DINAMICA  PARTE DINAMICA -->
+
+      <!-- FACTORING -->
+      <div class="{!IF( (ndgDebitoriWrap.size != 0), '', 'hiddenInput')}">
+        <p class="servizioFinanziario">
+          <img  class="checkboxImgSmall"  src="{!IF( (ndgDebitoriWrap.size != 0), $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>FACTORING
+        </p>
+        <p class="paragrafoStandard10">Cu privire la factoring (2), vom indica mai jos datele clienţilor noştri,  ale căror creanţe ar putea fi cesionate la data semnării prezentei (am fost informaţi în mod corespunzător să ne luăm angajamentul de a informa în conformitate cu Decretul-lege nr 196/2003.): </p>
+
+        <table class="tableFactoring">
+          <tr>
+            <th class="tableFactoringIntestazione">Numele firmei</th>
+            <th class="tableFactoringIntestazione">Cod Fiscal</th>
+            <th class="tableFactoringIntestazione">Sediul</th>
+            <th class="tableFactoringIntestazione">Cifra de afaceri pe client</th>
+            <th class="tableFactoringIntestazione">Scadenţa medie</th>
+            <th class="tableFactoringIntestazione">Plafon solicitat<sup>(2)</sup></th>
+          </tr>
+
+          <tr class="{!IF( ndgDebitoriWrap.size != 0 , 'hiddenInput', 'tableFactoring')}">
+            <td class="tableFactoringCell"></td>
+            <td class="tableFactoringCell"></td>
+            <td class="tableFactoringCell"></td>
+            <td class="tableFactoringCell"></td>
+            <td class="tableFactoringCell"></td>
+            <td class="tableFactoringCell"></td>
+          </tr>
+          <tr class="{!IF( ndgDebitoriWrap.size != 0 , 'hiddenInput', 'tableFactoring')}">
+            <td class="tableFactoringCell"></td>
+            <td class="tableFactoringCell"></td>
+            <td class="tableFactoringCell"></td>
+            <td class="tableFactoringCell"></td>
+            <td class="tableFactoringCell"></td>
+            <td class="tableFactoringCell"></td>
+          </tr>
+          <tr class="{!IF( ndgDebitoriWrap.size != 0 , 'hiddenInput', 'tableFactoring')}">
+            <td class="tableFactoringCell"></td>
+            <td class="tableFactoringCell"></td>
+            <td class="tableFactoringCell"></td>
+            <td class="tableFactoringCell"></td>
+            <td class="tableFactoringCell"></td>
+            <td class="tableFactoringCell"></td>
+          </tr>
+          <tr class="{!IF( ndgDebitoriWrap.size != 0 , 'hiddenInput', 'tableFactoring')}">
+              <td class="tableFactoringCell"></td>
+              <td class="tableFactoringCell"></td>
+              <td class="tableFactoringCell"></td>
+              <td class="tableFactoringCell"></td>
+              <td class="tableFactoringCell"></td>
+              <td class="tableFactoringCell"></td>
+          </tr>
+
+          <apex:repeat value="{!ndgDebitoriWrap}" var="deb">
+            <tr class="tableFactoring">
+              <td class="tableFactoringCell">
+                {!deb.debitore.Name}
+              </td>
+              <td class="tableFactoringCell">
+                {!deb.debitore.CF__c}
+              </td>
+              <td class="tableFactoringCell">
+                {!deb.debitore.BillingStreet} {!deb.debitore.BillingCity} {!deb.debitore.BillingPostalCode} {!deb.debitore.BillingState}
+              </td>
+              <td class="tableFactoringCellCenter">
+                {!deb.fatturato}
+              </td>
+              <td class="tableFactoringCellCenter">
+                {!deb.durataNominale }
+              </td>
+              <td class="tableFactoringCellCenter">
+                {!deb.plafond}
+              </td>
+            </tr>
+          </apex:repeat>
+
+        </table>
+      </div>
+
+      <!-- TODO: rivedere queste parti in inglese.... -->
+      <!-- MUTUO -->
+      <apex:repeat value="{!lineeMutuo}" var="lineaMutuo">
+        <div>
+            <p class="servizioFinanziario">
+                <img  class="checkboxImgSmall"  src="{!$Resource.PrivacyPFCheckbox_selected}"/>LOAN
+            </p>
+            <p class="paragrafoStandard10 midMarginBlock">
+                Limit €
+                <span class="{!IF( !ISBLANK(lineaMutuo.importo), 'hiddenInput', 'normalLine')}"/><span class = "{!IF( (ISBLANK(lineaMutuo.importo)), 'hiddenInput', 'linedInput')}"> {!lineaMutuo.importo} </span>
+                <!-- TODO: trasformare in lettere il numero (in inglese) -->
+                <!-- (<span class="{!IF( !ISBLANK(lineaMutuo.importo), 'hiddenInput', 'normalLine')}"/><span class = "{!IF( (ISBLANK(lineaMutuo.importo)), 'hiddenInput', 'linedInput')}"> {!lineaMutuo.importoLettere} </span>) -->
+                (<span class="normalLine"/>)
+            </p>
+        </div>
+      </apex:repeat>
+
+      <!-- APERTURA DI CREDITO IN CONTO CORRENTE -->
+      <div class="{!IF( lineaFidoDiCassa != null, 'uniqueBlock', 'hiddenInput')}">
+          <p class="servizioFinanziario">
+              <img  class="checkboxImgSmall"  src="{!$Resource.PrivacyPFCheckbox_selected}"/>CURRENT ACCOUNT CREDIT LINE
+          </p>
+          <p class="paragrafoStandard10 midMarginBlock" style="text-align: left;">Limit €
+          <span class="{!IF( !ISBLANK(lineaFidoDiCassa.importo), 'hiddenInput', 'normalLine')}"/><span class = "{!IF( (ISBLANK(lineaFidoDiCassa.importo)), 'hiddenInput', 'linedInput')}"> {!lineaFidoDiCassa.importo} </span>
+          (<span class="{!IF( !ISBLANK(lineaFidoDiCassa.importo), 'hiddenInput', 'normalLine')}"/><span class = "{!IF( (ISBLANK(lineaFidoDiCassa.importo)), 'hiddenInput', 'linedInput')}"> {!importoFidoLettere} </span>)
+          </p>
+      </div>
+
+      <!-- DILAZIONE DI PAGAMENTO DI CREDITI COMMERCIALI -->
+      <div class="{!IF( lineaPlafondProroga != null, 'uniqueBlock', 'hiddenInput')}">
+        <p class="servizioFinanziario">
+          <img  class="checkboxImgSmall"  src="{!$Resource.PrivacyPFCheckbox_selected}"/>MATURITY SERVICE FOR PAYMENT EXTENSIONS
+        </p>
+        <p class="paragrafoStandard10 midMarginBlock" style="text-align: left;">
+          Days of extension<span class="{!IF( !ISBLANK(lineaPlafondProroga.durataDilazione), 'hiddenInput', 'normalLine')}"/><span class = "{!IF( (ISBLANK(lineaPlafondProroga.durataDilazione)), 'hiddenInput', 'linedInput')}"> {!lineaPlafondProroga.durataDilazione} </span>
+          Maximum of the credit duration<span class="{!IF( !ISBLANK(lineaPlafondProroga.durataMaxCredito), 'hiddenInput', 'normalLine')}"/><span class = "{!IF( (ISBLANK(lineaPlafondProroga.durataMaxCredito)), 'hiddenInput', 'linedInput')}"> {!lineaPlafondProroga.durataMaxCredito} </span>
+        </p>
+      </div>
+
+      <!-- CONTO CORRENTE BANCARIO -->
+      <div class="{!IF( lineaIfisImpresa != null, 'uniqueBlock', 'hiddenInput')}">
+        <p class="servizioFinanziario">
+          <img  class="checkboxImgSmall"  src="{!$Resource.PrivacyPFCheckbox_selected}"/>CURRENT ACCOUNT
+        </p>
+      </div>
+
+      <!-- (ALTRO) per ora è default NASCOSTA. Da riattivare eventualmente per target -->
+      <!--
+      <div class="uniqueBlock">
+          <p class="servizioFinanziario">
+              <img  class="checkboxImgSmall"  src="{!IF( FALSE, $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>(ALTRO)
+          </p>
+      </div>  -->
+      <!-- FINE PARTE DINAMICA -->
+
+      <!-- PARTE FINALE -->
+      <p class="paragrafoStandard10">&nbsp;</p>
+      <p class="paragrafoStandard10" style="text-autospace:none"><span  >______________________________</span></p>
+      <p class="paragrafoStandard10">&nbsp;</p>
+
+      <p class="paragrafoStandard10">Cu privire la datele sus menţionate, declarăm şi garantăm că acestea din urma sunt adevărate şi reale şi ne obligăm să comunicăm Bancii Ifis toate modificările care vor interveni pe parcursul colaborării.</p>
+      <p class="paragrafoStandard10">Luând act de definiţia de “parte asociată”<sup>(3)</sup> şi de “entitate afiliată”<sup>(4)</sup> mai jos menţionate, solicitantul, conştienţi de responsabilităţile ce ne revin în cazul declaraţiilor false (art. 137 Textul Unic Bancar), suntem de acord să informăm imediat Banca Ifis SpA în cazul în care entitatea/societatea se încadreaza în aceste definiţii, şi să furnizăm toate informaţiile utile pentru înregistrarea entitatilor asociate (parti legate Bancii si entitati afiliate acestora).</p>
+      <p class="paragrafoStandard10">De asemenea, am luat la cunoştinţă, de lipsa oricărei obligaţii de a plăti comisioane de orice fel în favoarea unui terţ care ne-a pus în legătura cu  Banca sau a facilitat acest raport şi, de asemenea, declarăm în mod expres ca nu am plătit şi nu vom plăti sume sau orice avantaje  unor terţe părţi ca urmare a accesului la serviciile Băncii Ifis.</p>
+
+      <p class="MsoNormal" style="text-align:justify"><span>&nbsp;</span></p>
+      <p class="MsoNormal" style="text-align:justify;line-height:9.0pt"><span>&nbsp;</span></p>
+
+      <p class="MsoNormal">
+        <span>Locul şi data_____________________</span>
+        <span style="float:right; margin-right:5pt;"> ________________________________________________</span><br/>
+        <span style="float:right; margin-right:5pt;"> (Nume, prenume, funcţie, ştampilă şi semnătură)</span>
+      </p>
+
+      <p class="paragrafoStandard10">&nbsp;</p>
+      <p class="MsoNormal" style="text-autospace:none"><span  >______________________________</span></p>
+
+      <p class="paragrafoStandard8">(1) <b>Client cu amănuntul</b>: persoane fizice ce desfăşoară activităţi profesionale sau mesteşugăreşti, organizaţii non-profit, întreprinderile cu mai puţin de 10 angajaţi şi  o cifră de afaceri anuală sau un patrimoniu total anual ce nu depăşeşte 2 milioane EUR, consumatorii individuali ce acţionează în scopuri exclusiv de afaceri, comerciale, meşteşugăresti sau profesionale.</p>
+      <p class="paragrafoStandard8">(2) Pentru cererea de plafon pro soluto vă rugăm să  completaţi şi formularul indicat.</p>
+      <p class="paragrafoStandard8">(3) Sunt <b>părţi asociate</b> ale Băncii Ifis SpA: 1. Consilieri, Auditori şi Directorul General; 2. Persoana autorizată de Banca Italiei să deţină acţiuni ale Băncii; 3. Persoana ce poate numi, singură, unul sau mai mulţi componenţi ai înaltei administraţii sau ai Consiliului de Administraţie (inclusiv în virtutea pactelor în orice formă încheiate, sau în virtutea prevederilor statutare având ca obiect sau ca efect exercitarea acestor drepturi); 4. O companie sau o întreprindere, constituită inclusiv în forma non-corporatistă, asupra careia Banca sau o societate a Grupului Bancar poate exercita controlul sau o influenţă semnificativă.</p>
+      <p class="paragrafoStandard8">(4) Sunt considerate <b>entităţi afiliate</b> ale unei părţi asociate ale Băncii Ifis SpA: 1. Companii şi întreprinderi, inclusiv cele în formă non-corporatistă, controlate de o parte asociată. 2. Persoanele care controlează o parte asociată din cele indicate la punctele 2 şi 3 din definiţia acesteia, inclusiv persoanele juridice supuse în mod direct sau indirect controlului comun exercitat de aceeaşi parte asociată. 3. Rudele apropiate ale unei părţi asociate şi societăţile şi Întreprinderile controlate de către acestea.</p>
+
+</body>
+
+</html>
+
+</apex:page>

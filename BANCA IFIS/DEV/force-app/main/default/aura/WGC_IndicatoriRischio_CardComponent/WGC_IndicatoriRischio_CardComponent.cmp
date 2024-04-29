@@ -1,0 +1,389 @@
+<aura:component
+    implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction"
+    controller="WGC_IndicatoriRischio_Controller" access="global">
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <aura:handler event="c:WGC_Account_Utility_EventiNegativi_ResolveEvent" action="{! c.manageEventNE }" />
+    <aura:handler event="c:WGC_Account_Utility_Bilancio_ResolveEvent" action="{! c.manageEventB }" />
+    <aura:handler event="c:WGC_UpdateDocStatus" action="{! c.updateStatusDoc }" />
+
+    <aura:attribute name="recordId" type="String" />
+
+    <aura:attribute name="title" type="String" default="INDICATORI DI RISCHIO" />
+    <aura:attribute name="valData" type="String" />
+    <aura:attribute name="nMsg" type="Integer" default="159" />
+    <aura:attribute name="resultEventiNegativi" type="Object" />
+    <aura:attribute name="eventiNegativiStatus" type="Boolean" />
+
+    <aura:attribute name="resultBilancio" type="Object" />
+    <aura:attribute name="differenzaBilancio" type="Decimal" />
+    <aura:attribute name="lastContactStatus" type="Boolean" default="false" />
+    
+	<!-- MARCO BONIN - CR 199 -->
+
+    <aura:attribute name="lastEventStatus" type="Boolean" default="false" />
+    <aura:attribute name="lastOccurenceDate" type="String" />
+    
+    <aura:attribute name="accountData" type="Map" />
+    <aura:attribute name="sconfino" type="Decimal" default='null' />
+    <aura:attribute name="sofferenze" type="String" />
+    <aura:attribute name="statusDoc" type="Boolean" default="false"/>
+
+    <aura:attribute name="rischioAbb" type="Object" default="{ color : 'grey', status : ' - '}" />
+    
+    <lightning:card class='container-card'>
+        <aura:set attribute="title">
+            <!-- <lightning:icon iconName="{! 'utility:none' }" size="small" variant="slds-icon-inverse" /> -->
+            <div class="title">{!$Label.c.WGC_IndicatoriRischio_Card_Titolo}</div>
+            <!-- with container -->
+        </aura:set>
+
+        <div>
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_1-of-1">
+                    <div class="box slds-grid slds-wrap slds-m-around_small slds-text-align_center">
+                        <div
+                            class="slds-col slds-size_1-of-3 slds-medium-size_1-of-5 cell-height slds-p-around_small slds-text-title">
+                            <div class="column header slds-p-vertical_medium slds-align_absolute-center">
+                                {!$Label.c.WGC_IndicatoriRischio_Card_Rischio_Abbandono}
+                            </div>
+                            <div class="column value" style="text-transform: uppercase;">
+                                {! v.rischioAbb.status }
+                            </div>
+                            <div class="column dot slds-p-around_small slds-align_absolute-center">
+                                <div class="{! v.rischioAbb.color }"></div>
+                            </div>
+                        </div>
+                        <div
+                            class="slds-col slds-size_1-of-3 slds-medium-size_1-of-5 cell-height slds-p-around_small slds-text-title">
+                            <div class="column header slds-p-vertical_medium slds-align_absolute-center">
+                                {!$Label.c.WGC_IndicatoriRischio_Card_Ultimo_Contatto}
+                            </div>
+                            <div class="column value">
+                                <aura:if isTrue="{! !empty(v.lastOccurenceDate) }">
+                                    <div>
+                                        {! v.lastOccurenceDate } 
+                                    </div>
+                                    <aura:set attribute="else">
+                                        <div class="{! v.lastContactStatus || v.lastEventStatus ? 'slds-hide' : '' }">{!$Label.c.WGC_Indicatori_Rischio_Card_Component_NO}</div>
+                                    </aura:set>
+                                </aura:if>
+
+                            </div>
+                            <div class="column dot slds-p-around_small slds-align_absolute-center">
+                                <div class="{! v.lastContactStatus || v.lastEventStatus ? 'green' : 'red' }"></div>
+                            </div>
+
+                        </div>
+                        <div
+                            class="slds-col slds-size_1-of-3 slds-medium-size_1-of-5 cell-height slds-p-around_small slds-text-title">
+                            <div class="column header slds-p-vertical_medium slds-align_absolute-center">
+                                {!$Label.c.WGC_IndicatoriRischio_Card_Completamento_Profilo}
+                            </div>
+
+                            <aura:if isTrue="{! v.accountData.WGC_Censimento__c == 'Completo'}">
+                                <div class="column value">
+                                    <span>{!$Label.c.WGC_Indicatori_Rischio_Card_Component_COMPLETO}</span>
+                                </div>
+                                <div class="column dot slds-p-around_small slds-align_absolute-center">
+                                    <div class="green"></div>
+                                </div>
+                                <aura:set attribute="else">
+                                    <aura:if isTrue="{! v.accountData.WGC_Censimento__c == 'Parziale'}">
+                                        <div class="column value">
+                                            <span>{!$Label.c.WGC_Indicatori_Rischio_Card_Component_PARZIALE}</span>
+                                        </div>
+                                        <div class="column dot slds-p-around_small slds-align_absolute-center">
+                                            <div class="red"></div>
+                                        </div>
+                                        <aura:set attribute="else">
+                                            <div class="column value">
+                                                <span> - </span>
+                                            </div>
+                                            <div class="column dot slds-p-around_small slds-align_absolute-center">
+                                                <div class="grey"></div>
+                                            </div>
+                                        </aura:set>
+                                    </aura:if>
+                                </aura:set>
+                            </aura:if>
+
+
+                        </div>
+                        <div
+                            class="slds-col slds-size_1-of-3 slds-medium-size_1-of-5 cell-height slds-p-around_small slds-text-title">
+                            <div class="column header slds-p-vertical_medium slds-align_absolute-center">
+                                {!$Label.c.WGC_IndicatoriRischio_Card_Documentazione_Azienda}
+                            </div>
+                            <aura:if isTrue="{! v.statusDoc }">
+                                {!$Label.c.WGC_Indicatori_Rischio_Card_Component_SI}
+                                <div class="column dot slds-p-around_small slds-align_absolute-center">
+                                    <div class="green"></div>
+                                </div>
+                                <aura:set attribute="else">
+                                    <div class="column value">
+                                        {!$Label.c.WGC_Indicatori_Rischio_Card_Component_NO}
+                                    </div>
+                                    <div class="column dot slds-p-around_small slds-align_absolute-center">
+                                        <div class="red"></div>
+                                    </div>
+                                </aura:set>
+                            </aura:if>
+                            <!-- 
+                            <div class="column value">
+                                NO
+                            </div>
+                            <div class="column dot slds-p-around_small slds-align_absolute-center">
+                                <div class="green"></div>
+                            </div>
+                            -->
+                        </div>
+                        <div
+                            class="slds-col slds-size_1-of-3 slds-medium-size_1-of-5 cell-height slds-p-around_small slds-text-title">
+                            <div class="column header slds-p-vertical_medium slds-align_absolute-center">
+                                {!$Label.c.WGC_IndicatoriRischio_Card_Controlli_GIANOS}
+                            </div>
+                            <div class="column value">
+                                <aura:if isTrue="{! v.accountData.WGC_Semaforo_Gianos__c == 'ROSSO' || v.accountData.WGC_Semaforo_Gianos__c == 'GIALLO' }">
+                                        <span>{!$Label.c.WGC_Indicatori_Rischio_Card_Component_SI}</span>
+                                </aura:if>
+
+                                <aura:if isTrue="{! v.accountData.WGC_Semaforo_Gianos__c == 'VERDE' }">
+                                        <span>{!$Label.c.WGC_Indicatori_Rischio_Card_Component_NO}</span>
+                                </aura:if>
+                                    
+                                <aura:if isTrue="{! v.accountData.WGC_Semaforo_Gianos__c == 'GRIGIO' }">
+                                        <span> - </span>
+                                </aura:if>
+                                    
+                                    
+                                </div>
+                                <div class="column dot slds-p-around_small slds-align_absolute-center">
+                                    <div class="{! (v.accountData.WGC_Semaforo_Gianos__c == 'VERDE') ? 'green' : (v.accountData.WGC_Semaforo_Gianos__c == 'ROSSO') ? 'red' : (v.accountData.WGC_Semaforo_Gianos__c == 'GIALLO') ? 'red' : 'grey' }"></div>
+                                </div>
+                        </div>
+                        <div
+                            class="slds-col slds-size_1-of-3 slds-medium-size_1-of-5 cell-height slds-p-around_small slds-text-title">
+                            <div class="column header slds-p-vertical_medium slds-align_absolute-center">
+                                {!$Label.c.WGC_IndicatoriRischio_Card_Patrimonio_Netto}
+                            </div>
+                            <div class="column value">
+                                <aura:if isTrue="{!v.resultBilancio != null || v.resultBilancio != undefined }">
+                                    <lightning:formattedNumber value="{! v.resultBilancio.PatrimonioNetto__c }"
+                                        style="currency" currencyCode="EUR" minimumFractionDigits="0"
+                                        maximumFractionDigits="0" />
+                                    <aura:set attribute="else">
+                                        <span> - </span>
+                                    </aura:set>
+                                </aura:if>
+                            </div>
+                            <div class="column dot slds-p-around_small slds-align_absolute-center">
+                                <div
+                                    class="{!v.differenzaBilancio >= 0 ? 'green' : v.differenzaBilancio == undefined ? ' grey ' : ' red ' }">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div
+                            class="slds-col slds-size_1-of-3 slds-medium-size_1-of-5 cell-height slds-p-around_small slds-text-title">
+                            <div class="column header slds-p-vertical_medium slds-align_absolute-center">
+                                {!$Label.c.WGC_IndicatoriRischio_Card_Sofferenze}
+                            </div>
+                            <div class="column value">
+                                    <aura:if isTrue="{!  v.sofferenze == 'SI' }">
+                                            <div>{!$Label.c.WGC_Indicatori_Rischio_Card_Component_SI}</div>
+                                        </aura:if>
+                                        <aura:if isTrue="{!  v.sofferenze == 'NO' }">
+                                            <div>{!$Label.c.WGC_Indicatori_Rischio_Card_Component_NO}</div>
+                                        </aura:if>
+                                        <aura:if isTrue="{!  v.sofferenze == '-' }">
+                                            <div>-</div>
+                                        </aura:if>
+                            </div>
+                            <div class="column dot slds-p-around_small slds-align_absolute-center">
+                                <div
+                                    class="{! v.sofferenze == 'SI' ? 'red' : v.sofferenze == 'NO' ? 'green' : 'grey' }">
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div
+                            class="slds-col slds-size_1-of-3 slds-medium-size_1-of-5 cell-height slds-p-around_small slds-text-title">
+                            <div class="column header slds-p-vertical_medium slds-align_absolute-center">
+                                {!$Label.c.WGC_IndicatoriRischio_Card_Sconfini}
+                            </div>
+                            <div class="column value">
+                                <aura:if isTrue="{! v.sconfino > 0 }">
+                                    <div>{!$Label.c.WGC_Indicatori_Rischio_Card_Component_SI}</div>
+                                </aura:if>
+                                <aura:if isTrue="{! v.sconfino &lt;= 0 }">
+                                                                        <div>{!$Label.c.WGC_Indicatori_Rischio_Card_Component_NO}</div>
+
+                                </aura:if>
+                                <aura:if isTrue="{! v.sconfino == 'null' }">
+                                    <div>-</div>
+                                </aura:if>
+                            </div>
+                            <div class="column dot slds-p-around_small slds-align_absolute-center">
+                                <div class="{! v.sconfino > 0 ? 'red' : v.sconfino == 0 ? 'green' : 'grey' }"></div>
+                            </div>
+
+                        </div>
+
+
+                        <div
+                            class="slds-col slds-size_1-of-3 slds-medium-size_1-of-5 cell-height slds-p-around_small slds-text-title">
+                            <div class="column header slds-p-vertical_medium slds-align_absolute-center">
+                                {!$Label.c.WGC_IndicatoriRischio_Card_Protesti_Pregiudizievoli}
+                            </div>
+                            <div class="column value">
+                                <aura:if isTrue="{! v.eventiNegativiStatus == true }">
+                                    <div>{!$Label.c.WGC_Indicatori_Rischio_Card_Component_NO}</div>
+                                </aura:if>
+                                <aura:if isTrue="{! v.eventiNegativiStatus == false }">
+                                    <div>{!$Label.c.WGC_Indicatori_Rischio_Card_Component_SI}</div>
+                                </aura:if>
+                                <aura:if
+                                    isTrue="{! v.eventiNegativiStatus == undefined || v.eventiNegativiStatus == null }">
+                                    <div>-</div>
+                                </aura:if>
+                            </div>
+                            <div class="column dot slds-p-around_small slds-align_absolute-center">
+                                <div
+                                    class="{! v.eventiNegativiStatus == true ? 'green' : v.eventiNegativiStatus == false ? 'red' : 'grey' }">
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="slds-col slds-size_1-of-3 slds-medium-size_1-of-5 cell-height slds-p-around_small slds-text-title">
+                            <div class="column header slds-p-vertical_medium slds-align_absolute-center">
+                                {!$Label.c.WGC_IndicatoriRischio_Card_Rating}
+                            </div>
+                            <aura:if isTrue="{!v.accountData.RatingT0__c == null || v.accountData.RatingT0__c == ''}">
+                                <div class="column value">
+                                    <span> - </span>
+                                </div>
+                                <div class="column dot slds-p-around_small slds-align_absolute-center">
+                                    <div class="grey"></div>
+                                </div>
+                                <aura:set attribute="else">
+                                    <!-- Start NEW 26/04/2019 -->
+                                    <aura:if isTrue="{! v.accountData.RatingT1__c == null }">
+                                        <aura:if isTrue="{! lessthanorequal(v.accountData.RatingT0__c, 4) }">
+                                            <div class="column value">
+                                                {!v.accountData.RatingT0__c} <img class="freccia"
+                                                    src="{!$Resource.WGC_FrecciaVerde}" />
+                                            </div>
+                                            <div class="column dot slds-p-around_small slds-align_absolute-center">
+                                                <div class="green"></div>
+                                            </div>
+                                        </aura:if>
+                                        <aura:if isTrue="{! greaterthanorequal(v.accountData.RatingT0__c, 5) }">
+                                            <div class="column value">
+                                                {!v.accountData.RatingT0__c} <img class="freccia"
+                                                    src="{!$Resource.WGC_FrecciaRossa}"  />
+                                            </div>
+                                            <div class="column dot slds-p-around_small slds-align_absolute-center">
+                                                <div class="red"></div>
+                                            </div>
+                                        </aura:if>
+                                    <!-- End NEW 26/04/2019 -->
+                                        <aura:set attribute="else">
+                                            <aura:if isTrue="{!v.accountData.RatingT0__c > v.accountData.RatingT1__c}">
+                                                <aura:if isTrue="{! lessthanorequal(v.accountData.RatingT0__c, 4) }">
+                                                    <div class="column value">
+                                                        {!v.accountData.RatingT0__c} <img class="freccia"
+                                                            src="{!$Resource.WGC_FrecciaVerde}" />
+                                                    </div>
+                                                    <div class="column dot slds-p-around_small slds-align_absolute-center">
+                                                        <div class="green"></div>
+                                                    </div>
+                                                </aura:if>
+                                                <aura:if isTrue="{! greaterthanorequal(v.accountData.RatingT0__c, 5) }">
+                                                    <div class="column value">
+                                                        {!v.accountData.RatingT0__c} <img class="freccia"
+                                                            src="{!$Resource.WGC_FrecciaRossa}"  />
+                                                    </div>
+                                                    <div class="column dot slds-p-around_small slds-align_absolute-center">
+                                                        <div class="red"></div>
+                                                    </div>
+                                                </aura:if>
+                                                <aura:set attribute="else">
+                                                    <aura:if isTrue="{! lessthanorequal(v.accountData.RatingT0__c, 4) }">
+                                                        <div class="column value">
+                                                            {!v.accountData.RatingT0__c} <img class="freccia freccia-down"
+                                                                src="{!$Resource.WGC_FrecciaVerde}" style="transform: rotate(180deg);"/>
+                                                        </div>
+                                                        <div class="column dot slds-p-around_small slds-align_absolute-center">
+                                                            <div class="green"></div>
+                                                        </div>
+                                                    </aura:if>
+                                                    <aura:if isTrue="{! greaterthanorequal(v.accountData.RatingT0__c, 5) }">
+                                                        <div class="column value">
+                                                            {!v.accountData.RatingT0__c} <img class="freccia freccia-down"
+                                                                src="{!$Resource.WGC_FrecciaRossa}" style="transform: rotate(180deg);"/>
+                                                        </div>
+                                                        <div class="column dot slds-p-around_small slds-align_absolute-center">
+                                                            <div class="red"></div>
+                                                        </div>
+                                                    </aura:if>
+                                                </aura:set>
+                                            </aura:if>
+                                        </aura:set>
+                                    </aura:if>
+                                </aura:set>
+                            </aura:if>
+                            <!-- <aura:if isTrue="{!v.accountData.RatingT0__c == null || 
+                                            v.accountData.RatingT0__c == undefined}">
+                                <div class="column value">
+                                    -
+                                </div>
+                                <div class="column dot slds-p-around_small slds-align_absolute-center">
+                                    <div class="grey"></div>
+                                </div>
+                            </aura:if>
+                            <aura:if isTrue="{!v.accountData.RatingT0__c &lt;= 4}">
+                                <div class="column value">
+                                    <aura:if isTrue="{!v.accountData.RatingT0__c &gt; v.accountData.RatingT1__c}">
+                                        {!v.accountData.RatingT0__c} <img
+                                            style="height: 10px; width: 10px; margin-left: 5px;"
+                                            src="{!$Resource.WGC_FrecciaRossa}" />
+                                        <aura:set attribute="else">
+                                            <aura:if
+                                                isTrue="{!v.accountData.RatingT0__c &lt;= v.accountData.RatingT1__c}">
+                                                {!v.accountData.RatingT0__c} <img
+                                                    style="height: 10px; width: 10px; margin-left: 5px;"
+                                                    src="{!$Resource.WGC_FrecciaVerde}" />
+                                            </aura:if>
+                                        </aura:set>
+                                    </aura:if>
+                                </div>
+                                <div class="column dot slds-p-around_small slds-align_absolute-center">
+                                    <div class="green"></div>
+                                </div>
+                            </aura:if>
+                            <aura:if isTrue="{!v.accountData.RatingT0__c &gt;= 5}">
+                                <div class="column value">
+                                    <aura:if isTrue="{!v.accountData.RatingT0__c &gt; v.accountData.RatingT1__c}">
+                                        +{!v.accountData.RatingT0__c}
+                                        <aura:set attribute="else">
+                                            <aura:if
+                                                isTrue="{!v.accountData.RatingT0__c &lt; v.accountData.RatingT1__c}">
+                                                -{!v.accountData.RatingT0__c}
+                                            </aura:if>
+                                        </aura:set>
+                                    </aura:if>
+                                </div>
+                                <div class="column dot slds-p-around_small slds-align_absolute-center">
+                                    <div class="red"></div>
+                                </div>
+                            </aura:if> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </lightning:card>
+</aura:component>

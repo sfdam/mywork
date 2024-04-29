@@ -1,0 +1,536 @@
+<aura:component controller="WGC_ModuloAdeguataVerifica" implements="flexipage:availableForRecordHome,force:hasRecordId">
+    <aura:attribute name="title" type="String" default="Compila documento"/>
+    <aura:attribute name="tipo" type="String" default="Modulo Adeguata Verifica"/>
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="saveReferenti" type="Boolean" default="false"/>
+    <aura:attribute name="errorScopo" type="Boolean" default="false"/>
+    <aura:attribute name="errorSezione1" type="Boolean" default="false"/>
+    <aura:attribute name="errorSezione2" type="Boolean" default="false"/>
+    <aura:attribute name="isLoaded" type="Boolean" default="false" />
+    <aura:attribute name="modulo" type="AdeguataVerifica__c" 
+        default="{ 'sobjectType': 'AdeguataVerifica__c', 'WGC_Rapporto_Profilo_economico__c': true}"/>
+	<aura:attribute name="nazioni" type="Map" />
+	<aura:attribute name="nazioniSenzaItalia" type="Map" />
+	<aura:attribute name="infoMav" type="Map" />
+	<aura:attribute name="province" type="List" />
+	<aura:attribute name="errorPaeseCasaMadre" type="Boolean" default="false"/>
+	<aura:attribute name="errorPaeseSvolgimentoAttivitaPrevalente" type="Boolean" default="false"/>
+	<aura:attribute name="errorProvinciaSvolgimentoAttivitaPrevalente" type="Boolean" default="false"/>
+	<aura:attribute name="errorCreditiErariali" type="Boolean" default="false"/>
+	<aura:attribute name="profilo" type="String"/>
+	<aura:attribute name="scopoFactoring" type="List"/>
+	<aura:attribute name="scopoFinanziamenti" type="List"/>
+	<aura:attribute name="scopoServiziBancari" type="List"/>
+	<aura:attribute name="naturaCreditiErariali" type="List"/>
+	<aura:attribute name="tipologiaMav" type="String"/>
+	<!--FACTORY SV START-->
+	<aura:attribute name="hideTipoSede" type="Boolean" default="true"/>
+	<!--Factory SV END-->
+	<!-- SM - TEN CR 425 Attributo per controllare presenza linee estero -->
+	<aura:attribute name="linesEstero" type="Boolean" default="false" />
+	<!-- SM - CR 486 Attributo per aggiunta campo visita azienda -->
+	<aura:attribute name="VisitaLocaliAzienda" type="Boolean" default="false" />
+	<!-- EVENT -->
+    <aura:registerEvent name="WGC_ChangeMav" type="c:WGC_ChangeMavInfo" />
+    <!-- Libraries -->
+	<lightning:overlayLibrary aura:id="overlayLib"/>
+	<lightning:notificationsLibrary aura:id="notifLib"/>
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler event="c:WGC_ModuloAdeguataVerifica_ResolveEvent" action="{!c.handleSaveTitolareEffettivo}"/>
+
+    <aura:if isTrue="{! v.isLoaded }">
+        <div class="container-doc" style="margin:0 -20px -20px -20px;">
+            <ui:scrollerWrapper class="scrollerSize">
+                <div class="slds-grid slds-wrap slds-p-horizontal_x-large slds-p-bottom_small">
+                    <!-- <div class="slds-col slds-size_1-of-1 slds-text-align_left slds-p-around_small">
+                        <p class="slds-text-body_small subtitle-text">TIPO DI DOCUMENTO</p>
+                    </div> -->
+                    <div class="slds-col slds-size_12-of-12 slds-text-align_left slds-p-around_small">
+                        <div class="icon-container">
+                            <lightning:icon class="icon" variant="inverse" iconName="utility:file" size="small"/>
+                        </div>
+                        <div class="title-container">
+                            <span class="slds-text-title_bold" >{!v.tipo}</span>
+                        </div>
+                    </div>
+                </div>
+				<aura:if isTrue="{!(v.profilo != 'IFIS - Crediti Erariali' &amp;&amp; v.tipologiaMav == 'standard') || v.tipologiaMav == 'CC'}">
+					<lightning:layout multipleRows="true" class="pr-gray slds-p-horizontal_x-large slds-p-vertical_medium">
+						<lightning:layoutItem size="12" class="slds-p-around_small">
+							<span class="subtitle-text">INFORMAZIONI SUL RAPPORTO CONTINUATIVO</span>
+						</lightning:layoutItem>
+						<lightning:layout multipleRows="true" class="pr-gray slds-p-horizontal_x-large slds-p-vertical_medium">
+							<lightning:layoutItem size="6" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="6" class="slds-p-vertical_xx-small">
+								<lightning:layout multipleRows="true">
+									<lightning:layoutItem size="6" class="slds-p-bottom_small">
+									</lightning:layoutItem>
+									<lightning:layoutItem size="6" class="slds-p-bottom_small">
+										<i class="question">Natura del rapporto</i>
+									</lightning:layoutItem>
+									<lightning:layoutItem size="6" smallDeviceSize="0" mediumDeviceSize="6" largeDeviceSize="6">
+									</lightning:layoutItem>
+									<lightning:layoutItem size="3" smallDeviceSize="6" mediumDeviceSize="3" largeDeviceSize="3" class="slds-p-vertical_xx-small">
+										<span>Factoring</span>
+									</lightning:layoutItem>
+									<lightning:layoutItem size="3" smallDeviceSize="6" mediumDeviceSize="3" largeDeviceSize="3" class="slds-align_absolute-center slds-p-vertical_xx-small">
+										<lightning:input aura:id="Factoring" value="{!v.modulo.Natura_Factoring__c}" checked="{!v.modulo.Natura_Factoring__c}" class="toggle-position" type="toggle" name="Natura_Factoring__c" variant="label-hidden" messageToggleActive="" messageToggleInactive="" onchange="{!c.onChangeToggle}"/>
+									</lightning:layoutItem>
+								</lightning:layout>
+							</lightning:layoutItem>
+							<lightning:layoutItem size="6" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="6" class="slds-p-vertical_xx-small">
+								<lightning:layout multipleRows="true">
+									<lightning:layoutItem size="12" class="slds-p-bottom_small">
+										<i class="question">Scopo del rapporto</i>
+									</lightning:layoutItem>								
+									<lightning:layoutItem size="6">
+										<lightning:select name="Scopo_Factoring__c" aura:id="Scopo_Factoring__c" disabled="{!(!v.modulo.Natura_Factoring__c)}" value="{!v.modulo.Scopo_Factoring__c}" onchange="{!c.onChangePicklist}" variant="label-hidden" class="label-hidden">
+											<aura:iteration items="{!v.scopoFactoring}" var="scopo">
+												<option text="{!scopo.label}" value="{!scopo.value}" selected="{!scopo.selected}"/>
+											</aura:iteration>
+										</lightning:select>
+									</lightning:layoutItem>
+								</lightning:layout>
+							</lightning:layoutItem>
+
+							<lightning:layoutItem size="6" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="6">
+								<lightning:layout multipleRows="true">
+									<lightning:layoutItem size="6" smallDeviceSize="0" mediumDeviceSize="6" largeDeviceSize="6">
+									</lightning:layoutItem>
+									<lightning:layoutItem size="3" smallDeviceSize="6" mediumDeviceSize="3" largeDeviceSize="3" class="slds-p-vertical_xx-small">
+										<span>Finanziamenti</span>
+									</lightning:layoutItem>
+									<lightning:layoutItem size="3" smallDeviceSize="6" mediumDeviceSize="3" largeDeviceSize="3" class="slds-align_absolute-center slds-p-vertical_xx-small">
+										<lightning:input aura:id="Finanziamenti" value="{!v.modulo.Natura_Finanziamenti__c}" checked="{!v.modulo.Natura_Finanziamenti__c}" class="toggle-position" type="toggle" name="Natura_Finanziamenti__c" variant="label-hidden" messageToggleActive="" messageToggleInactive="" onchange="{!c.onChangeToggle}"/>
+									</lightning:layoutItem>
+								</lightning:layout>
+							</lightning:layoutItem>
+							<lightning:layoutItem size="6" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="6" class="slds-p-vertical_xx-small">
+								<lightning:layout multipleRows="true">
+									<lightning:layoutItem size="6">
+										<lightning:select name="Scopo_Finanziamenti__c" aura:id="Scopo_Finanziamenti__c" disabled="{!(!v.modulo.Natura_Finanziamenti__c)}" value="{!v.modulo.Scopo_Finanziamenti__c}" onchange="{!c.onChangePicklist}" variant="label-hidden" class="label-hidden">
+											<aura:iteration items="{!v.scopoFinanziamenti}" var="scopo">
+												<option text="{!scopo.label}" value="{!scopo.value}" selected="{!scopo.selected}"/>
+											</aura:iteration>
+										</lightning:select>
+									</lightning:layoutItem>
+								</lightning:layout>
+							</lightning:layoutItem>
+
+							<lightning:layoutItem size="6" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="6">
+								<lightning:layout multipleRows="true">
+									<lightning:layoutItem size="6" smallDeviceSize="0" mediumDeviceSize="6" largeDeviceSize="6">
+									</lightning:layoutItem>
+									<lightning:layoutItem size="3" smallDeviceSize="6" mediumDeviceSize="3" largeDeviceSize="3" class="slds-p-vertical_xx-small">
+										<span>Servizi Bancari</span>
+									</lightning:layoutItem>
+									<lightning:layoutItem size="3" smallDeviceSize="6" mediumDeviceSize="3" largeDeviceSize="3" class="slds-align_absolute-center slds-p-vertical_xx-small">
+										<lightning:input aura:id="ServiziBancari" value="{!v.modulo.Natura_Servizi_Bancari__c}" checked="{!v.modulo.Natura_Servizi_Bancari__c}" class="toggle-position" type="toggle" name="Natura_Servizi_Bancari__c" variant="label-hidden" messageToggleActive="" messageToggleInactive="" onchange="{!c.onChangeToggle}"/>
+									</lightning:layoutItem>
+								</lightning:layout>
+							</lightning:layoutItem>
+							<lightning:layoutItem size="6" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="6" class="slds-p-vertical_xx-small">
+								<lightning:layout multipleRows="true">
+									<lightning:layoutItem size="6">
+										<lightning:select name="Scopo_Servizi_Bancari__c" aura:id="Scopo_Servizi_Bancari__c" disabled="{!(!v.modulo.Natura_Servizi_Bancari__c)}" value="{!v.modulo.Scopo_Servizi_Bancari__c}" onchange="{!c.onChangePicklist}" variant="label-hidden" class="label-hidden">
+											<aura:iteration items="{!v.scopoServiziBancari}" var="scopo">
+												<option text="{!scopo.label}" value="{!scopo.value}" selected="{!scopo.selected}"/>
+											</aura:iteration>
+										</lightning:select>
+									</lightning:layoutItem>
+								</lightning:layout>
+							</lightning:layoutItem>
+							<aura:if isTrue="{!v.errorSezione1}">
+							<lightning:layoutItem size="12">
+								<lightning:layout>
+									<lightning:layoutItem size="12" class="slds-p-around_small">
+										<span style="color:red;">{!v.errorScopo}</span>
+									</lightning:layoutItem>
+								</lightning:layout>
+							</lightning:layoutItem>
+							</aura:if>
+						</lightning:layout>
+						<!-- FACTORY SV START-->
+						<lightning:layoutItem size="6">
+							<span>Il rapporto/operazione è coerente con il profilo economico finanziario del cliente e attività svolta?</span>
+						</lightning:layoutItem>
+						<lightning:layoutItem size="6" class="slds-p-horizontal_small">
+							<aura:If isTrue="{!v.modulo}">                              
+								<ui:inputRadio aura:id="economicoSi" value="{!v.modulo.WGC_Rapporto_Profilo_economico__c ? true : false}" name="WGC_Rapporto_Profilo_economico__c" label="Si" change="{!c.onGroupEconomic}"/>
+								<ui:inputRadio aura:id="economicoNo" value="{!v.modulo.WGC_Rapporto_Profilo_economico__c ? false : true}" name="WGC_Rapporto_Profilo_economico__c" label="No" change="{!c.onGroupEconomic}"/>
+							</aura:If>
+                        </lightning:layoutItem>
+						<!-- FACTORY SV END-->
+					</lightning:layout>
+				</aura:if>
+				<aura:if isTrue="{!(v.profilo == 'IFIS - Crediti Erariali' &amp;&amp; v.tipologiaMav == 'standard') || v.tipologiaMav == 'CE'}">
+					<lightning:layout multipleRows="true" class="pr-gray slds-p-horizontal_x-large slds-p-vertical_medium">
+						<lightning:layoutItem size="12" class="slds-p-around_small">
+							<span class="subtitle-text">INFORMAZIONI SULL’OPERAZIONE OCCASIONALE</span>
+						</lightning:layoutItem>
+							<lightning:layoutItem size="6" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="6" class="slds-p-vertical_xx-small">
+								<lightning:layout multipleRows="true">
+									<lightning:layoutItem size="6" class="slds-p-bottom_small">
+									</lightning:layoutItem>
+									<lightning:layoutItem size="5" class="slds-p-bottom_small">
+										<i class="question">Natura dell'operazione</i>
+									</lightning:layoutItem>
+									<lightning:layoutItem size="1" class="slds-p-bottom_small">
+									</lightning:layoutItem>
+									<lightning:layoutItem size="6" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="6">
+									</lightning:layoutItem>
+									<lightning:layoutItem size="5" smallDeviceSize="10" mediumDeviceSize="5" largeDeviceSize="5" class="slds-p-vertical_xx-small">
+										<lightning:select name="Natura_Crediti_Erariali__c" aura:id="Natura_Crediti_Erariali__c" value="{!v.modulo.Natura_Crediti_Erariali__c}" onchange="{!c.onChangeNaturaCreditiErariali}" variant="label-hidden" class="label-hidden" >
+											<aura:iteration items="{!v.naturaCreditiErariali}" var="natura">
+												<option text="{!natura.label}" value="{!natura.value}" selected="{!natura.selected}"/>
+											</aura:iteration>
+										</lightning:select>
+									</lightning:layoutItem>
+									<lightning:layoutItem size="1" smallDeviceSize="1" mediumDeviceSize="1" largeDeviceSize="1">
+									</lightning:layoutItem>
+								</lightning:layout>
+							</lightning:layoutItem>							
+
+							<lightning:layoutItem size="6" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="6" class="slds-p-vertical_xx-small">
+								<lightning:layout multipleRows="true">
+									<lightning:layoutItem size="12" class="slds-p-bottom_small">
+										<i class="question">Altro</i>
+									</lightning:layoutItem>									
+									<lightning:layoutItem size="12">
+										<lightning:textarea aura:id="Altro_Crediti_Erariali__c" value="{! v.modulo.Altro_Crediti_Erariali__c }" name="Altro_Crediti_Erariali__c" placeholder="Specifica altro..."  variant="label-hidden" class="label-hidden" disabled="{!v.modulo.Natura_Crediti_Erariali__c != 'Altro'}" onchange="{!c.onChangeTextNaturaCreditiErariali}"/>
+										<aura:if isTrue="{!((v.modulo.Altro_Crediti_Erariali__c == undefined || v.modulo.Altro_Crediti_Erariali__c == '') &amp;&amp; v.modulo.Natura_Crediti_Erariali__c == 'Altro')}">
+											<span style="color:red;">Compila questo campo</span>
+										</aura:if>
+									</lightning:layoutItem>
+								</lightning:layout>
+							</lightning:layoutItem>
+							<aura:if isTrue="{!v.errorCreditiErariali}">
+								<lightning:layoutItem size="12">
+									<lightning:layout>
+										<lightning:layoutItem size="12" class="slds-p-around_small">
+											<span style="color:red;">{!v.errorScopo}</span>
+										</lightning:layoutItem>
+									</lightning:layout>
+								</lightning:layoutItem>
+							</aura:if>
+					</lightning:layout>
+				</aura:if>
+				<!--FINE NUOVA SEZIONE -->
+
+                <lightning:layout multipleRows="true" class="pr-white slds-p-horizontal_x-large slds-p-vertical_medium">
+                    <lightning:layoutItem size="12" class="slds-p-around_small">
+                        <span class="subtitle-text">ADEGUATA VERIFICA ORIGINE DEI FONDI</span>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="6" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="6">
+                        <lightning:layout multipleRows="true">
+                            <lightning:layoutItem size="12" class="slds-p-around_small">
+                                <i class="question">Proventi dell'attività d'impresa</i>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="3" smallDeviceSize="6" largeDeviceSize="3" class="slds-p-horizontal_small">
+                                <ui:inputRadio aura:id="sezione2" value="{!v.modulo.OrigineFondi1__c == true ? true : false}" name="OrigineFondi1__c" label="Si" change="{!c.onGroup}"/>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="3" smallDeviceSize="6" largeDeviceSize="3" class="slds-p-horizontal_small">
+                                <ui:inputRadio aura:id="r19" value="{!v.modulo.OrigineFondi1__c == false ? true : false}" name="OrigineFondi1__c" label="No" change="{!c.onGroup}"/>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="6" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="6">
+                        <lightning:layout multipleRows="true">
+                            <lightning:layoutItem size="12" class="slds-p-around_small">
+                                <i class="question">Proventi straordinari</i>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="3" smallDeviceSize="6" largeDeviceSize="3" class="slds-p-horizontal_small">
+                                <ui:inputRadio aura:id="r20" value="{!v.modulo.OrigineFondi2__c == true ? true : false}" name="OrigineFondi2__c" label="Si" change="{!c.onGroup}"/>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="3" smallDeviceSize="6" largeDeviceSize="3" class="slds-p-horizontal_small">
+                                <ui:inputRadio aura:id="r21" value="{!v.modulo.OrigineFondi2__c == false ? true : false}" name="OrigineFondi2__c" label="No" change="{!c.onGroup}"/>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="6" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="6">
+                        <lightning:layout multipleRows="true">
+                            <lightning:layoutItem size="12" class="slds-p-around_small">
+                                <i class="question">Cessione di beni</i>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="3" smallDeviceSize="6" largeDeviceSize="3" class="slds-p-horizontal_small">
+                                <ui:inputRadio aura:id="r22" value="{!v.modulo.OrigineFondi3__c == true ? true : false}" name="OrigineFondi3__c" label="Si" change="{!c.onGroup}"/>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="3" smallDeviceSize="6" largeDeviceSize="3" class="slds-p-horizontal_small">
+                                <ui:inputRadio aura:id="r23" value="{!v.modulo.OrigineFondi3__c == false ? true : false}" name="OrigineFondi3__c" label="No" change="{!c.onGroup}"/>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="6" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="6">
+                        <lightning:layout multipleRows="true">
+                            <lightning:layoutItem size="12" class="slds-p-around_small">
+                                <i class="question">Altro</i>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="3" smallDeviceSize="6" largeDeviceSize="3" class="slds-p-horizontal_small">
+                                <ui:inputRadio aura:id="r24" value="{!v.modulo.OrigineFondi4__c == true ? true : false}" name="OrigineFondi4__c" label="Si" change="{!c.onGroup}"/>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="3" smallDeviceSize="6" largeDeviceSize="3" class="slds-p-horizontal_small">
+                                <ui:inputRadio aura:id="r25" value="{!v.modulo.OrigineFondi4__c == false ? true : false}" name="OrigineFondi4__c" label="No" change="{!c.onGroup}"/>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="12" >
+                        <lightning:layout multipleRows="true">
+                            <lightning:layoutItem size="12" class="slds-p-around_small">
+                                <i class="question">Specifica "Altro"</i>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="12" class="slds-p-horizontal_small">
+                                <lightning:textarea aura:id="altro" value="{! v.modulo.OrigineFondiAltro__c }" class="{! 'label-fix ' + (v.modulo.OrigineFondiAltro__c == null &amp;&amp; v.modulo.OrigineFondi4__c == true ? 'error' : ' ') }" name="OrigineFondiAltro__c" placeholder="Specifica altro..." />
+                                <aura:if isTrue="{!(v.modulo.OrigineFondiAltro__c == null || v.modulo.OrigineFondiAltro__c == '') &amp;&amp; v.modulo.OrigineFondi4__c == true}">
+                                    <span style="color:red;">Compila questo campo</span>
+                                </aura:if>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </lightning:layoutItem>
+                    <aura:if isTrue="{!v.errorSezione2}">
+                        <lightning:layoutItem size="12">
+                            <lightning:layout>
+                                <lightning:layoutItem size="12" class="slds-p-around_small">
+                                    <span style="color:red;">Compilare almeno una campo di questa sezione</span>
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                        </lightning:layoutItem>
+                    </aura:if>
+                </lightning:layout>
+				<lightning:layout multipleRows="true" class="pr-gray slds-p-horizontal_x-large slds-p-vertical_medium">
+                    <lightning:layoutItem size="12" class="slds-p-around_small">
+                        <span class="subtitle-text">INFORMAZIONI MODULO ADEGUATA VERIFICA</span>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="6" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="6">
+                        <lightning:layout multipleRows="true">
+                            <lightning:layoutItem size="12" class="slds-p-top_small slds-p-left_small">
+                                <i class="question">Paese casa madre</i>
+                            </lightning:layoutItem>
+							<lightning:layoutItem size="6" smallDeviceSize="12" largeDeviceSize="6" class="slds-p-horizontal_small">
+								<lightning:select name="PaeseCasaMadre__c" aura:id="PaeseCasaMadre__c" value="{!v.infoMav.PaeseCasaMadre__c}" onchange="{!c.onChangePaeseCasaMadre}">
+									<aura:iteration items="{!v.nazioni}" var="nazione">
+										<option text="{!nazione.label}" value="{!nazione.value}" selected="{!nazione.selected}"/>
+									</aura:iteration>
+								</lightning:select>
+							</lightning:layoutItem>
+							<aura:if isTrue="{!v.errorPaeseCasaMadre == true}">
+								<lightning:layoutItem size="12">
+									<lightning:layout>
+										<lightning:layoutItem size="12" class="slds-p-around_small">
+											<span style="color:red;">Compila il campo Paese casa madre</span>
+										</lightning:layoutItem>
+									</lightning:layout>
+								</lightning:layoutItem>
+							</aura:if>
+                        </lightning:layout>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="6" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="6">
+                        <lightning:layout multipleRows="true">
+                            <lightning:layoutItem size="12" class="slds-p-top_small slds-p-left_small">
+                                <i class="question">Paese relazioni 1</i>
+                            </lightning:layoutItem>
+							<lightning:layoutItem size="6" smallDeviceSize="12" largeDeviceSize="6" class="slds-p-horizontal_small">
+								<lightning:select name="PaeseRelazioni1__c" aura:id="PaeseRelazioni1__c" value="{!v.infoMav.PaeseRelazioni1__c}">
+									<aura:iteration items="{!v.nazioni}" var="nazione">
+										<option text="{!nazione.label}" value="{!nazione.value}" selected="{!nazione.selected}"/>
+									</aura:iteration>
+								</lightning:select>
+							</lightning:layoutItem>                                
+                        </lightning:layout>
+                    </lightning:layoutItem>
+					<lightning:layoutItem size="6" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="6">
+                        <lightning:layout multipleRows="true">
+                            <lightning:layoutItem size="12" class="slds-p-top_large slds-p-left_small">
+                                <i class="question">Paese svolgimento attività prevalente</i>
+                            </lightning:layoutItem>
+							<lightning:layoutItem size="6" smallDeviceSize="12" largeDeviceSize="6" class="slds-p-horizontal_small">
+								<lightning:select name="PaeseSvolgimentoAttivitaPrevalente__c" aura:id="PaeseSvolgimentoAttivitaPrevalente__c" value="{!v.infoMav.PaeseSvolgimentoAttivitaPrevalente__c}" onchange="{!c.onChangePaeseSvolgimentoAttivitaPrevalente}">
+									<aura:iteration items="{!v.nazioni}" var="nazione">
+										<option text="{!nazione.label}" value="{!nazione.value}" selected="{!nazione.selected}"/>
+									</aura:iteration>
+								</lightning:select>
+							</lightning:layoutItem>
+							<aura:if isTrue="{!v.errorPaeseSvolgimentoAttivitaPrevalente == true}">
+								<lightning:layoutItem size="12">
+									<lightning:layout>
+										<lightning:layoutItem size="12" class="slds-p-around_small">
+											<span style="color:red;">Compila il campo Paese svolgimento attività prevalente</span>
+										</lightning:layoutItem>
+									</lightning:layout>
+								</lightning:layoutItem>
+							</aura:if>
+                        </lightning:layout>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="6" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="6">
+                        <lightning:layout multipleRows="true">
+                            <lightning:layoutItem size="12" class="slds-p-top_large slds-p-left_small">
+                                <i class="question">Paese relazioni 2</i>
+                            </lightning:layoutItem>
+							<lightning:layoutItem size="6" smallDeviceSize="12" largeDeviceSize="6" class="slds-p-horizontal_small">
+								<lightning:select name="PaeseRelazioni2__c" aura:id="PaeseRelazioni2__c" value="{!v.infoMav.PaeseRelazioni2__c}">
+									<aura:iteration items="{!v.nazioniSenzaItalia}" var="nazione">
+										<option text="{!nazione.label}" value="{!nazione.value}" selected="{!nazione.selected}"/>
+									</aura:iteration>
+								</lightning:select>
+							</lightning:layoutItem>                                
+                        </lightning:layout>
+                    </lightning:layoutItem>
+					<lightning:layoutItem size="6" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="6">
+                        <lightning:layout multipleRows="true">
+                            <lightning:layoutItem size="12" class="slds-p-top_large slds-p-left_small">
+                                <i class="question">Provincia svolgimento attività</i>
+                            </lightning:layoutItem>
+							<lightning:layoutItem size="6" smallDeviceSize="12" largeDeviceSize="6" class="slds-p-horizontal_small">
+								<lightning:select name="ProvinciaSvolgimentoAttivitaPrevalente__c" aura:id="ProvinciaSvolgimentoAttivitaPrevalente__c" value="{!v.infoMav.ProvinciaSvolgimentoAttivitaPrevalente__c}" onchange="{!c.onChangeProvinciaSvolgimentoAttivitaPrevalente}">
+									<aura:iteration items="{!v.province}" var="provincia">
+										<option text="{!provincia.label}" value="{!provincia.value}" selected="{!provincia.selected}"/>
+									</aura:iteration>
+								</lightning:select>
+							</lightning:layoutItem>
+							<aura:if isTrue="{!v.errorProvinciaSvolgimentoAttivitaPrevalente == true}">
+								<lightning:layoutItem size="12">
+									<lightning:layout>
+										<lightning:layoutItem size="12" class="slds-p-around_small">
+											<span style="color:red;">Compila il campo Provincia svolgimento attività</span>
+										</lightning:layoutItem>
+									</lightning:layout>
+								</lightning:layoutItem>
+							</aura:if>
+                        </lightning:layout>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="6" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="6">
+                        <lightning:layout multipleRows="true">
+                            <lightning:layoutItem size="12" class="slds-p-top_large slds-p-left_small">
+                                <i class="question">Paese relazioni 3</i>
+                            </lightning:layoutItem>
+							<lightning:layoutItem size="6" smallDeviceSize="12" largeDeviceSize="6" class="slds-p-horizontal_small">
+								<lightning:select name="PaeseRelazioni3__c" aura:id="PaeseRelazioni3__c" value="{!v.infoMav.PaeseRelazioni3__c}">
+									<aura:iteration items="{!v.nazioniSenzaItalia}" var="nazione">
+										<option text="{!nazione.label}" value="{!nazione.value}" selected="{!nazione.selected}"/>
+									</aura:iteration>
+								</lightning:select>
+							</lightning:layoutItem>                                
+                        </lightning:layout>
+                    </lightning:layoutItem>
+					<!--FACTORY SV START-->
+					<lightning:layoutItem size="6" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="6">
+						<lightning:layout multipleRows="true">
+							<lightning:layoutItem size="12" class="slds-p-top_large slds-p-left_small">
+								<i>La società ha emesso azioni al portatore?</i>
+							</lightning:layoutItem>
+							<lightning:layoutItem size="3" smallDeviceSize="6" largeDeviceSize="3" class="slds-p-horizontal_small">
+                                <ui:inputRadio aura:id="azioniPortatore1" value="{!v.infoMav.WGC_Emissioni_di_Azioni_al_Portatore_PNF__c == true ? true : false}" name="WGC_Emissioni_di_Azioni_al_Portatore_PNF__c" label="Si" change="{!c.onChangeWGC_Emissioni_di_Azioni_al_Portatore_PNF__c}"/>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="3" smallDeviceSize="6" largeDeviceSize="3" class="slds-p-horizontal_small">
+                                <ui:inputRadio aura:id="azioniPortatore2" value="{!v.infoMav.WGC_Emissioni_di_Azioni_al_Portatore_PNF__c == true ? false : true}" name="WGC_Emissioni_di_Azioni_al_Portatore_PNF__c" label="No" change="{!c.onChangeWGC_Emissioni_di_Azioni_al_Portatore_PNF__c}"/>
+                            </lightning:layoutItem>
+						</lightning:layout>
+					</lightning:layoutItem>
+					<lightning:layoutItem size="6" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="6">
+						<lightning:layout multipleRows="true">
+							<lightning:layoutItem size="12" class="slds-p-top_large slds-p-left_small">
+								<i>La società partecipa ad appalti pubblici o ha ricevuto finanziamenti pubblici?</i>
+							</lightning:layoutItem>
+							<lightning:layoutItem size="3" smallDeviceSize="6" largeDeviceSize="3" class="slds-p-horizontal_small">
+                                <ui:inputRadio aura:id="appaltiPubblici1" value="{!v.infoMav.WGC_Soggetti_Partecipanti__c == true ? true : false}" name="WGC_Soggetti_Partecipanti__c" label="Si" change="{!c.onChangeWGC_Soggetti_Partecipanti__c}"/>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="3" smallDeviceSize="6" largeDeviceSize="3" class="slds-p-horizontal_small">
+                                <ui:inputRadio aura:id="appaltiPubblici2" value="{!v.infoMav.WGC_Soggetti_Partecipanti__c == true ? false : true}" name="WGC_Soggetti_Partecipanti__c" label="No" change="{!c.onChangeWGC_Soggetti_Partecipanti__c}"/>
+                            </lightning:layoutItem>
+						</lightning:layout>
+					</lightning:layoutItem>
+					<lightning:layoutItem size="6" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="6">
+						<lightning:layout multipleRows="true">
+							<lightning:layoutItem size="12" class="slds-p-top_large slds-p-left_small">
+								<i>La società ha assetti proprietari anomali/complessi rispetto all'attività svolta?</i>
+							</lightning:layoutItem>
+							<lightning:layoutItem size="3" smallDeviceSize="6" largeDeviceSize="3" class="slds-p-horizontal_small">
+                                <ui:inputRadio aura:id="assetti1" value="{!v.infoMav.WGC_Assetti_Attivita_Svolta__c == true ? true : false}" name="WGC_Assetti_Attivita_Svolta__c" label="Si" change="{!c.onChangeWGC_Assetti_Attivita_Svolta__c}"/>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="3" smallDeviceSize="6" largeDeviceSize="3" class="slds-p-horizontal_small">
+                                <ui:inputRadio aura:id="assetti1" value="{!v.infoMav.WGC_Assetti_Attivita_Svolta__c == true ? false : true}" name="WGC_Assetti_Attivita_Svolta__c" label="No" change="{!c.onChangeWGC_Assetti_Attivita_Svolta__c}"/>
+                            </lightning:layoutItem>
+						</lightning:layout>
+					</lightning:layoutItem>
+					<!--FACTORY SV END-->
+				</lightning:layout>
+                <lightning:layout class="slds-p-horizontal_x-large slds-p-vertical_medium" >
+                    <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12">
+                        <c:WGC_Modal_TitolareEsecutore accountId="{!v.recordId}" toBeSaved="{!v.saveReferenti}"/>
+                    </lightning:layoutItem>
+                </lightning:layout>
+				<!--FACTORY SV START-->
+				<lightning:layout multipleRows="true" class="pr-white slds-p-horizontal_x-large slds-p-vertical_medium">
+					<lightning:layoutItem size="6" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="6">
+						<lightning:layout multipleRows="true">
+							<lightning:layoutItem size="12" class="slds-p-around_small">
+								<span>Si dichiara che la società/ente è partecipata/o direttamente o indirettamente</span>
+							</lightning:layoutItem>
+							<lightning:layoutItem size="6" smallDeviceSize="12" largeDeviceSize="6" class="slds-p-horizontal_small">
+								<lightning:select aura:id="partecipata" name="WGC_Partecipazione_societa_fiduciarie__c" value="{!v.infoMav.WGC_Partecipazione_societa_fiduciarie__c}" onchange="{!c.changePartecipata}">
+											<option value="00">Nessuna partecipazione</option>
+											<option value="01">Partecipazione da parte di Fiduciarie</option>
+											<option value="02">Partecipazione da parte di Trust</option>
+											<option value="03">Partecipazione da parte di Società Anonime</option>
+											<option value="04">Partecipazione da parte di Fondazioni</option>
+										</lightning:select>
+							</lightning:layoutItem>
+						</lightning:layout>
+					</lightning:layoutItem>
+					<aura:if isTrue="{!v.infoMav.WGC_Partecipazione_societa_fiduciarie__c != '00'}">
+						<lightning:layoutItem size="6" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="6">
+							<lightning:layout multipleRows="true">
+								<lightning:layoutItem size="12" class="slds-p-around_small">
+									<span>Sede legale/amministrativa trust/fiduciaria/ società anonima/fondazione</span>
+								</lightning:layoutItem>
+								<lightning:layoutItem size="6" smallDeviceSize="12" largeDeviceSize="6" class="slds-p-horizontal_small">
+									<lightning:select name="WGC_Partecipazione_Trust__c" aura:id="WGC_Partecipazione_Trust__c" value="{!v.infoMav.WGC_Partecipazione_Trust__c}">
+										<aura:iteration items="{!v.nazioni}" var="nazione">
+											<option text="{!nazione.label}" value="{!nazione.value}" selected="{!nazione.selected}"/>
+										</aura:iteration>
+									</lightning:select>
+								</lightning:layoutItem>
+							</lightning:layout>
+						</lightning:layoutItem>
+					</aura:if>
+				</lightning:layout>
+				<!--FACTORY SV END-->
+				
+				
+				<!-- <aura:if isTrue="{! or(v.tipologiaMav == 'standard',v.tipologiaMav == 'CC') }">
+					<lightning:layout class="slds-p-horizontal_x-large slds-p-vertical_medium">
+						<lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12" class="slds-p-vertical_xx-small">
+							<lightning:layout multipleRows="true" class="slds-text-align_center">
+								<lightning:layoutItem size="8" class="slds-p-bottom_small">
+									<span>Confermo di aver effettuato la visita presso i locali dell’azienda ?</span>
+								</lightning:layoutItem>		
+								<lightning:layoutItem size="2">
+									<lightning:input type="toggle" aura:id="VisitaLocaliAzienda" name="VisitaLocaliAzienda" checked="{! v.VisitaLocaliAzienda }" value="{! v.VisitaLocaliAzienda }" variant="label-hidden" messageToggleActive="" messageToggleInactive="" onchange="{!c.onChangeToggleVisita }"/>								
+								</lightning:layoutItem>
+							</lightning:layout>
+						</lightning:layoutItem>
+					</lightning:layout>
+				</aura:if> -->
+                <footer class="slds-modal__footer">
+                    <lightning:button variant="neutral" onclick="{!c.close}" label="ANNULLA" />
+                    <lightning:button class="btn" variant="neutral" onclick="{!c.saveRecord}" label="SALVA" />
+                </footer>
+            <!-- <div class="slds-text-align_center foot ">
+                <lightning:layout class="slds-p-horizontal_large">
+                    <lightning:layoutItem size="6">
+                        <button class="btn-close" onclick="{!c.close}">ANNULLA</button>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="6">
+                        <button class="btn-save" onclick="{!c.saveRecord}">SALVA</button>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </div> -->
+            <!-- </div> -->
+        </ui:scrollerWrapper>
+    </div>
+    <aura:set attribute="else">
+        <div class="slds-is-relative">
+            <lightning:spinner alternativeText="CARICAMENTO" />
+        </div>
+    </aura:set>
+</aura:if>
+</aura:component>

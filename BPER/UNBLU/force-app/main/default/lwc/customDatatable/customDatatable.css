@@ -1,0 +1,36 @@
+.tableScroll {
+    overflow: auto;
+    overflow-y: hidden;
+    /* height: 10rem; */
+    border: 0;
+}
+
+.slds-table_header-fixed{
+    border-top: solid 1px #A8A8A8;
+    /* border-top: solid 1px #EEEDE3; */
+
+}
+
+.popover {
+    width: 350px;
+    margin-top: 12px;
+    margin-left: 12px;
+    position: fixed;
+    right:0;
+    top:0;
+    z-index: 5;
+}
+.isLookup {
+    text-decoration: underline dashed #009cdb;
+    text-underline-position: under;
+    color: #009cdb;
+    cursor: pointer;
+}
+
+.lgc-bg {
+    background-color: rgb(242, 242, 242);
+}
+
+.tileSubtitle {
+    font-weight: bold;
+}

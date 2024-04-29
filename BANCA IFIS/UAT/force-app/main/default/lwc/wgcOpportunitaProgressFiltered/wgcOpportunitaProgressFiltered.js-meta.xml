@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>50.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__AppPage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__AppPage">
+            <property label="Id report visualizza dettagli" name="idReport" required="true" type="String" description="Inserire l'id del report a cui verrai reindirizzato cliccando su visualizza dettagli"/>
+            <property label="Nome Icona" name="nomeIcona" required="false" type="String" placeholder="utility:rating..." description="Inserire la categoria ed il nome dell'icona, ad esempio: utility:rating"/>
+            <property label="Titolo" name="title" required="false" type="String" placeholder="Opportunità" description="Inserire il titolo del componente"/>
+            <supportedFormFactors>
+                <supportedFormFactor type=" Small"/>
+                <supportedFormFactor type=" Large"/>
+            </supportedFormFactors>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

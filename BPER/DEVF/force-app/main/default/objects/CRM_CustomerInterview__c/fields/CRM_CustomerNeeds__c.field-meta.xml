@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_CustomerNeeds__c</fullName>
+    <externalId>false</externalId>
+    <label>Esigenze del Cliente</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>--None--</fullName>
+                <default>true</default>
+                <label>--None--</label>
+            </value>
+            <value>
+                <fullName>Sviluppare il mio patrimonio</fullName>
+                <default>false</default>
+                <label>Sviluppare il mio patrimonio</label>
+            </value>
+            <value>
+                <fullName>Pianificare il mio futuro</fullName>
+                <default>false</default>
+                <label>Pianificare il mio futuro</label>
+            </value>
+            <value>
+                <fullName>Provvedere a me e la mia famiglia</fullName>
+                <default>false</default>
+                <label>Provvedere a me e la mia famiglia</label>
+            </value>
+            <value>
+                <fullName>Sviluppare i miei interessi</fullName>
+                <default>false</default>
+                <label>Sviluppare i miei interessi</label>
+            </value>
+            <value>
+                <fullName>Passaggio Generazionale</fullName>
+                <default>false</default>
+                <label>Passaggio Generazionale</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

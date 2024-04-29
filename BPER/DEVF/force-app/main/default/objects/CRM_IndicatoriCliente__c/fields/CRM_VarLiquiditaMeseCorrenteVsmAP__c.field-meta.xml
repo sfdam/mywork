@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_VarLiquiditaMeseCorrenteVsmAP__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF (
+OR (CRM_LiquiditaFineAnnoPrecedente__c = 0, CRM_LiquiditaFineAnnoPrecedente__c = NULL),
+NULL,
+((CRM_LiquiditaMeseCorrente__c  - CRM_LiquiditaFineAnnoPrecedente__c ) / ABS(CRM_LiquiditaFineAnnoPrecedente__c)))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Var. liquidità anno in corsoVSsmAP</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Percent</type>
+</CustomField>

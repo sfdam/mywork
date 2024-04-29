@@ -1,0 +1,150 @@
+<aura:component implements="lightning:availableForFlowScreens" access="global">  
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/> 
+    
+    <aura:attribute name="componenteSolaLettura" type="Boolean" default="true"/>
+    
+    <aura:attribute name="fileRecapColumns" type="List"/> 
+    
+    <aura:attribute name="jsonPDRFileData" type="Object"/>
+    <aura:attribute name="jsonBOMFileData" type="Object"/>
+    <aura:attribute name="jsonCRIFileData" type="Object"/>
+    <aura:attribute name="jsonECFFileData" type="Object"/>
+    <aura:attribute name="jsonCERFileData" type="Object"/>
+    <aura:attribute name="jsonALTFileData" type="Object"/>
+    
+    <aura:attribute name="workflowRecordCandidatoID" type="String"/>
+    <aura:attribute name="workflowRecordCandidatoNEXT" type="WorkflowSGA__c"/>
+    <aura:attribute name="workflowRecordCandidato" type="WorkflowSGA__c"/>
+    <aura:attribute name="workflowRecordCandidatoERROR" type="String"/>
+    
+    <force:recordData aura:id="flowRecordHandlerWorkflowCandidatoId"
+                      recordId="{!v.workflowRecordCandidatoID}"
+                      layoutType="FULL"
+                      targetFields="{!v.workflowRecordCandidato}"
+                      targetError="{!v.workflowRecordCandidatoERROR}"
+                      recordUpdated="{!c.handleRecordUpdated}"
+                      targetRecord="{!v.workflowRecordCandidatoNEXT}"
+                      mode="{!v.componenteSolaLettura ? 'VIEW' : 'EDIT'}"                     
+                      />    
+    
+    <c:bifis_crm_c_SGAFlowMacroPath selectedPathState="{!v.workflowRecordCandidato.Stato__c}" closingState="{!v.workflowRecordCandidato.Fase_Chiusura__c}" selectedSubPathValue="2"/>    
+    
+    <!-- Display Lightning Data Service errors, if any -->
+    <aura:if isTrue="{!not(empty(v.workflowRecordCandidatoERROR))}">
+        <ui:message title="Errore" severity="error" closable="true">{!v.workflowRecordCandidatoERROR}</ui:message>
+    </aura:if>        
+    
+    <lightning:card variant="Narrow" title="Documentazione" iconName="standard:record" />
+    
+    <hr style="margin-top:1px;margin-bottom:10px;"/>
+        
+    <lightning:card variant="Narrow" title="Piano di Rientro" iconName="doctype:pdf">
+        <p class="slds-p-horizontal_small">
+            <div class="slds-grid slds-wrap">
+                <div class="slds-size_1-of-4">
+                    <lightning:fileUpload name="flowFileUploaderPDRFile" accept="{!v.acceptFileExtensions}" recordId="{!v.workflowRecordCandidatoID}" onuploadfinished="{! c.handleUploadPDRFileFinished }" disabled="{!v.componenteSolaLettura}"/>
+                </div>
+                <div class="slds-size_3-of-4">
+                    <lightning:datatable aura:id="flowDatatablePDRFile" data="{!v.jsonPDRFileData}" columns="{!v.fileRecapColumns}" keyField="id" hideCheckboxColumn="true" resizeColumnDisabled="true" showRowNumberColumn="true" onrowaction="{! c.handleRowActionPDRFile }"/>
+                </div>
+                <div class="slds-size_4-of-4">
+                    <lightning:input aura:id="flowInputPDRFileJsonId" name="flowInputPDRFileJson" required="false" value="{!v.workflowRecordCandidato.DOCUMENTO_PDR_JSON__c}" class="slds-hide"/>
+                </div>
+            </div>
+        </p>
+    </lightning:card>    
+    
+    <lightning:card variant="Narrow" title="Bozza Mandato" iconName="doctype:pdf">
+        <p class="slds-p-horizontal_small">
+            <div class="slds-grid slds-wrap">
+                <div class="slds-size_1-of-4">
+                    <lightning:fileUpload name="flowFileUploaderBOMFile" accept="{!v.acceptFileExtensions}" recordId="{!v.workflowRecordCandidatoID}" onuploadfinished="{! c.handleUploadBOMFileFinished }" disabled="{!v.componenteSolaLettura}"/>
+                </div>
+                <div class="slds-size_3-of-4">
+                    <lightning:datatable aura:id="flowDatatableBOMFile" data="{!v.jsonBOMFileData}" columns="{!v.fileRecapColumns}" keyField="id" hideCheckboxColumn="true" resizeColumnDisabled="true" showRowNumberColumn="true" onrowaction="{! c.handleRowActionBOMFile }"/>
+                </div>
+                <div class="slds-size_4-of-4">
+                    <lightning:input aura:id="flowInputBOMFileJsonId" name="flowInputBOMFileJson" required="false" value="{!v.workflowRecordCandidato.DOCUMENTO_BOM_JSON__c}" class="slds-hide"/>
+                </div>
+            </div>
+        </p>
+    </lightning:card>                
+    
+    <lightning:card variant="Narrow" title="Centrale Rischi" iconName="doctype:pdf">
+        <p class="slds-p-horizontal_small">
+            <div class="slds-grid slds-wrap">
+                <div class="slds-size_1-of-4">
+                    <lightning:fileUpload name="flowFileUploaderCRIFile" accept="{!v.acceptFileExtensions}" recordId="{!v.workflowRecordCandidatoID}" onuploadfinished="{! c.handleUploadCRIFileFinished }" disabled="{!v.componenteSolaLettura}"/>
+                </div>
+                <div class="slds-size_3-of-4">
+                    <lightning:datatable aura:id="flowDatatableCRIFile" data="{!v.jsonCRIFileData}" columns="{!v.fileRecapColumns}" keyField="id" hideCheckboxColumn="true" resizeColumnDisabled="true" showRowNumberColumn="true" onrowaction="{! c.handleRowActionCRIFile }"/>
+                </div>
+                <div class="slds-size_4-of-4">
+                    <lightning:input aura:id="flowInputCRIFileJsonId" name="flowInputCRIFileJson" required="false" value="{!v.workflowRecordCandidato.DOCUMENTO_CRI_JSON__c}" class="slds-hide"/>
+                </div>
+            </div>
+        </p>
+    </lightning:card>    
+    
+    <lightning:card variant="Narrow" title="Elenco Clienti e Fornitori" iconName="doctype:pdf">
+        <p class="slds-p-horizontal_small">
+            <div class="slds-grid slds-wrap">
+                <div class="slds-size_1-of-4">
+                    <lightning:fileUpload name="flowFileUploaderECFFile" accept="{!v.acceptFileExtensions}" recordId="{!v.workflowRecordCandidatoID}" onuploadfinished="{! c.handleUploadECFFileFinished }" disabled="{!v.componenteSolaLettura}"/>
+                </div>
+                <div class="slds-size_3-of-4">
+                    <lightning:datatable aura:id="flowDatatableECFFile" data="{!v.jsonECFFileData}" columns="{!v.fileRecapColumns}" keyField="id" hideCheckboxColumn="true" resizeColumnDisabled="true" showRowNumberColumn="true" onrowaction="{! c.handleRowActionECFFile }"/>
+                </div>
+                <div class="slds-size_4-of-4">
+                    <lightning:input aura:id="flowInputECFFileJsonId" name="flowInputECFFileJson" required="false" value="{!v.workflowRecordCandidato.DOCUMENTO_ECF_JSON__c}" class="slds-hide"/>
+                </div>
+            </div>
+        </p>
+    </lightning:card>   
+    
+    <lightning:card variant="Narrow" title="Dossier Cerved" iconName="doctype:pdf">
+        <p class="slds-p-horizontal_small">
+            <div class="slds-grid slds-wrap">
+                <div class="slds-size_1-of-4">
+                    <lightning:fileUpload name="flowFileUploaderCERFile" accept="{!v.acceptFileExtensions}" recordId="{!v.workflowRecordCandidatoID}" onuploadfinished="{! c.handleUploadCERFileFinished }" disabled="{!v.componenteSolaLettura}"/>
+                </div>
+                <div class="slds-size_3-of-4">
+                    <lightning:datatable aura:id="flowDatatableCERFile" data="{!v.jsonCERFileData}" columns="{!v.fileRecapColumns}" keyField="id" hideCheckboxColumn="true" resizeColumnDisabled="true" showRowNumberColumn="true" onrowaction="{! c.handleRowActionCERFile }"/>
+                </div>
+                <div class="slds-size_4-of-4">
+                    <lightning:input aura:id="flowInputCERFileJsonId" name="flowInputCERFileJson" required="false" value="{!v.workflowRecordCandidato.DOCUMENTO_CER_JSON__c}" class="slds-hide"/>
+                </div>
+            </div>
+        </p>
+    </lightning:card>   
+
+    <lightning:card variant="Narrow" title="Altro" iconName="doctype:pdf">
+        <p class="slds-p-horizontal_small">
+            <div class="slds-grid slds-wrap">
+                <div class="slds-size_1-of-4">
+                    <lightning:fileUpload name="flowFileUploaderALTFile" accept="{!v.acceptFileExtensions}" recordId="{!v.workflowRecordCandidatoID}" onuploadfinished="{! c.handleUploadALTFileFinished }" disabled="{!v.componenteSolaLettura}"/>
+                </div>
+                <div class="slds-size_3-of-4">
+                    <lightning:datatable aura:id="flowDatatableALTFile" data="{!v.jsonALTFileData}" columns="{!v.fileRecapColumns}" keyField="id" hideCheckboxColumn="true" resizeColumnDisabled="true" showRowNumberColumn="true" onrowaction="{! c.handleRowActionALTFile }"/>
+                </div>
+                <div class="slds-size_4-of-4">
+                    <lightning:input aura:id="flowInputALTFileJsonId" name="flowInputALTFileJson" required="false" value="{!v.workflowRecordCandidato.DOCUMENTO_ALT_JSON__c}" class="slds-hide"/>
+                </div>
+            </div>
+        </p>
+    </lightning:card>   
+    
+    <lightning:card variant="Narrow" title="Note Documentazione" iconName="standard:product_required">
+        <p class="slds-p-horizontal_small">
+            <div class="slds-grid slds-wrap">
+                <div class="slds-size_4-of-4">
+                    <lightning:textarea aura:id="flowInputNoteDocumentazioneId" name="flowInputNoteDocumentazione" required="false" value="{!v.workflowRecordCandidato.Note_Documentazione__c}" maxlength="32000" disabled="{!v.componenteSolaLettura}"/>
+                </div>
+            </div>
+        </p>
+    </lightning:card>    
+    
+    <c:bifis_crm_c_CommonFlowNavigator availableActions="{!v.availableActions}" navigateFlowEvent="{!c.handleNavigate}"/>   
+    
+</aura:component>

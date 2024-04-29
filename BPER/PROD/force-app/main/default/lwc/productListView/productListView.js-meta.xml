@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>48.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>productListView</masterLabel>
+    <targets>
+        <target>lightning__RecordPage</target>
+    </targets>
+    <!-- Configuring the design attributes --><targetConfigs>
+        <targetConfig targets="lightning__RecordPage">
+            <property name="viewAllLabel" type="String" label="Label Pulasnte View All" description="definisci la label del pulsane View All"/>
+            <property name="title" type="String" label="Title list view" description="definisci il titolo della listView"/>
+            <property name="iconName" type="String" label="Icona" description="definisci l'icona della listView"/>
+            <property name="numRows" type="Integer" label="Numero di righe della list view" default="5" description="definisci il numero di righe da mostrare nella listView"/>
+            <property name="statusFinServ" type="String" label="Status FinServ" datasource="ATTIVO/ESTINTO, ATTIVO, ESTINTO" description="definisci lo stato del Product"/>
+            <property name="recordTypeProduct" type="String" label="Name Object" description="definisci il recordType del Product"/>
+            <property name="button_new" type="Boolean" label="Button new" default="true" description="Bottone di refresh"/>
+            <property name="rapportoFinServ" type="String" label="Stato Rapporto" description="Definisce lo stato del rapporto"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

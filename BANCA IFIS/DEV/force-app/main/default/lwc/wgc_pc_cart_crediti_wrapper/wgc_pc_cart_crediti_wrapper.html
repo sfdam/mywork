@@ -1,0 +1,25 @@
+<template>
+    <template if:true={rendered}>
+        <div class="slds-box slds-m-top_small">
+            <lightning-layout multiple-rows="true">
+                <lightning-layout-item size="12" padding="around-small" class="slds-text-align_right">
+                    <lightning-button label="Aggiungi Credito" icon-name="utility:add" disabled={pReadOnly} onclick={addCredito}></lightning-button>
+                </lightning-layout-item>
+                <lightning-layout-item size="12">
+                    <!-- allow-multiple-sections-open="true" onsectiontoggle={handleToggle} active-section-name={activeCredito} -->
+                    <lightning-accordion>
+                        <template for:each={crediti} for:item="credito" for:index="ind">
+                            <lightning-accordion-section key={credito.name} name={credito.name} label={credito.name}>
+                                <!-- onupdatecredito={updateCreditoHandler} -->
+                                <c-wgc_pc_cart_credito record-id={recordId} record-type={recordType} credito={credito} cod-prod={codProd} payload={payload} user-info={userInfo} read-only={pReadOnly} index={ind} onmodal={reInit} oncallservice={reInit} onsavecrediticallout={saveCrediti} oncheckcompleted={updateFieldHandler} ></c-wgc_pc_cart_credito>
+                            </lightning-accordion-section>
+                        </template>
+                    </lightning-accordion>
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+    </template>
+    <template if:false={rendered}>
+        <lightning-spinner variant="brand"></lightning-spinner>
+    </template>
+</template>

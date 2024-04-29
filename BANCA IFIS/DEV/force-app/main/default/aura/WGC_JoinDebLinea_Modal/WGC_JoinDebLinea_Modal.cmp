@@ -1,0 +1,59 @@
+<aura:component access="global" extends="c:WGC_Utility">
+	<!-- ATTRIBUTES -->
+    <aura:attribute name="payload" type="Object"/>
+    <aura:attribute name="availableJoins" type="Object[]"/>
+    <aura:attribute name="selectedJoins" type="Object[]"/>
+    <aura:attribute name="existingLines" type="List" />
+    <aura:attribute name="joinLineaAttore" type="Object[]" />
+    <aura:attribute name="debitori" type="Object" />
+    
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    
+    <!-- REGISTER EVENTS -->
+    <aura:registerEvent name="cartCallServer" type="c:WGC_Cart_Call_Server"/>
+
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    
+    <lightning:layout>
+        <lightning:layoutItem size="12">
+
+            <lightning:layout class="jdl-table-header">
+                <lightning:layoutItem size="6">
+                    DEBITORE
+                </lightning:layoutItem>
+                <lightning:layoutItem size="6">
+                    LINEA
+                </lightning:layoutItem>
+            </lightning:layout>
+
+            <aura:iteration items="{! v.selectedJoins }" var="join">
+
+                <lightning:layout class="jdl-table-row">
+                    <lightning:layoutItem size="6">
+                        {! join.debitore.name }
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="6">
+                        <lightning:select variant="label-hidden" value="{! join.selectedLine }">
+
+                            <!-- <option value="">Nuova Linea</option> -->
+                            <aura:iteration items="{! join.lines }" var="line">
+                                <option value="{! line.id }">{! (line.numeroLinea == '' ? '' : line.numeroLinea + ' - ' ) + line.name }</option>
+                            </aura:iteration>
+
+                        </lightning:select>
+                    </lightning:layoutItem>
+                </lightning:layout>
+    
+            </aura:iteration>
+
+        </lightning:layoutItem>
+    </lightning:layout>
+
+    <lightning:layout>
+        <lightning:layoutItem size="12" class="slds-text-align_right slds-m-top_large">
+            <lightning:button variant="brand" label="Conferma" class="cstm-btn-round cstm-btn-brand" onclick="{! c.conferma }"/>
+        </lightning:layoutItem>
+    </lightning:layout>
+
+</aura:component>

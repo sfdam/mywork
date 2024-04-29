@@ -1,0 +1,134 @@
+<aura:component implements="flexipage:availableForAllPageTypes,force:hasRecordId" access="global" >
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/> 
+    
+    <aura:attribute name="componenteSolaLettura" type="Boolean" default="true"/>
+    
+    <aura:attribute name="recordId" type="Id" />
+    
+    <aura:attribute name="fileRecapColumns" type="List"/>   
+    <aura:attribute name="fileRecapColumnsReadOnly" type="List"/>    
+    
+    <aura:attribute name="jsonParsedFactoringProduct" type="Object"/>
+	<aura:attribute name="jsonParsedFactoringProductNote" type="String"/>
+
+    <aura:attribute name="jsonParsedMutuoProduct" type="Object"/>
+	<aura:attribute name="jsonParsedMutuoProductNote" type="String"/>
+
+	<aura:attribute name="jsonParsedLeasingProduct" type="Object"/>
+	<aura:attribute name="jsonParsedLeasingProductNote" type="String"/>
+
+    <aura:attribute name="jsonParsedRentalProduct" type="Object"/>
+	<aura:attribute name="jsonParsedRentalProductNote" type="String"/>
+    
+    <aura:attribute name="workflowRecordCandidatoNEXT" type="WorkflowSegnalatori__c"/>
+    <aura:attribute name="workflowRecordCandidato" type="WorkflowSegnalatori__c"/>
+    <aura:attribute name="workflowRecordCandidatoERROR" type="String"/>
+    
+    <force:recordData aura:id="flowRecordHandlerWorkflowCandidatoId"
+                      recordId="{!v.recordId}"
+                      fields="Name, ATECO__c, AccountCollegato__c, CapLegale__c, CittaLegale__c, CivicoLegale__c, CognomeReferente__c, DataInvioIfis__c, EmailReferente__c, ErroriTecnici__c, IndirizzoLegale__c, MotivazioneRifiutoPrevalutazione__c, Natura_Giuridica__c, NomeReferente__c, OpportunitaCollegata__c, PartitaIVA__c, ProvinciaCCIAA__c, ProvinciaLegale__c, RAE__c, REA__c, Ragione_Sociale__c, SAE__c, Stato__c, TIMELINE_JSON__c, TelefonoReferente__c, TipoViaLegale__c, Tipologia_Segnalazione__c, Ente_segnalante__c, CommentoEsito__c, Ente_segnalante_descrizione__c, Tipo_Segnalatore__c, Tipo_Segnalazione__c, PRD_LEASING_JSON__c, PRD_RENTAL_JSON__c, PRD_FACTORING_JSON__c, PRD_MUTUO_JSON__c"
+                      targetFields="{!v.workflowRecordCandidato}"
+                      targetError="{!v.workflowRecordCandidatoERROR}"
+                      recordUpdated="{!c.handleRecordUpdated}"
+                      targetRecord="{!v.workflowRecordCandidatoNEXT}"
+                      mode="VIEW"                
+                      />        
+    
+    <!-- Display Lightning Data Service errors, if any -->
+    <aura:if isTrue="{!not(empty(v.workflowRecordCandidatoERROR))}">
+        <ui:message title="Errore" severity="error" closable="true">{!v.workflowRecordCandidatoERROR}</ui:message>
+    </aura:if>   
+
+	<aura:if isTrue="{!or(v.workflowRecordCandidato.Tipologia_Segnalazione__c == 'FACTORING', v.workflowRecordCandidato.Tipologia_Segnalazione__c == 'MISTO')}">
+    
+		<lightning:card variant="Narrow" title="FACTORING" iconName="standard:partner_marketing_budget">
+			<p class="slds-p-horizontal_small">
+				<div class="slds-grid slds-wrap">        
+					<div class="slds-size_2-of-2">
+						<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputFabbisognoFinanziarioFactoringInputId" label="Stima Fabbisogno Finanziario" type="number" name="flowInputFabbisognoFinanziarioFactoringInput" required="false" value="{!v.jsonParsedFactoringProduct.fabbisognoFinanziarioFactoring}" formatter="currency" readonly="true" /></div>
+					</div>
+					<div class="slds-size_1-of-2">
+						<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputNaturaClientiFactoringInputId" label="Natura Clienti" type="text" name="flowInputNaturaClientiFactoringInput" required="false" value="{!v.jsonParsedFactoringProduct.naturaClientiFactoring}" readonly="true" /></div>
+					</div>
+					<div class="slds-size_1-of-2">
+						<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputNazionalitaClientiFactoringInputId" label="Nazionalità Clienti" type="text" name="flowInputNazionalitaClientiFactoringInput" required="false" value="{!v.jsonParsedFactoringProduct.nazionalitaClientiFactoring}" readonly="true" /></div>
+					</div>    
+					<div class="slds-size_2-of-2">
+						<div class="slds-m-around_x-small"><lightning:textarea aura:id="flowInputNoteFactoringInputId" label="Note" name="flowInputNoteFactoringInput" value="{!v.jsonParsedFactoringProductNote}" maxlength="255" readonly="true" /></div>
+					</div>    
+				</div>
+			</p>
+		</lightning:card>
+
+	</aura:if>
+
+	<aura:if isTrue="{!or(v.workflowRecordCandidato.Tipologia_Segnalazione__c == 'MUTUO', v.workflowRecordCandidato.Tipologia_Segnalazione__c == 'MISTO')}">
+    
+		<lightning:card variant="Narrow" title="MUTUO" iconName="standard:partner_marketing_budget">
+			<p class="slds-p-horizontal_small">
+				<div class="slds-grid slds-wrap">        
+					<div class="slds-size_3-of-3">
+						<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputImportoMutuoInputId" label="Importo" type="number" name="flowInputImportoMutuoInput" required="false" value="{!v.jsonParsedMutuoProduct.importoMutuo}" formatter="currency" readonly="true" /></div>
+					</div>
+					<div class="slds-size_1-of-3">
+						<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputDurataAmmortamentoMutuoInputId" label="Mesi Ammortamento" type="text" name="flowInputDurataAmmortamentoMutuoInput" required="false" value="{!v.jsonParsedMutuoProduct.durataAmmortamentoMutuo}" readonly="true" /></div>
+					</div>
+					<div class="slds-size_1-of-3">
+						<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputDurataPreammortamentoMutuoInputId" label="Mesi Preammortamento" type="text" name="flowInputDurataPreammortamentoMutuoInput" required="false" value="{!v.jsonParsedMutuoProduct.durataPreammortamentoMutuo}" readonly="true" /></div>
+					</div>   
+					<div class="slds-size_1-of-3">
+						<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputFinalitaMutuoInputId" label="Finalità Mutuo" type="text" name="flowInputFinalitaMutuoInput" required="false" value="{!v.jsonParsedMutuoProduct.finalitaMutuo}" readonly="true" /></div>
+					</div> 
+					<div class="slds-size_3-of-3">
+						<div class="slds-m-around_x-small"><lightning:textarea aura:id="flowInputNoteMutuoInputId" label="Note" name="flowInputNoteMutuoInput" value="{!v.jsonParsedMutuoProductNote}" maxlength="255" readonly="true" /></div>
+					</div>    
+				</div>
+			</p>
+		</lightning:card>
+
+	</aura:if>
+
+
+
+	<aura:if isTrue="{!or(v.workflowRecordCandidato.Tipologia_Segnalazione__c == 'LEASING', v.workflowRecordCandidato.Tipologia_Segnalazione__c == 'LEASINGRENTAL')}">
+    
+		<lightning:card variant="Narrow" title="LEASING" iconName="custom:custom31">
+			<p class="slds-p-horizontal_small">
+				<div class="slds-grid slds-wrap">        
+					<div class="slds-size_1-of-2">
+						<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputImportoLeasingInputId" label="Importo" type="number" name="flowInputImportoLeasingInput" required="false" value="{!v.jsonParsedLeasingProduct.importoLeasing}" formatter="currency" readonly="true" /></div>
+					</div>
+					<div class="slds-size_1-of-2">
+						<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputFinalitaLeasingInputId" label="Business" type="text" name="flowInputFinalitaLeasingInput" required="false" value="{!v.jsonParsedLeasingProduct.businessLeasing}" readonly="true" /></div>
+					</div> 
+					<div class="slds-size_2-of-2">
+						<div class="slds-m-around_x-small"><lightning:textarea aura:id="flowInputNoteLeasingInputId" label="Note" name="flowInputNoteLeasingInput" value="{!v.jsonParsedLeasingProductNote}" maxlength="255" readonly="true" /></div>
+					</div>    
+				</div>
+			</p>
+		</lightning:card>
+
+	</aura:if>
+
+	<aura:if isTrue="{!or(v.workflowRecordCandidato.Tipologia_Segnalazione__c == 'RENTAL', v.workflowRecordCandidato.Tipologia_Segnalazione__c == 'LEASINGRENTAL')}">
+    
+		<lightning:card variant="Narrow" title="RENTAL" iconName="standard:proposition">
+			<p class="slds-p-horizontal_small">
+				<div class="slds-grid slds-wrap">        
+					<div class="slds-size_1-of-2">
+						<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputImportoRentalInputId" label="Importo" type="number" name="flowInputImportoRentalInput" required="false" value="{!v.jsonParsedRentalProduct.importoRental}" formatter="currency" readonly="true" /></div>
+					</div>
+					<div class="slds-size_1-of-2">
+						<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputFinalitaRentalInputId" label="Business" type="text" name="flowInputFinalitaRentalInput" required="false" value="{!v.jsonParsedRentalProduct.businessRental}" readonly="true" /></div>
+					</div> 
+					<div class="slds-size_2-of-2">
+						<div class="slds-m-around_x-small"><lightning:textarea aura:id="flowInputNoteRentalInputId" label="Note" name="flowInputNoteRentalInput" value="{!v.jsonParsedRentalProductNote}" maxlength="255" readonly="true" /></div>
+					</div>    
+				</div>
+			</p>
+		</lightning:card>
+
+	</aura:if>
+
+</aura:component>

@@ -1,0 +1,16 @@
+<template>
+    <div class = "slds-clearfix slds-card groupDependentFieldEnabled  allow-horizontal-form wide-input-break full-width forceDetailPanelDesktop">
+        <lightning-card
+        title="New Product: Special Item"
+        icon-name="standard:product"
+        >
+            <lightning-record-form object-api-name="Product2"
+                                        record-type-id={recordTypeId}
+                                        onsuccess={handleSuccess}
+                                        mode="edit " columns="2" layout-type="Full">
+                <lightning-messages>
+                </lightning-messages>
+            </lightning-record-form>
+        </lightning-card>
+    </div>
+</template>

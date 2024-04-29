@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <description>Integration with Genesys that route web cases</description>
+        <name>Routing_Web_Case</name>
+        <label>Routing Web Case</label>
+        <locationX>176</locationX>
+        <locationY>335</locationY>
+        <actionName>ExternalRoutingWeb</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>ids</name>
+            <value>
+                <elementReference>$Record.ParentId</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>ExternalRoutingWeb</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <apiVersion>54.0</apiVersion>
+    <description>Used in Web To Case integration.
+This flow captures an EmailMessage record created related to a Case that have origin &quot;Web&quot;.</description>
+    <environments>Default</environments>
+    <interviewLabel>Web to Case - Reope Case from Email Message {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Web to Case - Trigger Case from Email Message</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Routing_Web_Case</targetReference>
+        </connector>
+        <filterFormula>AND(
+	ISPICKVAL({!$Record.Parent.Origin}, &quot;Web&quot;),
+	{!$Record.FromAddress} &lt;&gt; {!$Setup.CRM_CaseSettings__c.CRM_EmailServizioClientiWebBPERBanca__c},
+	{!$Record.ToAddress} = {!$Setup.CRM_CaseSettings__c.CRM_EmailServizioClientiWebBPERBanca__c}
+)</filterFormula>
+        <object>EmailMessage</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

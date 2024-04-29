@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PTF_NDG__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <externalId>false</externalId>
+    <label>NDG</label>
+    <referenceTo>Account</referenceTo>
+    <relationshipLabel>Storico Portafogli NDG</relationshipLabel>
+    <relationshipName>Storico_Portafogli_NDG</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

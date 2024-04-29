@@ -1,0 +1,43 @@
+<template>
+    <template if:true={isLoading}>
+        <lightning-spinner alternative-text="CARICAMENTO..."></lightning-spinner>
+    </template>
+    <div class="slds-grid slds-wrap slds-gutters slds-p-around_small">
+        <div class="slds-col slds-size_1-of-1 slds-text-align_center">
+            <h1 class="cstm-title">Contratto Ecobonus</h1>
+        </div>
+        <div class="slds-col slds-size_1-of-1 slds-text-align_center slds-m-vertical_small">
+            <div class="slds-grid slds-grid_align-center">
+                <div class="slds-col slds-size_1-of-1 slds-align_absolute-center">
+                    <div style="width:225px;">
+                        <lightning-input label="" placeholder="Inserisci il contratto..." value={idContratto} onchange={onChangeIdContratto}></lightning-input>
+                    </div>
+                </div>
+            </div>
+            <template if:true={errMsg}>
+                <p style="color:rgba(255, 0, 0, 0.733);">{errMsg}</p>
+            </template>
+        </div> 
+        <div class="slds-col slds-size_1-of-1 slds-text-align_center slds-m-vertical_small">
+            <lightning-button label="Cerca" variant="brand" onclick={searchOpty} ></lightning-button>
+        </div>
+        <template if:true={optyFound}>
+            <div class="slds-col slds-size_1-of-1">
+                <div class="slds-grid slds-wrap slds-grid_align-center">
+                    <div class="slds-col slds-size_1-of-1 slds-m-vertical_small slds-text-align_right">
+                        <lightning-button label="Stampa" variant="brand" onclick={printPDF} ></lightning-button>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-scrollable_y cstm-scrollable-container">
+                        <lightning-formatted-rich-text value={contrattoText} ></lightning-formatted-rich-text>
+                        <!-- <div class="slds-scrollable_y cstm-scrollable-container">
+                            <lightning-formatted-rich-text value={contrattoText} ></lightning-formatted-rich-text>
+                        </div> -->
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-m-vertical_small slds-text-align_right">
+                        <lightning-button label="Stampa" variant="brand" onclick={printPDF} ></lightning-button>
+                    </div>
+                </div>
+            </div>
+        </template>
+    </div>
+</template>

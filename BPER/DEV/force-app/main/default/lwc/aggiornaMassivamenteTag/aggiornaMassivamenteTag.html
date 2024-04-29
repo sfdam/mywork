@@ -1,0 +1,17 @@
+<template>
+    <lightning-card class="sldx-box slds-p-around-small" title="Aggiorna Tag">
+        <lightning-layout multiple-rows>
+            <lightning-layout-item padding="around-small" size="12">
+                <lightning-input name="oldtag" type="text" value={oldTag} disabled></lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item padding="around-small" size="12">
+                <lightning-input name="newtag" type="text" value={newTag} onchange={handleFilter}></lightning-input>
+
+            </lightning-layout-item>
+            <lightning-layout-item padding="around-small" size="12">
+                <lightning-button label="Modifica" disabled={disableButton}  onclick={handleClick} class="slds-m-left_x-small"></lightning-button>
+            </lightning-layout-item>
+        </lightning-layout>
+    </lightning-card>
+    
+</template>

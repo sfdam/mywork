@@ -1,0 +1,36 @@
+<template>
+    <lightning-card title={title} icon-name={iconName}>
+        <lightning-button label="VEDI TUTTE" slot="actions" variant="brand" title="VEDI TUTTE" ></lightning-button>
+        <lightning-layout>
+
+        <lightning-layout-item size="4" class="adjust-margin">
+            <div class="slds-text-align_center" style="display:block;">
+                <span class="circularProg-title"> <span class="slds-p-right_xx-small"> Actual/Budget </span> YTD mese precedente </span>
+                <!--<c:WGC_Circular_Progress theme="{! 'green' }" size="small" totalProgress="{! v.team.visiteMyTeam }"
+                    actualProgress="{! v.performer.myVisite }" condition="actual-total-percent" />-->
+            </div>
+            <div class="slds-text-align_center" style="display:block;">
+                <span class="circularProg-title"><span class="slds-p-right_xx-small"> Actual/Budget </span> Mese in corso </span>
+                <!--<c:WGC_Circular_Progress theme="{! v.performer.myVisite > v.performer.myObiettivo ? 'green' : 'red' }" size="small" totalProgress="{! v.performer.myObiettivo }"
+                actualProgress="{! v.performer.myVisite }" condition="actual-total-percent" />-->
+            </div>
+            <!--<div class="slds-text-align_center" style="display: block;">
+                <span class="segnalazioni-title">{! $Label.c.WGC_HomePage_MieiSuccessi_Segnalazioni }: <lightning:formattedNumber value="{! v.segnalazioni }" /></span>
+            </div>-->
+        </lightning-layout-item>
+
+            <lightning-layout-item size="12" multiple-rows="true">  
+                <div class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none">
+                    <lightning-layout>
+                        <lightning-layout-item size="6">
+                            <div class="custom-box slds-box slds-p-around_medium slds-text-align_center">1</div>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="6" flexibility="auto">
+                            <div class="custom-box slds-box slds-p-around_medium slds-text-align_center">2</div>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+            </lightning-layout-item>
+        </lightning-layout>
+    </lightning-card>
+</template>

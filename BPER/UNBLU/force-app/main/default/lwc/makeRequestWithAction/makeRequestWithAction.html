@@ -1,0 +1,58 @@
+<template>
+    <template if:true={executeCall}>
+        <c-make-request record-id={recordId} api-requests="getInfoCarte#getAcsKey6Status,verificaStatoCardControl" certificate-name="salesforceprodclient2022" disable-log=false></c-make-request> 
+    </template>
+    <lightning-card  variant="Narrow"  title={title} icon-name={iconName}>
+        <template if:true={loading}>
+            <div class="spinner-holder">
+                <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+            </div>
+        </template>
+        <template if:true={noAction}>
+            <div>
+                <lightning-layout>
+                    <lightning-layout-item size="12">
+                        <div class="slds-box no-button">
+                            <p>Nessuna Azione possibile per questo prodotto</p>
+                        </div>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </div>
+        </template>
+        <template if:false={noAction}>
+        <!-- <lightning-button-icon  icon-name="utility:down" variant="border-filled" alternative-text="Show More" slot="actions"></lightning-button-icon> -->
+            <div class="c-container-params">
+                <lightning-layout multiple-rows="true">
+                    <lightning-layout-item size="12" flexibility="auto" padding="around-small">
+                        <lightning-combobox
+                                name="modServizio"
+                                label="Azione"
+                                value={firstValueSelectedRequest}
+                                placeholder="Seleziona uno tra i servizi disponibili"
+                                options={apiRequests}
+                                onchange={handleChangeRequest} 
+                                message-when-value-missing="Campo obbligatorio"
+                                required >
+                        </lightning-combobox>
+                        <template if:true={showSecondPL}>
+                            <lightning-combobox
+                                    name="modServizio"
+                                    label="Tipologia Blocco"
+                                    value={secondValueSelectedRequest}
+                                    placeholder="Seleziona uno tra i servizi disponibili"
+                                    options={secondPicklistValues}
+                                    onchange={secondHandleChangeRequest} 
+                                    message-when-value-missing="Campo obbligatorio"
+                                    required >
+                            </lightning-combobox>
+                        </template>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" flexibility="auto" padding="around-small">
+                        <!-- Neutral variant (default) -->
+                        <button type="submit" class="slds-button slds-button_neutral slds-button_stretch" onclick={handleAction} disabled={disableAction}>Action</button>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </div>
+        </template>
+    </lightning-card>
+</template>

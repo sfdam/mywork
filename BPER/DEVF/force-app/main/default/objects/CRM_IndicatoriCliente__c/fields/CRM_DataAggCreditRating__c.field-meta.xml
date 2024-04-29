@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_DataAggCreditRating__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(
+AND(
+DAY(CRM_Account__r.CRM_ReferencePeriodCreditRating__c) &lt;= 9,
+MONTH(CRM_Account__r.CRM_ReferencePeriodCreditRating__c) &lt;= 9
+),
+&quot;0&quot; &amp; TEXT( DAY(CRM_Account__r.CRM_ReferencePeriodCreditRating__c))
+&amp; &quot;/&quot; &amp; &quot;0&quot; &amp; TEXT(MONTH(CRM_Account__r.CRM_ReferencePeriodCreditRating__c))
+&amp; &quot;/&quot; &amp; TEXT(YEAR(CRM_Account__r.CRM_ReferencePeriodCreditRating__c)),
+IF(
+DAY(CRM_Account__r.CRM_ReferencePeriodCreditRating__c) &lt;= 9,
+&quot;0&quot; &amp; TEXT( DAY(CRM_Account__r.CRM_ReferencePeriodCreditRating__c))
+&amp; &quot;/&quot; &amp; TEXT(MONTH(CRM_Account__r.CRM_ReferencePeriodCreditRating__c))
+&amp; &quot;/&quot; &amp; TEXT(YEAR(CRM_Account__r.CRM_ReferencePeriodCreditRating__c)),
+IF(
+MONTH(CRM_Account__r.CRM_ReferencePeriodCreditRating__c) &lt;= 9,
+TEXT( DAY(CRM_Account__r.CRM_ReferencePeriodCreditRating__c))
+&amp; &quot;/&quot; &amp; &quot;0&quot; &amp; TEXT(MONTH(CRM_Account__r.CRM_ReferencePeriodCreditRating__c))
+&amp; &quot;/&quot; &amp; TEXT(YEAR(CRM_Account__r.CRM_ReferencePeriodCreditRating__c)),
+TEXT( DAY(CRM_Account__r.CRM_ReferencePeriodCreditRating__c))
+&amp; &quot;/&quot; &amp; TEXT(MONTH(CRM_Account__r.CRM_ReferencePeriodCreditRating__c))
+&amp; &quot;/&quot; &amp; TEXT(YEAR(CRM_Account__r.CRM_ReferencePeriodCreditRating__c))
+)))</formula>
+    <label>CRM_DataAggCreditRating</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

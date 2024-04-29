@@ -1,0 +1,117 @@
+<apex:page standardController="Account" extensions="TransferOrderForWholesalerCtrl" renderAs="pdf" tabStyle="cgcloud__Order_Item__c"
+           cache="true" expires="900" id="thePage_TransferOrderForWholesaler" 
+           standardstylesheets="false"
+           applyBodyTag="true" 
+           showheader="false"> 
+    <html>
+        <head> 
+            <apex:stylesheet value="{!$Resource.TransferOrder}" />
+        </head>
+
+        <apex:variable value="{!0}" var="ordercount"></apex:variable>
+        <body>
+            <apex:repeat value="{!datas}" var="data" id="order"> 
+                <h1 style="color:rgb(165, 42, 42);text-align:center;font-weight:bold;">
+                    TRANSFER ORDER<br />
+                    {!data.opderWholesaler_Name}                   
+                </h1>
+                <hr  style="color:rgb(165, 42, 42);" />
+                <table style="width:100%;" class="table table-bordered">  
+                    <tr> 
+                        <td valign="top" width="30%">
+                            <b>N°Ordine</b><br />
+                            <apex:outputText value="{!data.orderName}" />
+                        </td>
+                        <td valign="top" width="30%">
+                            <b>Data Delivery</b><br />
+                            <apex:outputText value="{!data.orderDelivery_Date}"  />
+                        </td>
+                        <td valign="top" width="30%">
+                            <b>Azienda</b><br />
+                            <!--<apex:outputText value="{!data.orderDelivery_Recipient_Name}" /><br /><br />-->
+                            <apex:outputText value="CODIFI SRL"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="top" width="30%">
+                            <b>Cod. Cliente Spedizione</b><br />
+                            <apex:outputText value="{!data.orderDelivery_Recipient_THR_CustomerIdentificationCode}" />
+                        </td>
+                        <td valign="top" width="30%">
+                            <b>P.IVA Cliente</b><br />
+                            <apex:outputText value="{!data.opderDelivery_Recipient_THR_VATNumber}" />
+                        </td>
+                        <td valign="top" width="30%">
+                            <b>Rag. Sociale</b><br />
+                            <apex:outputText value="{!data.orderDelivery_Recipient_Name}" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="top" width="30%">
+                            <b> Indirizzo Cliente</b> <br /> 
+                            <apex:outputText value="{!data.orderDelivery_Recipient_BillingStreet}" />
+                        </td>
+                        <td valign="top" width="30%">
+                            <b>Comune</b><br /> 
+                            <apex:outputText value="{!data.orderDelivery_Recipient_BillingCity}" />
+                        </td>
+                        <td valign="top" width="30%">
+                            <b>Provincia</b><br /> 
+                            <apex:outputText value="{!data.orderDelivery_Recipient_BillingState}" />
+                        </td>
+                    </tr>
+                </table>
+                <apex:variable value="{!ordercount+1}" var="ordercount"></apex:variable>
+                <hr  style="color:rgb(165, 42, 42);"/>
+                <table style="width:100%;" class="slds-table_striped">
+                    <thead>
+                        <tr class='headerRow'>
+                            <th >AIC</th>
+                            <th >Cod. Prodotto</th>
+                            <th >Descrizione Specialità</th>
+                            <th align="right">Quantità Richiesta</th>
+                        </tr>
+                        <tr class='headerRow'>
+                            <th > </th>
+                            <th > </th>
+                            <th > </th>
+                            <th > </th>
+                        </tr>                        
+                    </thead>
+                    <tbody>
+                        <apex:repeat value="{!data.items}" var="item" id="Iems">
+                            <tr>
+                                <td>
+                                    <apex:outputText value="{!item.thr_IndustryStandard}" />
+                                </td>
+                                <td >
+                                    <apex:outputText value="{!item.productCode}" />
+                                </td>
+                                <td>
+                                    <apex:outputText value="{!item.name}" />    
+                                </td>
+                                <td align="right">
+                                    <apex:outputText value="{!item.quantity}" />
+                                    
+                                </td>
+                            </tr>
+                        </apex:repeat>
+                    </tbody>
+                </table>
+                <br /><br />
+                <p style="color:rgb(165, 42, 42);" align="right"> 
+                    Totale Ordine  <span style="display:inline-block;tab-size:10;" /> {!data.totalQuantity}
+                </p>
+               <div class="footer" style="display: block;padding: 5px;position: running(footer);bottom: 0px;">
+                   <div style="text-align:center;">
+                       <apex:image url="{!$Resource.LogoMenarini}" width="78.04px" height="20.48px"/>
+                   </div>
+                   <div class="textfooterright"> <span class="pagenumber"/> / <span class="pagecount"/></div>
+              </div>
+                
+              <p style="{!IF(ordercount<totalOrder, 'page-break-after:always;', '')}" ></p>
+                
+            </apex:repeat>
+        </body>
+    </html>
+</apex:page>

@@ -1,0 +1,541 @@
+<aura:component
+    implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+    access="global" controller="WGC_Account_Utility_Controller" extends="c:WGC_Utility">
+
+    <ltng:require styles="{!join(',','')}" scripts="{!join(',', 
+             '/resource/WGC_jQuery3x')}" afterScriptsLoaded="{!c.doInit}" />
+
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="account" type="Account" />
+
+    <aura:attribute name="myContact" type="List" default="[Name]" />
+    <aura:attribute name="accountRecord" type="Object" description="A simplified view record object to be displayed" />
+    <aura:attribute name="accountHeaderData" type="Map" />
+
+    <aura:attribute name="hesitatedTask" type="Boolean" />
+    <aura:attribute name="hesitatedEvent" type="Boolean" />
+
+    <aura:attribute name="annoAttuale" type="Date" />
+    <aura:attribute name="annoPrecedente" type="Date" />
+
+    <aura:attribute name="isLegalEntityNot881" type="Boolean" />
+    <aura:attribute name="isLegalEntity881" type="Boolean" />
+
+    <aura:attribute name="isRinnovoAvailable" type="Boolean" default="false" />
+
+    <!-- PALUMBO 12/02/2020 -->
+    <aura:attribute name="isFastFinance" type="Boolean" default="false"/>
+
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler name="change" value="{!v.accountRecord}" action="{!c.onLoadRecord}" />
+    <aura:handler event="c:WGC_EditAccountResolveEvent" action="{! c.reInit }" />
+
+
+    <lightning:overlayLibrary aura:id="overlayLib" />
+    <lightning:navigation aura:id="navService" />
+
+    <div class='container'>
+
+        <lightning:card>
+            <aura:set attribute="title">
+
+            </aura:set>
+            <force:recordData aura:id="record" layoutType="FULL" recordId="{!v.recordId}"
+                targetFields="{!v.accountRecord}" fields="Id, Name, NDGGruppo__c, PIVA__c, WGC_Specialista_Factoring__c, WGC_Specialista_Factoring__r.Name, WGC_Opportunita_Attive__c,
+                        RatingT0__c,RatingT1__c,WGC_Qualifica_Corporate__c, NDG__c, CodiceIstituto3N__c, Colore_Qualifica__c, BillingStreet, BillingCity, WGC_Gestore_Cliente__r.Name, Ateco__c, NaturaGiuridica__c,
+                        BillingCity__c, BillingCountry__c, BillingPostalCode__c, BillingState__c, BillingStreetName__c, BillingStreetType__c, BillingStreetNumber__c, WGC_MDI_PY__c, WGC_MDI_CY__c, WGC_MDI_CY_rollup__c, WGC_MDI_PY_rollup__c" mode="VIEW" />
+            <!-- <lightning:layout multipleRows="true">
+
+            </lightning:layout> -->
+            <lightning:layout multipleRows="true">
+                <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12">
+                    <div class="title-recordName">
+                        <div>
+                            {!v.accountRecord.Name}
+                            <aura:if isTrue="{! v.isLegalEntityNot881 }">
+                                <img class="slds-float_right cstm-account-icon large" src="{! $Resource.WGC_LogoIfisFinance }"
+                                    alt="IFIS Finance"></img>
+                            </aura:if>
+                            <aura:if isTrue="{! v.isLegalEntity881 }">
+                                <img class="slds-float_right cstm-account-icon large"
+                                    src="{! $Resource.WGC_LogoIfisItalia }" alt="Smiley face"></img>
+                            </aura:if>
+                        </div>
+                    </div>
+                </lightning:layoutItem>
+                <lightning:layoutItem flexibility="auto" class="border-right border-notShow" size="12"
+                    smallDeviceSize="6" mediumDeviceSize="6" largeDeviceSize="3">
+                    <div class="info">
+                        <lightning:layout multipleRows="true">
+                            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12"
+                                largeDeviceSize="12">
+                                <span class="prop">{!$Label.c.WGC_Account_Header_Sede_Legale} </span>
+                                <span class="val"> 
+                                    &nbsp; 
+                                    <aura:if isTrue="{! v.accountRecord.BillingStreetType__c != ''}">
+                                            {!v.accountRecord.BillingStreetType__c}&nbsp;{! v.accountRecord.BillingStreetName__c}&nbsp;{! v.accountRecord.BillingStreetNumber__c },
+                                    </aura:if>
+                                    {!v.accountRecord.BillingCity__c}&nbsp;({! v.accountRecord.BillingState__c})
+                                </span>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12"
+                                largeDeviceSize="12">
+                                <lightning:layout>
+                                    <lightning:layoutItem size="4" smallDeviceSize="4" mediumDeviceSize="4"
+                                        largeDeviceSize="3" class="overflow-text">
+                                        <span class="prop">{!$Label.c.WGC_Account_Header_PIVA}</span>
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem size="8" smallDeviceSize="8" mediumDeviceSize="8"
+                                        largeDeviceSize="9">
+                                        <span class="val">{!v.accountRecord.PIVA__c}</span>
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12"
+                                largeDeviceSize="12">
+                                <lightning:layout>
+                                    <lightning:layoutItem size="4" smallDeviceSize="4" mediumDeviceSize="4"
+                                        largeDeviceSize="3" class="overflow-text">
+                                        <span class="prop">{!$Label.c.WGC_Account_Header_Ndg}</span>
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem size="8" smallDeviceSize="8" mediumDeviceSize="8"
+                                        largeDeviceSize="9">
+                                        <span class="val">{!v.accountRecord.NDGGruppo__c}</span>
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12"
+                                largeDeviceSize="12">
+                                <lightning:layout>
+								<!-- SDCHG-5172 - Sostituita label.c.WGC_Account_Header_Referente_Commerciale con label.c.WGC_Profilo_Card_Ateco e WGC_Specialista_Factoring__r.Name con Ateco__c e aggiunto helpText--> 
+                                    <lightning:layoutItem size="4" smallDeviceSize="4" mediumDeviceSize="4"
+                                        largeDeviceSize="3" >
+                                        <span class="prop">{!$Label.c.WGC_Profilo_Card_Ateco}</span>
+                                    </lightning:layoutItem>
+                                    <!-- Cambiati i padding -->
+                                    <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12">
+                                        <span class="val">{!v.accountRecord.Ateco__c}</span>
+                                        <!-- MS factory start Aggiunto un semaforo relativo a Status__c e modifica sul tooltip start-->
+										<lightning:helpText content="{! v.accountHeaderData.data[0].descrizioneAteco != null || v.accountHeaderData.data[0].descrizioneAteco != undefined ? v.accountHeaderData.data[0].descrizioneAteco : 'Nessuna descrizione Ateco' }" />
+                                        <aura:if isTrue="{!v.accountHeaderData.atecoStatus == '0' || v.accountHeaderData.atecoStatus == undefined}">
+                                            <lightning:icon iconName="utility:success" alternativeText="" title="" size="x-small" class="comments-icn" />
+                                        </aura:if>
+                                        <aura:if isTrue="{!and(not(Empty(v.accountHeaderData.atecoStatus)),v.accountHeaderData.atecoStatus == '1')}">
+                                            <lightning:icon iconName="utility:warning" alternativeText="" title="" size="x-small" class="comments-ecn-warning" />
+                                            <lightning:helpText class="helpTextTransparent" content="{! 'Attenzione l’anagrafica presenta un Codice Ateco attenzionato dal Codice Etico dell’Istituto. Per proseguire fai riferimento alla CTS nr.' + $Label.c.Ateco_Semaforo_Giallo_CTS}"/>
+                                        </aura:if>
+                                        <aura:if isTrue="{!and(not(Empty(v.accountHeaderData.atecoStatus)),v.accountHeaderData.atecoStatus == '2')}">
+                                            <lightning:icon iconName="utility:clear" alternativeText="" title="" size="x-small" class="comments-ecn-error" />
+                                            <lightning:helpText class="helpTextTransparent" content="{! 'Attenzione l’anagrafica presenta un Codice Ateco non conforme al Codice Etico dell’Istituto. Per proseguire fai riferimento alla CTS nr.' + $Label.c.Ateco_Semaforo_Rosso_CTS}"/>
+                                        </aura:if>
+                                        <!-- MS factory start Aggiunto un semaforo relativo a Status__c e modifica sul tooltip end-->
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12"
+                                largeDeviceSize="12">
+                                <lightning:layout>
+								<!-- SDCHG-5172 - Sostituita Sostituita label.c.WGC_Account_Header_Referente_CMT con label.c.WGC_Profilo_Card_Natura_Giuridica e WGC_Gestore_Cliente__r.Name con NaturaGiuridica__c --> 
+                                    <lightning:layoutItem size="4" smallDeviceSize="4" mediumDeviceSize="4"
+                                        largeDeviceSize="3" class="overflow-text">
+                                        <span class="prop">{!$Label.c.WGC_Profilo_Card_Natura_Giuridica}</span>
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem size="8" smallDeviceSize="8" mediumDeviceSize="8"
+                                        largeDeviceSize="9">
+                                        <span class="val">{!v.accountRecord.NaturaGiuridica__c}</span>
+										<lightning:helpText content="{! v.accountHeaderData.data[0].naturaGiuridicaDescrizione != null? v.accountHeaderData.data[0].naturaGiuridicaDescrizione : 'Nessuna descrizione'}" />
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </div>
+                </lightning:layoutItem>
+
+                <lightning:layoutItem flexibility="auto" class="border-right border-notShow" size="12"
+                    smallDeviceSize="6" mediumDeviceSize="6" largeDeviceSize="2">
+                    <div class="info">
+                        <lightning:layout multipleRows="true" horizontalAlign="space">
+                            <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12"
+                                mediumDeviceSize="12" largeDeviceSize="12" class="overflow-text">
+                                <div class="slds-p-bottom_x-small title">{!$Label.c.WGC_Account_Header_Prodotti_Attivi}
+                                </div>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem flexibility="auto" size="6" smallDeviceSize="6" mediumDeviceSize="6"
+                                largeDeviceSize="6">
+                                <lightning:layout>
+                                    <lightning:layoutItem size="10" smallDeviceSize="10" mediumDeviceSize="10"
+                                        largeDeviceSize="10">
+                                        <span class="prop">{!$Label.c.WGC_Account_Header_Factoring_Ced}</span>
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem size="2" smallDeviceSize="2" mediumDeviceSize="2"
+                                        largeDeviceSize="2">
+                                        <span class="val">{!v.accountHeaderData.data[0].lstProdottiFactoringCed.length}</span>
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem flexibility="auto" size="6" smallDeviceSize="6" mediumDeviceSize="6"
+                                largeDeviceSize="6">
+                                <lightning:layout>
+                                    <lightning:layoutItem size="10" smallDeviceSize="10" mediumDeviceSize="10"
+                                        largeDeviceSize="10">
+                                        <span class="prop">{!$Label.c.WGC_Account_Header_Factoring_Deb}</span>
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem size="2" smallDeviceSize="2" mediumDeviceSize="2"
+                                        largeDeviceSize="2">
+                                        <span
+                                            class="val">{!v.accountHeaderData.data[0].lstProdottiFactoringDeb.length}</span>
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem flexibility="auto" size="6" smallDeviceSize="6" mediumDeviceSize="6"
+                                largeDeviceSize="6">
+                                <lightning:layout>
+                                    <lightning:layoutItem size="10" smallDeviceSize="10" mediumDeviceSize="10"
+                                        largeDeviceSize="10">
+                                        <span class="prop">{!$Label.c.WGC_Account_Header_Leasing}</span>
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem size="2" smallDeviceSize="2" mediumDeviceSize="2"
+                                        largeDeviceSize="2">
+                                        <span
+                                            class="val">{!v.accountHeaderData.data[0].lstProdottiLeasing.length}</span>
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem flexibility="auto" size="6" smallDeviceSize="6" mediumDeviceSize="6"
+                                largeDeviceSize="6">
+                                <lightning:layout>
+                                    <lightning:layoutItem size="10" smallDeviceSize="10" mediumDeviceSize="10"
+                                        largeDeviceSize="10" class="overflow-text">
+                                        <span class="prop">{!$Label.c.WGC_Account_Header_Finanziamento}</span>
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem size="2" smallDeviceSize="2" mediumDeviceSize="2"
+                                        largeDeviceSize="2">
+                                        <span
+                                            class="val">{!v.accountHeaderData.data[0].lstProdottiFinanziamento.length}</span>
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="6" smallDeviceSize="6" mediumDeviceSize="6"
+                                largeDeviceSize="6" alignmentBump="right">
+                                <lightning:layout>
+                                    <lightning:layoutItem size="10" smallDeviceSize="10" mediumDeviceSize="10"
+                                        largeDeviceSize="10">
+                                        <span class="prop">{!$Label.c.WGC_Account_Header_Altro}</span>
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem size="2" smallDeviceSize="2" mediumDeviceSize="2"
+                                        largeDeviceSize="2">
+                                        <span class="val">{!v.accountHeaderData.data[0].lstProdottiAltro.length}</span>
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                            </lightning:layoutItem>
+
+                        </lightning:layout>
+                    </div>
+                </lightning:layoutItem>
+
+                <lightning:layoutItem flexibility="auto" class="border-right" size="6" smallDeviceSize="6"
+                    mediumDeviceSize="6" largeDeviceSize="1">
+                    <div class="info">
+                        <lightning:layout multipleRows="true" horizontalAlign="space">
+                            <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12"
+                                mediumDeviceSize="12" largeDeviceSize="12" class="overflow-text">
+                                <div class="slds-p-bottom_x-small title">{!$Label.c.WGC_Account_Header_Marginalita}
+                                </div>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="12" smallDeviceSize="12"
+                                mediumDeviceSize="12" largeDeviceSize="12">
+                                <lightning:layout multipleRows="true">
+                                    <lightning:layoutItem flexibility="auto" size="6" smallDeviceSize="6" mediumDeviceSize="6"
+                                        largeDeviceSize="12">
+                                        <span class="prop">{!v.annoAttuale}</span>
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem flexibility="auto" size="6" smallDeviceSize="6" mediumDeviceSize="6"
+                                        largeDeviceSize="12">
+                                        <span class="val">
+                                            <lightning:formattedNumber
+                                                value="{! v.accountRecord.WGC_MDI_CY_rollup__c }"
+                                                style="currency" currencyCode="EUR" minimumFractionDigits="0"
+                                                maximumFractionDigits="0" /></span>
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12"
+                                mediumDeviceSize="12" largeDeviceSize="12">
+                                <lightning:layout multipleRows="true">
+                                    <lightning:layoutItem size="6" smallDeviceSize="6" mediumDeviceSize="6"
+                                        largeDeviceSize="12">
+                                        <span class="prop">{!v.annoPrecedente}</span>
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem size="6" smallDeviceSize="6" mediumDeviceSize="6"
+                                        largeDeviceSize="12">
+                                        <span class="val">
+                                            <lightning:formattedNumber
+                                                value="{! v.accountRecord.WGC_MDI_PY_rollup__c }"
+                                                style="currency" currencyCode="EUR" minimumFractionDigits="0"
+                                                maximumFractionDigits="0" /></span>
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </div>
+                </lightning:layoutItem>
+
+
+                <lightning:layoutItem flexibility="auto" class="border-right border-notShow" size="6"
+                    smallDeviceSize="6" mediumDeviceSize="6" largeDeviceSize="1">
+                    <div class="info">
+                        <lightning:layout multipleRows="true" horizontalAlign="space">
+                            <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12"
+                                mediumDeviceSize="12" largeDeviceSize="12" class="overflow-text">
+                                <div class="slds-p-bottom_x-small title">{!$Label.c.WGC_Account_Header_Interazioni}
+                                </div>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12"
+                                mediumDeviceSize="12" largeDeviceSize="12">
+                                <lightning:layout multipleRows="true">
+                                    <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12" mediumDeviceSize="6"
+                                        largeDeviceSize="12">
+                                        <aura:if
+                                            isTrue="{! v.accountHeaderData.data[0].lstT == undefined || v.accountHeaderData.data[0].lstT.length == 0}">
+                                            <span class="prop">{!$Label.c.WGC_Account_Header_Contatti} </span><span class="val slds-float_right">0</span>
+                                            <aura:set attribute="else">
+                                                <span class="prop">{!$Label.c.WGC_Account_Header_Contatti} </span><span class="val slds-float_right">{!v.accountHeaderData.data[0].lstT.length}</span>
+                                            </aura:set>
+                                        </aura:if>
+                                    </lightning:layoutItem>
+                                            <lightning:layoutItem flexibility="auto" size="4" smallDeviceSize="4" mediumDeviceSize="3"
+                                            largeDeviceSize="6" class="{! (not(empty(v.accountHeaderData.data[0].lstT)) ? '' : 'slds-hide') }">
+                                            <div class="prop">{!$Label.c.WGC_Account_Header_Ultimo}</div>
+                                        </lightning:layoutItem>
+                                    <lightning:layoutItem flexibility="auto" size="8" smallDeviceSize="8" mediumDeviceSize="3"
+                                        largeDeviceSize="6" class="{! (not(empty(v.accountHeaderData.data[0].lstT)) ? '' : 'slds-hide') }">
+                                        <div class="val slds-float_right">{!v.accountHeaderData.data[0].lstT[0].Data_Inizio__c}</div>
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12"
+                                mediumDeviceSize="12" largeDeviceSize="12">
+                                <lightning:layout multipleRows="true">
+                                    <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12" mediumDeviceSize="6"
+                                        largeDeviceSize="12">
+                                        <aura:if
+                                            isTrue="{!v.accountHeaderData.data[0].lstE == undefined || v.accountHeaderData.data[0].lstE.length == 0}">
+                                            <span class="prop">{!$Label.c.WGC_Account_Header_Visite} </span><span class="val slds-float_right">0</span>
+                                            <aura:set attribute="else">
+                                                <span class="prop">{!$Label.c.WGC_Account_Header_Visite} </span><span class="val slds-float_right">{!v.accountHeaderData.data[0].lstE.length}</span>
+                                            </aura:set>
+                                        </aura:if>
+                                    </lightning:layoutItem>
+                                            <lightning:layoutItem flexibility="auto" size="4" smallDeviceSize="4" mediumDeviceSize="3"
+                                            largeDeviceSize="6" class="{! (not(empty(v.accountHeaderData.data[0].lstE)) ? '' : 'slds-hide') }">
+                                            <div class="prop">{!$Label.c.WGC_Account_Header_Ultima}</div>
+                                        </lightning:layoutItem>
+                                    <lightning:layoutItem flexibility="auto" size="8" smallDeviceSize="8" mediumDeviceSize="3"
+                                        largeDeviceSize="6" class="{! (not(empty(v.accountHeaderData.data[0].lstE)) ? '' : 'slds-hide') }">
+                                        <div class="val slds-float_right">{!v.accountHeaderData.data[0].lstE[0].ActivityDateTime}</div>
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </div>
+                </lightning:layoutItem>
+
+                <lightning:layoutItem flexibility="auto" class="border-right" size="4" smallDeviceSize="4"
+                    mediumDeviceSize="3" largeDeviceSize="1">
+                    <div class="info">
+                        <lightning:layout multipleRows="true" horizontalAlign="space">
+                            <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12"
+                                mediumDeviceSize="12" largeDeviceSize="12" class="overflow-text">
+                                <div class="slds-p-bottom_x-small title">{!$Label.c.WGC_Account_Header_Iniziative}</div>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12"
+                                mediumDeviceSize="12" largeDeviceSize="12">
+                                <span class="val">{!v.accountHeaderData.data[0].countCampagne.length}</span>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12"
+                                mediumDeviceSize="12" largeDeviceSize="12" class="overflow-text">
+                                <div class="slds-p-bottom_x-small title">
+                                    {!$Label.c.WGC_Account_Header_Opportunita_Attive}</div>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12"
+                                mediumDeviceSize="12" largeDeviceSize="12">
+                                <span class="val">{!v.accountRecord.WGC_Opportunita_Attive__c}</span>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </div>
+                </lightning:layoutItem>
+                <lightning:layoutItem flexibility="auto" class="border-right" size="3" smallDeviceSize="3"
+                    mediumDeviceSize="3" largeDeviceSize="1">
+                    <div class="info">
+                        <lightning:layout multipleRows="true" horizontalAlign="space">
+                            <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12"
+                                mediumDeviceSize="12" largeDeviceSize="12" class="overflow-text">
+                                <div class="slds-p-bottom_x-small title">{!$Label.c.WGC_Account_Header_Rating}</div>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12"
+                                mediumDeviceSize="12" largeDeviceSize="12">
+                                <aura:if isTrue="{!v.accountRecord.RatingT0__c == null || v.accountRecord.RatingT0__c == ''}">
+                                    <div class="valQal">
+                                        <span> - </span>
+                                    </div>
+                                    <aura:set attribute="else">
+                                        <aura:if isTrue="{! v.accountRecord.RatingT1__c == null }">
+                                            <aura:if isTrue="{! lessthanorequal(v.accountRecord.RatingT0__c, 4) }">
+                                                <div class="valQal">
+                                                    {!v.accountRecord.RatingT0__c} <img class="freccia"
+                                                        src="{!$Resource.WGC_FrecciaVerde}" />
+                                                </div>
+                                            </aura:if>
+                                            <aura:if isTrue="{! greaterthanorequal(v.accountRecord.RatingT0__c, 5) }">
+                                                <div class="valQal">
+                                                    {!v.accountRecord.RatingT0__c} <img class="freccia"
+                                                        src="{!$Resource.WGC_FrecciaRossa}" />
+                                                </div>
+                                            </aura:if>
+                                            <!-- End NEW 26/04/2019 -->
+                                            <aura:set attribute="else">
+                                                <aura:if isTrue="{!v.accountRecord.RatingT0__c > v.accountRecord.RatingT1__c}">
+                                                    <aura:if isTrue="{! lessthanorequal(v.accountRecord.RatingT0__c, 4) }">
+                                                        <div class="valQal">
+                                                            {!v.accountRecord.RatingT0__c} <img class="freccia"
+                                                                src="{!$Resource.WGC_FrecciaVerde}" />
+                                                        </div>
+                                                    </aura:if>
+                                                    <aura:if isTrue="{! greaterthanorequal(v.accountRecord.RatingT0__c, 5) }">
+                                                        <div class="valQal">
+                                                            {!v.accountRecord.RatingT0__c} <img class="freccia"
+                                                                src="{!$Resource.WGC_FrecciaRossa}" />
+                                                        </div>
+                                                    </aura:if>
+                                                    <aura:set attribute="else">
+                                                        <aura:if isTrue="{! lessthanorequal(v.accountRecord.RatingT0__c, 4) }">
+                                                            <div class="valQal">
+                                                                {!v.accountRecord.RatingT0__c} <img class="freccia-down"
+                                                                    src="{!$Resource.WGC_FrecciaVerde}" style="transform: rotate(180deg);" />
+                                                            </div>
+                                                        </aura:if>
+                                                        <aura:if isTrue="{! greaterthanorequal(v.accountRecord.RatingT0__c, 5) }">
+                                                            <div class="valQal">
+                                                                {!v.accountRecord.RatingT0__c} <img class="freccia-down"
+                                                                    src="{!$Resource.WGC_FrecciaRossa}" style="transform: rotate(180deg);" />
+                                                            </div>
+                                                        </aura:if>
+                                                    </aura:set>
+                                                    </aura:if>
+                                                </aura:set>
+                                            </aura:if>
+                                        </aura:set>
+                                    </aura:if>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </div>
+                </lightning:layoutItem>
+
+                <lightning:layoutItem flexibility="auto" class="" size="5" smallDeviceSize="5" mediumDeviceSize="3"
+                    largeDeviceSize="1">
+                    <div class="info">
+                        <lightning:layout multipleRows="true" horizontalAlign="space">
+                            <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12"
+                                mediumDeviceSize="12" largeDeviceSize="12" class="overflow-text">
+                                <div class="slds-p-bottom_x-small title">{!$Label.c.WGC_Account_Header_Qualifica}</div>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12"
+                                mediumDeviceSize="12" largeDeviceSize="12">
+                                <aura:if isTrue="{! v.accountRecord.Colore_Qualifica__c == 'V' }">
+                                    <div class="valQal green">
+                                        {!v.accountRecord.WGC_Qualifica_Corporate__c}
+                                    </div>
+                                    <aura:set attribute="else">
+                                        <aura:if isTrue="{! v.accountRecord.Colore_Qualifica__c == 'G' }">
+                                            <div class="valQal orange">
+                                                {!v.accountRecord.WGC_Qualifica_Corporate__c}
+                                            </div>
+                                            <aura:set attribute="else">
+                                                <aura:if isTrue="{! v.accountRecord.Colore_Qualifica__c == 'R' }">
+                                                    <div class="valQal red">
+                                                        {!v.accountRecord.WGC_Qualifica_Corporate__c}
+                                                    </div>
+                                                    <aura:set attribute="else">
+                                                        <aura:if isTrue="{! v.accountRecord.Colore_Qualifica__c == 'N' }">
+                                                            <div class="valQal red">
+                                                                {!v.accountRecord.WGC_Qualifica_Corporate__c}
+                                                            </div>
+                                                            <aura:set attribute="else">
+                                                                <aura:if isTrue="{! v.accountRecord.Colore_Qualifica__c == 'GR' }">
+                                                                    <div class="valQal grey">
+                                                                        {!v.accountRecord.WGC_Qualifica_Corporate__c}
+                                                                    </div>
+                                                                </aura:if>
+                                                            </aura:set>
+                                                        </aura:if>
+                                                    </aura:set>
+                                                </aura:if>
+                                            </aura:set>
+                                        </aura:if>
+                                    </aura:set>
+                                </aura:if>
+                                <!-- 
+                                <aura:if isTrue="{!v.accountRecord.WGC_Qualifica_Corporate__c == 'Cliente Attivo' || 
+                                                v.accountRecord.WGC_Qualifica_Corporate__c == 'Incerto'}">
+                                    <div class="valQal green">
+                                        {!v.accountRecord.WGC_Qualifica_Corporate__c}
+                                    </div>
+                                    <aura:set attribute="else">
+                                        <aura:if isTrue="{!v.accountRecord.WGC_Qualifica_Corporate__c == 'Prospect'}">
+                                            <div class="valQal orange">
+                                                {!v.accountRecord.WGC_Qualifica_Corporate__c}
+                                            </div>
+                                            <aura:set attribute="else">
+                                                <aura:if isTrue="{!v.accountRecord.WGC_Qualifica_Corporate__c != 'Cliente Attivo' || 
+                                                v.accountRecord.WGC_Qualifica_Corporate__c != 'Incerto' ||
+                                                v.accountRecord.WGC_Qualifica_Corporate__c != 'Prospect'}">
+                                                    <div class="valQal red">
+                                                        {!v.accountRecord.WGC_Qualifica_Corporate__c}
+                                                    </div>
+                                                </aura:if>
+                                            </aura:set>
+                                        </aura:if>
+                                    </aura:set>
+                                </aura:if>
+                                -->
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </div>
+                </lightning:layoutItem>
+
+                <lightning:layoutItem flexibility="auto" class="button-container" size="12" smallDeviceSize="12"
+                    mediumDeviceSize="12" largeDeviceSize="2">
+                    <div class="infoXXX">
+                        <lightning:layout multipleRows="true" horizontalAlign="space">
+                            <lightning:layoutItem flexibility="auto" size="3" smallDeviceSize="3" mediumDeviceSize="3"
+                                largeDeviceSize="6">
+                                <lightning:button class="slds-button slds-button_brand" variant="brand" label="{!$Label.c.WGC_Crea_Task}"
+                                    title="Brand" onclick="{!c.goToContatto}" value="contatto" disabled="{!v.isFastFinance}"/>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem flexibility="auto" size="3" smallDeviceSize="3" mediumDeviceSize="3"
+                                largeDeviceSize="6">
+                                <lightning:button class="slds-button slds-button_brand" variant="brand"
+                                    label="{!$Label.c.WGC_Crea_Opportunita}" title="Brand" onclick="{!c.goToOpportunita}" value="opportunit"
+                                    disabled="{!or(v.hesitatedEvent,v.isFastFinance)}" />
+                            </lightning:layoutItem>
+                            <lightning:layoutItem flexibility="auto" size="3" smallDeviceSize="3" mediumDeviceSize="3"
+                                largeDeviceSize="6">
+                                <lightning:button class="slds-button slds-button_brand" variant="brand" label="{!$Label.c.WGC_Esita_Task}"
+                                    title="Brand" onclick="{!c.goToVisita}" value="event"
+                                    disabled="{!or(v.hesitatedTask,v.isFastFinance) }" />
+                            </lightning:layoutItem>
+                            <!-- <lightning:layoutItem flexibility="auto" size="3" smallDeviceSize="3" mediumDeviceSize="3"
+                                largeDeviceSize="6">
+                                <lightning:button class="slds-button" variant="destructive"
+                                    label="{!$Label.c.WGC_Rinnova}" title="Brand" onclick="{!c.goToRinnovo}" value="rinnovo"
+                                    disabled="{!or(!v.isRinnovoAvailable,v.isFastFinance)}" />
+                            </lightning:layoutItem> -->
+                        </lightning:layout>
+                    </div>
+                </lightning:layoutItem>
+
+            </lightning:layout>
+        </lightning:card>
+    </div>
+</aura:component>

@@ -1,0 +1,43 @@
+.cstm-note-state-wrapper {
+    border: 1px solid #0064B5;
+    border-radius: 5px 0 0 5px;
+}
+
+.cstm-note-textarea-wrapper {
+    border: 1px solid #0064B5;
+    border-left: none;
+    border-radius: 0 5px 5px 0;
+}
+
+.cstm-note-textarea-title{
+    color: #0064B5;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.cstm-note-textarea-wrapper .cstm-note-textarea-body {
+    border-top: 1px solid #4493e5;
+}
+
+.cstm-note-textarea-wrapper .cstm-note-textarea-body .cstm-note-textarea textarea {
+    border: 0 !important;
+}
+
+.cstm-note-textarea-wrapper .cstm-note-textarea-body .cstm-note-textarea label {
+    font-style: italic;
+}
+
+textarea.cstm-note-textarea {
+    border: none;
+    width: 100%;
+    outline: #0088ff;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+textarea.cstm-note-textarea:focus {
+    outline: 0;
+    border-color: #1589ee;
+    background-color: #fff;
+    box-shadow: 0 0 3px #0064B5;
+}

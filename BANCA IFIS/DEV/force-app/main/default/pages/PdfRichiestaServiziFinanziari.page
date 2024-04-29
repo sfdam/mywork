@@ -1,0 +1,455 @@
+<!-- IMPORTANTE per community TiAnticipo: lasciare custom controller per recuperare Opportunity -->
+<apex:page renderAs="pdf" showHeader="false" applyHtmlTag="false" applyBodyTag="false" standardStylesheets="false" controller="ExtPdfAdeguataVerificaClientela">
+    <html>
+        <head>
+            <apex:stylesheet value="{!$Resource.CssPdfGeneration}"/>
+            <!--
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=Generator content="Microsoft Word 15 (filtered)">  -->
+            <title>Richiesta di servizi finanziari</title>
+            <style>
+                .bigForm {
+                    border-width: 2px;
+                    border-color: black;
+                    border-style: solid;
+                    margin-top: 10pt;
+                    padding: 7px;
+                }
+
+                .titolareForm {
+                    margin-left:14.2pt;
+                    margin-bottom: 7pt;
+                    text-indent:35.45pt;
+                    line-height:115%;
+                }
+
+                .paragrafoStandard10 {
+                    margin:0cm;
+                    margin-bottom:.0001pt;
+                    font-size:10.0pt;
+                    text-align:justify;
+                }
+
+                .servizioFinanziario {
+                    font-size:11.0pt;
+                    margin-top:20pt;
+                    margin-bottom:20pt;
+                    margin-left:20pt;
+                }
+
+                .tableFactoring {
+                    border-width: 1px;
+                    border-color: black;
+                    border-style: solid;
+                    border-collapse: collapse;
+                    margin-top: 20pt;
+                }
+
+                .tableFactoringIntestazione {
+                    font-weight: bold;
+                    font-size:10pt;
+                    border-width: 1px;
+                    border-color: black;
+                    border-style: solid;
+                }
+
+                .tableFactoringCell {
+                    font-size:9pt;
+                    border-width: 1px;
+                    border-color: black;
+                    border-style: solid;
+                    min-height: 20pt;
+                }
+
+                .tableFactoringCellCenter {
+                    font-size:9pt;
+                    border-width: 1px;
+                    border-color: black;
+                    border-style: solid;
+                    min-height: 20pt;
+                    text-align: center;
+                }
+
+                 p.MsoNormal, li.MsoNormal, div.MsoNormal
+                    {margin:0cm;
+                    margin-bottom:.0001pt;
+                    font-size:9.5pt;}
+
+                /* font definition */
+                p, span, li, div {
+                  font-family:sans-serif;
+                }
+
+                 /*  List Definitions */
+                 ol
+                    {margin-bottom:0cm;}
+                ul
+                    {margin-bottom:0cm;}
+            </style>
+        </head>
+        <body>
+            <!--footer and header-->
+            <div class="header_left" style="margin-left:5pt;">
+                <img class="header_logo_img" src="{!$Resource.BancaIfisLogoNew}"/>
+            </div>
+            <div class="footer_center">
+                <p class="docName">RSF – 29.06.2020</p>
+                <img class="footerLargeImg" src="{!$Resource.FooterIfis}"/>
+            </div>
+            <div class="footer_right pageNumberFooter">
+                <span class="pagenumber"/>
+            </div>
+            <p class="MsoNormal" align="center" style="text-align:center;clear:right;">
+                <b>
+                    <u>
+                        <span style="font-size:10.0pt;text-transform:uppercase; font-weight: bold;">RICHIESTA DI PRODOTTI E SERVIZI FINANZIARI</span>
+                    </u>
+                </b>
+            </p>
+            <!-- inizio parte iniziale comune -->
+            <div class= "bigForm uniqueBlock midMarginBlock">
+                <p class="paragrafoTabella" style="margin-bottom:  4pt;">
+                    <b>Ragione / Denominazione sociale</b>
+                    <span class="{!IF( !ISBLANK(a.Name), 'hiddenInput', 'veryLongDot')}"/>
+                    <span class="{!IF( (ISBLANK(a.Name)), 'hiddenInput', 'dottedInput')}">{!a.Name}</span>
+                </p>
+                <p class="paragrafoTabella" style="">
+                    Partita IVA
+                    <!--<span class="CFstring">
+                        <apex:repeat value="{!PIVACliente}" var="car" >
+                            <span class="CFcell">{!car}</span>
+                        </apex:repeat>
+                    </span> -->
+                    <span class="{!IF( !ISBLANK(a.PIVA__c), 'hiddenInput', 'veryLongDot')}"/>
+                    <span class="{!IF( (ISBLANK(a.PIVA__c)), 'hiddenInput', 'dottedInput')}">{!a.PIVA__c}</span>
+                </p>
+                <p class="paragrafoTabella">
+                    Codice Fiscale
+                    <!--
+                    <span class="CFstring">
+                        <apex:repeat value="{!CFCliente}" var="car" >
+                            <span class="CFcell">{!car}</span>
+                        </apex:repeat>
+                    </span> -->
+                    <span class="{!IF( !ISBLANK(a.CF__c), 'hiddenInput', 'veryLongDot')}"/>
+                    <span class="{!IF( (ISBLANK(a.CF__c)), 'hiddenInput', 'dottedInput')}">{!a.CF__c}</span>
+                </p>
+                <p class="paragrafoTabella">
+                    CCIAA di<span class="{!IF( !ISBLANK(a.ProvinciaCCIAA__c), 'hiddenInput', 'veryLongDot')}"/>
+                    <span class="{!IF( ISBLANK(a.ProvinciaCCIAA__c), 'hiddenInput', 'dottedInput')}">{!a.ProvinciaCCIAA__c}</span>
+                    R.E.A nr.<span class="{!IF( !ISBLANK(a.REA__c), 'hiddenInput', 'veryLongDot')}"/>
+                    <span class="dottedInput {!IF( ISBLANK(a.REA__c), 'hiddenInput', '')}">{!a.REA__c}</span>
+                </p>
+                <p class="paragrafoTabella">Sede legale</p>
+                <p class="paragrafoTabella">
+                    Indirizzo <span class="{!IF( !ISBLANK(a.BillingStreet), 'hiddenInput', 'veryLongDot')}" />
+                    <span class = " {!IF( ISBLANK(a.BillingStreet), 'hiddenInput', 'dottedInput')}"> {!a.BillingStreet} </span>
+                    Città <span class="{!IF( !ISBLANK(a.BillingCity), 'hiddenInput', 'longDot')}"/>
+                    <span class = " {!IF( ISBLANK(a.BillingCity), 'hiddenInput', 'dottedInput')}"> {!a.BillingCity} </span>
+                    CAP <span class="{!IF( !ISBLANK(a.BillingPostalCode), 'hiddenInput', 'shortDot')}"/>
+                    <span class = " {!IF(ISBLANK(a.BillingPostalCode), 'hiddenInput', 'dottedInput')}"> {!a.BillingPostalCode} </span>
+                    Provincia <span class="{!IF( !ISBLANK(a.BillingState), 'hiddenInput', 'veryShortDot')}"/>
+                    <span class = " {!IF( ISBLANK(a.BillingState), 'hiddenInput', 'dottedInput')}"> {!a.BillingState} </span>
+                </p>
+                <p class="paragrafoTabella">Sede amministrativa <i>(ove diversa dalla sede legale)</i>
+                </p>
+                <p class="paragrafoTabella">
+                    Indirizzo <span class="{!IF( AND(!ISBLANK(a.ShippingStreet), !sedeAmmUguale), 'hiddenInput', 'veryLongDot')}"/>
+                    <span class = "{!IF( OR(ISBLANK(a.ShippingStreet), sedeAmmUguale), 'hiddenInput', 'dottedInput')}"> {!a.ShippingStreet} </span>
+                    Città <span class="{!IF( AND(!ISBLANK(a.ShippingCity), !sedeAmmUguale), 'hiddenInput', 'longDot')}"/>
+                    <span class = "{!IF( OR(ISBLANK(a.ShippingCity), sedeAmmUguale), 'hiddenInput', 'dottedInput')}"> {!a.ShippingCity} </span>
+                    CAP <span class="{!IF( AND(!ISBLANK(a.ShippingPostalCode), !sedeAmmUguale), 'hiddenInput', 'shortDot')}"/>
+                    <span class = " {!IF( OR(ISBLANK(a.ShippingPostalCode), sedeAmmUguale), 'hiddenInput', 'dottedInput')}"> {!a.ShippingPostalCode} </span>
+                    Provincia <span class="{!IF( AND(!ISBLANK(a.ShippingState), !sedeAmmUguale), 'hiddenInput', 'shortDot')}"/>
+                    <span class = " {!IF( OR(ISBLANK(a.ShippingState), sedeAmmUguale), 'hiddenInput', 'dottedInput')}"> {!a.ShippingState} </span>
+                </p>
+                <p class="paragrafoTabella">
+                    Telefono
+                    <span class = "{!IF( AND(!ISBLANK(a.TelefonoPrefisso__c), !ISBLANK(a.TelefonoNumero__c)), 'dottedInput', 'hiddenInput')}"> {!a.TelefonoPrefisso__c + a.TelefonoNumero__c} </span>
+                    <span class = "{!IF( AND(!ISBLANK(a.Phone), OR(ISBLANK(a.TelefonoPrefisso__c), ISBLANK(a.TelefonoNumero__c))), 'dottedInput', 'hiddenInput')}"> {!a.Phone} </span>
+                    <span class = "{!IF( AND(ISBLANK(a.Phone), OR(ISBLANK(a.TelefonoPrefisso__c), ISBLANK(a.TelefonoNumero__c))), 'normalDot', 'hiddenInput')}"/>
+                    Fax
+                    <span class = "{!IF( !ISBLANK(a.Fax), 'hiddenInput', 'normalDot')}"/>
+                    <span class = "{!IF( (ISBLANK(a.Fax)), 'hiddenInput', 'dottedInput')}"> {!a.Fax} </span>
+                    Posta elettronica<span class="{!IF( !ISBLANK(a.Email__c), 'hiddenInput', 'normalDot')}"/>
+                    <span class = "{!IF( (ISBLANK(a.Email__c)), 'hiddenInput', 'dottedInput')}"> {!a.Email__c} </span>
+                    SIA<span class="{!IF( !ISBLANK(a.SIA__c), 'hiddenInput', 'normalDot')}"/>
+                    <span class = "{!IF( (ISBLANK(a.SIA__c)), 'hiddenInput', 'dottedInput')}"> {!a.SIA__c} </span>
+                </p>
+            </div>
+            <p class="paragrafoStandard10">Ai fini della nostra classificazione, come previsto dalla normativa bancaria<sup>(1)</sup>, dichiariamo che il nostro S.A.E. (Settore di Attività Economica) è:</p>
+            <br/>
+            <p class="paragrafoStandard10">S.A.E.:  <span class="{!IF( ISBLANK(a.SAE__c), 'normalDot', 'dottedInput')}">{!a.SAE__c}</span>
+            </p>
+            <br/>
+            <p class="paragrafoStandard10">e di avere: </p>
+            <table class="tableFactoring" width="100%" style="margin-top: 7pt" >
+                <colgroup>
+                    <col style="width: 20%"/>
+                    <col style="width: 80%"/>
+                </colgroup>
+                <tr>
+                    <td class="tableFactoringCell">Numero addetti alla data odierna:</td>
+                    <td class="tableFactoringCell">
+                        <span class="{!IF( OR(ISBLANK(a.NumberOfEmployees),a.NumberOfEmployees=0), 'hiddenInput', 'dottedInput')}">{!a.NumberOfEmployees}</span>
+                    </td>
+                </tr>
+            </table>
+            <table class="tableFactoring" width="100%" style="margin-top: 7pt; margin-bottom: 9pt" >
+                <colgroup>
+                    <col style="width: 20%"/>
+                    <col style="width: 80%"/>
+                </colgroup>
+                <tr>
+                    <td class="tableFactoringCell">Fatturato annuo da ultimo bilancio depositato:</td>
+                    <td class="tableFactoringCell">
+                        <span class="{!IF( OR(ISBLANK(a.RicaviNetti__c),a.RicaviNetti__c=0), 'hiddenInput', 'dottedInput')}">{!a.RicaviNetti__c}</span>
+                    </td>
+                </tr>
+            </table>
+            <p class="paragrafoStandard10">Alla luce dei dati sopra forniti, siamo consapevoli che verremo conseguentemente classificati come consumatori, clienti al dettaglio od imprese (clienti non al dettaglio), secondo le definizioni riportate in calce al presente documento <sup>(1)</sup></p>
+            <p class="paragrafoStandard10">Prendiamo altresì atto che, successivamente alla conclusione dell’eventuale contratto, qualora ne ricorrano i presupposti, avremo diritto di comunicare e di ottenere il cambiamento di tale qualifica.</p>
+            <p class="paragrafoStandard10">Vi confermiamo il nostro interesse ad esaminare i prodotti e servizi finanziari da Voi offerti alla Clientela ai fini dell’instaurazione di un eventuale rapporto con codesta Banca, ove di nostro interesse per tipologia di prodotto, servizio e condizioni economiche.</p>
+            <p class="paragrafoStandard10">Prendiamo quindi atto che per tale finalità potrete richiedere informazioni anche alla Centrale dei Rischi e pure con riferimento a nominativi a noi collegati.</p>
+            <p class="paragrafoStandard10">Prendiamo altresì atto che i Fogli Informativi relativi ai prodotti offerti dalla Banca sono disponibili accendendo al sito web <u>www.bancaifis.it</u> alla sezione Trasparenza.</p>
+            <p class="paragrafoStandard10">Vi precisiamo infine, per quanto possa occorrere, che la sottoscrizione della presente non costituisce proposta contrattuale, non impegnandoci, conseguentemente, alla stipula di alcun contratto.</p>
+            <p class="paragrafoStandard10">Ci dichiariamo interessati ai seguenti servizi e prodotti finanziari:</p>
+            <!--
+      <p class="paragrafoStandard10">Preso atto della relativa definizione come riportata in calce<sup>(1)</sup> <b>dichiariamo di agire in qualità di cliente al dettaglio</b>:
+          <img  class="checkboxImgSmall" style="margin-left: 15pt;" src="{!IF( a.ClienteDettaglio__c == TRUE, $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>SI
+          <img  class="checkboxImgSmall" style="margin-left: 15pt;" src="{!IF( a.ClienteDettaglio__c == FALSE, $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>NO
+      </p>
+      <p class="paragrafoStandard10">Prendiamo altresì atto che, successivamente alla conclusione dell’eventuale contratto, qualora ne ricorrano i presupposti, avremo diritto di comunicare e di ottenere il cambiamento di tale qualifica.</p>
+      <p class="paragrafoStandard10">Vi confermiamo il nostro interesse ad esaminare i prodotti e servizi finanziari da Voi offerti alla Clientela ai fini dell’instaurazione di un eventuale rapporto con codesta Banca, ove di nostro interesse per tipologia di prodotto, servizio e condizioni economiche.</p>
+      <p class="paragrafoStandard10">Prendiamo quindi atto che per tale finalità potrete richiedere informazioni anche alla Centrale dei Rischi e pure con riferimento a nominativi a noi collegati. </p>
+      <p class="paragrafoStandard10">Prendiamo altresì atto che i Fogli Informativi relativi ai prodotti offerti dalla Banca sono disponibili accendendo al sito web <u>www.bancaifis.it</u> alla sezione Trasparenza.</p>
+      <p class="paragrafoStandard10">Vi precisiamo infine, per quanto possa occorrere, che la sottoscrizione della presente non costituisce proposta contrattuale, non impegnandoci, conseguentemente, alla stipula di alcun contratto.</p>
+      <p class="paragrafoStandard10">Ci dichiariamo interessati ai seguenti servizi e prodotti finanziari:</p>
+-->
+
+            <!-- fine parte iniziale comune -->
+
+
+            <!-- PARTE DINAMICA  PARTE DINAMICA  PARTE DINAMICA  PARTE DINAMICA  PARTE DINAMICA  PARTE DINAMICA  PARTE DINAMICA -->
+
+            <!-- FACTORING -->
+            <div class="{!IF( (ndgDebitoriWrap.size != 0), '', 'hiddenInput')}">
+                <p class="servizioFinanziario">
+                    <img  class="checkboxImgSmall"  src="{!IF( (ndgDebitoriWrap.size != 0), $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>FACTORING
+                </p>
+                <p class="paragrafoStandard10">Vi segnaliamo qui di seguito i nominativi dei nostri clienti (debitamente informati ovvero che ci impegniamo ad informare ai sensi del Regolamento UE 2016/679) che, alla data della presente, potranno esservi proposti in cessione:</p>
+                <table class="tableFactoring">
+                    <tr>
+                        <th class="tableFactoringIntestazione">Ragione / Denominazione sociale</th>
+                        <th class="tableFactoringIntestazione">Codice Fiscale</th>
+                        <th class="tableFactoringIntestazione">Sede legale</th>
+                        <th class="tableFactoringIntestazione">Fatturato annuo sul cliente</th>
+                        <th class="tableFactoringIntestazione">Durata Media Credito</th>
+                        <th class="tableFactoringIntestazione">Plafond richiesto<sup>(2)</sup>
+                        </th>
+                    </tr>
+                    <tr class="{!IF( ndgDebitoriWrap.size != 0 , 'hiddenInput', 'tableFactoring')}">
+                        <td class="tableFactoringCell"/>
+                        <td class="tableFactoringCell"/>
+                        <td class="tableFactoringCell"/>
+                        <td class="tableFactoringCell"/>
+                        <td class="tableFactoringCell"/>
+                        <td class="tableFactoringCell"/>
+                    </tr>
+                    <tr class="{!IF( ndgDebitoriWrap.size != 0 , 'hiddenInput', 'tableFactoring')}">
+                        <td class="tableFactoringCell"/>
+                        <td class="tableFactoringCell"/>
+                        <td class="tableFactoringCell"/>
+                        <td class="tableFactoringCell"/>
+                        <td class="tableFactoringCell"/>
+                        <td class="tableFactoringCell"/>
+                    </tr>
+                    <tr class="{!IF( ndgDebitoriWrap.size != 0 , 'hiddenInput', 'tableFactoring')}">
+                        <td class="tableFactoringCell"/>
+                        <td class="tableFactoringCell"/>
+                        <td class="tableFactoringCell"/>
+                        <td class="tableFactoringCell"/>
+                        <td class="tableFactoringCell"/>
+                        <td class="tableFactoringCell"/>
+                    </tr>
+                    <tr class="{!IF( ndgDebitoriWrap.size != 0 , 'hiddenInput', 'tableFactoring')}">
+                        <td class="tableFactoringCell"/>
+                        <td class="tableFactoringCell"/>
+                        <td class="tableFactoringCell"/>
+                        <td class="tableFactoringCell"/>
+                        <td class="tableFactoringCell"/>
+                        <td class="tableFactoringCell"/>
+                    </tr>
+                    <apex:repeat value="{!ndgDebitoriWrap}" var="deb">
+                        <tr class="tableFactoring">
+                            <td class="tableFactoringCell">
+                    {!deb.debitore.Name}
+                            </td>
+                            <td class="tableFactoringCell">
+                    {!deb.debitore.CF__c}
+                            </td>
+                            <td class="tableFactoringCell">
+                    {!deb.debitore.BillingStreet} {!deb.debitore.BillingCity} {!deb.debitore.BillingPostalCode} {!deb.debitore.BillingState}
+                            </td>
+                            <td class="tableFactoringCellCenter">
+                    {!deb.fatturato}
+                            </td>
+                            <td class="tableFactoringCellCenter">
+                    {!deb.durataNominale }
+                            </td>
+                            <td class="tableFactoringCellCenter">
+                    {!deb.plafond}
+                            </td>
+                        </tr>
+                    </apex:repeat>
+                </table>
+            </div>
+            <!-- MUTUO -->
+            <apex:repeat value="{!lineeMutuo}" var="lineaMutuo">
+                <div>
+                    <p class="servizioFinanziario">
+                        <img  class="checkboxImgSmall"  src="{!$Resource.PrivacyPFCheckbox_selected}"/>MUTUO
+                    </p>
+                    <p class="paragrafoStandard10 midMarginBlock">
+                        per l’importo di €
+                        <span class="{!IF( !ISBLANK(lineaMutuo.importo), 'hiddenInput', 'normalLine')}"/>
+                        <span class = "{!IF( (ISBLANK(lineaMutuo.importo)), 'hiddenInput', 'linedInput')}"> {!lineaMutuo.importo} </span>
+                        (<span class="{!IF( !ISBLANK(lineaMutuo.importo), 'hiddenInput', 'normalLine')}"/>
+                        <span class = "{!IF( (ISBLANK(lineaMutuo.importo)), 'hiddenInput', 'linedInput')}"> {!lineaMutuo.importoLettere} </span>)
+                    </p>
+                </div>
+            </apex:repeat>
+            <!-- APERTURA DI CREDITO IN CONTO CORRENTE -->
+            <div class="{!IF( lineaFidoDiCassa != null, 'uniqueBlock', 'hiddenInput')}">
+                <p class="servizioFinanziario">
+                    <img  class="checkboxImgSmall"  src="{!$Resource.PrivacyPFCheckbox_selected}"/>APERTURA DI CREDITO IN CONTO CORRENTE
+                </p>
+                <p class="paragrafoStandard10 midMarginBlock" style="text-align: left;">per l’importo di €
+                    <span class="{!IF( !ISBLANK(lineaFidoDiCassa.importo), 'hiddenInput', 'normalLine')}"/>
+                    <span class = "{!IF( (ISBLANK(lineaFidoDiCassa.importo)), 'hiddenInput', 'linedInput')}"> {!lineaFidoDiCassa.importo} </span>
+                    (<span class="{!IF( !ISBLANK(lineaFidoDiCassa.importo), 'hiddenInput', 'normalLine')}"/>
+                    <span class = "{!IF( (ISBLANK(lineaFidoDiCassa.importo)), 'hiddenInput', 'linedInput')}"> {!importoFidoLettere} </span>)
+                </p>
+            </div>
+            <!-- DILAZIONE DI PAGAMENTO DI CREDITI COMMERCIALI -->
+            <div class="{!IF( lineaPlafondProroga != null, 'uniqueBlock', 'hiddenInput')}">
+                <p class="servizioFinanziario">
+                    <img  class="checkboxImgSmall"  src="{!$Resource.PrivacyPFCheckbox_selected}"/>DILAZIONE DI PAGAMENTO DI CREDITI COMMERCIALI
+                </p>
+                <p class="paragrafoStandard10 midMarginBlock" style="text-align: left;">
+                    Giorni di proroga<span class="{!IF( !ISBLANK(lineaPlafondProroga.durataDilazione), 'hiddenInput', 'normalLine')}"/>
+                    <span class = "{!IF( (ISBLANK(lineaPlafondProroga.durataDilazione)), 'hiddenInput', 'linedInput')}"> {!lineaPlafondProroga.durataDilazione} </span>
+                    Durata massima del credito<span class="{!IF( !ISBLANK(lineaPlafondProroga.durataMaxCredito), 'hiddenInput', 'normalLine')}"/>
+                    <span class = "{!IF( (ISBLANK(lineaPlafondProroga.durataMaxCredito)), 'hiddenInput', 'linedInput')}"> {!lineaPlafondProroga.durataMaxCredito} </span>
+                </p>
+            </div>
+            <!-- CONTO CORRENTE BANCARIO -->
+            <div class="{!IF( lineaIfisImpresa != null, 'uniqueBlock', 'hiddenInput')}">
+                <p class="servizioFinanziario">
+                    <img  class="checkboxImgSmall"  src="{!$Resource.PrivacyPFCheckbox_selected}"/>CONTO CORRENTE BANCARIO
+                </p>
+            </div>
+            <!-- CONFIRMING -->
+            <div class="{!IF( ndgConfirming.size != 0, 'uniqueBlock', 'hiddenInput')}">
+                <p class="servizioFinanziario">
+                    <img  class="checkboxImgSmall"  src="{!$Resource.PrivacyPFCheckbox_selected}"/>CONFIRMING
+                </p>
+                <p class="paragrafoStandard10">Vi segnaliamo nel modulo allegato alla presente (Allegato A) i nominativi dei nostri fornitori (debitamente informati ovvero che ci impegniamo ad informare ai sensi del Regolamento UE 2016/679) in relazione ai quali, alla data della presente, siamo interessati a richiedere il servizio di confirming</p>
+            </div>
+            <!-- (ALTRO) per ora è default NASCOSTA. Da riattivare eventualmente per target -->
+            <!--
+<div class="uniqueBlock">
+    <p class="servizioFinanziario">
+        <img  class="checkboxImgSmall"  src="{!IF( FALSE, $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>(ALTRO)
+    </p>
+</div>  -->
+            <!-- FINE PARTE DINAMICA -->
+            <!-- PARTE FINALE -->
+            <p class="paragrafoStandard10">&nbsp;</p>
+            <p class="paragrafoStandard10" style="text-autospace:none">
+                <span  >______________________________</span>
+            </p>
+            <p class="paragrafoStandard10">&nbsp;</p>
+            <p class="paragrafoStandard10">Con riferimento ai dati sopra riportati vi dichiariamo e garantiamo che questi ultimi sono veri e reali e ci impegniamo a comunicare sollecitamente a Banca Ifis SpA tutte le variazioni che dovessero intervenire.</p>
+            <p class="paragrafoStandard10">Preso atto della definizione di <b>parte correlata</b>
+                <sup>(3)</sup> e di <b>soggetto connesso</b>
+                <sup>(4)</sup> come sotto riportate, consapevoli delle responsabilità derivanti dall’indicazione di notizie o dati falsi (art. 137 Testo Unico Bancario), ci impegniamo a informarVi tempestivamente qualora la nostra società/ente giuridico rientri in tali definizioni nonché a fornirVi ogni utile informazione ai fini del censimento dei soggetti ad essa collegati (parti correlate alla Banca e soggetti connessi a ciascuna parte correlata).</p>
+            <p class="paragrafoStandard10">Dichiariamo, inoltre, di essere a conoscenza dell’inesistenza di alcun obbligo a nostro carico di corrispondere compensi di qualsiasi sorta in favore di eventuali terzi che ci abbiano posto in relazione con la Banca o abbiano comunque procurato o agevolato tale relazione e dichiariamo altresì espressamente che non abbiamo riconosciuto né riconosceremo a terzi somme o utilità di sorta a causa o in occasione dell’accesso ai servizi di Banca Ifis SpA.
+            </p>
+            <p class="MsoNormal" style="text-align:justify;">
+                <span>&nbsp;</span>
+            </p>
+            <p class="MsoNormal">
+                <span>
+                Luogo e Data
+                <span class = "{!IF(!isTiAnticipo, '', 'hiddenInput')}">_____________________</span>
+                <span class = "{!IF(AND(isTiAnticipo, !ISBLANK(a.BillingCity)), 'linedInput', 'hiddenInput')}"> {!a.BillingCity} </span>
+                <span class = "{!IF(AND(isTiAnticipo, ISBLANK(a.BillingCity)), '', 'hiddenInput')}">__________</span>
+                <span class = "{!IF(isTiAnticipo, 'linedInput', 'hiddenInput')}">
+                    <apex:outputText value="{0,date,dd'/'MM'/'yyyy}">
+                        <apex:param value="{!TODAY()}" />
+                    </apex:outputText>
+                </span>
+                </span>
+                <span style="float:right; margin-right:5pt;"> ________________________________________________</span>
+                <br/>
+                <span style="float:right; margin-right:5pt;"> (Nome e cognome del dichiarante, qualifica, timbro e firma)</span>
+            </p>
+            <p class="paragrafoStandard10">&nbsp;</p>
+            <p class="MsoNormal" style="text-autospace:none">
+                <span  >______________________________</span>
+            </p>
+            <p class="paragrafoStandard8">(1) Provvedimento del 29/07/2009 e ss. mm. di Banca d’Italia -Trasparenza delle operazioni e dei servizi bancari e finanziari; correttezza delle relazioni tra intermediari e clienti che definisce come: 
+                <br />
+                <b>Cliente al dettaglio</b>: persone fisiche che svolgono attività professionale o artigianale; enti senza finalità di lucro; imprese che occupano meno di 10 addetti e realizzano un fatturato annuo o un totale di bilancio annuo non superiori a 2 milioni di EUR.
+                <br />
+                <b>Consumatore (cliente al dettaglio></b>: la persona fisica che agisce per scopi estranei all’attività imprenditoriale, commerciale o professionale eventualmente svolta.
+                <br />
+                <b>Imprese (clienti non al dettaglio)</b>: imprese non rientranti nella definizione di cliente al dettaglio.
+            </p>
+            <p class="paragrafoStandard8">(2)  Per la richiesta di plafond pro soluto compilare anche l’apposito modulo.</p>
+            <p class="paragrafoStandard8">(3) Sono “<b>parti correlate</b>” di Banca Ifis SpA: 1. consiglieri, sindaci e direttore generale; 2. il soggetto che è stato autorizzato dalla Banca d’Italia a detenere una partecipazione nella Banca; 3. il soggetto in grado di nominare, da solo, uno o più componenti dell’Alta Direzione o del Consiglio di Amministrazione della Banca (anche sulla base di patti in qualsiasi forma stipulati o di clausole statutarie aventi per oggetto o per effetto l’esercizio di tali diritti o poteri); 4. una società o un’impresa anche costituita in forma non societaria su cui la Banca o una società del Gruppo bancario è in grado di esercitare il controllo o un’influenza notevole.</p>
+            <p class="paragrafoStandard8">(4) Sono “<b>soggetti connessi</b>” a una parte correlata di Banca Ifis Spa: 1. le società e le imprese anche costituite in forma non societaria controllate da una parte correlata; 2. i soggetti che controllano una parte correlata tra quelle indicate ai numeri 2 e 3 della relativa definizione, ovvero i soggetti sottoposti, direttamente o indirettamente, a comune controllo con la medesima parte correlata; 3. gli stretti familiari di una parte correlata e le società o le imprese controllate da questi ultimi.</p>
+            <div class= "{!IF( (ndgConfirming.size != 0), '', 'hiddenInput')}" style="page-break-before:always;">
+                <p> Allegato A – Elenco Fornitori</p>
+                <table class="tableFactoring" width="80%">
+                    <colgroup>
+                        <col style="width: 33%"/>
+                        <col style="width: 33%"/>
+                        <col style="width: 33%"/>
+                    </colgroup>
+                    <tr>
+                        <th class="tableFactoringIntestazione">Ragione / Denominazione sociale</th>
+                        <th class="tableFactoringIntestazione">Codice Fiscale</th>
+                        <th class="tableFactoringIntestazione">Sede legale</th>
+                    </tr>
+                    <tr>
+                        <td class="tableFactoringCell"/>
+                        <td class="tableFactoringCell"/>
+                        <td class="tableFactoringCell"/>
+                    </tr>
+                    <tr>
+                        <td class="tableFactoringCell"/>
+                        <td class="tableFactoringCell"/>
+                        <td class="tableFactoringCell"/>
+                    </tr>
+                    <tr>
+                        <td class="tableFactoringCell"/>
+                        <td class="tableFactoringCell"/>
+                        <td class="tableFactoringCell"/>
+                    </tr>
+                    <tr>
+                        <td class="tableFactoringCell"/>
+                        <td class="tableFactoringCell"/>
+                        <td class="tableFactoringCell"/>
+                    </tr>
+                    <tr>
+                        <td class="tableFactoringCell"/>
+                        <td class="tableFactoringCell"/>
+                        <td class="tableFactoringCell"/>
+                    </tr>
+                </table>
+            </div>
+        </body>
+    </html>
+</apex:page>

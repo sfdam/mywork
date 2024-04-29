@@ -1,0 +1,41 @@
+.THIS.cstm-border-all {
+    border-color: #0064B5 !important;
+}
+
+.THIS .cstm-note-wdgt-content-wrapper {
+    padding-left: 25px;
+}
+
+.THIS .cstm-note-wdgt-content {
+    border-top: 1px solid #0064B5;
+}
+
+.THIS .cstm-note-wdgt-content-wrapper .cstm-note-wdgt-content textarea {
+    min-height: 200px;
+    border: none;
+    padding: 0;
+    font-style: italic;
+    line-height: 14px;
+}
+
+.THIS .cstm-bkg-colored {
+    background-color: #E0ECFB;
+    border-radius: 0 0 5px 5px;
+}
+
+.THIS .cstm-bkg-colored .full-width {
+    width: 100%;
+}
+
+
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : landscape)
+and (-webkit-min-device-pixel-ratio: 2) {    
+    .THIS .cstm-note-wdgt-content-wrapper .cstm-note-wdgt-content textarea {
+        min-height: auto;
+    }
+
+}

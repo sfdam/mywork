@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_LastModifiedDate_UnfreezingOfReceiv__c</fullName>
+    <description>Data e Ora ultima modifica per Affidamenti di smobilizzo crediti</description>
+    <encryptionScheme>None</encryptionScheme>
+    <externalId>false</externalId>
+    <label>Ultima modifica - Aff. di smobilizzo crd</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>DateTime</type>
+</CustomField>

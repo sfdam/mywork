@@ -1,0 +1,25 @@
+<template>
+    <template if:true={notEmptyList}>
+        <lightning-layout>
+            <lightning-layout-item size="12" class="slds-card_boundary">
+                <lightning-card variant="Narrow" title={title} icon-name={iconName}>
+                    <template if:false={loaded}>
+                        <div class="slds-align_absolute-center">
+                            <lightning-spinner alternative-text="CARICAMENTO" size="small"></lightning-spinner>
+                        </div>
+                    </template>
+                    <template if:true={loaded}>
+                        <div class="slds-p-around_medium lgc-bg">
+                            <lightning-tree-grid
+                                columns={gridColumns}
+                                data={gridData}
+                                key-field="Name"
+                                hide-checkbox-column
+                            ></lightning-tree-grid>
+                        </div>
+                    </template>
+                </lightning-card>       
+            </lightning-layout-item>
+        </lightning-layout>
+    </template>
+</template>

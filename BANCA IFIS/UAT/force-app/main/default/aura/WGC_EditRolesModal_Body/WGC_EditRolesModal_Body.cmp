@@ -1,0 +1,126 @@
+<aura:component controller="WGC_EditRolesModalController" extends="c:WGC_Utility">
+
+    <ltng:require styles="{!join(',','')}" scripts="{!join(',', 
+             '/resource/WGC_jQuery3x')}" />
+
+    <!-- REGISTER EVENT -->
+    <aura:registerEvent name="B2F" type="c:ModalBody2FooterEvent" />
+    <aura:registerEvent name="resolveEvent" type="c:WGC_CreateAccountResolveEvent" />
+
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler event="c:ModalFooter2BodyEvent" action="{! c.manageF2B }" />
+
+    <!-- ATTRIBUTES -->
+
+    <aura:attribute name="options" type="Object[]"
+        default=" [ { 'title': 'search', 'buttons': [{ 'type': 'next', 'requireValidation': true }] } , { 'title': 'result', 'buttons': [{ 'type': 'next', 'visible': false }] } , { 'title': 'submit' } ] " />
+
+    <!-- INSERT CUSTOM ATTRIBUTES HERE -->
+    <aura:attribute name="accountId" type="String" />
+    <aura:attribute name="contactId" type="String" />
+    <aura:attribute name="contactNDG" type="String" />
+    <aura:attribute access="private" name="errors" type="String[]" default="[]" />
+
+    <!-- SOLUZIONE CHECK BOX -->
+    <!-- <aura:attribute name="rolesList" type="String[]" />
+    <aura:attribute name="rolesListSet" type="String[]" />
+
+    <aura:attribute name="optionsCheck" type="List" default="[
+        {'label': 'Titolare effettivo', 'value': 'J'},
+        {'label': 'Esecutore', 'value': 'Z1'}
+    ]"/>
+    <aura:attribute name="valueCheck" type="List" default=""/>
+    <aura:attribute name="disabledCheck" type="Boolean" default="false"/> -->
+
+    <!-- SOLUZIONE MULTI PICKLIST SELECTION -->
+    <aura:attribute name="InputPicklistRuolo" type="List" access="PRIVATE" description="selected value" />
+    <aura:attribute name="mySelectedItems" type="String[]" access="PRIVATE" description="selected value" />
+    <aura:attribute access="private" name="roleError" type="Boolean" default="false" />
+    <aura:attribute access="private" name="organoProcedura" type="Boolean" default="false"/>
+
+    <!-- INSERT CUSTOM ATTRIBUTES HERE -->
+    <lightning:navigation aura:id="navService" />
+    <lightning:overlayLibrary aura:id="overlayLib" />
+
+    <!-- DEFAULT ITERATION TO PRINT CONTENT -->
+    <!-- DEFAULT ITERATION TO PRINT CONTENT -->
+
+    <!-- INSERT CUSTOM CONTENT HERE -->
+
+    <div class="spinnerDiv">
+        <lightning:spinner alternativeText="Loading" size="large" aura:id="mySpinner" class="" />
+    </div>
+
+    <aura:if isTrue="{! !empty(v.errors)}">
+        <div>
+            <div aura:id="errors-container"
+                class="slds-grid slds-wrap slds-theme_alert-texture slds-theme_error personal-margin slds-p-around_small"
+                role="alert">
+                <div class="slds-col slds-size_12-of-12 slds-large-size_12-of-12">
+                    <div class="slds-form-element">
+                        <lightning:buttonIcon class="slds-float_right white" iconName="utility:close" variant="bare"
+                            size="small" onclick="{! c.closeError }" alternativeText="Close" />
+                    </div>
+                </div>
+
+
+                <aura:iteration items="{!v.errors}" var="r">
+                    <div class="slds-col slds-size_12-of-12 slds-large-size_12-of-12">
+                        <div class="slds-form-element">
+                            <li>{!r}</li>
+                        </div>
+                    </div>
+                </aura:iteration>
+
+            </div>
+        </div>
+    </aura:if>
+
+    <div class="container-body">
+        <lightning:layout multipleRows="true">
+            <!-- SOLUZIONE CHECK BOX -->
+            <!-- <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12">
+
+                <aura:iteration items="{! v.optionsCheck }" var="opt" indexVar="ind">
+                    <aura:If isTrue="{! opt.disabled }">
+                            <aura:If isTrue="{! opt.checked }">
+                                    <lightning:input type="checkbox" aura:id="checkboxEffettivo" label="{! opt.label }" name="{! opt.label }" value="{! opt.value }" checked="true" disabled="true" onchange="{! c.handleChange }" />  
+                                    <aura:set attribute="else">
+                                            <lightning:input type="checkbox" aura:id="checkboxEffettivo" label="{! opt.label }" name="{! opt.label }" value="{! opt.value }" disabled="true" onchange="{! c.handleChange }" />  
+                                        </aura:set>
+                            </aura:If>
+                        <aura:set attribute="else">
+                            <aura:If isTrue="{! opt.checked }">
+                                    <lightning:input type="checkbox" aura:id="checkboxEsecutore" label="{! opt.label }" name="{! opt.label }" value="{! opt.value }" checked="true" onchange="{! c.handleChange }" />  
+                                    <aura:set attribute="else">
+                                            <lightning:input type="checkbox" aura:id="checkboxEsecutore" label="{! opt.label }" name="{! opt.label }" value="{! opt.value }" onchange="{! c.handleChange }" />  
+                                        </aura:set>
+                            </aura:If> 
+                        </aura:set>
+                    </aura:If>
+                </aura:iteration>
+            </lightning:layoutItem> -->
+
+            <!-- SOLUZIONE MULTI PICKLIST SELECTION -->
+            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12">
+
+                <lightning:layoutItem flexibility="auto" size="12" padding="horizontal-small" class="">
+                                <c:WGC_MultiSelectComponent validateError="{! v.roleError }" aura:id="my-multi-select"
+                                    selectChange="{!c.handleSelectChangeEvent}" selectedItems="{!v.mySelectedItems}"
+                                    options="{!v.InputPicklistRuolo}" label="{! $Label.c.WGC_CreateContactModal_Body_Ruoli}" bypassSort="true"/>
+                            </lightning:layoutItem>
+            </lightning:layoutItem>
+        </lightning:layout>
+        <!-- <lightning:layout>
+            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12">
+                <lightning:button aura:id="cancel" class="" label="ANNULLA" name="annulla" onclick="{! c.cancel }"/>
+                <lightning:button aura:id="submit" class="btn" label="AGGIUNGI" name="submit" onclick="{! c.submit }"/>
+
+            </lightning:layoutItem>
+        </lightning:layout> -->
+    </div>
+
+    <!-- INSERT CUSTOM CONTENT HERE -->
+
+</aura:component>

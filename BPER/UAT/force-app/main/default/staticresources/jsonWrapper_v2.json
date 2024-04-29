@@ -1,0 +1,2026 @@
+{
+  "ricercaClusterPerNdgSettoriale": {
+    "fields": {
+      "abi": {
+        "devName": "FinServ__BankNumber__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "exclude": true
+      },
+      "ndg": {
+        "devName": "CRM_NDG__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "exclude": true
+      },
+      "coloreCluster": {
+        "devName": "CRM_DigitalLoanClusters__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "jsonPointer": "coloreCluster",
+        "valueMap": {
+          "RD": "Red",
+          "GLD": "Gold",
+          "WHT": "White",
+          "BLK": "Black Digital",
+          "UPWHT": "Upper white"
+        }
+      }
+    }
+  },
+  "notificaStatoProcesso": {
+    "fields": {
+      "abi": {
+        "devName": "FinServ__BankNumber__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "Account",
+        "SObject": "Account",
+        "type": "String",
+        "exclude": true
+      },
+      "ndg": {
+        "devName": "CRM_NDG__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "Account",
+        "SObject": "Account",
+        "type": "String",
+        "exclude": true
+      },
+      "dataRichiesta": {
+        "devName": "CreatedDate",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "Date"
+      },
+      "prodottoCorrelato": {
+        "devName": "CRM_CategoriaProdotto__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String"
+      },
+      "esito": {
+        "devName": "Stage",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String"
+      },
+      "parametro#dettaglioRichiesta": {
+        "devName": "Description",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String"
+      }
+    }
+  },
+  "leggiInformazioniModalitaContatto": {
+    "fields": {
+      "banca": {
+        "devName": "FinServ__BankNumber__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "exclude": true
+      },
+      "ndg": {
+        "devName": "CRM_NDG__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "exclude": true
+      },
+      "listaInformazioniContatti_contattoPreferenziale": {
+        "devName": "CRM_ContactPreference__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "jsonPointer": "listaInformazioniContatti.contattoPreferenziale"
+      },
+      "listaInformazioniContatti_giornoPreferenziale": {
+        "devName": "CRM_ContactPreferenceDay__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "jsonPointer": "listaInformazioniContatti.giornoPreferenziale"
+      },
+      "listaInformazioniContatti_fasciaOraria": {
+        "devName": "CRM_ContactPreferenceTimeSlot__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "jsonPointer": "listaInformazioniContatti.fasciaOraria"
+      }
+    }
+  },
+  "getDettaglioAnagrafica": {
+    "fields": {
+      "abi": {
+        "devName": "FinServ__BankNumber__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "exclude": true
+      },
+      "ndgSettoriale": {
+        "devName": "CRM_NDG__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "exclude": true
+      },
+      "codiceSegmentoGestionale": {
+        "devName": "CRM_ManagementSegmentCode__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "jsonPointer": "portafogliazione.codiceSegmentoGestionale"
+      },
+      "nomeReferente": {
+        "devName": "CRM_ReferenceManager__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "jsonPointer": "portafogliazione.nomeReferente"
+      },
+      "codiceModelloServizio": {
+        "devName": "CRM_ServiceModelCode__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "jsonPointer": "portafogliazione.codiceModelloServizio"
+      },
+      "dataScadenza": {
+        "devName": "ExpirationDate",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "Date",
+        "jsonPointer": "dettaglioAnagrafica.infoDocumento.dataScadenza"
+      },
+      "luogoEmissione": {
+        "devName": "IssuingAuthority",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "jsonPointer": "dettaglioAnagrafica.infoDocumento.luogoEmissione"
+      },
+      "enteEmissione": {
+        "devName": "IssuingAuthority",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "jsonPointer": "dettaglioAnagrafica.infoDocumento.enteEmissione"
+      },
+      "dataEmissione": {
+        "devName": "IssueDate",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "Date",
+        "jsonPointer": "dettaglioAnagrafica.infoDocumento.dataEmissione"
+      },
+      "nazione": {
+        "devName": "CRM__Nationality__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "jsonPointer": "dettaglioAnagrafica.tin1.nazione"
+      },
+      "pecUtente": {
+        "devName": "CRM_GenericPEC__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "jsonPointer": "dettaglioAnagrafica.contatti.pecUtente"
+      },
+      "pec": {
+        "devName": "CRM_CCIAAPEC__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "Email"
+      },
+      "numeroOTP": {
+        "devName": "CRM_SmartWebMobilePhone__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "jsonPointer": "dettaglioAnagrafica.contatti.numeroOTP",
+        "concat": "prefisso+numero"
+      },
+      "emailOTP": {
+        "devName": "CRM_SmartWebEmail__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "Email",
+        "jsonPointer": "dettaglioAnagrafica.contatti.emailOTP"
+      },
+      "email1": {
+        "devName": "CRM_GenericEmail__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "Email",
+        "jsonPointer": "dettaglioAnagrafica.contatti.email1"
+      },
+      "cellulare": {
+        "devName": "CRM_Phone2__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "jsonPointer": "dettaglioAnagrafica.contatti.cellulare",
+        "concat": "prefisso+numero"
+      },
+      "telefonoFisso": {
+        "devName": "CRM_Phone1__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "jsonPointer": "dettaglioAnagrafica.contatti.telefonoFisso",
+        "concat": "prefisso+numero"
+      },
+      "codiceFiscale": {
+        "devName": "CRM_TaxId__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "jsonPointer": "dettaglioAnagrafica.anagrafica.codiceFiscale"
+      },
+      "stato": {
+        "devName": "FinServ__Status__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "jsonPointer": "dettaglioAnagrafica.anagrafica.stato",
+        "valueMap": {
+          "E": "Estinto",
+          "C": "Censito",
+          "B": "Bloccato",
+          "S": "Sviluppo",
+          "N": "Negativo"
+        }
+      },
+      "statoCivile": {
+        "devName": "FinServ__MaritalStatus__pc",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "jsonPointer": "dettaglioAnagrafica.personaFisica.statoCivile",
+        "valueMap": {
+          "C": "Coniugato/a",
+          "D": "Divorziato/a",
+          "N": "Nubile/Celibe",
+          "S": "Separato/a",
+          "V": "Vedovo/a"
+        }
+      },
+      "luogoNascita": {
+        "devName": "CRM_BirthCity__pc",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "jsonPointer": "dettaglioAnagrafica.personaFisica.luogoNascita"
+      },
+      "nome": {
+        "devName": "FirstName",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "jsonPointer": "dettaglioAnagrafica.personaFisica.nome"
+      },
+      "cognome": {
+        "devName": "LastName",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "jsonPointer": "dettaglioAnagrafica.personaFisica.cognome"
+      },
+      "dataNascita": {
+        "devName": "PersonBirthdate",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "Date",
+        "jsonPointer": "dettaglioAnagrafica.personaFisica.dataNascita"
+		},
+      "consenso": {
+        "devName": "CRM_Privacy_1Level__c,CRM_BusinessPrivacy1Level__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "jsonPointer": "dettaglioAnagrafica.anagrafica.consenso.consenso",
+			"valueMap":{
+               "true":"Yes",
+               "false":"No"
+            }
+		},
+      "consenso1": {
+        "devName": "CRM_Privacy_2Level__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "jsonPointer": "dettaglioAnagrafica.anagrafica.consenso.consenso1",
+			"valueMap":{
+               "true":"Yes",
+               "false":"No"
+            }
+		},
+      "consenso2": {
+        "devName": "CRM_Privacy_3Level__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "jsonPointer": "dettaglioAnagrafica.anagrafica.consenso.consenso2",
+			"valueMap":{
+               "true":"Yes",
+               "false":"No"
+            }
+		},
+      "consenso3": {
+        "devName": "CRM_Privacy_4Level__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "jsonPointer": "dettaglioAnagrafica.anagrafica.consenso.consenso3",
+			"valueMap":{
+               "true":"Yes",
+               "false":"No"
+            }
+      }
+    }
+  },
+  "aggiornaFilialeDiRelazione": {
+    "fields": {
+      "bancaSett": {
+        "devName": "FinServ__BankNumber__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "exclude": true
+      },
+      "codiceNDG": {
+        "devName": "CRM_NDG__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "exclude": true
+      },
+      "filialePrincipale": {
+        "devName": "CRM_Calculated_Branch_Code__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String"
+      }
+    }
+  },
+  "searchSmartAccountExtended": {
+    "conditionList": {
+      "customerDataList": {
+        "tipologiaProfilo.productCode": "Financial_Account__r.FinServ__ProductName__r.ProductCode",
+        "userId": "CRM_UserId__c"
+      }
+    },
+    "fields": {
+      "ndg": {
+        "devName": "CRM_NDG__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "exclude": true
+      },
+      "isAttivo": {
+        "devName": "IsActive__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "exclude": true
+      },
+      "statoRapporto": {
+        "devName": "",
+        "isRelated": true,
+        "fieldReferenceObject": "Channel__r",
+        "fieldReferenceDevName": "CRM_RelationshipStatus__c",
+        "SObject": "CRM_Channel__c",
+        "type": "String",
+        "parent": "customerDataList"
+      },
+      "statoCodiceUtente": {
+        "devName": "",
+        "isRelated": true,
+        "fieldReferenceObject": "Channel__r",
+        "fieldReferenceDevName": "CRM_UserCodeStatus__c",
+        "SObject": "CRM_Channel__c",
+        "type": "String",
+        "parent": "customerDataList"
+      },
+      "statoPassword": {
+        "devName": "",
+        "isRelated": true,
+        "fieldReferenceObject": "Channel__r",
+        "fieldReferenceDevName": "CRM_PasswordStatus__c",
+        "SObject": "CRM_Channel__c",
+        "type": "String",
+        "parent": "customerDataList"
+      },
+      "dataAttivazione": {
+        "devName": "",
+        "isRelated": true,
+        "fieldReferenceObject": "Channel__r",
+        "fieldReferenceDevName": "CRM_StartDate__c",
+        "SObject": "CRM_Channel__c",
+        "type": "Date"
+      },
+      "codiceUtenza": {
+        "devName": "",
+        "isRelated": true,
+        "fieldReferenceObject": "Channel__r",
+        "fieldReferenceDevName": "CRM_UserCode__c",
+        "SObject": "CRM_Channel__c",
+        "type": "String",
+        "parent": "customerDataList"
+      },
+      "userId": {
+        "devName": "",
+        "isRelated": true,
+        "fieldReferenceObject": "Channel__r",
+        "fieldReferenceDevName": "CRM_UserId__c",
+        "SObject": "CRM_Channel__c",
+        "type": "String",
+        "parent": "customerDataList"
+      },
+      "alias": {
+        "devName": "",
+        "isRelated": true,
+        "fieldReferenceObject": "Channel__r",
+        "fieldReferenceDevName": "CRM_Alias__c",
+        "SObject": "CRM_Channel__c",
+        "type": "String",
+        "parent": "customerDataList"
+      },
+      "statoSCA": {
+        "devName": "",
+        "isRelated": true,
+        "fieldReferenceObject": "Channel__r",
+        "fieldReferenceDevName": "CRM_SCAStatus__c",
+        "SObject": "CRM_Channel__c",
+        "type": "String",
+        "parent": "customerDataList"
+      }
+    }
+  },
+  "recuperaDettaglioConto": {
+    "fields": {
+      "abi": {
+        "devName": "FinServ__BankNumber__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "FinServ__PrimaryOwner__r",
+        "SObject": "Account",
+        "type": "String",
+        "exclude": true
+      },
+      "codiceFiliale": {
+        "devName": "CRM_Ced_Formula__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "exclude": true
+      },
+      "numeroConto": {
+        "devName": "FinServ__FinancialAccountNumber__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "exclude": true
+      },
+      "descrizioneFiliale": {
+        "devName": "CRM_BranchName__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "jsonPointer": "descrizioneFiliale"
+      },
+      "dataApertura": {
+        "devName": "FinServ__OpenDate__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "Date",
+        "jsonPointer": "dataApertura"
+      },
+      "saldoContabile": {
+        "devName": "FinServ__Balance__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "jsonPointer": "saldoContabile"
+      },
+      "saldoDisponibile": {
+        "devName": "FinServ__CashBalance__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "jsonPointer": "saldoDisponibile"
+      },
+      "esisteBlocco": {
+        "devName": "CRM_isPresentBankAccountBlock__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "jsonPointer": "esisteBlocco"
+      },
+      "dataScadenzaFido": {
+        "devName": "CRM_TemporaryCreditLineDueDate__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "Date",
+        "jsonPointer": "dataScadenzaFido"
+      },
+      "totaleFidoTemporaneo": {
+        "devName": "CRM_CreditLineAmount__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "jsonPointer": "totaleFidoTemporaneo"
+      },
+      "totaleFidoAssegni": {
+        "devName": "CRM_ChequeCreditLineAmount__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "jsonPointer": "totaleFidoAssegni"
+      },
+      "iban": {
+        "devName": "CRM_IBAN__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "jsonPointer": "iban"
+      },
+      "importoUltimoMovimentoAvere": {
+        "devName": "FinServ__Amount__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "jsonPointer": "importoUltimoMovimentoAvere"
+      },
+      "codiceNDG": {
+        "devName": "CRM_NDG__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "FinServ__PrimaryOwner__r",
+        "SObject": "Account",
+        "type": "String",
+        "jsonPointer": "codiceNDG",
+        "exclude": true
+      },
+      "matricolaReferentePortafoglio": {
+        "devName": "PTF_RegistrationNumber__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "jsonPointer": "matricolaReferentePortafoglio"
+      },
+      "totalePrenotazioneDare": {
+        "devName": "CRM_TotalTransactionPendingOut__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "jsonPointer": "listaRilevazioneSconfinamenti.rilevazioniSconfinamento.0.totalePrenotazioneDare"
+      },
+      "totalePrenotazioneAvere": {
+        "devName": "CRM_TotalTransactionPendingIn__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "jsonPointer": "listaRilevazioneSconfinamenti.rilevazioniSconfinamento.0.totalePrenotazioneAvere"
+		},
+      "disponibilitaSaldoBuonFine": {
+          "devName":"CRM_NewPresentatoSBF__c",
+          "isRelated": false,
+          "fieldReferenceObject": "",
+          "fieldReferenceDevName": "",
+          "SObject": "",
+          "type": "String",
+		  "jsonPointer": "disponibilitaSaldoBuonFine"
+      }
+    }
+  },
+  "getMovimenti": {
+    "fields": {
+      "numeroMovimenti": {
+        "devName": "FinServ__RoutingNumber__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String"
+      },
+      "numeroCarta": {
+        "devName": "CRM_CardNumber__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String"
+      },
+      "tipologiaCarta": {
+        "devName": "CRM_Tipologia_Carta__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String"
+      },
+      "abi": {
+        "devName": "FinServ__BankNumber__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "FinServ__PrimaryOwner__r",
+        "SObject": "Account",
+        "type": "String",
+        "exclude": true
+      },
+      "abiFinAcct": {
+        "devName": "CRM_Istituto__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "exclude": true
+      },
+      "codiceFiliale": {
+        "devName": "CRM_Ced__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String"
+      },
+      "descrizioneFiliale": {
+        "devName": "CRM_BranchName__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String"
+      },
+      "numeroConto": {
+        "devName": "FinServ__FinancialAccountNumber__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String"
+      },
+      "dataApertura": {
+        "devName": "FinServ__OpenDate__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "Date"
+      },
+      "saldoContabile": {
+        "devName": "FinServ__Balance__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String"
+      },
+      "saldoDisponibile": {
+        "devName": "FinServ__CashBalance__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String"
+      },
+      "esisteBlocco": {
+        "devName": "CRM_isPresentBankAccountBlock__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String"
+      },
+      "dataScadenzaFido": {
+        "devName": "CRM_TemporaryCreditLineDueDate__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "Date"
+      },
+      "totaleFidoTemporaneo": {
+        "devName": "CRM_CreditLineAmount__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String"
+      },
+      "totaleFidoAssegni": {
+        "devName": "CRM_ChequeCreditLineAmount__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String"
+      },
+      "iban": {
+        "devName": "CRM_IBAN__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String"
+      },
+      "importoUltimoMovimentoAvere": {
+        "devName": "FinServ__Amount__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String"
+      },
+      "codiceNDG": {
+        "devName": "CRM_NDG__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "FinServ__PrimaryOwner__r",
+        "SObject": "Account",
+        "type": "String",
+        "exclude": true
+      },
+      "matricolaReferentePortafoglio": {
+        "devName": "PTF_RegistrationNumber__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String"
+      }
+    }
+  },
+  "ricercaMovimentiConto": {
+    "fields": {
+      "abi": {
+        "devName": "FinServ__BankNumber__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "FinServ__PrimaryOwner__r",
+        "SObject": "Account",
+        "type": "String",
+        "exclude": true
+      },
+      "codiceFiliale": {
+        "devName": "CRM_Ced_Formula__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "exclude": true
+      },
+      "descrizioneFiliale": {
+        "devName": "CRM_BranchName__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String"
+      },
+      "numeroConto": {
+        "devName": "FinServ__FinancialAccountNumber__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String"
+      },
+      "dataApertura": {
+        "devName": "FinServ__OpenDate__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "Date"
+      },
+      "saldoContabile": {
+        "devName": "FinServ__Balance__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String"
+      },
+      "saldoDisponibile": {
+        "devName": "FinServ__CashBalance__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String"
+      },
+      "esisteBlocco": {
+        "devName": "CRM_isPresentBankAccountBlock__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String"
+      },
+      "dataScadenzaFido": {
+        "devName": "CRM_TemporaryCreditLineDueDate__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "Date"
+      },
+      "totaleFidoTemporaneo": {
+        "devName": "CRM_CreditLineAmount__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String"
+      },
+      "totaleFidoAssegni": {
+        "devName": "CRM_ChequeCreditLineAmount__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String"
+      },
+      "iban": {
+        "devName": "CRM_IBAN__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String"
+      },
+      "importoUltimoMovimentoAvere": {
+        "devName": "FinServ__Amount__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String"
+      },
+      "codiceNDG": {
+        "devName": "CRM_NDG__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "FinServ__PrimaryOwner__r",
+        "SObject": "Account",
+        "type": "String",
+        "exclude": true
+      },
+      "matricolaReferentePortafoglio": {
+        "devName": "PTF_RegistrationNumber__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String"
+      }
+    }
+  },
+  "getInfoCarta": {
+    "fields": {
+      "abi": {
+        "devName": "FinServ__BankNumber__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "FinServ__PrimaryOwner__r",
+        "SObject": "Account",
+        "type": "String",
+        "exclude": true
+      },
+      "numeroCartaHash": {
+        "devName": "CRM_CardNumber__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "String",
+        "exclude": true
+      },
+      "tipologiaCarta": {
+        "devName": "CRM_Tipologia_Carta__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "String",
+        "exclude": true
+      },
+      "ndg": {
+        "devName": "CRM_NDG__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "FinServ__PrimaryOwner__r",
+        "SObject": "Account",
+        "type": "String",
+        "exclude": true
+      },
+      "dataScadenzaCarta": {
+        "devName": "CRM_ValidityEndDate__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "Date",
+        "jsonPointer": "infoCarta.dataScadenzaCarta"
+      },
+      "circuito": {
+        "devName": "CRM_Circuit__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "String",
+        "jsonPointer": "infoCarta.circuito"
+      },
+      "importoRata": {
+        "devName": "CRM_PaymentFeeAmount__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "String",
+        "jsonPointer": "infoCarta.importoRata"
+      },
+      "codiceTitolare": {
+        "devName": "CRM_OwnerCode_c__c",
+        "isRelated": true,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "String",
+        "jsonPointer": "infoCarta.codiceTitolare"
+      },
+      "dataApertura": {
+        "devName": "FinServ__OpenDate__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "Date",
+        "jsonPointer": "infoCarta.dataApertura"
+      },
+      "descrizioneBlocco": {
+        "devName": "CRM_OperativityStatus__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "String",
+        "jsonPointer": "infoCarta.descrizioneBlocco",
+        "valueMap": {
+          "NO BLK.": "NO BLOCCO"
+        }
+      },
+      "segnoDisponibilitaResidua": {
+        "devName": "CRM_CardAvailableAmount__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "Decimal",
+        "jsonPointer": "infoCarta.segnoDisponibilitaResidua",
+        "concat": "disponibilitaResidua"
+      },
+      "plafond": {
+        "devName": "CRM_CardPlafond__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "String",
+        "jsonPointer": "infoCarta.plafond"
+      },
+      "indirizzo": {
+        "devName": "CRM_IndirizzoBpercard__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "String",
+        "jsonPointer": "infoCarta.indirizzo"
+      },
+      "localita": {
+        "devName": "CRM_LocalitaBpercard__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "String",
+        "jsonPointer": "infoCarta.localita"
+      },
+      "provincia": {
+        "devName": "CRM_ProvinciaBpercard__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "String",
+        "jsonPointer": "infoCarta.provincia"
+      },
+      "cap": {
+        "devName": "CRM_CAPBpercard__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "String",
+        "jsonPointer": "infoCarta.cap"
+      },
+      "dataConsegnaCarta": {
+        "devName": "CRM_Data_Consegna_Carta__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "String",
+        "jsonPointer": "infoCarta.dataConsegnaCarta"
+      }
+    }
+  },
+  "getContatti": {
+    "fields": {
+      "abi": {
+        "devName": "FinServ__BankNumber__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "exclude": true
+      },
+      "ndg": {
+        "devName": "CRM_NDG__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "exclude": true
+      },
+      "email": {
+        "devName": "CRM_EmailBpercard__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "Email",
+        "jsonPointer": "getContatti.email"
+      },
+      "cellulare": {
+        "devName": "CRM_PhoneBpercard__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "jsonPointer": "getContatti.cellulare"
+      },
+      "cellulareAziendale": {
+        "devName": "CRM_Cellulare_aziendale_Bpercard__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "jsonPointer": "getContatti.cellulareAziendale"
+      }
+    }
+  },
+  "getProfiloCarteNDG": {
+    "conditionList": {
+      "listaCarte": {
+        "numeroCarta": "CRM_CardNumber__c"
+      }
+    },
+    "fields": {
+      "abi": {
+        "devName": "FinServ__BankNumber__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "exclude": true
+      },
+      "ndg": {
+        "devName": "CRM_NDG__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "exclude": true
+      },
+      "tipoCliente": {
+        "devName": "CRM_Tipo_Cliente__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "exclude": true
+      },
+      "numeroCarta": {
+        "devName": "",
+        "isRelated": true,
+        "fieldReferenceObject": "FinServ__ClientFinancialAccounts__r",
+        "fieldReferenceDevName": "CRM_CardNumber__c",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "String",
+        "jsonPointer": "numeroCarta",
+        "parent": "listaCarte"
+      },
+      "dataScadenzaCarta": {
+        "devName": "",
+        "isRelated": true,
+        "fieldReferenceObject": "FinServ__ClientFinancialAccounts__r",
+        "fieldReferenceDevName": "CRM_ValidityEndDate__c",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "Date",
+        "jsonPointer": "dataScadenzaCarta",
+        "parent": "listaCarte"
+      },
+      "codiceTitolare": {
+        "devName": "",
+        "isRelated": true,
+        "fieldReferenceObject": "FinServ__ClientFinancialAccounts__r",
+        "fieldReferenceDevName": "CRM_OwnerCode_c__c",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "String",
+        "jsonPointer": "codiceTitolare",
+        "parent": "listaCarte"
+      },
+      "servizio": {
+        "devName": "",
+        "isRelated": true,
+        "fieldReferenceObject": "FinServ__ClientFinancialAccounts__r",
+        "fieldReferenceDevName": "FinServ__ServiceProvider__c",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "String",
+        "jsonPointer": "servizio",
+        "parent": "listaCarte"
+      },
+      "tipoCarta": {
+        "devName": "",
+        "isRelated": true,
+        "fieldReferenceObject": "FinServ__ClientFinancialAccounts__r",
+        "fieldReferenceDevName": "CRM_Tipologia_Carta__c",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "String",
+        "jsonPointer": "tipoCarta",
+        "parent": "listaCarte"
+      }
+    }
+  },
+  "verificaStatoCardControl": {
+    "fields": {
+      "panHash": {
+        "devName": "CRM_CardNumber__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "String",
+        "exclude": true
+      }
+    }
+  },
+  "getBodyCarta": {
+    "fields": {
+      "abi": {
+        "devName": "FinServ__BankNumber__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "FinServ__PrimaryOwner__r",
+        "SObject": "Account",
+        "type": "String",
+        "exclude": true
+      },
+      "numeroCartaHash": {
+        "devName": "CRM_CardNumber__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "String",
+        "exclude": true
+      },
+      "tipologiaCarta": {
+        "devName": "CRM_Tipologia_Carta__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "String",
+        "exclude": true
+      },
+      "ndg": {
+        "devName": "CRM_NDG__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "FinServ__PrimaryOwner__r",
+        "SObject": "Account",
+        "type": "String",
+        "exclude": true
+	  },
+      "abiFinAcc": {
+        "devName": "CRM_BankNumber__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "exclude": true
+      },
+      "descrizioneBlocco": {
+        "devName": "CRM_BankAccountBlockDescription__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "String"
+      },
+      "intestazione": {
+        "devName": "Name",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "FinServ__PrimaryOwner__r",
+        "SObject": "Account",
+        "type": "String",
+        "jsonPointer": "intestazione"
+      },
+      "listCheck": {
+        "devName": "CRM_BodyCardActivationStatus__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "FinServ__FinancialAccount__c",
+        "jsonPointer": "listCheck"
+      }
+    }
+  },
+  "getServiziSMS": {
+    "fields": {
+      "abi": {
+        "devName": "FinServ__BankNumber__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "FinServ__PrimaryOwner__r",
+        "SObject": "Account",
+        "type": "String",
+        "exclude": true
+      },
+      "numeroCartaHash": {
+        "devName": "CRM_CardNumber__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "String",
+        "exclude": true
+      },
+      "tipologiaCarta": {
+        "devName": "CRM_Tipologia_Carta__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "String",
+        "exclude": true
+      },
+      "ndg": {
+        "devName": "CRM_NDG__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "FinServ__PrimaryOwner__r",
+        "SObject": "Account",
+        "type": "String",
+        "exclude": true
+      },
+      "intestazione": {
+        "devName": "Name",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "FinServ__PrimaryOwner__r",
+        "SObject": "Account",
+        "type": "String"
+      }
+    }
+  },
+  "recuperaMandatiAssociatiContoAddebito": {
+    "fields": {
+      "abi": {
+        "devName": "FinServ__BankNumber__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "FinServ__PrimaryOwner__r",
+        "SObject": "Account",
+        "type": "String",
+        "exclude": true
+      }
+    }
+  },
+  "getInfoCarte": {
+    "fields": {
+      "abi": {
+        "devName": "FinServ__BankNumber__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "FinServ__PrimaryOwner__r",
+        "SObject": "Account",
+        "type": "String",
+        "exclude": true
+      },
+      "numeroCarta": {
+        "devName": "CRM_CardNumber__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "String",
+        "exclude": true
+      },
+      "tipologiaCarta": {
+        "devName": "CRM_Tipologia_Carta__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "String",
+        "exclude": true
+      },
+      "ndg": {
+        "devName": "CRM_NDG__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "FinServ__PrimaryOwner__r",
+        "SObject": "Account",
+        "type": "String",
+        "exclude": true
+      },
+      "dataScadenzaCarta": {
+        "devName": "CRM_ValidityEndDate__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "Date",
+        "jsonPointer": "infoCarta.dataScadenzaCarta"
+      },
+      "circuito": {
+        "devName": "CRM_Circuit__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "String",
+        "jsonPointer": "infoCarta.circuito"
+      },
+      "importoRata": {
+        "devName": "CRM_PaymentFeeAmount__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "String",
+        "jsonPointer": "infoCarta.importoRata"
+      },
+      "codiceTitolare": {
+        "devName": "CRM_OwnerCode_c__c",
+        "isRelated": true,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "String",
+        "jsonPointer": "infoCarta.codiceTitolare"
+      },
+      "dataApertura": {
+        "devName": "FinServ__OpenDate__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "Date",
+        "jsonPointer": "infoCarta.dataApertura"
+      },
+      "descrizioneBlocco": {
+        "devName": "CRM_OperativityStatus__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "String",
+        "jsonPointer": "infoCarta.descrizioneBlocco",
+        "valueMap": {
+          "NO BLK.": "NO BLOCCO"
+        }
+      },
+      "segnoDisponibilitaResidua": {
+        "devName": "CRM_CardAvailableAmount__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "Decimal",
+        "jsonPointer": "infoCarta.segnoDisponibilitaResidua",
+        "concat": "disponibilitaResidua"
+      },
+      "plafond": {
+        "devName": "CRM_CardPlafond__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "String",
+        "jsonPointer": "infoCarta.plafond"
+      },
+      "indirizzoEstrattoConto": {
+        "devName": "CRM_IndirizzoBpercard__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "String",
+        "jsonPointer": "infoCarta.indirizzoEstrattoConto"
+      },
+      "localitaEstrattoConto": {
+        "devName": "CRM_LocalitaBpercard__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "String",
+        "jsonPointer": "infoCarta.localitaEstrattoConto"
+      },
+      "provinciaEstrattoConto": {
+        "devName": "CRM_ProvinciaBpercard__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "String",
+        "jsonPointer": "infoCarta.provinciaEstrattoConto"
+      },
+      "capEstrattoConto": {
+        "devName": "CRM_CAPBpercard__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "String",
+        "jsonPointer": "infoCarta.capEstrattoConto"
+      },
+      "dataConsegnaCarta": {
+        "devName": "CRM_Data_Consegna_Carta__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "String",
+        "jsonPointer": "infoCarta.dataConsegnaCarta"
+	  },
+      "pausaPoker": {
+        "devName": "CRM_StatoBloccoPoker__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "String",
+        "jsonPointer": "infoCarta.pausaPoker",
+		"valueMap": {
+          "A": "Blocco POKER attivo",
+          "N": "Blocco POKER rimosso",
+          "": "Carta non soggetta a blocco POKER"
+		  }
+      },
+	  "numeroCartaInternazionale": {
+        "devName": "CRM_NumeroCartaInt__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "String"
+	  },
+	  "statoCarta": {
+        "devName": "CRM_StatoCartaWS__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "String",
+		"jsonPointer": "infoCarta.statoCarta"
+		},
+	  "descrizioneMotivoBlocco": {
+        "devName": "CRM_DescrizioneMotivoBloccoWS__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "String",
+		"jsonPointer": "infoCarta.descrizioneMotivoBlocco"
+      }
+    }
+  },
+  "getAcsKey6Status": {
+    "fields": {
+      "abi": {
+        "devName": "FinServ__BankNumber__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "FinServ__PrimaryOwner__r",
+        "SObject": "Account",
+        "type": "String",
+        "exclude": true
+      },
+      "numeroCarta": {
+        "devName": "CRM_NumeroCartak6__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "String",
+        "exclude": true
+      },
+      "tipologiaCarta": {
+        "devName": "CRM_Tipologia_Carta__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "String",
+        "exclude": true
+      },
+      "abiFinAcc": {
+        "devName": "CRM_BankNumber__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "exclude": true
+      },
+      "subscriptionDate": {
+        "devName": "CRM_Data_Iscrizione_3d_Secure_Code__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "Date",
+        "jsonPointer": "acsSubscriptionStatus.subscriptionDate"
+      },
+      "key6Enrolled": {
+        "devName": "CRM_StatoKey6__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "String",
+        "jsonPointer": "k6Status.key6Enrolled"
+      },
+      "key6PwdDateChange": {
+        "devName": "CRM_Data_ultima_modifica_Key6__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "DateTime",
+        "jsonPointer": "k6Status.key6PwdDateChange"
+      },
+      "subscriptionStatus": {
+        "devName": "CRM_Stato3dSecureCode__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "String",
+        "jsonPointer": "acsSubscriptionStatus.subscriptionStatus"
+	  },
+	  "descrizione2": {
+        "devName": "CRM_key6__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "String",
+        "jsonPointer": "k6Status.cardStatusPay.descrizione"
+      }
+    }
+  },
+  "listaRapporti": {
+    "check": true,
+    "bypass": ["operatore di contact center", "supervisor di contact center"],
+    "lastCall": "CRM_LastCallWsListaRapporti__c",
+    "conditionList": {
+      "listaRapporti": {
+        "rapporto": "CRM_Rapporto__c"
+      }
+    },
+    "fields": {
+      "abi": {
+        "devName": "FinServ__BankNumber__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "exclude": true
+      },
+      "ndg": {
+        "devName": "CRM_NDG__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "Account",
+        "type": "String",
+        "exclude": true
+      },
+      "dataAttivazione": {
+        "devName": "",
+        "isRelated": true,
+        "fieldReferenceObject": "FinServ__ClientFinancialAccounts__r",
+        "fieldReferenceDevName": "FinServ__OpenDate__c",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "Date",
+        "jsonPointer": "dataAttivazione",
+        "parent": "listaRapporti",
+        "saveNullValue": false
+      },
+      "plafond": {
+        "devName": "",
+        "isRelated": true,
+        "fieldReferenceObject": "FinServ__ClientFinancialAccounts__r",
+        "fieldReferenceDevName": "CRM_CardPlafond__c",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "String",
+        "jsonPointer": "plafond",
+        "parent": "listaRapporti",
+        "saveNullValue": false
+      },
+      "plafondResiduo": {
+        "devName": "",
+        "isRelated": true,
+        "fieldReferenceObject": "FinServ__ClientFinancialAccounts__r",
+        "fieldReferenceDevName": "CRM_UsedAmount__c",
+        "SObject": "FinServ__FinancialAccount__c",
+        "type": "String",
+        "jsonPointer": "plafondResiduo",
+        "parent": "listaRapporti",
+        "saveNullValue": false
+      }
+    }
+  },
+  "listaPiani": {
+    "check": true,
+    "bypass": [],
+    "lastCall": "CRM_LastCallWsListaPiani__c",
+    "conditionList": {
+      "listaPiani": {
+        "numeroPiano": "Name"
+      }
+    },
+    "fields": {
+      "codProdotto": {
+        "devName": "CRM_ProductCode__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "",
+        "type": "String",
+        "exclude": true
+      },
+      "abiBanca": {
+        "devName": "FinServ__BankNumber__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "FinServ__PrimaryOwner__r",
+        "SObject": "",
+        "type": "String",
+        "exclude": true
+      },
+      "rapportoRataInConto": {
+        "devName": "CRM_Rapporto__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "",
+        "type": "String",
+        "exclude": true
+      },
+      "numeroPiano": {
+        "devName": "",
+        "isRelated": true,
+        "fieldReferenceObject": "CRM_PianiRateali__r",
+        "fieldReferenceDevName": "Name",
+        "SObject": "CRM_PianoRateale__c",
+        "type": "String",
+        "jsonPointer": "numeroPiano",
+        "parent": "listaPiani",
+        "saveNullValue": false
+      },
+      "importo": {
+        "devName": "",
+        "isRelated": true,
+        "fieldReferenceObject": "CRM_PianiRateali__r",
+        "fieldReferenceDevName": "CRM_ImportoPianoRateale__c",
+        "SObject": "CRM_PianoRateale__c",
+        "type": "String",
+        "jsonPointer": "importo",
+        "parent": "listaPiani",
+        "saveNullValue": false
+      },
+      "dataAttivazione": {
+        "devName": "",
+        "isRelated": true,
+        "fieldReferenceObject": "CRM_PianiRateali__r",
+        "fieldReferenceDevName": "CRM_DataAttivazione__c",
+        "SObject": "CRM_PianoRateale__c",
+        "type": "Date",
+        "jsonPointer": "dataAttivazione",
+        "parent": "listaPiani",
+        "saveNullValue": false
+      },
+      "dataEstinzione": {
+        "devName": "",
+        "isRelated": true,
+        "fieldReferenceObject": "CRM_PianiRateali__r",
+        "fieldReferenceDevName": "CRM_DataScadenza__c",
+        "SObject": "CRM_PianoRateale__c",
+        "type": "Date",
+        "jsonPointer": "dataEstinzione",
+        "parent": "listaPiani",
+        "saveNullValue": false
+      }
+    }
+  },
+  "dettaglioPianoRateale": {
+    "check": true,
+    "bypass": ["operatore di contact center", "supervisor di contact center"],
+    "lastCall": "CRM_LastCallWsDettaglioPianoRateale__c",
+    "fields": {
+      "idPiano": {
+        "devName": "Name",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "",
+        "type": "String",
+        "exclude": true
+      },
+      "abi": {
+        "devName": "CRM_Abi__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "",
+        "type": "String",
+        "exclude": true
+      },
+      "importoOriginale": {
+        "devName": "CRM_ImportoPianoRateale__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "",
+        "type": "String",
+        "jsonPointer": "importoOriginale",
+        "saveNullValue": false
+      },
+      "numeroRate": {
+        "devName": "CRM_NumeroRate__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "",
+        "type": "String",
+        "jsonPointer": "numeroRate",
+        "saveNullValue": false
+      },
+      "stato": {
+        "devName": "CRM_Stato__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "",
+        "type": "String",
+        "jsonPointer": "stato",
+        "toReuse": true,
+        "saveNullValue": false
+      },
+      "dataScadenza": {
+        "devName": "CRM_DataScadenza__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "",
+        "type": "Date",
+        "jsonPointer": "dataScadenza",
+        "logic": "max",
+        "parent": "listaRate",
+        "toReuse": true,
+        "saveNullValue": false
+      },
+      "dataUltimoPagamento": {
+        "devName": "CRM_DataUltimoPagamentoRata__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "",
+        "type": "Date",
+        "jsonPointer": "dataScadenza",
+        "toReplace": "stato",
+        "filterlogic": "'stato' == 'PAGATA'",
+        "logic": "max",
+        "parent": "listaRate",
+        "saveNullValue": false
+      },
+      "importo": {
+        "devName": "CRM_ImportoResiduo__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "",
+        "type": "Double",
+        "jsonPointer": "importo",
+        "logic": "sum",
+        "toReplace": "stato",
+        "filterlogic": "'stato' == 'DA_PAGARE'",
+        "parent": "listaRate",
+        "saveNullValue": false
+      },
+      "commissione": {
+        "devName": "CRM_TotaleCommissionePiano__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "",
+        "type": "Double",
+        "jsonPointer": "commissione",
+        "logic": "sum",
+        "parent": "listaRate",
+        "saveNullValue": false
+      },
+      "ratePagate": {
+        "devName": "CRM_RatePagate__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "",
+        "type": "Double",
+        "jsonPointer": "fullElement",
+        "logic": "count",
+        "toReplace": "stato,dataScadenza",
+        "filterlogic": "'stato' == 'PAGATA'",
+        "parent": "listaRate",
+        "saveNullValue": false
+      },
+      "rateScadute": {
+        "devName": "CRM_RateScadute__c",
+        "isRelated": false,
+        "fieldReferenceObject": "",
+        "fieldReferenceDevName": "",
+        "SObject": "",
+        "type": "Double",
+        "jsonPointer": "fullElement",
+        "logic": "count",
+        "toReplace": "stato,dataScadenza",
+        "filterlogic": "'stato' == 'DA_PAGARE' && dataScadenza < today",
+        "parent": "listaRate",
+        "saveNullValue": false
+      }
+    }
+  }
+}

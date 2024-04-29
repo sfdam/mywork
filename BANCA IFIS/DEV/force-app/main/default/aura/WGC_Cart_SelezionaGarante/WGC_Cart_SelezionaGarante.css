@@ -1,0 +1,29 @@
+.THIS {
+    
+}
+
+.THIS .cstm-box{
+    border:1px solid #0064B5;
+    border-radius:10px;
+}
+
+.THIS .cstm-box-selected{
+    border:1px solid #0064B5;
+    border-radius:10px;
+    background-color: #0064B5;
+    color:white;
+}
+
+.THIS .cstm-btn-round{
+    border-radius: 25px;
+    font-size: 10px;
+    text-transform: uppercase;
+    font-weight: bold;
+    background-color: #0064B5;
+    color:white;
+    border:1px solid #0064B5;
+}
+
+.THIS .clickable{
+    cursor: pointer;
+}

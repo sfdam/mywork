@@ -1,0 +1,120 @@
+<template>
+    <div style="margin-left: 6%" if:true={error}>
+        <lightning-badge label={error} style="color: red;"></lightning-badge>
+    </div>
+    <lightning-card title={label.CreateOrder} variant="Narrow">
+        <div class="c-container">
+            <template if:false={loaded}>
+                <lightning-spinner alternative-text="Ricerca..." variant="brand"></lightning-spinner>
+            </template>
+            <template if:true={loaded}>
+                <lightning-layout multiple-rows="true">
+                    <lightning-layout-item padding="around-small" size="12">
+                        <div class="page-section page-header slds-section-title--divider">
+                            <h2>{label.Identification}</h2>
+                        </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12">
+                        <lightning-layout multiple-rows="true">
+                            <lightning-layout-item padding="around-small" size="1">
+                                <div class="page-section page-main">                            
+                                </div>
+                            </lightning-layout-item>
+    
+                            <lightning-layout-item padding="around-small" size="4">
+                                <div class="page-section page-main">
+                                    <c-custom-lookup selected-s-object={prepopulatedAccount} s-object-name="Account"
+                                    icon-name="standard:account" field-label={label.ART_CustomerName} field-to-like="Name,THR_CustomerIdentificationCode__c"
+                                        other-field-to-query = 'THR_CustomerIdentificationCode__c' where-condition={accountFilter}
+                                        field-alternative-in-label="THR_CustomerIdentificationCode__c" 
+                                        event-to-dispatch="filialelookup" onfilialelookup={handleCustomEvent}
+                                        required={required} 
+                                        >
+                                    </c-custom-lookup>
+                                </div>
+                            </lightning-layout-item>
+    
+                            <lightning-layout-item padding="around-small" size="2">
+                                <div class="page-section page-main">                            
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item padding="around-small" size="4">
+                                <div class="page-section page-right">
+                                    <lightning-combobox
+                                        name="OrderTemplate"
+                                        label={label.OrderTemplate}
+                                        value={selectedOption}
+                                        placeholder="Seleziona un template"
+                                        options={options}
+                                        onchange={selectionChangeHandler} >
+                                    </lightning-combobox>
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item padding="around-small" size="1">
+                                <div class="page-section page-main">                            
+                                </div>
+                            </lightning-layout-item>
+
+
+
+                            <!-- DK START SECONDA RIGA -->
+                            <template if:true={chooseResponsabile}>
+
+                                <lightning-layout-item padding="around-small" size="1">
+                                    <div class="page-section page-main">                            
+                                    </div>
+                                </lightning-layout-item>
+                                
+                                <lightning-layout-item padding="around-small" size="10">
+                                    <span><lightning-input data-id="toggleShareOrder" name="toggleShareOrder" type="toggle" label="Prendi ordine per conto di" onchange={changeToggle} checked={shareOrder} message-toggle-active="" message-toggle-inactive="" ></lightning-input></span>
+                                    <!-- <span><lightning-input data-id="toggleShareOrder" name="toggleShareOrder" type="toggle" label="" onchange={changeToggle} checked={shareOrder} message-toggle-active="" message-toggle-inactive="" ></lightning-input>Prendi ordine per conto di</span> -->
+                                    <!-- <span>Prendi ordine per conto di<lightning-input data-id="toggleShareOrder" name="toggleShareOrder" type="toggle" label="" onchange={changeToggle} checked={shareOrder} message-toggle-active="" message-toggle-inactive="" ></lightning-input></span> -->
+                                    <template if:true={shareOrder}>
+                                        <c-custom-lookup 
+                                            is-from-report-page={isFromReportPage}
+                                            s-object-name='User'
+                                            icon-name="standard:user"
+                                            field-label=""
+                                            field-to-like="Name,Username,Email"
+                                            other-field-to-query='Username,Email'
+                                            event-to-dispatch="userlookup"
+                                            onuserlookup={handleCustomEventUser}
+                                            where-condition={userFilter}
+                                            record-id-list={userIdSet}
+                                            >
+                                        </c-custom-lookup>
+                                    </template>
+                                </lightning-layout-item>
+    
+                                <lightning-layout-item padding="around-small" size="1">
+                                    <div class="page-section page-main">                            
+                                    </div>
+                                </lightning-layout-item>
+                            </template>
+                            <!-- DK END SECONDA RIGA -->
+
+                        </lightning-layout>
+                    </lightning-layout-item>
+                    <lightning-layout-item flexibility="auto" padding="around-small" size="12">
+                        <lightning-layout multiple-rows="true">
+                            <lightning-layout-item padding="around-small" size="5">
+                                <div class="page-section page-main">                            
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item padding="around-small" size="2">
+                                <div class="page-section page-main">    
+                                    <lightning-button label={label.CancelLabel} title={label.CancelLabel}  onclick={handleClickCancel}></lightning-button>&nbsp;
+                                    <lightning-button label={label.ContinueLabel} title={label.ContinueLabel} variant="brand"  onclick={handleClickContinue} disabled={disabledToOrder}></lightning-button>
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item padding="around-small" size="5">
+                                <div class="page-section page-main">                            
+                                </div>
+                            </lightning-layout-item>
+                    </lightning-layout>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </template>
+        </div>
+    </lightning-card>
+</template>

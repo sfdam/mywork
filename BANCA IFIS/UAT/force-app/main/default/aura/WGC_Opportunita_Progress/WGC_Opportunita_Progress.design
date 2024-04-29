@@ -1,0 +1,11 @@
+<design:component>
+    <design:attribute name="reportIstruttoria" label="report istruttoria" description="Inserire id del report"/>
+    <design:attribute name="reportValPratica" label="report valutazione pratica" description="Inserire id del report"/>
+    <design:attribute name="reportPredContratto" label="report predisposizione contratto" description="Inserire id del report"/>
+    <design:attribute name="reportPerfContratto" label="report perfezionamento contratto" description="Inserire id del report"/>
+    <design:attribute name="reportAttRapporto" label="report attivazione rapporto" description="Inserire id del report"/>
+    <design:attribute name="reportAvviate" label="report avviate" description="Inserire id del report"/>
+    <design:attribute name="reportCrossSelling" label="report cross selling" description="Inserire id del report" />
+    <design:attribute name="reportChiuse" label="report chiuse" description="Inserire id del report" />
+    <design:attribute name="reportDettagli" label="report pulsante dettagli" />
+</design:component>

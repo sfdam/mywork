@@ -1,0 +1,130 @@
+<aura:component implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:hasSObjectName" access="global" controller="WGC_CircularProgressController">
+    
+    <aura:attribute name="recordId" type="Id" description="Id of record on which this component is hosted." />
+    <aura:attribute name="sObjectName" type="String" description="API name of record on which this component is hosted." />
+    
+    <aura:attribute name="Legend" type="String" description="Legend to display" />
+    
+    <aura:attribute name="perText" type="String" default="0%" description="Text to display inside circle. It is auto calculated field and used internally." />
+    <aura:attribute name="cirDeg" type="String" default="0" description="Degree of Progress to show. It is auto calculated field and used internally." />
+    
+    <aura:attribute name="totalProgress" type="String" default="100" description="Total progress. It can be number OR API name of field." />
+    <aura:attribute name="actualProgress" type="String" default="50" description="Actual progress. It can be number OR API name of field." />
+    <aura:attribute name="titleProgress" type="String" default="" description="Total progress. It can be number OR API name of field." />
+
+    <aura:attribute name="theme" type="String" default="blue" description="Theme of Circular Progress Bar. Possible values are blue, green, orange, red." />
+    <aura:attribute name="size" type="String" default="small" description="Size of Circular Progress Bar. Possible values are small, medium, big." />
+    
+    <aura:attribute name="condition" type="String" default="percent" description="Condition to render the data inside the component" />
+    <!-- POSSIBLE VALUES: percent , actual , actual-total , actual-total-percent -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    <aura:handler name="change" value="{! v.totalProgress }" action="{! c.doInit }"/>
+    <aura:handler name="change" value="{!v.actualProgress}" action="{!c.doInit}" />
+    
+    <div class="clearFloats slds-align--absolute-center">
+
+        <!-- NEW -->
+        <div class="{! ( v.cirDeg > 179 ) ? 'container p50plus '+v.theme+' '+v.size : 'container '+v.theme +' '+v.size }">
+            <aura:if isTrue="{! v.condition == 'percent' || v.condition == 'actual' }">
+                <span>{! v.condition == 'percent' ? v.perText : v.actualProgress }</span>
+                <aura:set attribute="else">
+                    <span class="{! 'actual ' + v.condition }">
+                        {! v.actualProgress }
+                        <span class="{! 'total-' + v.size }">/{! v.totalProgress }</span>
+                        <aura:if isTrue="{! v.condition == 'actual-total-percent' }">
+                            <span class="{! 'percent-' + v.size }">{!v.perText}</span>
+                        </aura:if>
+                        <aura:if isTrue="{! v.condition == 'actual-total-title' }">
+                            <span class="{! 'titleProgress percent-' + v.size }">{!v.titleProgress}</span>
+                        </aura:if>
+                    </span>
+                </aura:set>
+            </aura:if>
+            <div class="slice">
+                
+                <div class="bar" style="{! '-webkit-transform: rotate('+v.cirDeg+'deg); -moz-transform: rotate('+v.cirDeg+'deg); -ms-transform: rotate('+v.cirDeg+'deg); -o-transform: rotate('+v.cirDeg+'deg); transform: rotate('+v.cirDeg+'deg); -ms-transform: rotate('+v.cirDeg+'deg);'}"></div>
+                
+                <div class="fill"></div>
+            </div>
+        </div>
+        <!-- NEW -->
+
+        <!-- <aura:if isTrue="{!v.condition == 'percent' }">
+            <div class="{! ( v.cirDeg > 179 ) ? 'container p50plus '+v.theme+' '+v.size : 'container '+v.theme +' '+v.size }">
+                <span>{!v.perText}</span> 
+                <div class="slice">
+                    
+                    <div class="bar" style="{! '-webkit-transform: rotate('+v.cirDeg+'deg); -moz-transform: rotate('+v.cirDeg+'deg); -ms-transform: rotate('+v.cirDeg+'deg); -o-transform: rotate('+v.cirDeg+'deg); transform: rotate('+v.cirDeg+'deg); -ms-transform: rotate('+v.cirDeg+'deg);'}"></div>
+                    
+                    <div class="fill"></div>
+                </div>
+            </div>
+        </aura:if>
+        <aura:if isTrue="{!v.condition == 'actual'}">
+            <div class="{! ( v.cirDeg > 179 ) ? 'container p50plus '+v.theme+' '+v.size : 'container '+v.theme +' '+v.size }">
+                <span>{!v.actualProgress}</span> 
+                <div class="slice">
+                    
+                    <div class="bar" style="{! '-webkit-transform: rotate('+v.cirDeg+'deg); -moz-transform: rotate('+v.cirDeg+'deg); -ms-transform: rotate('+v.cirDeg+'deg); -o-transform: rotate('+v.cirDeg+'deg); transform: rotate('+v.cirDeg+'deg); -ms-transform: rotate('+v.cirDeg+'deg);'}"></div>
+                    
+                    <div class="fill"></div>
+                </div>
+            </div>
+        </aura:if>
+        <aura:if isTrue="{!v.condition == 'actual-total' }">
+            <div class="{! ( v.cirDeg > 179 ) ? 'container p50plus '+v.theme+' '+v.size : 'container '+v.theme +' '+v.size }">
+                <span class="actual">
+                    {!v.actualProgress}
+                <aura:if isTrue="{!v.size == 'big'}">
+                    <span class="total-big">/{!v.totalProgress}</span>
+                </aura:if>
+                <aura:if isTrue="{!v.size == 'medium'}">
+                    <span class="total-medium">/{!v.totalProgress}</span>
+                </aura:if>
+                <aura:if isTrue="{!v.size == 'small'}">
+                    <span class="total-small">/{!v.totalProgress}</span>
+                </aura:if>
+                </span>
+                <div class="slice">
+                    
+                    <div class="bar" style="{! '-webkit-transform: rotate('+v.cirDeg+'deg); -moz-transform: rotate('+v.cirDeg+'deg); -ms-transform: rotate('+v.cirDeg+'deg); -o-transform: rotate('+v.cirDeg+'deg); transform: rotate('+v.cirDeg+'deg); -ms-transform: rotate('+v.cirDeg+'deg);'}"></div>
+                    
+                    <div class="fill"></div>
+                </div>
+            </div>
+        </aura:if>
+        
+        <aura:if isTrue="{!v.condition == 'actual-total-percent'}">
+            <div class="{! ( v.cirDeg > 179 ) ? 'container p50plus '+v.theme+' '+v.size : 'container '+v.theme +' '+v.size }">
+                <span class="actual">
+                        {!v.actualProgress}
+                    <aura:if isTrue="{!v.size == 'big'}">
+                        <span class="total-big">/{!v.totalProgress}</span>
+                        <span class="percent-big">{!v.perText}</span>
+                    </aura:if>
+                    <aura:if isTrue="{!v.size == 'medium'}">
+                        <span class="total-medium">/{!v.totalProgress}</span>
+                        <span class="percent-medium">{!v.perText}</span>
+                    </aura:if>
+                    <aura:if isTrue="{!v.size == 'small'}">
+                        <span class="total-small">/{!v.totalProgress}</span>
+                        <span class="percent-small">{!v.perText}</span>
+                    </aura:if>
+                </span>
+                <div class="slice">
+                    
+                    <div class="bar" style="{! '-webkit-transform: rotate('+v.cirDeg+'deg); -moz-transform: rotate('+v.cirDeg+'deg); -ms-transform: rotate('+v.cirDeg+'deg); -o-transform: rotate('+v.cirDeg+'deg); transform: rotate('+v.cirDeg+'deg); -ms-transform: rotate('+v.cirDeg+'deg);'}"></div>
+                    
+                    <div class="fill"></div>
+                </div>
+            </div>
+        </aura:if> -->
+    </div>
+    
+    
+    <div class="clearFloats slds-align--absolute-center legend"> 
+        {!v.Legend}
+    </div>
+    
+    
+</aura:component>

@@ -1,0 +1,19 @@
+<template>
+  <lightning-layout>
+    <lightning-layout-item size="12" padding="around-small" class="slds-m-around_none slds-text-align_center">
+      <lightning-card title='Attività pianificate per oggi'>
+        <lightning-button-icon  icon-name="utility:back" variant="border-filled" alternative-text="Torna Indietro" slot="actions" onclick={handleGetBack}></lightning-button-icon>
+        <div>
+          <template if:false={hasData}>
+            <div class="slds-text-align_center">
+              <h1>Non ci sono attività pianificate per oggi.</h1>
+            </div>
+          </template>
+          <div class="slds-text-align_center" padding="around-small">
+            <canvas class="donut " lwc:dom="manual" style="max-height: 800px; max-width: 1000px; margin: auto;"></canvas>
+          </div>
+        </div>
+      </lightning-card>
+    </lightning-layout-item>
+  </lightning-layout>
+</template>

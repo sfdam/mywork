@@ -1,0 +1,48 @@
+<aura:component controller="WGC_HomePage_ReteCommerciale_FD" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    <!-- attributes -->
+    <aura:attribute name="filiali" type="List" default="['Filiale di Ancona', 'Filiale di Treviso']" />
+    <aura:attribute name="isLoaded" type="Boolean" default="false" />
+    <aura:attribute name="dashboardId" type="String" default="" />
+    <aura:attribute name="isDirezioneFD" type="Boolean" default="false" />
+    <!-- handlers -->
+    <lightning:navigation aura:id="navService" />
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }" />
+
+    <lightning:card>
+        <aura:set attribute="title">
+            <lightning:layout>
+                <lightning:layoutItem size="1">
+                    <lightning:icon iconName="utility:event" size="small" />
+                </lightning:layoutItem>
+                <lightning:layoutItem size="1">
+                    <div class="title">{! $Label.c.WGC_HomePage_ReteCommerciale }</div>
+                </lightning:layoutItem>
+            </lightning:layout>
+        </aura:set>
+        <aura:set attribute="actions">
+            <lightning:buttonIcon iconName="utility:expand" variant="bare" onclick="{! c.navigateToMyComponent }" alternativeText="Settings" />
+        </aura:set>
+        <!-- body -->
+        <aura:if isTrue="{! v.isLoaded }">
+            <lightning:layout multipleRows="true" class="slds-p-vertical_large">
+                <aura:iteration var="item" items="{! v.filiali }" indexVar="ind">
+                    <lightning:layoutItem size="12" class="slds-p-horizontal_small slds-m-vertical_small">
+                        <c:CustomTile label1="{! ind == 0 ? $Label.c.WGC_HomePage_ReteCommerciale_LaMigliore : '' }" label2="{! $Label.c.WGC_HomePage_ReteCommerciale_Conversion }" 
+                                        circleValue="{! ind == 0 ? 1 : 26 }" stripColor="{! item.best ? 'green' : 'red' }" 
+                                        circleColor="{! item.best ? 'green' : 'red' }" circleTextColor="white" title="{! item.nomeFiliale }"
+                                        subtitle="&nbsp;" value="{! item.conversion + ' %' }"
+                                        valueColor="{! item.best ? 'green' : 'red' }" />
+                    </lightning:layoutItem>
+
+                    <!-- <lightning:layoutItem size="12" class="slds-p-horizontal_small slds-m-vertical_small">
+                        <c:CustomTile label1="La migliore" label2="Conversion" 
+                            circleValue="26" stripColor="red" circleColor="red" circleTextColor="white" title="Filiale di Ancona" subtitle="AG. 01234567" value="0.8 %" valueColor="red" />
+                    </lightning:layoutItem> -->
+                </aura:iteration>
+            </lightning:layout>
+        <aura:set attribute="else">
+            <lightning:spinner alternativeText="CARICAMENTO" />
+        </aura:set>
+    </aura:if>
+    </lightning:card>
+</aura:component>

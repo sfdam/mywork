@@ -1,0 +1,13 @@
+.THIS {
+    
+}
+
+.THIS .cstm-btn-round{
+    border-radius: 25px;
+    font-size: 10px;
+    text-transform: uppercase;
+    font-weight: bold;
+    background-color: #0064B5;
+    color:white;
+    border:1px solid #0064B5;
+}

@@ -1,0 +1,12 @@
+<template>
+    <div class="container">
+        <template if:false={loaded}>
+            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+        </template>
+        <template if:true={loaded}>
+            <div class="slds-p-vertical_medium">
+                <c-enhanced-record-list configuration={enhancedRecordListConfiguration} hide-view-selection></c-enhanced-record-list>
+            </div>
+        </template>
+    </div>
+</template>

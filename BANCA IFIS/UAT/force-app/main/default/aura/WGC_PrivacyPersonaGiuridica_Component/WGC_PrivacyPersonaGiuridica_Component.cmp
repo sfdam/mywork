@@ -1,0 +1,219 @@
+<aura:component controller="WGC_PrivacyPersonaGiuridica" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global">
+    <!-- Attributes -->
+    <aura:attribute name="title" type="String" default="Compila documento"/>
+    <aura:attribute name="tipo" type="String" default="Privacy Persona Giuridica"/>
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="rec" type="Account" default="{ 'sobjectType': 'Account'}"/>
+    <aura:attribute name="isAccount" type="Boolean" default="true" />
+    <aura:attribute name="listaEsecutori" type="List" />
+    <aura:attribute name="esecutore" type="String" />
+    <!-- attributi testi -->
+    <aura:attribute name="Sezione1" type="String" default=""/>
+    <aura:attribute name="Sezione2" type="String" default=""/>
+    <aura:attribute name="Sezione3" type="String" default=""/>
+    <aura:attribute name="Sezione4" type="String" default=""/>
+    <aura:attribute name="Sezione5" type="String" default=""/>
+	<aura:attribute name="Sezione6" type="String" default=""/>
+    <aura:attribute name="isLoaded" type="Boolean" default="false" />
+    <!-- attributo di appoggio -->
+    <aura:attribute name="modalBodyAttributeName" type="String" default=""/>
+    <!-- Library -->
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    <!-- events -->
+    <aura:registerEvent name="WGC_EditAccountResolveEvent" type="c:WGC_EditAccountResolveEvent" />
+    <aura:registerEvent name="WGC_RefreshContactResolveEvent" type="c:WGC_RefreshContactResolveEvent" />
+    <aura:registerEvent name="WGC_RefreshPrivacy" type="c:WGC_RefreshPrivacy" />
+    <!-- Handlers -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+        
+    <div class="container-doc slds-is-relative" style="margin:0 -20px -20px -20px;">
+            <ui:scrollerWrapper class="scrollerSize">
+                <div class="slds-grid slds-wrap slds-p-horizontal_x-large slds-p-bottom_small">
+                        <!-- <div class="slds-col slds-size_1-of-1 slds-text-align_left slds-p-around_small">
+                            <p class="slds-text-body_small subtitle-text">TIPO DI DOCUMENTO</p>
+                        </div> -->
+                        <div class="slds-col slds-size_12-of-12 slds-text-align_left slds-p-around_small">
+                            <div class="icon-container">
+                                <lightning:icon aura:id="ic" class="icon slds-has-focus" variant="inverse" iconName="utility:file" size="small" access="global"/>
+                            </div>
+                            <div class="title-container">
+                                <span  class="slds-text-title_bold" >{!v.tipo}</span>
+                                <lightning:input type="text" class="visibility" />
+                            </div>
+                        </div>
+                    </div>
+                    <aura:if isTrue="{! v.isLoaded }">
+                    <lightning:layout multipleRows="true" class="pr-gray slds-p-vertical_medium slds-p-horizontal_x-large">
+                        <lightning:layoutItem size="12" class="slds-p-around_small">
+                            <span class="subtitle-text">INFORMATIVA PRIVACY</span>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="12" class="slds-p-around_small">
+                            <span>{!v.Sezione1}</span>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                    <lightning:layout multipleRows="true" class="pr-white slds-p-vertical_medium slds-p-horizontal_x-large">
+                        <lightning:layoutItem size="12" class="slds-p-around_small">
+                            <span class="subtitle-text">INFORMATIVA PRIVACY RELATIVA ALLE ATTIVITÀ DI TRASFERIMENTO DEI FONDI SVOLTA DALLA SWIFT</span>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="12" class="slds-p-around_small">
+                            <span>{!v.Sezione2}</span>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                    <lightning:layout multipleRows="true" class="pr-gray slds-p-vertical_medium slds-p-horizontal_x-large">
+                        <lightning:layoutItem size="12" class="slds-p-around_small">
+                            <span class="subtitle-text">INFORMATIVA PRIVACY RELATIVA ALLA REGISTRAZIONE DELLE TELEFONATE</span>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="12" class="slds-p-around_small">
+                            <span>{!v.Sezione3}</span>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                    <lightning:layout multipleRows="true" class="pr-white slds-p-vertical_medium slds-p-horizontal_x-large">
+                        <lightning:layoutItem size="12" class="slds-p-around_small">
+                            <span class="subtitle-text">INFORMATIVA PRIVACY RELATIVA ALL’UTILIZZO DELLE APPLICAZIONI MOBILE</span>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="12" class="slds-p-around_small">
+                            <span>{!v.Sezione4}</span>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                    <lightning:layout multipleRows="true" class="pr-gray slds-p-vertical_medium slds-p-horizontal_x-large">
+                        <lightning:layoutItem size="12" class="slds-p-around_small">
+                            <span class="subtitle-text">INFORMATIVA AI SENSI DELL’ARTICOLO 6 DEL CODICE DI CONDOTTA PER I SISTEMI INFORMATIVI GESTITI DA SOGGETTI PRIVATI IN TEMA DI CREDITI AL CONSUMO, AFFIDABILITÀ E PUNTUALITÀ NEI PAGAMENTI</span>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="12" class="slds-p-around_small">
+                            <span>{!v.Sezione5}</span>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                    <lightning:layout class="pr-white slds-p-vertical_medium slds-p-horizontal_x-large" multipleRows="true">
+                        <lightning:layoutItem size="12">
+                            <lightning:layout multipleRows="true">
+                                <lightning:layoutItem size="12" class="slds-p-around_small">
+                                    <span class="subtitle-text">CONSENSO</span>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem class="slds-p-around_small">
+                                    <span>{!v.Sezione6}</span>
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="12">
+                            <lightning:layout multipleRows="true">
+                                <lightning:layoutItem size="12" class="slds-p-around_small">
+                                    <i class="question"><b>1</b> rilevazione dei gusti, delle preferenze, delle abitudini, dei bisogni e delle scelte di consumo dell’Interessato (c.d. profilazione) (solo qualora l’Interessato sia una persona fisica)</i>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="3" smallDeviceSize="6" class="slds-p-horizontal_small">
+                                    <ui:inputRadio aura:id="r0" value="{! v.rec.ConsensoAllaProfilazione__c == true ? true : false}" name="rec.ConsensoAllaProfilazione__c" label="Acconsento" change="{!c.onGroup}"/>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="3" smallDeviceSize="6" class="slds-p-horizontal_small">
+                                    <ui:inputRadio aura:id="r1" value="{! v.rec.ConsensoAllaProfilazione__c == false ? true : false}" name="rec.ConsensoAllaProfilazione__c" label="Non Acconsento" change="{!c.onGroup}"/>
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="12">
+                            <lightning:layout multipleRows="true">
+                                <lightning:layoutItem size="12" class="slds-p-around_small">
+                                    <i class="question"><b>2</b> promozione ed offerta di prodotti/servizi della Banca o ricerche di mercato volte a rilevare il grado di soddisfazione dell'Interessato, attraverso modalità c.d. automatizzate e tradizionali</i>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="3" smallDeviceSize="6" class="slds-p-horizontal_small">
+                                    <ui:inputRadio aura:id="r0" value="{! v.rec.ConsensoProdottiBancaRicercheMercato__c == true ? true : false }" name="rec.ConsensoProdottiBancaRicercheMercato__c" label="Acconsento" change="{!c.onGroup}"/>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="3" smallDeviceSize="6" class="slds-p-horizontal_small">
+                                    <ui:inputRadio aura:id="r1" value="{! v.rec.ConsensoProdottiBancaRicercheMercato__c == false ? true : false }" name="rec.ConsensoProdottiBancaRicercheMercato__c" label="Non Acconsento" change="{!c.onGroup}"/>
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="12">
+                            <lightning:layout multipleRows="true">
+                                <lightning:layoutItem size="12" class="slds-p-around_small">
+                                    <i class="question"><b>3</b> promozione ed offerta di prodotti/servizi di terzi, attraverso modalità c.d. automatizzate e tradizionali</i>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="3" smallDeviceSize="6" class="slds-p-horizontal_small" >
+                                    <ui:inputRadio aura:id="r0" value="{! v.rec.ConsensoProdottiSocietaTerze__c == true ? true : false }" name="rec.ConsensoProdottiSocietaTerze__c" label="Acconsento" change="{!c.onGroup}"/>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="3" smallDeviceSize="6" class="slds-p-horizontal_small">
+                                    <ui:inputRadio aura:id="r1" value="{! v.rec.ConsensoProdottiSocietaTerze__c == false ? true : false }" name="rec.ConsensoProdottiSocietaTerze__c" label="Non Acconsento" change="{!c.onGroup}"/>
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="12">
+                            <lightning:layout multipleRows="true">
+                                <lightning:layoutItem size="12" class="slds-p-around_small">
+                                    <i class="question"><b>4</b> comunicazione di dati personali a terzi per promozione ed offerta di prodotti/servizi della Banca o ricerche di mercato volte a rilevare il grado di soddisfazione dell'Interessato, attraverso modalità c.d. automatizzate e tradizionali</i>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="3" smallDeviceSize="6" class="slds-p-horizontal_small">
+                                    <ui:inputRadio aura:id="r0" value="{! v.rec.ConsensoAttivitaPromRicercheMercato__c == true ? true : false }" name="rec.ConsensoAttivitaPromRicercheMercato__c" label="Acconsento" change="{!c.onGroup}"/>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="3" smallDeviceSize="6" class="slds-p-horizontal_small">
+                                    <ui:inputRadio aura:id="r1" value="{! v.rec.ConsensoAttivitaPromRicercheMercato__c == false ? true : false }" name="rec.ConsensoAttivitaPromRicercheMercato__c" label="Non Acconsento" change="{!c.onGroup}"/>
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="12">
+                            <lightning:layout multipleRows="true">
+                                <lightning:layoutItem size="12" class="slds-p-around_small">
+                                    <i class="question"><b>5</b> comunicazione di dati personali a terzi per promozione ed offerta di prodotti/servizi di terzi medesimi, attraverso modalità c.d. automatizzate e tradizionali</i>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="3" smallDeviceSize="6" class="slds-p-horizontal_small">
+                                    <ui:inputRadio aura:id="r0" value="{! v.rec.ConsensoAttivitaPromozionaleTerzi__c == true ? true : false }" name="rec.ConsensoAttivitaPromozionaleTerzi__c" label="Acconsento" change="{!c.onGroup}"/>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="3" smallDeviceSize="6" class="slds-p-horizontal_small">
+                                    <ui:inputRadio aura:id="r1" value="{! v.rec.ConsensoAttivitaPromozionaleTerzi__c == false ? true : false }" name="rec.ConsensoAttivitaPromozionaleTerzi__c" label="Non Acconsento" change="{!c.onGroup}"/>
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="12">
+                            <lightning:layout multipleRows="true">
+                                <lightning:layoutItem size="12" class="slds-p-around_small">
+                                    <span>Il sottoscritto dichiara di voler ricevere le comunicazioni promozionali (di cui ai suddetti punti da 2 a 5) esclusivamente attraverso le modalità tradizionali (es. posta ordinaria, telefonate con operatore) e non quelle automatizzate (es. e-mail, SMS, MMS, fax, telefonate preregistrate):</span>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="12" class="slds-p-around_small">
+                                    <i class="question">Solo modalità tradizionali</i>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="3" smallDeviceSize="6" class="slds-p-horizontal_small">
+                                    <ui:inputRadio class="rd" aura:id="r0" value="{! v.rec.ConsensoSoloModalitaTradizionali__c == true ? true : false }" name="rec.ConsensoSoloModalitaTradizionali__c" label="Si" change="{!c.onGroup}"/>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="3" smallDeviceSize="6" class="slds-p-horizontal_small">
+                                    <ui:inputRadio class="rd" aura:id="r1" value="{! v.rec.ConsensoSoloModalitaTradizionali__c == false ? true : false }" name="rec.ConsensoSoloModalitaTradizionali__c" label="No" change="{!c.onGroup}"/>
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                    <aura:if isTrue="{! v.isAccount }">
+                        <lightning:layout class="pr-white slds-p-vertical_medium slds-p-horizontal_x-large" multipleRows="true">
+                            <lightning:layoutItem size="12">
+                                <lightning:layout multipleRows="true">
+                                    <lightning:layoutItem size="12" class="slds-p-around_small">
+                                        <span class="subtitle-text">Seleziona Esecutore per il modulo privacy</span>
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem size="12" class="slds-p-around_small">
+                                        <aura:if isTrue="{! v.listaEsecutori.length > 0 }">
+                                            <lightning:select label="Esecutore" value="{! v.esecutore }" onchange="{! c.changeEsecutore }">
+                                                <option value="" text="-- Selezione Esecutore --"></option>
+                                                <aura:iteration var="item" items="{! v.listaEsecutori }">
+                                                    <option value="{! item.Contact.Name }" text="{! item.Contact.Name }"></option>
+                                                </aura:iteration>
+                                            </lightning:select>
+                                            <aura:set attribute="else">
+                                                <span class="subtitle-text">Nessun Esecutore Disponibile</span>
+                                            </aura:set>
+                                        </aura:if>
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                        <footer class="slds-modal__footer">
+                            <lightning:button variant="neutral" onclick="{!c.close}" label="ANNULLA" />
+                            <lightning:button class="btn" variant="neutral" onclick="{!c.saveRecordWithEsecutore}" label="SALVA" />
+                        </footer>
+                        <aura:set attribute="else">
+                            <footer class="slds-modal__footer">
+                                <lightning:button variant="neutral" onclick="{!c.close}" label="ANNULLA" />
+                                <lightning:button class="btn" variant="neutral" onclick="{!c.saveRecord}" label="SALVA" />
+                            </footer>
+                        </aura:set>
+                    </aura:if>   
+            <aura:set attribute="else">
+                <lightning:spinner alternativeText="Loading" />
+            </aura:set>
+        </aura:if>
+    </ui:scrollerWrapper>
+    </div>
+</aura:component>

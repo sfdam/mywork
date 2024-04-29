@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_TipoEsitazione__c</fullName>
+    <externalId>false</externalId>
+    <label>Tipo di esitazione</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Default</fullName>
+                <default>false</default>
+                <label>Default</label>
+            </value>
+            <value>
+                <fullName>Esito Transitorio</fullName>
+                <default>false</default>
+                <label>Esito Transitorio</label>
+            </value>
+            <value>
+                <fullName>Esito Negativo</fullName>
+                <default>false</default>
+                <label>Esito Negativo</label>
+            </value>
+            <value>
+                <fullName>Esito Positivo</fullName>
+                <default>false</default>
+                <label>Esito Positivo</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

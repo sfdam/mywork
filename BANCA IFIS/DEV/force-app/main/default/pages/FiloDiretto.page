@@ -1,0 +1,113 @@
+<apex:page showHeader="false" sidebar="false" controller="CtrlFiloDiretto" extensions="CtrlWizardAccount,ExtSfdcLookup" standardStylesheets="false" applyHtmlTag="false" docType="html-5.0" cache="true">
+  <html>
+  <head>
+    <apex:stylesheet value="{!URLFOR($Resource.VueApps, 'index.css')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.SLDS, '/assets/styles/salesforce-lightning-design-system-ltng.min.css')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.c3css)}" />
+
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      .sfdcBody {
+        padding: 0!important;
+      }
+    </style>
+    <script>
+      Sizzle = undefined
+    </script>
+  </head>
+  <body>
+    <div class="tlnxt">
+      <div id="lightning"></div>
+    </div>
+    <script type="application/javascript" src="{!URLFOR($Resource.VueApps, 'index.js')}"></script>
+    <script>
+      new Apps.FiloDiretto({
+        mixins: [{
+          created: function() {
+            console.log('APP CREATED')
+            this.setSvgPath('{!URLFOR($Resource.SLDS)}' + '/assets')
+            Apps.setVueLanguage('{!$Label.Lingua}')
+          },
+          methods: {
+            $api: Apps.VfApiProxy(CtrlFiloDiretto, CtrlWizardAccount, ExtSfdcLookup)
+          },
+          data: {
+            metadataApi: new Apps.MetadataApi({
+              sessionId: '{!$API.Session_Id}'
+            })
+          }
+        }],
+        el: '#lightning',
+        render: function(h) {
+          var labels = {
+            Annulla: '{!JSENCODE($Label.Annulla)}',
+            Azienda: '{!JSENCODE($Label.Azienda)}',
+            AziendaPrincipale: '{!JSENCODE($Label.AziendaPrincipale)}',
+            AziendeCollegate: '{!JSENCODE($Label.AziendeCollegate)}',
+            Avanti: '{!JSENCODE($Label.Avanti)}',
+            Cap: '{!JSENCODE($Label.Cap)}',
+            Cellulare: '{!JSENCODE($Label.Cellulare)}',
+            CFnonCorretto: '{!JSENCODE($Label.CFnonCorretto)}',
+            Citta: '{!JSENCODE($Label.Citta)}',
+            CodiceFiscale: '{!JSENCODE($Label.CodiceFiscale)}',
+            Cognome: '{!JSENCODE($Label.Cognome)}',
+            Comune: '{!JSENCODE($Label.Comune)}',
+            DataEmissione: '{!JSENCODE($Label.DataEmissione)}',
+            DataDiNascita: '{!JSENCODE($Label.DataDiNascita)}',
+            DataScadenza: '{!JSENCODE($Label.DataScadenza)}',
+            DatiDiContatto: '{!JSENCODE($Label.DatiDiContatto)}',
+            DocumentoIdentita: '{!JSENCODE($Label.DocumentoIdentita)}',
+            EnteEmittente: '{!JSENCODE($Label.EnteEmittente)}',
+            Fine: '{!JSENCODE($Label.Fine)}',
+            Indietro: '{!JSENCODE($Label.Indietro)}',
+            Indirizzo: '{!JSENCODE($Label.Indirizzo)}',
+            InformazioniGenerali: '{!JSENCODE($Label.InformazioniGenerali)}',
+            InserimentoPersonaFisica: '{!JSENCODE($Label.InserimentoPersonaFisica)}',
+            InserisciCF: '{!JSENCODE($Label.InserisciCF)}',
+            LocalitaDiNascita: '{!JSENCODE($Label.LocalitaDiNascita)}',
+            LuogoDiEmissione: '{!JSENCODE($Label.LuogoDiEmissione)}',
+            Nazione: '{!JSENCODE($Label.Nazione)}',
+            NessunRecordDisponibile: '{!JSENCODE($Label.NessunRecordDisponibile)}',
+            Nome: '{!JSENCODE($Label.Nome)}',
+            NumeroDocumento: '{!JSENCODE($Label.NumeroDocumento)}',
+            NuovaAzienda: '{!JSENCODE($Label.NuovaAzienda)}',
+            NuovaPF: '{!JSENCODE($Label.NuovaPF)}',
+            Origine: '{!JSENCODE($Label.Origine)}',
+            RicercaPerCF: '{!JSENCODE($Label.RicercaPerCF)}',
+            RicercaPerNomeCognome: '{!JSENCODE($Label.RicercaPerNomeCognome)}',
+            RicercaPersonaFisica: '{!JSENCODE($Label.RicercaPersonaFisica)}',
+            RicercaRilevatoNContatti: '{!JSENCODE($Label.RicercaRilevatoNContatti)}',
+            Ruolo: '{!JSENCODE($Label.Ruolo)}',
+            SAE: '{!JSENCODE($Label.SAE)}',
+            Seleziona: '{!JSENCODE($Label.Seleziona)}',
+            Sesso: '{!JSENCODE($Label.Sesso)}',
+            StatoFastFinance: '{!JSENCODE($Label.StatoFastFinance)}',
+            Telefono: '{!JSENCODE($Label.Telefono)}',
+            TipoDocumento: '{!JSENCODE($Label.TipoDocumento)}',
+            ViaCivico: '{!JSENCODE($Label.ViaCivico)}',
+            ViaNome: '{!JSENCODE($Label.ViaNome)}',
+            ViaTipo: '{!JSENCODE($Label.ViaTipo)}',
+            WA_provincia: '{!JSENCODE($Label.WA_provincia)}',
+            WC_censimentoAnagrafica: '{!JSENCODE($Label.WC_censimentoAnagrafica)}'
+          }
+
+          return h('div', [
+            h('ds-notification'),
+            h('ds-spinner'),
+            h('ds-modal-stack'),
+            h('filo-diretto', {
+              props: {
+                labels: labels
+              }
+            })
+          ])
+        },
+      })
+    </script>
+  </body>
+  </html>
+</apex:page>

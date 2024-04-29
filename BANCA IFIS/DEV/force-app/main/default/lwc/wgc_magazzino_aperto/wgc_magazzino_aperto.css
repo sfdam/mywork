@@ -1,0 +1,17 @@
+.circleCamp {
+    margin: 0 auto;
+    padding-top: 0.5vw;
+    color: white;
+    width: 2.5vw;
+    height: 2.5vw;
+    border-radius: 2vw;
+    background: #4891E6;
+    z-index: 10;
+}
+header.slds-card__header {
+    display: none;
+}
+body.slds-card__body{
+    margin-top: none !important;
+    margin-bottom: none !important;
+}

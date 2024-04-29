@@ -1,0 +1,268 @@
+<template>
+    <div class="spinner">
+        <template if:true={isLoading}>
+             <lightning-spinner alternative-text="Loading" variant="brand" size="large">
+             </lightning-spinner>
+        </template>
+    </div>
+
+    <article class="slds-card">
+        <div class="slds-card__header slds-grid">
+          <header class="slds-media slds-media_center slds-has-flexi-truncate">
+            <div class="slds-media__body">
+              <h2 class="slds-card__header-title">
+                <a  class="slds-card__header-link slds-truncate" title="Group">
+                  <span>{groupName}</span>
+                </a>
+              </h2>
+            </div>
+            <div class="slds-no-flex">
+                <lightning-button variant="brand" label="Edit Group" title="Edit Group" onclick={handleChangeName} class="slds-m-left_x-small" disabled={disabledButton}></lightning-button>
+            </div>
+          </header>
+        </div>
+      </article>
+
+    <table
+      class="table-dragable slds-table slds-table_cell-buffer slds-table_bordered"
+      aria-describedby="User Details"
+    >
+      <thead>
+        <tr>
+          <th style="display:none;" scope="col">Salesforce ID</th>
+          <th scope="col">Print Order</th>
+          <th scope="col">Bundle Name</th>
+          <th scope="col">Name</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Price</th>
+          <th scope="col">Merge</th>
+          <th scope="col">Hide Line</th>
+          
+        </tr>
+      </thead>
+      <tbody>
+        <template if:true={users.data}>
+          <template for:each={users.data} for:item="user" for:index="index">
+            <tr
+            
+              class="grabable"
+              key={user.Id}
+              id={user.Id}
+              draggable="true" 
+              data-drag-id={user.Item_Print_Order__c}
+              ondragstart={onDragStart}
+              ondragover={onDragOver}
+              ondrop={onDrop}
+            >
+            
+            <!--<th scope="col"></th><lightning-button key={user.Id} variant="base" label="" title="" icon-name="utility:download"></lightning-button></th>-->
+            <th style="display:none;" scope="col" class="myId">{user.Id}</th>  
+            <th scope="col" class="myIndex">{user.Item_Print_Order__c}</th>
+              <th scope="col">{user.Bundle_Name__c}</th>
+              <th scope="col">{user.MERGE_Name__c}</th>
+              <th scope="col">{user.MERGE_Quantity__c}</th>
+
+              <th scope="col">
+                <lightning-formatted-number
+                    value={user.MERGE_Price__c}
+                    format-style="currency"
+                    currency-code={user.SBQQ__Quote__r.CurrencyIsoCode}
+                    minimum-fraction-digits="2"
+                >
+                </lightning-formatted-number>
+                 </th>
+              
+              <td>
+                
+                <div><lightning-button data-index={index} variant="brand" label="Merge" title="Primary action" onclick={handleMerge} class="slds-m-left_x-small" ></lightning-button></div>
+             
+               </td>
+             <!-- <td><div><lightning-button data-index={index} variant="brand" label="Change Group" title="Secondary action" onclick={handleChangeGroup} class="slds-m-left_x-small" disabled={disabledButtonList}></lightning-button></div></td>-->
+               <td>
+                 <div>
+                 
+                  <template if:false={user.MERGE_Hide_Line__c}>
+                    <lightning-button data-index={index} variant="brand" label="Hide Line" title="Secondary action" onclick={handleHideLine} class="slds-m-left_x-small"></lightning-button>
+                  </template>
+                  <template if:true={user.MERGE_Hide_Line__c}>
+                    <lightning-button data-index={index} variant="brand-outline" label="Show Line" title="Secondary action" onclick={handleHideLine} class="slds-m-left_x-small"></lightning-button>
+                  </template>
+                </div>
+               </td>
+            </tr>
+          </template>
+        </template>
+        <template if:true={users.error}>No rows found.</template>
+      </tbody>
+    </table>
+  
+    <div>
+      <lightning-button
+        variant="brand"
+        label="Submit"
+        title="Submit"
+        onclick={handleSubmit}
+        class="slds-m-around_x-large"
+      ></lightning-button>
+      <lightning-button
+        variant="brand"
+        label="Unmerge"
+        title="Unmerge"
+        onclick={handleUnmerge}
+        class="slds-m-around_x-large"
+      ></lightning-button>
+      <lightning-button
+        variant="brand"
+        label="Previous Group"
+        title="Previous Group"
+        onclick={handlePrev}
+        disabled={disabledButtonPrev}
+        class="slds-m-around_x-large"
+      ></lightning-button>
+      <lightning-button
+        variant="brand"
+        label="Next Group"
+        title="Next Group"
+        onclick={handleNext}
+        disabled={disabledButtonNext}
+        class="slds-m-around_x-large"
+      ></lightning-button>
+    </div>
+
+    <template if:true={isModalOpen}>
+        <!-- Modal/Popup Box LWC starts here -->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="spinner">
+                <template if:true={isLoadingModal}>
+                     <lightning-spinner alternative-text="Loading" variant="brand" size="large">
+                     </lightning-spinner>
+                </template>
+            </div>
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close"
+                            alternative-text="close"
+                            variant="inverse"
+                            size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Merge {fullLineToMerge.MERGE_Name__c} with...</h2>
+                </header>
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <lightning-checkbox-group name="radioGroup"
+                          label="Quote Lines"
+                          options={options}
+                          value={selectedLineToMerge}
+                          onchange={handleRadioChange}
+                          type="radio"></lightning-checkbox-group>
+                          <div class="slds-p-around_medium lgc-bg">
+                            <lightning-input type="text" label="Inserire nome riga" value={selectedLineName} onchange={handleInputChange} disabled></lightning-input>
+                        </div>
+                        <div class="slds-p-around_medium lgc-bg">
+                            <lightning-input type="text" label="Inserire nome riga SECONDARIO" value={selectedLineName2} onchange={handleInputChange2} disabled></lightning-input>
+                        </div>
+                        <div class="slds-p-around_medium lgc-bg">
+                            <lightning-input type="checkbox" label="Nascondi Quantità" checked={hideQuantity} onchange={handleInputChangeHideQuantity}></lightning-input>
+                        </div>
+                </div>
+                
+                <!-- Modal/Popup Box LWC footer starts here -->
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={closeModal} title="Cancel">Cancel</button>
+                    <button class="slds-button slds-button_brand" onclick={mergeLines} title="OK">OK</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <template if:true={isModalOpenChangeName}>
+        <!-- Modal/Popup Box LWC starts here -->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="spinner">
+                <template if:true={isLoadingModal}>
+                     <lightning-spinner alternative-text="Loading" variant="brand" size="large">
+                     </lightning-spinner>
+                </template>
+            </div>
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close"
+                            alternative-text="close"
+                            variant="inverse"
+                            size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">Modifica {currentGroup.Name}</h2>
+                </header>
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
+                    <div class="slds-p-around_medium lgc-bg">
+                        <lightning-input type="text" label="Inserire nuovo nome gruppo" value={selectedLineName} onchange={handleInputChange}></lightning-input>
+                        <lightning-input type="text" label="Inserire nuovo nome gruppo secondario" value={selectedLineName2} onchange={handleInputChange2}></lightning-input>
+                        <lightning-input type="text" label="Inserire Label Prezzo" value={selectedTotalLabel} onchange={handleInputChangeTotal}></lightning-input>
+                        <lightning-input type="text" label="Inserire Label Prezzo Scontato" value={selectedDiscountLabel} onchange={handleInputChangeDiscount}></lightning-input>
+                        
+                        <lightning-input type="checkbox" label="Nascondi Prezzo Scontato" checked={hideDiscount} onchange={handleInputChangeHideDiscount}></lightning-input>
+                        <lightning-input type="checkbox" label="Nascondi Prezzo" checked={hidePrice} onchange={handleInputChangeHidePrice}></lightning-input>
+                    </div>
+                </div>
+                
+                <!-- Modal/Popup Box LWC footer starts here -->
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={closeModal} title="Cancel">Cancel</button>
+                    <button class="slds-button slds-button_brand" onclick={saveName} title="OK">OK</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <template if:true={isModalOpenChangeGroup}>
+        <!-- Modal/Popup Box LWC starts here -->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="spinner">
+                <template if:true={isLoadingModal}>
+                     <lightning-spinner alternative-text="Loading" variant="brand" size="large">
+                     </lightning-spinner>
+                </template>
+            </div>
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box LWC header here -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close"
+                            alternative-text="close"
+                            variant="inverse"
+                            size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-03" class="slds-text-heading_medium slds-hyphenate">Cambia Gruppo a {fullLineToMerge.MERGE_Name__c}</h2>
+                </header>
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-3">
+                    <div class="slds-p-around_medium lgc-bg">
+                        <lightning-radio-group name="radioGroup3"
+                          label="Groups"
+                          options={optionsGroup}
+                          value={selectedGroupId}
+                          onchange={handleRadioChangeGroup}
+                          type="radio"></lightning-radio-group>
+                    </div>
+                </div>
+                
+                <!-- Modal/Popup Box LWC footer starts here -->
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={closeModal} title="Cancel">Cancel</button>
+                    <button class="slds-button slds-button_brand" onclick={changeGroup} title="OK">OK</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+  </template>

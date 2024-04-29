@@ -1,0 +1,46 @@
+<template>
+<div class="slds-box">
+    <template if:true={showModal}>
+        <!-- OLD -->
+        <!-- onupdatecreditotime={handleUpdateCredito} -->
+        <c-wgc_generic_modal onclosemodal={handleCloseModal} params={modalParams} show-close-btn="true" cmp-name={cmpModal} record-id={recordId} record-type-id={recordTypeId}></c-wgc_generic_modal>
+    </template>
+    <lightning-layout>
+        <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="3" alignment-bump="left">
+            <div class="slds-float_right">
+                <button type="submit" class="slds-button slds-button_brand" onclick={saveClick} disabled={btnDisabled} >{label.btnConferma}</button>
+            </div>
+        </lightning-layout-item>
+    </lightning-layout>
+    <lightning-layout multiple-rows="true">
+        <template for:each={sections} for:item="section" for:index="ind">
+            <template if:true={section.isVisible}>
+                <lightning-layout-item key={section.name} size="2" class="slds-p-top_medium">
+                    <h2 class="cstm-subtitle">{section.name}</h2>
+                </lightning-layout-item>
+                <lightning-layout-item key={section.name} size="10">
+                    <lightning-layout multiple-rows="true">
+                        <template for:each={section.fields} for:item="field" for:index="field_index">
+                            <!-- SV  -->
+                            <template if:true={field.visibility__c}>
+
+                                    <lightning-layout-item key={field.apiName__c} padding="around-small" size="12" small-device-size="12" medium-device-size="12" large-device-size={field.sizeField__c} >
+                                        <span>
+                                            <c-wgc_pc_cart_field label={field.Label} name={field.apiName__c} type={field.type__c} formatter={field.formatter__c} read-only={field.readOnly__c}
+                                                                    value={field.value} lookup-title={field.title} visibility={field.visibility__c} 
+                                                                    options={field.options__c} object-name={field.objName} icon={field.icon} onchangefieldval={updateField} ></c-wgc_pc_cart_field>
+                                            <template if:true={field.showBtn}>
+                                                <!-- disabled={field.readOnly__c} -->
+                                                <lightning-button class="cstm-btn-refresh" icon-name="utility:refresh" variant="brand" name={field.buttonActionName__c} title={field.buttonActionName__c} disabled={field.btnFieldDisabled} onclick={handleBtn}></lightning-button>
+                                            </template>
+                                        </span>
+                                    </lightning-layout-item>
+                            </template>
+                        </template>
+                    </lightning-layout>
+                </lightning-layout-item>
+            </template>
+        </template>
+    </lightning-layout>
+</div>
+</template>

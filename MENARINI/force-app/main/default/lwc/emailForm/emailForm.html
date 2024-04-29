@@ -1,0 +1,42 @@
+<template>
+    <template if:true={loading}>
+        <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+    </template>
+
+    <div class="slds-var-p-around_x-large">
+        <div class="slds-text-heading_medium slds-align_absolute-center">Richiesta informazioni</div>
+
+        <div class="slds-m-top_xxx-small slds-text-body_small slds-align_absolute-center">
+            <div>NB: i campi contrassegnati con <span style="color:red;padding:0.2rem">*</span> sono obbligatori per processare le richieste</div>
+        </div>
+        <div class="slds-m-top_xxx-small">
+            <div class="slds-align_absolute-center slds-size_4-of-4">
+                <lightning-input class="slds-p-around_x-small slds-size_1-of-4" type="text" data-field="firstname" label="Nome" required></lightning-input>
+                <lightning-input class="slds-p-around_x-small slds-size_1-of-4" type="text" data-field="lastname" label="Cognome" required></lightning-input>
+            </div>
+            <div class="slds-align_absolute-center slds-size_4-of-4">
+                <lightning-input class="slds-p-around_x-small slds-size_1-of-4" type="tel" data-field="phone" label="Telefono" required></lightning-input>
+                <lightning-input class="slds-p-around_x-small slds-size_1-of-4" type="email" data-field="email" label="Email" required></lightning-input>
+            </div>
+            <div class="slds-align_absolute-center slds-size_4-of-4">
+                <lightning-input class="slds-p-around_x-small slds-size_1-of-4" type="text" data-field="vatnumber" label="Partita Iva"></lightning-input>
+                <lightning-input class="slds-p-around_x-small slds-size_1-of-4" type="text" data-field="clientcode" label="Codice Cliente"></lightning-input>
+            </div>
+            <div class="slds-align_absolute-center slds-size_4-of-4">
+                <lightning-input class="slds-p-around_x-small slds-grid_align-center slds-size_2-of-4" type="text" data-field="subject" label="Oggetto" required></lightning-input>
+            </div>
+            <div class="slds-align_absolute-center slds-size_4-of-4">
+                <lightning-textarea class="slds-p-around_x-small slds-grid_align-center slds-size_2-of-4" data-field="body" label="Lascia qui il tuo messaggio" required></lightning-textarea>
+            </div>
+            <div class="slds-checkbox slds-align_absolute-center slds-size_4-of-4 slds-p-around_x-small">
+                <lightning-input type="checkbox" id="term" data-id="checkterms" required></lightning-input>
+                <label class="slds-text-body_small">Dichiaro di aver preso visione dell'<a href={urlPrivacy}><b>Informativa Privacy</b></a></label>
+            </div>
+
+            <div class="slds-align_absolute-center slds-m-top_x-small">
+                <lightning-button class="slds-p-around_x-small" label="Invia" name="Submit" title="submit" disabled={disableButtons} onclick={handleSubmit}></lightning-button>
+                <lightning-button class="slds-p-around_x-small" label="Cancella" name="Reset" title="reset" disabled={disableButtons} onclick={handleReset}></lightning-button>
+            </div>
+        </div>
+    </div>
+</template>

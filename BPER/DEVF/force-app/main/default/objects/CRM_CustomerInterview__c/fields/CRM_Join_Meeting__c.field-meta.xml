@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_Join_Meeting__c</fullName>
+    <externalId>false</externalId>
+    <label>Incontro Congiunto</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Direzione Generale</fullName>
+                <default>false</default>
+                <label>Direzione Generale</label>
+            </value>
+            <value>
+                <fullName>Responsabile Territoriale Corporate</fullName>
+                <default>false</default>
+                <label>Responsabile Territoriale Corporate</label>
+            </value>
+            <value>
+                <fullName>Responsabile Territoriale Retail</fullName>
+                <default>false</default>
+                <label>Responsabile Territoriale Retail</label>
+            </value>
+            <value>
+                <fullName>Specialista Estero GTB</fullName>
+                <default>false</default>
+                <label>Specialista Estero GTB</label>
+            </value>
+            <value>
+                <fullName>Assistente Finanziamenti Corporate</fullName>
+                <default>false</default>
+                <label>Assistente Finanziamenti Corporate</label>
+            </value>
+            <value>
+                <fullName>Renting</fullName>
+                <default>false</default>
+                <label>Renting</label>
+            </value>
+            <value>
+                <fullName>Factoring</fullName>
+                <default>false</default>
+                <label>Factoring</label>
+            </value>
+            <value>
+                <fullName>Leasing</fullName>
+                <default>false</default>
+                <label>Leasing</label>
+            </value>
+            <value>
+                <fullName>Finanza imprese</fullName>
+                <default>false</default>
+                <label>Finanza imprese</label>
+            </value>
+            <value>
+                <fullName>Consulente Assicurativo</fullName>
+                <default>false</default>
+                <label>Consulente Assicurativo</label>
+            </value>
+            <value>
+                <fullName>Investment banking</fullName>
+                <default>false</default>
+                <label>Investment banking</label>
+            </value>
+            <value>
+                <fullName>Private</fullName>
+                <default>false</default>
+                <label>Private</label>
+            </value>
+            <value>
+                <fullName>Welfare</fullName>
+                <default>false</default>
+                <label>Welfare</label>
+            </value>
+            <value>
+                <fullName>Assicurazione crediti</fullName>
+                <default>false</default>
+                <label>Assicurazione crediti</label>
+            </value>
+            <value>
+                <fullName>Referente Small Business Area</fullName>
+                <default>false</default>
+                <label>Referente Small Business Area</label>
+            </value>
+            <value>
+                <fullName>Direttore Regionale</fullName>
+                <default>false</default>
+                <label>Direttore Regionale</label>
+            </value>
+            <value>
+                <fullName>Responsabile Imprese Retail di Area</fullName>
+                <default>false</default>
+                <label>Responsabile Imprese Retail di Area</label>
+            </value>
+            <value>
+                <fullName>Specialista Imprese Retail</fullName>
+                <default>false</default>
+                <label>Specialista Imprese Retail</label>
+            </value>
+            <value>
+                <fullName>Sviluppatore Imprese Retail</fullName>
+                <default>false</default>
+                <label>Sviluppatore Imprese Retail</label>
+            </value>
+            <value>
+                <fullName>Sviluppatore Corporate</fullName>
+                <default>false</default>
+                <label>Sviluppatore Corporate</label>
+            </value>
+            <value>
+                <fullName>Sales Agri</fullName>
+                <default>false</default>
+                <label>Sales Agri</label>
+            </value>
+            <value>
+                <fullName>Altro</fullName>
+                <default>false</default>
+                <label>Altro</label>
+            </value>
+            <value>
+                <fullName>Agente assicurativo</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Agente assicurativo</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

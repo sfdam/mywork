@@ -1,0 +1,73 @@
+<template>
+    <template if:true={params}>
+        <section
+        role="dialog"
+        tabindex="-1"
+        aria-labelledby="modal-heading-01"
+        aria-modal="true"
+        aria-describedby="modal-content-id-1"
+        class="slds-modal slds-fade-in-open"
+        >
+        <!-- class="slds-modal__container" -->
+        <div class={ModalClass}>
+            <header class="slds-modal__header">
+                <template if:true={showCloseBtn}>
+                    <lightning-button-icon
+                        class="slds-modal__close"
+                        title="Close"
+                        icon-name="utility:close"
+                        icon-class="slds-button_icon-inverse"
+                        onclick={handleDialogClose}
+                    ></lightning-button-icon>
+                </template>
+
+                
+                <template if:true={hasHeaderString}>
+                    <h2
+                        class="slds-text-heading_medium slds-hyphenate header-string"
+                    >
+                        {header}
+                    </h2>
+                </template>
+                <template if:false={hasHeaderString}>
+                    <h2 class="slds-text-heading_medium slds-hyphenate header-slot">
+                        <slot name="header">{params.title}</slot>
+                    </h2>
+                </template>
+
+                <!--
+                <p class="slds-m-top_x-small modal-hidden">
+                    <slot
+                        name="tagline"
+                        onslotchange={handleSlotTaglineChange}
+                    ></slot>
+                </p>
+                -->
+            </header>
+            <div class="slds-modal__content" id="modal-content-id-1">
+                <template if:true={closeOpp}>
+                    <c-wgc_cart_close_opp record-id={recordId} record-type-id={recordTypeId} onclosesubmodal={handleDialogClose}></c-wgc_cart_close_opp>
+                </template>
+                <template if:true={changeOwner}>
+                    <c-wgc_cart_change_owner record-id={recordId} record-type-id={recordTypeId} onclosesubmodal={handleDialogClose}></c-wgc_cart_change_owner>
+                </template>
+                <template if:true={ricalcolaIrr}>
+                    <c-wgc_pc_cart_modal_irr record-id={recordId} record-type-id={recordTypeId} credito-id={params.componentParams.creditoId} onclosesubmodal={handleDialogClose}></c-wgc_pc_cart_modal_irr>
+                </template>
+                <template if:true={ricalcolaDSO}>
+                    <c-wgc_pc_cart_modal_dso record-id={recordId} record-type-id={recordTypeId} credito-id={params.componentParams.creditoId} onclosesubmodal={handleDialogClose}></c-wgc_pc_cart_modal_dso>
+                </template>
+                <template if:true={invioTime}>
+                    <c-wgc_pc_cart_modal_invio_time record-id={recordId} credito-id={params.componentParams.creditoId} credito={params.componentParams.creditoObj} onclosesubmodal={handleDialogClose}></c-wgc_pc_cart_modal_invio_time>
+                </template>
+                <!-- <slot></slot> -->
+            </div>
+
+            <!-- <footer class="slds-modal__footer modal-hidden">
+                <slot name="footer" onslotchange={handleSlotFooterChange}></slot>
+            </footer> -->
+        </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

@@ -1,0 +1,64 @@
+.personal-container{
+    margin: auto 0;
+    width: 100% !important;
+    padding: 0;
+}
+
+.slds-modal__content{
+    min-height: 25rem;
+}
+.personal-body{
+    height: 500px;
+}
+
+.no-button {
+    text-align: center;
+    color: #D3D3D3;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.tableTitle {
+    background-color: #f7f7f7;
+    font-weight: bold;
+    text-align: center;
+    font-size: 18px;
+    z-index: 1000;
+}
+
+.gestore-principale {
+    height: 220px;
+    margin-bottom: 30px;
+}
+
+.gestore-backup {
+    height: 220px;
+}
+
+.spinner-holder{
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+}
+
+.slds-button_stretch{
+
+    border-radius: 0px 0px 6px 6px;
+}
+
+/* .hideFirstColTable table th:first-child, .hideFirstColTable table td:first-child{
+    display: none !important;
+} */
+
+/* .slds-table .slds-row-number:after {
+    content: counter(none) !important ;
+    display: none !important ;
+} */
+span.slds-row-number.slds-text-body_small.slds-text-color_weak{
+    display: none !important ;
+
+}
+.slds-row-number{
+    display: none;
+}

@@ -1,0 +1,12 @@
+<template>
+    <!-- Modal/Popup Box LWC footer starts here -->
+    <div class="personal-footer">
+            <lightning-button-group>
+                <lightning-button label="Chiudi" onclick={closeQuickAction}></lightning-button>
+                <lightning-button if:false={stepSalvaMultiMP} label="Successivo" onclick={nextStep}></lightning-button>
+                <lightning-button if:true={step2} label="Precedente" onclick={previousStep}></lightning-button>
+                <lightning-button if:true={stepSalvaMultiMP} label="Salva" onclick={handleSave} disabled={isButtonDisabled}></lightning-button>
+
+            </lightning-button-group>
+    </div>
+</template>

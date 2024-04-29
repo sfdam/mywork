@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_VarMargServVsFinAP__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF (
+OR (CRM_MargineServiziFineAP__c = 0, CRM_MargineServiziFineAP__c = NULL),
+NULL,
+(( CRM_MargineServiziMeseCorrente__c - CRM_MargineServiziFineAP__c ) / ABS(CRM_MargineServiziFineAP__c))
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Var. margine da servizi VS fine AP</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Percent</type>
+</CustomField>

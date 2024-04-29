@@ -1,0 +1,29 @@
+.THIS .cstm-big-btn, .THIS .cstm-btn-toggler {
+    background-color: #CCC;
+    padding: 7px;
+    border-radius: 50%;
+    box-shadow: 0 0 2px #CCC;
+}
+
+.THIS .cstm-big-btn.bkg-available, .THIS .cstm-btn-toggler.bkg-brand {
+    background-color: #0064B5;
+}
+
+.THIS .cstm-big-btn.bkg-completed {
+    background-color: #0bad58;
+}
+
+.THIS .cstm-big-btn .slds-icon-text-default,
+.THIS .cstm-btn-toggler .slds-icon-text-default {
+    fill: #FFF;
+}
+
+.THIS .cstm-empty-garanzie {
+    border-radius: 5px;
+    padding: 20px;
+    text-align: center;
+    font-size: 14px;
+    color: #000;
+    margin: 15px 0;
+    background-color: #F7F7F7;
+}

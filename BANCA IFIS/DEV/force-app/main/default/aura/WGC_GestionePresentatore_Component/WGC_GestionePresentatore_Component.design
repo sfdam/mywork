@@ -1,0 +1,4 @@
+<design:component>
+    <design:attribute name="acc" label="Valore Account"/>
+    <design:attribute name="specialistafactoring" label="Specialista" />
+</design:component>

@@ -1,0 +1,8 @@
+<design:component>
+	<flexipage:template >
+      <flexipage:region name="col1row1" defaultWidth="Medium" />
+      <flexipage:region name="col2row1" defaultWidth="Medium" />
+      <flexipage:region name="col1row2" defaultWidth="Large" />
+      <flexipage:region name="col2row2" defaultWidth="Small" />
+  </flexipage:template>
+</design:component>

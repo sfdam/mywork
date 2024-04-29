@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ModelBranchKey__c</fullName>
+    <externalId>false</externalId>
+    <formula>PTF_ServiceModel__r.Name &amp;&apos;_&apos;&amp;  TEXT(PTF_BranchTypology__c)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>ModelBranchKey</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

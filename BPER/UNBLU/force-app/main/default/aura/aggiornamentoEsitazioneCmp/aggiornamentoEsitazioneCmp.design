@@ -1,0 +1,9 @@
+<design:component >
+    <design:attribute name="certificationName" label="Certification Name" description="Definisci il nome del certificato"/>
+    <design:attribute name="disableLog" label="Disable Log" description="Definisci se abilitare o disabilitare i log"/>
+    <design:attribute name="jsonParam" label="Json Param" description="Definisc i campi per la query"/>
+    <design:attribute name="labelBottone" label="Label Bottone" description="Definisci il nome del bottone"/>
+    <design:attribute name="oggetto" label="Oggetto" description="Definisce l'oggetto su cui è stato inserito il component" />
+    <design:attribute name="stato" label="Stato" description="Definisci api name del campo stato" />
+    <design:attribute name="note" label="Note" description="Definisci api name del campo note" />
+</design:component>

@@ -1,0 +1,12 @@
+<template>
+    <lightning-card variant="Narrow"  title={title} icon-name={iconName}>
+        <template if:true={data}>
+            <lightning-datatable
+                key-field="LastName"
+                data={data}
+                columns={cols}
+                hide-checkbox-column="false ">
+            </lightning-datatable>
+        </template>
+    </lightning-card>
+</template>

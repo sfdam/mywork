@@ -1,0 +1,138 @@
+<template>
+    <!-- Modal/Popup Box LWC starts here -->
+    <div class="personal-container">
+        <!-- Modal/Popup Box LWC header here -->
+        <header class="slds-modal__header personal-header">
+            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeQuickAction}>
+                <lightning-icon icon-name="utility:close"
+                    alternative-text="close"
+                    variant="inverse"
+                    size="small" ></lightning-icon>
+                <span class="slds-assistive-text">Close</span>
+            </button>
+            <div class="tilte-card"><b>Referenti Backup</b></div>
+        </header>
+        <!-- Modal/Popup Box LWC body starts here -->
+        <div class="slds-p-around_medium slds-is-relative personal-body slds-scrollable_y">
+            <template if:true={loaded}>
+                <!-- Modal/Popup Box LWC body starts here -->
+                <div class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none">
+                    <template if:true={isAssigned}>
+                        <lightning-layout multiple-rows="true">
+                            <lightning-layout-item flexibility="auto" class="slds-col" size="12">
+                                <lightning-datatable data-item="gestoriBackUpTable" key-field="Id"
+                                            columns={columns}
+                                            data={gestoriBackupList}>
+                                </lightning-datatable>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12">
+                                <button type="submit" class="slds-button slds-button_brand slds-button_stretch" onclick={deleteGestoriBackup}><lightning-icon icon-name="utility:delete" alternative-text="Elimina gestori" variant="inverse" size="x-small"></lightning-icon>Elimina referenti di backup selezionati</button>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </template>
+                    <template if:false={isAssigned}>
+                        
+                                <div class="slds-box no-button">
+                                    <p>Nessun referente backup</p>
+                                </div>
+                            
+                    </template>
+                </div>
+                <div class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none">
+                    <lightning-layout multiple-rows="true">
+                        <template if:true={hasOFS}>
+                            <lightning-layout-item flexibility="auto" padding="around-small" size="12">
+                                <div class="slds-box no-button">
+                                    <p>Portafoglio contiene NDG con OFS</p>
+                                </div>
+                            </lightning-layout-item>
+                        </template>
+                        <lightning-layout-item flexibility="auto" padding="around-small" size="12">
+                            <label class="slds-form-element__label" for="unique-id-of-input">Ricerca referente backup</label>
+                        </lightning-layout-item>
+                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="6" large-device-size="6">
+                            <lightning-input type="text" label="Nominativo" placeholder="Cerca per nominativo..." name="searchedNome" value={searchedNome} onchange={setFilter}></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="6" large-device-size="6">
+                            <lightning-input type="text" label="Matricola" placeholder="Cerca per matricola..." name="searchedMatricola" value={searchedMatricola} onchange={setFilter}></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item padding="around-small" size="12">
+                            <lightning-button-group class="slds-float_right">
+                                <lightning-button 
+                                    variant="neutral"
+                                    label="Reset"
+                                    title="Reset"
+                                    onclick={handleReset}>
+                                </lightning-button>
+                                <lightning-button 
+                                    variant="brand"
+                                    label="Cerca"
+                                    title="Cerca"
+                                    onclick={handleSearch}>
+                                </lightning-button>
+                            </lightning-button-group>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+                <template if:true={hasSearched}>
+                    <div class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none">
+                        <lightning-layout multiple-rows="true">
+                            <template if:true={searchLoaded}>
+                                <template if:true={hasGestori}>
+                                    <lightning-layout class="paginator slds-float_right">
+                                        <lightning-layout-item flexibility="auto" alignment-bump="left" size="12" class="slds-float_right">
+                                            <lightning-layout class="slds-align_absolute-center" flexibility="auto">
+                                                <lightning-layout-item padding="around-small" class="slds-float_right">
+                                                    <div class="lgc-bg">
+                                                        <lightning-button-icon icon-name="utility:chevronleft"  variant="container" alternative-text="Settings" title="Settings" onclick={handleIndietro} disabled={disabledButtonIndietro}></lightning-button-icon>
+                                                    </div>
+                                                </lightning-layout-item>
+                                                <lightning-layout-item padding="around-small">
+                                                    Pag. {page}
+                                                </lightning-layout-item>
+                                                <lightning-layout-item padding="around-small">
+                                                    <div class="lgc-bg">
+                                                        <lightning-button-icon icon-name="utility:chevronright"  variant="container" alternative-text="Settings" title="Settings" onclick={handleAvanti} disabled={disabledButtonAvanti}></lightning-button-icon>
+                                                    </div>                
+                                                </lightning-layout-item>
+                                            </lightning-layout>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                    <lightning-layout-item flexibility="auto" class="slds-col" size="12">
+                                        <div style="height: 10rem;">
+                                            <lightning-datatable data-item="searchedGestoriTable" key-field="Id"
+                                                        columns={columns}
+                                                        data={currentPageData}
+                                                        onloadmore={loadMoreSearchedGestoriData}>
+                                            </lightning-datatable>
+                                        </div>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="12">
+                                        <button type="submit" class="slds-button slds-button_brand slds-button_stretch" onclick={handleSaveGestori} disabled={disableSaveButton}>Aggiungi referenti selezionati</button>
+                                    </lightning-layout-item>
+                                </template>
+                                <template if:false={hasGestori}>
+                                    <lightning-layout-Item size="12">
+                                        <div class="slds-box no-button">
+                                            <p>Nessun risultato trovato con i parametri forniti.</p>
+                                        </div>
+                                    </lightning-layout-Item>
+                                </template>
+                            </template>
+                            <template if:false={searchLoaded}>
+                                <div class="spinner-holder">
+                                    <lightning-spinner alternative-text="Loading"></lightning-spinner>
+                                </div>
+                            </template>
+                        </lightning-layout>
+                    </div>
+                </template>
+            </template>
+            <template if:false={loaded}>
+                <div class="spinner-holder">
+                    <lightning-spinner alternative-text="Loading"></lightning-spinner>
+                </div>
+            </template>               
+        </div>
+    </div> 
+</template>

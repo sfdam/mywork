@@ -1,0 +1,64 @@
+<aura:component implements="lightning:availableForFlowScreens" access="global">  
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/> 
+    
+    <aura:attribute name="flowInputAnagraficaVar" type="Account" /> 
+    <aura:attribute name="flowInputAnagraficaBillingAddressCpd" type="String" default="" /> 
+    <aura:attribute name="flowInputAnagraficaShippingAddressCpd" type="String" default="" /> 
+    <aura:attribute name="flowInputPartitaIvaAnagraficaSourceVar" type="String" default="" />    
+    
+    <lightning:card variant="Narrow" title="{!'Dettaglio della ricerca per ' + v.flowInputAnagraficaVar.PIVA__c}" iconName="standard:search" />
+    
+    <hr style="margin-top:1px;margin-bottom:10px;"/>
+    
+    <lightning:card variant="Narrow" title="{!v.flowInputAnagraficaVar.Name}" iconName="standard:account">
+        <p class="slds-p-horizontal_small">
+            <div class="slds-grid slds-wrap">        
+                <div class="slds-size_2-of-4">
+                    <div class="slds-m-around_x-small"><lightning:input aura:id="flowInputAnagraficaPartitaIvaInputId" label="Partita Iva" name="flowInputAnagraficaPartitaIvaInput" value="{!v.flowInputAnagraficaVar.PIVA__c}" disabled="true" /></div>
+                </div>
+                <div class="slds-size_2-of-4">
+                    <div class="slds-m-around_x-small"><lightning:input aura:id="flowInputAnagraficaCodiceFiscaleInputId" label="Codice Fiscale" name="flowInputAnagraficaCodiceFiscaleInput" value="{!v.flowInputAnagraficaVar.CF__c}" disabled="true" /></div>
+                </div>
+                <div class="slds-size_2-of-4">
+                    <div class="slds-m-around_x-small"><lightning:input aura:id="flowInputAnagraficaCCIAAInputId" label="Provincia CCIAA" name="flowInputAnagraficaCCIAAInput" value="{!v.flowInputAnagraficaVar.ProvinciaCCIAA__c}" disabled="true"/></div>
+                </div>    
+                <div class="slds-size_2-of-4">
+                    <div class="slds-m-around_x-small"><lightning:input aura:id="flowInputAnagraficaREAInputId" label="REA N." name="flowInputAnagraficaREAInput" value="{!v.flowInputAnagraficaVar.REA__c}" disabled="true" /></div>
+                </div>         
+            </div>
+        </p>
+    </lightning:card>
+    
+    <hr/>
+    
+    <div class="slds-scoped-notification slds-media slds-media_center" role="status">
+        <div class="slds-media__figure">
+            <span class="slds-icon_container slds-icon-utility-info" title="{!'L\'origine nativa dei dati ottenuti è : ' + v.flowInputAnagraficaVar.Origine__c + ' / ' + v.flowInputPartitaIvaAnagraficaSourceVar}">
+                <lightning:icon iconName="utility:info" alternativeText="Info"/>
+            </span>
+        </div>
+        <div class="slds-media__body">
+            <p>Proseguendo (bottone AVANTI), verrà creata una NUOVA pratica che sarà possibile portare a conclusione o eliminare in un secondo tempo.</p>
+        </div>
+    </div>
+    
+    <hr/>
+    
+    <c:bifis_crm_c_CommonFlowNavigator availableActions="{!v.availableActions}" navigateFlowEvent="{!c.handleNavigate}"/>     
+    
+    <lightning:input aura:id="flowInputAnagraficaViaLegaleInputId" name="flowInputAnagraficaViaLegaleInputCpd" value="{!v.flowInputAnagraficaBillingAddressCpd}" class="slds-hide" />
+    <lightning:input aura:id="flowInputAnagraficaCittaLegaleInputId" name="flowInputAnagraficaCittaLegaleInput" value="{!v.flowInputAnagraficaVar.BillingCity}"  class="slds-hide" />
+    <lightning:input aura:id="flowInputAnagraficaCapLegaleInputId" name="flowInputAnagraficaCapLegaleInput" value="{!v.flowInputAnagraficaVar.BillingPostalCode}"  class="slds-hide" />
+    <lightning:input aura:id="flowInputAnagraficaProvinciaLegaleInputId" name="flowInputAnagraficaProvinciaLegaleInput" value="{!v.flowInputAnagraficaVar.BillingState}" class="slds-hide" />
+    <lightning:input aura:id="flowInputAnagraficaViaSpedizioneInputId" name="flowInputAnagraficaViaSpedizioneInputCpd" value="{!v.flowInputAnagraficaShippingAddressCpd}" class="slds-hide" />
+    <lightning:input aura:id="flowInputAnagraficaCittaSpedizioneInputId" name="flowInputAnagraficaCittaSpedizioneInput" value="{!v.flowInputAnagraficaVar.ShippingCity}" class="slds-hide" />
+    <lightning:input aura:id="flowInputAnagraficaCapSpedizioneInputId" name="flowInputAnagraficaCapSpedizioneInput" value="{!v.flowInputAnagraficaVar.ShippingPostalCode}" class="slds-hide" />
+    <lightning:input aura:id="flowInputAnagraficaProvinciaSpedizioneInputId" name="flowInputAnagraficaProvinciaSpedizioneInput" value="{!v.flowInputAnagraficaVar.ShippingState}"  class="slds-hide" />
+    <lightning:input aura:id="flowInputAnagraficaTelefonoInputId" name="flowInputAnagraficaTelefonoInput" value="{!v.flowInputAnagraficaVar.Phone}" class="slds-hide" />
+    <lightning:input aura:id="flowInputAnagraficaFaxInputId" name="flowInputAnagraficaFaxInput" value="{!v.flowInputAnagraficaVar.Fax}" class="slds-hide" />
+    <lightning:input aura:id="flowInputAnagraficaEmailInputId" name="flowInputAnagraficaEmailInput" value="{!v.flowInputAnagraficaVar.Email__c}" class="slds-hide" />
+    <lightning:input aura:id="flowInputAnagraficaEmailPecInputId" name="flowInputAnagraficaEmailPecInput" value="{!v.flowInputAnagraficaVar.EmailPEC__c}" class="slds-hide" />   
+    <lightning:input aura:id="flowInputAnagraficaFatturatoInputId" name="flowInputAnagraficaFatturatoInput" value="{!v.flowInputAnagraficaVar.Fatturato__c}" class="slds-hide" /> 
+    
+</aura:component>

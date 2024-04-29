@@ -1,0 +1,4 @@
+<design:component>
+	<design:attribute name="dashboardId" />
+	<design:attribute name="isDirezioneFD" />
+</design:component>

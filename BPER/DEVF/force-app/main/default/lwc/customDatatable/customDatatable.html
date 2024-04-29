@@ -1,0 +1,169 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 10-19-2020
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+  Modifications Log 
+  Ver   Date         Author                               Modification
+  1.0   10-19-2020   ChangeMeIn@UserSettingsUnder.SFDoc   Initial Version
+-->
+<template>
+    <div id="containerDiv" 
+        onmousemove={handlemousemove} 
+        onmouseup={handlemouseup}
+        ondblclick={handledblclickresizable}
+        class="slds-table_header-fixed_container slds-border_right slds-border_left tableScroll"
+        onscroll={tableOuterDivScrolled}>
+        <div id="tableViewInnerDiv" onscroll={tableScrolled} class="slds-scrollable_y tableViewInnerDiv">
+            <table class="slds-table slds-table_bordered slds-table_header-fixed slds-table_resizable-cols slds-table_fixed-layout">
+                <thead>
+                    <tr class="slds-line-height_reset">
+                        <template for:each={columns} for:item="column">
+                            <template if:false={column.action}>
+                                <th key={column.fieldName} class="slds-is-resizable dv-dynamic-width" scope="col" style={column.fixedWidth}>
+                                    <div class="slds-cell-fixed" style={column.fixedWidth}>
+                                        <a class="slds-th__action slds-text-link--reset ">
+                                        <span class="slds-truncate">{column.label}</span>
+                                        </a>
+                                        <div class="">
+                                            <span class="" onmousedown={handlemousedown}>
+                                                <span class=""></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </th>
+                            </template>
+                        </template>
+                        
+                        <th scope="col">
+                            <div class="slds-cell-fixed">
+                                
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template for:each={listViewData} for:item="element">
+                        <tr key={element.Id} class="slds-hint-parent">
+                            <template for:each={element.columns} for:item="column">
+                                <template if:true={column.isText}>
+                                    <td key={column.fieldName} data-label="Account Name" role="gridcell">
+                                        <div class="slds-truncate dv-dynamic-width" style={column.fixedWidth} title={column.value}>{column.value}</div>
+                                    </td>
+                                </template>
+
+                                <template if:true={column.isBoolean}>
+
+                                    <td key={column.fieldName} data-label="Account Name" role="gridcell">
+                                        
+                                        <template if:true={column.value}>
+                                            <div class="slds-truncate dv-dynamic-width slds-align_absolute-center" style={column.fixedWidth} title={column.value}>
+                                                <lightning-icon icon-name="utility:check" alternative-text={column.value} title={column.value} size="x-small"></lightning-icon>
+                                            </div>
+                                        </template>
+
+                                    </td>
+                                </template>
+
+                                <template if:true={column.isCurrency}>
+                                    <td key={column.fieldName} data-label="Account Name" role="gridcell">
+                                        <div class="slds-truncate dv-dynamic-width" style={column.fixedWidth} title={column.value}><lightning-formatted-number value={column.value} format-style="currency" currency-code="EUR"></lightning-formatted-number></div>
+                                    </td>
+                                </template>
+
+                                <template if:true={column.isPercent}>
+                                    <td key={column.fieldName} data-label="Account Name" role="gridcell">
+                                        <div class="slds-truncate dv-dynamic-width" style={column.fixedWidth} title={column.value}><lightning-formatted-number value={column.value} format-style="percent" maximum-fraction-digits="3"></lightning-formatted-number></div>
+                                    </td>
+                                </template>
+
+                                <template if:true={column.isData}>
+                                    <td key={column.fieldName} data-label="Account Name" role="gridcell">
+                                        <div class="slds-truncate dv-dynamic-width" style={column.fixedWidth} title={column.value}><lightning-formatted-date-time value={column.value}></lightning-formatted-date-time></div>
+                                    </td>
+                                </template>
+
+                                <template if:true={column.isLookup}>
+                                    <th key={column.fieldName} data-label="Account Name" scope="row">
+                                        <span class="">
+                                            <div class="outputLookupContainer forceOutputLookupWithPreview dv-dynamic-width isLookup" style={column.fixedWidth}>
+                                                <a class="textUnderline outputLookupLink slds-truncate forceOutputLookup" data-target-id={element.Id} data-target-element={element} onclick={goToData} onmouseover={showData} onmouseout={hideData}>
+                                                    {column.value}
+                                                </a>
+                                            </div>
+                                        </span>
+                                        
+                                    </th>
+                                </template>
+
+                                <template if:true={column.isUrl}>
+                                    <th key={column.fieldName} data-label="Account Name" scope="row">
+                                        <span class="">
+
+                                            <div class="outputLookupContainer forceOutputLookupWithPreview dv-dynamic-width isLookup" style={column.fixedWidth}>
+                                                <a tabindex="-1" class="textUnderline outputLookupLink slds-truncate forceOutputLookup" data-target-object-api-name={column.objectApiName} data-target-id={column.elementId} data-target-element={element}  onclick={goToDataUrl}>{column.value}</a>
+                                            </div>
+                                        </span>
+                                      </th>
+                                </template>
+
+                                <template if:true={column.isImage}>
+                                    <td key={column.fieldName} data-label="Account Name" role="gridcell">
+                                        <div class="slds-truncate dv-dynamic-width" style={column.fixedWidth}>
+                                            <img src={column.value} width="18" height="18">
+                                        </div>
+                                    </td>
+                                </template>
+                            </template>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <template if:true={openTile}>
+        <div id="popover" class="popover" style={stylePopOver} >
+            <div class="slds-p-around_medium lgc-bg slds-box">
+                <lightning-tile label={tileName} type="media">
+                    <lightning-icon slot="media" icon-name="custom:custom16"></lightning-icon>
+                    <lightning-layout multiple-rows="true">
+                        <lightning-layout-item size="6">
+                            <div class="tileSubtitle">
+                                Categoria
+                            </div>
+                            <div>
+                                {tileCategoria}
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="6">
+                            <div class="tileSubtitle">
+                                Macrogruppo
+                            </div>
+                            <div>
+                                {tileMacroGruppo}
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="6">
+                            <div class="tileSubtitle">
+                                Gruppo
+                            </div>
+                            <div>
+                                {tileGruppo}
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="6">
+                            <div class="tileSubtitle">
+                                Sottogruppo
+                            </div>
+                            <div>
+                                {tileSottoGruppo}
+                            </div>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </lightning-tile>
+            </div>
+        </div>
+    </template>
+</template>

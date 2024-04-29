@@ -1,0 +1,27 @@
+<template>
+    
+            
+                <template if:false={isRipo}>
+                    <lightning-button-group slot="actions">
+                        <template if:true={showBper}>
+                            <lightning-button label="Report BPER" onclick={redirectToReportBPER}></lightning-button>
+                        </template>
+                        <template if:true={showBDS}>
+                            <lightning-button label="Report BDS" onclick={redirectToReportBDS}></lightning-button>
+                        </template>  
+                    </lightning-button-group>
+                </template>
+                <template if:true={isRipo}>
+                    <lightning-layout multiple-rows="true">
+                        <lightning-layout-item size="12">
+                            <button type="submit" class="slds-button slds-button_neutral slds-button_stretch" onclick={navigateToRipo}>Report Riportafogliazione</button>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </template>
+                
+                
+                
+      
+        
+   
+</template>

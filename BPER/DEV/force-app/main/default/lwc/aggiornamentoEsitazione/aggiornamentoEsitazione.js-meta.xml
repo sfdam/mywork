@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>52.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__RecordPage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__RecordPage">
+            <property name="certificationName" type="String" default="salesforceprodclient2024"/>
+            <property name="disableLog" type="Boolean" default="true"/>
+            <property name="jsonParam" type="String" default ="" description="Definisci il mapping dei campi per il ws"/>
+            <property name="label" type="String" />
+            <property name="oggetto" type="String" />
+            <property name="stato" type="String" description="Definisci il campo stato dell'oggetto"/>
+            <property name="note" type="String" label="Note" description="Definisci il campo note dell'oggetto"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

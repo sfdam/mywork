@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Importo_MovCC_AvBonifici370_Var_InizFine__c</fullName>
+    <description>Dettaglio movimenti di CC &gt; Avere - Bonifici 370 &gt; Variazione Inizio - Fine anno precedente &gt; Importo</description>
+    <externalId>false</externalId>
+    <label>Importo</label>
+    <precision>17</precision>
+    <required>false</required>
+    <scale>1</scale>
+    <trackTrending>false</trackTrending>
+    <type>Percent</type>
+</CustomField>

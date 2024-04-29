@@ -1,0 +1,16 @@
+<apex:page standardController="Opportunity">        
+    <apex:includeLightning />
+    <div id="Con" />
+    <script>
+        $Lightning.use("c:myLightningApp", function() {
+            $Lightning.createComponent(
+                "c:NewOpportunityCmp",
+                {},
+                "Con",
+                function(cmp) {
+                    console.log(“Component is created!”);
+                    console.log(cmp);
+                });
+            });        
+      </script>
+</apex:page>

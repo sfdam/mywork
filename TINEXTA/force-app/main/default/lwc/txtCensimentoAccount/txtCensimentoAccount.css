@@ -1,0 +1,21 @@
+.button-selected {
+    font-weight: bold;
+    text-decoration-line: underline;
+    size: 1rem;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+.button-unselected {
+    size: 1rem;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+.slds-modal__container {
+    max-width: 95rem !important;
+    width: 95% !important;
+}
+
+.custom-modal-container{
+    background-color: white !important;
+}

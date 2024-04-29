@@ -1,0 +1,54 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <!-- attributes -->
+    <aura:attribute name="stripColor" type="String" default="green" />
+    <aura:attribute name="circleColor" type="String" default="blue" />
+    <aura:attribute name="circleTextColor" type="String" default="white" />
+    <aura:attribute name="circleValue" type="String" default="1" />
+    <aura:attribute name="label1" type="String" default="label 1" />
+    <aura:attribute name="label2" type="String" default="label 2" />
+    <aura:attribute name="title" type="String" default="Title" />
+    <aura:attribute name="value" type="String" default="Value" />
+    <aura:attribute name="valueColor" type="String" default="green" />
+    <aura:attribute name="subtitle" type="String" default="Subtitle" />
+    <!-- handlers -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }" />
+
+    <!-- body -->
+    <div class="filiale-container">
+        <lightning:layout>
+            <lightning:layoutItem size="1" class="{! ' colored-col back-' + v.stripColor }">
+                <!-- -->
+            </lightning:layoutItem>
+            <lightning:layoutItem size="11" class="slds-p-around_large filiale-info-container">
+                <div class="filiale-info">
+                    <lightning:layout>
+                        <lightning:layoutItem size="6">
+                            <span class="text-grey">{! v.label1 }</span>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="6" class="slds-text-align_right">
+                            <span class="text-grey">{! v.label2 }</span>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                </div>
+                <div>
+                    <lightning:layout>
+                        <lightning:layoutItem size="6">
+                            <div class="{! ' circular back-' + v.circleColor  }">{! v.circleValue }</div>
+                            <span class="filiale-name">{! v.title }</span>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="6" class="slds-text-align_right">
+                            <span class="{! ' conversion grassetto slds-p-around_xx-small text-' + v.valueColor }">{! v.value }</span>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                </div>
+                <div>
+                    <lightning:layout>
+                        <lightning:layoutItem size="12">
+                            <span class="grassetto numero-filiale">{! v.subtitle }</span>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                </div>
+            </lightning:layoutItem>
+        </lightning:layout>
+    </div>
+</aura:component>

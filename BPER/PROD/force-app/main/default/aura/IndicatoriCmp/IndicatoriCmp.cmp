@@ -1,0 +1,40 @@
+<aura:component controller="IndicatoriController" implements="flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes,force:hasRecordId" access="global">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+	<aura:attribute name="reportName" type="String" default="" access="global" />
+	<aura:attribute name="lcBaseURL" type="String" default="" access="global" />
+    <aura:attribute name="movimentiDareImporti" type="String" access="global"/>
+    <aura:attribute name="movimentiDareNumeri" type="String" access="global"/>
+    <aura:attribute name="movimentiAvereImporti" type="String" access="global"/>
+    <aura:attribute name="movimentiAvereNumeri" type="String" access="global"/>
+    <aura:attribute name="percScostDareImporti" type="String" access="global" />
+    <aura:attribute name="percScostDareNumeri" type="String" access="global" />
+    <aura:attribute name="percScostAvereImporti" type="String" access="global" />
+    <aura:attribute name="percScostAvereNumeri" type="String" access="global" />
+    <aura:attribute name="percScostDareImportiStyle" type="String" access="global" />
+    <aura:attribute name="percScostDareNumeriStyle" type="String" access="global" />
+    <aura:attribute name="percScostAvereImportiStyle" type="String" access="global" />
+    <aura:attribute name="percScostAvereNumeriStyle" type="String" access="global" />
+
+    <div class="slds-grid slds-wrap slds-align_absolute-center" style="justify-content:center">
+        <div class="slds-col slds-size_12-of-12 slds-align_absolute-center slds-m-bottom_x-large">
+            <div>
+                <p>Variazione % = <span style="{!v.percScostDareImportiStyle}">{!v.percScostDareImporti}%</span></p>
+                <iframe aura:id="movimentiDareImporti" width="300px" height="280px" src="{!v.movimentiDareImporti}" frameBorder="0"/><br/>
+            </div>
+            <div>
+                <p>Variazione % = <span style="{!v.percScostAvereImportiStyle}">{!v.percScostAvereImporti}%</span></p>
+                <iframe aura:id="movimentiAvereImporti" width="300px" height="280px" src="{!v.movimentiAvereImporti}" frameBorder="0"/>
+            </div>
+        </div>
+        <div class="slds-col slds-size_12-of-12 slds-align_absolute-center">
+            <div>
+                <p>Variazione % = <span style="{!v.percScostDareNumeriStyle}">{!v.percScostDareNumeri}%</span></p>
+                <iframe aura:id="movimentiDareNumeri" width="300px" height="280px" src="{!v.movimentiDareNumeri}" frameBorder="0"/>
+            </div>
+            <div>
+                <p>Variazione % = <span style="{!v.percScostAvereNumeriStyle}">{!v.percScostAvereNumeri}%</span></p>
+                <iframe aura:id="movimentiAvereNumeri" width="300px" height="280px" src="{!v.movimentiAvereNumeri}" frameBorder="0"/>
+            </div>
+        </div>
+    </div>
+</aura:component>

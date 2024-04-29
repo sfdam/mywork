@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_VarMargineIntermVSSmAP__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF (
+OR (
+CRM_MargineIntermediazioneStessoMeseAP__c = 0, CRM_MargineIntermediazioneStessoMeseAP__c = NULL),
+NULL,
+(( CRM_MargineIntermediazioneMeseCorrente__c - CRM_MargineIntermediazioneStessoMeseAP__c ) /ABS(CRM_MargineIntermediazioneStessoMeseAP__c)))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Var. margine intermed. vs stesso mese AP</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Percent</type>
+</CustomField>

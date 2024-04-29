@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_ResponseTime__c</fullName>
+    <externalId>false</externalId>
+    <formula>(IF(CRM_MessaginSession__r.AcceptTime &gt;= CRM_ParentEntryDate__c, CRM_EntryTime__c - CRM_MessaginSession__r.AcceptTime, CRM_EntryTime__c - CRM_ParentEntryDate__c) )*24*60</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Tempo di risposta</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

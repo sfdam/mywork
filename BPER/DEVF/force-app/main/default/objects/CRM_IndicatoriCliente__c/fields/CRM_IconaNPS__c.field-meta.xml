@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_IconaNPS__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF( 
+TEXT(CRM_IndicatoreNPS__c) = &apos;Detrattore&apos;,
+IMAGE(&apos;/resource/redCircle_small&apos;, &quot;Red&quot;,18,18), 
+IF( 
+TEXT(CRM_IndicatoreNPS__c) = &apos;Promotore&apos;, 
+IMAGE(&apos;/resource/greenCircle_small&apos;, &quot;Green&quot;,18,18), 
+IF(
+TEXT(CRM_IndicatoreNPS__c) = &apos;Neutrale&apos;,
+IMAGE(&apos;/resource/orangeCircle_small&apos;, &quot;Yellow&quot;, 18, 18),
+NULL
+)
+) 
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Icona NPS</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

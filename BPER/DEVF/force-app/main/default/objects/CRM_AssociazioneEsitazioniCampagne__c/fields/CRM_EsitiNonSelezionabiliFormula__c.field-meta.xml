@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_EsitiNonSelezionabiliFormula__c</fullName>
+    <externalId>false</externalId>
+    <formula>CASE(CRM_NomeEsito__c,
+					&quot;Non risponde 1&quot;, &quot;Non risponde 1;Non risponde 2&quot;,
+					&quot;Non risponde 2&quot;, &quot;Non risponde 2;Da contattare;Da ricontattare;Da ricontattare chiamata muta&quot;,
+					&quot;&quot;)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Esiti non selezionabili (formula)</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

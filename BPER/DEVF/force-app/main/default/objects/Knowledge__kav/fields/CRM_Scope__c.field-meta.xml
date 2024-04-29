@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_Scope__c</fullName>
+    <externalId>false</externalId>
+    <label>Scope</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>CRM_Area__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>true</sorted>
+            <value>
+                <fullName>Aggiornamento prodotti</fullName>
+                <default>false</default>
+                <label>Aggiornamento prodotti</label>
+            </value>
+            <value>
+                <fullName>Altre informazioni</fullName>
+                <default>false</default>
+                <label>Altre informazioni</label>
+            </value>
+            <value>
+                <fullName>Altri prodotti e servizi</fullName>
+                <default>false</default>
+                <label>Altri prodotti e servizi</label>
+            </value>
+            <value>
+                <fullName>Altro</fullName>
+                <default>false</default>
+                <label>Altro</label>
+            </value>
+            <value>
+                <fullName>Ambito migrazione</fullName>
+                <default>false</default>
+                <label>Ambito migrazione</label>
+            </value>
+            <value>
+                <fullName>Anagrafica BPERCard</fullName>
+                <default>false</default>
+                <label>Anagrafica BPERCard</label>
+            </value>
+            <value>
+                <fullName>Area riservata e Smart BPERCard</fullName>
+                <default>false</default>
+                <label>Area riservata e Smart BPERCard</label>
+            </value>
+            <value>
+                <fullName>Assicurazioni</fullName>
+                <default>false</default>
+                <label>Assicurazioni</label>
+            </value>
+            <value>
+                <fullName>ATM</fullName>
+                <default>false</default>
+                <label>ATM</label>
+            </value>
+            <value>
+                <fullName>Attivazione nuova plastica (sblocco Poker)</fullName>
+                <default>false</default>
+                <label>Attivazione nuova plastica (sblocco Poker)</label>
+            </value>
+            <value>
+                <fullName>Blocco/sblocco</fullName>
+                <default>false</default>
+                <label>Blocco/sblocco</label>
+            </value>
+            <value>
+                <fullName>Carta Conto</fullName>
+                <default>false</default>
+                <label>Carta Conto</label>
+            </value>
+            <value>
+                <fullName>CBI</fullName>
+                <default>false</default>
+                <label>CBI</label>
+            </value>
+            <value>
+                <fullName>Collaborazioni</fullName>
+                <default>false</default>
+                <label>Collaborazioni</label>
+            </value>
+            <value>
+                <fullName>Comunicazioni cartacee</fullName>
+                <default>false</default>
+                <label>Comunicazioni cartacee</label>
+            </value>
+            <value>
+                <fullName>Condizioni economiche</fullName>
+                <default>false</default>
+                <label>Condizioni economiche/Info Operative</label>
+            </value>
+            <value>
+                <fullName>Contact Center</fullName>
+                <default>false</default>
+                <label>Contact Center</label>
+            </value>
+            <value>
+                <fullName>Contatti uffici interni/centralino</fullName>
+                <default>false</default>
+                <label>Contatti uffici interni/centralino</label>
+            </value>
+            <value>
+                <fullName>Contatto Private Banker</fullName>
+                <default>false</default>
+                <label>Contatto Private Banker</label>
+            </value>
+            <value>
+                <fullName>Conti correnti</fullName>
+                <default>false</default>
+                <label>Conti correnti</label>
+            </value>
+            <value>
+                <fullName>Continuità operativa prodotti</fullName>
+                <default>false</default>
+                <label>Continuità operativa prodotti</label>
+            </value>
+            <value>
+                <fullName>Conto On Demand</fullName>
+                <default>false</default>
+                <label>Conto On Demand</label>
+            </value>
+            <value>
+                <fullName>DEM</fullName>
+                <default>false</default>
+                <label>DEM</label>
+            </value>
+            <value>
+                <fullName>Documentazione ricevuta</fullName>
+                <default>false</default>
+                <label>Documentazione ricevuta</label>
+            </value>
+            <value>
+                <fullName>Documenti (EC, giacenza…)</fullName>
+                <default>false</default>
+                <label>Documenti (EC, giacenza…)</label>
+            </value>
+            <value>
+                <fullName>Eventi</fullName>
+                <default>false</default>
+                <label>Eventi</label>
+            </value>
+            <value>
+                <fullName>Filiale</fullName>
+                <default>false</default>
+                <label>Filiale</label>
+            </value>
+            <value>
+                <fullName>Filiali</fullName>
+                <default>false</default>
+                <label>Filiali</label>
+            </value>
+            <value>
+                <fullName>Finanziamenti</fullName>
+                <default>false</default>
+                <label>Finanziamenti</label>
+            </value>
+            <value>
+                <fullName>Incassi e pagamenti aziendali</fullName>
+                <default>false</default>
+                <label>Incassi e pagamenti aziendali</label>
+            </value>
+            <value>
+                <fullName>Internet Banking</fullName>
+                <default>false</default>
+                <label>Internet Banking</label>
+            </value>
+            <value>
+                <fullName>Investimenti</fullName>
+                <default>false</default>
+                <label>Investimenti</label>
+            </value>
+            <value>
+                <fullName>Investor relations</fullName>
+                <default>false</default>
+                <label>Investor relations</label>
+            </value>
+            <value>
+                <fullName>Migrazione Internet banking</fullName>
+                <default>false</default>
+                <label>Migrazione Internet banking</label>
+            </value>
+            <value>
+                <fullName>Nuovo IB</fullName>
+                <default>false</default>
+                <label>Nuovo IB</label>
+            </value>
+            <value>
+                <fullName>Offerta a Distanza</fullName>
+                <default>false</default>
+                <label>Offerta a Distanza</label>
+            </value>
+            <value>
+                <fullName>Operatività carta</fullName>
+                <default>false</default>
+                <label>Operatività carta</label>
+            </value>
+            <value>
+                <fullName>Privacy</fullName>
+                <default>false</default>
+                <label>Privacy</label>
+            </value>
+            <value>
+                <fullName>Prodotti</fullName>
+                <default>false</default>
+                <label>Prodotti</label>
+            </value>
+            <value>
+                <fullName>Richiesta documentazione</fullName>
+                <default>false</default>
+                <label>Richiesta documentazione</label>
+            </value>
+            <value>
+                <fullName>Richiesta PIN</fullName>
+                <default>false</default>
+                <label>Richiesta PIN</label>
+            </value>
+            <value>
+                <fullName>Servizi di cassa e di consulenza</fullName>
+                <default>false</default>
+                <label>Servizi di cassa e di consulenza</label>
+            </value>
+            <value>
+                <fullName>Sito internet</fullName>
+                <default>false</default>
+                <label>Sito internet</label>
+            </value>
+            <value>
+                <fullName>SMS</fullName>
+                <default>false</default>
+                <label>SMS</label>
+            </value>
+            <value>
+                <fullName>Wizard</fullName>
+                <default>false</default>
+                <label>Wizard</label>
+            </value>
+            <value>
+                <fullName>X-pay</fullName>
+                <default>false</default>
+                <label>X-pay</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Digital Services</controllingFieldValue>
+            <valueName>Area riservata e Smart BPERCard</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Digital Services</controllingFieldValue>
+            <valueName>CBI</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Digital Services</controllingFieldValue>
+            <valueName>Internet Banking</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cards</controllingFieldValue>
+            <valueName>Anagrafica BPERCard</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cards</controllingFieldValue>
+            <valueName>Attivazione nuova plastica (sblocco Poker)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cards</controllingFieldValue>
+            <valueName>Blocco/sblocco</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cards</controllingFieldValue>
+            <valueName>Documenti (EC, giacenza…)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cards</controllingFieldValue>
+            <valueName>Filiale</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cards</controllingFieldValue>
+            <valueName>Offerta a Distanza</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cards</controllingFieldValue>
+            <valueName>Operatività carta</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cards</controllingFieldValue>
+            <valueName>Prodotti</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cards</controllingFieldValue>
+            <valueName>Richiesta PIN</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cards</controllingFieldValue>
+            <controllingFieldValue>Extraordinary operations</controllingFieldValue>
+            <valueName>Wizard</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cards</controllingFieldValue>
+            <valueName>X-pay</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other products and services</controllingFieldValue>
+            <valueName>Altri prodotti e servizi</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other products and services</controllingFieldValue>
+            <valueName>Assicurazioni</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other products and services</controllingFieldValue>
+            <valueName>ATM</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other products and services</controllingFieldValue>
+            <valueName>Carta Conto</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other products and services</controllingFieldValue>
+            <valueName>Conti correnti</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other products and services</controllingFieldValue>
+            <valueName>Conto On Demand</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other products and services</controllingFieldValue>
+            <valueName>Finanziamenti</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other products and services</controllingFieldValue>
+            <valueName>Incassi e pagamenti aziendali</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other products and services</controllingFieldValue>
+            <valueName>Investimenti</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Other products and services</controllingFieldValue>
+            <valueName>Servizi di cassa e di consulenza</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Channels</controllingFieldValue>
+            <valueName>Comunicazioni cartacee</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Channels</controllingFieldValue>
+            <valueName>Contact Center</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Channels</controllingFieldValue>
+            <valueName>DEM</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Channels</controllingFieldValue>
+            <valueName>Filiali</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Channels</controllingFieldValue>
+            <valueName>Sito internet</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Channels</controllingFieldValue>
+            <valueName>SMS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>BPER Group</controllingFieldValue>
+            <valueName>Altro</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>BPER Group</controllingFieldValue>
+            <valueName>Collaborazioni</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>BPER Group</controllingFieldValue>
+            <valueName>Contatti uffici interni/centralino</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>BPER Group</controllingFieldValue>
+            <valueName>Eventi</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>BPER Group</controllingFieldValue>
+            <valueName>Investor relations</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Extraordinary operations</controllingFieldValue>
+            <valueName>Ambito migrazione</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Extraordinary operations</controllingFieldValue>
+            <valueName>Condizioni economiche</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Extraordinary operations</controllingFieldValue>
+            <valueName>Contatto Private Banker</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Extraordinary operations</controllingFieldValue>
+            <valueName>Documentazione ricevuta</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Extraordinary operations</controllingFieldValue>
+            <valueName>Nuovo IB</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

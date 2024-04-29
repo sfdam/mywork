@@ -1,0 +1,190 @@
+<template>
+    <div class="slds-card">
+        <div class="slds-grid slds-p-top_small slds-p-horizontal_small">
+            <div class="slds-col slds-size-1-of-1">
+                <lightning-icon icon-name="utility:resource_capacity" size="small"></lightning-icon>
+                <h1 class="cstm-title slds-text-heading_small slds-show_inline">BASE CLIENTI</h1>
+            </div>
+        </div>
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_1-of-2 slds-p-around_small">
+                <c-wgc_chart_container title="Base Clienti Giornaliera" chart-name="Base_Clienti_HP" ></c-wgc_chart_container>
+            </div>
+            <div class="slds-col slds-size_1-of-2 slds-p-around_small">
+                <c-wgc_chart_container title="Andamento clienti operativi Factoring" chart-name="Clienti_Operativi_Factoring" ></c-wgc_chart_container>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-p-around_small">
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-8">
+                        <div class="cstm-header-box">Base Clienti</div>
+                        <div class="slds-grid">
+                            <div class="slds-col slds-size_1-of-3">
+                                <div class="cstm-header-box">Mese</div>
+                            </div>
+                            <div class="slds-col slds-size_2-of-3">
+                                <div class="cstm-header-box">Operativo</div>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-wrap" style="border-left:1px solid lightgray; border-bottom:1px solid lightgray;">
+                            <template for:each={months} for:item="month">
+                                <div key={month.label} class="slds-col slds-size_1-of-3 cstm-table-cell-month">
+                                    <span style="width:100%;">{month.label}</span>
+                                </div>
+                                <div key={month.label} class="slds-col slds-size_2-of-3">
+                                    <div class="slds-grid slds-grid_vertical">
+                                        <div class="slds-size_1-of-2 cstm-table-cell" style="width:100%;">
+                                            No
+                                        </div>
+                                        <div class="slds-size_1-of-2 cstm-table-cell" style="width:100%;">
+                                            Si
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-8">
+                        <div class="cstm-header-box">1.Ex Clienti</div>
+                        <template for:each={exClienti} for:item="item">
+                                <template if:true={item.isFirst}>
+                                    <div key={item.mese} class="slds-grid slds-wrap">
+                                        <div class="slds-col slds-size_1-of-1">
+                                            <div class="cstm-header-box">Conteggio di righe</div>
+                                        </div>
+                                    </div>
+                                </template>
+                                <div key={item.mese} class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_1-of-1 cstm-table-cell" style="text-align:right;">
+                                        <lightning-formatted-number value={item.value}></lightning-formatted-number>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-1 cstm-table-cell" style="text-align:right;">
+                                        <lightning-formatted-number value={item.value_OP}></lightning-formatted-number>
+                                    </div>
+                                </div>
+                        </template>
+                    </div>
+                    <div class="slds-col slds-size_1-of-8">
+                        <div class="cstm-header-box">2. SPS Contenzioso</div>
+                        <template for:each={contenzioso} for:item="item">
+                            <template if:true={item.isFirst}>
+                                <div key={item.mese} class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_1-of-1">
+                                        <div class="cstm-header-box">Conteggio di righe</div>
+                                    </div>
+                                </div>
+                            </template>
+                            <div key={item.mese} class="slds-grid slds-wrap">
+                                <div class="slds-col slds-size_1-of-1 cstm-table-cell" style="text-align:right;">
+                                    <lightning-formatted-number value={item.value}></lightning-formatted-number>
+                                </div>
+                                <div class="slds-col slds-size_1-of-1 cstm-table-cell" style="text-align:right;">
+                                    <lightning-formatted-number value={item.value_OP}></lightning-formatted-number>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                    <div class="slds-col slds-size_1-of-8">
+                        <div class="cstm-header-box">3. Inattivi</div>
+                        <template for:each={inattivi} for:item="item">
+                            <template if:true={item.isFirst}>
+                                <div key={item.mese} class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_1-of-1">
+                                        <div class="cstm-header-box">Conteggio di righe</div>
+                                    </div>
+                                </div>
+                            </template>
+                            <div key={item.mese} class="slds-grid slds-wrap">
+                                <div class="slds-col slds-size_1-of-1 cstm-table-cell" style="text-align:right;">
+                                    <lightning-formatted-number value={item.value}></lightning-formatted-number>
+                                </div>
+                                <div class="slds-col slds-size_1-of-1 cstm-table-cell" style="text-align:right;">
+                                    <lightning-formatted-number value={item.value_OP}></lightning-formatted-number>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                    <div class="slds-col slds-size_1-of-8">
+                        <div class="cstm-header-box">4. Dormienti</div>
+                        <template for:each={dormienti} for:item="item">
+                            <template if:true={item.isFirst}>
+                                <div key={item.mese} class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_1-of-1">
+                                        <div class="cstm-header-box">Conteggio di righe</div>
+                                    </div>
+                                </div>
+                            </template>
+                            <div key={item.mese} class="slds-grid slds-wrap">
+                                <div class="slds-col slds-size_1-of-1 cstm-table-cell" style="text-align:right;">
+                                    <lightning-formatted-number value={item.value}></lightning-formatted-number>
+                                </div>
+                                <div class="slds-col slds-size_1-of-1 cstm-table-cell" style="text-align:right;">
+                                    <lightning-formatted-number value={item.value_OP}></lightning-formatted-number>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                    <div class="slds-col slds-size_1-of-8">
+                        <div class="cstm-header-box">5. In Attivazione</div>
+                        <template for:each={inAttivazione} for:item="item">
+                            <template if:true={item.isFirst}>
+                                <div key={item.mese} class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_1-of-1">
+                                        <div class="cstm-header-box">Conteggio di righe</div>
+                                    </div>
+                                </div>
+                            </template>
+                            <div key={item.mese} class="slds-grid slds-wrap">
+                                <div class="slds-col slds-size_1-of-1 cstm-table-cell" style="text-align:right;">
+                                    <lightning-formatted-number value={item.value}></lightning-formatted-number>
+                                </div>
+                                <div class="slds-col slds-size_1-of-1 cstm-table-cell" style="text-align:right;">
+                                    <lightning-formatted-number value={item.value_OP}></lightning-formatted-number>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                    <div class="slds-col slds-size_1-of-8">
+                        <div class="cstm-header-box">6. Attivi</div>
+                        <template for:each={attivi} for:item="item">
+                            <template if:true={item.isFirst}>
+                                <div key={item.mese} class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_1-of-1">
+                                        <div class="cstm-header-box">Conteggio di righe</div>
+                                    </div>
+                                </div>
+                            </template>
+                            <div key={item.mese} class="slds-grid slds-wrap">
+                                <div class="slds-col slds-size_1-of-1 cstm-table-cell" style="text-align:right;">
+                                    <lightning-formatted-number value={item.value}></lightning-formatted-number>
+                                </div>
+                                <div class="slds-col slds-size_1-of-1 cstm-table-cell" style="text-align:right;">
+                                    <lightning-formatted-number value={item.value_OP}></lightning-formatted-number>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                    <div class="slds-col slds-size_1-of-8">
+                        <div class="cstm-header-box">7. Incerti</div>
+                        <template for:each={incerti} for:item="item">
+                            <template if:true={item.isFirst}>
+                                <div key={item.mese} class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_1-of-1">
+                                        <div class="cstm-header-box">Conteggio di righe</div>
+                                    </div>
+                                </div>
+                            </template>
+                            <div key={item.mese} class="slds-grid slds-wrap">
+                                <div class="slds-col slds-size_1-of-1 cstm-table-cell" style="text-align:right;">
+                                    <lightning-formatted-number value={item.value}></lightning-formatted-number>
+                                </div>
+                                <div class="slds-col slds-size_1-of-1 cstm-table-cell" style="text-align:right;">
+                                    <lightning-formatted-number value={item.value_OP}></lightning-formatted-number>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

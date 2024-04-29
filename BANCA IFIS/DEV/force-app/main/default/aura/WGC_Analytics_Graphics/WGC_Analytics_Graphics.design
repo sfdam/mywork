@@ -1,0 +1,13 @@
+<design:component>
+			<design:attribute name="iconName" label="Icona" description="Definisce l'icona tra le standard" />
+    <design:attribute name="title" label="Titolo" description="Definisce il Titolo della Card" />
+    <design:attribute name="Flip" datasource="attivo,disattivo" default="disattivo" />
+    <design:attribute name="Dettaglio" datasource="attivo,disattivo" default="disattivo" />
+    <design:attribute name="TabApiName" label="Tab Dettaglio" default="Monitoraggio" description="Tab Api Name"/>
+
+    <design:attribute name="Grafico" label="Id Grafico" description="Id analytics Grafico " />
+    <design:attribute name="Filtro" label="Filtro grafico" description="Filter for Analitycs grafic " />
+    <design:attribute name="Altezza" label="Altezza grafico" description="Height for Analitycs grafic (default 340)" />
+
+    <design:attribute name="ShowToIPhone" label="Show device error message" description="Show to device error message because you cannot view Wave to device with width 480" />
+</design:component>

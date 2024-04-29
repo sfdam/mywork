@@ -1,0 +1,19 @@
+<template>
+
+    <lightning-card title={title} icon-name={iconName} class="slds-size_large" style="height:100%; width:100%;">
+        <lightning-button label="" variant="base" icon-name={iconAction} slot="actions" onclick={toggleComponent}></lightning-button>
+        <template if:true={showComponent}>
+            <div style="min-height:100px; height:340px;">
+                <template if:true={loadcharts}>
+                    <div style="height:100%" onclick={handlereport}>
+    
+                        <c-wgc-portafoglio-debitori-chart tipo-filtro={tipoFiltro} filter-value={filterValue} apexmethod="Debitori"> <!-- charttitle={charttitle} -->
+                        </c-wgc-portafoglio-debitori-chart>
+                        
+                    </div>
+                </template>
+            </div>
+        </template>
+    </lightning-card>
+
+</template>

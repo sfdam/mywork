@@ -1,0 +1,400 @@
+<apex:page renderAs="pdf"  showHeader="false" applyHtmlTag="false" applyBodyTag="false" standardStylesheets="false" controller="ExtPdfAdeguataVerificaClientela">
+<html>
+    <head>
+      <apex:stylesheet value="{!$Resource.CssPdfGeneration}"/>
+    <style>
+    p {
+      margin:0px;
+    }
+
+    p, li, div, span {
+      font-family: Arial, Arial Unicode MS;
+    }
+
+    p.MsoNormal, li.MsoNormal, div.MsoNormal {
+      margin:0cm;
+      margin-bottom:.0001pt;
+    }
+
+    table.CheckListTable {
+      margin-left: :5px;
+      text-align:justify;
+      margin: 0px;
+      width: 100%;
+    }
+
+    .checkrow {
+      float: right;
+      margin-right: 100px;
+    }
+
+    .ElementList1 {
+      margin:0cm;
+      margin-bottom:.0001pt;
+      font-size:7.5pt;
+      text-align:justify;
+    }
+
+    .checkboxImgNoMargin{
+      width:12px;
+      height:12px;
+    }
+
+    .lineInput {
+      border-bottom: solid;
+      border-bottom-width: 1pt;
+      margin-left: 4pt;
+      margin-right: 4pt;
+      padding-left: 5pt;
+      padding-right: 5pt;
+    }
+
+    .normalLine {
+      padding-left:80pt;
+      border-bottom: solid;
+      border-bottom-width: 1pt;
+      margin-left: 4pt;
+      margin-right: 4pt;
+    }
+
+
+    p.MsoFootnoteText, li.MsoFootnoteText, div.MsoFootnoteText {
+      margin:0cm;
+      margin-bottom:.0001pt;
+      font-size:9.0pt;
+    }
+
+    body {
+      font-size:7.5pt;
+      text-align:justify;
+      font-family: Arial, Arial Unicode MS;
+    }
+
+    #tabellaConsensi img {
+      width: 12px;
+      height: 12px;
+    }
+    ol {
+      margin-bottom:0cm;
+    }
+    ul {
+      margin-bottom:0cm;
+    }
+    </style>
+    </head>
+    <body>
+        <!--footer and header-->
+        <div class="header_left" style="margin-left:5pt;">
+          <img class="header_logo_img" src="{!$Resource.BancaIfisLogoNew}"/>
+        </div>
+        <div class="footer_center">
+          <p class="docName">Notă de informare privind protecția datelor personale – octombrie 2020</p>
+          <img class="footerLargeImg" src="{!$Resource.FooterIfisPrivacyRO}"/>
+        </div>
+        <div class="footer_right pageNumberFooter">
+          <span class="pagenumber"/>
+        </div>
+        <p class="MsoFootnoteText" align="center" style="margin-right:-14.3pt;text-align:
+        center"><b><span  style="color:black">NOTĂ DE INFORMARE PRIVIND PROTECȚIA DATELOR PERSONALE</span></b></p>
+        <!-- 1. Premessa-->
+        <div class="uniqueBlock">
+          <h2 class="subSectionName">1. <span class="subSectionSpace"/>Consideraţii preliminare</h2>
+          <p>Conform art. 13 și 14 din Regulamentul (UE) 2016/679 („Regulamentul”), Banca Ifis S.p.A. („Banca” sau „Operatorul”), în calitate de Operator de prelucrare a datelor, dorește să informeze propriii clienți, inclusiv clienții potențiali, garanții, codebitorii și terții plătitori, precum și terții în general (de ex. delegați, reprezentanți legali etc.) care intră în contact cu aceasta, în calitate de reprezentant sau de împuternicit al clienților, inclusiv al celor potențiali („Persoanele Vizate”), că datele personale aferente acestora („Datele”) vor fi prelucrate în mod legal, corect și transparent, conform modalităților și pentru scopurile descrise mai jos.</p>
+          <p>
+          Dacă partea interesată este o persoană juridică, sunt furnizate și următoarele informații cu privire la datele cu caracter personal ale persoanelor fizice care o reprezintă legal și / sau organic, de care știe operatorul de date.
+          </p>
+        </div>
+        <!-- 2. Fonte dei dati personali -->
+        <div class="uniqueBlock">
+          <h2 class="subSectionName">2. <span class="subSectionSpace"/>Sursa datelor personale</h2>
+          <p>Datele ce fac obiectul activității de prelucrare a datelor de către Operator sunt obținute, direct de către Bancă și/sau prin intermediul unor terți special autorizați în acest sens, de la Persoanele Vizate și/sau de la terți (persoane ce efectuează operațiuni în numele Persoanei Vizate, societăți de informare comercială și de estimare a riscurilor financiare, societăți externe pentru efectuarea de studii de piață etc.), inclusiv prin tehnicile de comunicare la distanță pe care le utilizează Operatorul (de ex. site-uri web, aplicații pentru smartphone și tabletă, call center etc.). De asemenea, vor fi utilizate datele provenite din surse publice, cum ar fi registre publice, liste, documente ce pot fi consultate de orice persoană (de ex. bilanțuri, informații înregistrate la registrul comerțului de pe lângă Camera de Comerț, acte imobiliare și alte acte așa-numite nefavorabile, cum ar fi constituiri de ipoteci sau transcrieri ale unor procese verbale de punere sub sechestru, hotărâri judecătorești sau alte acte juridice), precum și datele preluate din surse publice care în general pot fi accesate de orice persoană, cum ar fi articole de ziare în format tipărit sau electronic, informații preluate din cărțile de telefon, de pe site-urile web ale autorităților publice sau alte altor autorități de supraveghere și control.</p>
+        </div>
+        <!-- 3. Finalità del trattamento e base giuridica -->
+        <div class="uniqueBlock">
+          <h2 class="subSectionName">3. <span class="subSectionSpace"/>Scopurile și temeiul juridic al prelucrării datelor</h2>
+          <p>Datele sunt prelucrate în cadrul activităților normale ale Operatorului, în următoarele scopuri:</p>
+          <ol class="numericList1">
+            <li class="ElementList1">îndeplinirea obligațiilor legale, prevăzute atât de legislația în vigoare la nivel național, cât și de cea în vigoare la nivel european, precum și a ordinelor/hotărârilor Autorităților Publice și/sau Organismelor de Supraveghere (ex. obligații impuse de legislația privind prevenirea și combaterea spălării de bani, terorismul, comercializarea materialelor de pornografie infantilă și evaziunea fiscală etc.);</li>
+            <li class="ElementList1">îndeplinirea unor obligații ce derivă dintr-un contract încheiat cu Persoana Vizată și/sau necesare în vederea încheierii unui contract, inclusiv gestionarea și aducerea la îndeplinire a unor cerințe specifice provenite chiar de la Persoana Vizată, precum și a unor alte activități corelate și necesare în vederea derulării și gestionării raportului (de ex. evaluarea solvabilității; gestionarea încasărilor; verificări privind desfășurarea raporturilor, precum și riscurile aferente; securitizarea creanțelor; asigurarea creanțelor; operațiuni de plată, inclusiv internaționale, cum ar fi viramentele peste hotare, pentru care este necesară utilizarea rețelei internaționale de mesagerie financiară SWIFT etc.);</li>
+            <li class="ElementList1">
+              <p>după acordarea în mod expres a consimțământului:</p>
+              <p>c.1) depistarea gusturilor, preferințelor, obiceiurilor, nevoilor și alegerilor de consum ale Persoanei Vizate (așa-numita creare de profiluri) pentru activități de marketing direct (doar dacă Persoana Vizată este o persoană fizică);</p>
+              <p>c.2) promovarea și oferirea de produse/servicii ale Băncii sau studii de piață în vederea stabilirii gradului de satisfacție al Persoanei Vizate;</p>
+              <p>c.3) promovarea și oferirea de produse/servicii ale terților;</p>
+              <p>c.4) comunicarea datelor personale către terți pentru promovarea și oferirea de produse/servicii ale Băncii sau studii de piață în vederea stabilirii gradului de satisfacție  al Persoanei Vizate;</p>
+              <p>c.5) comunicarea datelor personale către terți pentru promovarea și oferirea de produse/servicii ale acestor terți.</p>
+            </li>
+            <li>realizarea unui interes legitim al operatorului de prelucrare date (de ex. protejarea patrimoniului societății; recuperare a creanțelor, raportare și audit; monitorizare a creanțelor; monitorizare și verificare a calității serviciilor; gestionare a reclamațiilor, și anume exercitare sau apărare a unui drept pe cale extrajudiciară și judiciară; etc.).</li>
+          </ol>
+          <p>În ceea ce privește scopurile indicate la punctele A) și B), prelucrarea datelor de către Operator, inclusiv sub aspectul comunicării acestora către persoanele indicate la paragraful 7 de mai jos și în măsura în care această comunicare este necesară în vederea atingerii scopurilor respective, nu necesită acordarea consimțământului, dat fiind că temeiul juridic al prelucrării datelor este reprezentat de îndeplinirea unei obligații legale și respectiv de contractul sau de îndeplinirea formalităților necesare în vederea încheierii unui contract. Eventualul refuz din partea persoanei vizate de a comunica informațiile necesare se soldează cu faptul că Operatorul se va afla în imposibilitatea de instaurare a raportului cu respectiva Persoană Vizată. În schimb, în ceea ce privește scopurile indicate la punctul C), Persoana Vizată are dreptul de a nu-și acorda consimțământul, sau de a se opune, în orice moment, desfășurării respectivelor operațiuni de prelucrare din partea Operatorului, dat fiind că temeiul juridic al prelucrării datelor este reprezentat de consimțământul acordat de Persoana Vizată. Singura consecință ce derivă din refuzul de acordare a consimțământului este imposibilitatea pentru Persoana Vizată de a beneficia de respectivele servicii, fără ca acest fapt să implice vreo consecință nefavorabilă. Consimțământul va putea fi revocat în orice moment, fără a prejudicia legalitatea prelucrărilor precedente. Cu privire la scopurile indicate la punctul D), nu este necesar consimțământul Persoanei Vizate, deoarece temeiul juridic al prelucrării datelor este reprezentat de interesul legitim al operatorului, ținând cont de echilibrul dintre drepturile acestuia din urmă și cele ale Persoanei Vizate.</p>
+        </div>
+        <!-- 4. Categorie di dati personali -->
+        <div class="uniqueBlock">
+          <h2 class="subSectionName">4. <span class="subSectionSpace"/>Categorii de date personale</h2>
+          <p>Datele personale ce pot fi prelucrate pentru scopurile indicate la paragraful 3 se încadrează în următoarele categorii: date de identificare și date de contact (de ex. prenume, nume, locul și data nașterii, adresa de e-mail, codul fiscal, profesia și domeniul de activitate, numele de utilizator și parola utilizate pentru accesul la sistemele pe care Operatorul le pune la dispoziția Persoanei Vizate, inclusiv pentru aplicațiile mobile), precum și date aferente legăturii acestora cu alte persoane; date privind tranzacțiile (de ex. numărul de cont curent, depunerile și ridicările de numerar, suma și datele operațiunilor, datele de identificare a unor alte relații bancare, IBAN); date financiare (de ex. situația financiar-patrimonială, istoricul plăților, solvabilitatea și punctualitatea în efectuarea plăților); date necesare în vederea depistării gusturilor, preferințelor, obiceiurilor de viață sau de consum; date privind condamnările penale și infracțiunile. De asemenea, Operatorul, limitându-se strict la necesarul în vederea atingerii scopurilor indicate în paragraful 3, poate lua la cunoștință și poate prelucra inclusiv date pe care Regulamentul le consideră ca fiind speciale (de ex. date menite să dezvăluie originea rasială și etnică, convingerile religioase sau filozofice, apartenența la sindicate, precum și date genetice, biometrice, date cu privire la sănătate sau la viața sexuală sau la orientarea sexuală a persoanei), în cazul în care aceste date sunt transmise direct de către persoana vizată.</p>
+        </div>      
+        <!-- 5. Modalità di trattamento dei dati personali-->
+        <div class="uniqueBlock">
+          <h2 class="subSectionName">5. <span class="subSectionSpace"/>Modalități de prelucrare a datelor personale</h2>
+          <p>Prelucrarea datelor se realizează prin instrumente manuale, informatice și electronice, ale căror logici sunt strâns corelate cu scopurile evidențiate mai sus și, în orice caz, cu respectarea precauțiilor, a garanțiilor și a măsurilor necesare prevăzute de legislația în vigoare în materie, menite să asigure confidențialitatea, integritatea și disponibilitatea Datelor, precum și să evite daunele, fie ele materiale sau nemateriale (de ex. pierderea controlului asupra datelor personale sau limitarea drepturilor, discriminarea, furtul sau uzurparea identității, pierderi financiare, descifrarea neautorizată a pseudonimelor, compromiterea reputației, pierderea confidențialității datelor personale protejate de secretul profesional sau orice altă daună economică sau socială semnificativă).</p>
+          <p>Operațiunile de prelucrare desfășurate de către Operator se pot baza pe procese decizionale automatizate, ce produc efecte juridice sau care, în mod similar, produc efecte semnificative asupra persoanei vizate, inclusiv crearea de profiluri: mai precis, Operatorul adoptă un sistem automatizat menit să creeze profilurile Persoanelor Vizate pe baza conduitei de rambursare a creditelor și să adopte decizii pe baza profilului generat în cursul activităților de analiză a capacității de rambursare a creditului, pe care le implică formalitățile aferente unei solicitări de credit (credit scoring) și un sistem parțial automatizat menit să creeze profilurile Persoanelor Vizate pe baza conduitei de rambursare a creditelor și să adopte decizii pe baza profilului generat în cursul activităților de consultare a raportării creditelor neperformante înregistrate pe numele persoanei vizate de către Centrala Riscurilor (CR) și către birourile de credit (BC). Centrala Riscurilor reprezintă un sistem informatic, administrat de Banca Italia, ce cuprinde informațiile puse la dispoziție de către bănci și societăți financiare, privind creditele pe care acestea le acordă propriilor clienți și respectivele garanții, sistem ce oferă o imagine de ansamblu asupra datoriilor pe care familiile și societățile le au către sistemul bancar și financiar. Birourile de credit sunt reprezentate de băncile de date private, consultate de către bănci și societăți financiare, în vederea verificării solvabilității și punctualității în efectuarea plăților și sunt utile în vederea deciziei de acordare a creditelor de consum, a împrumuturilor și finanțărilor, sub orice formă tehnică. Consultarea Centralei Riscurilor și a birourilor de credit este utilă clienților care au un bun „istoric al creditelor”, pentru a obține mai ușor și în condiții mai avantajoase o finanțare. Această consultare este utilă băncilor și societăților financiare pentru a putea evalua capacitatea clienților de a restitui împrumuturile acordate. Așadar, sistemul de credit scoring utilizat în analiza unei solicitări de credit, precum și raportarea creditelor neperformante ale Persoanei Vizate către Centrala Riscurilor și către birourile de credit se pot solda cu respingerea solicitării de finanțare, formulată de către persoana vizată. Modelele sau factorii de analiză statistică, precum și algoritmii de calcul al aprecierilor, indicatorilor sau punctajelor utilizate în cursul acestor prelucrări sunt verificate periodic, cel puțin o dată pe an și sunt actualizate în funcție de rezultatele respectivelor verificări.</p>
+        </div>
+        <!-- 6. Trasferimento di dati verso Paesi/organizzazioni extra UE -->
+        <div class="uniqueBlock">
+          <h2 class="subSectionName">6. <span class="subSectionSpace"/>Transferul datelor către State/organizații din afara UE</h2>
+          <p>În cazul în care este necesar, pentru atingerea scopurilor de la paragraful 3, Datele Persoanei Vizate pot fi transferate în străinătate, către State/organizații din afara UE care garantează un nivel de protecție al datelor personale stabilit de Comisia Europeană prin propria decizie, sau în baza altor garanții adecvate, cum ar fi Clauzele Contractuale Standard adoptate de Comisia Europeană.</p>
+          <p>O copie a eventualelor Date transferate în străinătate, precum și lista Statelor/organizațiilor din afara UE către care sunt transferate Datele, va putea fi solicitată Operatorului, folosind adresele indicate în paragrafele următoare 9 și 10.</p>
+        </div>
+        <!-- 7. Categorie di soggetti ai quali i dati personali possono essere comunicati o che possono venirne a conoscenza -->
+        <div>
+          <h2 class="subSectionName">7. <span class="subSectionSpace"/>Categorii de persoane ale căror date personale pot fi comunicate sau care le pot lua la cunoștință</h2>
+          <p>Pentru atingerea scopurilor descrise la paragraful 3, Operatorul își rezervă dreptul de a comunica Datele unor destinatari care se încadrează în următoarelor categorii:</p>
+          <ul style="margin-top:0cm;" type="disc">
+            <li>persoane care desfășoară activități de prestări servicii bancare, financiare sau de asigurare;</li>
+            <li>persoane codebitoare, garanți sau terți plătitori;</li>
+            <li>Autorități și Organisme de supraveghere și control și, în general, persoane publice sau private, cu funcții publice (de ex.: Unitatea de Informații Financiare din Italia; Banca Italia, Agenția de Administrare Fiscală, Centrala de Alarmă Interbancară, Centrala de Riscuri a Băncii Italia, Autoritatea Judiciară din Italia, în orice caz doar în limitele condițiilor stabilite de legislația aplicabilă);</li>
+            <li>Autorități Publice (economice și teritoriale) și Administrații Publice;</li>
+            <li>asociații de categorie;</li>
+            <li>alte societăți din cadrul grupului din care face parte Banca, sau, în orice caz, societăți coordonatoare, controlate sau afiliate, conform prevederilor art. 2359 Cod Civil (situate inclusiv în străinătate);</li>
+            <li>societăți ce se ocupă de compararea datelor puse la dispoziție de Persoanele Vizate cu cele disponibile în registrele publice, liste, acte sau documentele ce pot fi consultate de orice persoană, în scopul verificării veridicității acestora, inclusiv în vederea îndeplinirii obligațiilor de corectă verificare, impuse de Decretul Anti-Spălare de bani, precum și a eventualei existențe a unor plângeri și înscrisuri nefavorabile;</li>
+            <li>persoane ce prestează servicii de obținere, prelucrare și elaborare a datelor; </li>
+            <li>persoane care prestează servicii de gestionare a sistemului informatic al Operatorului și a rețelelor de telecomunicații (inclusiv servicii de mailing);</li>
+            <li>persoane care desfășoară activități de tipărire, ambalare în plic, transmitere, transport și sortare a comunicărilor;</li>
+            <li>persoane care desfășoară activități de arhivare a documentației și introduceri de date;</li>
+            <li>persoane care desfășoară activități de asistență acordată Persoanei Vizate;</li>
+            <li>societăți de gestionare a sistemelor naționale și internaționale pentru controlul fraudelor în detrimentul băncilor și a intermediarilor financiari;</li>
+            <li>birouri profesionale sau societăți cu care s-au instaurat relații de asistență și consultanță (de ex. firme de contabilitate, de avocatură etc.);</li>
+            <li>societăți ce desfășoară activități în materie de evaluare a capacității de rambursare a creditului, de detectare a riscurilor de rambursare și a insolvenței, de prevenire a supraîndatorării și de protecție a creanțelor, inclusiv birourile de credit;</li>
+            <li>agenți ce desfășoară activitate financiară, mediatori de credite, alți operatori intermediari din domeniul creditelor, financiar sau bancar, ce au sarcina de a promova și distribui produsele și/sau serviciile Băncii;</li>
+            <li>persoane care efectuează serviciul de „Corporate Banking Interbancar” – CBI;</li>
+            <li>persoane care efectuează operațiuni financiare internaționale (de ex. societatea „Society for Worldwide Interbank Financial Telecommunication” – SWIFT);</li>
+            <li>persoane care desfășoară activități de asistență și consultanță în comunicare (de ex. studii de piață, menite să analizeze gradul de satisfacție al clienților sub aspectul calității serviciilor și al activității desfășurate de Bancă, telemarketing etc.);</li>
+            <li>persoane care desfășoară activități de control, revizie și certificare a activităților desfășurate de către Bancă;</li>
+            <li>persoane care, din diferite motive, se adresează Băncii în calitate de succesori ai raporturilor juridice (de ex. cesionari sau potențiali cesionari de bunuri, credite și/sau contracte).</li>
+          </ul>
+          <p>Persoanele care fac parte din categoriile de mai sus acționează în manieră independentă ca operatori de prelucrare a datelor, sau ca responsabili numiți de Bancă, iar lista acestora, actualizată constant, este publicată pe site-ul www.bancaifis.it.</p>
+          <p>De asemenea, datele vor putea fi divulgate, pe parcursul îndeplinirii sarcinilor atribuite, și de către personalul Operatorului, care include stagiarii, angajații pe perioadă determinată, consultanții, toți aceștia fiind autorizați în mod explicit pentru prelucrarea datelor.</p>
+          <p>În orice caz, datele personale nu vor face obiectul divulgării și, prin urmare, nu vor fi aduse la cunoștința unor persoane oarecare, sub nicio formă, ca de exemplu prin punerea la dispoziție sau prin consultarea acestora.</p>
+        </div>
+        <!-- 8. Conservazione e cancellazione dei dati personali -->
+        <div class="uniqueBlock">
+          <h2 class="subSectionName">8. <span class="subSectionSpace"/>Păstrarea și ștergerea datelor cu caracter personal</h2>
+          <p>Conform prevederilor art. 5 par. 1 lit. e) din Regulament, în general, datele vor fi păstrate într-o formă care să permită identificarea persoanei vizate, pe un interval de timp care nu va depăși timpul necesar în vederea atingerii scopurilor pentru care respectivele date au fost colectate și prelucrate, conform principiului proporționalității și necesității, impus de legislația în vigoare, în materie de protecție a datelor cu caracter personal. De asemenea, pentru stabilirea perioadei de păstrare, sunt luate în considerare prevederile legale aplicabile activităților și domeniilor în care își desfășoară activitatea Operatorul (de ex. legea pentru prevenirea și combaterea spălării banilor și legea ce reglementează completarea și evidența registrelor contabile), precum și prevederile generale și speciale ale Garantului respectării dreptului la protecția datelor cu caracter personal (de ex. în ceea ce privește timpii de păstrare pentru scopurile de marketing și de creare de profiluri). După expirarea acestor termene, Datele vor fi șterse sau transformate în formă anonimă, cu excepția cazului în care păstrarea lor este necesară pentru îndeplinirea unor obligații legale sau pentru executarea unor ordine transmise de către Autoritățile Publice și/sau de Organismele de Supraveghere.</p>
+        </div>
+        <!-- 9. Diritti dell'Interessato -->
+        <div class="uniqueBlock">
+          <h2 class="subSectionName">9. <span class="subSectionSpace"/>Drepturile Persoanei Vizate</h2>
+          <p>Conform articolelor de la 15 la 22, Regulamentul acordă Persoanelor Vizate posibilitatea de a exercita drepturi specifice.</p>
+          <p>În mod special, Persoana Vizată poate obține: a) confirmarea existenței prelucrărilor datelor personale care o privesc și, în acest caz, accesul la acele date; b) corectarea datelor personale inexacte și completarea datelor personale incomplete; c) ștergerea datelor personale care o privesc, în cazul în care acest lucru este permis de Regulament; d) limitarea prelucrării, în ipotezele prevăzute de Regulament; e) comunicarea, către destinatarii cărora le sunt transmise datele personale, a cererilor de rectificare/ștergere a datelor personale și de limitare a prelucrării, venite de la Persoana Vizată, cu excepția cazului în care acest lucru este imposibil sau necesită un efort prea mare; f) primirea, într-un format structurat, de uz comun și care poate fi citit de un dispozitiv automat, a datelor personale comunicate Operatorului, precum și transmiterea acestora către un alt operator de prelucrare date, în orice moment, inclusiv după încetarea eventualelor raporturi întreținute cu Operatorul.</p>
+          <p>Persoana Vizată are dreptul de a se opune în orice moment prelucrării datelor personale care o privesc: în aceste cazuri, Operatorul trebuie să se abțină de la orice prelucrare ulterioară, cu excepția ipotezelor permise de Regulament.</p>
+          <p>De asemenea, persoana vizată are dreptul de a nu fi supusă unei decizii bazate doar pe prelucrarea automatizată, inclusiv crearea de profiluri, care să producă efecte juridice care o privesc sau care să influențeze în mod similar și semnificativ persoana, cu excepția cazului în care această situație: a) este necesară pentru încheierea sau executarea unui contract între Persoana Vizată și Operator; b) este autorizată în temeiul dreptului Uniunii sau al statului membru sub incidența căruia se află Operatorul; c) se bazează pe consimțământul explicit al persoanei vizate. În cazurile prezentate la literele a) și c) de mai sus, Persoana Vizată are dreptul de a obține intervenția umană din partea Operatorului, de a-și exprima propria opinie și de a contesta decizia.</p>
+          <p>Solicitările pot fi transmise departamentului organizațional prevăzut pentru relațiile cu persoana vizată, prin scrisoare obișnuită transmisă la sediul Operatorului, sau prin mesaj de poștă electronică la adresa: privacy@bancaifis.it.</p>
+          <p>De asemenea, Persoana Vizată are dreptul de a depune plângere la Autoritatea de Supraveghere (Garantul Confidențialității), conform prevederilor art. 77 din Regulament, precum și dreptul de a exercita căile de atac judiciare eficiente, conform prevederilor art. 78 și 79 din Regulament.</p>
+        </div>
+        <!-- 10. Titolare del trattamento e Responsabile della Protezione dei Dati -->
+        <div class="uniqueBlock">
+          <h2 class="subSectionName">10. <span class="subSectionSpace"/>Operator de date și Responsabil cu Protecția Datelor</h2>
+          <p>Operatorul de prelucrare a datelor cu caracter personal este Banca Ifis S.p.A., cu sediul în Venezia-Mestre, Via Terraglio n. 63. Operatorul a numit un Responsabil cu Protecția Datelor, ce poate fi contactat la adresa <u>rpd@bancaifis.it</u>.</p>
+        </div>
+        <!-- INFORMATIVA PRIVACY RELATIVA ALLE ATTIVITÀ DI TRASFERIMENTO DEI FONDI SVOLTA DALLA SWIFT -->
+        <div class="uniqueBlock">
+          <p class="sectionName sectionNameTopLine">NOTĂ DE INFORMARE PRIVIND PROTECȚIA DATELOR PERSONALE ÎN ACTIVITĂȚILE DE TRANSFER DE FONDURI DESFĂȘURATE DE SWIFT</p>
+          <p>În vederea efectuării operațiunilor financiare internaționale (de ex. un virament internațional) și a altor operațiuni specifice naționale solicitate de către clienți, este necesară utilizarea unui serviciu internațional de mesagerie. Acest serviciu este gestionat de „Society for Worldwide Interbank Financial Telecommunication” (SWIFT) cu sediul în Belgia.</p>
+          <p>Banca transmite către SWIFT (ce deține sistemul SwiftNet Fin) date cu privire la persoana care efectuează tranzacțiile (de ex. numele solicitantului, al beneficiarului și al băncilor respective, coordonatele bancare și suma). În caz contrar, Banca nu va putea efectua operațiunile solicitate de către clienți.</p>
+          <p>Se precizează, de asemenea, faptul că:</p>
+          <ul style="margin-top:0cm;" type="disc">
+            <li>în momentul de față, toate datele clienților, utilizate pentru efectuarea acestor tranzacții financiare sunt – din motive ce țin de securitatea operațională – duplicate, transmise și păstrate temporar în copie de SWIFT pe un server al societății situat în Statele Unite ale Americii;</li>
+            <li>datele memorate pe acest server pot fi accesate și utilizate în SUA, în conformitate cu legislația de prevenire și combatere a terorismului în vigoare la nivel local, de către autoritățile competente americane (de ex. Departamentul de Trezorerie).</li>
+          </ul>
+          <p>Persoana Vizată își păstrează toate drepturile prevăzute de legislația în materie de protecție a datelor personale.</p>
+        </div>
+        <!-- INFORMATIVA PRIVACY RELATIVA ALLA REGISTRAZIONE DELLE TELEFONATE -->
+        <div class="uniqueBlock">
+          <p class="sectionName sectionNameTopLine">NOTĂ DE INFORMARE PRIVIND PROTECȚIA DATELOR PERSONALE, ÎN CAZUL ÎNREGISTRĂRII CONVORBIRILOR TELEFONICE</p>
+          <p>Banca dorește să informeze Persoanele Vizate care au în derulare un contract de leasing financiar, că este activ un sistem de înregistrare a convorbirilor telefonice, în timpul activității de propunere prin telefon a contractelor de asigurare pentru produsul deja acordat în leasing, înregistrare efectuată de o terță societate, desemnată ca responsabil cu prelucrarea datelor personale. Acest sistem de înregistrare are ca scop instaurarea raporturilor, gestionarea acestora și monitorizarea calității serviciilor oferite utilizatorilor. Aceste înregistrări vor fi arhivate cu acces rezervat și vor fi păstrate conform legii la sediul societății terțe timp de 10 ani începând din momentul în care respectivele raporturi nu mai produc efecte.</p>
+          <p>Înregistrarea convorbirilor telefonice se realizează prin intermediul unor sisteme automatizate care înregistrează apelurile efectuate, adoptând măsuri menite să garanteze siguranța și confidențialitatea datelor colectate, conform prevederilor legislației în materie de protecție a datelor personale. Fișierele audio obținute în felul acesta vor putea fi accesate doar de către persoane expres autorizate în vederea prelucrării datelor cu caracter personal.</p>
+          <p>Banca dorește să informeze Persoanele Vizate care au în derulare un contract de cont curent, că este activ un sistem de înregistrare a convorbirilor telefonice pentru convorbirile inbound și outbound gestionate de către Serviciul Clienți, pentru analizarea și monitorizarea calității proceselor și serviciilor oferite clienților, precum și pentru formularea unei apărări adecvate, în cazul unor reclamații formulate de către clienții respectivi.</p>
+          <p>Înregistrarea convorbirilor telefonice se realizează prin intermediul unui sistem automatizat care înregistrează apelurile efectuate și primite, adoptând măsuri menite să garanteze siguranța și confidențialitatea datelor colectate, conform prevederilor legislației în materie de protecție a datelor personale. Înregistrările vor fi arhivate cu acces rezervat și vor fi păstrate pe un interval de timp necesar atingerii scopurilor pentru care au fost colectate. În orice caz, intervalul de păstrare nu va putea depăși 10 ani de la data obținerii înregistrărilor respective, cu excepția situațiilor în care intervin circumstanțe care impun o ulterioară păstrare a acestora, conform legislației în vigoare cu privire la intervalele de timp. Înregistrările convorbirilor telefonice vor putea fi accesate de către persoanele autorizate în mod expres pentru prelucrarea datelor cu caracter personal, în vederea protejării respectivilor angajați ai Băncii și a patrimoniului societății împotriva daunele directe sau indirecte ce ar putea rezulta din reclamațiile depuse de către clienți, în vederea monitorizării calității serviciilor prestate utilizatorilor, în vederea exercitării funcțiilor de control intern, impuse prin lege și/sau prin regulamente, ca o garanție a protecției clienților și/sau patrimoniului societății și în vederea îndeplinirii solicitărilor autorităților externe de control (Consob, Banca Italia, Societăți de revizuire etc.), ce au dreptul de acces la convorbirile telefonice, în calitate de operatori independentți.</p>
+        </div>
+        <!-- INFORMATIVA PRIVACY RELATIVA ALL’UTILIZZO DELLE APPLICAZIONI MOBILE -->
+        <div class="uniqueBlock">
+          <p class="sectionName sectionNameTopLine">NOTĂ DE INFORMARE PRIVIND PROTECȚIA DATELOR PERSONALE ÎN CAZUL UTILIZĂRII APLICAȚIILOR MOBILE</p>
+          <p>Banca dorește să informeze persoanele vizate ce dețin un contract de cont curent și utilizează aplicația mobilă „Banca Ifis Retail”, ce poate fi descărcată de pe respectivele marketplace, cu privire la prelucrarea datelor cu caracter personal ce se realizează prin intermediul acestei aplicații. Aplicația „Banca Ifis Retail”, concepută, actualizată și întreținută de către societatea CEDACRI S.p.A. este deținută în mod legal de către Banca Ifis S.p.A.</p>
+          <p>Datele cu caracter personal sunt prelucrate de către Operator pentru a permite Persoanei Vizate să beneficieze de toate funcțiile prevăzute de către aplicație și pentru a garanta corecta funcționare a acesteia. În acest scop, prin intermediul aplicației „Banca Ifis Retail”, Banca utilizează cookie-urile tehnice, iar lista acestora, actualizată în mod constant, este disponibilă pe site-ul produsului respectiv. De asemenea, utilizatorul poate permite adăugarea la aplicație a agendei telefonice din smartphone, pentru distribuirea de sume de bani, precum și pentru inițierea de apeluri telefonice către contactele necesare.</p>
+          <p>Datele personale prelucrate în felul acesta sunt protejate prin măsuri speciale de siguranță, ce nu permit funcționarea aplicației „Banca Ifis Retail” instalate pe dispozitivele ce figurează ca fiind modificate prin proceduri de rooting/jailbreaking.</p>
+          <p>Persoana vizată poate solicita în orice moment întreruperea acestei prelucrări a datelor de către Bancă, prin intermediul aplicației „Banca Ifis Retail”, dezinstalând aplicația de pe propriul dispozitiv.</p>
+        </div>
+            <!-- POLITICA DE PRELUCRARE A DATELOR ÎN TEMEIUL ARTICOLULUI 6 DIN CODUL DE CONDUITĂ PENTRU SISTEMELE DE INFORMAȚII GESTIONATE DE ENTITĂȚI PRIVATE CU PRIVIRE LA CREDITELE DE CONSUM, FIABILITATE ȘI PUNCTUALITATE ÎN EFECTUAREA PLĂȚILOR -->
+        <p class="sectionName sectionNameTopLine">POLITICA DE PRELUCRARE A DATELOR ÎN TEMEIUL ARTICOLULUI 6 DIN CODUL DE CONDUITĂ PENTRU SISTEMELE DE INFORMAȚII GESTIONATE DE ENTITĂȚI PRIVATE  CU PRIVIRE LA CREDITELE DE CONSUM, FIABILITATE ȘI PUNCTUALITATE ÎN EFECTUAREA PLĂȚILOR</p>
+        <h4>Cum folosim datele dvs.</h4>
+        <p>Aceste informații în conformitate cu art. Regulamentul (UE) 2016/679 se adresează și în numele sistemelor de informații privind creditele.</p>
+        <p>Stimate Client,<br/>
+        Banca Ifis S.p.A., În calitate de Operator, vă informează că, pentru a se conforma cererii dumneavoastră, utilizează anumite date referitoare la dumneavoastră. Acestea sunt informațiile pe care ni le furnizați sau pe care le obținem prin consultarea unor baze de date.
+        </p>
+        <p>Aceste bănci de date (”Sisteme de informații cu privire la credite” sau ”SIC”) care conțin informații despre persoanele vizate, sunt consultate pentru a evalua, a prelua sau a gestiona un risc de credit, pentru evaluarea fiabilității și a punctualității în efectuarea plăților persoanei vizate și sunt administrate de persoane fizice și prelucrate de persoane fizice care aparțin categoriilor pe care le veți găsi în informațiile oferite de operatorii SIC.</p>
+        <p>Aceste informații vor fi păstrate la noi; unele dintre informațiile pe care ni le furnizați, împreună cu informațiile care decurg din comportamentul dumneavoastră în efectuarea plăților cu privire la raportul care va fi stabilit, pot fi comunicate periodic către SIC.</p>
+        <p>Acest lucru înseamnă că persoanele care aparțin categoriilor menționate mai sus, cărora le veți solicita stabilirea unui raport, vor putea ști dacă ne-ați înaintat o cerere și dacă plătiți cu regularitate.</p>
+        <p>Prelucrarea și comunicarea datelor dumneavoastră este un criteriu necesar pentru încheierea contractului. Fără aceste date există riscul ca noi să nu fim în măsură să vă îndeplinim cererea.</p>
+        <p>Stocarea acestor informații de către bazele de date se efectuează pe baza interesului legitim al operatorului de a consulta SIC.</p>
+        <h4>Prelucrarea efectuată de Bancă</h4>
+        <p>Datele dumneavoastră pot fi transferate unei țări terțe din afara UE sau unei organizații internaționale în conformitate cu punctul 6 din comunicarea de mai sus. </p>
+        <p>În conformitate cu termenii, metodele și în limitele aplicabilității stabilite de legislația în vigoare, aveți dreptul de a cunoaște datele și de a exercita diferite drepturi legate de utilizarea acestora (rectificare, actualizare, anulare, limitarea prelucrării, opoziție etc.).</p>
+        <p>Puteți depune o plângere la Garant pentru protecția datelor cu caracter personal (www.garanteprivacy.it) și să utilizați celelalte mijloace de protecție prevăzute de legislația aplicabilă.</p>
+        <p>Păstrăm datele Dvs. cu noi pentru timpul necesar pentru a gestiona raportul dumneavoastră contractual și pentru a îndeplini obligațiile legale (de exemplu, în conformitate cu articolul 2220 din Codul civil privind păstrarea evidențelor contabile).</p>
+        <p>Pentru orice cerere cu privire la datele dumneavoastră, puteți scrie la această bancă la adresa privacy@bancaifis.it și/sau companiilor indicate mai jos, la care vom comunica datele dumneavoastră.</p>
+        <p>Datele dumneavoastră pot fi utilizate în procesul decizional automatizat al unei cereri în cazul în care o astfel de decizie este necesară pentru încheierea sau executarea contractului</p>
+        <p>Dvs. cu noi. În special, informațiile obținute prin consultarea bazelor de date private, referitoare la finanțarea solicitată și furnizată de alți intermediari financiari, sunt prelucrate de sistemele noastre pentru a evalua cererea de finanțare depusă la Bancă. În cazul informațiilor negative în baza de date privată, cererea de finanțare depusă la Bancă se respinge, iar acest refuz se comunică imediat persoanei vizate.</p>
+        <p>De asemenea, vă informăm că Responsabilul nostru pentru Protecția Datelor poate fi contactată la următoarea adresă: rpd@bancaifis.it.</p>    
+        <h4>Tratament efectuat de operatorul SIC</h4>
+        <p>În scopul de a evalua mai bine riscul de credit, precum și fiabilitatea și punctualitatea plăților, comunicăm unele date (date de identificare, inclusiv ale eventualului codebitor, tipul de contract, suma creditului, modalitatea de rambursare) către Sistemul de Informații cu privire la Credite, care sunt reglementate prin Codul de conduită și care dețin calificarea de operatori autonomi de prelucrare de date. Datele sunt, de asemenea, puse la dispoziția diferitelor entități private care aparțin categoriilor pe care le veți găsi în informațiile furnizate de operatorii SIC, disponibile prin canalele enumerate mai jos.</p>
+        <p>Datele care vă privesc sunt actualizate periodic cu informații dobândite în timpul raportului (situația plăților, descoperire de credit rămasă, starea raportului).</p>
+        <p>În cadrul SIC, datele dvs. vor fi prelucrate în conformitate cu metodele de organizare, comparație și prelucrare strict necesare pentru scopurile descrise mai sus.</p>
+        <p>Datele dumneavoastră sunt supuse prelucrării statistice pentru a vă oferi o judecată sumară sau un punctaj privind gradul dumneavoastră de fiabilitate și solvabilitate (așa zisul credit scoring), luând în considerare următoarele tipuri principale de factori: de exemplu, fără limitare, numărul și caracteristicile rapoartelor de credit, tendința și istoricul plăților rapoartelor în curs sau stinse, eventuala prezență și caracteristicile noilor cereri de credit, istoricul rapoartelor de credit stinse, existența sau nu a datelor privind grevarea de sarcini etc., care permit obținerea, prin aplicarea metodelor și modelelor statistice, a rezultatelor exprimate sub forma unor hotărâri sintetice, a indicatorilor numerici sau a scorurilor, menite să ofere o reprezentare predictivă sau probabilă a profilului de risc, fiabilității sau punctualității plăților persoanei vizate.</p>
+        <p>Anumite informații suplimentare vă pot fi oferite în caz de respingere a unei cereri de creditare.</p>
+        <p>Sistemele SIC la care aderăm sunt gestionate de:</p>
+        <ol style="margin-top:0cm;">
+          <li>
+            <p>DATE DE IDENTIFICARE: ASSOCIAZIONE ITALIANA LEASING – ASSILEA </p>
+            <p>DATE DE CONTACT: sediul social în 00184 Roma, via Massimo D’Azeglio n. 33 (tel. +39 06/9970361 – fax +39 06/45440739); site: www.assilea.it; RESPONSABIL PENTRU </p>
+            <p>COMUNICAREA CU PERSOANELE VIZATE: ASSILEA SERVIZI S.r.l. (e-mail: bdcr@assilea.it) </p>
+            <p>TIPUL SISTEMULUI: pozitiv și negativ </p>
+            <p>PERIOADELE DE TIMP DE STOCARE A DATELOR: aceste perioade sunt indicate în tabelul de mai jos</p>
+            <p>UTILIZAREA SISTEMELOR AUTOMATIZATE DE CREDIT SCORING: da</p>
+            <p>EXISTENȚA PROCESULUI DECIZIONAL AUTOMATIZAT: nu</p>
+          </li>
+          <li>
+              <p>DATE DE IDENTIFICARE: CRIF S.p.A. </p>
+              <p>DATE DE CONTACT: sediul social în 40131 Bologna, via M. Fantin, n. 1-3 (tel. +39 051/4176111 – fax +39 051/4176110); site: www.crif.com; Responsabil Protecția Datelor: dirprivacy@crif.com, crif@pec.crif.com.  </p>
+              <p>TIPUL SISTEMULUI: pozitiv și negativ </p>
+              <p>PERIOADELE DE TIMP DE STOCARE A DATELOR: aceste perioade sunt indicate în tabelul de mai jos </p>
+              <p>UTILIZAREA SISTEMELOR AUTOMATIZATE DE CREDIT SCORING: da</p>
+              <p>EXISTENȚA PROCESULUI DECIZIONAL AUTOMATIZAT: nu</p>
+              <p>ALTELE: CRIF S.p.A. aderă la un circuit internațional al sistemelor de informații privind creditele care funcționează în diferite țări europene și non-europene. Informațiile pot fi comunicate (dacă se îndeplinesc toate cerințele legii) altor companii, de asemenea, străine, care, în conformitate cu legile din țara lor, gestionează autonomia acestor sisteme de informații cu privire la credite și de a procesa informații cu același scop de al sistemului gestionat de CRIF S.p.A. </p>
+          </li>
+          <li>
+            <p>DATE DE IDENTIFICARE: Expert Italia S.p.A. </p>
+            <p>DATE DE CONTACT: sediul social în 00185 Roma, Piazza dell’Indipendenza n. 11/b; Serviciu Protecția Consumatorilor: tel. +39 199183538 fax +39 199101850; Persoana Împuternicită de Operator: dpoItaly@experian.com; site: www.experian.it </p>
+            <p>TIPUL SISTEMULUI: pozitiv și negativ</p>
+            <p>PERIOADELE DE TIMP DE STOCARE A DATELOR: aceste perioade sunt indicate în tabelul de mai jos </p>
+            <p>UTILIZAREA SISTEMELOR AUTOMATIZATE DE CREDIT SCORING: da </p>
+            <p>EXISTENȚA PROCESULUI DECIZIONAL AUTOMATIZAT: nu </p>
+            <p>ALTELE: Experian Italia S.p.A., pentru scopuri care, în orice caz, sunt legate de verificarea seriozității, a situației financiare și de prevenirea fraudelor sau a înșelăciunilor, prelucrează și date provenite din așa-numitele surse publice și participă, ca membru indirect, la sistemul Scipafi. Datele sunt păstrate pe teritoriul Spațiului Economic European – SEE (serverul principal se află în Regatul Unit). Atunci când fac obiectul unor operațiuni de prelucrare de către persoane ce se află în afara spațiului SEE, transferurile sunt efectuate către state în care există o hotărâre de adaptare din partea Comisiei Europene, sau se bazează pe Clauzele Standard de protecție a datelor, adoptate de Comisia Europeană sau pe programe internaționale pentru libera circulație a datelor (de ex.: EU-U.S. Privacy Shield Framework). Mai multe detalii privind nota de informare puteți găsi pe site-ul www.experian.it (Secțiunea Consumatori – Notă de Informare SIC).</p>
+          </li>
+        </ol>
+        <p>Aveți dreptul de a accesa datele în orice moment. Vă rugăm să contactați Banca noastră, trimițând cererile la adresa privacy@bancaifis.it sau operatorilor SIC, la adresele indicate mai sus.</p>
+        <p>De asemenea, poate solicita corectarea, actualizarea sau completarea datelor inexacte sau incomplete, sau ștergerea sau blocarea celor prelucrate cu încălcarea legii, sau poate să se opună utilizării acestora din motive legitime ce trebuie menționate în cerere (art. de la 15 la 22 din Regulamentul (UE) 2016/679, cu excepția art. 20).</p>
+        <div class="uniqueBlock">
+          <p style="margin-top:15px"><b>Timpul de păstrare a datelor în SIC:</b></p>
+          <table class="borderedTable" style="margin-top: 15px; margin-bottom:15px">
+            <col width="30%"/>
+            <col width="70%"/>
+            <tr>
+              <td><i>cerere de finanțare</i></td>
+              <td><i>în termen de cel mult 180 de zile de la data depunerii cererii, dacă cererea este acceptată <br/>
+              în termen de cel mult 90 de zile de la data actualizării lunare, în cazul în care cererea nu este acceptată sau se renunță la aceasta
+              </i></td>
+            </tr>
+            <tr>
+              <td><i>întârzieri care nu depășesc două tranșe sau două luni regularizate</i></td>
+              <td><i>până la 12 luni de la regularizare</i></td>
+            </tr>
+            <tr>
+              <td><i>întârzieri care depășesc două tranșe sau două luni regularizate </i></td>
+              <td><i>până la 24 luni de la regularizare</i></td>
+            </tr>
+            <tr>
+              <td><i>întârzieri sau neîndepliniri neregularizate </i></td>
+              <td><i>nu mai târziu de 36 de luni de la data scadenței contractuale a raportului sau de la data la care ultima actualizare a fost necesară și, în orice caz, nu mai târziu de 60 de luni de la scadența contractuală a raportului </i></td>
+            </tr>
+            <tr>
+              <td><i>rapoarte care au fost stinse odată cu dispariția oricărei obligații pecuniare </i></td>
+              <td><i>în termen de cel mult 60 de luni de la data încetării raportului sau a expirării relativului contract, sau de la prima actualizare efectuată în luna următoare acestor date <br/>
+              peste 60 de luni, în cazul întârzierilor nereglementate sau al neîndeplinirii obligațiilor de plată legate de alte rapoarte de credit 
+            </i></td>
+            </tr>
+          </table>
+        </div>
+        <!-- CONSENSO -->
+        <div class="uniqueBlock">
+          <p class="sectionName">CONSIMȚĂMÂNT</p>
+          <p>Declar că mi-a fost adusă la cunoștință nota de informare privind protecția datelor personale, conform prevederilor art. 13 și 14 din Regulamentul (UE) 2016/679 și 6 din Codul de conduită legate de sistemele de informații cu privire la credite, că sunt la curent cu operațiunile de prelucrare desfășurate, cu scopurile și modalitățile de efectuare a acestora, precum și cu persoanele cărora li se pot comunica datele, cu respectarea scopurilor sus-menționate.</p>
+          <p>Autorizez Banca Ifis S.p.A. pentru a prelucra datele mele cu caracter personal, chiar și pe cele speciale și chiar pe baza proceselor decizionale automatizate, și pentru a le comunica terților, în scopul îndeplinirii obiectivelor menționate. </p>
+          <p style="margin-top:15px">Mai precis, cu privire la scopurile indicate la litera C) din paragraful 3, declar următoarele:</p>
+          <table id="tabellaConsensi" style="margin-bottom: 15px">
+              <col width="74%"/>
+              <col width="13%" align="center"/>
+              <col width="13%" align="center"/>
+            <tr>
+              <th></th>
+              <th align="center">SUNT DE ACORD</th>
+              <th align="center">NU SUNT DE ACORD</th>
+            </tr>
+            <tr>
+              <td>1)&nbsp;&nbsp;depistarea gusturilor, preferințelor, obiceiurilor, nevoilor și alegerilor de consum ale Persoanei Vizate (așa-numita creare de profiluri) (doar dacă Persoana Vizată este o persoană fizică)</td>
+              <td align="center"><img src="{!IF(esecutore.ConsensoAllaProfilazione__c = TRUE, $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/></td>
+              <td align="center"><img src="{!IF(esecutore.ConsensoAllaProfilazione__c = TRUE, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/></td>
+            </tr>
+            <tr>
+              <td><p>2)&nbsp;&nbsp;promovarea și oferirea de produse/servicii ale Băncii sau studii de piață menite să determine gradul de satisfacție al Persoanei Vizate, prin așa-numitele metode automatizate și tradiționale</p></td>
+              <td align="center"><img src="{!IF(esecutore.ConsensoProdottiBancaRicercheMercato__c = TRUE, $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/></td>
+              <td align="center"><img src="{!IF(esecutore.ConsensoProdottiBancaRicercheMercato__c = TRUE, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/></td>
+            </tr>
+            <tr>
+              <td><p>3)&nbsp;&nbsp;promovarea și oferirea de produse/servicii ale unor terți, prin așa-numitele metode automatizate și tradiționale</p></td>
+              <td align="center"><img src="{!IF(esecutore.ConsensoProdottiSocietaTerze__c = TRUE, $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/></td>
+              <td align="center"><img src="{!IF(esecutore.ConsensoProdottiSocietaTerze__c = TRUE, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/></td>
+            </tr>
+            <tr>
+              <td><p>4)&nbsp;&nbsp;comunicarea datelor personale către terți, în vederea promovării și oferirii de produse/servicii ale Băncii sau studii de piață menite să determine gradul de satisfacție al Persoanei Vizate, prin așa-numitele metode automatizate și tradiționale</p></td>
+              <td align="center"><img src="{!IF(esecutore.ConsensoAttivitaPromozionaleTerzi__c = TRUE, $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/></td>
+              <td align="center"><img src="{!IF(esecutore.ConsensoAttivitaPromozionaleTerzi__c = TRUE, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/></td>
+            </tr>
+            <tr>
+              <td><p>5)&nbsp;&nbsp;comunicarea datelor personale către terți, în vederea promovării și oferirii de produse/servicii ale respectivilor terți, prin așa-numitele metode automatizate și tradiționale</p></td>
+              <td align="center"><img src="{!IF(esecutore.ConsensoAttivitaPromRicercheMercato__c = TRUE, $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/></td>
+              <td align="center"><img src="{!IF(esecutore.ConsensoAttivitaPromRicercheMercato__c = TRUE, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/></td>
+            </tr>
+          </table>
+          <p>Subsemnatul declar că doresc să primesc mesajele promoționale (indicate de la punctul 2 la punctul 5 de mai sus) exclusiv prin metodele tradiționale (de ex. poștă obișnuită, convorbiri telefonice cu un operator) și nu prin cele automatizate (de ex. e-mail, SMS, MMS, fax, convorbiri telefonice preînregistrate):</p>
+          <p style="margin-left:70px; margin-top: 10px">
+            <img style="vertical-align: -3px; width:12px; height:12px; margin-right: 10px" src="{!IF(esecutore.ConsensoSoloModalitaTradizionali__c = TRUE, $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>doar metode tradiționale
+          </p>
+        </div>
+        <!-- form -->
+        <div style="margin-top: 30px; text-align: right">
+          <!-- NOME e COGNOME -->
+          <div style="padding: 13px 0px;">
+            <span>NUME şi PRENUME</span>
+            <span class="{!IF(OR(ISBLANK(esecutore), ISBLANK(esecutore.Name)), 'hugeLine', 'hiddenInput')}"/>
+            <span class="{!IF(AND(!ISBLANK(esecutore), !ISBLANK(esecutore.Name)), 'linedInput', 'hiddenInput')}"> {!esecutore.Name} </span>
+          </div>
+          <!-- AZIENDA -->
+          <div style="padding: 13px 0px;">
+            <span>SOCIETATE</span>
+            <span class="{!IF(OR(ISBLANK(o.Account), ISBLANK(o.Account.Name)), 'hugeLine', 'hiddenInput')}"/>
+            <span class="{!IF(AND(!ISBLANK(o.Account), !ISBLANK(o.Account.Name)), 'linedInput', 'hiddenInput')}"> {!o.Account.Name} </span>
+          </div>
+        </div>
+        <div style="padding: 13px 0px;">
+          <!-- LUOGO e DATA -->
+          <div style="display: inline-block">
+            <span class="{!IF( ISBLANK(o.Account.BillingCity), 'normalLine', 'hiddenInput')}" />
+            <span class="{!IF( !ISBLANK(o.Account.BillingCity), 'linedInput', 'hiddenInput')}" > {!o.Account.BillingCity} </span>
+            <span style="font-size:9.0pt;">, data
+              <span class= "{!IF( ISBLANK(esecutore.DataInserimentoConsensi__c), 'normalLine', 'hiddenInput')}"/>
+              <span class= "{!IF( !ISBLANK(esecutore.DataInserimentoConsensi__c), 'linedInput', 'hiddenInput')}">
+                <apex:outputText value="{0,date,dd/MM/yyyy}">
+                  <apex:param value="{!esecutore.DataInserimentoConsensi__c}" />
+                </apex:outputText>
+              </span>
+            </span>
+          </div>
+          <!-- FIRMA -->
+          <div style="display: inline-block; position: absolute; right: 8px; text-align:right;">
+            <span>SEMNĂTURĂ</span>
+            <span class="hugeLine"/>
+          </div>
+        </div>
+    </body>
+</html>
+</apex:page>

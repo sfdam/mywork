@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_F_Num_ProrVarScadPres_VarSP__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF((CRM_Num_ProrPres_VarSP__c + CRM_Num_VarScadPres_VarSP__c ) !=0,
+IF(
+AND((CRM_Num_ProrPres_VarSP__c + CRM_Num_VarScadPres_VarSP__c )&gt; 0,((CRM_Num_ProrPres_VarSP__c + CRM_Num_VarScadPres_VarSP__c )*100) &gt;= 1000),
+RIGHT(TEXT(FLOOR((((CRM_Num_ProrPres_VarSP__c + CRM_Num_VarScadPres_VarSP__c )*100) ) / 1000)), 3) &amp; &quot;.&quot;,
+&quot;&quot;) &amp;
+IF(
+AND((CRM_Num_ProrPres_VarSP__c + CRM_Num_VarScadPres_VarSP__c )&lt; 0,(((CRM_Num_ProrPres_VarSP__c + CRM_Num_VarScadPres_VarSP__c )*(-1))*100) &gt;= 1000),
+RIGHT(TEXT(FLOOR((((CRM_Num_ProrPres_VarSP__c + CRM_Num_VarScadPres_VarSP__c )*100) ) / 1000)), 3) &amp; &quot;.&quot; + RIGHT(TEXT(FLOOR((CRM_Num_ProrPres_VarSP__c + CRM_Num_VarScadPres_VarSP__c )*100 )), 3),
+&quot;&quot;) &amp;
+IF(
+AND((CRM_Num_ProrPres_VarSP__c + CRM_Num_VarScadPres_VarSP__c )&lt; 0,((CRM_Num_ProrPres_VarSP__c + CRM_Num_VarScadPres_VarSP__c )*(-1))*100 &lt; 100),
+RIGHT(TEXT(FLOOR(((CRM_Num_ProrPres_VarSP__c + CRM_Num_VarScadPres_VarSP__c )*100 ))), 3),
+IF (
+AND((CRM_Num_ProrPres_VarSP__c + CRM_Num_VarScadPres_VarSP__c )&lt; 0,((CRM_Num_ProrPres_VarSP__c + CRM_Num_VarScadPres_VarSP__c )*(-1))*100 &lt; 1000),
+&quot;-&quot;+RIGHT(TEXT(FLOOR(((CRM_Num_ProrPres_VarSP__c + CRM_Num_VarScadPres_VarSP__c )*100 ))), 3),
+IF (
+(CRM_Num_ProrPres_VarSP__c + CRM_Num_VarScadPres_VarSP__c )&gt; 0,
+RIGHT(TEXT(FLOOR((((CRM_Num_ProrPres_VarSP__c + CRM_Num_VarScadPres_VarSP__c )*100) ))), 3),&quot;&quot;)
+)
+),&quot;0&quot;
+)</formula>
+    <label>Pror o Var Scad / Presentato Num varSP</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

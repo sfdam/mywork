@@ -1,0 +1,251 @@
+<!-- IMPORTANTE per community TiAnticipo: lasciare custom controller per recuperare Opportunity -->
+<apex:page renderAs="pdf" showHeader="false" applyHtmlTag="false" applyBodyTag="false" standardStylesheets="false" controller="ExtPdfAdeguataVerificaClientela">
+
+    <html>
+        <head>
+            <apex:stylesheet value="{!$Resource.CssPdfGeneration}"/>
+            <title>Modulo di Adeguata verifica della Clientela</title>
+            <style>
+                .cellaTitolo {
+                  width:524.5pt;
+                  border:solid;
+                  border-width: 1px;
+                }
+
+                .cellaParagrafo {
+                  padding: 5.4pt 5.4pt 5.4pt 5.4pt;
+                  border:solid;
+                  border-width: 1px;
+                }
+
+                .titoloParagrafoTabella {
+                  line-height:115%;
+                  font-weight: bold;
+                  margin:0cm;
+                  margin-left:6pt;
+                  margin-bottom:.0001pt;
+                  font-size:10.0pt;
+                }
+
+                .tabellaSottile {
+                  margin-top: 0pt;
+                  margin-bottom: 0pt;
+                  border-width: 1px;
+                  border-bottom: 0px;
+                  border-color: black;
+                  border-style: solid;
+                  border-collapse: collapse;
+                }
+
+                .titolareEffettivoRow {
+                  margin-left:30px;
+                  font-size:9.5pt;
+                  margin-bottom:3pt;
+                  margin-right:0pt;
+                  margin-top:3pt;
+                }
+
+                .rapportoContinuativoCell {
+                  vertical-align: text-top;
+                }
+
+                /* font definition */
+                p, span, li, div {
+                  font-family:sans-serif;
+                }
+
+                 /* Style Definitions */
+                 p.MsoNormal, li.MsoNormal, div.MsoNormal
+                  {margin:0cm;
+                  margin-bottom:.0001pt;
+                  font-size:9.5pt;}
+                p.MsoFootnoteText, li.MsoFootnoteText, div.MsoFootnoteText
+                  {margin:0cm;
+                  margin-bottom:.0001pt;
+                  font-size:9.5pt;}
+
+
+                 /* List Definitions */
+                 ol
+                  {margin-bottom:0cm;}
+                ul
+                  {margin-bottom:0cm;}
+            </style>
+        </head>
+
+        <body>
+            <!--footer and header-->
+            <div class="header_left" style="margin-left:5pt;">
+                <img class="header_logo_img" src="{!$Resource.BancaIfisLogoNew}"/>
+            </div>
+
+            <div class="footer_center">
+                <p class="docName">TECNICHE DI COMUNICAZIONE – Ed. 20.12.2018</p>
+                <img class="footerLargeImg" src="{!$Resource.FooterIfis}"/>
+            </div>
+
+            <div class="footer_right pageNumberFooter">
+                <span class="pagenumber"/>
+            </div>
+
+            <p class="MsoNormal" align="center" style="text-align:center">
+                <b>
+                    <span style="font-size:11.0pt;">TECNICHE DI COMUNICAZIONE A DISTANZA</span>
+                </b>
+            </p>
+            <p class="MsoNormal" align="center" style="text-align:center">
+                <span style="font-size:9.0pt;">(SCHEDA IDENTIFICAZIONE CLIENTELA)</span>
+            </p>
+
+            <!-- dati identificativi cliente -->
+            <table class="uniqueBlock tabellaSottile"  cellspacing="0" cellpadding="0" style="margin-top: 20px;">
+                <tr>
+                    <td class = "cellaParagrafo" width="1049" valign="top">
+                        <p class="paragrafoTabella" style="margin-bottom:  4pt;">
+                            <b>Ragione / Denominazione sociale</b>
+                            <span class="{!IF( !ISBLANK(a.Name), 'hiddenInput', 'veryLongDot')}"/>
+                            <span class="{!IF( (ISBLANK(a.Name)), 'hiddenInput', 'dottedInput')}">{!a.Name}</span>
+                        </p>
+                        <p class="paragrafoTabella" style="">
+                            Partita IVA
+                            <span class="{!IF( !ISBLANK(a.PIVA__c), 'hiddenInput', 'veryLongDot')}"/>
+                            <span class="{!IF( (ISBLANK(a.PIVA__c)), 'hiddenInput', 'dottedInput')}">{!a.PIVA__c}</span>
+                        </p>
+                        <p class="paragrafoTabella">
+                            Codice Fiscale
+                            <span class="{!IF( !ISBLANK(a.CF__c), 'hiddenInput', 'veryLongDot')}"/>
+                            <span class="{!IF( (ISBLANK(a.CF__c)), 'hiddenInput', 'dottedInput')}">{!a.CF__c}</span>
+                        </p>
+                        <p class="paragrafoTabella">
+                            CCIAA di<span class="{!IF( !ISBLANK(a.ProvinciaCCIAA__c), 'hiddenInput', 'veryLongDot')}"/>
+                            <span class="{!IF( ISBLANK(a.ProvinciaCCIAA__c), 'hiddenInput', 'dottedInput')}">{!a.ProvinciaCCIAA__c}</span>
+                            R.E.A nr.<span class="{!IF( !ISBLANK(a.REA__c), 'hiddenInput', 'veryLongDot')}"/>
+                            <span class="{!IF( ISBLANK(a.REA__c), 'hiddenInput', 'dottedInput')}">{!a.REA__c}</span>
+                        </p>
+                        <p class="paragrafoTabella">
+                            Sede legale
+                        </p>
+                        <p class="paragrafoTabella">
+                            Indirizzo <span class="{!IF( !ISBLANK(a.BillingStreet), 'hiddenInput', 'veryLongDot')}" />
+                            <span class = " {!IF( ISBLANK(a.BillingStreet), 'hiddenInput', 'dottedInput')}"> {!a.BillingStreet} </span>
+                            Città <span class="{!IF( !ISBLANK(a.BillingCity), 'hiddenInput', 'longDot')}"/>
+                            <span class = " {!IF( ISBLANK(a.BillingCity), 'hiddenInput', 'dottedInput')}"> {!a.BillingCity} </span>
+                            CAP <span class="{!IF( !ISBLANK(a.BillingPostalCode), 'hiddenInput', 'shortDot')}"/>
+                            <span class = " {!IF(ISBLANK(a.BillingPostalCode), 'hiddenInput', 'dottedInput')}"> {!a.BillingPostalCode} </span>
+                            Provincia <span class="{!IF( !ISBLANK(a.BillingState), 'hiddenInput', 'veryShortDot')}"/>
+                            <span class = " {!IF( ISBLANK(a.BillingState), 'hiddenInput', 'dottedInput')}"> {!a.BillingState} </span>
+                        </p>
+                        <p class="paragrafoTabella">Sede amministrativa <i>(ove diversa dalla sede legale)</i>
+                        </p>
+                        <p class="paragrafoTabella">
+                            Indirizzo <span class="{!IF( AND(!ISBLANK(a.ShippingStreet), !sedeAmmUguale), 'hiddenInput', 'veryLongDot')}"/>
+                            <span class = "{!IF( OR(ISBLANK(a.ShippingStreet), sedeAmmUguale), 'hiddenInput', 'dottedInput')}"> {!a.ShippingStreet} </span>
+                            Città <span class="{!IF( AND(!ISBLANK(a.ShippingCity), !sedeAmmUguale), 'hiddenInput', 'longDot')}"/>
+                            <span class = "{!IF( OR(ISBLANK(a.ShippingCity), sedeAmmUguale), 'hiddenInput', 'dottedInput')}"> {!a.ShippingCity} </span>
+                            CAP <span class="{!IF( AND(!ISBLANK(a.ShippingPostalCode), !sedeAmmUguale), 'hiddenInput', 'shortDot')}"/>
+                            <span class = " {!IF( OR(ISBLANK(a.ShippingPostalCode), sedeAmmUguale), 'hiddenInput', 'dottedInput')}"> {!a.ShippingPostalCode} </span>
+                            Provincia <span class="{!IF( AND(!ISBLANK(a.ShippingState), !sedeAmmUguale), 'hiddenInput', 'shortDot')}"/>
+                            <span class = " {!IF( OR(ISBLANK(a.ShippingState), sedeAmmUguale), 'hiddenInput', 'dottedInput')}"> {!a.ShippingState} </span>
+                        </p>
+                        <p class="paragrafoTabella">
+                            Telefono
+                            <span class = "{!IF( AND(!ISBLANK(a.TelefonoPrefisso__c), !ISBLANK(a.TelefonoNumero__c)), 'dottedInput', 'hiddenInput')}"> {!a.TelefonoPrefisso__c + a.TelefonoNumero__c} </span>
+                            <span class = "{!IF( AND(!ISBLANK(a.Phone), OR(ISBLANK(a.TelefonoPrefisso__c), ISBLANK(a.TelefonoNumero__c))), 'dottedInput', 'hiddenInput')}"> {!a.Phone} </span>
+                            <span class = "{!IF( AND(ISBLANK(a.Phone), OR(ISBLANK(a.TelefonoPrefisso__c), ISBLANK(a.TelefonoNumero__c))), 'veryLongDot', 'hiddenInput')}"/>
+                            Fax <span class="{!IF( !ISBLANK(a.Fax), 'hiddenInput', 'veryLongDot')}"/>
+                            <span class="{!IF( ISBLANK(a.Fax), 'hiddenInput', 'dottedInput')}">{!a.Fax}</span>
+                        </p>
+                        <p class="paragrafoTabella">
+                            Posta elettronica<span class="{!IF( !ISBLANK(a.Email__c), 'hiddenInput', 'veryLongDot')}"/>
+                            <span class="{!IF( ISBLANK(a.Email__c), 'hiddenInput', 'dottedInput')}">{!a.Email__c}</span>
+                            SIA<span class="{!IF( !ISBLANK(a.SIA__c), 'hiddenInput', 'shortDot')}"/>
+                            <span class="{!IF( ISBLANK(a.SIA__c), 'hiddenInput', 'dottedInput')}">{!a.SIA__c}</span>
+                        </p>
+                    </td>
+                </tr>
+            </table>
+            
+            <p class="paragrafoStandard9" style="margin-top: 20px;">
+                Con la presente dichiariamo, ai fini dell’instaurazione ed a valere su ogni rapporto eventualmente instaurato con codesta Banca, di voler ricevere le comunicazioni periodiche di trasparenza (es art. 118 e 126 sexies TUB), invio di rendiconto o estratti conto a mezzo Posta Elettronica Certificata (PEC) al seguente indirizzo:
+                </p>
+            <p class="paragrafoStandard9" style="margin-top: 10px; font-weight:bold;">Indirizzo di Posta Elettronica Certificata (PEC) <span class="{!IF( !ISBLANK(a.EmailPEC__c), 'hiddenInput', 'veryLongDot')}" />
+                <span class = "{!IF( ISBLANK(a.EmailPEC__c), 'hiddenInput', 'dottedInput')}"> {!a.EmailPEC__c} </span>
+            </p>
+            <p class="paragrafoStandard9" style="margin-top: 20px;">
+                Dichiariamo, altresì, di voler ricevere ogni altra comunicazione a mezzo posta o posta elettronica ai seguenti indirizzi, fermo restando il diritto della Banca di inoltrare la corrispondenza all’indirizzo PEC sopra indicato o iscritto nel Registro delle Imprese e/o in indirizzi:
+            </p>
+
+            <div style="margin-top: 10px;">
+                <p class="paragrafoTabella" style="font-weight:bold;">
+                    Indirizzo per l’invio della corrispondenza:
+                </p>
+                <p class="paragrafoTabella">
+                    <img  class="checkboxImgSmall" src="{!IF( adegVerifica.TipoIndirizzo__c = 'billing', $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>Sede legale&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <img  class="checkboxImgSmall" src="{!IF( adegVerifica.TipoIndirizzo__c = 'shipping', $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>Sede amministrativa&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <img  class="checkboxImgSmall" src="{!IF( adegVerifica.TipoIndirizzo__c = 'other', $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>Altro (specificare) .................
+                </p>
+                <p class="paragrafoTabella" style="margin-top: 4pt;">
+                    Indirizzo<span class = "dottedInput">
+                    {! IF( adegVerifica.TipoIndirizzo__c = 'other', adegVerifica.CorrispondenzaStreetType__c + ' ' + adegVerifica.CorrispondenzaStreetName__c + ' ' + adegVerifica.CorrispondenzaStreetNumber__c, '')}
+                    </span>
+                    Città<span class = "dottedInput">
+                    {! IF( adegVerifica.TipoIndirizzo__c = 'other', adegVerifica.CorrispondenzaCity__c, '')}
+                    </span>
+                    CAP<span class = "dottedInput">
+                    {! IF( adegVerifica.TipoIndirizzo__c = 'other', adegVerifica.CorrispondenzaCAP__c, '')}
+                    </span>
+                    Provincia<span class = "dottedInput">
+                    {! IF( adegVerifica.TipoIndirizzo__c = 'other', adegVerifica.CorrispondenzaState__c, '')}
+                    </span>
+                </p>
+                <p class="paragrafoTabella">
+                    Telefono
+                    <span class = "{!IF( AND(!ISBLANK(a.TelefonoPrefisso__c), !ISBLANK(a.TelefonoNumero__c)), 'dottedInput', 'hiddenInput')}"> {!a.TelefonoPrefisso__c + a.TelefonoNumero__c} </span>
+                    <span class = "{!IF( AND(!ISBLANK(a.Phone), OR(ISBLANK(a.TelefonoPrefisso__c), ISBLANK(a.TelefonoNumero__c))), 'dottedInput', 'hiddenInput')}"> {!a.Phone} </span>
+                    <span class = "{!IF( AND(ISBLANK(a.Phone), OR(ISBLANK(a.TelefonoPrefisso__c), ISBLANK(a.TelefonoNumero__c))), 'veryLongDot', 'hiddenInput')}"/>
+                    Fax
+                    <span class = "{!IF( !ISBLANK(a.Fax), 'hiddenInput', 'veryLongDot')}"/>
+                    <span class = "{!IF( ISBLANK(a.Fax), 'hiddenInput', 'dottedInput')}"> {!a.Fax} </span>
+                </p>
+                <p class="paragrafoTabella">
+                    Posta elettronica<span class="{!IF( !ISBLANK(a.Email__c), 'hiddenInput', 'veryLongDot')}"/>
+                    <span class="{!IF( ISBLANK(a.Email__c), 'hiddenInput', 'dottedInput')}">{!a.Email__c}</span>
+                </p>
+            </div>
+            <div style="margin-top: 10px;">
+                <p class="paragrafoTabella" style="font-weight:bold; margin-top: 20px;">
+                    Indirizzo per l’invio delle fatture elettroniche:
+                </p>
+                <p class="paragrafoStandard9" style="margin-top: 10px;">
+                    Dichiariamo, infine, di voler ricevere le fatture elettroniche tramite Sistema di Interscambio,
+                    all'indirizzo di Posta Elettronica Certificata (PEC)
+                    <span class="{!IF( !ISBLANK(a.EmailPECFatturaElettronica__c), 'hiddenInput', 'veryLongDot')}"/>
+                    <span class = " {!IF( ISBLANK(a.EmailPECFatturaElettronica__c), 'hiddenInput', 'dottedInput')}"> {!a.EmailPECFatturaElettronica__c} </span>
+                    e/o tramite il seguente Codice Destinatario
+                    <span class="{!IF( !ISBLANK(a.CodiceDestinatario__c), 'hiddenInput', 'veryLongDot')}"/>
+                    <span class=" {!IF( ISBLANK(a.CodiceDestinatario__c), 'hiddenInput', 'dottedInput')}"> {!a.CodiceDestinatario__c} </span>
+                </p>
+            </div>
+            <div class="uniqueBlock midMarginBlock" style="margin-top:40px;">
+                <p class="MsoNormal">
+                    <span>
+                        Luogo e Data <br/>
+                        <br/>
+                        <br/>
+                        <span class = "{!IF(!isTiAnticipo, '', 'hiddenInput')}">__________________________________</span>
+                        <span class = "{!IF(AND(isTiAnticipo, !ISBLANK(a.BillingCity)), 'linedInput', 'hiddenInput')}"> {!a.BillingCity} </span>
+                        <span class = "{!IF(AND(isTiAnticipo, ISBLANK(a.BillingCity)), '', 'hiddenInput')}">__________</span>
+                        <span class = "{!IF(isTiAnticipo, 'linedInput', 'hiddenInput')}">
+                            <apex:outputText value="{0,date,dd'/'MM'/'yyyy}">
+                                <apex:param value="{!TODAY()}" />
+                            </apex:outputText>
+                        </span>
+                    </span>
+                    <span style="float:right; margin-right:5pt;"> _________________________________</span>
+                    <br/>
+                    <span style="float:right; margin-right:15pt;"> (Timbro e firma dell'esecutore)</span>
+                </p>
+            </div>
+        </body>
+    </html>
+</apex:page>

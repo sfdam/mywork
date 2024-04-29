@@ -1,0 +1,94 @@
+.THIS {
+}
+
+.THIS .title-color{
+    color:gray;
+}
+
+/* Classe che fixa l'altezza della cella in cui non ci sono le immagini della legal entity */
+.THIS .fix-title1{
+    margin: 0 0 9px;
+}
+
+.THIS .fix-title2{
+    margin: 0 0 16px;
+}
+
+.THIS .riepilogo{
+    background-color:lightgray;
+}
+
+.THIS .color1{
+    background:#0064b5;
+    /*border-radius:10px; */
+}
+
+.THIS .color2{
+    background: #1100d3;
+}
+
+.THIS .color3{
+    background: #9AC9FF;
+    /*border-radius:10px; */
+}
+
+.THIS .color4{
+    background: #003A81;
+    /*border-radius:10px; */
+}
+
+.THIS .color5{
+    background:#B9B9B9;
+    /*border-radius:10px;*/
+}
+
+.THIS .bck{
+    background:#efefef;
+    border-radius:10px;
+}
+
+.THIS .alt{
+    height:7px;
+}
+
+.THIS .container-percent{
+    display:inline-flex;
+}
+
+/*
+.THIS .container-percent > div > div:first-child{
+    border-radius: 10px 0 0 10px;
+}
+
+.THIS .container-percent > div > div:last-child{
+    border-radius: 0 10px 10xp 0;
+}
+*/
+
+.THIS .logo{
+    max-width:58px; 
+    max-height:30px; 
+}
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : landscape)
+and (-webkit-min-device-pixel-ratio: 2) { 
+    /* STYLES GO HERE */
+    .THIS .ipad {
+        width: 100%;
+    }
+
+}
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : portrait)
+and (-webkit-min-device-pixel-ratio: 2) { 
+    /* STYLES GO HERE */ 
+    .THIS .ipad {
+        width: 100%;
+    }
+}

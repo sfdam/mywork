@@ -1,0 +1,109 @@
+<apex:page standardController="Lead" extensions="GoogleMapViewController">
+
+    
+    
+    <!-- <apex:includeScript value="{!URLFOR($Resource.Jquery, '/jquery-1.10.2.js')}"  /> -->
+    <apex:includeScript value="{!URLFOR($Resource.jQuery321)}"  />
+    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFed5Et8wxOy9NlgacSl4bdrv39k4_w30&callback=initMap"></script> -->
+
+    <style type="text/css">
+      #map_canvas {
+        font-family: Arial;
+        font-size: 12px;
+        line-height: normal !important;
+        background: transparent;
+        height: 198px;
+        width: 100%;
+        border-style: solid;
+        border-width: 1px;
+        border-color: CadetBlue;
+      }
+    </style>
+    <script type="text/javascript">
+
+function errorCase(error) {
+    jQuery( function($) {
+        $('#map_canvas').css({'height' : '15px'});
+        $('#map_canvas').html("&nbsp;&nbsp;{!JSENCODE('No result found')}");
+        var me = window.name;
+        if (me) {
+            var iframes = parent.document.getElementsByName(me);
+            if (iframes && iframes.length == 1) {
+                height = document.body.offsetHeight;
+                iframes[0].style.height = height + "px";
+            }
+        }
+    });
+}
+
+function initMap() {
+    jQuery.noConflict();
+    try {
+        
+        var street = '{!JSENCODE(Lead.Street)}'; //this field is a textarea so it requires JSENCODE
+        var city = '{!JSENCODE(Lead.City)}';
+        var postalcode = '{!JSENCODE(Lead.PostalCode)}';
+        var country = '{!JSENCODE(Lead.Country)}';
+        var address = street + ', ' + postalcode + ' ' + city + ', ' + country;
+        //var address = '5 via dei Condotti, Roma, Italia';
+
+        console.log('SV address: ', address, '{!JSENCODE(user.Societa__c)}');
+        
+        var geocoder = new google.maps.Geocoder();
+        var mapOptions = {
+            center : new google.maps.LatLng(41.8905198, 12.494248599999992),
+            zoom : 15,
+            mapTypeId : google.maps.MapTypeId.ROADMAP,
+            disableDefaultUI : true,
+            zoomControl : true,
+        };
+
+        if (geocoder) {
+            geocoder.geocode( { 'address': address}, function(results, status) {
+                //alert(status == google.maps.GeocoderStatus.OK && results.length);
+                if (status == google.maps.GeocoderStatus.OK && results.length) {
+                    //alert(status != google.maps.GeocoderStatus.ZERO_RESULTS);
+                    if (status != google.maps.GeocoderStatus.ZERO_RESULTS) {
+                        
+                        //create map
+                        var map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
+                    
+                        //center map
+                        map.setCenter(results[0].geometry.location);
+
+                        //create a little window with informations about the marked point
+                        var infowindow = new google.maps.InfoWindow({
+                            'content': '<b>' + results[0].formatted_address + '&nbsp;</b>',
+                            'size': new google.maps.Size(150,50)
+                        });
+                        
+                        //create marker
+                        var marker = new google.maps.Marker({
+                            position: results[0].geometry.location,
+                            map : map,
+                            title : '{!JSENCODE('Address Information')}',
+                        });
+                        
+                        //add listeners
+                        google.maps.event.addListener(marker, 'click', function() {
+                            infowindow.open(map,marker);
+                        });
+                        google.maps.event.addListener(infowindow, 'closeclick', function() {
+                            map.setCenter(marker.getPosition()); 
+                        });
+                    } else errorCase("exception1");
+                } else errorCase("exception2");
+            });
+        } else errorCase("exception3");
+        
+    } catch (exception) {errorCase(exception);}
+}
+
+    </script>
+    <body>
+        <div id="map_canvas"></div>
+    </body>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key={!JSENCODE($Setup.EndpointServizi__c.TXT_GoogleAPI_Maps__c)}&callback=initMap" async="true" defer="true"></script>
+
+</apex:page>

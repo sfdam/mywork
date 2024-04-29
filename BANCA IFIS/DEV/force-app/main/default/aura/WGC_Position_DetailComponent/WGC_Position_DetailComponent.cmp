@@ -1,0 +1,272 @@
+<aura:component controller="WGC_PosizioneController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+    access="global">
+
+    <ltng:require scripts="{!join(',', 
+             '/resource/WGC_jQuery3x',
+             '/resource/WGC_ChartJs')}"
+        afterScriptsLoaded="{!c.doInit}" />
+
+    <lightning:navigation aura:id="navService" />
+
+    <aura:attribute name="recordId" type="String" />
+
+    <!-- wrapper response dati posizioni -->
+    <aura:attribute name="response" type="Object" />
+    <!-- response percentuali -->
+    <aura:attribute name="responsePercent" type="Object[]" />
+    
+    <aura:attribute name="showData" type="Boolean" default="true"/>
+    <aura:attribute name="showRecord" type="Boolean" default="false" />
+
+    <aura:attribute name="lastUpdateFactCedente" type="String" />
+
+    <!-- <aura:if isTrue="{!v.isLoaded}"> -->
+        <lightning:card>
+                <div class='container-card ipad'>
+                    <lightning:layout multipleRows="true">
+                        <aura:if isTrue="{! v.showData }">
+                            <div class="spinnerDiv">
+                                <lightning:spinner alternativeText="Loading" size="large" aura:id="mySpinner" class="slds-hide" />
+                            </div>
+                        <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12">
+                            <lightning:layout class="slds-m-bottom_x-small bck" multipleRows="true">
+                                <!-- PRIMA LEGAL ENTITY -->
+                                <aura:iteration items="{!v.responsePercent}" var="item">
+                                <lightning:layoutItem class="slds-p-around_x-small" size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="6">
+                                    <lightning:layout multipleRows="true">
+                                        <lightning:layoutItem class="{! 'slds-p-top_x-small title-color ' + (item.codiceIstituto == '881' ? ' fix-title1 ' : ' fix-title2 ' )}" size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12">
+                                            <span>{!$Label.c.WGC_Position_DetailComponent_Impiego_Puntuale}</span>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem class="container-percent" size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12">
+                                            <aura:if isTrue="{!item.percentualiImpiego.percentFactoringCed &gt;= 20}">
+                                                <div style="{! 'width: ' + item.percentualiImpiego.percentFactoringCed + '%;'}">
+                                                    <div style="width:100%; display:block;" class="color1 alt">
+
+                                                    </div>
+                                                    <div style="display:block;" class="slds-p-top_xx-small slds-text-title_bold">
+                                                        {!item.percentualiImpiego.percentFactoringCed} %
+                                                    </div>
+                                                    <div style="display:block;">
+                                                        {!$Label.c.WGC_Position_DetailComponent_Factoring_Cedente}
+                                                    </div>
+                                                </div>
+                                            </aura:if>
+                                            <aura:if isTrue="{!item.percentualiImpiego.percentFactoringDeb &gt;= 20}">
+                                                <div style="{! 'width: ' + item.percentualiImpiego.percentFactoringDeb + '%;'}">
+                                                    <div style="width:100%; display:block;" class="color2 alt">
+
+                                                    </div>
+                                                    <div style="display:block;" class="slds-p-top_xx-small slds-text-title_bold">
+                                                        {!item.percentualiImpiego.percentFactoringDeb} %
+                                                    </div>
+                                                    <div style="display:block;">
+                                                        {!$Label.c.WGC_Position_DetailComponent_Factoring_Debitore}
+                                                    </div>
+                                                </div>
+                                            </aura:if>
+                                            <aura:if isTrue="{!item.percentualiImpiego.percentFinanziamenti &gt;= 20}">
+                                                <div style="{! 'width: ' + item.percentualiImpiego.percentFinanziamenti + '%;'}">
+                                                    <div style="width:100%; display:block;" class="color3 alt">
+
+                                                    </div>
+                                                    <div style="display:block;" class="slds-p-top_xx-small slds-text-title_bold">
+                                                        {!item.percentualiImpiego.percentFinanziamenti} %
+                                                    </div>
+                                                    <div style="display:block;">
+                                                        {!$Label.c.WGC_Position_DetailComponent_Finanziamenti}
+                                                    </div>
+                                                </div>
+                                            </aura:if>
+                                            <aura:if isTrue="{!item.percentualiImpiego.percentLeasing &gt;= 20}">
+                                                <div style="{! 'width: ' + item.percentualiImpiego.percentLeasing + '%;'}">
+                                                    <div style="width:100%; display:block;" class="color4 alt">
+
+                                                    </div>
+                                                    <div style="display:block;" class="slds-p-top_xx-small slds-text-title_bold">
+                                                        {!item.percentualiImpiego.percentLeasing} %
+                                                    </div>
+                                                    <div style="display:block;">
+                                                        {!$Labelc.WGC_Position_DetailComponent_Leasing}
+                                                    </div>
+                                                </div>
+                                            </aura:if>
+                                            <aura:if isTrue="{! item.percentualiImpiego.percentAltro != 0}">
+                                                <div style="{! 'min-width:10%; width: ' + item.percentualiImpiego.percentAltro + '%;'}">
+                                                    <div style="width:100%; display:block;" class="color5 alt">
+
+                                                    </div>
+                                                    <div style="display:block;" class="slds-p-top_xx-small slds-text-title_bold">
+                                                        {!item.percentualiImpiego.percentAltro} %
+                                                    </div>
+                                                    <div style="display:block;">
+                                                        {!$Label.c.WGC_Position_DetailComponent_Altro}
+                                                    </div>
+                                                </div>
+                                            </aura:if>
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem class="slds-p-around_x-small" size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="6">
+                                <lightning:layout multipleRows="true">
+                                    <lightning:layoutItem class="{! 'slds-p-top_x-small title-color ' + (item.codiceIstituto == '881' ? ' fix-title1 ' : ' fix-title2 ' )}" size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12">
+                                        <span>{!$Label.c.WGC_Position_DetailComponent_Accordato_Puntuale}</span>
+                                        <!-- 
+                                        <div style="float:right; margin:0 0 5px;">
+                                            <aura:if isTrue="{!item.codiceIstituto == '881'}">
+                                                <img src="{!$Resource.WGC_LogoIfisItalia}" class="logo" />
+                                                <aura:set attribute="else">
+                                                    <img src="{!$Resource.WGC_LogoIfisFinance}" class="logo" />
+                                                </aura:set>
+                                            </aura:if>
+                                        </div>
+                                        -->
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem class="container-percent" size="10" smallDeviceSize="10" mediumDeviceSize="10" largeDeviceSize="10">
+                                        <aura:if isTrue="{!item.percentualiAccordato.percentFactoringCed &gt; 20}">
+                                            <div style="{! 'width: ' + item.percentualiAccordato.percentFactoringCed + '%;'}">
+                                                <div style="width:100%; display:block;" class="color1 alt">
+
+                                                </div>
+                                                <div style="display:block;" class="slds-p-top_xx-small slds-text-title_bold">
+                                                    {!item.percentualiAccordato.percentFactoringCed} %
+                                                </div>
+                                                <div style="display:block;">
+                                                    {!$Label.c.WGC_Position_DetailComponent_Factoring_Cedente}
+                                                </div>
+                                            </div>
+                                        </aura:if>
+                                        <aura:if isTrue="{!item.percentualiAccordato.percentFactoringDeb &gt; 20}">
+                                            <div style="{! 'width: ' + item.percentualiAccordato.percentFactoringDeb + '%;'}">
+                                                <div style="width:100%; display:block;" class="color2 alt">
+
+                                                </div>
+                                                <div style="display:block;" class="slds-p-top_xx-small slds-text-title_bold">
+                                                    {!item.percentualiAccordato.percentFactoringDeb} %
+                                                </div>
+                                                <div style="display:block;">
+                                                    {!$Label.c.WGC_Position_DetailComponent_Factoring_Debitore}
+                                                </div>
+                                            </div>
+                                        </aura:if>
+                                        <aura:if isTrue="{!item.percentualiAccordato.percentFinanziamenti &gt; 20}">
+                                            <div style="{! 'width: ' + item.percentualiAccordato.percentFinanziamenti + '%;'}">
+                                                <div style="width:100%; display:block;" class="color3 alt">
+
+                                                </div>
+                                                <div style="display:block;" class="slds-p-top_xx-small slds-text-title_bold">
+                                                    {!item.percentualiAccordato.percentFinanziamenti} %
+                                                </div>
+                                                <div style="display:block;">
+                                                    {!$Label.c.WGC_Position_DetailComponent_Finanziamenti}
+                                                </div>
+                                            </div>
+                                        </aura:if>
+                                        <aura:if isTrue="{!item.percentualiAccordato.percentLeasing &gt; 20}">
+                                            <div style="{! 'width: ' + item.percentualiAccordato.percentLeasing + '%;'}">
+                                                <div style="width:100%; display:block;" class="color4 alt">
+
+                                                </div>
+                                                <div style="display:block;" class="slds-p-top_xx-small slds-text-title_bold">
+                                                    {!item.percentualiAccordato.percentLeasing} %
+                                                </div>
+                                                <div style="display:block;">
+                                                    {!$Label.c.WGC_Position_DetailComponent_Leasing}
+                                                </div>
+                                            </div>
+                                        </aura:if>
+                                        <aura:if isTrue="{! item.percentualiAccordato.percentAltro != 0}">
+                                            <div style="{! 'min-width:10%; width: ' + item.percentualiAccordato.percentAltro + '%;'}">
+                                                <div style="width:100%; display:block;" class="color5 alt">
+
+                                                </div>
+                                                <div style="display:block;" class="slds-p-top_xx-small slds-text-title_bold">
+                                                    {!item.percentualiAccordato.percentAltro} %
+                                                </div>
+                                                <div style="display:block;">
+                                                    {!$Label.c.WGC_Position_DetailComponent_Altro}
+                                                </div>
+                                            </div>
+                                        </aura:if>
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem size="2" smallDeviceSize="2" mediumDeviceSize="2" largeDeviceSize="2">
+                                        <div style="float:right; margin:0 0 5px;">
+                                            <aura:if isTrue="{!item.codiceIstituto == '881'}">
+                                                <img src="{!$Resource.WGC_LogoIfisItalia}" class="logo" />
+                                                <aura:set attribute="else">
+                                                    <img src="{!$Resource.WGC_LogoIfisFinance}" class="logo" />
+                                                </aura:set>
+                                            </aura:if>
+                                        </div>
+                                    </lightning:layoutItem>
+                                    </lightning:layout>
+                                </lightning:layoutItem>
+                            </aura:iteration>
+                            </lightning:layout>
+                        </lightning:layoutItem>
+                            <!-- 
+                            <aura:set attribute="else">
+                                
+                                <div class="slds-box slds-text-align_center">
+                                    <span class="slds-text-heading_small">Nessun record di posizione disponibile</span>
+                                </div>
+                                
+                            </aura:set>
+                            -->
+                        </aura:if>
+                        <aura:if isTrue="{! v.showRecord }">
+                            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12">
+                                <c:WGC_Factoring_Component listaPosCedente="{!v.response.data[0].factoringCedente}" listaPosPDRCedente="{!v.response.data[0].factoringPDRCedente}"
+                                listaPosPDRDebitore="{!v.response.data[0].factoringPDRDebitore}" listaPosConfirmingDebitore="{!v.response.data[0].factoringConfirmingDebitore}" 
+                                listaPosPlafondDebitore="{!v.response.data[0].factoringPlafondDebitore}"
+                                lastUpdateFactCedente="{! v.lastUpdateFactCedente }"
+                                recordId="{!v.recordId}" titleA="FACTORING CEDENTE" titleB="FACTORING DEBITORE" color="white" colortext="black"/>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12">
+                                <c:WGC_Lending_Component listaPosFinanziamenti="{!v.response.data[0].finanziamenti}" recordId="{!v.recordId}" title="FINANZIAMENTI" color="white" colortext="black" />
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12">
+                                <c:WGC_Leasing_Component listaPosLeasing="{!v.response.data[0].leasing}" recordId="{!v.recordId}" title="LEASING" color="white" colortext="black" />
+                            </lightning:layoutItem>
+                            <!--
+                            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12">
+                                <c:WGC_Cassa_Component listaPosContiCorrenti="{!v.response.data[0].contiCorrenti}" listaPosContiDeposito="{!v.response.data[0].contiDeposito}" recordId="{!v.recordId}" title="SERVIZI BANCARI" color="white" colortext="black" />
+                            </lightning:layoutItem>
+                            -->
+                            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12">
+                                <c:WGC_Cassa_Component listaPosCreditiDiFirma="{!v.response.data[0].creditoDiFirma}" listaPosCreditiProblematici="{!v.response.data[0].creditiProb}"
+                                listaPosNPL="{!v.response.data[0].NPL}" listaPosGaranzie="{!v.response.data[0].garanzie}"
+                                listaPosContiCorrenti="{!v.response.data[0].contiCorrenti}" listaPosContiDeposito="{!v.response.data[0].contiDeposito}" listaPosAnticipoPAC="{!v.response.data[0].anticipoPac}"
+                                listaAnticipoFatture="{!v.response.data[0].anticipoFatture}" listaPortafoglioCommerciale="{!v.response.data[0].portafoglioCommerciale}"
+                                recordId="{!v.recordId}" title="ALTRO" color="white" colortext="black" />
+                            </lightning:layoutItem>
+
+                            <!-- Investimenti è da togliere ??? -->
+                            <!-- <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12">
+                                <c:WGC_Cassa_Component recordId="{!v.recordId}" title="INVESTIMENTI" color="white" colortext="black" />
+                            </lightning:layoutItem> -->
+                            <!--
+                            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12">
+                                <c:WGC_Cassa_Component listaPosGaranzie="{!v.response.data[0].garanzie}" recordId="{!v.recordId}" title="GARANZIE" color="white" colortext="black" />
+                            </lightning:layoutItem>
+                            -->
+
+                            <!-- CREDITI ERARIALI -->
+                            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12">
+                                <c:WGC_PosizioneCreditiErariali_Component listaPosErariali="{!v.response.data[0].creditiErariali}"/>
+                            </lightning:layoutItem>
+                            <!-- Corporate Estero -->
+                            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12">
+                                <c:WGC_PosizioneEstero_Component listaPosEstero="{!v.response.data[0].portafoglioCorporateEstero}"/>
+                            </lightning:layoutItem>
+                            <aura:set attribute="else">
+                                <lightning:layoutItem size="12">
+                                    <div class="slds-box slds-text-align_center">
+                                        <span class="slds-text-heading_small">{!$Label.c.WGC_Position_DetailComponent_Nessun_record_di_posizione_disponibile}</span>
+                                    </div>
+                                </lightning:layoutItem>
+                            </aura:set>
+                        </aura:if>
+                    </lightning:layout>
+                </div>
+        </lightning:card>
+</aura:component>

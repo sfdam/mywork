@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PTF_TipologiaRuoloReferente__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(
+PTF_Pool__c,
+&apos;Pool&apos;,
+IF(CRM_ReferentePortafoglio__c != null,
+CRM_ReferentePortafoglio__r.PTF_TipologiaRuolo__r.Name,
+&apos;Non assegnato&apos;)
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>PTF_Tipologia ruolo referente</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

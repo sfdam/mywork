@@ -1,0 +1,23 @@
+<aura:component >
+    
+    <!-- Aura Attribute -->
+    <aura:attribute name='activityType' type='String' default='Task' />
+    <aura:attribute name='itemDetail' type='Object' default='{}' />
+
+    <aura:If isTrue="{! v.activityType == 'Task'}" >
+        <c:WGC_ActivityTimeLine_Item_Task itemDetail="{! v.itemDetail }" />
+    </aura:If>
+    
+    <aura:If isTrue="{! v.activityType == 'Event'}" >
+         <c:WGC_ActivityTimeLine_Item_Event itemDetail="{! v.itemDetail }" />
+    </aura:If>
+    
+    <aura:If isTrue="{! v.activityType == 'Diario'}" >
+         <c:WGC_ActivityTimeLine_Item_Diario itemDetail="{! v.itemDetail }" />
+    </aura:If>
+
+    <aura:If isTrue="{! v.activityType == 'Promemoria'}" >
+         <c:WGC_ActivityTimeLine_Item_Promemoria itemDetail="{! v.itemDetail }" />
+    </aura:If>
+	
+</aura:component>

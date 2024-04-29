@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>58.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__RecordPage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__RecordPage">
+            <property name="certificate" type="String" default="salesforcetestclient2024"/>
+            <property name="logDisable" type="Boolean" default="false"/>
+            <property name="title" type="String" default=""/>
+            <property name="buttonLabel" type="String" default="Carica Piani Rateali"/>
+            <property name="iconName" type="String" label="Icona"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

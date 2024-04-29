@@ -1,0 +1,203 @@
+<template>
+    <template if:true={profiloAutorizzatoShow}>
+        <lightning-layout multiple-rows="true">
+            <lightning-layout-item size="12">
+                <button type="submit" class="slds-button slds-button_neutral slds-button_stretch" onclick={handleOpenNdgModal} disabled={disabled}>{title}</button>
+            </lightning-layout-item>
+        </lightning-layout>
+    </template>
+    <!-- MODAL -->
+    <template if:true={openAddNdgmodal}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_large">
+            <div class="slds-modal__container">
+                
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeNdgModal}>
+                        <lightning-icon icon-name="utility:close" size="medium">
+                        </lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <div class="tilte-card"><b>{title}</b></div>
+
+                    <!-- <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate"></h2> -->
+                </header>
+                <template if:true={step1}>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <div class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none">
+                                <lightning-layout multiple-rows="true">
+                                    <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="6" large-device-size="3">
+                                        <lightning-input type="text" label="Microportafoglio" placeholder="Cerca per microportafoglio..." value={searchedNomeMw} onchange={handleFilter} name="searchedNomeMw" data-item="searchedNomeMw"></lightning-input>
+                                    </lightning-layout-item>
+                                    
+                                    <lightning-layout-item flexibility="auto" padding="around-small" size="12">
+                                        <lightning-button-group class="slds-float_right">
+                                            <lightning-button 
+                                            variant="neutral"
+                                            label="Reset"
+                                            title="Reset"
+                                            onclick={handleMWReset}>
+                                            </lightning-button>
+                                            <lightning-button 
+                                                variant="neutral"
+                                                label="Cerca"
+                                                title="Cerca"
+                                                onclick={handleMWSearch}>
+                                            </lightning-button>
+                                        </lightning-button-group>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                        </div>
+                        <div class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none">
+                            <lightning-layout>
+                                <lightning-layout-item size="12">
+                                    <div class="slds-box">
+                                        <div style="height: 18rem;">
+                                            <lightning-datatable data-item="mwTable" 
+                                                                key-field="Id"
+                                                                columns={mwColumns}
+                                                                data={mwList}
+                                                                max-row-selection=1
+                                                                selected-rows={selectedMWRowIds}
+                                                                enable-infinite-loading
+                                                                onloadmore={loadMoreMWData}>
+                                            </lightning-datatable>
+                                        </div>
+                                    </div>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </div>
+                    </div>
+                </template>
+                <template if:false={step1}>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
+                        <div class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none">
+                                <lightning-layout multiple-rows="true">
+                                    <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="6" large-device-size="3">
+                                        <lightning-input type="text" label="Nominativo" placeholder="Cerca per nominativo..." value={searchedNome} onchange={handleFilter} name="searchedNome" data-item="searchedNome"></lightning-input>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="6" large-device-size="3">
+                                        <lightning-input type="text" label="NDG" placeholder="Cerca per NDG..." value={searchedNdg} onchange={handleFilter} name="searchedNdg" data-item="searchedNdg"></lightning-input>
+                                    </lightning-layout-item>
+                                    
+                                    <lightning-layout-item flexibility="auto" padding="around-small" size="12">
+                                        <lightning-button-group class="slds-float_right">
+                                            <lightning-button 
+                                                variant="neutral"
+                                                label="Reset"
+                                                title="Reset"
+                                                onclick={handleNDGReset}>
+                                            </lightning-button>
+                                            <lightning-button 
+                                                variant="neutral"
+                                                label="Cerca"
+                                                title="Cerca"
+                                                onclick={handleNDGSearch}>
+                                            </lightning-button>
+                                        </lightning-button-group>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                        </div>
+                        <div class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none">
+                            <lightning-layout class="paginator">
+                                <lightning-layout-item alignment-bump="left">
+                                    <lightning-layout class="slds-align_absolute-center">
+                                        <lightning-layout-item padding="around-small">
+                                            <div class="lgc-bg">
+                                                <lightning-button-icon icon-name="utility:chevronleft"  variant="container" alternative-text="Settings" title="Settings" onclick={handleIndietro} disabled={disabledButtonIndietro}></lightning-button-icon>
+                                            </div>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item padding="around-small">
+                                            Pag. {page}
+                                        </lightning-layout-item>
+                                        <lightning-layout-item padding="around-small">
+                                            <div class="lgc-bg">
+                                                <lightning-button-icon icon-name="utility:chevronright"  variant="container" alternative-text="Settings" title="Settings" onclick={handleAvanti} disabled={disabledButtonAvanti}></lightning-button-icon>
+                                            </div>                
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                            <lightning-layout>
+                                <lightning-layout-item size="12">
+                                    <template if:false={isRendered}>
+                                        <div class="modal-spinner">
+                                            <lightning-spinner alternative-text="CARICAMENTO" size="small"></lightning-spinner>
+                                        </div>
+                                    </template>
+                                        <div style="height: 18rem;">
+                                            <lightning-datatable data-item="ndgTable" 
+                                                                key-field="Id"
+                                                                columns={ndgColumns}
+                                                                data={currentPageData}
+                                                                onrowselection={handleSelection}
+                                                                selected-rows={selectedRowsStep2}
+                                                                sorted-by={ndgSortBy}
+                                                                sorted-direction={ndgSortDirection}
+                                                                onsort={sortNdg}>>
+                                            </lightning-datatable>
+                                        </div>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </div>
+                    </div>
+                </template>
+                <footer class="slds-modal__footer">
+                    <lightning-layout>
+                        <lightning-layout-item size="6">
+                            <template if:true={bloccoSpostamenti}>
+                                <div class="slds-text-align_left">
+                                    <lightning-icon icon-name="utility:warning" alternative-text="Warning!" title="Warning" variant="warning" size="small"></lightning-icon>
+                                    <div style="display: inline-block;font-size: smaller;font-weight: bold;">{messaggioDiBloccoTitle}</div>
+                                </div>
+                            </template>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="6">
+                            <lightning-button-group>
+                                <lightning-button label="Annulla" variant="neutral" onclick={closeNdgModal}></lightning-button>
+                                <lightning-button label="Avanti" if:true={step1} variant="neutral" onclick={handleNdgModalStep2}></lightning-button>
+                                <lightning-button label="Indietro" if:false={step1} variant="neutral" onclick={handleNdgModalStep1}></lightning-button>
+                                <lightning-button label="Salva ed Esci" if:false={step1} variant="neutral" onclick={handleSaveAndClose}></lightning-button>
+                                <lightning-button label="Salva e Rifai" if:false={step1} variant="neutral" onclick={handleSaveAndRedo}></lightning-button>
+                            </lightning-button-group>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </footer>
+            </div>
+            <template if:false={loaded}>
+                <div class="spinner-holder">
+                    <lightning-spinner alternative-text="Loading"></lightning-spinner>
+                </div>
+            </template>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+        <template if:true={openDialog}>
+            <lightning-card>
+                <div class="slds-container_small">
+                    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-02" aria-modal="true" aria-describedby="modal-content-id-3" class="slds-modal slds-fade-in-open">
+                        <div class="slds-modal__container">
+                            <header class="slds-modal__header">
+                                <h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate"></h2>
+                            </header>
+                            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-3">
+                                <p>{messaggioDialog}Vuoi confermare operazione?</p>
+                            </div>
+                            <footer class="slds-modal__footer">
+                                <lightning-button variant="neutral"
+                                                  name="cancel"
+                                                  label='Annulla'
+                                                  title='Cancel'
+                                                  onclick={handleClickDialog} ></lightning-button>
+                                <lightning-button variant="brand"
+                                                  name="Conferma"
+                                                  label='Conferma'
+                                                  title='Conferma'
+                                                  onclick={handleClickDialog} ></lightning-button>
+                            </footer>
+                        </div>
+                    </section>
+                    <div class="slds-backdrop slds-backdrop_open"></div>
+                </div>
+            </lightning-card>
+        </template>
+    </template>
+</template>

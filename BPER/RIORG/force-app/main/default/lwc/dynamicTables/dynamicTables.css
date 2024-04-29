@@ -1,0 +1,78 @@
+/* .test-one {
+	background-color : rgb(12, 180, 96);
+  font-size: 13px;
+}
+
+
+.test-two {
+	font-size: 16px;
+}
+.test-three {
+	font-size: 15px;
+}
+.test-four {
+	font-size: 12px;
+  background-color: white;
+}
+
+.test-six {
+  font-size: 11px;
+  padding-left: 2px;
+}
+.test-hover:hover > .test-one{
+  background-color : rgb(12, 180, 96);
+} */
+
+
+lightning-helptext{
+
+  --sds-c-button-color-background: white;
+  position: absolute;
+  bottom: 0px;
+  right: -3px
+
+}
+
+.data-aggiornamento{
+
+  padding-right: 0px;
+}
+table {
+  font-size: 12px;
+}
+td,th{
+    border: 0.5px solid white;
+    vertical-align: middle;
+}
+
+tr:nth-child(even) {
+  background-color: #ffffff;
+}
+tr:nth-child(odd) {
+  background-color: #efefef;
+}
+.header-title {
+  background-color : #d6d6d6;
+  font-size: 14px;
+}
+.accordion {
+  background-color: #d6d6d6 !important;
+  color: #444;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: rgb(11, 85, 11);
+  text-align: left;
+  outline: none;
+  transition: 0.4s;
+}
+.first-column-definition{
+  min-width: 135px;
+  padding-right: 25px;
+}
+
+.slds-table_bordered {
+  border-top: none;
+  border-bottom: none;
+}

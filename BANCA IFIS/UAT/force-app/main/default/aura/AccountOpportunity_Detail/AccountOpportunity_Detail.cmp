@@ -1,0 +1,833 @@
+<aura:component implements="lightning:isUrlAddressable,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction,lightning:isUrlAddressable" access="global" controller="WizardOpportunityController"  extends="c:WGC_Utility">
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="opportunityId" type="String"/>
+    <aura:attribute name="currentOpportunity" type="Object" description="The record object to be displayed"/>
+    <aura:attribute name="opportunityRecord" type="Object" description="A simplified view record object to be displayed"/>
+    <aura:attribute name="recordError" type="String" description="An error message bound to force:recordData"/>
+
+    <aura:attribute name="payload" type="Object" description="Complete payload of information for the cart configuration"/>
+
+    <aura:attribute name="parametriEConfigurazioniLinee" type="Object"/>
+
+    <aura:attribute name="invioInValutazioneValido" type="Boolean" default="false" description="Flag to disable/enable the 'Send to Evaluation' button"/>
+    <aura:attribute name="isCurrentUserSpecialista" type="Boolean" default="true"/>
+    <aura:attribute name="products" type="Object[]" description="Products to be shown in cart configuration"/>
+    <aura:attribute name="selectedProducts" type="Object[]" description="Products selected by the user"/>
+    <aura:attribute name="productsFilters" type="String" default=""/>
+    <aura:attribute name="debitoriNewFields" type="Object[]"/>
+    <aura:attribute name="step" type="String" default="sceltaProdotto"/>
+    <aura:attribute name="referenti" type="Object[]"/>
+    <aura:attribute name="ifOpeningOpportunity" type="Boolean" default="false"/>
+
+    <aura:attribute name="picklistOptions" type="Object[]"/>
+    <aura:attribute name="debitoriPerLinea" type="Object[]"/>
+    <aura:attribute name="diviseOptions" type="WGC_Mapping_Divisa__mdt[]"/>
+    <aura:attribute name="tipologieMutui" type="Object[]"/>
+    <!-- A.M. Gestione Mutuo Veneto Sviluppo  -->
+    <aura:attribute name="tipologieMutuiVS" type="Object[]"/>
+    <aura:attribute name="labels" type="Object"/>
+    <aura:attribute name="pivaPerDebitore" type="Object"/>
+    <aura:attribute name="existingPlafond" type="Boolean"/>
+    <!-- A.M. -->
+    <aura:attribute name="IdAdE" type="String"/>
+    
+    <!-- WIZARD -->
+    <aura:attribute name="mainWizardItems" type="Object[]"/>
+    <aura:attribute name="wizardItems" type="Object[]"/>
+    <aura:attribute name="mainWizardProgressValue" type="Integer" default="0"/>
+
+    <aura:attribute name="isDeleting" type="Boolean" default="false"/>
+    <aura:attribute name="motivoChiusura" type="String" default=""/>
+    <aura:attribute name="isAllDocValid" type="Boolean" default="false"/>
+
+    <aura:attribute name="isFlip0" type="Boolean" default="true"/>
+
+    <!-- ATTRIBUTES FOR FILTERS' MANAGEMENT -->
+    <aura:attribute name="filterTypeValue" type="String" default="recent"/>
+    <aura:attribute name="aree" type="String[]"/>
+    <aura:attribute name="areaLabel" type="String" default="Tutte"/>
+    <aura:attribute name="bisogni" type="Object[]"/>
+
+    <aura:attribute name="showSpinner" type="Boolean" default="true"/>
+    <aura:attribute name="spinnerMessage" type="String" default="Inizializzazione dati pratica"/>
+    <aura:attribute name="spinnerLocker" type="String" default=""/>
+    <aura:attribute name="servizi" type="MatriceServizio__mdt[]"/>
+
+    <!-- ATTRIBUTES FOR GARANTI E GARANZIE MANAGEMENT -->
+    <aura:attribute name="garanzie" type="Object[]" />
+    <aura:attribute name="garanti" type="Object[]" />
+    <aura:attribute name="matriceGaranzie" type="Object[]"/>
+    <aura:attribute name="divise" type="Object[]"/>
+    <aura:attribute name="garanzieDivise" type="Object[]"/>
+    <aura:attribute name="garanziaRequired" type="Boolean"/>
+
+    <!-- ATTRIBUTES FOR OPPTY HEADER MANAGEMENT -->
+    <aura:attribute name="titolariEffettivi" type="Object[]" />
+    <aura:attribute name="esecutori" type="Object[]" />
+
+    <!-- ATTRIBUTES FOR DATI PEF -->
+    <aura:attribute name="datiPEF" type="Object[]" />
+    <aura:attribute name="factoringProducts" type="List" />
+    <aura:attribute name="linee" type="Object[]" />
+    <aura:attribute name="importi" type="Object[]" />
+    <aura:attribute name="lineeChiuseAOD" type="Object[]" />
+
+    <aura:attribute name="loadMainInfo" type="Boolean" default="false"/>
+
+    <!-- ATTRIBUTES FOR RSF -->
+    <aura:attribute name="validRSF" type="Boolean" default="false"/>
+    <aura:attribute name="datiDoc" type="String"/>
+    <aura:attribute name="docIdRSF" type="String" default=""/>
+    <aura:attribute name="scadenzaRSF" type="String"/>
+    <aura:attribute name="docRSF" type="Object"/>
+    <aura:attribute name="linguaSelezionata" type="String" default=""/>
+    <aura:attribute name="fileNameRSF" type="String" default="ServiziFinanziari.pdf"/>
+
+    <aura:attribute name="validPrivacy" type="Boolean" default="false"/>
+
+    <!-- ATTRIBUTES FOR CR -->
+    <aura:attribute name="isValidCR" type="Boolean" default="false"/>
+    <aura:attribute name="hasCRData" type="Boolean" default="false"/>
+    <aura:attribute name="lastCRDate" type="Date"/>
+    <aura:attribute name="configCR" type="Object"/>
+    <!-- <aura:attribute name="debsData" type="Object[]"/> -->
+
+    <!-- ATTRIBUTES FOR PROFILATION -->
+    <aura:attribute name="qualificaUtente" type="String"/>
+
+    <!-- ATTRIBUTES FOR BILANCIO -->
+    <aura:attribute name="bilancio" type="Object"/>
+
+    <!-- ATTRIBUTES FOR REVISIONE -->
+    <aura:attribute name="isRevisione" type="Boolean"/>
+    <aura:attribute name="lockedProducts" type="Object[]"/>
+    <aura:attribute name="tipologiaOppLabel" type="String" default=""/>
+    <aura:attribute name="disableRevisionedLines" type="Boolean"/>
+    <aura:attribute name="codiciCoppia" type="Object[]"/>
+
+    <!-- ATTRIBUTES FOR RINNOVO -->
+    <aura:attribute name="isRinnovo" type="Boolean"/>
+    <aura:attribute name="alreadyReloaded" type="Boolean" default="false"/>
+    <aura:attribute name="newLines" type="Integer" default="0"/>
+    <aura:attribute name="newJoins" type="Boolean" default="false" />
+
+    <aura:attribute name="firstLoad" type="Boolean"/>
+
+    <!-- ATTRIBUTES FOR NAVIGATION THROUGH STAGES -->
+    <aura:attribute name="activePhase" type="String"/>
+    <aura:attribute name="readOnly" type="Boolean" default="false"/>
+    <aura:attribute name="ifClosable" type="Boolean" default="false"/>    
+    
+    <!-- ATTRIBUTE FOR FUNDING BEI -->
+    <aura:attribute name="esclusioneBEI" type="Boolean" default="false"/>
+    <!-- ATTRIBUTE FOR FONDO -->
+    <!-- CR Lotto 4.2 Id 315 -->
+    <aura:attribute name="esclusionePolizzaCPI" type="Boolean" default="false" />
+
+    <!-- ATTTRIBUTE FOR SPESE ISTRUTTORIA -->
+    <aura:attribute name="speseIstruttoria" type="List" />
+
+    <!-- ATTRIBUTES FOR FACTORING FISCALE -->
+    <aura:attribute name="currentUser" type="Object"/>
+    <aura:attribute name="optyRt" type="String" />
+
+    <!-- ATTRIBUTES FOR BANCA CORPORATE -->
+    <aura:attribute name="CCData" type="Object[]" />
+    <aura:attribute name="condizioniBC" type="Object[]" default="[]" />
+
+    <!-- SM - TEN: ATTRIBUTES FOR CORPORATE ESTERO -->
+    <aura:attribute name="picklistGaranzieEstero" type="Object[]" />
+
+    <!-- SM - TEN CR 425 Attributo per controllare presenza linee estero -->
+    <aura:attribute name="linesEstero" type="Integer" default="0" /> 
+
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    <aura:handler name="render" value="{!this}" action="{! c.onRender }"/>
+    <aura:handler name="change" value="{! v.opportunityRecord }" action="{! c.onChangeOpportunity }"/>
+    <aura:handler name="change" value="{! v.wizardItems }" action="{! c.checkInviaBtn }"/>
+    <aura:handler name="change" value="{! v.recordError }" action="{! c.showErrorLoadRecord }"/>
+    <aura:handler name="change" value="{! v.openWizardSection }" action="{! c.onWizardSectionSelected }"/>
+    <aura:handler name="change" value="{! v.bilancio }" action="{! c.onChangeBilancio }"/>
+    <aura:handler name="change" value="{! v.isAllDocValid }" action="{! c.onAllDocValidChange }"/>
+    <aura:handler name="navigateSubWizard" event="c:WGC_NavigateSubWizard" action="{! c.navigateSubWizard }"/>
+    <aura:handler event="c:WGC_Cart_Call_Server" action="{! c.cartCallServer }"/>
+    <aura:handler event="c:WGC_ModalManagerEvent" action="{! c.manageModal }"/>
+    <aura:handler event="c:WGC_HandlerFileUpload" action="{! c.uploadHandler }"/>
+    <aura:handler event="c:WGC_ChangeMavInfo" action="{! c.reloadTitEffEsec }"/>
+    <aura:handler event="c:WGC_Cart_ChangeWizardEvent" action="{! c.onChangeWizardEvent }"/>
+
+    <!-- LOAD AUTOSIZE LIBRARY FOR TEXTAREA MANIPULATION -->
+    <ltng:require 
+        scripts="{! join(',',
+                        $Resource.WGC_jQuery3x,
+                        $Resource.AutosizeJS) }"/><!--afterScriptsLoaded="{!c.autosizeLoaded}"-->
+
+    <!-- FORCE RECORD DATA -->
+    <!-- A.M. Inserito campo BonusEdilizi -->
+    <force:recordData aura:id="record"
+        layoutType="FULL"
+        recordId="{!v.opportunityId}"
+        targetError="{!v.recordError}"
+        targetRecord="{!v.currentOpportunity}"
+        targetFields="{!v.opportunityRecord}"
+        fields="Id,
+                Name,
+                CloseDate,
+                Probability,
+                StageName,
+                RecordTypeId,
+                RecordType.DeveloperName,
+                Originator__c,
+                Originator_di_dettaglio__c,
+                CreatedDate,
+                WGC_Prodotti_Selezionati__c,
+                OwnerId,
+                Owner.Name,
+                Owner.Qualifica_Utente__c,
+                AccountId,
+                Account.Name,
+                Account.NDGGruppo__c,
+                Account.WGC_Descrizione_dell_azienda__c,
+                Account.WGC_Alert_KPI_Centrale_Rischi__c,
+                Account.Sconfini_a_revoca__c,
+                Account.Sconfini_a_revoca_Utilizzato_Accordato__c,
+                Account.Sconfini_a_scadenza__c,
+                Account.Sconfini_a_scadenza_Utilizzato_Accordato__c,
+                Account.WGC_Alert_KPI_Eventi_negativi__c,
+                Account.WGC_Semaforo_CLC__c,
+                Account.WGC_Semaforo_Gianos__c,
+                Account.WGC_Semaforo_CLC_Formula__c,
+                Account.WGC_Semaforo_GIANOS_Formula__c,
+                Account.WGC_Rating__c,
+                Account.RatingT0__c,
+                Account.RatingT1__c,
+                Account.WGC_DataRichiestaCR__c,
+                Account.WGC_Area__c,
+                Account.WGC_Flag_non_affidato__c,
+                Account.WGC_Data_Caricamento_BKIT__c,
+                Account.Ateco__c,
+                WizardCompletato__c,
+                WGC_Data_Fase_In_Istruttoria__c,
+                WGC_Data_out_Fase_In_Istruttoria__c,
+                WGC_Data_Fase_Perfezionamento_Contratto__c,
+                WGC_Data_out_Perfezionamento_Contratto__c,
+                WGC_Data_Fase_Redazione_Contratto__c,
+                WGC_Data_out_Fase_Redazione_Contratto__c,
+                WGC_Data_Fase_Valutazione_Pratica__c,
+                WGC_Data_out_Fase_Valutazione_Pratica__c,
+                WGC_Data_Fase_Attivazione_Prodotto__c,
+                WGC_Data_out_Fase_Attivazione_Prodotto__c,
+                WGC_Data_Fase_Rinnovo__c,
+                WGC_Data_Out_Fase_Rinnovo__c,
+                WGC_Data_Fase_Valutazione__c,
+                WGC_Data_Out_Fase_Valutazione__c,
+                WGC_Data_Fase_Chiusa_Persa__c,
+                IdCartella__c,
+                WGC_NoteBilancio__c,
+                WGC_NoteCR__c,
+                WGC_NoteEventi__c,
+                WGC_Cross_Selling_JSON__c,
+                StatoPEF__c,
+                WGC_Codice_Pratica__c,
+                FaseDiCaduta__c,
+                CategoriaChiusuraTrattativa__c,
+                MotivoChiusuraTrattativa__c,
+                WGC_Descrizione_Operativit_Proposta__c,
+                WGC_Note_Condizioni_Economiche__c,
+                WGC_Presa_Visione_Bilancio__c,
+                WGC_Presa_Visione_CR__c,
+                WGC_Presa_Visione_Eventi__c,
+                Tipologia_Opportunit__c,
+                WGC_Prodotti_bloccati__c,
+                WGC_Documenti_validi__c,
+                WGC_Note_Cliente__c,
+                Amount,
+                WGC_Segnalatore_CrossSelling__r.Name,
+                WGC_Referente_CrossSelling__r.Name,
+                WGC_Agente_Segnalante__c,
+                WGC_Tipologia_CrossSelling__c,
+                WGC_Business_CrossSelling__c,
+                WGC_Qualifica_Cliente_CrossSelling__c,
+                WGC_Configurazione_Prodotti_Completa__c,
+                IsOppNSA__c,
+                WGC_Note_automatiche__c,
+                WGC_Finalita_Finance__c,
+                HasFactFisc__c,
+                BonusEdilizi__c,
+                WGC_Invio_Mail_FF__c,
+                WGC_WizardCompletatoBO__c,
+                WGC_Liti_pendenti__c,
+                WGC_Descrizione_liti_pendenti__c,
+                WGC_Ristrutturazione_del_debito__c,
+                WGC_Tipologia_di_ristrutturazione_debito__c,
+                WGC_Comm_Disponibilit_Fondi_CDF_Trim__c,
+                WGC_Descrizione_concorrenza__c,
+                WGC_Note_Automatiche_Estero__c,
+                WGC_Documenti_Non_Reperibili__c"
+        mode="VIEW"/>
+
+    <lightning:navigation aura:id="navService" />
+    <lightning:notificationsLibrary aura:id="notifLib"/>
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    
+    <div>
+        <lightning:card title="{! v.opportunityRecord.Name }">
+            <aura:set attribute="actions">
+                <lightning:buttonIcon iconName="utility:close" variant="bare" onclick="{! c.goBackToAccount }" alternativeText="Close"/>
+            </aura:set>
+            <lightning:layout>
+                <lightning:layoutItem size="12" padding="around-small">
+                    <!-- <aura:renderIf isTrue="{! v.showSpinner }"> -->
+                        <div aura:id="spinnerWrapper" class="spinnerWrapper ">
+                            <!-- <aura:renderIf isTrue="{! v.spinnerMessage != '' }"> -->
+                                <div class="cstm-spinner-msg-container">
+                                    <p class="cstm-spinner-msg">{! v.spinnerMessage }</p>
+                                </div>
+                            <!-- </aura:renderIf> -->
+                            <lightning:spinner aura:id="spinner" alternativeText="Loading" class="cstm-state-lock"/>
+                        </div>
+                    <!-- </aura:renderIf> -->
+
+                    <!-- HEADER -->
+                    <lightning:layout aura:id="cartHeader" class="cstm-account-oppty-header" multipleRows="true">
+                        <!-- TODO: COMPONENT x HEADER -->
+                        <lightning:layoutItem size="12" largeDeviceSize="5" mediumDeviceSize="12" padding="around-small">
+                            <a href="{! '/' + v.opportunityRecord.AccountId }"><b>{! v.opportunityRecord.Account.Name }</b></a>
+                            <lightning:layout multipleRows="true">
+                                <lightning:layoutItem size="6" largeDeviceSize="6" mediumDeviceSize="4">NDG <b>{! v.opportunityRecord.Account.NDGGruppo__c }</b></lightning:layoutItem>
+                                <lightning:layoutItem size="6" largeDeviceSize="6" mediumDeviceSize="4">Data Apertura <b><lightning:formattedDateTime value="{! v.opportunityRecord.CreatedDate }"/></b></lightning:layoutItem>
+                                <lightning:layoutItem size="6" largeDeviceSize="6" mediumDeviceSize="4" class="hideable">Titolare <b>{! v.opportunityRecord.Owner.Name }</b></lightning:layoutItem>
+                                <!-- SM - TEN - CR 459 Aggiungo visibilità del profilo che deve lavorare la pratica -->
+                                <lightning:layoutItem size="6" largeDeviceSize="6" mediumDeviceSize="4">
+                                    Owner Fase <b>{! v.opportunityRecord.WGC_Invio_Mail_FF__c ? 'B/O' : 'Commerciale' }</b>
+                                </lightning:layoutItem>
+                                <!-- <lightning:layoutItem size="6" largeDeviceSize="6" mediumDeviceSize="4" class="hideable">Win Probability <b>{! v.opportunityRecord.Probability }%</b></lightning:layoutItem> -->
+                                <lightning:layoutItem size="6" largeDeviceSize="6" mediumDeviceSize="4" class="hideable">Originator <b>{! v.opportunityRecord.Originator__c }</b></lightning:layoutItem>
+                                <lightning:layoutItem size="6" largeDeviceSize="6" mediumDeviceSize="4" class="hideable">Data Prevista Completamento <b><lightning:formattedDateTime value="{! v.opportunityRecord.CloseDate }"/></b></lightning:layoutItem>
+                                <lightning:layoutItem size="6" largeDeviceSize="6" mediumDeviceSize="4" class="hideable">Originator Dettaglio <b>{! v.opportunityRecord.Originator_di_dettaglio__c }</b></lightning:layoutItem>
+                                <lightning:layoutItem size="6" largeDeviceSize="6" mediumDeviceSize="4" class="hideable">Tipologia <b>{! v.tipologiaOppLabel }</b></lightning:layoutItem>
+                                <aura:if isTrue="{! and(v.opportunityRecord.WGC_Agente_Segnalante__c != null, v.opportunityRecord.WGC_Agente_Segnalante__c != '') }">
+                                    <lightning:layoutItem size="6" largeDeviceSize="6" mediumDeviceSize="4" class="hideable">Agente Segnalante <b>{! v.opportunityRecord.WGC_Agente_Segnalante__c }</b></lightning:layoutItem>
+                                </aura:if>
+                                <aura:if isTrue="{! and(v.opportunityRecord.WGC_Segnalatore_CrossSelling__r.Name != null, v.opportunityRecord.WGC_Segnalatore_CrossSelling__r.Name != '') }">
+                                    <lightning:layoutItem size="6" largeDeviceSize="6" mediumDeviceSize="4" class="hideable">Utente Segnalante <b>{! v.opportunityRecord.WGC_Segnalatore_CrossSelling__r.Name }</b></lightning:layoutItem>
+                                </aura:if>
+                                <aura:if isTrue="{! and(v.opportunityRecord.WGC_Referente_CrossSelling__r.Name != null, v.opportunityRecord.WGC_Referente_CrossSelling__r.Name != '') }">
+                                    <lightning:layoutItem size="6" largeDeviceSize="6" mediumDeviceSize="4" class="hideable">Referente Segnalazione <b>{! v.opportunityRecord.WGC_Referente_CrossSelling__r.Name }</b></lightning:layoutItem>
+                                </aura:if>
+                                <aura:if isTrue="{! and(v.opportunityRecord.WGC_Tipologia_CrossSelling__c != null, v.opportunityRecord.WGC_Tipologia_CrossSelling__c != '') }">
+                                    <lightning:layoutItem size="6" largeDeviceSize="6" mediumDeviceSize="4" class="hideable">Tipologia Leasing <b>{! v.opportunityRecord.WGC_Tipologia_CrossSelling__c }</b></lightning:layoutItem>
+                                </aura:if>
+                                <aura:if isTrue="{! and(v.opportunityRecord.WGC_Business_CrossSelling__c != null, v.opportunityRecord.WGC_Business_CrossSelling__c != '') }">
+                                    <lightning:layoutItem size="6" largeDeviceSize="6" mediumDeviceSize="4" class="hideable">Tipologia Business <b>{! v.opportunityRecord.WGC_Business_CrossSelling__c }</b></lightning:layoutItem>
+                                </aura:if>
+                                <aura:if isTrue="{! and(v.opportunityRecord.WGC_Qualifica_Cliente_CrossSelling__c != null, v.opportunityRecord.WGC_Qualifica_Cliente_CrossSelling__c != '') }">
+                                    <lightning:layoutItem size="6" largeDeviceSize="6" mediumDeviceSize="4" class="hideable">Qualifica Cliente CS <b>{! v.opportunityRecord.WGC_Qualifica_Cliente_CrossSelling__c }</b></lightning:layoutItem>
+                                </aura:if>
+                                <lightning:layoutItem size="6" largeDeviceSize="6" mediumDeviceSize="4" class="hideable">Ultima Richiesta CR <b><lightning:formattedDateTime value="{! v.opportunityRecord.Account.WGC_DataRichiestaCR__c }"/></b></lightning:layoutItem>
+                            </lightning:layout>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="12" largeDeviceSize="2" mediumDeviceSize="6">
+                            <!-- <lightning:layout>
+                                <lightning:layoutItem size="4" class="slds-text-align_right slds-p-right_small">
+                                    <lightning:icon iconName="action:add_file" size="small"/>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="8">
+                                    <p class="cstm-document-block-text"><b>RSF Opportunità</b></p>
+                                    <p class="hideable">12h all'arrivo della CR</p>
+                                </lightning:layoutItem>
+                            </lightning:layout> -->
+                            <!-- Front Card -->
+                            <lightning:layout>
+                                <aura:renderIf isTrue="{!v.isFlip0}">
+                                    <lightning:layoutItem aura:id="front-card-1" size="12" class="single-doc">
+                                        <lightning:layout multipleRows="true">
+                                            <lightning:layoutItem size="12" class="slds-p-around_xx-small slds-text-align_right hideable">
+                                                <lightning:buttonIcon aura:id="isFlip0" iconName="utility:edit" variant="bare" size="medium" onclick="{!c.doFlip}" disabled="{! (and(v.newLines == 0,v.newJoins)) || v.readOnly }" title="{! (v.newLines > 0 ? '' : $Label.c.WGC_Cart_DisabledRSFIfNoLines) }"/>
+                                            </lightning:layoutItem>
+                                            <lightning:layoutItem size="4" class="slds-p-vertical_small">
+                                                <lightning:icon iconName="utility:file" variant="inverse" size="small"  class="{! 'slds-p-vertical_small slds-align_absolute-center' + (v.docIdRSF != '' ? ' back-icon-positive' : ' back-icon-negative') }"/>
+                                            </lightning:layoutItem>
+                                            <lightning:layoutItem size="8" class="slds-p-around_xx-small">
+                                                <div class="block">
+                                                    <span class="text-doc">Scade il - {! v.scadenzaRSF }</span>
+                                                </div>
+                                                <div class="block cstm-text-ellipsis">
+                                                    <span class="slds-text-title_bold">RSF Opportunità</span>
+                                                </div>
+                                                <div class="block">
+                                                    <span class="text-doc">{! (v.validRSF ? 'Valido' : 'Non valido') }</span>
+                                                </div>
+                                            </lightning:layoutItem>
+                                        </lightning:layout>
+                                    </lightning:layoutItem>
+                                    <aura:set attribute="else">
+                                        <lightning:layoutItem aura:id="back-card-1" class="header-single-doc_back">
+                                            <lightning:layout multipleRows="true">
+                                                <lightning:layoutItem size="12" class="slds-p-around_xx-small slds-text-align_right hideable">
+                                                    <lightning:buttonIcon aura:id="isFlip0" iconName="utility:close" variant="bare" size="medium" onclick="{!c.doFlip}" />
+                                                </lightning:layoutItem>
+                                                <!-- <lightning:layoutItem size="4" class="slds-p-around_x-small">
+                                                    <div class="slds-align_absolute-center">
+                                                        <lightning:buttonIcon aura:id="ppg" onclick="{!c.LaunchEdit}" class="{! ' slds-align_absolute-center ' + (v.response.data[0].accountList.length > 0 ? ' back-icon-action-positive ' : ' back-icon-action-negative ' ) }" iconName="utility:edit" size="medium" />
+                                                    </div>
+                                                    <div class="slds-align_absolute-center">
+                                                        <span class="text-doc">Compila</span>
+                                                    </div>
+                                                </lightning:layoutItem> -->
+                                                <aura:if isTrue="{! v.opportunityRecord.StageName == 'In Istruttoria' || v.opportunityRecord.StageName == 'Rinnovo' }">
+                                                    <lightning:layoutItem size="4" class="slds-p-around_x-small">
+                                                        <div class="slds-align_absolute-center">
+                                                            <lightning:buttonIcon aura:id="ServiziFinanziari" class="{! 'slds-align_absolute-center' + (v.docIdRSF != '' ? ' back-icon-action-positive' : ' back-icon-action-negative') }" iconName="utility:download" size="medium" onclick="{! c.generaRSF }"/>
+                                                        </div>
+                                                        <div class="slds-align_absolute-center">
+                                                            <span class="text-doc">Genera</span>
+                                                        </div>
+                                                    </lightning:layoutItem>
+                                                </aura:if>
+                                                <lightning:layoutItem size="{! (v.opportunityRecord.StageName == 'In Istruttoria' || v.opportunityRecord.StageName == 'Rinnovo' ? 4 : 12) }" class="slds-p-around_x-small">
+                                                    <div class="slds-align_absolute-center">
+                                                        <lightning:buttonIcon name="ServiziFinanziari.pdf" class="{! 'slds-align_absolute-center' + (v.docIdRSF != '' ? ' back-icon-action-positive' : ' back-icon-action-negative') }" iconName="utility:download" size="medium" onclick="{! c.downloadRSF }"/>
+                                                    </div>
+                                                    <div class="slds-align_absolute-center">
+                                                        <span class="text-doc">Scarica</span>
+                                                    </div>
+                                                </lightning:layoutItem>
+                                                <aura:if isTrue="{! v.opportunityRecord.StageName == 'In Istruttoria' || v.opportunityRecord.StageName == 'Rinnovo' }">
+                                                    <lightning:layoutItem size="4" class="slds-p-around_x-small">
+                                                        <div class="slds-align_absolute-center">
+                                                            <lightning:buttonIcon aura:id="ppg" class="{! 'slds-align_absolute-center' + (v.docIdRSF != '' ? ' back-icon-action-positive' : ' back-icon-action-negative') }" iconName="utility:upload" size="medium" onclick="{! c.uploadRSF }"/><!-- onclick="{!c.launchUpload}" -->
+                                                        </div>
+                                                        <div class="slds-align_absolute-center">
+                                                            <span class="text-doc">Carica</span>
+                                                        </div>
+                                                    </lightning:layoutItem>
+                                                </aura:if>
+                                            </lightning:layout>
+                                        </lightning:layoutItem>
+                                    </aura:set>
+                                </aura:renderIf>
+                            </lightning:layout>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="12" largeDeviceSize="3" mediumDeviceSize="6" padding="around-small" class="titolare-esecutore">
+                            <lightning:layout>
+                                <lightning:layoutItem size="12">
+                                    <p>Titolare/i Effettivo/i
+                                        <lightning:icon iconName="{! v.titolariEffettivi.length == 0 ? '' : 'utility:check' }" size="x-small" class="hideable-inverse"/>
+                                    </p>
+                                    <p class="cstm-header-ellipsis-text hideable">
+                                        <aura:if isTrue="{! v.titolariEffettivi.length == 0 }">-</aura:if>
+                                        <aura:iteration items="{! v.titolariEffettivi }" var="titeff" indexVar="ind">
+                                            <aura:if isTrue="{! ind != 0 }"><span>, </span></aura:if>
+                                            <span class="{! 'cstm-titeff' + (titeff.valid ? '' : ' not-valid') }" title="{! (titeff.valid ? '' : 'Referente non valido') }">{! titeff.name }</span>
+                                        </aura:iteration>
+                                    </p>
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                            <lightning:layout>
+                                <lightning:layoutItem size="12">
+                                    <p>Esecutore/i
+                                        <lightning:icon iconName="{! v.esecutori.length == 0 ? '' : 'utility:check' }" size="x-small" class="hideable-inverse"/>
+                                    </p>
+                                    <p class="cstm-header-ellipsis-text hideable">
+                                        <aura:if isTrue="{! v.esecutori.length == 0 }">-</aura:if>
+                                        <aura:iteration items="{! v.esecutori }" var="esec" indexVar="ind">
+                                            <aura:if isTrue="{! ind != 0 }"><span>, </span></aura:if>
+                                            <span class="{! 'cstm-esec' + (esec.valid ? '' : ' not-valid') }" title="{! (esec.valid ? '' : 'Referente non valido') }">{! esec.name }</span>
+                                        </aura:iteration>
+                                    </p>
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="12" largeDeviceSize="2" mediumDeviceSize="12" padding="around-small" class="slds-is-relative slds-text-align_center">
+                            <aura:if isTrue="{! v.opportunityRecord.StageName == 'Persa' }">
+                                <div class="slds-text-align_left">
+                                    <p><b>Categoria Chiusura</b><br />{! v.opportunityRecord.CategoriaChiusuraTrattativa__c }</p>
+                                    <p><b>Motivo Chiusura</b><br />{! (v.opportunityRecord.MotivoChiusuraTrattativa__c ? v.opportunityRecord.MotivoChiusuraTrattativa__c : '-') }</p>
+                                </div>
+                                <aura:set attribute="else">
+                                    <aura:if isTrue="{! v.opportunityRecord.StageName == 'Vinta' }">
+                                        <div class="slds-text-align_left">
+                                            <p><b>Stato</b><br />{! v.opportunityRecord.StageName }</p>
+                                        </div>
+                                        <aura:set attribute="else">
+                                            <lightning:button label="Chiudi Opp." class="cstm-btn-round remove-oppty" iconName="utility:delete" iconPosition="left" variant="brand" onclick="{! c.onCloseOpportunityClick }" disabled="{! !v.ifClosable }" />
+                                            <lightning:button label="Assegna a" class="cstm-btn-round remove-oppty" iconName="utility:user" iconPosition="left" variant="brand" onclick="{! c.onChangeOwnerClick }" disabled="{! v.readOnly }" />
+                                            <lightning:button label="Apri Opp." class="cstm-btn-round remove-oppty" iconName="utility:undelete" iconPosition="left" variant="brand" onclick="{! c.onOpenOpportunityClick }" disabled="{! !v.ifOpeningOpportunity }" />
+                                        </aura:set>
+                                    </aura:if>
+                                </aura:set>
+                            </aura:if>
+                            <div class="cstm-header-toggler open" onclick="{! c.headerToggler }">
+                                <lightning:icon iconName="utility:up" class="toggleIconOpen"/>
+                                <lightning:icon iconName="utility:down" class="toggleIconClose"/>
+                            </div>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                    <!-- END - HEADER -->
+                    
+                    <!-- MAIN WIZARD -->
+                    <lightning:layout class="slds-m-top_large cstm-main-wizard-wrapper">
+                        <lightning:layoutItem size="12">
+                            <lightning:progressBar value="{! v.mainWizardProgressValue }" size="x-small" class="cstm-main-wizard-progress-bar"/>
+
+                            <div class="{! 'cstm-main-wizard-items ' + (v.isRinnovo ? 'isRinnovo' : '') }">
+                                <aura:iteration items="{! v.mainWizardItems }" var="mainWizItem">
+                                    <aura:if isTrue="{! mainWizItem.visible == true }">
+                                        <div class="{! 'cstm-main-wizard-item ' + mainWizItem.state +
+                                                        ( mainWizItem.clickable ? ' clickable' : '' ) + 
+                                                        ( mainWizItem.active ? ' active' : '' ) }"
+                                                data-name="{! mainWizItem.title }" onclick="{! c.onClickMainWizardItem }">
+                                            <div class="cstm-main-wizard-dot"></div>
+                                            <div class="cstm-main-wizard-label">{! mainWizItem.title }</div>
+                                            <div class="cstm-main-wizard-time">
+                                                <aura:if isTrue="{! mainWizItem.phaseDuration }">
+                                                    <lightning:icon iconName="utility:clock"/><b>{! mainWizItem.phaseDuration }</b>gg
+                                                </aura:if>
+                                                <aura:if isTrue="{! mainWizItem.idCartella }">
+                                                    <span>{! mainWizItem.idCartella }</span>
+                                                </aura:if>
+                                            </div>
+                                        </div>
+                                    </aura:if>
+                                </aura:iteration>
+                            </div>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                    <!-- END - MAIN WIZARD -->
+
+                    <!-- <aura:if isTrue="{! v.opportunityRecord.StageName == 'In Istruttoria' || v.opportunityRecord.StageName == 'In Lavorazione' || v.opportunityRecord.StageName == 'Rinnovo' }"> -->
+                    <aura:if isTrue="{! v.activePhase == 'In Istruttoria' || v.activePhase == 'In Lavorazione' || v.activePhase == 'Rinnovo' }">
+                        <!-- WIZARD -->
+                        <lightning:layout class="slds-m-top_small" multipleRows="true">
+                            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="10" class="cstm-ipad-12-landscape">
+                                <!-- <lightning:layout class="cstm-wizard-wrapper">
+                                    <aura:iteration items="{! v.wizardItems }" var="wizItem">
+                                        <lightning:layoutItem size="2" class="{! wizItem.status ? 'slds-text-align_center cstm-wizard-item ' + wizItem.status : 'slds-text-align_center cstm-wizard-item' }">
+                                            <div onclick="{! c.selectWizardItem }" title="{! wizItem.title }">
+                                                <span>{! wizItem.title }</span>
+                                                <lightning:icon iconName="utility:check" size="xx-small" class="cstm-wizard-item-icon"/>
+                                            </div>
+                                        </lightning:layoutItem>
+                                    </aura:iteration>
+                                </lightning:layout> -->
+                                <lightning:buttonGroup class="cstm-wizard-wrapper">
+                                    <aura:iteration items="{! v.wizardItems }" var="wizItem">
+                                        <aura:if isTrue="{! wizItem.visible }">
+                                            <lightning:button
+                                                label="{! wizItem.title }"
+                                                iconName="{! wizItem.icon }"
+                                                iconPosition="right"
+                                                onclick="{! c.selectWizardItem }"
+                                                class="{! 'slds-text-align_center cstm-wizard-item ' + 
+                                                            ( wizItem.completed ? 'completed ' : '' ) + 
+                                                            ( wizItem.hasError ? 'failed ' : '' ) + 
+                                                            ( wizItem.disabled ? 'disabled ' : '' ) + 
+                                                            ( wizItem.active ? 'active ' : '' ) }"/>
+                                        </aura:if>
+                                    </aura:iteration>
+                                </lightning:buttonGroup>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="2" class="slds-text-align_center cstm-ipad-12-landscape">
+                                <aura:if isTrue="{! !v.readOnly }">
+                                    <aura:if isTrue="{! and(v.opportunityRecord.HasFactFisc__c, v.currentUser.Profile.Name != 'IFIS - B/O Valutazione Fast Finance') }">
+                                        <lightning:button label="Invio a B/O" variant="brand" class="cstm-btn-round width-80-prc" onclick="{! c.invioBackOffice }" disabled="{! !v.invioInValutazioneValido || v.opportunityRecord.WGC_Invio_Mail_FF__c }"/>
+                                        <aura:set attribute="else">
+                                            <lightning:button label="Invio in valutazione" variant="brand" class="cstm-btn-round width-80-prc" onclick="{! c.invioNuovaVendita }" disabled="{! !v.invioInValutazioneValido }"/>
+                                        </aura:set>
+                                    </aura:if>
+                                </aura:if>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                        <!-- END - WIZARD -->
+
+                        <!-- ACCOUNT OPPTY BODY -->
+                        <!-- ACCOUNT OPPTY BODY : SCELTA PRODOTTO -->
+                        <lightning:layout class="slds-m-top_small cstm-border-all" multipleRows="true">
+                            <lightning:layoutItem size="12" padding="around-small">
+                                <aura:if isTrue="{! v.step == 'sceltaProdotto' }">
+                                    <!-- ACCOUNT OPPTY BODY : SCELTA PRODOTTO : FILTERS -->
+                                    <lightning:layout>
+                                        <lightning:layoutItem size="4" largeDeviceSize="3" mediumDeviceSize="4" padding="around-small">
+                                            <!-- <lightning:layout>
+                                                <lightning:layoutItem size="3">Scegli prodotto</lightning:layoutItem>
+                                                <lightning:layoutItem size="9">
+                                                    <lightning:buttonGroup class="cstm-btn-grp-round">
+                                                        <lightning:button label="Tutti" class="{! v.productsFilters == 'all' ? 'custom-colored active' : 'custom-colored' }" name="all" onclick="{! c.onFilterProducts }"/>
+                                                        <lightning:button label="Frequenti" class="{! v.productsFilters == 'recent' ? 'custom-colored active' : 'custom-colored' }" name="recent" onclick="{! c.onFilterProducts }"/>
+                                                        <lightning:button label="Suggeriti" class="{! v.productsFilters == 'suggested' ? 'custom-colored active' : 'custom-colored' }" name="suggested" onclick="{! c.onFilterProducts }"/>
+                                                    </lightning:buttonGroup>
+                                                </lightning:layoutItem>
+                                            </lightning:layout> -->
+                                            
+                                            <lightning:layout>
+                                                <lightning:layoutItem flexibility="auto" class="slds-p-top_xx-small">
+                                                    <span>Scegli prodotto</span>
+                                                </lightning:layoutItem>
+                                                <lightning:layoutItem flexibility="auto">
+                                                    <!-- TODO: COMPONENT x FILTER-BTN -->
+                                                    <lightning:buttonGroup class="cstm-btn-grp-round">
+                                                        <lightning:button label="Tutti" class="{! 'custom-colored' + (v.filterTypeValue == 'all' ? ' active' : '') }" name="type|all" onclick="{! c.onChangeFilter }"/>
+                                                        <lightning:button label="Recenti" class="{! 'custom-colored' + (v.filterTypeValue == 'recent' ? ' active' : '') }" name="type|recent" onclick="{! c.onChangeFilter }"/>
+                                                        <!-- <lightning:button label="Suggeriti" class="{! 'custom-colored' + (v.filterTypeValue == 'suggested' ? ' active' : '') }" name="type|suggested" onclick="{! c.onChangeFilter }"/> -->
+                                                    </lightning:buttonGroup>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem flexibility="shrink" class="cstm-border-left" padding="around-small">
+                                            <lightning:layout>
+                                                <lightning:layoutItem flexibility="shrink" class="slds-p-top_xx-small">
+                                                    <span>Aree</span>
+                                                </lightning:layoutItem>
+                                                <lightning:layoutItem flexibility="shrink" class="slds-p-left_large">
+                                                    <lightning:buttonMenu label="{! v.areaLabel }" class="{! 'cstm-btn-round cstm-products-filter custom-colored' + (v.areaLabel != 'Tutte' ? ' active' : '') }" name="area" onselect="{! c.onChangeFilter }">
+                                                        <lightning:menuItem label="Tutte" value="" />
+                                                        <aura:iteration items="{! v.aree }" var="area">
+                                                            <lightning:menuItem label="{! area }" value="{! area }" />
+                                                        </aura:iteration>
+                                                    </lightning:buttonMenu>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                        </lightning:layoutItem>
+                                        <aura:if isTrue="{! v.selectedProducts.length > 0 || v.lockedProducts.length > 0 }">
+                                            <lightning:layoutItem flexibility="grow" class="cstm-border-left slds-text-align_right" padding="around-small">
+                                                <aura:if isTrue="{! v.readOnly }">
+                                                    <lightning:button label="Avanti" variant="brand" class="cstm-btn-round" onclick="{! c.next }"/>
+                                                    <aura:set attribute="else">
+                                                        <lightning:button label="Conferma Prodotti" variant="brand" class="cstm-btn-round" onclick="{! c.confermaProdotti }"/>
+                                                    </aura:set>
+                                                </aura:if>
+                                            </lightning:layoutItem>
+                                        </aura:if>
+                                        <!-- <lightning:layoutItem flexibility="auto" class="cstm-border-left" padding="around-small">
+                                            <p>Bisogni</p>
+                                            <lightning:layout multipleRows="true">
+                                                
+                                                <aura:iteration items="{! v.bisogni }" var="bisogno">
+                                                    <lightning:layoutItem flexibility="grow">
+                                                        <lightning:buttonMenu label="{! bisogno.label }" name="sottobisogni" class="cstm-btn-round cstm-products-filter custom-colored" onselect="{! c.onChangeFilter }">
+                                                            <aura:iteration items="{! bisogno.sottobisogni }" var="sb">
+                                                                <lightning:menuItem label="{! sb }" value="{! sb }" />
+                                                            </aura:iteration>
+                                                        </lightning:buttonMenu>
+                                                    </lightning:layoutItem>
+                                                </aura:iteration>
+
+                                            </lightning:layout>
+                                        </lightning:layoutItem> -->
+                                    </lightning:layout>
+                                    <!-- END - ACCOUNT OPPTY BODY : SCELTA PRODOTTO : FILTERS -->
+
+                                    <!-- ACCOUNT OPPTY BODY : SCELTA PRODOTTO : BODY -->
+                                    <c:CRM2_CartProductsWrapper
+                                        allProducts="{! v.products }"
+                                        filters="{! v.productsFilters }"
+                                        selectedProducts="{! v.selectedProducts }"
+                                        lockedProducts="{! v.lockedProducts }"
+                                        existingPlafond="{! v.existingPlafond }"
+                                        readOnly="{! v.readOnly }"
+                                        opportunityId="{! v.opportunityId }"
+                                        currentUser="{! v.currentUser }"/>
+                                    <!-- END - ACCOUNT OPPTY BODY : SCELTA PRODOTTO : BODY -->
+
+                                </aura:if>
+                                
+                                <aura:if isTrue="{! v.step == 'inserimentoDebitori' }">
+                                    <!-- ACCOUNT OPPTY BODY : SCELTA PRODOTTO : DEBITORI -->
+                                    <!-- Aggiunto CCData per gestire i CC di Banca Corporate -->
+                                    <c:WGC_Cart_Debitori_Wrapper
+                                        opportunityId="{! v.opportunityId }"
+                                        items="{! v.selectedProducts }"
+                                        lockedItems="{! v.lockedProducts }"
+                                        payload="{! v.payload }"
+                                        servizi="{! v.servizi }"
+                                        accountId="{! v.opportunityRecord.AccountId }"
+                                        opportunityRecord="{! v.opportunityRecord }"
+                                        referenti="{! v.referenti }"
+                                        crossSellingJSON="{! v.opportunityRecord.WGC_Cross_Selling_JSON__c }"
+                                        debitoriNewFields="{! v.debitoriNewFields }"
+                                        picklistOptions="{! v.picklistOptions }"
+                                        tipologieMutui="{! v.tipologieMutui }"
+                                        tipologieMutuiVS="{! v.tipologieMutuiVS }"                         
+                                        qualificaUtente="{! v.opportunityRecord.Owner.Qualifica_Utente__c }"
+                                        labels="{! v.labels }"
+                                        isRevisione="{! v.isRevisione }"
+                                        pivaPerDebitore="{! v.pivaPerDebitore }"
+                                        codiciCoppia="{! v.codiciCoppia }"
+                                        esclusioneBEI="{! v.esclusioneBEI }"
+                                        esclusionePolizzaCPI="{! v.esclusionePolizzaCPI }"
+                                        CCData="{! v.CCData }"
+                                        picklistGaranzieEstero = "{! v.picklistGaranzieEstero }"
+                                        readOnly="{! v.readOnly }"
+                                        currentUser="{! v.currentUser }"
+                                        IdAdE="{! v.IdAdE}"/>
+                                    <!-- END - ACCOUNT OPPTY BODY : SCELTA PRODOTTO : DEBITORI -->
+                                </aura:if>
+                                    
+                                <aura:if isTrue="{! v.step == 'configuraProdotto' }">
+                                    <!-- ACCOUNT OPPTY BODY : CONFIGURA PRODOTTO -->
+                                    <c:WGC_Cart_Configura_Prodotto_Wrapper
+                                        opportunityId="{! v.opportunityId }"
+                                        recordTypeId="{! v.opportunityRecord.RecordTypeId }"
+                                        payload="{! v.payload }"
+                                        debitoriPerLinea="{! v.debitoriPerLinea }"
+                                        parametriEConfigurazioniLinee="{! v.parametriEConfigurazioniLinee }"
+                                        picklistOptions="{! v.picklistOptions }"
+                                        diviseOptions="{! v.diviseOptions }"
+                                        garanziaRequired="{! v.garanziaRequired }"
+                                        disableRevisionedLines="{! v.disableRevisionedLines }"
+                                        codiciCoppia="{! v.codiciCoppia }"
+                                        readOnly="{! v.readOnly }"
+                                        speseIstruttoria="{! v.speseIstruttoria }"
+                                        tipoOpty="{! v.opportunityRecord.Tipologia_Opportunit__c }"
+                                        commissione="{! v.opportunityRecord.WGC_Comm_Disponibilit_Fondi_CDF_Trim__c }"
+                                        metadatoCondizioni="{! v.condizioniBC }"
+                                        currentUser="{! v.currentUser }" />
+                                    <!-- END - ACCOUNT OPPTY BODY : CONFIGURA PRODOTTO -->
+                                </aura:if>
+            
+                                <aura:if isTrue="{! v.step == 'garantiGaranzie' }">
+                                    <!-- ACCOUNT OPPTY BODY : GARANTI E GARANZIE -->
+                                    <c:WGC_Cart_GarantiEGaranzie
+                                        selectedProducts="{! v.payload.linee }"
+                                        opportunityId="{! v.opportunityId }"
+                                        accountId="{! v.opportunityRecord.AccountId }"
+                                        garanzie="{! v.garanzie }"
+                                        garanti="{! v.garanti }"
+                                        diviseOptions="{! v.diviseOptions }"
+                                        payload="{! v.payload }"
+                                        debitoriPerLinea="{! v.debitoriPerLinea }"
+                                        matriceGaranzie="{! v.matriceGaranzie }"
+                                        garanzieDivise="{! v.garanzieDivise }"
+                                        picklistOptions="{! v.picklistOptions }"
+                                        isRevisione="{! v.isRevisione }"
+                                        readOnly="{! v.readOnly }"/>
+                                    <!-- END - ACCOUNT OPPTY BODY : GARANTI E GARANZIE -->
+                                </aura:if>
+                                    
+                                <aura:if isTrue="{! v.step == 'analisiCliente' }">
+                                    <!-- ACCOUNT OPPTY BODY : ANALISI CLIENTE -->
+                                    <c:WGC_Cart_Analisi_Cliente_Wrapper
+                                        accountId="{! v.opportunityRecord.AccountId }"
+                                        selectedProducts="{! v.payload.linee }"
+                                        opportunityId="{! v.opportunityId }"
+                                        opportunity="{! v.opportunityRecord }"
+                                        note="{! v.opportunityRecord.WGC_Note_Cliente__c }"
+                                        picklistOptions="{! v.picklistOptions }"
+                                        diviseOptions="{! v.diviseOptions }"
+                                        debitoriPerLinea="{! v.debitoriPerLinea }"
+                                        payload="{! v.payload }"
+                                        readOnly="{! v.readOnly }"/>
+                                    <!-- END - ACCOUNT OPPTY BODY : ANALISI CLIENTE -->
+                                </aura:if>
+                                    
+                                <aura:if isTrue="{! v.step == 'analisiBilancio' }">
+                                    <!-- ACCOUNT OPPTY BODY : ANALISI BILANCIO -->
+                                    <c:WGC_Cart_Analisi_Bilancio_Wrapper
+                                        accountId="{! v.opportunityRecord.AccountId }"
+                                        selectedProducts="{! v.payload.linee }"
+                                        opportunityId="{! v.opportunityId }"
+                                        note="{! v.opportunityRecord.WGC_NoteBilancio__c }"
+                                        picklistOptions="{! v.picklistOptions }"
+                                        diviseOptions="{! v.diviseOptions }"
+                                        debitoriPerLinea="{! v.debitoriPerLinea }"
+                                        payload="{! v.payload }"
+                                        readOnly="{! v.readOnly }"/>
+                                    <!-- END - ACCOUNT OPPTY BODY : ANALISI BILANCIO -->
+                                </aura:if>
+                                    
+                                <aura:if isTrue="{! v.step == 'analisiCR' }">
+                                    <!-- ACCOUNT OPPTY BODY : ANALISI CR -->
+                                    <c:WGC_Cart_Analisi_CR_Wrapper
+                                        selectedProducts="{! v.payload.linee }"
+                                        accountId="{! v.opportunityRecord.AccountId }"
+                                        opportunityId="{! v.opportunityId }"
+                                        note="{! v.opportunityRecord.WGC_NoteCR__c }"
+                                        picklistOptions="{! v.picklistOptions }"
+                                        diviseOptions="{! v.diviseOptions }"
+                                        debitoriPerLinea="{! v.debitoriPerLinea }"
+                                        configCR="{! v.configCR }"
+                                        payload="{! v.payload }"
+                                        readOnly="{! v.readOnly }"/>
+                                    <!-- END - ACCOUNT OPPTY BODY : ANALISI CR -->
+                                </aura:if>
+                                    
+                                <aura:if isTrue="{! v.step == 'analisiEventi' }">
+                                    <!-- ACCOUNT OPPTY BODY : ANALISI EVENTI -->
+                                    <c:WGC_Cart_Analisi_Eventi_Wrapper
+                                        accountId="{! v.opportunityRecord.AccountId }"
+                                        selectedProducts="{! v.payload.linee }"
+                                        opportunityId="{! v.opportunityId }"
+                                        opportunity="{! v.opportunityRecord }"
+                                        note="{! v.opportunityRecord.WGC_NoteEventi__c }"
+                                        picklistOptions="{! v.picklistOptions }"
+                                        diviseOptions="{! v.diviseOptions }"
+                                        debitoriPerLinea="{! v.debitoriPerLinea }"
+                                        payload="{! v.payload }"
+                                        readOnly="{! v.readOnly }"/>
+                                    <!-- END - ACCOUNT OPPTY BODY : ANALISI EVENTI -->
+                                </aura:if>
+                                        
+                                <aura:if isTrue="{! v.step == 'documentazione' }">
+                                    <!-- ACCOUNT OPPTY BODY : DOCUMENTAZIONE -->
+                                    <c:WGC_Cart_Documentazione_Wrapper
+                                        accountId="{! v.opportunityRecord.AccountId }"
+                                        selectedProducts="{! v.payload.linee }"
+                                        opportunityId="{! v.opportunityId }"
+                                        isAllDocValid="{! v.isAllDocValid }"
+                                        picklistOptions="{! v.picklistOptions }"
+                                        diviseOptions="{! v.diviseOptions }"
+                                        debitoriPerLinea="{! v.debitoriPerLinea }"
+                                        newLines="{! v.newLines > 0 }"
+                                        linesEstero="{! v.linesEstero > 0 }"
+                                        docNonReperibili="{! v.opportunityRecord.WGC_Documenti_Non_Reperibili__c }"
+                                        payload="{! v.payload }"/>
+                                    <!-- END - ACCOUNT OPPTY BODY : DOCUMENTAZIONE -->
+                                </aura:if>
+                                
+                                <aura:if isTrue="{! v.step == 'note' }">
+                                    <!-- ACCOUNT OPPTY BODY : NOTE -->
+                                    <c:WGC_Cart_Note_Wrapper
+                                        selectedProducts="{! v.payload.linee }"
+                                        accountId="{! v.opportunityRecord.AccountId }"
+                                        opportunityId="{! v.opportunityId }"
+                                        opportunity="{! v.opportunityRecord }"
+                                        picklistOptions="{! v.picklistOptions }"
+                                        diviseOptions="{! v.diviseOptions }"
+                                        debitoriPerLinea="{! v.debitoriPerLinea }"
+                                        payload="{! v.payload }"
+                                        noteAzienda="{! v.opportunityRecord.Account.WGC_Descrizione_dell_azienda__c }"
+                                        noteOpportunita="{! v.opportunityRecord.WGC_Descrizione_Operativit_Proposta__c }"
+                                        noteCondizioni="{! v.opportunityRecord.WGC_Note_Condizioni_Economiche__c }"
+                                        noteAutomatiche="{! v.opportunityRecord.WGC_Note_automatiche__c }"
+                                        noteConcorrenza="{! v.opportunityRecord.WGC_Descrizione_concorrenza__c}"
+                                        noteAutomaticheEstero="{! v.opportunityRecord.WGC_Note_Automatiche_Estero__c }"
+                                        readOnly="{! v.readOnly }"/>
+                                    <!-- END - ACCOUNT OPPTY BODY : NOTE -->
+                                </aura:if>
+
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                        <!-- END - ACCOUNT OPPTY BODY : SCELTA PRODOTTO -->
+
+                        <!-- END - ACCOUNT OPPTY BODY -->
+                    </aura:if>
+                    
+                    <!-- <aura:if isTrue="{! v.opportunityRecord.StageName == 'Valutazione' || v.opportunityRecord.StageName == 'Valutazione Pratica' || v.opportunityRecord.StageName == 'Predisposizione Contratto' || v.opportunityRecord.StageName == 'Perfezionamento Contratto' || v.opportunityRecord.StageName == 'Attivazione' }"> -->
+                    <aura:if isTrue="{! v.activePhase == 'Valutazione' || v.activePhase == 'Valutazione Pratica' || v.activePhase == 'Predisposizione Contratto' || v.activePhase == 'Perfezionamento Contratto' || v.activePhase == 'Attivazione' }">
+                        <c:WGC_Cart_DataTracker
+                            datiPEF="{! v.datiPEF }"
+                            opportunity="{! v.opportunityRecord }"
+                            factoringProducts="{! v.factoringProducts }"
+                            linee="{! v.linee }"
+                            importi="{! v.importi }"
+                            codSoggetto="{! v.opportunityRecord.Account.NDGGruppo__c }"
+                            lineeChiuse="{! v.lineeChiuseAOD }"/>
+                    </aura:if>
+
+                </lightning:layoutItem>
+            </lightning:layout>
+        </lightning:card>
+    </div>
+</aura:component>

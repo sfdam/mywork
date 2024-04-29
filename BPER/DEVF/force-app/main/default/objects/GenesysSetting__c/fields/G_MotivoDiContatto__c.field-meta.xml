@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>G_MotivoDiContatto__c</fullName>
+    <externalId>false</externalId>
+    <inlineHelpText>Motivi di Contatto del Case</inlineHelpText>
+    <label>Motivo di Contatto</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>true</sorted>
+            <value>
+                <fullName>Aggiunta carta prepagata in rubrica Smart</fullName>
+                <default>false</default>
+                <label>Aggiunta carta prepagata in rubrica Smart</label>
+            </value>
+            <value>
+                <fullName>Altri prodotti e servizi</fullName>
+                <default>false</default>
+                <label>Altri prodotti e servizi</label>
+            </value>
+            <value>
+                <fullName>Attivazione carta</fullName>
+                <default>false</default>
+                <label>Attivazione carta</label>
+            </value>
+            <value>
+                <fullName>Attivazione nuovo Internet Banking</fullName>
+                <default>false</default>
+                <label>Attivazione nuovo Internet Banking</label>
+            </value>
+            <value>
+                <fullName>Blocco carta</fullName>
+                <default>false</default>
+                <label>Blocco carta</label>
+            </value>
+            <value>
+                <fullName>Blocco carta di debito Carige Cash</fullName>
+                <default>false</default>
+                <label>Blocco carta di debito Carige Cash</label>
+            </value>
+            <value>
+                <fullName>Blocco credenziali di accesso</fullName>
+                <default>false</default>
+                <label>Blocco credenziali di accesso</label>
+            </value>
+            <value>
+                <fullName>Carte di pagamento</fullName>
+                <default>false</default>
+                <label>Carte di pagamento</label>
+            </value>
+            <value>
+                <fullName>Condizioni economiche</fullName>
+                <default>false</default>
+                <label>Condizioni economiche</label>
+            </value>
+            <value>
+                <fullName>Conto corrente</fullName>
+                <default>false</default>
+                <label>Conto corrente</label>
+            </value>
+            <value>
+                <fullName>Disposizioni trading Online</fullName>
+                <default>false</default>
+                <label>Disposizioni trading Online</label>
+            </value>
+            <value>
+                <fullName>Informazioni</fullName>
+                <default>false</default>
+                <label>Informazioni</label>
+            </value>
+            <value>
+                <fullName>Informazioni carta</fullName>
+                <default>false</default>
+                <label>Informazioni carta</label>
+            </value>
+            <value>
+                <fullName>Informazioni Polizza Sorriso</fullName>
+                <default>false</default>
+                <label>Informazioni Polizza Sorriso</label>
+            </value>
+            <value>
+                <fullName>Informazioni sugli investimenti</fullName>
+                <default>false</default>
+                <label>Informazioni sugli investimenti</label>
+            </value>
+            <value>
+                <fullName>Informazioni sui finanziamenti</fullName>
+                <default>false</default>
+                <label>Informazioni sui finanziamenti</label>
+            </value>
+            <value>
+                <fullName>Internet Banking</fullName>
+                <default>false</default>
+                <label>Internet Banking</label>
+            </value>
+            <value>
+                <fullName>OFM</fullName>
+                <default>false</default>
+                <label>OFM</label>
+            </value>
+            <value>
+                <fullName>Paga Poi</fullName>
+                <default>false</default>
+                <label>Paga Poi</label>
+            </value>
+            <value>
+                <fullName>Prestito Online</fullName>
+                <default>false</default>
+                <label>Prestito Online</label>
+            </value>
+            <value>
+                <fullName>Supporto app</fullName>
+                <default>false</default>
+                <label>Supporto app</label>
+            </value>
+            <value>
+                <fullName>Supporto trading Online</fullName>
+                <default>false</default>
+                <label>Supporto trading Online</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

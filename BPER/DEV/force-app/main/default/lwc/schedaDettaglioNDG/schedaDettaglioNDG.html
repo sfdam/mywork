@@ -1,0 +1,174 @@
+<template>
+  <div slot="title">
+      <lightning-icon icon-name={builderIcon} size="small"></lightning-icon>
+      <div class="tilte-card"><b>{title}</b></div>
+  </div>
+
+  <div class="slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none">
+    <lightning-layout>
+        <lightning-layout-item size="6" >
+            <div class=" slds-p-around_none slds-text-align_left">
+              <p>Nome Account</p>
+              <p>{nomeAccount}</p>
+              <br>
+            </div>
+        </lightning-layout-item>
+        <lightning-layout-item size="6" >
+            <div class=" slds-p-around_none slds-text-align_left">
+              <p>NDG</p>
+              <p>{numeroNDG}</p>
+              <br>
+            </div>
+        </lightning-layout-item>
+    </lightning-layout>
+    <lightning-layout>
+        <lightning-layout-item size="6" >
+            <div class=" slds-p-around_none slds-text-align_left">
+              <p>Portafoglio</p>
+              <p><a onclick={navigateToWallet}>{portafoglio}</a></p>
+              <br>
+            </div>
+        </lightning-layout-item>
+        <lightning-layout-item size="6" >
+            <div class=" slds-p-around_none slds-text-align_left">
+              <p>Macro-Modello di Servizio</p>
+              <p>{modelloDiServizio}</p>
+              <br>
+            </div>
+        </lightning-layout-item>
+    </lightning-layout>
+    <lightning-layout>
+        <lightning-layout-item size="6" >
+            <div class=" slds-p-around_none slds-text-align_left">
+              <p>Gruppo Comportamentale</p>
+              <p>{gruppoComportamentale}</p>
+              <br>
+            </div>
+        </lightning-layout-item>
+        <lightning-layout-item size="6" >
+            <div class=" slds-p-around_none slds-text-align_left">
+              <p>Segmento Comportamentale</p>
+              <p>{segmentoComportamentale}</p>
+              <br>
+            </div>
+        </lightning-layout-item>
+    </lightning-layout>
+    <lightning-layout>
+        <lightning-layout-item size="6" >
+            <div class=" slds-p-around_none slds-text-align_left">
+              <p>Banca</p>
+              <p><a onclick={navigateToBanca}>{banca}</a></p>
+              <br>
+            </div>
+        </lightning-layout-item>
+        <lightning-layout-item size="6" >
+            <div class=" slds-p-around_none slds-text-align_left">
+              <p>Direzione Territoriale</p>
+              <p><a onclick={navigateToDirezioneTer}>{direzioneRegionale}</a></p>
+              <br>
+            </div>
+        </lightning-layout-item>
+    </lightning-layout>
+    <lightning-layout>
+        <lightning-layout-item size="6" >
+            <div class=" slds-p-around_none slds-text-align_left">
+              <p>Area</p>
+              <p><a onclick={navigateToArea}>{area}</a></p>
+              <br>
+            </div>
+        </lightning-layout-item>
+        <lightning-layout-item size="6" >
+            <div class=" slds-p-around_none slds-text-align_left">
+              <p>Filiale</p>
+              <p><a onclick={navigateToFiliale}>{filiale}</a></p>
+              <br>
+            </div>
+        </lightning-layout-item>
+    </lightning-layout>
+    <lightning-layout>
+        <lightning-layout-item size="6" >
+            <div class=" slds-p-around_none slds-text-align_left">
+              <p>OFS</p>
+              <div class="slds-form-element__control">
+                  <span class="slds-checkbox slds-checkbox_standalone">
+                  <input type="checkbox" id="checkbox-OFS2" name="label" value="option"  checked={ofs} disabled/>
+                  <span class="slds-checkbox_faux"></span>
+                  </span>
+              </div>
+              <br>
+            </div>
+        </lightning-layout-item>
+        <lightning-layout-item size="6" >
+            <div class=" slds-p-around_none slds-text-align_left">
+              <p>Natura Giuridica</p>
+              <p>{naturaGiuridica}</p>
+              <br>
+            </div>
+        </lightning-layout-item>
+    </lightning-layout>
+    <lightning-layout>
+        <lightning-layout-item size="6" >
+            <div class=" slds-p-around_none slds-text-align_left">
+              <p>Stato CRM</p>
+              <p>{statoCRM}</p>
+              <br>
+            </div>
+        </lightning-layout-item>
+        <lightning-layout-item size="6" >
+            <div class=" slds-p-around_none slds-text-align_left">
+              <p>Stato Anagrafe</p>
+              <p>{statoAnagrafe}</p>
+              <br>
+            </div>
+        </lightning-layout-item>
+    </lightning-layout>
+    <lightning-layout>
+        <lightning-layout-item size="6" >
+            <div class=" slds-p-around_none slds-text-align_left">
+              <p>Stato sofferenza</p>
+              <div class="slds-form-element__control">
+                  <span class="slds-checkbox slds-checkbox_standalone">
+                  <input type="checkbox" id="checkbox-StatoSofferenza2" name="label" value="option"  checked={statoSofferenza} disabled/>
+                  <span class="slds-checkbox_faux"></span>
+                  </span>
+              </div>
+              <br>
+            </div>
+        </lightning-layout-item>
+        <lightning-layout-item size="6" >
+            <div class=" slds-p-around_none slds-text-align_left">
+              <p>Annual Revenue</p>
+              <p><lightning-formatted-number value={AnnualRevenue} format-style="currency" currency-code="EUR"></lightning-formatted-number></p>
+              <br>
+            </div>
+        </lightning-layout-item>
+    </lightning-layout>
+    <lightning-layout>
+      <lightning-layout-item size="6" >
+          <div class=" slds-p-around_none slds-text-align_left">
+            <p>Accordato</p>
+            <p><lightning-formatted-number value={accordato} format-style="currency" currency-code="EUR"></lightning-formatted-number></p>
+            <br>
+          </div>
+      </lightning-layout-item>
+      <lightning-layout-item size="6" >
+          <div class=" slds-p-around_none slds-text-align_left"><p>Utilizzato</p>
+            <p><lightning-formatted-number value={utilizzato} format-style="currency" currency-code="EUR"></lightning-formatted-number></p>
+            <br>
+          </div>
+      </lightning-layout-item>
+  </lightning-layout>
+  <lightning-layout>
+    <lightning-layout-item size="6" >
+        <div class=" slds-p-around_none slds-text-align_left">
+          <div if:true={isVisible}>
+            <p>Patrimonio</p>
+            <p><lightning-formatted-number value={patrimonio} format-style="currency" currency-code="EUR"></lightning-formatted-number></p>
+            <br>
+        </div>
+        </div>
+    </lightning-layout-item>
+</lightning-layout>
+</div>
+ 
+</template>

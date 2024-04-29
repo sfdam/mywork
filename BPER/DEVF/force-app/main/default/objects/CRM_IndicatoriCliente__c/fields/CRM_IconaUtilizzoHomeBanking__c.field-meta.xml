@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_IconaUtilizzoHomeBanking__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF (
+TEXT(CRM_UtilizzoHomeBanking__c) = &apos;S&apos;,
+IMAGE(&apos;/resource/greenCircle_small&apos;, &quot;Green&quot;,18,18),
+IMAGE(&apos;/resource/redCircle_small&apos;, &quot;Red&quot;,18,18)
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Icona utilizzo home banking</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

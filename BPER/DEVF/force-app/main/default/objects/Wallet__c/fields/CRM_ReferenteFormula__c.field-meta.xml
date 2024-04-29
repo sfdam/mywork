@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_ReferenteFormula__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(
+    PTF_Pool__c,
+				&apos;Pool&apos;,
+				IF(CRM_ReferentePortafoglio__c != null,
+				CRM_ReferentePortafoglio__r.FirstName + &apos; &apos; + CRM_ReferentePortafoglio__r.LastName,
+				&apos;Non assegnato&apos;)
+)</formula>
+    <label>Referente - PTF</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,18 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes,flexipage:availableForAllPageTypes,force:hasRecordId,force:hasSObjectName" access="global" >
+	<ltng:require styles="/resource/gpcal_lex_yo_SLDS0121/assets/styles/salesforce-lightning-design-system-ltng.css" />
+	<aura:attribute name="recordId" type="String" />
+	<aura:attribute name="sObjectName" type="String" />
+	<aura:attribute name="selectedId" type="String" />
+	<aura:attribute name="socName" type="String" />
+	<aura:attribute name="userInfo" type="User" default="{'sobjectType':'User'}" />
+
+	<aura:attribute name="personSelector" type="Boolean" default="false" />
+
+
+	<aura:if isTrue="{! v.personSelector }">
+		<c:PersonSelector user_id="{!v.selectedId}" />
+	</aura:if>
+	
+	<c:CalendarViewLayout user_id="{! v.selectedId }" userInfo="{! v.userInfo }" />
+
+</aura:component>

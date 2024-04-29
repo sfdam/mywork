@@ -1,0 +1,16 @@
+<aura:component implements="lightning:actionOverride,flexipage:availableForRecordHome,force:hasRecordId" 
+                controller="WGC_EditAccount" access="global">
+	
+    <!-- HANDLERS-->
+    <aura:attribute name="recordId" default="" type="String"/>
+    <aura:attribute name="tipoRecord" default="" type="String"/>
+
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+
+    <aura:handler event="c:WGC_EditAccountResolveEvent" action="{! c.resolveEvent }" />
+    
+    <lightning:navigation aura:id="navService" />
+    
+    <lightning:overlayLibrary aura:id="overlayLib" />
+    
+</aura:component>

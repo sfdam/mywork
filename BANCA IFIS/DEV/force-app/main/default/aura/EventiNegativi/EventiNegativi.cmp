@@ -1,0 +1,8 @@
+<!--
+ - Created by dmapelli on 01/08/2017.
+ -->
+
+<aura:component description="EventiNegativi" implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global">
+  <aura:attribute name="recordId" type="Id" />
+  <c:VueWrapper recordId="{!v.recordId}" appName="EventiNegativiApp"></c:VueWrapper>
+</aura:component>

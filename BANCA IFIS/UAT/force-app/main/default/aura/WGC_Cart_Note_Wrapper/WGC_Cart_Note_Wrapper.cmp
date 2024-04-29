@@ -1,0 +1,309 @@
+<aura:component access="global" extends="c:WGC_Utility">
+    <!-- ATTRIBUTES -->
+    <!-- INHERITED -->
+    <aura:attribute name="opportunity" type="Object"/>
+    <aura:attribute name="opportunityId" type="String"/>
+    <aura:attribute name="accountId" type="String"/>
+    <aura:attribute name="selectedProducts" type="Object[]"/>
+    <aura:attribute name="items" type="Object[]"/>
+    <aura:attribute name="noteAzienda" type="String"/>
+    <aura:attribute name="noteOpportunita" type="String"/>
+    <aura:attribute name="noteCondizioni" type="String"/>
+    <aura:attribute name="noteAutomatiche" type="String"/>
+    <aura:attribute name="noteConcorrenza" type="String" />
+    <aura:attribute name="noteAutomaticheEstero" type="String" />
+    <aura:attribute name="picklistOptions" type="Object"/>
+    <aura:attribute name="diviseOptions" type="Object"/>
+    <aura:attribute name="payload" type="Object"/>
+    <aura:attribute name="debitoriPerLinea" type="Object[]"/>
+    <aura:attribute name="readOnly" type="Boolean" default="false"/>
+    <!-- PRIVATE -->
+    <aura:attribute name="noteAziendaOpen" type="Boolean" default="false"/>
+    <aura:attribute name="noteOpportunitaOpen" type="Boolean" default="false"/>
+    <aura:attribute name="noteCondizioniOpen" type="Boolean" default="false"/>
+    <aura:attribute name="noteAutomaticheOpen" type="Boolean" default="false"/>
+    <aura:attribute name="noteConcorrenzaOpen" type="Boolean" default="false" />
+    <aura:attribute name="noteAutomaticheEsteroOpen" type="Boolean" default="false" />
+    <aura:attribute name="noteAziendaVal" type="String"/>
+    <aura:attribute name="noteOpportunitaVal" type="String"/>
+    <aura:attribute name="noteCondizioniVal" type="String"/>
+    <aura:attribute name="noteConcorrenzaVal" type="String" />
+    <aura:attribute name="noteAziendaCompleted" type="Boolean" default="false"/>
+    <aura:attribute name="noteOpportunitaCompleted" type="Boolean" default="false"/>
+    <aura:attribute name="noteConcorrenzaCompleted" type="Boolean" default="false" />
+    <!-- <aura:attribute name="noteCondizioniCompleted" type="Boolean" default="false"/> -->
+    
+    <!-- REGISTER EVENTS -->
+    <aura:registerEvent name="navigateSubWizard" type="c:WGC_NavigateSubWizard"/>
+    <aura:registerEvent name="cartCallServer" type="c:WGC_Cart_Call_Server"/>
+
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    <aura:handler name="render" value="{! this }" action="{! c.afterRender }"/>
+    <aura:handler name="productClick" event="c:WGC_ProductClickEvent" action="{! c.handleProductClick }"/>
+    <aura:handler name="change" value="{! v.noteOpportunita }" action="{! c.reloadCompletion }"/>
+    <aura:handler name="change" value="{! v.opportunity }" action="{! c.reloadCompletion }"/>
+
+    <c:WGC_Cart_Products_Wrapper title="Linee Selezionate" items="{! v.items }"/>
+    
+    <lightning:layout class="cstm-border-all slds-m-top_small">
+        <lightning:layoutItem size="12" padding="around-small">
+            
+            <lightning:layout>
+                <lightning:layoutItem size="2" padding="around-large" class="{! 'cstm-note-state-wrapper' + (v.noteAziendaCompleted ? ' completed' : '') }">
+                    <aura:if isTrue="{! v.noteAziendaCompleted }">
+                        <span><b>Compilato</b> <lightning:icon size="x-small" iconName="utility:check" class="slds-m-left_small"/></span>
+                        <aura:set attribute="else">
+                            <span><b>Da compilare</b> <lightning:icon size="x-small" iconName="utility:warning" class="slds-m-left_small"/></span>
+                        </aura:set>
+                    </aura:if>
+                </lightning:layoutItem>
+                <lightning:layoutItem size="10" class="cstm-note-textarea-wrapper">
+                    
+                    <lightning:layout class="slds-p-left_large">
+                        <lightning:layoutItem size="12">
+
+                            <lightning:layout class="slds-p-top_small slds-p-bottom_small">
+                                <lightning:layoutItem size="10" class="slds-p-top_small slds-p-bottom_small">
+                                    <h2 class="cstm-note-textarea-title">DESCRIZIONE DELL'AZIENDA</h2>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="2" class="slds-text-align_right slds-p-right_large slds-p-top_small slds-p-bottom_small">
+                                    <lightning:buttonIcon iconName="utility:chevronup" size="medium" variant="bare" iconClass="title" onclick="{!c.collapseNoteAzienda}" class="{! 'cstm-accordion-icon ' + (!v.noteAziendaOpen ? 'collapsed' : '') }"/>
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                            
+                            <aura:renderIf isTrue="{! v.noteAziendaOpen }">
+                                <lightning:layout class="cstm-note-textarea-body slds-p-top_small slds-p-bottom_small">
+                                    <lightning:layoutItem size="12" class="slds-p-right_large slds-p-top_small slds-p-bottom_small">
+                                        <textarea maxlength="20000" name="noteAzienda" class="cstm-note-textarea" placeholder="Inserisci una descrizione dell'azienda" label="Descrizione dell'azienda" disabled="{! v.readOnly }">{! v.noteAziendaVal }</textarea>
+                                        <!-- <lightning:textarea name="noteAzienda" value="{! v.noteAziendaVal }" placeholder="Inserisci una descrizione dell'azienda" label="Descrizione dell'azienda" class="cstm-note-textarea" onchange="{! c.onChangeTA }"/> -->
+                                        <aura:if isTrue="{! !v.readOnly }">
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="12" class="slds-p-top_small slds-text-align_right">
+                                                    <lightning:button class="cstm-btn-round" variant="brand" label="Conferma" onclick="{! c.confermaNoteAzienda }" />
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                        </aura:if>
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                            </aura:renderIf>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+
+                </lightning:layoutItem>
+            </lightning:layout>
+
+            <lightning:layout class="slds-m-top_small">
+                <lightning:layoutItem size="2" padding="around-large" class="{! 'cstm-note-state-wrapper' + (v.noteOpportunitaCompleted ? ' completed' : '') }">
+                    <aura:if isTrue="{! v.noteOpportunitaCompleted }">
+                        <span><b>Compilato</b> <lightning:icon size="x-small" iconName="utility:check" class="slds-m-left_small"/></span>
+                        <aura:set attribute="else">
+                            <span><b>Da compilare</b> <lightning:icon size="x-small" iconName="utility:warning" class="slds-m-left_small"/></span>
+                        </aura:set>
+                    </aura:if>
+                </lightning:layoutItem>
+                <lightning:layoutItem size="10" class="cstm-note-textarea-wrapper">
+                    
+                    <lightning:layout class="slds-p-left_large">
+                        <lightning:layoutItem size="12">
+                            
+                            <lightning:layout class="slds-p-top_small slds-p-bottom_small">
+                                <lightning:layoutItem size="10" class="slds-p-top_small slds-p-bottom_small">
+                                    <h2 class="cstm-note-textarea-title">DESCRIZIONE DELLA PROPOSTA</h2>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="2" class="slds-text-align_right slds-p-right_large slds-p-top_small slds-p-bottom_small">
+                                    <lightning:buttonIcon iconName="utility:chevronup" size="medium" variant="bare" iconClass="title" onclick="{!c.collapseNoteOpportunita}" class="{! 'cstm-accordion-icon ' + (!v.noteOpportunitaOpen ? 'collapsed' : '') }"/>
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                            
+                            <aura:renderIf isTrue="{! v.noteOpportunitaOpen }">
+                                <lightning:layout class="cstm-note-textarea-body slds-p-top_small slds-p-bottom_small">
+                                    <lightning:layoutItem size="12" class="slds-p-right_large slds-p-top_small slds-p-bottom_small">
+                                        <textarea name="noteOpportunita" class="cstm-note-textarea" placeholder="Inserisci una descrizione della proposta" label="Descrizione della proposta" disabled="{! v.readOnly }">{! v.noteOpportunitaVal }</textarea>
+                                        <!-- <lightning:textarea name="noteOpportunita" value="{! v.noteOpportunitaVal }" placeholder="Inserisci una descrizione della proposta" label="Descrizione della proposta" class="cstm-note-textarea" onchange="{! c.onChangeTA }"/> -->
+                                        <aura:if isTrue="{! !v.readOnly }">
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="12" class="slds-p-top_small slds-text-align_right">
+                                                    <lightning:button class="cstm-btn-round" variant="brand" label="Conferma" onclick="{! c.confermaNoteOpportunita }" />
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                        </aura:if>
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                            </aura:renderIf>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+
+                </lightning:layoutItem>
+            </lightning:layout>
+
+            <!-- SM - TEN: Aggiunta nuova nota -->
+            <lightning:layout class="slds-m-top_small">
+                <lightning:layoutItem size="2" padding="around-large" class="{! 'cstm-note-state-wrapper' + (v.noteConcorrenzaCompleted ? ' completed' : '') }">
+                    <aura:if isTrue="{! v.noteConcorrenzaCompleted }">
+                        <span><b>Compilato</b> <!-- <lightning:icon size="x-small" iconName="utility:check" class="slds-m-left_small"/> --></span>
+                        <aura:set attribute="else">
+                            <span><b>Da compilare</b> <!-- <lightning:icon size="x-small" iconName="utility:warning" class="slds-m-left_small"/> --></span>
+                        </aura:set>
+                    </aura:if>
+                </lightning:layoutItem>
+                <lightning:layoutItem size="10" class="cstm-note-textarea-wrapper">
+                    
+                    <lightning:layout class="slds-p-left_large">
+                        <lightning:layoutItem size="12">
+                            
+                            <lightning:layout class="slds-p-top_small slds-p-bottom_small">
+                                <lightning:layoutItem size="10" class="slds-p-top_small slds-p-bottom_small">
+                                    <h2 class="cstm-note-textarea-title">DESCRIZIONE DELLA CONCORRENZA</h2>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="2" class="slds-text-align_right slds-p-right_large slds-p-top_small slds-p-bottom_small">
+                                    <lightning:buttonIcon iconName="utility:chevronup" size="medium" variant="bare" iconClass="title" onclick="{!c.collapseNoteConcorrenza}" class="{! 'cstm-accordion-icon ' + (!v.noteConcorrenzaOpen ? 'collapsed' : '') }"/>
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                            
+                            <aura:renderIf isTrue="{! v.noteConcorrenzaOpen }">
+                                <lightning:layout class="cstm-note-textarea-body slds-p-top_small slds-p-bottom_small">
+                                    <lightning:layoutItem size="12" class="slds-p-right_large slds-p-top_small slds-p-bottom_small">
+                                        <textarea name="noteConcorrenza" class="cstm-note-textarea" placeholder="Inserisci una descrizione della concorrenza" label="Descrizione della concorrenza" disabled="{! v.readOnly }">{! v.noteConcorrenzaVal }</textarea>
+                                        <!-- <lightning:textarea name="noteOpportunita" value="{! v.noteConcorrenzaVal }" placeholder="Inserisci una descrizione della proposta" label="Descrizione della proposta" class="cstm-note-textarea" onchange="{! c.onChangeTA }"/> -->
+                                        <aura:if isTrue="{! !v.readOnly }">
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="12" class="slds-p-top_small slds-text-align_right">
+                                                    <lightning:button class="cstm-btn-round" variant="brand" label="Conferma" onclick="{! c.confermaNoteConcorrenza }" />
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                        </aura:if>
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                            </aura:renderIf>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+
+                </lightning:layoutItem>
+            </lightning:layout>
+            <!-- SM - TEN: Fine nuova nota -->
+
+            <lightning:layout class="slds-m-top_small">
+                <lightning:layoutItem size="2" padding="around-large" class="cstm-note-state-wrapper">
+                    <aura:if isTrue="{! v.noteCondizioniVal != '' }">
+                        <span><b>Compilato</b></span>
+                        <aura:set attribute="else">
+                            <span><b>Da compilare</b></span>
+                        </aura:set>
+                    </aura:if>
+                </lightning:layoutItem>
+                <lightning:layoutItem size="10" class="cstm-note-textarea-wrapper">
+                    
+                    <lightning:layout class="slds-p-left_large">
+                        <lightning:layoutItem size="12">
+                            
+                            <lightning:layout class="slds-p-top_small slds-p-bottom_small">
+                                <lightning:layoutItem size="10" class="slds-p-top_small slds-p-bottom_small">
+                                    <h2 class="cstm-note-textarea-title">Deroghe condizioni sui fidi di coppia</h2>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="2" class="slds-text-align_right slds-p-right_large slds-p-top_small slds-p-bottom_small">
+                                    <lightning:buttonIcon iconName="utility:chevronup" size="medium" variant="bare" iconClass="title" onclick="{!c.collapseNoteCondizioni}" class="{! 'cstm-accordion-icon ' + (!v.noteCondizioniOpen ? 'collapsed' : '') }"/>
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                            
+                            <aura:renderIf isTrue="{! v.noteCondizioniOpen }">
+                                <lightning:layout class="cstm-note-textarea-body slds-p-top_small slds-p-bottom_small">
+                                    <lightning:layoutItem size="12" class="slds-p-right_large slds-p-top_small slds-p-bottom_small">
+                                        <textarea name="noteCondizioni" class="cstm-note-textarea" placeholder="Inserisci una descrizione delle deroghe condizioni sui fidi di coppia" label="Deroghe condizioni sui fidi di coppia" disabled="{! v.readOnly }">{! v.noteCondizioniVal }</textarea>
+                                        <!-- <lightning:textarea name="noteCondizioni" value="{! v.noteCondizioniVal }" placeholder="Inserisci una descrizione delle deroghe condizioni sui fidi di coppia" label="Deroghe condizioni sui fidi di coppia" class="cstm-note-textarea" onchange="{! c.onChangeTA }"/> -->
+                                        <aura:if isTrue="{! !v.readOnly }">
+                                            <lightning:layout>
+                                                <lightning:layoutItem size="12" class="slds-p-top_small slds-text-align_right">
+                                                    <lightning:button class="cstm-btn-round" variant="brand" label="Conferma" onclick="{! c.confermaNoteCondizioni }" />
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                        </aura:if>
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                            </aura:renderIf>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+
+                </lightning:layoutItem>
+            </lightning:layout>
+
+            <lightning:layout class="slds-m-top_small">
+                <lightning:layoutItem size="2" padding="around-large" class="cstm-note-state-wrapper">
+                    <aura:if isTrue="{! v.noteAutomatiche != '' }">
+                        <span><b>Compilato</b></span>
+                        <aura:set attribute="else">
+                            <span><b>Da compilare</b></span>
+                        </aura:set>
+                    </aura:if>
+                </lightning:layoutItem>
+                <lightning:layoutItem size="10" class="cstm-note-textarea-wrapper">
+                    
+                    <lightning:layout class="slds-p-left_large">
+                        <lightning:layoutItem size="12">
+                            
+                            <lightning:layout class="slds-p-top_small slds-p-bottom_small">
+                                <lightning:layoutItem size="10" class="slds-p-top_small slds-p-bottom_small">
+                                    <h2 class="cstm-note-textarea-title">Note automatiche</h2>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="2" class="slds-text-align_right slds-p-right_large slds-p-top_small slds-p-bottom_small">
+                                    <lightning:buttonIcon iconName="utility:chevronup" size="medium" variant="bare" iconClass="title" onclick="{!c.collapseNoteAutomatiche}" class="{! 'cstm-accordion-icon ' + (!v.noteAutomaticheOpen ? 'collapsed' : '') }"/>
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                            
+                            <aura:renderIf isTrue="{! v.noteAutomaticheOpen }">
+                                <lightning:layout class="cstm-note-textarea-body slds-p-top_small slds-p-bottom_small">
+                                    <lightning:layoutItem size="12" class="slds-p-right_large slds-p-top_small slds-p-bottom_small">
+                                        <!-- <lightning:formattedRichText value="{! v.noteAutomatiche }" class="cstm-note-textarea" placeholder="" label="Note automatiche" disabled="true"/> -->
+                                        <textarea name="noteAutomatiche" class="cstm-note-textarea" placeholder="" label="Note automatiche" disabled="true">{! v.noteAutomatiche }</textarea>
+                                        <!-- <lightning:textarea name="noteCondizioni" value="{! v.noteAutomatiche }" placeholder="Inserisci una descrizione delle deroghe condizioni sui fidi di coppia" label="Deroghe condizioni sui fidi di coppia" class="cstm-note-textarea" onchange="{! c.onChangeTA }"/> -->
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                            </aura:renderIf>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+
+                </lightning:layoutItem>
+            </lightning:layout>
+
+            <!-- SM - TEN: Aggiunte Note Automatiche -->
+            <lightning:layout class="slds-m-top_small">
+                <lightning:layoutItem size="2" padding="around-large" class="cstm-note-state-wrapper">
+                    <aura:if isTrue="{! v.noteAutomaticheEstero != '' }">
+                        <span><b>Compilato</b></span>
+                        <aura:set attribute="else">
+                            <span><b>Da compilare</b></span>
+                        </aura:set>
+                    </aura:if>
+                </lightning:layoutItem>
+                <lightning:layoutItem size="10" class="cstm-note-textarea-wrapper">
+                    
+                    <lightning:layout class="slds-p-left_large">
+                        <lightning:layoutItem size="12">
+                            
+                            <lightning:layout class="slds-p-top_small slds-p-bottom_small">
+                                <lightning:layoutItem size="10" class="slds-p-top_small slds-p-bottom_small">
+                                    <h2 class="cstm-note-textarea-title">Note automatiche estero</h2>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="2" class="slds-text-align_right slds-p-right_large slds-p-top_small slds-p-bottom_small">
+                                    <lightning:buttonIcon iconName="utility:chevronup" size="medium" variant="bare" iconClass="title" onclick="{!c.collapseNoteAutomaticheEstero}" class="{! 'cstm-accordion-icon ' + (!v.noteAutomaticheEsteroOpen ? 'collapsed' : '') }"/>
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                            
+                            <aura:renderIf isTrue="{! v.noteAutomaticheEsteroOpen }">
+                                <lightning:layout class="cstm-note-textarea-body slds-p-top_small slds-p-bottom_small">
+                                    <lightning:layoutItem size="12" class="slds-p-right_large slds-p-top_small slds-p-bottom_small">
+                                        <!-- <lightning:formattedRichText value="{! v.noteAutomatiche }" class="cstm-note-textarea" placeholder="" label="Note automatiche" disabled="true"/> -->
+                                        <textarea name="noteAutomaticheEstero" class="cstm-note-textarea" placeholder="" label="Note automatiche estero" disabled="true">{! v.noteAutomaticheEstero }</textarea>
+                                        <!-- <lightning:textarea name="noteCondizioni" value="{! v.noteAutomatiche }" placeholder="Inserisci una descrizione delle deroghe condizioni sui fidi di coppia" label="Deroghe condizioni sui fidi di coppia" class="cstm-note-textarea" onchange="{! c.onChangeTA }"/> -->
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                            </aura:renderIf>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+
+                </lightning:layoutItem>
+            </lightning:layout>
+
+        </lightning:layoutItem>
+    </lightning:layout>
+</aura:component>

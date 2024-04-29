@@ -1,0 +1,22 @@
+<aura:component controller="WGC_CircularUserImgController" extensible="true" implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:hasSObjectName" access="global">
+    
+    <aura:attribute name="user" type="User"/>
+
+    
+    <aura:attribute name="theme" type="String" default="blue" description="Theme of Circular Progress Bar. Possible values are blue, green, orange." />
+    <aura:attribute name="size" type="String" default="small" description="Size of Circular Progress Bar. Possible values are small, medium, big." />
+    <aura:attribute name="userId" type="String" description="Theme of Circular Progress Bar. Possible values are blue, green, orange." />
+    <aura:attribute name="isTeamIFIS" type="Boolean" default="false" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <div class="clearFloats slds-align--absolute-center">
+        <aura:if isTrue="{! (v.isTeamIFIS ? v.user.SmallPhotoUrl != null &amp;&amp; v.theme == 'blue' : v.user.SmallPhotoUrl != null )}">
+            <img src="{!v.user.SmallPhotoUrl}"  class="{! ( v.cirDeg > 179 ) ? 'container p50plus '+v.theme+' '+v.size : 'container '+v.theme +' '+v.size }"/>
+            <aura:set attribute="else">
+                <img src="{!$Resource.UserImage}" class="{! ( v.cirDeg > 179 ) ? 'container p50plus '+v.theme+' '+v.size : 'container '+v.theme +' '+v.size }"/>
+            </aura:set>
+        </aura:if>
+    </div>
+    
+</aura:component>

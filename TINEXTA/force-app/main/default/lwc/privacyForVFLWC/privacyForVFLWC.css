@@ -1,0 +1,56 @@
+lightning-layout.f-color.slds-grid {
+    background: #001f48;
+    height: 35px;
+}
+
+lightning-layout.s-color.slds-grid {
+    background: #007ca8;
+    height: 35px;
+}
+
+lightning-layout.t-color.slds-grid {
+    background: #00a1d8;
+    height: 35px;
+}
+
+p.title {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.img-logo {
+    height: 80px;
+}
+
+.container-scroll {
+    height: 12rem;
+    border: 1px #e5e5e5 solid;
+    max-width: 90%;
+    margin: 0 auto;
+}
+
+.text-justify {
+    text-align: justify;
+}
+
+.container-check {
+    text-align: justify;
+    width:30rem;
+}
+
+.footer {
+    clear: both;
+    position: absolute;
+    bottom: 0;
+    height: 50px;
+}
+
+@media print {
+    .print-btn {
+        display: none;
+    }
+
+    .thanks {
+        display: none;
+    }
+}

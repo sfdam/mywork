@@ -1,0 +1,83 @@
+.THIS .slds-docked-form-footer {
+  height: 120px;
+}
+
+.THIS .slds-tabs_default {
+  background: transparent;
+}
+
+.THIS li.slds-tabs_default__item {
+  width: 150px;
+  text-align: center;
+}
+
+.THIS .slds-tabs_default__nav, .THIS .slds-tabs--default__nav {
+  width: 300px;
+  margin: 0 auto;
+}
+
+.THIS li.slds-tabs_default__item.slds-tabs_default__overflow-button {
+  display: none;
+}
+
+.THIS .slds-tabs_default__link[tabindex="0"]:focus, .THIS .slds-tabs--default__link[tabindex="0"]:focus {
+  text-decoration: none;
+}
+
+.THIS .slds-tabs_default__content {
+  height: 265px;
+}
+
+.THIS span.slds-checkbox_on, .THIS span.slds-checkbox_off {
+  visibility: hidden;
+}
+
+.THIS .custom-box span {
+  display: inline-flex;
+}
+
+.THIS .resultSelected {
+  border: 1px solid #ECEBEA;
+  border-radius: 5px;
+  padding: 5px;
+  margin-bottom: 15px;
+  cursor: pointer;
+}
+
+.THIS .selected {
+  background-color: #F3F2F2;
+}
+
+.THIS .slds-media__figure {
+      margin: auto .75rem auto 0;
+}
+
+.THIS .btn {
+  padding: 0 10px;
+      width: 100%;
+  font-size: 10px;
+  text-transform: uppercase;
+  background-color: #00338c;
+  border-color: #00338c;
+  color: rgb(255, 255, 255);
+}
+
+.THIS .btn:hover {
+  background-color: #0064B5;
+  border-color: #0064B5;
+  color: rgb(255, 255, 255);
+}
+
+.THIS .disabled {
+  background-color: rgb(214, 213, 212);
+  border-color: rgb(197, 197, 197);
+}
+
+.THIS .disabled:hover {
+  background-color: rgb(184, 184, 184);
+  border-color: rgb(197, 197, 197);
+}
+
+.THIS .slds-button {
+  height: 40px;
+}

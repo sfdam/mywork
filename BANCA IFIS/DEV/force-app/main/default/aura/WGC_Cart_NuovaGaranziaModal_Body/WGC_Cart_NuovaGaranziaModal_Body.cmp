@@ -1,0 +1,91 @@
+<aura:component access="global" extends="c:WGC_Utility">
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="linee" type="Object[]"/>
+    <aura:attribute name="matriceGaranzie" type="Object[]"/>
+    <aura:attribute name="configurazioneLinee" type="Object[]"/>
+    <aura:attribute name="divise" type="Object[]"/>
+    <aura:attribute name="tipologie" type="List"/>
+    <aura:attribute name="coperture" type="List"/>
+    <aura:attribute name="copertureDisabled" type="Boolean" default="true"/>
+    <aura:attribute name="showLinea" type="Boolean" default="true"/>
+    <aura:attribute name="isRevisione" type="Boolean" default="false"/>
+    <aura:attribute name="isEdit" type="Boolean" default="false"/>
+    
+    <aura:attribute name="garanzia" type="Object"/>
+    <aura:attribute name="opportunityId" type="String"/>
+    <aura:attribute name="tipoGaranzia" type="String"/>
+    <aura:attribute name="isValidGaranzia" type="Boolean" default="false"/>
+
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    
+    <!-- REGISTER EVENTS -->
+    <aura:registerEvent name="cartCallServer" type="c:WGC_Cart_Call_Server"/>
+
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    
+    <lightning:layout>
+        <lightning:layoutItem size="12" padding="around-small">
+            <lightning:layout>
+                <lightning:layoutItem size="12">
+                    <lightning:select name="tipologia" label="Tipologia Garanzia" required="true" value="{! v.garanzia.tipologia }" onchange="{! c.onChangeTipologia }" disabled="{! v.isEdit }"><!-- TODO: GESTIRE LABEL CAMPO -->
+                        <aura:iteration items="{! v.tipologie }" var="tipologia">
+                            <option value="{! tipologia.value }">{! tipologia.label }</option>
+                        </aura:iteration>
+                    </lightning:select>
+                </lightning:layoutItem>
+            </lightning:layout>
+            <lightning:layout>
+                <lightning:layoutItem size="12">
+                    <lightning:select aura:id="copertura" name="copertura" label="Copertura" disabled="{! v.copertureDisabled || v.isEdit }" value="{! v.garanzia.copertura }" onchange="{! c.onChangeCopertura }" required="true"><!-- TODO: GESTIRE LABEL CAMPO -->
+                        <option value="">--seleziona--</option>
+                        <aura:iteration items="{! v.coperture }" var="copertura">
+                            <!-- <option disabled="{! and(v.isRevisione, copertura == 'Omnibus') }">{! copertura }</option> -->
+                            <option>{! copertura }</option>
+                        </aura:iteration>
+                    </lightning:select>
+                </lightning:layoutItem>
+            </lightning:layout>
+            <aura:if isTrue="{! v.showLinea }">
+                <lightning:layout>
+                    <lightning:layoutItem size="12">
+                        <lightning:select name="linee" label="Linea di Riferimento" required="true" value="{! v.garanzia.linea }" onchange="{! c.onChangeLinea }" disabled="{! v.isEdit }"><!-- TODO: GESTIRE LABEL CAMPO -->
+                            <option value="">--seleziona--</option>
+                            <aura:iteration items="{! v.linee }" var="linea">
+                                <option disabled="{! and(v.isRevisione, linea.isRevisione) }" value="{! linea.id }">{! linea.nome }</option>
+                            </aura:iteration>
+                        </lightning:select>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </aura:if>
+            <aura:if isTrue="{! v.tipoGaranzia == 'Percentuale' }">
+                <lightning:layout>
+                    <lightning:layoutItem size="12">
+                        <lightning:input type="number" name="percentualeImporto" label="% Garanzia su Importo" min="0" max="100" value="{! v.garanzia.percentualeImporto }" required="true" onchange="{! c.onChangePerc }"/><!-- TODO: GESTIRE LABEL CAMPO -->
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </aura:if>
+            <lightning:layout>
+                <lightning:layoutItem size="12">
+                    <lightning:input type="number" name="importo" label="Importo Garanzia" value="{! v.garanzia.importo }" required="true" disabled="{! v.tipoGaranzia == 'Percentuale' }" onchange="{! c.onChangeImporto }"/><!-- TODO: GESTIRE LABEL CAMPO -->
+                </lightning:layoutItem>
+            </lightning:layout>
+            <aura:if isTrue="{! v.tipoGaranzia == 'Importo' }">
+                <lightning:layout>
+                    <lightning:layoutItem size="12">
+                        <lightning:select name="divise" label="Divisa" required="true" value="{! v.garanzia.divisa }" disabled="{! v.isEdit }"><!-- TODO: GESTIRE LABEL CAMPO -->
+                            <aura:iteration items="{! v.divise }" var="divisa">
+                                <option value="{! divisa.value }">{! divisa.label }</option>
+                            </aura:iteration>
+                        </lightning:select>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </aura:if>
+            <lightning:layout class="slds-m-top_medium">
+                <lightning:layoutItem size="12" class="slds-text-align_right">
+                    <lightning:button label="Salva" variant="brand" class="cstm-btn-round" onclick="{! c.saveGaranzia }" disabled="{! !v.isValidGaranzia }"/>
+                </lightning:layoutItem>
+            </lightning:layout>
+        </lightning:layoutItem>
+    </lightning:layout>
+</aura:component>

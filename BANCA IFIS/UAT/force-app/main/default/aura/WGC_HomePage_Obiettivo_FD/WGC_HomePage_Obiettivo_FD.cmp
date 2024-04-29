@@ -1,0 +1,101 @@
+<aura:component controller="WGC_HomePage_Obiettivo_FD_Controller" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    <!-- attributes -->
+    <aura:attribute name="isDirezioneFD" type="Boolean" default="false" />
+
+    <aura:attribute name="title" type="String" default="IL TUO OBIETTIVO" />
+
+    <aura:attribute name="mapTeamUserFD" type="Map" default='{}' />
+    <aura:attribute name="allDataValue" type="Object" default='{}' />
+    <aura:attribute name="filter" type="Object" default='{}' />
+    <aura:attribute name="userInfo" type="Object" default='{}' />
+
+    <aura:attribute name="clientiAvviatiTot_Month" type="Integer" default="0" />
+    <aura:attribute name="clientiAvviatiTot_Month_Budget" type="Integer" default="0" />
+    <aura:attribute name="previsione" type="Integer" default="0" />
+    <aura:attribute name="potenziale" type="Integer" default="0" />
+
+    <!-- scripts -->
+    <ltng:require scripts="{!join(',', 
+             '/resource/WGC_jQuery3x',
+             '/resource/WGC_ChartJs')}" afterScriptsLoaded="{!c.doInit}" />
+    <!-- libraries -->
+    <lightning:navigation aura:id="navService" />
+    <!-- handlers -->
+    <!-- <aura:handler name="init" value="{! this }" action="{! c.doInit }" /> -->
+    <!-- body -->
+
+    <aura:handler event="c:WGC_FilterEvent_FD" action="{!c.handleFilterEvent}"/>
+
+
+    <lightning:card>
+        <aura:set attribute="title">
+            <lightning:layout>
+                <lightning:layoutItem size="1">
+                    <lightning:icon iconName="utility:event" size="small" />
+                </lightning:layoutItem>
+                <lightning:layoutItem size="1">
+                    <div class="title">{! v.title }</div>
+                </lightning:layoutItem>
+            </lightning:layout>
+        </aura:set>
+        <aura:set attribute="actions">
+            <lightning:buttonIcon iconName="utility:expand" variant="bare" onclick="{! c.navigateToMyComponent }" alternativeText="Settings" />
+        </aura:set>
+        <!-- body -->
+        <lightning:layout multipleRows="true">
+            <lightning:layoutItem flexibility="auto">
+                <div class="containerCol slds-p-horizontal_x-small">
+                    <!-- BUTTON BOX -->
+                    <div class="calendar-box">
+                        <div class="calendar-header-left header2">
+                            <div class="calendar-month black" id="month">
+                                    {! $Label.c.WGC_HomePage_Obiettivo_Obiettivo_Dir }
+                            </div>
+                            <div class="calendar-month sub">{! $Label.c.WGC_HomePage_Obiettivo_ClientiBudget }</div>
+                        </div>
+                        <div class="calendar-body">
+                            <div class="calendar-day" id="day">
+                                <c:WGC_Circular_Progress theme="green" size="small" totalProgress="{! v.clientiAvviatiTot_Month_Budget }" actualProgress="{! v.clientiAvviatiTot_Month }" condition="actual-total-percent"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </lightning:layoutItem>
+            <lightning:layoutItem flexibility="auto">
+                <lightning:layout>
+                    <lightning:layoutItem size="6" class="slds-p-right_x-small">
+                        <div class="box">
+                            <div class="box-header back-blue slds-p-around_x-small">
+                                
+                                    {! $Label.c.WGC_HomePage_Obiettivo_Potenziale_Dir }
+                            </div>
+                            <div class="box-body slds-align_absolute-center text-blue slds-p-around_x-small">
+                                <!-- <span class="box-text">{! v.potenziale }</span> -->
+                                <lightning:formattedNumber class="box-text" value="{! v.potenziale }" />
+                            </div>
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="6" class="slds-p-right_x-small">
+                        <div class="box">
+                            <div class="box-header back-yellow slds-p-around_x-small">
+                                
+                                    {! $Label.c.WGC_HomePage_Obiettivo_Previsione_Dir }
+                            </div>
+                            <div class="box-body slds-align_absolute-center text-yellow slds-p-around_x-small">
+                                <!-- <span class="box-text">{! v.previsione }</span> -->
+                                <lightning:formattedNumber class="box-text" value="{! v.previsione }" />
+                            </div>
+                        </div>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </lightning:layoutItem>
+            <!-- grafico -->
+            <lightning:layoutItem size="12">
+                    <div id="container_obiettivo_chart" class="chart-container_height">
+                            <canvas aura:id="obiettivo_chart" id="obiettivo_chart" style="height:25vh" />
+                        </div>
+            </lightning:layoutItem>
+        </lightning:layout>
+    </lightning:card>
+
+</aura:component>

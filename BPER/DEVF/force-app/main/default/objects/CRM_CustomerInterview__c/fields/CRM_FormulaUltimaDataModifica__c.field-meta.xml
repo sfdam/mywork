@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_FormulaUltimaDataModifica__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF (
+	TODAY() - DATEVALUE(CRM_DataUltimaCompilazione__c) &lt; 120,
+		IMAGE(&apos;/resource/greenCircle_small&apos;, &quot;Green&quot;,18,18) + &quot; &quot; + TEXT(DAY(DATEVALUE(CRM_DataUltimaCompilazione__c))) + &quot;/&quot; + TEXT(MONTH(DATEVALUE(CRM_DataUltimaCompilazione__c))) + &quot;/&quot; + TEXT(YEAR(DATEVALUE(CRM_DataUltimaCompilazione__c))),
+			IF (
+				AND (TODAY() - DATEVALUE(CRM_DataUltimaCompilazione__c) &gt;= 120, TODAY() - DATEVALUE(CRM_DataUltimaCompilazione__c) &lt; 240), 
+					IMAGE(&apos;/resource/orangeCircle_small&apos;, &quot;Orange&quot;,18,18) + &quot; &quot; + TEXT(DAY(DATEVALUE(CRM_DataUltimaCompilazione__c))) + &quot;/&quot; + TEXT(MONTH(DATEVALUE(CRM_DataUltimaCompilazione__c))) + &quot;/&quot; + TEXT(YEAR(DATEVALUE(CRM_DataUltimaCompilazione__c))),
+						IF (
+							TODAY() - DATEVALUE(CRM_DataUltimaCompilazione__c) &gt;= 240,
+							IMAGE(&apos;/resource/redCircle_small&apos;, &quot;Red&quot;,18,18) + &quot; &quot; + TEXT(DAY(DATEVALUE(CRM_DataUltimaCompilazione__c))) + &quot;/&quot; + TEXT(MONTH(DATEVALUE(CRM_DataUltimaCompilazione__c))) + &quot;/&quot; + TEXT(YEAR(DATEVALUE(CRM_DataUltimaCompilazione__c))),
+							NULL
+						)
+			)
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Formula icona ultima data modifica</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Data_Appuntamento_obbligatoria</fullName>
+    <active>false</active>
+    <description>Se lo stato è Fissato Appuntamento, è obbligatorio compilare la data dell&apos;appuntamento</description>
+    <errorConditionFormula>(ISPICKVAL( CRM_ContactStatus__c , &apos;Fissato appuntamento&apos;)&amp;&amp;  ISBLANK(CRM_DataAppuntamento__c))</errorConditionFormula>
+    <errorDisplayField>CRM_DataAppuntamento__c</errorDisplayField>
+    <errorMessage>È  obbligatorio indicare la data di appuntamento</errorMessage>
+</ValidationRule>

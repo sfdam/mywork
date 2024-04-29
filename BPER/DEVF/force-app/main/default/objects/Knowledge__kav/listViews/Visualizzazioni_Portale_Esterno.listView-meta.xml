@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Visualizzazioni_Portale_Esterno</fullName>
+    <columns>ARTICLE_NUMBER</columns>
+    <columns>LAST_PUBLISHED_DATE</columns>
+    <columns>TITLE</columns>
+    <columns>ARTICLE_TOTAL_VIEW_COUNT</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>CRM_Portale__c</field>
+        <operation>equals</operation>
+        <value>Tutti,Solo portale Ex-UBI</value>
+    </filters>
+    <filters>
+        <field>CRM_Cluster__c</field>
+        <operation>notEqual</operation>
+    </filters>
+    <filters>
+        <field>CRM_AmbitoCluster__c</field>
+        <operation>notEqual</operation>
+    </filters>
+    <filters>
+        <field>PUBLISH_STATUS</field>
+        <operation>equals</operation>
+        <value>2</value>
+    </filters>
+    <filters>
+        <field>IS_CHANNEL_PKB</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
+    <label>Visualizzazioni Portale Esterno</label>
+</ListView>

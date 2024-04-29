@@ -1,0 +1,66 @@
+<template>
+    <lightning-card icon-name="custom:custom19" title='Crea Portafoglio da CSV'>
+        <div class="exampleHolder">
+            <template if:false={loaded}>
+                <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+            </template>
+        </div>
+        <div class="c-container slds-is-relative">
+            <lightning-layout class="slds-is-absolute positionUpload">
+                
+                <lightning-layout-item class="slds-align_absolute-center">
+                    <lightning-helptext class="slds-m-top_x-small" content='Selezionare il file CSV da caricare oppure trascinare direttamente il file nel box Upload File'></lightning-helptext>
+                </lightning-layout-item>
+                <lightning-layout-item padding="around-small">
+                    <lightning-input type="file" 
+                             accept={acceptedFormats}
+                             onchange={handleUploadFinished}>
+                    </lightning-input>                    
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+
+        <div if:true={error}>
+            <lightning-layout>
+                <lightning-layout-item padding="around-small">
+                    <div class="error">{error} - Controllare il file CSV e ripetere l'operazione</div>            
+                </lightning-layout-item>
+            </lightning-layout>
+        </div><br/>
+
+        <div if:true={data}>
+            <lightning-layout>
+                <template if:false={isRendered}>
+                    <div class="modal-spinner">
+                        <lightning-spinner alternative-text="CARICAMENTO" size="small"></lightning-spinner>
+                    </div>
+                </template>
+                <lightning-layout-item size="12" padding="around-small">
+                    <div class="tableTitle">Parametri di Input</div>
+                    <div class="recordsTable">
+                        <lightning-datatable data-id="datatableRecords"
+                            onrowselection={handleSelectedRows}
+                            columns={columns} 
+                            data={data} 
+                            key-field="Id"
+                            show-row-number-column>
+                        </lightning-datatable>
+                    </div>
+                    <div class="slds-align_absolute-center slds-m-top_small">
+                        <lightning-button 
+                            variant="neutral"
+                            label="Genera Portafogli"
+                            title="Genera Portafogli"
+                            onclick={generateWalletName}>
+                        </lightning-button>
+                    </div>
+                </lightning-layout-item>
+            </lightning-layout>
+
+        </div>
+
+        
+
+
+    </lightning-card>
+</template>

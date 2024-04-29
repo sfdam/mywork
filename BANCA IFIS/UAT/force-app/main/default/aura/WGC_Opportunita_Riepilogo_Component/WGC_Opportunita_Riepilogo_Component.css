@@ -1,0 +1,43 @@
+.THIS {
+}
+
+.THIS .container{
+    background:rgba(240, 240, 240, 0.667);
+}
+
+.THIS .btn{
+    background: #0064B5;
+    color:white;
+    border: 0px;
+    border-radius: 25px;
+    padding: 0px 15px 0 15px;
+}
+
+.THIS button .btn :focus{
+    outline: none;
+}
+
+.THIS .text-blue{
+    color:#0064B5;
+}
+
+.THIS .text-gray{
+    color:gray;
+}
+
+.THIS .xx-small-text{
+    font-size:xx-small;
+}
+
+.THIS .x-large{
+    font-size:x-large;
+}
+
+.THIS .number{
+    font-size:x-large;  
+    font-weight:bold;
+}
+
+.THIS .progress-color span{
+    background:black;
+}

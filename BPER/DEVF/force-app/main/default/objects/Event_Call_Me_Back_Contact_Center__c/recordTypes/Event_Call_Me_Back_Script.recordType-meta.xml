@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Event_Call_Me_Back_Script</fullName>
+    <active>true</active>
+    <label>Event - Call Me Back Script</label>
+    <picklistValues>
+        <picklist>Nome_Prodotto__c</picklist>
+        <values>
+            <fullName>Carte</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PagaPoi</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Prestito</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

@@ -1,0 +1,38 @@
+.cstm-chart-container{
+    border: 1px solid rgb(221, 219, 218);
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.10);
+}
+
+.cstm-chart-opened{
+    min-height: 410px;
+    /* max-height: 420px; */
+    /* max-height: 500px; */
+    /* transition: max-height 1s ease-in; */
+    transition: min-height 0.4s linear;
+}
+
+.cstm-chart-collapsed{
+    min-height: 50px;
+    /* max-height: 60px; */
+    /* transition: max-height 1s ease-in;  */
+    transition: min-height 1.3s linear;
+}
+
+.cstm-title{
+    margin-left:15px;
+    vertical-align: sub;
+    font-size:1rem;
+    text-transform: uppercase;
+}
+
+.cstm-btn{
+    margin-top:-10px;
+    outline:0;
+    transform: rotate(0deg);
+    transition: transform 1.3s linear;
+}
+
+.cstm-open{
+    transform: rotate(-180deg);
+    transition: transform 0.4s linear;
+}

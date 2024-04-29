@@ -1,0 +1,46 @@
+<aura:component
+    implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+    controller="WGC_SoggettiCollegatiController" access="global">
+
+    <lightning:navigation aura:id="navService" />
+
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="title" type="String" default="Custom Title" />
+    <aura:attribute name="icon" type="String" default="Custom Title" />
+    <aura:attribute name="type" type="String" default="Competitors" description="Theme of Circular Progress Bar. Possible values are blue, green, orange, red." />
+    <aura:attribute name="idReport" type="String" default="Custom Title" />
+    <aura:attribute name="disabledButton" type="Boolean" default="false"/>
+
+    <aura:attribute name="accountRecord" type="Object"/>
+    <aura:attribute name="recordLoadError" type="String"/>
+
+    <aura:attribute name="showSpinner" type="Boolean" default="false"/>
+    <aura:attribute name="spinnerMessage" type="String" default=""/>
+    
+    <force:recordData aura:id="recordLoader"
+    recordId="{!v.recordId}"
+    fields="Name,Ateco__c,BillingPostalCode,CodiceIstituto3N__c,NDGGruppoGiuridico__c,Fatturato__c,BillingState"
+    targetFields="{!v.accountRecord}"
+    targetError="{!v.recordLoadError}"
+    />
+    
+    <aura:attribute name="numVal" type="Integer" />
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    
+    <lightning:layout class="slds-m-top_small" multipleRows="true">
+        <lightning:layoutItem flexibility="auto" class="">
+            <div class="cstm-border-all">
+                    <div class="spinnerDiv">
+                            <lightning:spinner alternativeText="Loading" size="small" aura:id="mySpinner" class="" />
+                        </div>
+                <lightning:icon iconName="{! 'standard:' + v.icon }" size="small" variant="slds-icon-inverse" />
+                <div class="title slds-text-heading_small">{! v.title + ' (' + v.numVal +')' }</div>
+                <!-- with container -->
+                <div class="open-report iphone">
+                    <lightning:button label="Visualizza" disabled="{! v.disabledButton }" onclick="{! c.handlerGoToReport }" iconName="utility:preview" iconPosition="left" />
+                </div>
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+</aura:component>

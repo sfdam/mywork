@@ -1,0 +1,12 @@
+.tilte-card {
+    display: inline;
+    padding-left: 5px;
+}
+
+.button-aggiungi{
+    font-size: 12px;
+}
+
+.slds-card__header-title span {
+    width:100% !important;
+}

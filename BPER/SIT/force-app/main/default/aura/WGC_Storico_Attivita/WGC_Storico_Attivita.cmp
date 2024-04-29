@@ -1,0 +1,186 @@
+<aura:component
+    implements="lightning:isUrlAddressable,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+    controller="WGC_Storico_AttivitaController" access="global">
+
+    <!--<ltng:require scripts="{!join(',', 
+             '/resource/WGC_jQuery3x',
+             '')}" afterScriptsLoaded="{!c.doInit}" />-->
+
+
+    <lightning:navigation aura:id="navService" />
+
+    <!-- design attributes -->
+    <aura:attribute name="iconName" type="String" description="Definisce l'icona tra le standard"/>
+    <aura:attribute name="title" type="String" default="" description="Title from Container Card"/>
+    <aura:attribute name="objectList" type="String" access="global" />
+    <aura:attribute name="numberOfRecords" type="String" />
+    <aura:attribute name="isModalFull" type="Boolean" default="false" />
+    <aura:attribute name="isExtendedDescription" type="Boolean" default="false" />
+    <aura:attribute name="heigthSet" type="String" default="400px"/>
+	<aura:attribute name="referentProfile" type="String" description="Lista di profili Id che vedono solo record CO di cui sono referenti"  />
+
+    <!-- attributes -->
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="userInfo" type="User" default="{'sobjectType':'User'}" />
+    <aura:attribute name="optionsMultiSelectObject" type="List" default="[]" />
+    <aura:attribute name="valuesMultiSelectObject" type="List" default="[]" />
+    <aura:attribute name="listMultiSelectFiltroEsito" type="List" default="[]" />
+    <aura:attribute name="optionsMultiSelectFiltroEsito" type="List" default="[]" />
+    <aura:attribute name="valuesMultiSelectFiltroEsito" type="List" default="[]" />
+    <aura:attribute name="checkEsito" type="Boolean" default='true' />
+    <aura:attribute name="helpTextEsito" type="String" default='Filtro valido per i seguenti oggetti:' />
+
+    <aura:attribute name="selectedValueForChoise" type="String" access="PRIVATE"/>
+
+    <aura:attribute name="getAllDataResult" type="Object[]" default='[]' />
+    <aura:attribute name="allDataChoiseValue" type="Object[]" default='[]' />
+    <aura:attribute name="allDataValue" type="Object[]" default='[]' />
+    <aura:attribute name="objCampoEsitoList" type="String[]" default='[]' />
+    <!-- <aura:attribute name="valueFiltroEsito" type="String" default='' /> -->
+    <aura:attribute name="dateFrom" type="Date" />
+    <aura:attribute name="dateTo" type="Date" />
+    <aura:attribute name="loadAll" type="Boolean" default='false' />
+    <aura:attribute name="checkNote" type="Boolean" default='false' />
+    <aura:attribute name="showButtonViewAll" type="Boolean" default='false' />
+    
+    <!-- STAMPA -->
+    <aura:attribute name="metadatiStampa" type="Object[]" default='[]' />
+    <aura:attribute name="selectedSezioni" type="Map" default='{}' />
+    <aura:attribute name="fullMetadata" type="PDFConfigurator__mdt[]" default='[]' />
+    <aura:attribute name="accountData" type="Account" default="{'sobjectType':'Account'}"/>
+    <aura:attribute name="recordTypeDeveloperName" type="String" />
+    <aura:attribute name="isCF" type="Boolean" default="false"/>
+    <aura:attribute name="rootXml" type="String" />
+    <aura:attribute name="xml" type="String" />
+    <aura:attribute name="PLACEHOLDER_SEZIONI" type="String" default="###ZONA_SEZIONI###"/>
+    <aura:attribute name="PLACEHOLDER_COMPONENTI" type="String" default="###ZONA_COMPONENTI###"/>
+    <!-- STAMPA -->
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <lightning:card>
+        <aura:set attribute="title">
+
+            <!-- with container -->
+            <lightning:layout multipleRows="false">
+                <lightning:layoutItem size="10" smallDeviceSize="10" mediumDeviceSize="10" largeDeviceSize="10">
+                    <lightning:icon iconName="{! v.iconName }" size="small" variant="slds-icon-inverse" />
+                    <div class="title">{! v.title }</div>
+                </lightning:layoutItem>
+                <lightning:layoutItem class="slds-text-align_right" size="2" smallDeviceSize="2" mediumDeviceSize="2"
+                    largeDeviceSize="2">
+                    <!-- <aura:if isTrue="{! v.Dettaglio == 'attivo' }">
+                        <div class="header-button">
+                        <lightning:buttonIcon iconName="utility:expand" size="medium" variant="bare" iconClass=""
+                        onclick="{!c.navigateToMyComponent}"
+                        class="" />
+                        </div>
+                    </aura:if> -->
+                </lightning:layoutItem>
+            </lightning:layout>
+        </aura:set>
+        <div class="spinnerDiv">
+            <lightning:spinner alternativeText="Loading" size="small" aura:id="mySpinner" class="" />
+        </div>
+        <lightning:layout multipleRows="true">
+            <lightning:layoutItem size="12" padding="horizontal-small">
+                    <div class="{! 'container' + (v.title != '' ? '' : ' no-title') }" >
+                        <div class="containerFilterBackground "></div>
+                
+                        <div class="containerFilter slds-p-bottom_none">
+                            <aura:if isTrue="{! v.isModalFull}">
+                                <div>
+                                    <lightning:accordion class="slds-p-bottom_x-small" aura:id="accordion"
+                                        allowMultipleSectionsOpen="true">
+                                        <lightning:accordionSection name="A" label="Filtri Storico Contatti">
+                                            <lightning:layout multipleRows="true" pullToBoundary="small">
+                    
+                                                <lightning:layoutItem flexibility="auto"  padding="horizontal-small" size="12">
+                                                    <div class="custom-box">
+                                                        <lightning:select name="FiltroAtt" label="Tipo selezione" aura:id="ObjSelectedList" value="{!v.selectedValueForChoise}" onchange="{!c.selectTipoSelezione}">
+                                                            <option value="tutti">Tutti</option>
+                                                            <option value="selettivo">Selezione per oggetto</option>
+                                                        </lightning:select>
+                                                    </div>                    
+                                                </lightning:layoutItem>
+                    
+                                                <lightning:layoutItem flexibility="auto"  padding="horizontal-small" size="12">
+                                                        <aura:if isTrue="{! v.selectedValueForChoise == 'selettivo' }">
+                                                            <lightning:dualListbox size="3" name="languages" label="Seleziona oggetti"
+                                                                    sourceLabel="Disponibili" selectedLabel="Selezionati"
+                                                                    fieldLevelHelp="Seleziona gli oggetti su cui effettuare la ricerca"
+                                                                    options="{!v.optionsMultiSelectObject}" value="{!v.valuesMultiSelectObject}"
+                                                                    onchange="{!c.onChangeMulti}" />
+                                                        </aura:if>
+                                                </lightning:layoutItem>
+                                                    <lightning:layoutItem flexibility="auto"  padding="horizontal-small" size="12">                    
+                                                                    <!-- <lightning:helptext
+                                                                        style=" position: absolute; top: 0;left: 80px; "
+                                                                        content="{!v.helpTextEsito}"> 
+                                                                    </lightning:helptext> -->
+                    
+                                                                <!-- <lightning:select aura:id="FiltroAtt" name="FiltroAtt"
+                                                                    label="Filtra per esito" disabled="{!v.checkEsito}" value="{!v.valueFiltroEsito}">
+                                                                    <option value="">-\-None-\-</option>
+                                                                    <option value="Da contattare">Da contattare</option>
+                                                                    <option value="Da ricontattare">Da ricontattare</option>
+                                                                    <option value="Fissato appuntamento">Fissato appuntamento</option>
+                                                                    <option value="Prodotto venduto">Prodotto venduto</option>
+                                                                    <option value="Cliente non interessato">Cliente non interessato</option>
+                                                                    <option value="Cliente non contattabile">Cliente non contattabile</option>
+                                                                </lightning:select> -->
+                                                        <lightning:dualListbox size="3" name="languages" label="Filtra per esito"
+                                                            sourceLabel="Disponibili" selectedLabel="Selezionati"
+                                                            fieldLevelHelp="{!v.helpTextEsito}"
+                                                            options="{!v.optionsMultiSelectFiltroEsito}" value="{!v.valuesMultiSelectFiltroEsito}"
+                                                            disabled="{!v.checkEsito}" />
+                                                </lightning:layoutItem>
+                                                <lightning:layoutItem flexibility="auto"  padding="horizontal-small" size="5">
+                                                        <lightning:input type="date" aura:id="fieldDataStart" name="data_Inizio" label="Da:" value="{!v.dateFrom}" dateStyle="short" messageWhenBadInput="La data di partenza non può essere superiore rispetto a quella di fine" />
+                                                    </lightning:layoutItem>
+                                                    <lightning:layoutItem flexibility="auto"  padding="horizontal-small" size="5">
+                                                        <lightning:input type="date" aura:id="fieldDataEnd" name="data_Fine" label="A:" value="{!v.dateTo}" dateStyle="short"	/>
+                                                    </lightning:layoutItem>
+                                                    <lightning:layoutItem flexibility="auto"  padding="horizontal-small" size="2">
+                                                        <lightning:input type="checkbox" aura:id="tipologiaControparte_pubblico" label="Presenza Nota" name="pubblico" onchange="{! c.onChange }" checked="{! v.checkNote }"/>
+                                                    </lightning:layoutItem>
+                                                <lightning:layoutItem flexibility="auto"  padding="around-small" size="12">
+                                                    <button type="submit" class="slds-button slds-button_stretch color-button" onclick="{!c.searchDate }">Cerca</button>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                        </lightning:accordionSection>
+                                    </lightning:accordion>
+                                    <lightning:buttonIcon class="buttonIconPosition" iconName="utility:refresh"  alternativeText="Settings" title="Refresh" onclick="{! c.doInit }" />
+                                    <lightning:buttonIcon disabled="{!v.isCF}" class="buttonPrintIconPosition" iconName="utility:print"  alternativeText="Settings" title="Stampa" onclick="{! c.printPDF }" />
+                                </div>
+                            </aura:if>
+                        </div>
+                    </div>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="12" padding="horizontal-small">
+                <div class="{! 'containerTimeLine ' + (v.isModalFull ? 'slds-scrollable_y' : '') }" style="{! ' ' + (v.isModalFull ? 'max-height: ' + v.heigthSet : '') }">
+                    <ul class="slds-timeline">
+                        <aura:iteration items="{!v.allDataChoiseValue}" var="item" indexVar="index">
+                            <c:WGC_ActivityTimeLine_Item activityType="{! item.ObjectType }" itemDetail="{! item }" />
+                        </aura:iteration>
+                    </ul>
+                </div>
+            </lightning:layoutItem>
+            <aura:if isTrue="{! v.isModalFull }">
+                <aura:if isTrue="{! v.showButtonViewAll }">
+                    <aura:if isTrue="{! v.loadAll }">
+                        <lightning:layoutItem flexibility="auto"  padding="around-small" size="12">
+                            <button type="submit" class="slds-button slds-button_stretch color-button" onclick="{! c.loadAll }" id="collapse">Collapse ({! v.numberOfRecords })</button>
+                        </lightning:layoutItem>
+                    </aura:if>
+                    <aura:if isTrue="{! !v.loadAll }">
+                        <lightning:layoutItem flexibility="auto"  padding="around-small" size="12">
+                            <button type="submit" class="slds-button slds-button_stretch color-button" onclick="{! c.loadAll }" id="view_all">View All</button>
+                        </lightning:layoutItem>
+                    </aura:if>
+                </aura:if>
+            </aura:if>
+        </lightning:layout>
+    </lightning:card>
+    
+</aura:component>

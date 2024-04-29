@@ -1,0 +1,67 @@
+.THIS {
+    height: 410px;
+}
+
+.THIS .slds-card__body {
+    margin: 0 10px 10px 10px;
+}
+
+.THIS .title{
+    display: inline-block;
+    /* margin-left: 10px; */
+    vertical-align: sub;
+    text-transform: uppercase;
+}
+
+.THIS .canvas-container{
+    width: 100%;
+    height: 360px;
+}
+
+.THIS .label-dot.slds-m-left_x-small.slds-m-right_xx-small {
+    color: grey;
+    font-size: 10px;
+    /* vertical-align: sub; */
+}
+
+.THIS .label-dot.slds-m-left_x-small.slds-m-right_xx-small b {
+    vertical-align: sub;
+}
+
+.THIS .cStatusDot{
+    padding-top: 4px;
+}
+
+.THIS .quadrant{
+    border:1px solid grey;
+    border-radius:10px;
+    padding:7px;
+}
+
+.THIS .description-title{
+    font-size: 13px;
+    font-weight: bold;
+    color: #1d1d1d;
+}
+
+.THIS .description{
+    font-size:10px;
+    color:#1d1d1d;
+    display: inline;
+}
+
+.THIS .desc-result{
+    font-size:13px;
+    color:#0064B5;
+    font-weight: bold;
+    display: inline;
+    padding-left: 10px;
+}
+
+.THIS .full-height{
+    height: 100%;
+}
+
+.THIS .slds-card__header-title .slds-truncate{
+    width:100% !important;
+}

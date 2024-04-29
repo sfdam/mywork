@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Abilitazione_MMDS__c</fullName>
+    <externalId>false</externalId>
+    <formula>OR (
+ISPICKVAL(PTF_ModelloDiServizio__c, &apos;Private&apos;),
+ISPICKVAL(PTF_ModelloDiServizio__c, &apos;Corporate&apos;),
+ISPICKVAL(PTF_ModelloDiServizio__c, &apos;Small Business&apos;),
+ISPICKVAL(PTF_ModelloDiServizio__c, &apos;Large Corporate&apos;),
+ISPICKVAL(PTF_ModelloDiServizio__c, &apos;Consulenti Finanziari&apos;),
+ISPICKVAL(PTF_ModelloDiServizio__c, &apos;Key Client Privati&apos;),
+ISPICKVAL(PTF_ModelloDiServizio__c, &apos;Enti E Tesorerie&apos;)
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Abilitazione MMDS</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

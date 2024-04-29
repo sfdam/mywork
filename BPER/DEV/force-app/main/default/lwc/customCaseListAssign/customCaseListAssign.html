@@ -1,0 +1,17 @@
+<template>
+    <lightning-modal-header label=Assegna></lightning-modal-header>
+    <lightning-modal-body>
+
+        <c-custom-lookup icon-name="standard:case"
+            s-object-api-name="case"
+            label=""
+            onlookupupdate={lookupRecord}
+            placeholder="Cerca un Utente...">
+        </c-custom-lookup>
+
+    </lightning-modal-body>
+    <lightning-modal-footer>
+        <lightning-button label="OK" onclick={handleOkay}></lightning-button>
+        <lightning-button label="Annulla" onclick={handleKO}></lightning-button>
+    </lightning-modal-footer>
+</template>

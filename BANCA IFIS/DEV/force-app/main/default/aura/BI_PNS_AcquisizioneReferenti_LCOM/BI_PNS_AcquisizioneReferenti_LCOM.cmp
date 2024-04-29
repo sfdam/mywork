@@ -1,0 +1,102 @@
+<aura:component implements="lightning:availableForFlowScreens" access="global"> 
+	
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/> 
+
+    <aura:attribute name="fileRecapColumns" type="List"/> 
+    
+    <aura:attribute name="jsonREFERENTIData" type="Object"/>
+
+    <aura:attribute name="aggiuntaRuolo" type="String"/>
+    <aura:attribute name="aggiuntaTipologiaTitolareEffettivo" type="String"/>
+    <aura:attribute name="aggiuntaNome" type="String"/>
+    <aura:attribute name="aggiuntaCognome" type="String"/>
+    <aura:attribute name="aggiuntaCF" type="String"/>
+
+    <aura:attribute name="opzioniRuolo" type="List" default="[
+    {'label': 'Esecutore', 'value': 'Esecutore'},
+    {'label': 'Titolare Effettivo', 'value': 'Titolare effettivo'},
+    {'label': 'Titolare effettivo ed esecutore', 'value': 'Titolare effettivo ed esecutore'}
+    ]"/>
+
+    <aura:attribute name="opzioniTipologiaTE" type="List" default="[
+    {'label': 'Proprietà Diretta', 'value': 'Proprietà diretta'},
+    {'label': 'Proprietà Indiretta', 'value': 'Proprietà indiretta'},
+    {'label': 'Controllo', 'value': 'Controllo'},
+    {'label': 'Potere di Ammin. e Direzione', 'value': 'Potere di Amministrazione e Direzione'},
+    {'label': 'Nessuno', 'value': 'Nessuno'}
+    ]"/>
+
+    <aura:attribute name="workflowRecordCandidatoID" type="String"/>
+    <aura:attribute name="workflowRecordCandidatoNEXT" type="WorkflowMutui__c"/>
+    <aura:attribute name="workflowRecordCandidato" type="WorkflowMutui__c"/>
+    <aura:attribute name="workflowRecordCandidatoERROR" type="String"/>
+
+    <force:recordData aura:id="flowRecordHandlerWorkflowCandidatoId"
+                      recordId="{!v.workflowRecordCandidatoID}"
+                      layoutType="FULL"
+                      targetFields="{!v.workflowRecordCandidato}"
+                      targetError="{!v.workflowRecordCandidatoERROR}"
+                      recordUpdated="{!c.handleRecordUpdated}"
+                      targetRecord="{!v.workflowRecordCandidatoNEXT}"
+                      mode="EDIT"                      
+                      />    
+
+    <!-- Display Lightning Data Service errors, if any -->
+    <aura:if isTrue="{!not(empty(v.workflowRecordCandidatoERROR))}">
+        <ui:message title="Errore" severity="error" closable="true">{!v.workflowRecordCandidatoERROR}</ui:message>
+    </aura:if>        
+
+    <c:bifis_crm_c_MccNsaFlowPath selectedPathValue="0"/>    
+
+    <c:bifis_crm_c_CommonFlowNavigator availableActions="{!v.availableActions}" navigateFlowEvent="{!c.handleNavigate}"/>
+
+    <lightning:card variant="Narrow" title="Referenti" iconName="standard:record" />
+    
+    <hr style="margin-top:1px;margin-bottom:10px;"/>
+
+    <lightning:card variant="Narrow" title="NUOVO SOGGETTO" iconName="standard:people">
+        <p class="slds-p-horizontal_small">
+	
+            <div class="slds-grid slds-wrap slds-grid_vertical-align-end"> 
+              <div class="slds-col slds-size_1-of-6">
+                <div class="slds-m-around_small"><lightning:input aura:id="flowInputNomeSoggettoInputId" label="Nome" type="text" name="flowInputNomeSoggettoInput" value="{!v.aggiuntaNome}" onblur="{!c.handleNomeSoggettoBlur}" required="false" maxlength="50"/></div>
+              </div>
+              <div class="slds-col slds-size_1-of-6">
+                <div class="slds-m-around_small"><lightning:input aura:id="flowInputCognomeSoggettoInputId" label="Cognome" type="text" name="flowInputCognomeSoggettoInput" value="{!v.aggiuntaCognome}" onblur="{!c.handleCognomeSoggettoBlur}" required="false" maxlength="50"/></div>
+              </div>
+              <div class="slds-col slds-size_1-of-6">
+                <div class="slds-m-around_small"><lightning:input aura:id="flowInputCFSoggettoInputId" label="Codice Fiscale" type="text" name="flowInputCFSoggettoInput" value="{!v.aggiuntaCF}" onblur="{!c.handleCFSoggettoBlur}" required="false" maxlength="16" minlength="16"/></div>
+              </div>
+              <div class="slds-col slds-size_1-of-6">
+                <div class="slds-m-around_small"><lightning:combobox label= "Ruolo" required="false" aura:id="flowInputRuoloInputId" name="flowInputRuoloInput" value="{!v.aggiuntaRuolo}" onblur="{!c.handleRuoloBlur}" placeholder="Seleziona un Ruolo" options="{!v.opzioniRuolo}" onchange="{! c.handleComboRuoloChange }" /></div>
+              </div>
+              <div class="slds-col slds-size_1-of-6">
+                <div class="slds-m-around_small"><lightning:combobox label= "Tipologia Titolare Effettivo" required="false" aura:id="flowInputTipologiaTitolareEffettivoInputId" name="flowInputTipologiaTitolareEffettivoInput" value="{!v.aggiuntaTipologiaTitolareEffettivo}" onblur="{!c.handleTipologiaTEBlur}" placeholder="Seleziona una Tipologia" options="{!v.opzioniTipologiaTE}" onchange="{! c.handleComboTipologiaTEChange }" disabled="true"/></div>
+              </div>
+              <div class="slds-col slds-size_1-of-6">
+                <div class="slds-m-around_small"><lightning:buttonIcon iconName="utility:adduser" size="large" alternativeText="Aggiungi Soggetto" onclick="{!c.handleAddUserClick}"/></div>
+              </div>
+            </div>    
+
+		</p>
+	</lightning:card>
+
+    <lightning:card variant="Narrow" title="SOGGETTI CENSITI" iconName="standard:household">
+        <p class="slds-p-horizontal_small">
+	  
+            <div class="slds-grid slds-wrap">
+                <div class="slds-size_1-of-1">
+                    <lightning:datatable aura:id="flowDatatableREFERENTI" data="{!v.jsonREFERENTIData}" columns="{!v.fileRecapColumns}" keyField="id" hideCheckboxColumn="true" resizeColumnDisabled="true" showRowNumberColumn="true" onrowaction="{! c.handleRowActionREFERENTI }"/>
+                </div>
+                <div class="slds-size_1-of-1">  
+                    <lightning:input aura:id="flowInputReferentiJsonId" name="flowInputReferentiJson" required="false" value="{!v.workflowRecordCandidato.REFERENTI_JSON__c}" class="slds-hide"/>
+                </div>
+            </div>
+
+		</p>
+	</lightning:card>
+
+
+    <c:bifis_crm_c_CommonFlowNavigator availableActions="{!v.availableActions}" navigateFlowEvent="{!c.handleNavigate}"/>   
+
+</aura:component>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_CustomerInterests__c</fullName>
+    <externalId>false</externalId>
+    <label>Interessi del Cliente</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Temi Etici</fullName>
+                <default>false</default>
+                <label>Temi ESG</label>
+            </value>
+            <value>
+                <fullName>Sport</fullName>
+                <default>false</default>
+                <label>Sport</label>
+            </value>
+            <value>
+                <fullName>Cucina</fullName>
+                <default>false</default>
+                <label>Cucina</label>
+            </value>
+            <value>
+                <fullName>Cultura</fullName>
+                <default>false</default>
+                <label>Cultura</label>
+            </value>
+            <value>
+                <fullName>Musica</fullName>
+                <default>false</default>
+                <label>Musica</label>
+            </value>
+            <value>
+                <fullName>Motori</fullName>
+                <default>false</default>
+                <label>Motori</label>
+            </value>
+            <value>
+                <fullName>Altro</fullName>
+                <default>false</default>
+                <label>Altro</label>
+            </value>
+            <value>
+                <fullName>Politica</fullName>
+                <default>false</default>
+                <label>Politica</label>
+            </value>
+            <value>
+                <fullName>Tecnologia</fullName>
+                <default>false</default>
+                <label>Tecnologia</label>
+            </value>
+            <value>
+                <fullName>Economia/finanza</fullName>
+                <default>false</default>
+                <label>Economia/finanza</label>
+            </value>
+            <value>
+                <fullName>Cronaca</fullName>
+                <default>false</default>
+                <label>Cronaca</label>
+            </value>
+            <value>
+                <fullName>Ambiente</fullName>
+                <default>false</default>
+                <label>Ambiente</label>
+            </value>
+            <value>
+                <fullName>Moda</fullName>
+                <default>false</default>
+                <label>Moda</label>
+            </value>
+            <value>
+                <fullName>Arte e spettacolo</fullName>
+                <default>false</default>
+                <label>Arte e spettacolo</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>5</visibleLines>
+</CustomField>

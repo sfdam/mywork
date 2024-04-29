@@ -1,0 +1,23 @@
+<design:component label="WGC - Tab Mio Team" >
+    <flexipage:template >
+
+        <flexipage:region name="top" defaultWidth="LARGE" >
+        <flexipage:formfactor type="LARGE" width="LARGE" />
+        </flexipage:region>
+        <flexipage:region name="headerLeft" defaultWidth="MEDIUM" />
+        <flexipage:region name="headerCenter" defaultWidth="MEDIUM" />
+        <flexipage:region name="headerRight" defaultWidth="MEDIUM" />
+        <flexipage:region name="headerRight1" defaultWidth="MEDIUM" />
+        <flexipage:region name="headerRight2" defaultWidth="MEDIUM" />
+        
+        
+        <flexipage:region name="left" defaultWidth="MEDIUM" />
+        <flexipage:region name="center" defaultWidth="MEDIUM" />
+        <flexipage:region name="right" defaultWidth="MEDIUM" />
+
+        <flexipage:region name="left_down" defaultWidth="MEDIUM" />
+        <flexipage:region name="center_down" defaultWidth="MEDIUM" />
+        <flexipage:region name="right_down" defaultWidth="MEDIUM" />
+        
+   </flexipage:template>
+</design:component>

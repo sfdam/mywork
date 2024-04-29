@@ -1,0 +1,19 @@
+<template>
+    <template if:false={loaded}>
+        <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+    </template>
+
+    <div class="slds-p-vertical_xx-large">
+        <c-enhanced-record-list configuration={enhancedRecordListConfiguration} hide-view-selection onrowactions={handleRowActions}></c-enhanced-record-list>
+    </div>
+
+    <c-modal class="order-items-modal" size="medium">
+        <div slot="header">Dettaglio ordine - Nr.{order.OrderReferenceNumber}</div>
+        <div slot="content">
+            <c-order-item-list order-id={order.Id}></c-order-item-list>
+        </div>
+        <div slot="footer">
+            <lightning-button variant="neutral" label="Chiudi" title="Chiudi" onclick={closeModal} class="slds-m-left_x-small"></lightning-button>
+        </div>
+    </c-modal>
+</template>

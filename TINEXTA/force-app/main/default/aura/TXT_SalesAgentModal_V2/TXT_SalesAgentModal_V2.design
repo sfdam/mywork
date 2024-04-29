@@ -1,0 +1,6 @@
+<design:component>
+	<design:attribute name="iconName" label="Icona" description="Definisce l'icona tra le standard" />
+    <design:attribute name="title" label="Titolo" description="Definisce il Titolo della Card" />
+    <design:attribute name="viewOption" label="Seleziona tipo di ricerca predefinito" datasource="Picklist,Lookup" default="Picklist" />
+    <design:attribute name="showButtonMenu" label="Mantieni entrambe le opzioni" description="Show button menu" />
+</design:component>

@@ -1,0 +1,17 @@
+.trasparent{
+    background-color: transparent;
+}
+
+.slds-modal__container{
+height : auto;
+width: 70%;
+max-width: 70rem;
+}
+.modal-body{
+height : 500px !important;
+max-height: 500px !important;
+}
+
+.customFooter{
+display: inline !important;
+}

@@ -1,0 +1,79 @@
+<template>
+    <template if:true={loading}>
+        <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+    </template>
+
+    <template if:false={loading}>
+        <div class="slds-grid slds-grid_align-spread">
+            <div class="slds-col slds-p-around_xx-small vertical-align">
+                {headerLabel}
+            </div>
+            <div class="slds-col slds-p-around_xx-small">
+                <lightning-button-group>
+                    <lightning-button label="Approve" title="Approve" onclick={openApproveModal} disabled={disableButtons}></lightning-button>
+                    <lightning-button label="Reject" title="Reject" onclick={openRejectModal} disabled={disableButtons}></lightning-button>
+                    <lightning-button label="Reassign" title="Reassign" onclick={openReassignModal} disabled={disableButtons}></lightning-button>
+                </lightning-button-group>
+            </div>
+        </div>
+
+        <div class="slds-p-vertical_small">
+            <lightning-datatable
+                    key-field="Id"
+                    data={rows}
+                    show-row-number-column
+                    columns={columns}
+                    default-sort-direction={defaultSortDirection}
+                    sorted-direction={sortDirection}
+                    sorted-by={sortedBy}
+                    onsort={handleSort}
+                    onrowaction={handleRowActions}
+                    onrowselection={handleRowSelection}
+                    row-number-offset={rowNumberOffset}>
+            </lightning-datatable>
+        </div>
+    </template>
+
+    <c-modal class="approve-modal" size="small" loading={loading}>
+        <div slot="header">{selectedRows.length} Approval Requests</div>
+        <div slot="content">
+            <div class="slds-p-vertical_small approvalOptions">
+                <lightning-combobox name="approvalOptions" label="Approval Options" placeholder="Select an approval option" options={approvalOptions} required></lightning-combobox>
+            </div>
+            <div class="slds-p-vertical_small comments">
+                <lightning-textarea name="comments" label="Comments"></lightning-textarea>
+            </div>
+        </div>
+        <div slot="footer">
+            <lightning-button variant="neutral" label="Close" title="Close" name="approve-modal" onclick={closeModal} class="slds-m-left_x-small"></lightning-button>
+            <lightning-button variant="brand" label="Approve" title="Approve" onclick={approveHandler} class="slds-m-left_x-small"></lightning-button>
+        </div>
+    </c-modal>
+
+    <c-modal class="reject-modal" size="small" loading={loading}>
+        <div slot="header">{selectedRows.length} Approval Requests</div>
+        <div slot="content">
+            <div class="slds-p-vertical_small comments">
+                <lightning-textarea name="comments" label="Comments"></lightning-textarea>
+            </div>
+        </div>
+        <div slot="footer">
+            <lightning-button variant="neutral" label="Close" title="Close" name="reject-modal" onclick={closeModal} class="slds-m-left_x-small"></lightning-button>
+            <lightning-button variant="brand" label="Reject" title="Reject" onclick={rejectHandler} class="slds-m-left_x-small"></lightning-button>
+        </div>
+    </c-modal>
+
+    <c-modal class="reassign-modal" size="small" loading={loading}>
+        <div slot="header">{selectedRows.length} Approval Requests</div>
+        <div slot="content">
+            <div class="lookup slds-p-vertical_small comments">
+                <c-lookup-combobox label="Reassign To" target-object="User" target-field="Name" option-icon="standard:user" onselect={selectHandler} onremove={removeHandler}></c-lookup-combobox>
+            </div>
+        </div>
+        <div slot="footer">
+            <lightning-button variant="neutral" label="Close" title="Close" name="reassign-modal" onclick={closeModal} class="slds-m-left_x-small"></lightning-button>
+            <lightning-button variant="brand" label="Reassign" title="Reassign" onclick={reassignHandler} class="slds-m-left_x-small" disabled={disableReassignButton}></lightning-button>
+        </div>
+    </c-modal>
+
+</template>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>User_Filiale_Account_Filiale__c</fullName>
+    <externalId>false</externalId>
+    <formula>OR(IF(OR(CONTAINS($User.Profilo__c , &apos;NEC_F&apos;), $User.Profilo__c = &apos;NEC_CR&apos;),
+   CRM_Account__r.CRM_Filiale__r.PTF_IdCED__c =  $User.idced__c,
+			false
+			),
+			IF(OR( $User.idced__c = &apos;6116&apos;, $User.idced__c = &apos;21025&apos;),
+						 TEXT(CRM_Account__r.ModelloDiServizio__c) = &apos;Key Client Privati&apos;,
+						false
+						),
+			IF( $User.PTF_RuoloLDAP__c = &apos;069&apos;,
+						 PTF_Portafoglio__r.Referente_User__c =  $User.Id,
+						false
+						)
+			)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>User Filiale = Account Filiale</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,69 @@
+.THIS {
+}
+
+.THIS .slds-modal__container{
+    width: 60%;
+    max-width: 75rem;
+    min-width: 40rem;
+}
+
+.THIS .no-pad{
+    background:lightgray;
+}
+
+.THIS a {
+    color:#4891E0;
+}
+
+.THIS a :hover{
+    background:#4891E0;
+}
+
+.THIS li ::after{
+    background:#4891E0;
+}
+
+.THIS .slds-tabs_default__item.slds-active:after, .THIS .slds-tabs_default__item.slds-is-active:after, .THIS .slds-tabs--default__item.slds-active:after, .THIS .slds-tabs--default__item.slds-is-active:after{
+    background:#4891E0;
+}
+
+.THIS .tab-title{
+    background:#E1ECFE;
+    color:#4891E0;
+}
+
+.THIS .tabs-container{
+    background:#E1ECFE; 
+    display:flex;
+    margin:0 8px;
+}
+
+.THIS .tabs{
+    background:#E1ECFE;
+}
+
+.THIS .border-doc{
+    border:2px solid #4891E0;
+    border-radius:5px;
+}
+
+.THIS .title{
+    font-weight:bold;
+    color:#4891E0;
+    font-size:medium;
+}
+
+.THIS .icon{
+    background: #4891E0;
+    padding:10px;
+    border-radius:25px;
+    cursor:pointer;
+}
+
+.THIS .tab-text{
+    display:table-cell; 
+    padding:0 10px;
+    vertical-align:middle;
+    color:#4891E0;
+    font-size:x-small;
+}

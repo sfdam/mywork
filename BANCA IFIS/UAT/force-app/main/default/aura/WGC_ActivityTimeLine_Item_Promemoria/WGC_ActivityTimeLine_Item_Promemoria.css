@@ -1,0 +1,69 @@
+.THIS .slds-timeline__item_expandable:before {
+    left: 16px;
+}
+
+.THIS .slds-timeline__item_promemoria:before {
+    background: #676363;
+}
+/* 
+.THIS .IsArchived .slds-icon-standard-promemoria {
+    background-color: #8488ff;
+}
+
+.THIS .slds-timeline__item_expandable.slds-timeline__item_promemoria.IsArchived:Before {
+    background: #676363;
+} */
+
+.THIS hr {
+    margin: 1rem 0 0.15rem 0;
+}
+
+.THIS .text-macro-esito {
+    text-align: right;
+    margin-right: 20px;
+}
+
+.THIS .dot{
+    position: relative;
+}
+
+.THIS .green{
+    /* position: absolute;
+    right: 0; */
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color:#49c642;
+    box-shadow: 0 0 5px 1px rgb(194, 194, 194);
+}
+
+.THIS .red{
+    /* position: absolute;
+    right: 0; */
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color:#C30217;
+    box-shadow: 0 0 5px 1px rgb(194, 194, 194);
+
+}
+
+.THIS .grey{
+    /* position: absolute;
+    right: 0; */
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color:#808080;
+    box-shadow: 0 0 5px 1px rgb(194, 194, 194);
+}
+
+.THIS .blu{
+    /* position: absolute;
+    right: 0; */
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color:#40409b;
+    box-shadow: 0 0 5px 1px rgb(194, 194, 194);
+}

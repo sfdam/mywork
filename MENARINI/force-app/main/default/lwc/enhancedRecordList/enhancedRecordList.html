@@ -1,0 +1,150 @@
+<template>
+    <!-- ***********************************************************************
+    *  LOADING SPINNER
+    ************************************************************************ -->
+    <template if:false={loaded}>
+        <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+    </template>
+
+    <!-- ***********************************************************************
+    *  SEARCH
+    ************************************************************************ -->
+    <div class="content slds-p-around_x-small">
+        <div class="slds-grid slds-wrap slds-grid_vertical-stretch slds-p-vertical_xx-small">
+
+            <div class="slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-medium-size_1-of-4 slds-large-size_1-of-4 slds-align-middle slds-p-around_xx-small">
+                <div class="slds-text-align_center">
+                    <span class="text-weight-bold">{totalLabel}:</span>&nbsp;{pagination.totalEntries}
+                </div>
+            </div>
+
+            <div class="slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-medium-size_1-of-4 slds-large-size_1-of-4 slds-align-middle slds-p-around_xx-small">
+                <template if:false={hideViewSelection}>
+                    <div class="slds-p-horizontal_medium">
+                        <lightning-combobox
+                                name="changeView"
+                                label="Change view"
+                                value={currentView}
+                                placeholder="Change view"
+                                options={viewOptions}
+                                onchange={changeViewHandler}
+                                variant="label-hidden">
+                        </lightning-combobox>
+                    </div>
+                </template>
+            </div>
+
+            <div class="slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-medium-size_1-of-4 slds-large-size_1-of-4 slds-align-middle slds-p-around_xx-small">
+                <template if:false={hideViewSelection}>
+                    <div class="slds-p-horizontal_medium">
+                        <button class="neutral-button slds-button_stretch" onclick={customViewOpenModal}>Edit Custom View</button>
+                    </div>
+                </template>
+            </div>
+
+            <div class="slds-col slds-size_1-of-1 slds-small-size_1-of-2 slds-medium-size_1-of-4 slds-large-size_1-of-4 slds-align-middle slds-p-around_xx-small">
+                <div class="input-search-container slds-p-horizontal_medium">
+                    <lightning-input name="enter-search" label="Cerca" variant="label-hidden" placeholder="Cerca" type="search" value={searchFilterInput} disabled={searchFilterInputIsDisabled} oncommit={searchHandler}></lightning-input>
+                    <template if:true={searchTooltipText}>
+                        <div class="slds-popover slds-popover_tooltip slds-nubbin_bottom-left input-search-tooltip" role="tooltip" id="help">
+                            <div class="slds-popover__body">{searchTooltipText}</div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- ***********************************************************************
+    *  TABLE
+    ************************************************************************ -->
+    <div class="content">
+        <lightning-datatable
+                key-field="Id"
+                data={rows}
+                show-row-number-column
+                hide-checkbox-column
+                columns={columns}
+                default-sort-direction={defaultSortDirection}
+                sorted-direction={sortDirection}
+                sorted-by={sortedBy}
+                onsort={handleSort}
+                onrowaction={handleRowActions}
+                row-number-offset={rowNumberOffset}
+                column-widths-mode="fixed">
+        </lightning-datatable>
+    </div>
+
+    <!-- ***********************************************************************
+    *  PAGINATION
+    ************************************************************************ -->
+    <div class="content slds-p-around_x-small">
+        <div class="slds-text-align_center">
+            <span class="text-weight-bold">{totalLabel}:&nbsp;{pagination.totalEntries}</span>
+        </div>
+        <div class="slds-grid slds-wrap slds-grid_vertical-stretch slds-p-vertical_xx-small slds-grid_align-spread">
+            <div class="slds-col slds-size_1-of-1 slds-small-size_1-of-5 slds-medium-size_1-of-6 slds-large-size_1-of-6 slds-p-around_xx-small">
+                <button type="button" title="First" class="first-page-button neutral-button slds-button_stretch" disabled={paginationDetails.firstPageButtonDisabled} onclick={firstPageButtonHandler}>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" class="slds-button__icon slds-button__icon_left" fill="#004691">
+                        <path d="m34.2 47.7l-20.8-20.5c-0.6-0.6-0.6-1.6 0-2.2l20.8-20.5c0.6-0.6 1.6-0.6 2.2 0l2.2 2.2c0.6 0.6 0.6 1.6 0 2.2l-16.5 16.1c-0.6 0.6-0.6 1.6 0 2.2l16.3 16.1c0.6 0.6 0.6 1.6 0 2.2l-2.2 2.2c-0.5 0.5-1.4 0.5-2 0z"></path>
+                    </svg>
+                    Prima pagina
+                </button>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-small-size_1-of-5 slds-medium-size_1-of-6 slds-large-size_1-of-6 slds-p-around_xx-small">
+                <button type="button" title="Previous" class="previous-page-button neutral-button slds-button_stretch" disabled={paginationDetails.previousPageButtonDisabled} onclick={previousPageButtonHandler}>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" class="slds-button__icon slds-button__icon_left" fill="#004691">
+                        <path d="m34.2 47.7l-20.8-20.5c-0.6-0.6-0.6-1.6 0-2.2l20.8-20.5c0.6-0.6 1.6-0.6 2.2 0l2.2 2.2c0.6 0.6 0.6 1.6 0 2.2l-16.5 16.1c-0.6 0.6-0.6 1.6 0 2.2l16.3 16.1c0.6 0.6 0.6 1.6 0 2.2l-2.2 2.2c-0.5 0.5-1.4 0.5-2 0z"></path>
+                    </svg>
+                    Indietro
+                </button>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-small-size_1-of-5 slds-medium-size_2-of-6 slds-large-size_2-of-6 slds-p-around_xx-small slds-text-align_center">
+                <span class="text-weight-bold">Pagina&nbsp;{pagination.currentPage}&nbsp;di&nbsp;{pagination.totalPages}</span>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-small-size_1-of-5 slds-medium-size_1-of-6 slds-large-size_1-of-6 slds-p-around_xx-small">
+                <button type="button" title="Next" class="next-page-button neutral-button slds-button_stretch" disabled={paginationDetails.nextPageButtonDisabled} onclick={nextPageButtonHandler}>
+                    Avanti
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" class="slds-button__icon slds-button__icon_right" fill="#004691">
+                        <path d="m17.9 4.4l20.7 20.5c0.6 0.6 0.6 1.6 0 2.2l-20.7 20.5c-0.6 0.6-1.6 0.6-2.2 0l-2.2-2.2c-0.6-0.6-0.6-1.6 0-2.2l16.3-16.1c0.6-0.6 0.6-1.6 0-2.2l-16.2-16.1c-0.6-0.6-0.6-1.6 0-2.2l2.2-2.2c0.6-0.5 1.5-0.5 2.1 0z"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-small-size_1-of-5 slds-medium-size_1-of-6 slds-large-size_1-of-6 slds-p-around_xx-small">
+                <button type="button" title="Last" class="last-page-button neutral-button slds-button_stretch" disabled={paginationDetails.lastPageButtonDisabled} onclick={lastPageButtonHandler}>
+                    Ultima pagina
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" class="slds-button__icon slds-button__icon_right" fill="#004691">
+                        <path d="m17.9 4.4l20.7 20.5c0.6 0.6 0.6 1.6 0 2.2l-20.7 20.5c-0.6 0.6-1.6 0.6-2.2 0l-2.2-2.2c-0.6-0.6-0.6-1.6 0-2.2l16.3-16.1c0.6-0.6 0.6-1.6 0-2.2l-16.2-16.1c-0.6-0.6-0.6-1.6 0-2.2l2.2-2.2c0.6-0.5 1.5-0.5 2.1 0z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <c-modal class="custom-view-modal">
+        <div slot="header">Define a custom view</div>
+        <div slot="content">
+            <div class="slds-p-around_small">
+                <lightning-dual-listbox
+                        name="views"
+                        label="Select fields (at least 1)"
+                        source-label="Available"
+                        selected-label="Selected"
+                        options={customViewOptions}
+                        min="1"
+                        value={customViewFields}
+                        onchange={changeCustomViewFieldsHandler}
+                        variant="label-hidden">
+                </lightning-dual-listbox>
+            </div>
+            <div class="slds-p-around_small">
+                <lightning-input type="checkbox" label="Show row action button" name="showRowActionButton" checked={showRowActionButton} onchange={showRowActionButtonHandler}></lightning-input>
+            </div>
+        </div>
+        <div slot="footer">
+            <button class="neutral-button" onclick={customViewCloseModal}>Save</button>
+        </div>
+    </c-modal>
+</template>

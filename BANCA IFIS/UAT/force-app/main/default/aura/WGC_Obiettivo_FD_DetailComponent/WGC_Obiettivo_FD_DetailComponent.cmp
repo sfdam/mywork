@@ -1,0 +1,450 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,lightning:isUrlAddressable" 
+    controller="WGC_Obiettivo_FD_Controller" access="global" >
+	
+    <ltng:require scripts="{!join(',', 
+             '/resource/WGC_jQuery3x',
+             '/resource/WGC_ChartJs')}" afterScriptsLoaded="{!c.doInit}" />
+
+    <lightning:navigation aura:id="navService" />
+
+    <aura:attribute name="title" type="String" default="IL TUO OBIETTIVO" />
+    <aura:attribute name="allDataValue" type="Object" default='{}' />
+    <aura:attribute name="month" type="String" />
+    <aura:attribute name="year" type="String" />
+    <aura:attribute name="weeks" type="List" />
+
+    <aura:attribute name="clientiAvviatiTot_Month" type="Integer" default="0" />
+    <aura:attribute name="clientiAvviatiTot_Year" type="Integer" default="0" />
+    <aura:attribute name="clientiAvviatiTot_BP_Month" type="Integer" default="0" />
+    <aura:attribute name="clientiAvviatiTot_BP_Year" type="Integer" default="0" />
+    <aura:attribute name="clientiAvviatiTot_Month_Budget" type="Integer" default="0" />
+    <aura:attribute name="clientiAvviatiTot_Budget_Year" type="Integer" default="0" />
+    <aura:attribute name="clientiAvviatiTot_Month_Obiettivo" type="Integer" default="0" />
+
+    <aura:attribute name="prodottiTot_Month" type="Integer" default="0" />
+    <aura:attribute name="prodottiTot_Year" type="Integer" default="0" />
+    <aura:attribute name="prodottiTot_BP_Month" type="Integer" default="0" />
+    <aura:attribute name="prodottiTot_BP_Year" type="Integer" default="0" />
+    <aura:attribute name="prodottiTot_Month_Budget" type="Integer" default="0" />
+    <aura:attribute name="prodottiTot_Budget_Year" type="Integer" default="0" />
+    <aura:attribute name="prodottiTot_Month_Obiettivo" type="Integer" default="0" />
+
+    <aura:attribute name="visiteTot_Month" type="Integer" default="0" />
+    <aura:attribute name="visiteTot_Year" type="Integer" default="0" />
+    <aura:attribute name="visiteTot_BP_Month" type="Integer" default="0" />
+    <aura:attribute name="visiteTot_BP_Year" type="Integer" default="0" />
+    <aura:attribute name="visiteTot_Month_Budget" type="Integer" default="0" />
+    <aura:attribute name="visiteTot_Budget_Year" type="Integer" default="0" />
+    <aura:attribute name="visiteTot_Month_Obiettivo" type="Integer" default="0" />
+
+    <aura:attribute name="isDirezioneFD" type="Boolean" default="false" />
+
+    <aura:handler name="change" value="{! v.pageReference.state.c__isDirezioneFD }" action="{! c.doInit }" />
+
+    <!--<c:HomeHeaderComponent/>-->
+    <lightning:layout multipleRows="true">
+        <lightning:layoutItem size="12">
+            <lightning:layout multipleRows="true">
+                <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12" mediumDeviceSize="12"
+                    largeDeviceSize="4">
+                    <div class="page-section page-left">
+                        <c:WGC_Header_Attivita_FD_Oggi isDirezioneFD="{! v.isDirezioneFD }" />
+                    </div>
+                </lightning:layoutItem>
+                <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12" mediumDeviceSize="12"
+                    largeDeviceSize="4">
+                    <div class="page-section page-center">
+                        <c:WGC_Header_Attivita_FD_Scadute isDirezioneFD="{! v.isDirezioneFD }" />
+                    </div>
+                </lightning:layoutItem>
+                <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12" mediumDeviceSize="6"
+                    largeDeviceSize="2">
+                    <div class="page-section page-right">
+                        <c:WGC_Header_News />
+                    </div>
+                </lightning:layoutItem>
+                <lightning:layoutItem padding="around-small" size="6" smallDeviceSize="6" mediumDeviceSize="3"
+                    largeDeviceSize="1">
+                    <div class="page-section page-right">
+                        <c:WGC_Header_FD_PrevisioneAvvioRapporto isDirezioneFD="{! v.isDirezioneFD }" />
+                    </div>
+                </lightning:layoutItem>
+                <lightning:layoutItem padding="around-small" size="6" smallDeviceSize="6" mediumDeviceSize="3"
+                    largeDeviceSize="1">
+                    <div class="page-section page-right">
+                        <c:WGC_Header_FD_FlowLauncher />
+                    </div>
+                </lightning:layoutItem>
+            </lightning:layout>
+        </lightning:layoutItem>
+    </lightning:layout>
+
+    <div class='container slds-p-around_small'>
+        <lightning:card>
+            <aura:set attribute="title">
+                <lightning:icon iconName="utility:chart" size="small" variant="slds-icon-inverse" />
+                <div class="title">{! v.title }</div>
+                <!-- with container -->
+                <div class="open-component ipad-disabled">
+                    <lightning:button label="{!$Label.c.WGC_ComponentCard_Header_Back_To_Home}"
+                        class="cstm-btn-round remove-oppty" variant="container" onclick="{!c.navigateToMyComponent}" />
+                </div>
+            </aura:set>
+
+            <div class='container-card'>
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem size="12">
+                        <lightning:layout multipleRows="true">
+                            <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12"
+                                mediumDeviceSize="12" largeDeviceSize="3" class="ipad">
+                                <div class="containerCol">
+                                    <lightning:layout>
+                                        <lightning:layoutItem size="9" class="slds-text-title_bold slds-p-around_small">
+                                            <aura:if isTrue="{! v.isDirezioneFD }">
+                                                {! $Label.c.WGC_Obiettivo_Obiettivo_Mese }
+                                                <aura:set attribute="else">
+                                                    {!$Label.c.WGC_Business_Detail_Il_tuo_Obiettivo_del_mese}
+                                                </aura:set>
+                                            </aura:if>
+                                        </lightning:layoutItem>
+                                        <!-- <lightning:layoutItem size="3"
+                                            class="slds-text-align_right slds-text-title_bold slds-p-around_small percent-color">
+                                            75%
+                                        </lightning:layoutItem> -->
+                                    </lightning:layout>
+                                    <lightning:layout multipleRows="true">
+                                        <lightning:layoutItem size="6"
+                                            class="slds-text-title_bold slds-p-around_small">
+                                            <div class="container-cprogress">
+                                                <div>
+                                                    <c:WGC_Circular_Progress theme="{! 'orange' }" size="medium" totalProgress="{! v.clientiAvviatiTot_Month_Budget }"
+                                                        actualProgress="{! v.clientiAvviatiTot_Month }" titleProgress="{! $Label.c.WGC_Obiettivo_Dettaglio_Clienti }" condition="actual-total-title" />
+                                                </div>
+                                            </div>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem size="6"
+                                            class="slds-text-title_bold slds-p-around_small">
+                                            <div class="container-cprogress">
+                                                <div>
+                                                    <c:WGC_Circular_Progress theme="{! 'red' }" size="medium" totalProgress="{! v.prodottiTot_Month_Budget }"
+                                                        actualProgress="{! v.prodottiTot_Month }" titleProgress="{! $Label.c.WGC_Obiettivo_Dettaglio_Prodotti }" condition="actual-total-title" />
+                                                </div>
+                                            </div>
+                                        </lightning:layoutItem>
+                                        <!-- <lightning:layoutItem size="6" class="slds-p-around_small slds-text-align_center">
+                                            <div>
+                                                <p class="slds-p-vertical_x-small">Potenziali</p>
+                                            </div>
+                                            <div>
+                                                <p class="slds-p-vertical_x-small">In Revisione</p>
+                                            </div>
+                                        </lightning:layoutItem> -->
+                                        <!-- <lightning:layoutItem size="6" class="slds-p-around_small slds-text-align_center">
+                                                <div>
+                                                    <p class="slds-p-vertical_x-small">Potenziali</p>
+                                                </div>
+                                                <div>
+                                                    <p class="slds-p-vertical_x-small">In Revisione</p>
+                                                </div>
+                                        </lightning:layoutItem> -->
+                                    </lightning:layout>
+                                    <lightning:layout multipleRows="true" class="">
+                                        <lightning:layoutItem size="6" class="slds-p-around_small">
+                                            <c:StatusDot color="DD9D22" label="{! $Label.c.WGC_Obiettivo_Dettaglio_ClientiBudget }" />
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem size="6" class="slds-p-around_small">
+                                            <c:StatusDot color="ED495B"
+                                                label="{! $Label.c.WGC_Obiettivo_Dettaglio_ProdottiBudget }" />
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                </div>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12"
+                                mediumDeviceSize="12" largeDeviceSize="9" class="ipad">
+                                <div class="containerCol">
+                                    <lightning:layout>
+                                        <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12"
+                                            largeDeviceSize="12" class="slds-text-title_bold slds-p-around_small">
+                                            <aura:if isTrue="{! v.isDirezioneFD }">
+                                                {! $Label.c.WGC_Obiettivo_Passo_Commerciale_Dir }
+                                                <aura:set attribute="else">
+                                                    {!$Label.c.WGC_Business_Detail_Il_tuo_passo_commerciale_del_mese}
+                                                </aura:set>
+                                            </aura:if>
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                    <!-- <lightning:layout class="slds-grid_align-end">
+                                        <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12"
+                                            largeDeviceSize="2" padding="around-small">
+                                            <table>
+                                                <tr>
+                                                    <td class="slds-text-align_center slds-text-title">
+                                                        {!$Label.c.WGC_Business_Detail_Budget}
+                                                    </td>
+                                                    <td class="slds-text-align_center slds-text-title">
+                                                        {!$Label.c.WGC_Business_Detail_Obiettivi}
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </lightning:layoutItem>
+                                    </lightning:layout> -->
+                                    <lightning:layout multipleRows="true">
+                                        <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12"
+                                            largeDeviceSize="10" padding="around-small" class="ipad">
+                                            <table>
+                                                <tr class="color-row-1-orange">
+                                                    <td rowspan="3" class="table-title-orange">{!$Label.c.WGC_Business_Detail_Actual}</td>
+                                                    <td class="slds-p-around_xx-small cell-border sub-table-title">
+                                                        {! $Label.c.WGC_Obiettivo_Dettaglio_Appuntamenti }
+                                                    </td>
+                                                    <aura:iteration items="{! v.weeks }" var="week">
+                                                        <td class="cell-border slds-p-around_x-small">{! week.visite }
+                                                        </td>
+                                                    </aura:iteration>
+                                                    <td class="tot-visite-1 slds-p-around_x-small">{!$Label.c.WGC_Business_Detail_Tot_Visite} <span
+                                                            class="grassetto">{! v.visiteTot_Month }</span></td>
+                                                </tr>
+                                                <tr class="color-row-2-orange slds-text-align_center">
+                                                    <td class="slds-p-around_xx-small cell-border sub-table-title">
+                                                        {!$Label.c.WGC_Business_Detail_Clienti_Attivati}
+                                                    </td>
+                                                    <aura:iteration items="{! v.weeks }" var="week">
+                                                        <td class="slds-p-around_x-small cell-border slds-text-align_center">
+                                                            {! week.clientiAvviati }</td>
+                                                    </aura:iteration>
+                                                    <td class="tot-visite-1 slds-p-around_x-small">{!$Label.c.WGC_Business_Detail_Tot_Clienti_Attivati}
+                                                        <span class="grassetto">{! v.clientiAvviatiTot_Month }</span></td>
+                                                </tr>
+                                                <tr class="color-row-3-orange slds-text-align_right">
+                                                    <td class="slds-p-around_xx-small cell-border sub-table-title lowercase">
+                                                        {! $Label.c.WGC_Obiettivo_Dettaglio_Prodotti }
+                                                    </td>
+                                                    <aura:iteration items="{! v.weeks }" var="week">
+                                                        <td
+                                                            class="slds-p-around_x-small cell-border slds-text-align_right">
+                                                            {! week.prodotti }</td>
+                                                    </aura:iteration>
+                                                    <td class="tot-visite-1 slds-p-around_x-small"> {! $Label.c.WGC_Obiettivo_Dettaglio_Tot_Prodotti }
+                                                        <span class="grassetto">{! v.prodottiTot_Month }</span></td>
+                                                </tr>
+                                                
+                                                <tr>
+                                                    <td
+                                                        class="riepilogo-calendar slds-text-align_center slds-p-horizontal_small">
+                                                    </td>
+                                                    <td
+                                                        class="riepilogo-calendar slds-text-align_center slds-p-horizontal_small">
+                                                    </td>
+                                                    <aura:iteration items="{! v.weeks }" var="week">
+                                                        <td
+                                                            class="riepilogo-calendar slds-text-align_center slds-p-horizontal_small">
+                                                            {! v.month } &nbsp; {! week.start }-{! week.end }</td>
+                                                    </aura:iteration>
+                                                    <td class="riepilogo-calendar-black slds-text-align_center">{!$Label.c.WGC_Business_Detail_Tot}
+                                                        <span class="slds-p-left_x-small">{! v.month } &nbsp; {! v.year
+                                                            }</span></td>
+                                                </tr>
+                                            </table>
+                                        </lightning:layoutItem>
+
+                                        <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12"
+                                            largeDeviceSize="2" padding="around-small" class="ipad margin-recalc">
+                                            <table>
+                                                    <tr>
+                                                            <th>{!$Label.c.WGC_Business_Detail_Budget}</th>
+                                                            <th>{!$Label.c.WGC_Business_Detail_Obiettivi}</th>
+                                                          </tr>
+                                                <tr>
+                                                    <td class="slds-p-around_x-small table2-column1-green">{! v.visiteTot_Month_Budget }</td>
+                                                    <td class="slds-p-around_x-small slds-text-align_right">
+                                                        <lightning:formattedNumber value="{! v.visiteTot_Month_Obiettivo }" style="percent" maximumFractionDigits="2"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="slds-p-around_x-small table2-column2-green">{! v.clientiAvviatiTot_Month_Budget }</td>
+                                                    <td class="slds-p-around_x-small slds-text-align_right">
+                                                        <lightning:formattedNumber value="{! v.clientiAvviatiTot_Month_Obiettivo  }" style="percent" maximumFractionDigits="2"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="slds-p-around_x-small table2-column3-green">{! v.prodottiTot_Month_Budget }</td>
+                                                    <td class="slds-p-around_x-small slds-text-align_right">
+                                                        <lightning:formattedNumber value="{! v.prodottiTot_Month_Obiettivo }" style="percent" maximumFractionDigits="2"/>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </lightning:layoutItem>
+
+                                    </lightning:layout>
+
+                                    <lightning:layout multipleRows="true" class="slds-m-vertical_small">
+                                        <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12"
+                                            largeDeviceSize="10" class="slds-col ipad" padding="around-small">
+                                            <table>
+                                                <tr class="color-row-1-blue">
+                                                    <td rowspan="3" class="table-title-blue">{! $Label.c.WGC_Obiettivo_Dettaglio_BestPractice }</td>
+                                                    <td class="slds-p-around_xx-small cell-border sub-table-title">
+                                                        {! $Label.c.WGC_Obiettivo_Dettaglio_Appuntamenti }
+                                                    </td>
+                                                    <aura:iteration items="{! v.weeks }" var="week">
+                                                        <td class="cell-border slds-p-around_x-small">{! week.visiteBP }
+                                                        </td>
+                                                    </aura:iteration>
+                                                    <td class="tot-visite-1 slds-p-around_x-small">{!$Label.c.WGC_Business_Detail_Tot_Visite} <span
+                                                            class="grassetto">{! v.visiteTot_BP_Month }</span></td>
+                                                </tr>
+                                                <tr class="color-row-2-blue">
+                                                    <td class="slds-p-around_xx-small cell-border sub-table-title">
+                                                        {!$Label.c.WGC_Business_Detail_Clienti_Attivati}
+                                                    </td>
+                                                    <aura:iteration items="{! v.weeks }" var="week">
+                                                        <td
+                                                            class="slds-p-around_x-small cell-border slds-text-align_center">
+                                                            {! week.clientiAvviatiBP }</td>
+                                                    </aura:iteration>
+                                                    <td class="tot-visite-1 slds-p-around_x-small">{!$Label.c.WGC_Business_Detail_Tot_Clienti_Attivati}
+                                                        <span class="grassetto">{! v.clientiAvviatiTot_BP_Month }</span></td>
+                                                </tr>
+                                                <tr class="color-row-3-blue">
+                                                    <td class="slds-p-around_xx-small cell-border sub-table-title lowercase">
+                                                        {! $Label.c.WGC_Obiettivo_Dettaglio_Prodotti }
+                                                    </td>
+                                                    <aura:iteration items="{! v.weeks }" var="week">
+                                                        <td
+                                                            class="slds-p-around_x-small cell-border slds-text-align_right">
+                                                            {! week.prodottiBP }</td>
+                                                    </aura:iteration>
+                                                    <td class="tot-visite-1 slds-p-around_x-small">Tot. Prodotti
+                                                        <span class="grassetto">{! v.prodottiTot_BP_Month }</span></td>
+                                                </tr>
+                                                
+                                                <tr>
+                                                    <td
+                                                        class="riepilogo-calendar slds-text-align_center slds-p-horizontal_small">
+                                                    </td>
+                                                    <td
+                                                        class="riepilogo-calendar slds-text-align_center slds-p-horizontal_small">
+                                                    </td>
+                                                    <aura:iteration items="{! v.weeks }" var="week">
+                                                        <td
+                                                            class="riepilogo-calendar slds-text-align_center slds-p-horizontal_small">
+                                                            {! v.month } &nbsp; {! week.start }-{! week.end }</td>
+                                                    </aura:iteration>
+                                                    <td class="riepilogo-calendar-black slds-text-align_center">{!$Label.c.WGC_Business_Detail_Tot}
+                                                        <span class="slds-p-left_x-small">{! v.month } &nbsp; {! v.year }</span>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                </div>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="12">
+                        <lightning:layout multipleRows="true">
+                            <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12"
+                                mediumDeviceSize="12" largeDeviceSize="12" class="ipad">
+                                <div class="containerCol">
+                                    <lightning:layout multipleRows="true">
+                                        <!-- <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="2"
+                                            largeDeviceSize="2" class="slds-text-title_bold slds-p-around_small">
+                                            <div>ACTUAL VS BUDGET</div>
+                                        </lightning:layoutItem> -->
+
+                                        <lightning:layoutItem size="12" smallDeviceSize="12"
+                                        mediumDeviceSize="6" largeDeviceSize="6" class="slds-text-title_bold slds-p-around_small ipad">
+                                        <div>{! $Label.c.WGC_Obiettivo_Dettaglio_Clienti }</div>
+                                                <div id="container_chartJS_Clienti" class="chart-container_height">
+                                                        <canvas aura:id="chartJS_Clienti" id="chartJS_Clienti" style="height:60vh" />
+                                                    </div>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem size="12" smallDeviceSize="12"
+                                        mediumDeviceSize="6" largeDeviceSize="6" class="slds-text-title_bold slds-p-around_small border-left ipad">
+                                        <div>{! $Label.c.WGC_Obiettivo_Dettaglio_Prodotti }</div>
+                                                <div id="container_chartJS_Prodotti" class="chart-container_height">
+                                                        <canvas aura:id="chartJS_Prodotti" id="chartJS_Prodotti" style="height:60vh" />
+                                                    </div>
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                </div>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12"
+                                mediumDeviceSize="12" largeDeviceSize="12">
+                                <div class="containerCol">
+                                    <lightning:layout>
+                                        <lightning:layoutItem size="12"
+                                            class="slds-text-title_bold slds-p-around_small">
+                                            <aura:if isTrue="{! v.isDirezioneFD }">
+                                                {! $Label.c.WGC_Obiettivo_Passo_Commerciale_Anno }
+                                                <aura:set attribute="else">
+                                                    {!$Label.c.WGC_Business_Detail_Il_tuo_passo_commerciale_dell_anno}
+                                                </aura:set>
+                                            </aura:if>
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                    <lightning:layout multipleRows="true">
+                                        <lightning:layoutItem size="12" smallDeviceSize="12"
+                                        mediumDeviceSize="12" largeDeviceSize="10" class="slds-text-title_bold slds-p-around_small ipad">
+                                                <div id="container_chartJS_BP" class="chart-container">
+                                                        <canvas aura:id="chartJS_BP" id="chartJS_BP" style="height:60vh" />
+                                                    </div>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem size="4" smallDeviceSize="4"
+                                        mediumDeviceSize="4" largeDeviceSize="2" class="slds-text-title_bold ipad">
+                                            <lightning:layout class="slds-wrap slds-p-around_small slds-align_absolute-center">
+                                                <lightning:layoutItem size="12">
+                                                    <div class="slds-m-bottom_small">{!$Label.c.WGC_Business_Detail_Visite_medie_mese}</div>
+                                                </lightning:layoutItem>
+                                                <lightning:layoutItem size="6">
+                                                    <c:WGC_Circular_Progress theme="orange" size="small" totalProgress="{! v.visiteTot_Budget_Year }"
+                                                        actualProgress="{! v.visiteTot_Year }" condition="actual-total" />
+                                                </lightning:layoutItem>
+                                                <lightning:layoutItem size="6" class="slds-text-title_bold">
+                                                    <div class="slds-text-color_success slds-text-title_bold bp">
+                                                        {! v.visiteTot_BP_Year }
+                                                    </div>
+                                                    <div class="bp_text">{!$Label.c.WGC_Obiettivo_Dettaglio_BestPractice}</div>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            <lightning:layout class="slds-wrap slds-p-around_small slds-align_absolute-center">
+                                                <lightning:layoutItem size="12">
+                                                    <div class="slds-m-bottom_small">{! $Label.c.WGC_Obiettivo_Dettaglio_ProdottiMese }</div>
+                                                </lightning:layoutItem>
+                                                <lightning:layoutItem size="6">
+                                                    <c:WGC_Circular_Progress theme="orange" size="small" totalProgress="{! v.prodottiTot_Budget_Year }"
+                                                        actualProgress="{! v.prodottiTot_Year }" condition="actual-total" />
+                                                </lightning:layoutItem>
+                                                <lightning:layoutItem size="6" class="slds-text-title_bold">
+                                                    <div class="slds-text-color_success slds-text-title_bold bp">
+                                                        {! v.prodottiTot_BP_Year }
+                                                    </div>
+                                                    <div class="bp_text">{!$Label.c.WGC_Obiettivo_Dettaglio_BestPractice}</div>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            <lightning:layout class="slds-wrap slds-p-around_small slds-align_absolute-center">
+                                                <lightning:layoutItem size="12">
+                                                    <div class="slds-m-bottom_small">{!$Label.c.WGC_Business_Detail_Clienti_medie_mese}</div>
+                                                </lightning:layoutItem>
+                                                <lightning:layoutItem size="6">
+                                                    <c:WGC_Circular_Progress theme="orange" size="small" totalProgress="{! v.clientiAvviatiTot_Budget_Year }"
+                                                        actualProgress="{! v.clientiAvviatiTot_Year }" condition="actual-total" />
+                                                </lightning:layoutItem>
+                                                <lightning:layoutItem size="6" class="slds-text-title_bold">
+                                                    <div class="slds-text-color_success slds-text-title_bold bp">
+                                                        {! v.clientiAvviatiTot_BP_Year }
+                                                    </div>
+                                                    <div class="bp_text">{!$Label.c.WGC_Obiettivo_Dettaglio_BestPractice}</div>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                </div>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </div>
+        </lightning:card>
+    </div>
+</aura:component>

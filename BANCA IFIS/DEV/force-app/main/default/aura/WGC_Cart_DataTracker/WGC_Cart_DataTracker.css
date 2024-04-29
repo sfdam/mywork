@@ -1,0 +1,28 @@
+.THIS .slds-table_header-fixed_container {
+    height: auto !important;
+}
+
+.THIS .cstm-datatable-title {
+    text-align: center;
+    background-color: rgb(250, 250, 249);
+    padding: 5px 0;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgb(221, 219, 218);
+    color: #080707;
+}
+
+.THIS .cstm-badge {
+    text-transform: uppercase;
+    color: #FFF;
+    height: fit-content;
+}
+
+.THIS .cstm-badge.cstm-badge-success {
+    background-color: #0bad58;
+}
+.THIS .cstm-badge.cstm-badge-error {
+    background-color: #ED495B;
+}
+.THIS .cstm-badge.cstm-badge-neutral {
+    background-color: #CCC;
+}

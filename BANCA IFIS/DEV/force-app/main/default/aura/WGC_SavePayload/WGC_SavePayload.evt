@@ -1,0 +1,4 @@
+<aura:event type="APPLICATION" description="Event to manage save of the payload">
+    <aura:attribute name="payload" type="Object" />
+    <aura:attribute name="step" type="String" />
+</aura:event>

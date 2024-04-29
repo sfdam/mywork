@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_IsCheckFinanziamentiPersonalPop__c</fullName>
+    <externalId>false</externalId>
+    <formula>OR (
+				 CRM_V_Mortgage__c ,
+				 CRM_V_Loans__c ,
+				 CRM_V_FinancialVarious__c 
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Is Check Finanziamenti Personal popolato</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

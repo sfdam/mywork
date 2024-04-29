@@ -1,0 +1,9 @@
+<template>
+    <!-- <template if:false={noData}> -->
+        <!-- style="position: relative; height:40vh;" -->
+    <template if:true={noData}>
+        <span class="cstm-no-data">Nessun risultato trovato</span>
+    </template>
+    <div lwc:dom="manual" class="slds-is-relative chart" style={chartHeight}></div>
+    <!-- </template> -->
+</template>

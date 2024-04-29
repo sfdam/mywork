@@ -1,0 +1,11 @@
+.cstm-input{
+    
+}
+
+.cstm-btn-remove {
+    pointer-events: all !important;
+}
+
+.cstm-dropdown {
+    min-height: 50px;
+}

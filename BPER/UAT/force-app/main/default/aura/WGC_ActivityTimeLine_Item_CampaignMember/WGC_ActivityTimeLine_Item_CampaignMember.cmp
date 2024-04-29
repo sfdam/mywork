@@ -1,0 +1,167 @@
+<aura:component>
+    <aura:attribute name='itemDetail' type='Object' default='{}' />
+	<aura:attribute name="Opportunita" type="Boolean" default="False"/>
+    <aura:attribute name="Campagna" type="Boolean" default="False"/>
+    <aura:attribute name="Evento" type="Boolean" default="False"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+	<lightning:navigation aura:id="navService" />
+	<aura:if isTrue="{! !v.itemDetail.notShow }">
+		<li>
+			<div class="{! 'slds-timeline__item_expandable slds-timeline__item_task' + (v.itemDetail.IsOpportunita ? 'IsOpportunita ' : '')}">
+				<span class="slds-assistive-text">Campagna</span>
+				<div class="slds-media">
+					<div class="slds-media__figure">
+						<aura:if isTrue="{!v.Opportunita}">
+						<div class="slds-icon_container slds-icon-standard-task slds-timeline__icon"
+							title="Opportunità non sfruttate">
+							<lightning:icon iconName="standard:campaign_members" class="Opportunita" />
+						</div>
+						<aura:set attribute="else">
+						<div class="slds-icon_container slds-icon-standard-task slds-timeline__icon "
+							title="Campagna">
+							<lightning:icon iconName="standard:campaign_members"/>
+						</div>
+						</aura:set>
+						</aura:if>
+						<aura:if isTrue="{! v.itemDetail.SupportObject }">
+							<lightning:icon class="supportObj" iconName="utility:database" title="Caricamento Pregresso" size="xx-small" />
+						</aura:if>
+					</div>
+					<div class="slds-media__body">
+                        <aura:if isTrue="{! v.itemDetail.SupportObject}">
+						<div class="slds-grid slds-grid_align-spread slds-timeline__trigger">
+							<aura:if isTrue="{!v.Opportunita}">
+								<div class="slds-grid slds-grid_vertical-align-center slds-truncate_container_75 slds-no-space ">
+									<h3 class="slds-truncate" title="{! v.itemDetail.Subject }">
+										Opportunità non sfruttata:&nbsp;
+										<a onclick="{! c.navigateToActivity }">
+											<strong>{! v.itemDetail.CRM_CampaignName__c } &nbsp;
+												<aura:if isTrue="{! v.itemDetail.SetFieldIcon }">
+													<lightning:icon iconName="utility:note" title="New note" size="xx-small" />
+												</aura:if>
+											</strong>
+										</a>
+									</h3>
+								</div>
+							<aura:set attribute="else">
+								<div class="slds-grid slds-grid_vertical-align-center slds-truncate_container_75 slds-no-space">
+									<h3 class="slds-truncate" title="{! v.itemDetail.Subject }">
+										Nome campagna:&nbsp;
+										<a onclick="{! c.navigateToActivity }">
+											<strong>{! v.itemDetail.CRM_CampaignName__c } &nbsp;
+												<aura:if isTrue="{! v.itemDetail.SetFieldIcon }">
+													<lightning:icon iconName="utility:note" title="New note" size="xx-small" />
+												</aura:if>
+											</strong>
+										</a>
+									</h3>
+								</div>
+							</aura:set>
+							</aura:if>
+							<div class="slds-timeline__actions slds-timeline__actions_inline">
+								<p class="slds-timeline__date">
+									Data:&nbsp;
+									<lightning:formattedDateTime value="{! v.itemDetail.CreatedDate }" year="numeric" month="numeric" day="numeric" />
+								</p>
+								<lightning:buttonIcon iconName="utility:down" size="x-small" alternativeText="View More" onclick="{! c.showArticle }" />
+							</div>
+						</div>
+						<p class="slds-m-horizontal_xx-small">
+							NDG:&nbsp;<a>{! v.itemDetail.CRM_AccNDG__c }</a>
+							Esito:&nbsp;{! v.itemDetail.CRM_Esito__c }
+							<!-- Assegnato a:&nbsp;{! v.itemDetail.CRM_Assegnatario__r.Name } -->
+							Referente:&nbsp;{! v.itemDetail.CRM_Referente__c }
+							Autore:&nbsp;{! v.itemDetail.CRM_Autore__c }
+						</p>
+							<aura:if isTrue="{! v.itemDetail.isCollapsed  }">
+								<article
+									class="{! 'slds-box slds-theme_shade slds-m-top_x-small slds-m-horizontal_xx-small slds-p-around_small' }"
+									aura:id="{!v.indexId}">
+									
+									<lightning:layout multipleRows="true" pullToBoundary="small">
+										<lightning:layoutItem flexibility="auto"  padding="horizontal-small" size="12">
+											<div>
+												<span class="slds-text-title slds-p-bottom_xx-small">Nota Autore</span>
+												<p class="slds-text-body_medium">{! v.itemDetail.CRM_Note__c }</p>
+											</div>        
+										</lightning:layoutItem>
+									</lightning:layout>
+								</article>
+							</aura:if>
+                        </aura:if> 
+                        <!--Non supportObject-->
+                        <aura:if isTrue="{! !v.itemDetail.SupportObject}">
+                            <div class="slds-grid slds-grid_align-spread slds-timeline__trigger">
+								<aura:if isTrue="{!v.Opportunita}">
+									<div class="slds-grid slds-grid_vertical-align-center slds-truncate_container_75 slds-no-space">
+										<h3 class="slds-truncate" title="{! v.itemDetail.Subject }">
+                                            <aura:if isTrue="{!v.Campagna}">Campagna non sfruttata:&nbsp;</aura:if>
+                                            <aura:if isTrue="{!v.Evento}">Evento non sfruttato:&nbsp;</aura:if>
+											<a onclick="{! c.navigateToActivity }">
+												<strong>{! v.itemDetail.CRM_CampaignName__c } &nbsp;
+													<aura:if isTrue="{! v.itemDetail.SetFieldIcon }">
+														<lightning:icon iconName="utility:note" title="New note" size="xx-small" />
+													</aura:if>
+												</strong>
+											</a>
+										</h3>
+									</div>
+								<aura:set attribute="else">
+										<div class="slds-grid slds-grid_vertical-align-center slds-truncate_container_75 slds-no-space">
+											<h3 class="slds-truncate" title="{! v.itemDetail.Subject }">
+												Nome Campagna:&nbsp;
+												<a onclick="{! c.navigateToActivity }">
+													<strong>{! v.itemDetail.CRM_CampaignName__c } &nbsp;
+														<aura:if isTrue="{! v.itemDetail.SetFieldIcon }">
+															<lightning:icon iconName="utility:note" title="New note" size="xx-small" />
+														</aura:if>
+													</strong>
+												</a>
+											</h3>
+										</div>
+								</aura:set>
+								</aura:if>
+							<div class="slds-timeline__actions slds-timeline__actions_inline">
+								<p class="slds-timeline__date">
+									Data:&nbsp;
+									<lightning:formattedDateTime value="{! v.itemDetail.CreatedDate }" year="numeric" month="numeric" day="numeric" />
+								</p>
+								<lightning:buttonIcon iconName="utility:down" size="x-small" alternativeText="View More" onclick="{! c.showArticle }" />
+							</div>
+						</div>
+						<p class="slds-m-horizontal_xx-small">
+							NDG:&nbsp;<a>{! v.itemDetail.CRM_AccNDG__c }</a>
+                            Esito:&nbsp;{! v.itemDetail.Status }
+							<!-- Assegnato a:&nbsp;{! v.itemDetail.CRM_Assegnatario__r.Name } -->
+							Referente:&nbsp;{! v.itemDetail.Contact.Account.CRM_ReferenteNameFormula__c }
+                            <aura:if isTrue="{! v.itemDetail.CreatedBy.Name != 'Utente Integrazione Batch'  }">
+								Autore:&nbsp;{! v.itemDetail.CreatedBy.Name }
+                            </aura:if>
+                            <aura:if isTrue="{! v.itemDetail.CreatedBy.Name == 'Utente Integrazione Batch'  }">
+								Autore:&nbsp;{! v.itemDetail.CRM_Autore__c }
+                            </aura:if>
+						</p>
+							<aura:if isTrue="{! v.itemDetail.isCollapsed  }">
+								<article
+									class="{! 'slds-box slds-theme_shade slds-m-top_x-small slds-m-horizontal_xx-small slds-p-around_small' }"
+									aura:id="{!v.indexId}">
+									
+									<lightning:layout multipleRows="true" pullToBoundary="small">
+										<lightning:layoutItem flexibility="auto"  padding="horizontal-small" size="12">
+											<div>
+												<span class="slds-text-title slds-p-bottom_xx-small">Nota Autore</span>
+												<p class="slds-text-body_medium">{! v.itemDetail.CRM_Note__c }</p>
+											</div>        
+										</lightning:layoutItem>
+									</lightning:layout>
+								</article>
+							</aura:if>
+                        </aura:if>
+					</div>
+				</div>
+			</div>
+		</li>
+	</aura:if>
+
+</aura:component>

@@ -1,0 +1,6 @@
+<design:component>
+    <design:attribute name="flowInputAnagraficaVar" />  
+    <design:attribute name="flowInputAnagraficaBillingAddressCpd" />  
+    <design:attribute name="flowInputAnagraficaShippingAddressCpd" />    
+    <design:attribute name="flowInputPartitaIvaAnagraficaSourceVar" />    
+</design:component>

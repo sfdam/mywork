@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_DataAggPAGestionale_Formula__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(
+AND(
+DAY(CRM_DataAggPAGestionale__c) &lt;= 9,
+MONTH(CRM_DataAggPAGestionale__c) &lt;= 9
+),
+&quot;0&quot; &amp; TEXT( DAY(CRM_DataAggPAGestionale__c))
+&amp; &quot;/&quot; &amp; &quot;0&quot; &amp; TEXT(MONTH(CRM_DataAggPAGestionale__c))
+&amp; &quot;/&quot; &amp; TEXT(YEAR(CRM_DataAggPAGestionale__c)),
+IF(
+DAY(CRM_DataAggPAGestionale__c) &lt;= 9,
+&quot;0&quot; &amp; TEXT( DAY(CRM_DataAggPAGestionale__c))
+&amp; &quot;/&quot; &amp; TEXT(MONTH(CRM_DataAggPAGestionale__c))
+&amp; &quot;/&quot; &amp; TEXT(YEAR(CRM_DataAggPAGestionale__c)),
+IF(
+MONTH(CRM_DataAggPAGestionale__c) &lt;= 9,
+TEXT( DAY(CRM_DataAggPAGestionale__c))
+&amp; &quot;/&quot; &amp; &quot;0&quot; &amp; TEXT(MONTH(CRM_DataAggPAGestionale__c))
+&amp; &quot;/&quot; &amp; TEXT(YEAR(CRM_DataAggPAGestionale__c)),
+TEXT( DAY(CRM_DataAggPAGestionale__c))
+&amp; &quot;/&quot; &amp; TEXT(MONTH(CRM_DataAggPAGestionale__c))
+&amp; &quot;/&quot; &amp; TEXT(YEAR(CRM_DataAggPAGestionale__c))
+)))</formula>
+    <label>DataAggPAGestionale Formula</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

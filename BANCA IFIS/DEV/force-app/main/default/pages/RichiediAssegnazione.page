@@ -1,0 +1,83 @@
+<apex:page showHeader="false" sidebar="false" standardController="Account" extensions="ExtRichiediAssegnazione" standardStylesheets="false" applyHtmlTag="false" docType="html-5.0" cache="true">
+  <html>
+  <head>
+    <apex:includeScript value="{!URLFOR($Resource.VueApps, 'index.js')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.VueApps, 'index.css')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.SLDS, '/assets/styles/salesforce-lightning-design-system-ltng.min.css')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.c3css)}" />
+
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      .sfdcBody {
+        padding: 0!important;
+      }
+
+      .iosContainer {
+        height: 100vh;
+        width: 100vw;
+        overflow: hidden;
+      }
+    </style>
+    <script>
+      Sizzle = undefined
+      function annulla() {
+        sforce.one.back(true)
+      }
+    </script>
+  </head> <!-- {!$CurrentPage.parameters.id} -->
+  <body>
+    <section class="iosContainer" id="iosContainer">
+      <div class="tlnxt">
+        <div id="lightning"></div>
+      </div>
+    </section>
+
+    <script>
+      document.querySelector('.iosContainer').ontouchmove = function(e) {e.stopPropagation()};
+
+      new Apps.RichiediAssegnazioneApp({
+        created: function() {
+          console.log('APP CREATED')
+          this.setSvgPath('{!URLFOR($Resource.SLDS)}' + '/assets')
+          Apps.setVueLanguage('{!$Label.Lingua}')
+        },
+        methods: {
+          $api: Apps.VfApiProxy(ExtRichiediAssegnazione)
+        },
+        data: {
+          metadataApi: new Apps.MetadataApi({
+            sessionId: '{!$Api.Session_Id}'
+          })
+        },
+        render: function(h) {
+          var labels = {
+            Annulla: '{!JSENCODE($Label.Annulla)}',
+            AssegnazioneInfo: '{!JSENCODE($Label.AssegnazioneInfo)}',
+            Errore: '{!JSENCODE($Label.Errore)}',
+            MotivazioneRichiesta: '{!JSENCODE($Label.MotivazioneRichiesta)}',
+            RichiediAssegnazione: '{!JSENCODE($Label.RichiediAssegnazione)}'
+          }
+          return h('div', [
+            h('ds-notification'),
+            h('ds-spinner'),
+            h('ds-modal-stack'),
+            h(Apps.RichiediAssegnazione, {
+              props: {
+                accountId: '{!CASESAFEID(Account.Id)}',
+                richiestaNonPossibile: '{!JSENCODE(richiestaNonPossibile)}',
+                nonRichiestaMotivazione: {!nonRichiestaMotivazione},
+                labels: labels
+              }
+            })
+          ])
+        },
+        el: '#lightning'
+      })
+    </script>
+  </body>
+  </html>
+</apex:page>

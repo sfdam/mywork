@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_UtilizzoHomeBanking__c</fullName>
+    <externalId>false</externalId>
+    <label>Utilizzo Home Banking</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Alto</fullName>
+                <default>false</default>
+                <label>Alto</label>
+            </value>
+            <value>
+                <fullName>Medio</fullName>
+                <default>false</default>
+                <label>Medio</label>
+            </value>
+            <value>
+                <fullName>Basso</fullName>
+                <default>false</default>
+                <label>Basso</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,73 @@
+<aura:component implements="lightning:isUrlAddressable,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    
+    <ltng:require 
+    scripts="{!join(',', 
+             '/resource/WGC_jQuery3x',
+             '/resource/WGC_ChartJs')}"
+    
+    afterScriptsLoaded="{!c.doInit}" />
+    
+    <lightning:navigation aura:id="navService"/>
+    
+    <aura:attribute name="iconName" type="String" description="Definisce l'icona tra le standard"/>
+    <aura:attribute name="title" type="String" default="Portafoglio" description="Title from Container Card"/>
+    <aura:attribute name="valData" type="String"/>
+    
+    <aura:attribute name="Tab_1" type="String" description="Title from Tab 1" />
+    <aura:attribute name="Graf_1" type="String" description="Id from Analitycs grafic 1" />
+    
+    <aura:attribute name="Tab_2" type="String" description="Title from Tab 2" />
+    <aura:attribute name="Graf_2" type="String" description="Id from Analitycs grafic 2" />
+    
+    <aura:attribute name="Tab_3" type="String" description="Title from Tab 3" />
+    <aura:attribute name="Graf_3" type="String" description="Id from Analitycs grafic 3" />
+    
+    <aura:attribute name="Tab_4" type="String" description="Title from Tab 4" />
+    <aura:attribute name="Graf_4" type="String" description="Id from Analitycs grafic 4" />
+    
+    <aura:attribute name="NumTab" type="Integer" default="0" description="Count number of Tab" />
+    <aura:attribute name="WidthTab" type="Long" default="0" description="Width for one Tab" />
+    
+    <lightning:card class="container-card">
+        <aura:set attribute="title">
+            <lightning:icon iconName="{! 'utility:' + v.iconName }" size="small" variant="slds-icon-inverse" />
+            <div class="title">{! v.title }</div>
+            <!-- with container -->
+            <div class="open-component"><lightning:buttonIcon iconName="utility:expand" variant="container" alternativeText="Settings" onclick="{!c.navigateToMyComponent}" /></div>
+        </aura:set>
+        <div class="slds-p-vertical_large">
+            <aura:if isTrue="{!v.NumTab >= 2}">
+                <lightning:tabset aura:id="tabset" class="tabset">
+                        <lightning:tab class="tab" label="{! v.Tab_1 }">
+                                <div>
+                                        <wave:waveDashboard dashboardId="{! v.Graf_1 }" height="260" showHeader="false" showTitle="false" />
+                                    </div>   
+                        </lightning:tab>
+                        <lightning:tab label="{! v.Tab_2 }">
+                                <div>
+                                        <wave:waveDashboard dashboardId="{! v.Graf_2 }" height="260" showHeader="false" showTitle="false" />
+                                    </div>   
+                        </lightning:tab>
+                        <lightning:tab label="{! v.Tab_3 }">
+                                <div>
+                                        <wave:waveDashboard dashboardId="{! v.Graf_3 }" height="260" showHeader="false" showTitle="false" />
+                                    </div>   
+                        </lightning:tab>
+                        <lightning:tab label="{! v.Tab_4 }">
+                                <div>
+                                        <wave:waveDashboard dashboardId="{! v.Graf_4 }" height="260" showHeader="false" showTitle="false" />
+                                    </div>   
+                        </lightning:tab>
+                    </lightning:tabset>
+                <aura:set attribute="else">
+                    <div>
+                        <wave:waveDashboard dashboardId="{! v.Graf_1 }" height="260" showHeader="false" showTitle="false" />
+                    </div>               
+                </aura:set>
+            </aura:if>
+        </div>
+        
+        
+    </lightning:card>
+    
+</aura:component>

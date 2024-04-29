@@ -1,0 +1,60 @@
+.THIS.cstm-garan-wrapper {
+    background-color: #FFF;
+    border: 1px solid #0064B5;
+    border-radius: 5px;
+    position: relative;
+    cursor: pointer;
+}
+
+.THIS.cstm-garan-wrapper.fake {
+    background-color: #EEE;
+    border-color: #EEE;
+    cursor: default;
+}
+
+.THIS.cstm-garan-wrapper.selected {
+    background-color: #0064B5;
+    color: #FFF;
+}
+
+.THIS.cstm-garan-wrapper.selected svg {
+    fill: #FFF;
+}
+
+.THIS.cstm-garan-wrapper .slds-input {
+    color: #333 !important;
+}
+
+.THIS.cstm-garan-wrapper .cstm-garan-title {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.THIS .cstm-btn-round:disabled {
+    background: rgb(201, 199, 197);
+    border-color: rgb(201, 199, 197);
+    color: rgb(255, 255, 255);
+}
+
+.THIS.cstm-garan-wrapper .cstm-actions-garanzia {
+    position: absolute;
+    top: 3px;
+    right: 6px;
+    cursor: pointer;
+    width: 100%;
+    text-align: right;
+}
+
+.THIS.cstm-garan-wrapper .cstm-actions-garanzia > div {
+    display: inline-block;
+    margin-left: 5px;
+}
+
+.THIS.cstm-garan-wrapper .cstm-remove-garanzia {
+    
+}
+
+.THIS.cstm-garan-wrapper.selected .cstm-remove-garanzia svg,
+.THIS.cstm-garan-wrapper.selected .cstm-edit-garanzia svg {
+    fill: #FFF;
+}

@@ -1,0 +1,63 @@
+<aura:component implements="flexipage:availableForAllPageTypes" access="global" controller="WizardOpportunityController" extends="c:WGC_Utility">
+    
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="params" type="Object[]" />
+    
+    <!-- HANDLERS -->
+    <aura:handler event="c:WGC_Parametri_Filter_Dashboard_Event" action="{! c.compareParams }"/>
+
+    <lightning:spinner aura:id="spinner" class="slds-hide" />
+
+    <aura:if isTrue="{! v.params.length != 0 }">
+        <lightning:layout>
+            <lightning:layoutItem size="12" class="slds-text-align_right" padding="horizontal-small">
+                <p>{!$Label.c.WGC_Compare_Parameters_Totale_parametri} <b>{! v.params.length }</b></p>
+            </lightning:layoutItem>
+        </lightning:layout>
+    </aura:if>
+
+    <lightning:layout multipleRows="true">
+        <aura:iteration items="{! v.params }" var="param" indexVar="ind">
+            <lightning:layoutItem size="6" padding="around-small" class="{! ind != 0 ? 'slds-border_top' : '' }">
+                <lightning:card title="{! param.oldParams.codiceProdotto + ' - ' + param.oldParams.codiceParametro }">
+                    <aura:set attribute="actions">
+                        <lightning:badge style="background-color: #f34d4d; color: #FFF;" label="OLD"/>
+                    </aura:set>
+                    
+                    <lightning:layout>
+                        <lightning:layoutItem padding="horizontal-small">
+                            <p><small>{!$Label.c.WGC_Compare_Parameters_Prodotto}</small> {! param.oldParams.prodotto }</p>
+                            <p><small>{!$Label.c.WGC_Compare_Parameters_Parametro}</small> {! param.oldParams.parametro }</p>
+                            <p><small>{!$Label.c.WGC_Compare_Parameters_Default}</small> {! param.oldParams.defaultValue }</p>
+                            <lightning:select name="oldDominio" label="Dominio">
+                                <aura:iteration items="{! param.oldParams.dominio }" var="dominio">
+                                    <option>{! dominio }</option>
+                                </aura:iteration>
+                            </lightning:select>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                </lightning:card>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="6" padding="around-small" class="{! ind != 0 ? 'slds-border_top' : '' }">
+                <lightning:card title="{! param.newParams.codiceProdotto + ' - ' + param.newParams.codiceParametro }">
+                    <aura:set attribute="actions">
+                        <lightning:badge style="background-color: #40b240; color: #FFF;" label="NEW"/>
+                    </aura:set>
+                        
+                    <lightning:layout>
+                        <lightning:layoutItem padding="horizontal-small">
+                            <p><small>{!$Label.c.WGC_Compare_Parameters_Prodotto}</small> {! param.newParams.prodotto }</p>
+                            <p><small>{!$Label.c.WGC_Compare_Parameters_Parametro}</small> {! param.newParams.parametro }</p>
+                            <p><small>{!$Label.c.WGC_Compare_Parameters_Default}</small> {! param.newParams.defaultValue }</p>
+                            <lightning:select name="newDominio" label="Dominio">
+                                <aura:iteration items="{! param.newParams.dominio }" var="dominio">
+                                    <option>{! dominio }</option>
+                                </aura:iteration>
+                            </lightning:select>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                </lightning:card>
+            </lightning:layoutItem>
+        </aura:iteration>
+    </lightning:layout>
+</aura:component>

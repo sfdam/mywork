@@ -1,0 +1,18 @@
+<aura:component implements="force:lightningQuickAction,lightning:actionOverride,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" 
+                access="global">
+    <!-- HANDLERS-->
+    <aura:attribute name="accountId" default="" type="String"/>
+    <aura:attribute name="contactId" default="" type="String"/>
+
+    <aura:attribute name="tipoRecord" default="" type="String"/>
+
+    <aura:handler name="init" value="{! this }" action="{! c.init }"/>
+
+    <aura:handler event="c:WGC_EditRolesResolveEvent" action="{! c.resolveEvent }" />
+
+    <lightning:navigation aura:id="navService" />
+    
+    <lightning:overlayLibrary aura:id="overlayLib" />
+    
+    
+</aura:component>

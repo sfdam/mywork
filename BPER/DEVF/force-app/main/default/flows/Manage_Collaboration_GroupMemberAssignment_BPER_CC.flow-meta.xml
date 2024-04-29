@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>51.0</apiVersion>
+    <decisions>
+        <name>Check_disable_flow</name>
+        <label>Check disable flow</label>
+        <locationX>61</locationX>
+        <locationY>338</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Disable_flow_false</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Setup.Funzionalita__c.Disable_Flow__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_collaborationGroup</targetReference>
+            </connector>
+            <label>Disable flow false</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Check_on_CC_Role</name>
+        <label>Check on CC Role</label>
+        <locationX>449</locationX>
+        <locationY>108</locationY>
+        <defaultConnector>
+            <targetReference>is_already_Standard</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Team_Leader_Resp_di_Polo</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Ruolo_nel_Contact_Center__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Team Leader</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Ruolo_nel_Contact_Center__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Responsabile di Polo</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>is_already_Admin</targetReference>
+            </connector>
+            <label>Team Leader, Resp di Polo</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>is_already_Admin</name>
+        <label>is already Admin</label>
+        <locationX>728</locationX>
+        <locationY>1</locationY>
+        <defaultConnector>
+            <targetReference>Delete_actual_collaboration_GroupMember</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>check_is_already_Admin</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Actual_CollaborationGroupMember.CollaborationRole</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Admin</stringValue>
+                </rightValue>
+            </conditions>
+            <label>is already Admin</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Is_already_GroupMember</name>
+        <label>Is already GroupMember?</label>
+        <locationX>478</locationX>
+        <locationY>383</locationY>
+        <defaultConnector>
+            <targetReference>Ruolo_nel_contact_Center</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Check_Is_already_GroupMember</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Actual_CollaborationGroupMember.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Check_on_CC_Role</targetReference>
+            </connector>
+            <label>Is already GroupMember</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>is_already_Standard</name>
+        <label>is already Standard</label>
+        <locationX>703</locationX>
+        <locationY>190</locationY>
+        <defaultConnector>
+            <targetReference>Delete_actual_collaboration_GroupMember</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>check_is_already_Standard</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Actual_CollaborationGroupMember.CollaborationRole</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Standard</stringValue>
+                </rightValue>
+            </conditions>
+            <label>is already Standard</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Ruolo_nel_contact_Center</name>
+        <label>Ruolo nel contact Center</label>
+        <locationX>851</locationX>
+        <locationY>370</locationY>
+        <defaultConnector>
+            <targetReference>Create_GroupMember_record_with_role_Standard</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Responsabile_di_Polo_Team_Leader</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Ruolo_nel_Contact_Center__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Team Leader</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Ruolo_nel_Contact_Center__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Responsabile di Polo</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_GroupMember_record_with_Admin_Role</targetReference>
+            </connector>
+            <label>Responsabile di Polo, Team Leader</label>
+        </rules>
+    </decisions>
+    <description>Verifica che utente sia all&apos;interno del collaboration group BPER Contact Center. Se non è all&apos;interno del gruppo, lo aggiunge.</description>
+    <interviewLabel>Manage Collaboration GroupMemberAssignment {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Manage Collaboration GroupMemberAssignment BPER CC</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <name>Create_GroupMember_record_with_Admin_Role</name>
+        <label>Create GroupMember record with Admin Role</label>
+        <locationX>1119</locationX>
+        <locationY>355</locationY>
+        <inputAssignments>
+            <field>CollaborationGroupId</field>
+            <value>
+                <elementReference>Get_collaborationGroup.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>CollaborationRole</field>
+            <value>
+                <stringValue>Admin</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>MemberId</field>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>NotificationFrequency</field>
+            <value>
+                <stringValue>P</stringValue>
+            </value>
+        </inputAssignments>
+        <object>CollaborationGroupMember</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordCreates>
+        <name>Create_GroupMember_record_with_role_Standard</name>
+        <label>Create GroupMember record with role Standard</label>
+        <locationX>1081</locationX>
+        <locationY>521</locationY>
+        <inputAssignments>
+            <field>CollaborationGroupId</field>
+            <value>
+                <elementReference>Get_collaborationGroup.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>CollaborationRole</field>
+            <value>
+                <stringValue>Standard</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>MemberId</field>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>NotificationFrequency</field>
+            <value>
+                <stringValue>P</stringValue>
+            </value>
+        </inputAssignments>
+        <object>CollaborationGroupMember</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordDeletes>
+        <name>Delete_actual_collaboration_GroupMember</name>
+        <label>Delete actual collaboration GroupMember</label>
+        <locationX>995</locationX>
+        <locationY>115</locationY>
+        <connector>
+            <targetReference>Ruolo_nel_contact_Center</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_Actual_CollaborationGroupMember.Id</elementReference>
+            </value>
+        </filters>
+        <object>CollaborationGroupMember</object>
+    </recordDeletes>
+    <recordLookups>
+        <name>Get_Actual_CollaborationGroupMember</name>
+        <label>Get Actual CollaborationGroupMember</label>
+        <locationX>324</locationX>
+        <locationY>461</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Is_already_GroupMember</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>CollaborationGroupId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_collaborationGroup.Id</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>MemberId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>CollaborationGroupMember</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_collaborationGroup</name>
+        <label>Get collaborationGroup</label>
+        <locationX>158</locationX>
+        <locationY>477</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_Actual_CollaborationGroupMember</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Name</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>BPER Contact Center</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>CollaborationGroup</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <start>
+        <locationX>51</locationX>
+        <locationY>51</locationY>
+        <connector>
+            <targetReference>Check_disable_flow</targetReference>
+        </connector>
+        <filterLogic>or</filterLogic>
+        <filters>
+            <field>CRM_Polo__c</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue></stringValue>
+            </value>
+        </filters>
+        <object>User</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Obsolete</status>
+</Flow>

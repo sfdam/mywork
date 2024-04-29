@@ -1,0 +1,170 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" controller="WGC_HomePage_MieiSuccessi_FD_Controller" >
+    <!-- attributes -->
+    <aura:attribute name="team" type="Map" default="{'visiteMyTeam' : 0}" />
+    <aura:attribute name="performer" type="Map" default="{'myVisite' : 0}" />
+    <aura:attribute name="obiettivoTotal" type="Decimal" default="0" />
+    <aura:attribute name="segnalazioni" type="Integer" default="0" />
+
+    <!-- attributi di appoggio per circular progress -->
+    <!-- <aura:attribute name="totalProg" type="Integer" default="0" />
+    <aura:attribute name="actualProg" type="Integer" default="0" /> -->
+    
+    <aura:attribute name="isDirezioneFD" type="Boolean" default="false" />
+    <aura:attribute name="dashboardId" type="String" />
+    <aura:attribute name="title" type="String" default="I TUOI SUCCESSI" />
+
+    <!-- scripts -->
+    <ltng:require scripts="{!join(',', 
+    '/resource/WGC_jQuery3x',
+    '/resource/WGC_ChartJs')}" afterScriptsLoaded="{!c.doInit}" />
+
+    <lightning:navigation aura:id="navService" />
+    <!-- handlers -->
+    <aura:handler event="c:WGC_FilterEvent_FD" action="{! c.filter }" />
+
+    <lightning:card>
+        <aura:set attribute="title">
+            <lightning:layout>
+                <lightning:layoutItem size="1">
+                    <lightning:icon iconName="utility:event" size="small" />
+                </lightning:layoutItem>
+                <lightning:layoutItem size="1">
+                    <div class="title">{! v.title }</div>
+                </lightning:layoutItem>
+            </lightning:layout>
+        </aura:set>
+        <aura:set attribute="actions">
+            <lightning:buttonIcon iconName="utility:expand" variant="bare" onclick="{! c.navigateToMyComponent }" alternativeText="Settings" />
+        </aura:set>
+        <div class="card-body">
+            <lightning:layout class="slds-p-around_x-small">
+                <lightning:layoutItem size="12">
+                    <div class="">
+                        <lightning:layout>
+                            <!-- sezione circular -->
+                            <lightning:layoutItem size="4" class="adjust-margin">
+                                <div class="slds-text-align_center" style="display:block;">
+                                    <span class="circularProg-title"> <span class="slds-p-right_xx-small">{! $Label.c.WGC_HomePage_MieiSuccessi_Contributo } </span> {! v.team.nomeMyTeam } </span>
+                                    <c:WGC_Circular_Progress theme="{! 'green' }" size="small" totalProgress="{! v.team.visiteMyTeam }"
+                                        actualProgress="{! v.performer.myVisite }" condition="actual-total-percent" />
+                                </div>
+                                <div class="slds-text-align_center" style="display:block;">
+                                    <span class="circularProg-title"><span class="slds-p-right_xx-small"> {! $Label.c.WGC_HomePage_MieiSuccessi_Contributo } </span> {! $Label.c.WGC_HomePage_MieiSuccessi_MioObiettivo } </span>
+                                    <c:WGC_Circular_Progress theme="{! v.performer.myVisite > v.performer.myObiettivo ? 'green' : 'red' }" size="small" totalProgress="{! v.performer.myObiettivo }"
+                                    actualProgress="{! v.performer.myVisite }" condition="actual-total-percent" />
+                                </div>
+                                <div class="slds-text-align_center" style="display: block;">
+                                    <span class="segnalazioni-title">{! $Label.c.WGC_HomePage_MieiSuccessi_Segnalazioni }: <lightning:formattedNumber value="{! v.segnalazioni }" /></span>
+                                </div>
+                           </lightning:layoutItem>
+                            <lightning:layoutItem size="8">
+                                <!-- chart -->
+                                <div class="canvas-container">
+                                    <canvas aura:id="barChart" id="barChart" style="height:37vh;" />
+                                </div>
+                            </lightning:layoutItem>
+
+                        </lightning:layout>
+                    </div>
+                    <div class="slds-p-top_x-small">
+                        <lightning:layout>
+                            <lightning:layoutItem size="6" class="slds-p-right_xx-small">
+                                <div class="quadrant back-card">
+                                    <lightning:layout class="slds-p-around_xx-small">
+                                        <lightning:layoutItem size="9">
+                                            <div>
+                                                <span class="description">{! $Label.c.WGC_HomePage_MieiSuccessi_BestTeam }</span>
+                                            </div>
+                                            <div>
+                                                <span class="team-title description">{! v.team.nomeBestTeam }</span>
+                                            </div>
+                                            <!-- <aura:if isTrue="{! !v.isDirezioneFD }"> -->
+                                                <div>
+                                                    <span class="description">{! v.team.nomeMyTeam }</span>
+                                                </div>
+                                                <!-- 
+                                                <aura:set attribute="else">
+                                                    <div>
+                                                        &nbsp;
+                                                    </div>
+                                                </aura:set>
+                                            </aura:if>
+                                            -->
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem size="3" class="slds-p-top_medium">
+                                            <div class="slds-p-top_xx-small">
+                                                <!-- <span class="desc-result">{! v.team.visiteBestTeam }</span> -->
+                                                <lightning:formattedNumber class="desc-result" value="{! v.team.visiteBestTeam }" />
+                                            </div>
+                                            <!-- <aura:if isTrue="{! !v.isDirezioneFD }"> -->
+                                                <div>
+                                                    <!-- <span class="desc-result">{! v.team.visiteMyTeam - v.team.visiteBestTeam } / {! v.team.visiteMyTeam }</span> -->
+                                                    <lightning:formattedNumber class="desc-result" value="{! v.team.visiteMyTeam }" /> (<lightning:formattedNumber class="desc-result" value="{! ( v.team.visiteMyTeam - v.team.visiteBestTeam ) }" />)
+                                                </div>
+                                                <!-- 
+                                                <aura:set attribute="else">
+                                                    <div>
+                                                        &nbsp;
+                                                    </div>
+                                                </aura:set>
+                                            </aura:if>
+                                            -->
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                </div>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="6">
+                                <div class="quadrant back-card">
+                                    <lightning:layout class="slds-p-around_xx-small">
+                                        <lightning:layoutItem size="9">
+                                            <div>
+                                                <span class="description">{! $Label.c.WGC_HomePage_MieiSuccessi_BestPerformer }</span>
+                                            </div>
+                                            <div>
+                                                <span class="team-title description">{! v.performer.nomeBestPerformer }</span>
+                                            </div>
+                                            <!-- <aura:if isTrue="{! !v.isDirezioneFD }"> -->
+                                                <div>
+                                                    <span class="description">{! $Label.c.WGC_HomePage_MieiSuccessi_Io }</span>
+                                                </div>
+                                                <!-- 
+                                                <aura:set attribute="else">
+                                                    <div>
+                                                        &nbsp;
+                                                    </div>
+                                                </aura:set>
+                                            </aura:if>
+                                            -->
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem size="3" class="slds-p-top_medium">
+                                            <div class="slds-p-top_xx-small">
+                                                <!-- <span class="desc-result ">{! v.performer.visiteBestPerformer }</span> -->
+                                                <lightning:formattedNumber class="desc-result" value="{! v.performer.visiteBestPerformer }" />
+                                            </div>
+                                            <!-- <aura:if isTrue="{! !v.isDirezioneFD }"> -->
+                                                <div>
+                                                    <!-- <span class="desc-result">{! v.performer.myVisite - v.performer.visiteBestPerformer } / {! v.performer.myVisite }</span> -->
+                                                    <lightning:formattedNumber class="desc-result" value="{! v.performer.myVisite }" /> (<lightning:formattedNumber class="desc-result" value="{! ( v.performer.myVisite - v.performer.visiteBestPerformer )  }"/>)
+                                                </div>
+                                                <!-- 
+                                                <aura:set attribute="else">
+                                                    <div>
+                                                        &nbsp;
+                                                    </div>
+                                                </aura:set>
+                                            </aura:if>
+                                            -->
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                </div>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </div>         
+                </lightning:layoutItem>
+                <!-- <lightning:layoutItem size="2" class="slds-p-around_x-small">
+
+                </lightning:layoutItem> -->
+            </lightning:layout>
+        </div>
+    </lightning:card>
+</aura:component>

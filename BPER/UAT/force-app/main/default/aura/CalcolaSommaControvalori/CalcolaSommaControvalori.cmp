@@ -1,0 +1,8 @@
+<aura:component controller="CalcolaSommaControvaloriController" implements="force:lightningQuickAction,lightning:actionOverride,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" access="global">
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="btnLabel" type="String" default="Calcola Somma Controvalori" />
+
+    <div class="container">
+        <lightning:button label="{! v.btnLabel }" class="slds-button slds-button_neutral slds-button_stretch" onclick="{! c.calcola }" />
+    </div>
+</aura:component>

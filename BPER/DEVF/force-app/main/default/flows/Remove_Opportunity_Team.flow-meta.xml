@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>58.0</apiVersion>
+    <description>Rimuove dai campi dell&apos;oppty l&apos;utente rimosso dall&apos;Opportunity Team</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>OpptyEdit_RemoveAlias</name>
+        <dataType>String</dataType>
+        <expression>IF(CONTAINS({!$Record.Opportunity.CIB_Opportunity_Edit__c}, {!$Record.User.Alias}),
+      SUBSTITUTE({!$Record.Opportunity.CIB_Opportunity_Edit__c}, {!$Record.User.Alias} &amp; &apos;,&apos;, &apos;&apos;),
+      {!$Record.Opportunity.CIB_Opportunity_Edit__c}
+)</expression>
+    </formulas>
+    <formulas>
+        <name>OpptyEdit_RemoveRole</name>
+        <dataType>String</dataType>
+        <expression>IF(CONTAINS({!$Record.Opportunity.CIB_EditRole_OP_Team__c}, {!$Record.User.CRM_PermissionSet__c}),
+      SUBSTITUTE({!$Record.Opportunity.CIB_EditRole_OP_Team__c}, {!$Record.User.CRM_PermissionSet__c} &amp; &apos;,&apos;, &apos;&apos;),
+      {!$Record.Opportunity.CIB_EditRole_OP_Team__c}
+   )</expression>
+    </formulas>
+    <formulas>
+        <name>OpptyReadOnly_RemoveAlias</name>
+        <dataType>String</dataType>
+        <expression>IF(CONTAINS({!$Record.Opportunity.CIB_Opportunity_ReadOnly__c}, {!$Record.User.Alias}),
+      SUBSTITUTE({!$Record.Opportunity.CIB_Opportunity_ReadOnly__c}, {!$Record.User.Alias} &amp; &apos;,&apos;, &apos;&apos;),
+      {!$Record.Opportunity.CIB_Opportunity_ReadOnly__c}
+)</expression>
+    </formulas>
+    <formulas>
+        <name>OpptyReadOnly_RemoveRole</name>
+        <dataType>String</dataType>
+        <expression>IF(CONTAINS({!$Record.Opportunity.CIB_ReadOnlyRole_OP_Team__c}, {!$Record.User.CRM_PermissionSet__c}),
+      SUBSTITUTE({!$Record.Opportunity.CIB_ReadOnlyRole_OP_Team__c}, {!$Record.User.CRM_PermissionSet__c} &amp; &apos;,&apos;, &apos;&apos;),
+      {!$Record.Opportunity.CIB_Opportunity_ReadOnly__c}
+   )</expression>
+    </formulas>
+    <interviewLabel>Remove Opportunity Team {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Remove Opportunity Team</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Update_Visibilita_Team_Oppty</name>
+        <label>Update Visibilità Team Oppty</label>
+        <locationX>176</locationX>
+        <locationY>287</locationY>
+        <inputAssignments>
+            <field>CIB_EditRole_OP_Team__c</field>
+            <value>
+                <elementReference>OpptyEdit_RemoveRole</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>CIB_Opportunity_Edit__c</field>
+            <value>
+                <elementReference>OpptyEdit_RemoveAlias</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>CIB_Opportunity_ReadOnly__c</field>
+            <value>
+                <elementReference>OpptyReadOnly_RemoveAlias</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>CIB_ReadOnlyRole_OP_Team__c</field>
+            <value>
+                <elementReference>OpptyReadOnly_RemoveRole</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record.Opportunity</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Update_Visibilita_Team_Oppty</targetReference>
+        </connector>
+        <object>OpportunityTeamMember</object>
+        <recordTriggerType>Delete</recordTriggerType>
+        <triggerType>RecordBeforeDelete</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

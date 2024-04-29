@@ -1,0 +1,167 @@
+<aura:component >
+    <aura:attribute name='itemDetail' type='Object' default='{}' />
+    
+    <lightning:navigation aura:id="navService" />
+    
+    <li>
+        <div class="{! 'slds-timeline__item_expandable slds-timeline__item_diario ' + (v.itemDetail.RecordType.DeveloperName) + ' ' + (v.itemDetail.IsArchived ? 'IsArchived' : '') }">
+            <span class="slds-assistive-text">Diario</span>
+            <div class="slds-media">
+                <div class="slds-media__figure">
+                    <div class="{! 'slds-icon_container slds-icon-standard-diario slds-timeline__icon ' + (v.itemDetail.IsArchived ? 'IsArchived' : '') }" title="Diario">
+                        <aura:if isTrue="{! v.itemDetail.TipoAttivita__c == 'Opportunity' }">
+                        <lightning:icon iconName="standard:opportunity" />	
+                        </aura:if>
+                        <aura:if isTrue="{! v.itemDetail.TipoAttivita__c == 'Campaign' }">
+                        <lightning:icon iconName="standard:campaign" />	
+                        </aura:if>
+                        
+                    </div>
+                    <aura:if isTrue="{! v.itemDetail.SupportObject }">
+						<lightning:icon class="supportObj" iconName="utility:database" title="Caricamento Pregresso" size="xx-small" />
+					</aura:if>
+                </div>
+                <div class="slds-media__body">
+                    <div class="slds-grid slds-grid_align-spread slds-timeline__trigger">
+                        <div class="slds-grid slds-grid_vertical-align-center slds-truncate_container_75 slds-no-space">	
+                            <h3 class="slds-truncate" title="{! v.itemDetail.Subject }">
+                                <a onclick="{! c.navigateToActivity }">
+                                    <strong>{! v.itemDetail.Subject } <aura:if isTrue="{! v.itemDetail.TipoAttivita__c == 'Campaign' }"> - {! v.itemDetail.CampagnaR__r.Name }</aura:if> &nbsp; <aura:if isTrue="{! v.itemDetail.Description!=undefined }"><lightning:icon iconName="utility:note" title="New note" size="xx-small" /></aura:if></strong>
+                                </a>
+                            </h3>
+                        </div>
+                        <div class="slds-timeline__actions slds-timeline__actions_inline">
+                            <p class="slds-timeline__date">
+                                <lightning:formattedDateTime value="{! v.itemDetail.ActivityDate }" year="numeric" month="numeric" day="numeric" />
+                            </p>
+                            <lightning:buttonIcon iconName="utility:down"  size="x-small" alternativeText="View More" onclick="{! c.showArticle }" />
+                        </div>
+                    </div>
+                    
+                    <aura:if isTrue="{! v.itemDetail.RecordType.DeveloperName != 'WGC_Diario_Inserimento_Campagna' }">
+                        <p class="slds-m-horizontal_xx-small">
+                            assegnato a
+                            &nbsp;<a onclick="{! c.navigateToUser }">{! v.itemDetail.Owner.Name }</a>&nbsp;, Esito: Fissato appuntamento
+                        </p>
+                    </aura:if>
+                    
+                    <aura:if isTrue="{! !v.itemDetail.isCollapsed }">
+                        <article class="{! 'slds-box slds-theme_shade slds-m-top_x-small slds-m-horizontal_xx-small slds-p-around_medium' }" id="task-item-expanded" >
+                            
+                            <!--<ul class="slds-list_horizontal slds-wrap">
+           <li class="slds-grid slds-grid_vertical slds-size_1-of-2 slds-small-size_1-of-1	slds-medium-size_1-of-2	slds-large-size_1-of-2 slds-p-bottom_small">
+           <span class="slds-text-title slds-p-bottom_xx-small">{! $Label.c.WGC_ActivityTimeLine_Article_Assegnato }</span>
+           <span class="slds-text-body_medium slds-truncate" title="{! v.itemDetail.Owner.Name }">
+            <a onclick="{! c.navigateToUser }">{! v.itemDetail.Owner.Name }</a>
+           </span>
+          </li> 
+          <li class="slds-grid slds-grid_vertical slds-size_1-of-1  slds-small-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-1 slds-p-bottom_small">
+           <span class="slds-text-title slds-p-bottom_xx-small">{! $Label.c.WGC_ActivityTimeLine_Article_Qualifica }</span>
+           <p class="slds-text-body_medium slds-truncate">{! v.itemDetail.WGC_Ruolo__c }</p>
+          </li>
+         </ul>
+         <div>
+           <span class="slds-text-title slds-p-bottom_xx-small">{! $Label.c.WGC_ActivityTimeLine_Article_TipoAttivita }</span>
+           <p class="slds-text-body_medium">{! v.itemDetail.TipoAttivita__c }</p>
+          </div>-->
+                            <!-- 
+         <div>
+          <span class="slds-text-title slds-p-bottom_xx-small">{! $Label.c.WGC_ActivityTimeLine_Article_Descrizione }</span>
+          <p class="slds-text-body_medium">{! v.itemDetail.Description }</p>
+         </div>
+   
+         <hr />
+         -->
+                            <aura:if isTrue="{! v.itemDetail.TipoAttivita__c == 'Campaign' }">
+                                
+                                
+                                
+                                
+                                <lightning:layout>
+                                    <lightning:layoutItem padding="around-small">
+                                        <div>
+                                            <span class="slds-text-title slds-p-bottom_xx-small">Nome Campagna:</span>
+                                            <p class="slds-text-body_medium">{! v.itemDetail.CampagnaR__r.Name }</p>
+                                        </div>
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem padding="around-small">
+                                        <div>
+                                            <span class="slds-text-title slds-p-bottom_xx-small">Esito:</span>
+                                            <p class="slds-text-body_medium">Fissato appuntamento</p>
+                                        </div>
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem padding="around-small">
+                                        <div>
+                                            <span class="slds-text-title slds-p-bottom_xx-small">Descrizione</span>
+                                            <p class="slds-text-body_medium">{! v.itemDetail.Description }</p>
+                                        </div>
+                                    </lightning:layoutItem>
+                                    
+                                </lightning:layout>
+                            </aura:if>
+                            
+                            <!-- <div class="slds-p-bottom_small">
+           <span class="slds-text-title slds-p-bottom_xx-small">{! $Label.c.WGC_ActivityTimeLine_Article_MacroEsito }</span>
+          <div class="dot slds-p-bottom_xx-small">
+           <div class="{! v.itemDetail.WGC_Macro_Esito__c == 'Positivo' ? 'green' : v.itemDetail.WGC_Macro_Esito__c == 'Negativo' ? 'red' : v.itemDetail.WGC_Macro_Esito__c == 'Neutro' ? 'grey' : 'blu' }"></div>
+          </div>
+         </div> -->
+                            
+                            <!-- <div class="slds-list_horizontal slds-wrap">
+          <div class="slds-grid slds-grid_vertical slds-size_1-of-1 dot slds-p-bottom_xx-small">
+           <div class="{! v.itemDetail.WGC_Macro_Esito__c == 'Positivo' ? 'green' : v.itemDetail.WGC_Macro_Esito__c == 'Negativo' ? 'red' : v.itemDetail.WGC_Macro_Esito__c == 'Neutro' ? 'grey' : 'blu' }"></div>
+           <span class="text-macro-esito slds-text-title slds-p-bottom_xx-small slds-m-right_x-small">{! $Label.c.WGC_ActivityTimeLine_Article_MacroEsito }</span>
+          </div>
+         </div> -->
+                            
+                            <!-- 
+         <ul class="slds-list_horizontal slds-wrap">
+           <li class="slds-grid slds-grid_vertical slds-size_1-of-2  slds-small-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 slds-p-bottom_small">
+            <span class="slds-text-title slds-p-bottom_xx-small">{! $Label.c.WGC_ActivityTimeLine_Article_Livello1 }</span>
+            <p class="slds-text-body_medium">{! v.itemDetail.EsitoLivello1__c }</p>
+           </li>
+           <li class="slds-grid slds-grid_vertical slds-size_1-of-2  slds-small-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 slds-p-bottom_small">
+            <span class="slds-text-title slds-p-bottom_xx-small">{! $Label.c.WGC_ActivityTimeLine_Article_Livello2 }</span>
+            <p class="slds-text-body_medium">{! v.itemDetail.EsitoLivello2__c }</p>
+           </li>
+          </ul>
+         
+          <div>
+            <span class="slds-text-title slds-p-bottom_xx-small">{! $Label.c.WGC_ActivityTimeLine_Article_Commenti }</span>
+            <p class="slds-text-body_medium">{! v.itemDetail.CommentiEsito__c }</p>
+           </div>
+         -->
+                            
+                            <!-- 
+         <hr />
+         -->
+                            
+                            <aura:if isTrue="{! v.itemDetail.TipoAttivita__c == 'Opportunity' }">	
+                                
+                                
+                                <ul class="slds-list_horizontal slds-wrap">
+                                    <li class="slds-grid slds-grid_vertical slds-size_1-of-1  slds-small-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-1 slds-p-bottom_small">
+                                        <span class="slds-text-title slds-p-bottom_xx-small">Descrizione</span>
+                                        <p class="slds-text-body_medium">{! v.itemDetail.Description}</p>
+                                    </li>
+                                    <!--
+           <li class="slds-grid slds-grid_vertical slds-size_1-of-2  slds-small-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 slds-p-bottom_small">
+            <span class="slds-text-title slds-p-bottom_xx-small">Fase</span>
+            <p class="slds-text-body_medium">{! v.itemDetail.WGC_Opportunita__r.StageName }</p>
+           </li>
+           
+           <li class="slds-grid slds-grid_vertical slds-size_1-of-2  slds-small-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 slds-p-bottom_small">
+            <span class="slds-text-title slds-p-bottom_xx-small">{! $Label.c.WGC_ActivityTimeLine_Article_OriginatorDettaglio }</span>
+            <p class="slds-text-body_medium">{! v.itemDetail.Originator_di_dettaglio__c }</p>
+           </li>
+           -->
+                                </ul>
+                            </aura:if>
+                            
+                        </article>
+                    </aura:if>
+                </div>
+            </div>
+        </div>
+    </li>
+</aura:component>

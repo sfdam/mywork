@@ -1,0 +1,62 @@
+<template>
+    <lightning-card  variant="Narrow"  title={titolo} icon-name="standard:account">
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Ricerca..." variant="brand"></lightning-spinner>
+        </template>
+        <lightning-button-icon  icon-name="utility:add" variant="border-filled" slot="actions" label="NEW" onclick={openModal}></lightning-button-icon>
+        <lightning-layout>
+            <lightning-layout-item size="12" padding="around-small"> 
+                <template if:true={simulazioni}>
+                    <div style="height: 10rem;">
+                        <p>* Dato Present</p>
+                        <lightning-datatable data-item="mwTable" 
+                                                key-field="Id"
+                                                columns={columns}
+                                                data={simulazioni}
+                                                onrowaction={handleRowAction}
+                                                hide-checkbox-column=true
+                                                show-row-number-column=true>
+                        </lightning-datatable>
+                    </div>
+                </template>
+                <template if:false={simulazioni}>
+                    <div class="slds-box">
+                        <p><b>NON CI SONO SIMULAZIONI RELAZIONATE A QUESTA OPPORTUNITY</b></p>
+                    </div>
+                </template>
+            </lightning-layout-item>
+        </lightning-layout>
+    </lightning-card>
+    <template if:true={isOpenModal}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_large">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeNdgModal}>
+                        <lightning-icon icon-name="utility:close" size="medium">
+                        </lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <div class="tilte-card"><b>{titolo}</b></div>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium " id="modal-content-id-1">
+                    <c-cib-simulazione data-item="cibSimulazione" opportunity-id={recordId} record-id=null hide-footer=true></c-cib-simulazione>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-layout>
+                        <lightning-layout-item size="12">
+                            <lightning-button-group>
+                                <lightning-button label="Annulla" variant="neutral" onclick={closeNdgModal}></lightning-button>
+                                <lightning-button label="Salva" variant="neutral" onclick={handleSaveSim}></lightning-button>
+                            </lightning-button-group>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </footer>
+            </div>
+            <!-- <template if:false={loaded}>
+                <div class="spinner-holder">
+                    <lightning-spinner alternative-text="Loading"></lightning-spinner>
+                </div>
+            </template> -->
+        </section>
+    </template>
+</template>

@@ -1,0 +1,144 @@
+<template>
+
+    <lightning-card class="slds-size_large" icon-name={iconName} title={title}>
+
+        <div style="height:340px;">
+
+            <div>
+                <span class="circleBaseStriped iphone"></span>
+                <div class="slds-grid slds-grid" style="height:100%; width:100%;">
+                    <div class="slds-col slds-large-size_1-of-1">
+                        <div class="slds-grid slds-gutters margin">
+                            <div class="slds-col slds-size_1-of-7">
+                                <div class="container">
+                                    <div class="circleBaseBodyTitle">{Stato_Opp_1}</div>
+                                    <div class="circleBaseBodySub"></div>
+                                    <div class="circle">
+                                        <div class={Opp_1_class1} data-report={reportIstruttoria} onclick={redirectReport}> <!-- ! 'circleBase type4 ' + (expiredIstruttoriaOpty ? 'background-red border-white' : 'border-grey') -->
+                                            <div class={Opp_1_class2}>{countIstruttoria}</div> <!-- {! 'circleBaseBody clickable ' + (expiredIstruttoriaOpty ? 'found-white' : '')}" -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-7">
+                                <div class="container">
+                                    <div class="circleBaseBodyTitle">{Stato_Opp_2}</div>
+                                    <div class="circleBaseBodySub"></div>
+                                    <div class="circle">
+                                        <div class="circleBase type4 border-grey clickable" data-report={reportValPratica} onclick={redirectReport}>
+                                            <div class="circleBaseBody">{countValutazionePratica}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-7">
+                                <div class="container">
+                                    <!-- <div class="circleBaseBodyTitle">{WGC_Opportunita_Progress_perfezionameto_contratto}</div> -->
+                                    <div class="circleBaseBodyTitle">{Stato_Opp_3}</div>
+                                    <div class="circleBaseBodySub"></div>
+                                    <div class="circle">
+                                        <div class="circleBase type4 border-red clickable" data-report={reportPerfContratto} onclick={redirectReport}>
+                                            <div class="circleBaseBody found-red">{countPerfContratto}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-7">
+                                <div class="container">
+                                    <!-- <div class="circleBaseBodyTitle">{WGC_Opportunita_Progress_attivazione_rapporto}</div> -->
+                                    <div class="circleBaseBodyTitle">{Stato_Opp_4}</div>
+                                    <div class="circleBaseBodySub"></div>
+                                    <div class="circle">
+                                        <div class="circleBase type4 border-red clickable" data-report={reportAttRapporto} onclick={redirectReport}>
+                                            <div class="circleBaseBody found-red">{countAttRapporto}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-7">
+                                <div class="container">
+                                    <div class="circleBaseBodyTitle">{WGC_Opportunita_Progress_avviate}</div>
+                                    <div class="circleBaseBodySub">{WGC_Opportunita_Progress_Da_inizio_anno}</div>
+                                    <div class="circle">
+                                        <div class="circleBase type4 border-grey clickable" data-report={reportAvviate} onclick={redirectReport}>
+                                            <div class="circleBaseBody">{countTotalYear}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_2-of-7">
+                                <div class="container">
+                                    <div class="circleBaseBodyTitle">{WGC_Opportunita_Progress_chiuse}</div>
+                                    <div class="circleBaseBodySub">{WGC_Opportunita_Progress_Da_inizio_anno}</div>
+                                    <div class="circle">
+                                        <div class="circleBase type4 border-grey clickable" data-report={reportChiuse} onclick={redirectReport}>
+                                            <div class="circleBaseBody found-grey">{countClosedTotalYear}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--seconda riga del componente-->
+        
+            <div class="slds-media__body" style="margin-top: 1.4rem; margin-bottom: 0.5rem">
+                <lightning-icon icon-name={iconName}  size="small" style="margin-left: 16px;"></lightning-icon>
+                <h2 class="slds-card__header-title" style="margin-top: -20px; margin-left: 50px;">{title2}</h2>
+            </div>
+            <div>
+                <span class="circleBaseStriped iphone"></span>
+                <div class="slds-grid slds-grid" style="height:100%; width:100%;">
+                    <div class="slds-col slds-large-size_1-of-1">
+                        <div class="slds-grid slds-gutters margin">
+                            <div class="slds-col slds-size_1-of-7">
+                                <div class="container">
+                                    <div class="circleBaseBodyTitle">{WGC_Opportunita_Progress_inlavorazione}</div>
+                                    <div class="circleBaseBodySub"></div>
+                                    <div class="circle">
+                                        <div class="circleBase type4 border-grey clickable" data-report={reportCrossSelling} onclick={redirectReport}>
+                                            <!-- <div class="circleBaseBody">{countCrossSelling}</div> -->
+                                            <div class="circleBaseBody">{countCrossSellingInLavorazione}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-7"></div>
+                            <div class="slds-col slds-size_1-of-7"></div>
+                            <div class="slds-col slds-size_1-of-7"></div>
+                            <div class="slds-col slds-size_1-of-7">
+                                <div class="container">
+                                    <div class="circleBaseBodyTitle">{WGC_Opportunita_Progress_vinte}</div>
+                                    <div class="circleBaseBodySub">{WGC_Opportunita_Progress_Da_inizio_anno}</div>
+                                    <div class="circle">
+                                        <div class="circleBase type4 border-grey clickable" data-report={reportVinte} onclick={redirectReport}>
+                                            <!-- <div class="circleBaseBody">{countWonTotalYear}</div> -->
+                                            <div class="circleBaseBody">{countCrossSellingWonTotalYear}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_2-of-7">
+                                <div class="container">
+                                    <div class="circleBaseBodyTitle">{WGC_Opportunita_Progress_chiuse}</div>
+                                    <div class="circleBaseBodySub">{WGC_Opportunita_Progress_Da_inizio_anno}</div>
+                                    <div class="circle">
+                                        <div class="circleBase type4 border-grey clickable" data-report={reportChiuse} onclick={redirectReport}>
+                                            <!-- <div class="circleBaseBody found-grey">{countClosedTotalYear}</div> -->
+                                            <div class="circleBaseBody found-grey">{countCrossSellingClosedTotalYear}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </lightning-card>
+
+</template>

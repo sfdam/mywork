@@ -1,0 +1,247 @@
+<aura:component implements="lightning:availableForFlowScreens" access="global">  
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/> 
+    
+    <aura:attribute name="flowValidatorFinalResultVar" type="String" default="" />    
+    
+    <aura:attribute name="flowValidatorAnagrafeErrorsVar" type="String[]" />     
+    <aura:attribute name="flowValidatorConfProdErrorsVar" type="String[]" />        
+    <aura:attribute name="flowValidatorGaranzieErrorsVar" type="String[]" />     
+    <aura:attribute name="flowValidatorPrivacyErrorsVar" type="String[]" />  
+    <aura:attribute name="flowValidatorMAVErrorsVar" type="String[]" />      
+    <aura:attribute name="flowValidatorTCErrorsVar" type="String[]" />    
+    <aura:attribute name="flowValidatorQQErrorsVar" type="String[]" />    
+    <aura:attribute name="flowValidatorNoteErrorsVar" type="String[]" />    
+    <aura:attribute name="flowValidatorDocErrorsVar" type="String[]" />    
+    
+    <aura:attribute name="workflowRecordCandidatoID" type="String"/>
+    <aura:attribute name="workflowRecordCandidatoNEXT" type="WorkflowMutui__c"/>
+    <aura:attribute name="workflowRecordCandidato" type="WorkflowMutui__c"/>
+    <aura:attribute name="workflowRecordCandidatoERROR" type="String"/>
+    
+    <force:recordData aura:id="flowRecordHandlerWorkflowCandidatoId"
+                      recordId="{!v.workflowRecordCandidatoID}"
+                      layoutType="FULL"
+                      targetFields="{!v.workflowRecordCandidato}"
+                      targetError="{!v.workflowRecordCandidatoERROR}"
+                      recordUpdated="{!c.handleRecordUpdated}"
+                      targetRecord="{!v.workflowRecordCandidatoNEXT}"
+                      mode="EDIT"                      
+                      />    
+    
+    <!-- Display Lightning Data Service errors, if any -->
+    <aura:if isTrue="{!not(empty(v.workflowRecordCandidatoERROR))}">
+        <ui:message title="Errore" severity="error" closable="true">{!v.workflowRecordCandidatoERROR}</ui:message>
+    </aura:if>           
+    
+    <c:bifis_crm_c_MccNsaFlowPath selectedPathValue="9"/> 
+
+    <c:bifis_crm_c_CommonFlowNavigator availableActions="{!v.availableActions}" navigateFlowEvent="{!c.handleNavigate}"/>
+    
+    <lightning:card variant="Narrow" title="Controllo ed Invio" iconName="standard:timesheet_entry" />
+    
+    <hr style="margin-top:1px;margin-bottom:10px;"/>    
+    
+    <div class="slds-scoped-notification slds-media slds-media_center" role="status">
+        <div class="slds-media__figure">
+            <span class="slds-icon_container slds-icon-utility-error" title="PRATICA NON INVIABILE">
+                <lightning:icon iconName="utility:error" alternativeText="Errore" variant="error"/>
+            </span>
+        </div>
+        <div class="slds-media__body slds-text-heading_small slds-text-color_error">
+            <p>La pratica non ha passato i controlli formali e di obbligatorietà. Sono state verificate le anomalie sotto riportate</p>
+        </div>
+    </div>
+    
+    <p class="slds-p-horizontal_small">
+            
+			<lightning:tabset>
+                
+                <aura:if isTrue="{!not(empty(v.flowValidatorAnagrafeErrorsVar))}">
+                    
+                    <lightning:tab label="Anagrafica">
+                                
+                        <div class="slds-grid slds-wrap">  
+                                    
+                            <aura:iteration var="errorItemAnagrafe" items="{!v.flowValidatorAnagrafeErrorsVar}" indexVar="indxAnagrafe">
+                
+                                <div class="slds-size_4-of-4">
+                                    <div class="slds-m-around_x-small"><lightning:icon iconName="utility:right" size="small"/>{!errorItemAnagrafe}</div>
+                                </div>              
+                                
+                            </aura:iteration>    
+                            
+                        </div>
+                        
+                    </lightning:tab>
+                    
+                </aura:if>
+                
+                <aura:if isTrue="{!not(empty(v.flowValidatorConfProdErrorsVar))}">
+                    
+                    <lightning:tab label="Configurazione Prodotto">
+                                
+                        <div class="slds-grid slds-wrap">  
+                                    
+                            <aura:iteration var="errorItemConfProd" items="{!v.flowValidatorConfProdErrorsVar}" indexVar="indxConfProd">
+                
+                                <div class="slds-size_4-of-4">
+                                    <div class="slds-m-around_x-small"><lightning:icon iconName="utility:right" size="small"/>{!errorItemConfProd}</div>
+                                </div>              
+                                
+                            </aura:iteration>    
+                            
+                        </div>
+                        
+                    </lightning:tab>
+                    
+                </aura:if>                
+                
+                <aura:if isTrue="{!not(empty(v.flowValidatorGaranzieErrorsVar))}">
+                    
+                    <lightning:tab label="Garanzie e Garanti">
+                                
+                        <div class="slds-grid slds-wrap">  
+                                    
+                            <aura:iteration var="errorItemGaranzie" items="{!v.flowValidatorGaranzieErrorsVar}" indexVar="indxGaranzie">
+                
+                                <div class="slds-size_4-of-4">
+                                    <div class="slds-m-around_x-small"><lightning:icon iconName="utility:right" size="small"/>{!errorItemGaranzie}</div>
+                                </div>              
+                                
+                            </aura:iteration>    
+                            
+                        </div>
+                        
+                    </lightning:tab>
+                    
+                </aura:if> 
+                
+                <aura:if isTrue="{!not(empty(v.flowValidatorPrivacyErrorsVar))}">
+                    
+                    <lightning:tab label="Privacy">
+                                
+                        <div class="slds-grid slds-wrap">  
+                                    
+                            <aura:iteration var="errorItemPrivacy" items="{!v.flowValidatorPrivacyErrorsVar}" indexVar="indxPrivacy">
+                
+                                <div class="slds-size_4-of-4">
+                                    <div class="slds-m-around_x-small"><lightning:icon iconName="utility:right" size="small"/>{!errorItemPrivacy}</div>
+                                </div>              
+                                
+                            </aura:iteration>    
+                            
+                        </div>
+                        
+                    </lightning:tab>
+                    
+                </aura:if>                 
+                
+                <aura:if isTrue="{!not(empty(v.flowValidatorMAVErrorsVar))}">
+                    
+                    <lightning:tab label="Compilazione MAV">
+                                
+                        <div class="slds-grid slds-wrap">  
+                                    
+                            <aura:iteration var="errorItemMAV" items="{!v.flowValidatorMAVErrorsVar}" indexVar="indxMAV">
+                
+                                <div class="slds-size_4-of-4">
+                                    <div class="slds-m-around_x-small"><lightning:icon iconName="utility:right" size="small"/>{!errorItemMAV}</div>
+                                </div>              
+                                
+                            </aura:iteration>    
+                            
+                        </div>
+                        
+                    </lightning:tab>
+                    
+                </aura:if>  
+                
+                <aura:if isTrue="{!not(empty(v.flowValidatorTCErrorsVar))}">
+                    
+                    <lightning:tab label="Tecniche di Comunicazione">
+                                
+                        <div class="slds-grid slds-wrap">  
+                                    
+                            <aura:iteration var="errorItemTC" items="{!v.flowValidatorTCErrorsVar}" indexVar="indxTC">
+                
+                                <div class="slds-size_4-of-4">
+                                    <div class="slds-m-around_x-small"><lightning:icon iconName="utility:right" size="small"/>{!errorItemTC}</div>
+                                </div>              
+                                
+                            </aura:iteration>    
+                            
+                        </div>
+                        
+                    </lightning:tab>
+                    
+                </aura:if>  
+                
+                <aura:if isTrue="{!not(empty(v.flowValidatorQQErrorsVar))}">
+                    
+                    <lightning:tab label="Questionario Qualitativo">
+                                
+                        <div class="slds-grid slds-wrap">  
+                                    
+                            <aura:iteration var="errorItemQQ" items="{!v.flowValidatorQQErrorsVar}" indexVar="indxQQ">
+                
+                                <div class="slds-size_4-of-4">
+                                    <div class="slds-m-around_x-small"><lightning:icon iconName="utility:right" size="small"/>{!errorItemQQ}</div>
+                                </div>              
+                                
+                            </aura:iteration>    
+                            
+                        </div>
+                        
+                    </lightning:tab>
+                    
+                </aura:if>  
+                
+                <aura:if isTrue="{!not(empty(v.flowValidatorNoteErrorsVar))}">
+                    
+                    <lightning:tab label="Note">
+                                
+                        <div class="slds-grid slds-wrap">  
+                                    
+                            <aura:iteration var="errorItemNote" items="{!v.flowValidatorNoteErrorsVar}" indexVar="indxNote">
+                
+                                <div class="slds-size_4-of-4">
+                                    <div class="slds-m-around_x-small"><lightning:icon iconName="utility:right" size="small"/>{!errorItemNote}</div>
+                                </div>              
+                                
+                            </aura:iteration>    
+                            
+                        </div>
+                        
+                    </lightning:tab>
+                    
+                </aura:if>  
+                
+                <aura:if isTrue="{!not(empty(v.flowValidatorDocErrorsVar))}">
+                    
+                    <lightning:tab label="Documentazione">
+                                
+                        <div class="slds-grid slds-wrap">  
+                                    
+                            <aura:iteration var="errorItemDoc" items="{!v.flowValidatorDocErrorsVar}" indexVar="indxDoc">
+                
+                                <div class="slds-size_4-of-4">
+                                    <div class="slds-m-around_x-small"><lightning:icon iconName="utility:right" size="small"/>{!errorItemDoc}</div>
+                                </div>              
+                                
+                            </aura:iteration>    
+                            
+                        </div>
+                        
+                    </lightning:tab>
+                    
+                </aura:if>  
+                
+    		</lightning:tabset>    
+    </p>      
+    
+    <hr style="margin-top:1px;margin-bottom:10px;"/>     
+    
+    <c:bifis_crm_c_CommonFlowNavigator availableActions="{!v.availableActions}" navigateFlowEvent="{!c.handleNavigate}"/>           
+    
+</aura:component>

@@ -1,0 +1,29 @@
+.THIS {
+}
+
+
+.THIS .progress {
+	width: 70%;
+	height: 10px;
+	border: 1px solid #e0e5ee;
+	background-color: #f7f9fb;
+	position: relative;
+}
+
+.THIS .progress span {
+	height: 100%;
+	position: absolute;
+	background-color: #0070D2;
+}
+
+.THIS .high {
+	background-color: #4bca81 !important;
+}
+
+.THIS .mid {
+	background-color: yellow !important;
+}
+
+.THIS .low {
+	background-color: #d4504c !important;
+}

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>48.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>treeGrid</masterLabel>
+    <targets>
+        <target>lightning__RecordPage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__RecordPage">
+            <property name="title" type="String" label="Title list view" description="definisci il titolo della listView"/>
+            <property name="iconName" type="String" label="Icona" description="definisci l'icona della listView"/>
+            <property name="numRows" type="Integer" label="Numero di righe della list view" default="5" description="definisci il numero di righe da mostrare nella listView"/>
+            <property name="recordTypes" type="String" label="Lista RecordType DeveloperName" description="definisci la lista RecordType DeveloperName"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

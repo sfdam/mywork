@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>52.0</apiVersion>
+    <constants>
+        <name>IconaBarra</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>&lt;img src=&apos;/resource/Barra&apos;/&gt;</stringValue>
+        </value>
+    </constants>
+    <environments>Default</environments>
+    <formulas>
+        <name>NomeAttributo1</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK(TEXT({!Get_CampaignMember.Campaign.CRM_NomeAttributo1__c})) &amp;&amp; ISBLANK({!Get_CampaignMember.Nome_Attributo_1__c}) &amp;&amp; ISBLANK({!Get_CampaignMember.Campaign.CRM_File_Nome_Attributo_1__c}), &quot;-&quot;, 
+ IF(!ISBLANK({!Get_CampaignMember.Nome_Attributo_1__c}), {!Get_CampaignMember.Nome_Attributo_1__c}, IF(!ISBLANK({!Get_CampaignMember.Campaign.CRM_File_Nome_Attributo_1__c}), {!Get_CampaignMember.Campaign.CRM_File_Nome_Attributo_1__c}, TEXT({!Get_CampaignMember.Campaign.CRM_NomeAttributo1__c}))))</expression>
+    </formulas>
+    <formulas>
+        <name>NomeAttributo2</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK(TEXT({!Get_CampaignMember.Campaign.CRM_NomeAttributo2__c})) &amp;&amp; ISBLANK({!Get_CampaignMember.Nome_Attributo_2__c}) &amp;&amp; ISBLANK({!Get_CampaignMember.Campaign.CRM_File_Nome_Attributo_2__c}), &quot;-&quot;, 
+ IF(!ISBLANK({!Get_CampaignMember.Nome_Attributo_2__c}), {!Get_CampaignMember.Nome_Attributo_2__c}, IF(!ISBLANK({!Get_CampaignMember.Campaign.CRM_File_Nome_Attributo_2__c}), {!Get_CampaignMember.Campaign.CRM_File_Nome_Attributo_2__c}, TEXT({!Get_CampaignMember.Campaign.CRM_NomeAttributo2__c}))))</expression>
+    </formulas>
+    <formulas>
+        <name>ScriptFormulaField</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!Get_CampaignMember.CC_Campaign_Script__c}), &apos;-&apos;, {!Get_CampaignMember.CC_Campaign_Script__c})</expression>
+    </formulas>
+    <formulas>
+        <name>ShowName</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!Get_CampaignMember.CC_Campaign_Script__c}), {!Get_CampaignMember.CRM_NomeCliente__c}, {!Get_CampaignMember.CRM_NomeCliente__c})</expression>
+    </formulas>
+    <interviewLabel>Campaign - Mostra campo Script {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Campaign - Mostra campo Script</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordLookups>
+        <name>Get_CampaignMember</name>
+        <label>Get CampaignMember</label>
+        <locationX>175</locationX>
+        <locationY>221</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Show_Script</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>CampaignMember</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <runInMode>SystemModeWithoutSharing</runInMode>
+    <screens>
+        <name>Show_Script</name>
+        <label>Show Script</label>
+        <locationX>177</locationX>
+        <locationY>384</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>ShowScript</name>
+            <fieldText>&lt;p&gt;Script&lt;/p&gt;&lt;p&gt;{!Get_CampaignMember.Campaign.CRM_ScriptRichText__c}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>false</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <start>
+        <locationX>50</locationX>
+        <locationY>50</locationY>
+        <connector>
+            <targetReference>Get_CampaignMember</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

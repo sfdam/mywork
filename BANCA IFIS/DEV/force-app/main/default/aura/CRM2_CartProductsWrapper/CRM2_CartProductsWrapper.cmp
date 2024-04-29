@@ -1,0 +1,55 @@
+<aura:component access="global" extends="c:WGC_Utility">
+    <!-- ATTRIBUTES -->
+        <!-- INHERITED FROM PARENT -->
+        <aura:attribute name="allProducts" type="Object[]"/>
+        <aura:attribute name="selectedProducts" type="Object[]"/>
+        <aura:attribute name="lockedProducts" type="Object[]"/>
+        <aura:attribute name="filters" type="String"/>
+        <aura:attribute name="existingPlafond" type="Boolean"/>
+        <aura:attribute name="readOnly" type="Boolean"/>
+        <aura:attribute name="opportunityId" type="String"/>
+        <aura:attribute name="currentUser" type="Object"/>
+        <!-- PRIVATE ATTS -->
+        <aura:attribute name="items" type="Object[]"/>
+        <aura:attribute name="availableProducts" type="Object[]"/>
+
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    <aura:handler name="change" value="{! v.allProducts }" action="{! c.reloadProducts }"/>
+    <aura:handler name="change" value="{! v.selectedProducts }" action="{! c.reloadProducts }"/>
+    <aura:handler name="change" value="{! v.lockedProducts }" action="{! c.reloadProducts }"/>
+    <aura:handler name="change" value="{! v.filters }" action="{! c.reloadProducts }"/>
+    <aura:handler name="productClick" event="c:WGC_ProductClickEvent" action="{! c.handleProductClick }"/>
+
+    <!-- TODO: INSERT FILTERS HERE -->
+    <lightning:notificationsLibrary aura:id="notifLib"/>
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+
+    <lightning:layout class="slds-m-top_small cstm-border-bottom" multipleRows="true">
+        <aura:iteration items="{! v.lockedProducts }" var="product">
+            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="3" padding="around-small" class="cstm-ipad-4-landscape">
+                <c:CRM2_CartProduct item="{! product }" isClickable="false" isAvailableItem="false" isLocked="true"/>
+            </lightning:layoutItem>
+        </aura:iteration>
+        <aura:iteration items="{! v.selectedProducts }" var="product">
+            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="3" padding="around-small" class="cstm-ipad-4-landscape">
+                <c:CRM2_CartProduct item="{! product }" isClickable="false" isAvailableItem="false" isActive="true" isRemovable="{! and(!v.readOnly, product.isRemovable) }" isSelected="true"/>
+            </lightning:layoutItem>
+        </aura:iteration>
+    </lightning:layout>
+    <lightning:layout multipleRows="true">
+        <aura:iteration items="{! v.availableProducts }" var="product">
+            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="3" padding="around-small" class="cstm-ipad-4-landscape">
+                <c:CRM2_CartProduct item="{! product }" isClickable="{! and(!v.readOnly, product.isClickable) }" isAvailableItem="true"/>
+            </lightning:layoutItem>
+        </aura:iteration>
+    </lightning:layout>
+
+    <!-- <c:WGC_Cart_Products_Wrapper
+        title="Prodotti Selezionati"
+        hasConfirmButton="true"
+        allRemovable="true"
+        items="{! v.items }"
+        opportunityId="{! v.opportunityId }"/> -->
+
+</aura:component>

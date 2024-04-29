@@ -1,0 +1,84 @@
+.THIS {
+}
+
+.THIS .slds-card__body {
+    display: flex;
+}
+
+.THIS .cstm-btn-round,
+.THIS .cstm-btn-round.slds-dropdown-trigger button {
+    border-radius: 25px;
+    font-size: 10px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.THIS .cstm-btn-round {
+  background-color: #0064B5 !important;
+  color: #FFF;
+  border-color: #0064B5;
+}
+
+.THIS .sortablegridSdg {
+  width: 100%;
+  overflow: scroll;
+}
+
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : landscape)
+and (-webkit-min-device-pixel-ratio: 2) { 
+    /* STYLES GO HERE */
+
+}
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : portrait)
+and (-webkit-min-device-pixel-ratio: 2) { 
+    /* STYLES GO HERE */ 
+}
+
+/* 
+  ##Device = Low Resolution Tablets, Mobiles (Landscape)
+  ##Screen = B/w 481px to 767px
+*/
+
+@media only screen 
+and (min-width: 481px) 
+and (max-width: 767px)
+and (orientation : landscape) {
+    /* STYLES GO HERE */
+    
+    
+}
+  
+/* 
+  ##Device = Most of the Smartphones Mobiles (Portrait)
+  ##Screen = B/w 320px to 479px
+*/
+  
+@media only screen 
+and (min-width: 320px) 
+and (max-width: 480px)
+and (orientation : portrait) {
+    /* STYLES GO HERE */
+    .THIS .iphone {
+        display: none;
+    }
+
+    .THIS .cstm-btn-round {
+      width: 100%;
+    }
+
+    .THIS .sdgborder header.slds-card__header.slds-grid {
+      display: block;
+    }
+
+    .THIS .sdgborder header.slds-card__header .slds-media {
+      margin-bottom: 10px;
+  }
+}

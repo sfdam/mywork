@@ -1,0 +1,21 @@
+<template>
+    <lightning-card title={label.WHOLESALER} variant="Narrow">
+    <template if:true={isLoading}>
+        <lightning-spinner alternative-text="Loading" variant="brand" size="large">
+        </lightning-spinner>
+   </template>
+    <template if:true={accList}>
+        <lightning-datatable data={accList} columns={columns} key-field="Id" max-row-selection = "1"
+        selected-rows={preselectedRow}>
+        </lightning-datatable>
+    </template>
+    <template if:true={error}>
+        {error}
+    </template>
+    <template if:true={showButtons}>
+        <div slot="footer" class="page-section page-main">    
+            <lightning-button label={label.SAVE} title={label.SAVE} variant="brand" onclick={handleClickSave}></lightning-button>
+        </div>
+    </template>
+    </lightning-card>
+</template>

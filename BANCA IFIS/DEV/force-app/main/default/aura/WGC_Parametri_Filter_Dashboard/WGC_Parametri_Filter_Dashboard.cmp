@@ -1,0 +1,72 @@
+<aura:component access="global" implements="force:appHostable,flexipage:availableForAllPageTypes" extends="c:WGC_Utility" controller="WizardOpportunityController">
+	
+	<!-- ATTRIBUTES -->
+	<aura:attribute name="opportunities" type="List"/>
+	<aura:attribute name="products" type="List"/>
+	<aura:attribute name="lines" type="List"/>
+	<aura:attribute name="sezioni" type="List"/>
+	<aura:attribute name="opportunity" type="String"/>
+	<aura:attribute name="product" type="String"/>
+	<aura:attribute name="line" type="String"/>
+	<aura:attribute name="sezione" type="String" default="Parametri"/>
+
+	<aura:attribute name="parametri" type="Object"/>
+	<aura:attribute name="condizioni" type="Object"/>
+
+	<!-- HANDLERS -->
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+	<!-- REGISTER EVENT -->
+	<aura:registerEvent name="parametriFilterChange" type="c:WGC_Parametri_Filter_Dashboard_Event"/>
+
+	<lightning:card title="Parametri - Filtro">
+		<aura:set attribute="actions">
+			<lightning:button label="Compare Params" variant="brand" onclick="{! c.compareParams }" />
+		</aura:set>
+		<div class="slds-p-left_small slds-p-right_small">
+			<div class="slds-form">
+				<!-- <div class="slds-form-element slds-form-element_horizontal">
+					<label class="slds-form-element__label" for="horizontal-input-id-01">Opportunity</label>
+					<div class="slds-form-element__control">
+						<select class="slds-select" id="select-01" name="opportunity" onchange="{! c.onFilterChange }" value="{! v.opportunity }">
+							<option value="">-None-</option>
+							<aura:iteration items="{! v.opportunities }" var="oppty">
+								<option>{! oppty }</option>
+							</aura:iteration>
+						</select>
+					</div>
+				</div> -->
+				<div class="slds-form-element slds-form-element_horizontal">
+					<label class="slds-form-element__label" for="horizontal-input-id-02">Prodotto</label>
+					<div class="slds-form-element__control">
+						<select class="slds-select" id="select-02" name="product" onchange="{! c.onFilterChange }" value="{! v.product }">
+							<option value="">-None-</option>
+							<aura:iteration items="{! v.products }" var="prod">
+								<option>{! prod }</option>
+							</aura:iteration>
+						</select>
+					</div>
+				</div>
+				<!-- <div class="slds-form-element slds-form-element_horizontal">
+					<label class="slds-form-element__label" for="horizontal-input-id-03">Linea</label>
+					<div class="slds-form-element__control">
+						<select class="slds-select" id="select-03" name="line" onchange="{! c.onFilterChange }" value="{! v.line }">
+							<aura:iteration items="{! v.lines }" var="l">
+								<option>{! l }</option>
+							</aura:iteration>
+						</select>
+					</div>
+				</div> -->
+				<div class="slds-form-element slds-form-element_horizontal">
+					<label class="slds-form-element__label" for="horizontal-input-id-04">Sezione</label>
+					<div class="slds-form-element__control">
+						<select class="slds-select" id="select-04" name="sezione" onchange="{! c.onFilterChange }" value="{! v.sezione }">
+							<option>Parametri</option>
+							<option>Condizioni</option>
+						</select>
+					</div>
+				</div>
+			</div>
+		</div>
+	</lightning:card>
+</aura:component>

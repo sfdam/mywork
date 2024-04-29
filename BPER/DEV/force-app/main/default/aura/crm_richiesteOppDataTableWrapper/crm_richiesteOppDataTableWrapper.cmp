@@ -1,0 +1,32 @@
+<aura:component>
+    <aura:attribute name="title" type="String" access="global" />
+    <aura:attribute name="flowLabel" type="String" access="global"/>
+    <aura:attribute name="viewAllLabel" type="String" access="global"/>
+    <aura:attribute name="pagina" type="Integer" access="global"/>
+    <aura:attribute name="widthc01" type="Integer" access="global"/>
+    <aura:attribute name="widthc02" type="Integer" access="global" />
+    <aura:attribute name="widthc03" type="Integer" access="global"/>
+    <aura:attribute name="widthc04" type="Integer" access="global"/>
+    <aura:attribute name="widthc05" type="Integer" access="global"/>
+    <aura:attribute name="widthc06" type="Integer" access="global"/>
+    <aura:attribute name="widthc07" type="Integer" access="global"/>
+    <aura:attribute name="widthc08" type="Integer" access="global"/>
+    <aura:attribute name="widthc09" type="Integer" access="global"/>
+    <aura:attribute name="widthc10" type="Integer" access="global"/>
+    <aura:attribute name="recordId" type="String" access="global"/>
+
+
+    <lightning:navigation aura:id="navService" />
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+
+    <div class="container-body">
+        
+        <ui:scrollerWrapper class="scrollerSize">
+                <lightning:workspaceAPI aura:id="flowData" />
+        </ui:scrollerWrapper>
+    </div>
+    <c:opportunityDataTable  title="{!v.title}" flowLabel="{!v.flowLabel}" recordId="{!v.recordId}"
+                            viewAllLabel="{!v.viewAllLabel}" pagina="{!v.pagina}"
+                            widthc01="{!v.widthc01}" widthc02="{!v.widthc02}" widthc03="{!v.widthc03}" widthc04="{!v.widthc04}" widthc05="{!v.widthc05}" widthc06="{!v.widthc06}" widthc07="{!v.widthc07}" widthc08="{!v.widthc08}" widthc09="{!v.widthc09}" widthc10="{!v.widthc10}"
+                            onflowevent="{!c.fireFlow}"/>
+</aura:component>

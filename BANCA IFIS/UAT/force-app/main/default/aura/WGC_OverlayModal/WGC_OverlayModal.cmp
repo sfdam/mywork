@@ -1,0 +1,19 @@
+<aura:component controller="WGC_Account_Utility_Controller" description="WGC_OverlayModal">
+
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="parentRecordId" type="String"/>
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="flowName" type="String"/>
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <!-- BODY -->
+    <div class="container-body">
+        <ui:scrollerWrapper class="scrollerSize">
+            <lightning:flow aura:id="flowData"/>
+        </ui:scrollerWrapper>
+    </div>
+
+</aura:component>

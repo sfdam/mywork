@@ -1,0 +1,135 @@
+<aura:component implements="force:lightningQuickAction,lightning:actionOverride,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" 
+                access="global" controller="TXT_SalesAgentModalController_V2">
+	
+    <!-- HANDLERS-->
+    <aura:attribute name="iconName" type="String" description="Definisce l'icona tra le standard"/>
+    <aura:attribute name="title" type="String" default="" description="Title from Container Card"/>
+    
+    <aura:attribute name="recordId" default="" type="String"/>
+    <aura:attribute name="contactId" default="" type="String"/>
+    <aura:attribute name="AgentList" type="Object[]" />
+    <aura:attribute name="AgentResult" type="Object[]" />
+    <aura:attribute name="selectedRecord" type="Object" />
+    <aura:attribute name="objType" type="String" />
+    
+    <aura:attribute name="disableSelect" type ="Boolean" default= "false"/>
+    <aura:attribute name="userInfo" type="User" default="{'sobjectType':'User'}" />
+
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+
+    <aura:attribute name="showButtonMenu" type ="Boolean" default= "false"/>
+    <aura:attribute name="viewOption" type="String" />
+    <aura:attribute name="completeLoad" type="Boolean" default="false"/>
+    <aura:attribute name="wherecond" type="String" default=""/>
+
+    <aura:handler event="c:TXT_SalesAgentEvent_V2" action="{! c.resolveEvent }" />
+
+    <lightning:navigation aura:id="navService" />    
+    <lightning:overlayLibrary aura:id="overlayLib" />
+    
+    <lightning:card>
+            
+        <aura:set attribute="title">
+
+            <!-- with container -->
+            <lightning:layout multipleRows="false">
+                <lightning:layoutItem size="10" smallDeviceSize="10" mediumDeviceSize="10" largeDeviceSize="10">
+                    <lightning:icon iconName="{! 'utility:' + v.iconName }" size="small" variant="slds-icon-inverse" />
+                    <div class="title">{! v.title }</div>
+                   
+                </lightning:layoutItem>
+                <aura:if isTrue="{! v.showButtonMenu }">
+                    <lightning:layoutItem size="2" smallDeviceSize="2" mediumDeviceSize="2" largeDeviceSize="2">
+                        <lightning:buttonMenu variant="container" aura:id="menu" alternativeText="Show menu" onselect="{! c.handleSelect }" menuAlignment="auto" class="slds-float_right">
+                            <lightning:menuItem aura:id="menuItems" value="Picklist" label="Picklist" checked="{! v.viewOption == 'Picklist'}"/>
+                            <lightning:menuItem aura:id="menuItems" value="Lookup" label="Lookup" checked="{! v.viewOption == 'Lookup'}"/>
+                        </lightning:buttonMenu>
+                    </lightning:layoutItem>
+                </aura:if>
+                
+            </lightning:layout>
+        </aura:set>
+
+        <aura:if isTrue="{! v.completeLoad }">
+            <div class='container-card'>
+                <aura:if isTrue="{! v.viewOption == 'Picklist'}">
+                    <lightning:layout >                  
+                        <lightning:layoutItem size="12" padding="around-small">
+                            <aura:if isTrue="{!not(empty(v.AgentList))}">
+                                <div>
+                                    <lightning:select name="select" label="{! $Label.c.TXT_SalesAgentModal_SelectAgent}" onchange="{! c.setItem }" disabled= "{!v.disableSelect}">
+                                        <aura:iteration items="{!v.AgentList}" var="agent">
+                                            <option class="{!agent.class}" text="{!agent.label}" value="{!agent.value}" />
+                                        </aura:iteration>
+                                    </lightning:select>
+                                </div>
+                                <aura:set attribute="else">
+                                    <div class="slds-text-title_caps slds-align_absolute-center">
+                                        <aura:if isTrue="{!v.userInfo.Societa__c == 'Warrant'}">
+                                            {! $Label.c.WRT_SupportUserModal_UsersNotFound }
+                                        <aura:set attribute="else">
+                                            {! $Label.c.TXT_SalesAgentModal_AgentNotFound }
+                                        </aura:set>
+                                        </aura:if>
+                                        
+                                    </div>
+                                </aura:set>
+                            </aura:if>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                </aura:if>
+                <aura:if isTrue="{! v.viewOption == 'Lookup'}">
+                    <aura:if isTrue="{! v.objType == 'User'}">
+                        <lightning:layout >
+                            <lightning:layoutItem size="12" padding="around-small">
+                                <c:SV_CustomLookup objectAPIName="{! v.objType}" 
+                                                    IconName="standard:user"  
+                                                    label="Cerca per nome"  
+                                                    selectedRecord="{!v.selectedRecord}" 
+                                                    returnFields="{! 'Id, Name, FirstName, LastName ' }"  
+                                                    showField="{! 'Name' }" 
+                                                    soqlSearch= 'true' 
+                                                    whereCondition = "{! '###LastName### AND Societa__c =\'' + v.userInfo.Societa__c + '\''+ v.wherecond }" />
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </aura:if>
+                    <aura:if isTrue="{! v.objType == 'Anagrafica_Venditori__c'}">
+                        <lightning:layout >
+                            <lightning:layoutItem size="12" padding="around-small">
+                                <c:SV_CustomLookup objectAPIName="{! v.objType}" 
+                                                    IconName="standard:visits"  
+                                                    label="Cerca per nome"  
+                                                    selectedRecord="{!v.selectedRecord}" 
+                                                    returnFields="{! 'Id, Name, Citta__c, CAP__c' }"  
+                                                    showField="{! 'Name| |Citta__c| |CAP__c' }" 
+                                                    soqlSearch= 'false' 
+                                                    whereCondition = "{! '###Name###' }" />
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </aura:if>
+                    
+                </aura:if>
+                    <lightning:layout >
+                            <lightning:layoutItem size="6" padding="around-small" class="slds-text-align_left">
+                                <aura:if isTrue="{! v.userInfo.Agent_List_Access__c }">
+                                    <div>
+                                        <lightning:button variant="brand" label="{! $Label.c.TXT_SalesAgentModal_ButtonOpenAgentList}" onclick="{! c.openVendorListView }" class="slds-truncate" />
+                                    </div>                                
+                                </aura:if>
+                            </lightning:layoutItem>                                    
+                        <lightning:layoutItem size="6" padding="around-small" class="slds-text-align_right">
+                                <!-- <aura:if isTrue="{!not(empty(v.AgentList))}"> -->
+                                    <div>
+                                        <lightning:button variant="brand" label="{! $Label.c.TXT_SalesAgentModal_ButtonOpenCalendar}" onclick="{! c.openModal }" disabled="{! v.selectedRecord.Id ? 'false' : 'true' }"  />
+                                    </div>
+                                <!-- </aura:if> -->
+                        </lightning:layoutItem>              
+                </lightning:layout>
+            </div>
+        </aura:if>
+    
+    </lightning:card>
+    
+
+    
+</aura:component>

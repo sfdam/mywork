@@ -1,0 +1,437 @@
+<!--
+  @description       : 
+  @author            : a.zecchinelli@accenture.com
+  @group             : 
+  @last modified on  : 
+  @last modified by  : 
+  Modifications Log 
+  Ver   Date         Author                           Modification
+  1.0   11-18-2020   a.zecchinelli@accenture.com   Initial Version
+-->
+<apex:component controller="THR_VFEmailTemplateSpainController" access="global">
+    <apex:attribute name="myVal" type="String" description="Attribute for case id" assignTo="{!caseRecordId}" access="global" />
+    
+     <head>
+        <title>General</title>
+        <style type="text/css">
+          
+            #outlook a
+            {
+                padding: 0;
+            }
+
+            /* Force Outlook to provide a "view in browser" menu link. */
+            body
+            {
+                width: 100% !important;
+                -webkit-text-size-adjust: 100%;
+                -ms-text-size-adjust: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            /* Prevent Webkit and Windows Mobile platforms from changing default font sizes, while not breaking desktop design. */
+            .ExternalClass
+            {
+                width: 100%;
+            }
+
+            /* Force Hotmail to display emails at full width */
+            .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div
+            {
+                line-height: 100%;
+            }
+
+            /* Force Hotmail to display normal line spacing.  More on that: http://www.emailonacid.com/forum/viewthread/43/ */
+            .backgroundTable
+            {
+                margin: 0;
+                padding: 0;
+                width: 100% !important;
+                line-height: 100% !important;
+            }
+
+            img
+            {
+                outline: none;
+                text-decoration: none;
+                border: none;
+                -ms-interpolation-mode: bicubic;
+            }
+
+            a img
+            {
+                border: none;
+            }
+
+            .image_fix
+            {
+                display: block;
+            }
+
+            p
+            {
+                margin: 0px 0px !important;
+            }
+
+            table td
+            {
+                border-collapse: collapse;
+            }
+
+            table
+            {
+                border-collapse: collapse;
+                mso-table-lspace: 0pt;
+                mso-table-rspace: 0pt;
+            }
+
+            /*STYLES*/
+            table.full
+            {
+                width: 100%;
+                clear: both;
+            }
+
+            sub, sup {
+                /* Specified in % so that the sup/sup is the
+                   right size relative to the surrounding text */
+                font-size: 75%;
+
+                /* Zero out the line-height so that it doesn't
+                   interfere with the positioning that follows */
+                line-height: 0;
+
+                /* Where the magic happens: makes all browsers position
+                   the sup/sup properly, relative to the surrounding text */
+                position: relative;
+
+                /* Note that if you're using Eric Meyer's reset.css, this
+                   is already set and you can remove this rule */
+                vertical-align: baseline;
+            }
+
+            sup {
+                /* Move the superscripted text up */
+                top: -0.5em;
+            }
+
+            sub {
+                /* Move the subscripted text down, but only
+                   half as far down as the superscript moved up */
+                bottom: -0.25em;
+            }
+            @media only screen and (max-width: 599px) {
+                table[class=devicewidth] {
+                    width: 100% !important;
+                    text-align: center!important;
+                }
+                table[class=devicewidthinner] {
+                    width: 96% !important;
+                    text-align: center!important;
+                }
+                table[class="sthide"] {
+                    display: none!important;
+                }
+                tr[class="sthide"] {
+                    display: none!important;
+                }
+                img[class="bigimage"] {
+                    width: 100% !important;
+                    height: auto!important;
+                }
+                img[class="bigimage_cta"] {
+                    width: 100% !important;
+                    max-width: 358px;
+                    height: auto!important;
+                }
+                img[class="col2img"] {
+                    width: 100% !important;
+                    height: auto!important;
+                }
+                img[class="image-banner"] {
+                    width: 100% !important;
+                    height: 68px!important;
+                }
+                .display-block {
+                    display: block;
+                    border-top: 1px solid #e8b214;
+                }
+                .display-block-borderno {
+                    display: block;
+                }
+                .pad {
+                    padding: 12px 0px;
+                }
+                .pad-top {
+                    padding: 12px 0px 0px 0px;
+                }
+                .pad-top.cta {
+                    padding: 0;
+                }
+                .pad-bottom {
+                    padding: 0px 0px 12px 0px;
+                }
+                .pad-bottom.cta {
+                    padding: 0;
+                }
+
+                table.contenttable {
+                    width: 470px !important;
+                }
+
+                .hidden-tablet {
+                    display: none !important;
+                }
+                
+            }
+            /*##############################################*/
+            /*IPAD STYLES IPHONE STYLES*/
+            /*##############################################*/
+            @media only screen and (max-width: 640px)
+            {
+                .collapsemobile {
+                    width: 0px !important;
+                }
+
+                .mobilesmallfont {
+                    font-size: 10px !important;
+                }
+                .mobilesmallfontheader {
+                    font-size: 12px !important;
+                }
+                .mobilecar {
+                    height: 35px !important;
+                }
+
+                table.devicewidth
+                {
+                    width: 100% !important;
+                    text-align: center !important;
+                }
+
+                table.devicewidthinner
+                {
+                    width: 100% !important;
+                    text-align: center !important;
+                }
+
+                table.sthide
+                {
+                    display: none !important;
+                }
+
+                tr.sthide
+                {
+                    display: none !important;
+                }
+
+                img.bigimage
+                {
+                    width: 100% !important;
+                    height: auto !important;
+                }
+
+                img.col2img
+                {
+                    width: 100% !important;
+                    height: auto !important;
+                }
+
+                img.image-banner
+                {
+                    max-width: 323px;
+                    width: 100% !important;
+                    height: auto !important;
+                }
+
+                .display-block
+                {
+                    display: block;
+                    border-top: 1px solid #727984;
+                    border-bottom: 1px solid #727984;
+                }
+
+                .display-block.noborder {
+                    border: none !important;
+                    width: 100%;
+                }
+
+                .display-block.noborder a {
+                    display: inline-block;
+                    padding: 2px 0;
+                }
+
+                .pad
+                {
+                    padding: 12px 0px;
+                }
+
+                .pad-top
+                {
+                    padding: 12px 0px 0px 0px;
+                }
+
+                .pad-top.cta
+                {
+                    padding: 0;
+                }
+
+                .pad-bottom
+                {
+                    padding: 0px 0px 12px 0px;
+                }
+
+                .pad-bottom.cta
+                {
+                    padding: 0;
+                }
+
+                .cta {
+                    height: auto;
+                    max-width: 340px;
+                    width: 100%;
+                }
+                .show-mobile{
+                    height: auto!important;
+                    width: auto!important;
+                }
+                .hidden-mobile {
+                    display: none !important;
+                }
+                table.responsive_tabele_text_fix{
+                    width:inherit!important;
+                }
+                .block{
+                    display:block}
+                    .box4 td{
+                    display:block}
+
+            }
+            @media only screen and (max-width: 480px) {
+                table.contenttable {
+                    width: 231px !important;
+                }
+
+
+                table.contenttable {
+                    /*width: 100% !important;*/
+                }
+
+                .inner-table
+                {
+                    height: auto!important;
+                    margin-bottom: 20px!important;
+                }
+
+
+                table.devicewidthinner td {
+                    padding: 5px;
+                }
+            }
+            @media only screen and (max-width: 320px) {
+
+                .mobilesmallfont {
+                    font-size: 9px !important;
+                }
+                .mobilesmallfontheader {
+                    font-size: 6px !important;
+                }
+                .mobilecar {
+                    height: 35px !important;
+                }
+            }
+        </style>
+    </head>
+    
+    <body>
+        
+         <table  class="devicewidth" width="100%" cellpadding="0" cellspacing="0" align="center" bgcolor="#FFFFFF" border="0">
+            <tr>
+           
+                <td>
+                
+                    <!-- tabella contenitore generale 650 -->
+                    <table width="100%" align="center" bgcolor="#FFFFFF" style="color: #FFFFFF;max-width:800px;" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td align="center" style="margin: 0; padding: 0;">
+                                <!-- tabella body -->
+                                <table width="100%" align="left" bgcolor="#FFFFFF" style="color: #000000;" border="0" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <td width="100%" align="left">    
+                                        <font face="Arial, Helvetica, sans-serif" color="#000000" size="2" style="font-size:16px; line-height: 22px;">
+                                            <div align='left' style="color:#000000">
+                                                <br/>
+                                                Apreciado colaborador,<br/>
+                                                Hemos recibido la siguiente incidencia para su gestión:
+                                                <p></p> 
+                                                
+                                                <ul>
+                                                <li> Nº Incidencia:  <b>{!caseApproved.CaseNumber}</b> </li>
+                                                <li> Fecha Incidencia: <b>{!createdDate}</b> </li>
+                                                <li> Empresa que realiza la reclamación:  <b>{!caseApproved.THR_CommercialDivision__c}</b> </li>
+                                                <li> Tipo Incidencia: <b>{!caseApproved.THR_Type__c}</b> </li>
+                                                <li> Receptor/usuario: <b>{!caseApproved.Owner.Name}</b> </li>
+                                                <li> Tipo cliente: <b>{!caseApproved.Account.THR_AccountGroup__c}</b> </li>    
+                                                <li> Nombre cliente: <b>{!IF(caseApproved.Contact.Id == null, caseApproved.Account.Name, caseApproved.Contact.LastName)}</b> </li>   
+                                                <li> Persona Contacto: <b>{!caseApproved.Contact.FirstName}</b> </li>                                           
+                                                <li> Codigo contacto cliente: <b>{!IF(caseApproved.Contact.THR_IdentificationCode__c != '', caseApproved.Contact.THR_IdentificationCode__c, caseApproved.Account.THR_CustomerIdentificationCode__c)}</b> </li> 
+                                                <li> Dirección completa cliente: <b>{!IF(contactMailingAddress == '    ',accBillingAddress, contactMailingAddress)}</b> </li>
+                                                <li> Teléfono: <b>{!caseApproved.Contact.Phone}</b> </li> 
+                                                </ul>
+                                                
+                                            </div>
+                                            </font>
+                                        </td>
+                                    </tr>
+                                </table>
+
+
+                                <apex:dataTable value="{!caseItemRelatedToCaseApproved}" var="cItm" border="1px" align="centre" cellspacing="5" cellpadding="0" width="90%" style="color: #000000; text-align:center" >
+                                    <apex:column headerValue="Código Producto" style="color: #000000; font-size:9pt; line-height: 25px;"> <!-- align:Center; margin-left: 3px; -->
+                                        <apex:outputField value="{!cItm.THR_Product_Code__c}"/>
+                                    </apex:column>
+                                    <apex:column headerValue="Descripción Producto" style="color: #000000; font-size:9pt; line-height: 25px;">
+                                        <apex:outputText value="{!IF(cItm.THR_Description__c == null, cItm.THR_Product__r.Name, cItm.THR_Description__c)}" />
+                                    </apex:column>
+                                    <apex:column headerValue="Cantidad" style="color: #000000; font-size:9pt; line-height: 25px;">
+                                        <apex:outputField value="{!cItm.THR_Product_Quantity__c}" />
+                                    </apex:column>
+                                </apex:dataTable>
+                                
+                                
+                                <table width="100%" align="left" bgcolor="#FFFFFF" style="color: #000000;" border="0" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <td width="100%" align="left">    
+                                            <font face="Arial, Helvetica, sans-serif" color="#000000" size="2" style="font-size:16px; line-height: 22px;">
+                                                <div align='left' style="color:#000000">
+                                                    <br/>
+                                                    Comentarios:  <b>{!caseApproved.Description}</b>
+                                                </div>
+                                            </font>
+                                        </td>
+                                    </tr>
+                                    
+                                     <tr>
+                                        <td width="100%" align="left">    
+                                            <font face="Arial, Helvetica, sans-serif" color="#000000" size="2" style="font-size:16px; line-height: 22px;">
+                                                <div align='left' style="color:#000000">
+                                                    <br/>
+                                                    Agradecemos su gestión/respuesta en 24/48 horas.<br/>
+                                                    Saludos, 
+                                                </div>
+                                            </font>
+                                        </td>
+                                    </tr>
+                                </table>
+                                
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        
+    </body>
+    
+</apex:component>

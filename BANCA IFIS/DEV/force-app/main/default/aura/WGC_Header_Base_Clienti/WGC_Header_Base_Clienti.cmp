@@ -1,0 +1,113 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+    controller="WGC_Header_Base_ClientiController" access="global">
+
+    <ltng:require styles="{!join(',','')}" scripts="{!join(',', 
+    '/resource/WGC_jQuery3x')}" afterScriptsLoaded="{!c.doInit}" />
+
+    <lightning:overlayLibrary aura:id="overlayLib" />
+    <lightning:navigation aura:id="navService" />
+
+    <aura:attribute name="clientiAttivi" type="Decimal" default='0' />
+    <aura:attribute name="clientiAttiviDiff" type="Boolean" default='false' />
+    <aura:attribute name="clientiIncerti" type="Decimal" default='0' />
+    <aura:attribute name="clientiIncertiDiff" type="Boolean" default='false' />
+    <aura:attribute name="clientiDormienti" type="Decimal" default='0' />
+    <aura:attribute name="clientiDormientiDiff" type="Boolean" default='false' />
+    <aura:attribute name="clientiInattivi" type="Decimal" default='0' />
+    <aura:attribute name="clientiInattiviDiff" type="Boolean" default='false' />
+    <aura:attribute name="clientiRevocati" type="Decimal" default='0' />
+    <aura:attribute name="clientiRevocatiDiff" type="Boolean" default='false' />
+
+    <lightning:card>
+        <aura:set attribute="title">
+
+        </aura:set>
+        <div class="slds-grid slds-wrap height-max">
+            <div class="slds-col slds-size_1-of-6 slds-small-size_1-of-6 slds-medium-size_1-of-3 slds-large-size_1-of-3 height-max back-color-black central-top slds-align_absolute-center">
+                    <lightning:layout multipleRows="true">
+                            <lightning:layoutItem size="12">
+                                    <lightning:icon iconName="utility:trending" size="large" alternativeText="sss" variant="inverse" />
+                                </lightning:layoutItem>
+                            <lightning:layoutItem size="12">
+                                    <h1 class="white-text">{!$Label.c.WGC_Header_Base_Clienti_CLIENTI_A}<br />{!$Label.c.WGC_Header_Base_Clienti_RISCHIO}</h1>
+                                </lightning:layoutItem>
+                        </lightning:layout>
+            </div>
+            <div class="slds-col slds-size_5-of-6 slds-small-size_5-of-6 slds-medium-size_2-of-3 slds-large-size_2-of-3 height-max no-padding">
+                <div class="slds-grid slds-wrap height-max">
+                    <div class="slds-col height-max-plus">
+                        
+                        <div class="div-col table-of-4">
+                            <div class="div-title">
+                                {!$Label.c.WGC_Header_Base_Clienti_Incerti}
+                            </div>
+                            <div class="div-number">
+                                <span class="span-number negative">
+                                    <!-- <aura:if isTrue="{! v.clientiIncertiDiff }">
+                                        +
+                                        <aura:set attribute="else">
+                                            -
+                                        </aura:set>
+                                    </aura:if> -->
+                                    {! v.clientiIncerti }
+                                </span>
+                                <!-- <img src="{!$Resource.WGC_FrecciaRossa}" class="image"/> -->
+                            </div>
+                        </div>
+                        <div class="div-col row-grey table-of-4">
+                            <div class="div-title">
+                                {!$Label.c.WGC_Header_Base_Clienti_Dormienti}
+                            </div>
+                            <div class="div-number">
+                                <span class="span-number negative">
+                                    <!-- <aura:if isTrue="{! v.clientiDormientiDiff }">
+                                        +
+                                        <aura:set attribute="else">
+                                            -
+                                        </aura:set>
+                                    </aura:if> -->
+                                    {! v.clientiDormienti }
+                                </span>
+                                <!-- <img src="{!$Resource.WGC_FrecciaGrigia}" class="image"/> -->
+                            </div>
+                        </div>
+                        <div class="div-col table-of-4">
+                            <div class="div-title">
+                                {!$Label.c.WGC_Header_Base_Clienti_Inattivi}
+                            </div>
+                            <div class="div-number">
+                                <span class="span-number negative">
+                                    <!-- <aura:if isTrue="{! v.clientiInattiviDiff }">
+                                        +
+                                        <aura:set attribute="else">
+                                            -
+                                        </aura:set>
+                                    </aura:if> -->
+                                    {! v.clientiInattivi }
+                                </span>
+                                <!-- <img src="{!$Resource.WGC_FrecciaGrigia}" class="image"/> -->
+                            </div>
+                        </div>
+                        <div class="div-col row-grey table-of-4">
+                            <div class="div-title">
+                                {!$Label.c.WGC_Header_Base_Clienti_Persi}
+                            </div>
+                            <div class="div-number">
+                                <span class="span-number">
+                                    <!-- <aura:if isTrue="{! v.clientiRevocatiDiff }">
+                                        +
+                                        <aura:set attribute="else">
+                                            -
+                                        </aura:set>
+                                    </aura:if> -->
+                                    {! v.clientiRevocati }
+                                </span>
+                                <!-- <img src="{!$Resource.WGC_FrecciaGrigia}" class="image"/> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </lightning:card>
+</aura:component>

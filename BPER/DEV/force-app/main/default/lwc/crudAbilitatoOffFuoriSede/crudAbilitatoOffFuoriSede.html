@@ -1,0 +1,9 @@
+<template>
+    <lightning-layout>
+    <lightning-layout-item size="12" title={title} class="slds-m-around_none">
+        <div if:false={showMessage} class="slds-p-around_none slds-m-around_none">
+            <button type="submit" class="slds-button slds-button_neutral slds-button_stretch" onclick={handleSendRequest}>{buttonLabel}</button>
+        </div>
+    </lightning-layout-item>
+</lightning-layout>
+</template>

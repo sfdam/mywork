@@ -1,0 +1,33 @@
+c-wgc_documents .slds-radio_button [type="radio"]:checked +.slds-radio_button__label{
+    background-color:#0064B5 !important;
+}
+
+c-wgc_documents fieldset{
+    display: inline-block;
+}
+
+c-wgc_documents .btn-header .slds-button_icon-border{
+    color: rgb(255, 255, 255);
+    background-color: #0064B5;
+    border-color: #0064B5;
+}
+
+c-wgc_documents .slds-form-element{
+    float: right;
+}
+
+c-wgc_documents .text-doc .slds-form-element{
+    float:left;
+}
+
+c-wgc_documents .slds-form-element__control{
+    display: inline-block;
+}
+
+c-wgc_documents .slds-form-element__label{
+    padding-top: 0.5rem;
+}
+
+c-wgc_documents .slds-button_icon-border{
+    border:none;
+}

@@ -1,0 +1,26 @@
+<template>
+    <article class="slds-card">
+        <div class="slds-card__body slds-card__body_inner">
+        <lightning-layout multiple-rows="true">
+            <lightning-layout-item size="12" medium-device-size="6">
+                <div class="slds-p-vertical_x-small slds-p-horizontal_none slds-m-around_none slds-text-align_center" style="background-color:#021F59" >
+                    <lightning-icon class="icon-margin" icon-name="utility:fulfillment_order" size="medium" alternative-text="magazzino aperto" variant="inverse"></lightning-icon>
+                    <h1 style="color:white;"><lightning-formatted-rich-text
+                        value="IL MIO <br/> MAGAZZIONO <br/> APERTO"
+                    ></lightning-formatted-rich-text></h1>
+                </div>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" medium-device-size="6">
+                <div class="slds-p-vertical_x-small slds-p-horizontal_none slds-m-around_none slds-text-align_center" style="background-color:white">
+                    <div class="slds-text-align_center">
+                        <div class="circleCamp" id="Aziende">3</div>
+                    </div>
+                    <h1><lightning-formatted-rich-text
+                        value="AZIENDE CON <br/> ATTIVITÁ  <br/>0-12 MESI"
+                    ></lightning-formatted-rich-text></h1>
+                </div>
+            </lightning-layout-item>
+        </lightning-layout>
+        </div>
+        </article>
+</template>

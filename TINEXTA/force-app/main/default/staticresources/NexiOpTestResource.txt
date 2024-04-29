@@ -1,0 +1,7 @@
+{
+	"status": true,
+	"message": "OK",
+	"data": {
+		"uuid": "testuuid"
+	}
+}

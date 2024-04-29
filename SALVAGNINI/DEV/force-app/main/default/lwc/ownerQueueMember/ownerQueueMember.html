@@ -1,0 +1,15 @@
+<template>
+    <div style="height: 300px;">
+        <div class="slds-page-header" icon-name="standard:account">
+            
+                <h1 slot="title" class="wrap" icon-name="standard:account">Queue Member</h1>
+
+        </div>
+        <lightning-datatable 
+            key-field="id" 
+            data={data} 
+            columns={columns}> 
+        </lightning-datatable>
+        
+    </div>
+</template>

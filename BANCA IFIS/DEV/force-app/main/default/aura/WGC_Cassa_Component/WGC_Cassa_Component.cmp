@@ -1,0 +1,501 @@
+<aura:component controller="WGC_PosizioneController" implements="force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId,force:lightningQuickAction" access="global" >
+    <aura:attribute name="recordId" type="String" />
+    <!-- <aura:attribute name="Posizione" type="WGC_Posizione__c" 
+        default="{ 'sobjectType': 'WGC_Posizione__c' }"/> -->
+    
+    <!-- liste per iteration in base al record type -->
+    <!-- servizi bancari -->
+    <aura:attribute name="listaPosContiCorrenti" type="List" />
+    <aura:attribute name="listaPosContiDeposito" type="List" />
+    <aura:attribute name="listaPosAnticipoPAC" type="List" />
+    <aura:attribute name="listaPosCreditiDiFirma" type="List" />
+    <aura:attribute name="listaPosCreditiProblematici" type="List" />
+    <aura:attribute name="listaPosNPL" type="List" />
+    <aura:attribute name="listaPosGaranzie" type="List" />
+    
+    <aura:attribute name="listaAnticipoFatture" type="List" />
+    <aura:attribute name="listaPortafoglioCommerciale" type="List" />
+
+    <aura:attribute name="title" type="String" default="ALTRO" access="global"/>
+    <aura:attribute name="color" type="String" default="#0BAD58"/>
+    <aura:attribute name="colortext" type="String" default="white"/>
+
+    <!-- -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <!-- Library -->
+    <lightning:navigation aura:id="navService"/>
+
+    <!-- ALTRO -->
+    <!-- Anticipo Fatture -->
+    <!-- Portafoglio Commerciale -->
+    <!-- Conti Correnti -->
+    <!-- Conti Deposito -->
+    <aura:if isTrue="{! (v.listaPosContiCorrenti != null &amp;&amp; v.listaPosContiCorrenti.length > 0) || 
+                        (v.listaPosContiDeposito != null &amp;&amp; v.listaPosContiDeposito.length > 0) || 
+                        (v.listaAnticipoFatture != null &amp;&amp; v.listaAnticipoFatture.length > 0) ||
+                        (v.listaPortafoglioCommerciale != null &amp;&amp; v.listaPortafoglioCommerciale.length > 0) }">
+        <div class="slds-m-around_x-small slds-p-around_xx-small"
+            style="{! ' background-color: ' + v.color + ';' + 'color: ' + v.colortext + '; border-radius:0 10px 10px 10px; box-shadow: 1px 1px 20px lightgrey;'}">
+            <lightning:layout class="border-title">
+                <lightning:layoutItem class="slds-p-around_small" size="6" smallDeviceSize="6" mediumDeviceSize="6"
+                    largeDeviceSize="6">
+                    <span class="slds-text-title_bold">{! v.title }</span>
+                </lightning:layoutItem>
+            </lightning:layout>
+
+            <aura:if isTrue="{! v.listaAnticipoFatture.length > 0}">
+                <div class="slds-box slds-m-around_small">
+                    <aura:iteration items="{!v.listaPosContiCorrenti}" var="item">
+                        <lightning:layout class="logo-container-layout">
+                            <lightning:layoutItem padding="around-small">
+                                <span class="slds-text-heading_medium slds-text-title_bold">{!$Label.c.WGC_Anticipo_Fatture}</span>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem alignmentBump="left">
+                                <aura:if isTrue="{! item.codiceIstituto == '881'}">
+                                    <img src="{!$Resource.WGC_LogoIfisItalia}" class="logo" />
+                                    <aura:set attribute="else">
+                                        <img src="{!$Resource.WGC_LogoIfisFinance}" class="logo" />
+                                    </aura:set>
+                                </aura:if>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+    
+                        <lightning:recordViewForm recordId="{! item.posizione.Id }" objectApiName="WGC_Posizione__c" density="comfy">
+                            <lightning:layout multipleRows="true">
+                                <lightning:layoutItem flexibility="auto">
+                                    <lightning:outputField fieldName="Qualifica_Posizione__c" />
+                                </lightning:layoutItem>
+                                <!-- <lightning:layoutItem flexibility="auto">
+                                    <lightning:outputField fieldName="Num_Contratti_frm__c" />
+                                </lightning:layoutItem> -->
+                                <lightning:layoutItem flexibility="auto">
+                                    <lightning:outputField fieldName="Linee__c" />
+                                </lightning:layoutItem>
+                                <lightning:layoutItem flexibility="auto">
+                                    <lightning:outputField fieldName="Divisa__c" />
+                                </lightning:layoutItem>
+                                <lightning:layoutItem flexibility="auto">
+                                    <lightning:outputField fieldName="Data_Apertura__c" />
+                                </lightning:layoutItem>
+                                <lightning:layoutItem flexibility="auto">
+                                    <lightning:outputField fieldName="Data_Estinzione_frm__c" />
+                                </lightning:layoutItem>
+                                <lightning:layoutItem flexibility="auto">
+                                    <lightning:outputField fieldName="MDI_12_Mesi__c" />
+                                </lightning:layoutItem>
+                                <lightning:layoutItem flexibility="auto">
+                                    <lightning:outputField fieldName="Accordato__c" />
+                                </lightning:layoutItem>
+                                <lightning:layoutItem flexibility="auto">
+                                    <lightning:outputField fieldName="Impiego__c" />
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                        </lightning:recordViewForm>
+                    </aura:iteration>
+                </div>
+            </aura:if>
+    
+            <aura:if isTrue="{! v.listaPortafoglioCommerciale.length > 0}">
+                <div class="slds-box slds-m-around_small">
+                    <aura:iteration items="{!v.listaPosContiCorrenti}" var="item">
+                        <lightning:layout class="logo-container-layout">
+                            <lightning:layoutItem padding="around-small">
+                                <span class="slds-text-heading_medium slds-text-title_bold">{!$Label.c.WGC_Portafoglio_Commerciale}</span>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem alignmentBump="left">
+                                <aura:if isTrue="{! item.codiceIstituto == '881'}">
+                                    <img src="{!$Resource.WGC_LogoIfisItalia}" class="logo" />
+                                    <aura:set attribute="else">
+                                        <img src="{!$Resource.WGC_LogoIfisFinance}" class="logo" />
+                                    </aura:set>
+                                </aura:if>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+    
+                        <lightning:recordViewForm recordId="{! item.posizione.Id }" objectApiName="WGC_Posizione__c" density="comfy">
+                            <lightning:layout multipleRows="true">
+                                <lightning:layoutItem flexibility="auto">
+                                    <lightning:outputField fieldName="Qualifica_Posizione__c" />
+                                </lightning:layoutItem>
+                                <!-- <lightning:layoutItem flexibility="auto">
+                                    <lightning:outputField fieldName="Num_Contratti_frm__c" />
+                                </lightning:layoutItem> -->
+                                <lightning:layoutItem flexibility="auto">
+                                    <lightning:outputField fieldName="Linee__c" />
+                                </lightning:layoutItem>
+                                <lightning:layoutItem flexibility="auto">
+                                    <lightning:outputField fieldName="Divisa__c" />
+                                </lightning:layoutItem>
+                                <lightning:layoutItem flexibility="auto">
+                                    <lightning:outputField fieldName="Data_Apertura__c" />
+                                </lightning:layoutItem>
+                                <lightning:layoutItem flexibility="auto">
+                                    <lightning:outputField fieldName="Data_Estinzione_frm__c" />
+                                </lightning:layoutItem>
+                                <lightning:layoutItem flexibility="auto">
+                                    <lightning:outputField fieldName="MDI_12_Mesi__c" />
+                                </lightning:layoutItem>
+                                <lightning:layoutItem flexibility="auto">
+                                    <lightning:outputField fieldName="Accordato__c" />
+                                </lightning:layoutItem>
+                                <lightning:layoutItem flexibility="auto">
+                                    <lightning:outputField fieldName="Impiego__c" />
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                        </lightning:recordViewForm>
+                    </aura:iteration>
+                </div>
+            </aura:if>
+
+            <aura:if isTrue="{! v.listaPosContiCorrenti.length > 0}">
+                <div class="slds-box slds-m-around_small">
+                    <aura:iteration items="{!v.listaPosContiCorrenti}" var="item">
+                        <lightning:layout class="logo-container-layout">
+                            <lightning:layoutItem padding="around-small">
+                                <span class="slds-text-heading_medium slds-text-title_bold">{!$Label.c.WGC_Conti_Correnti}</span>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem alignmentBump="left">
+                                <aura:if isTrue="{! item.codiceIstituto == '881'}">
+                                    <img src="{!$Resource.WGC_LogoIfisItalia}" class="logo" />
+                                    <aura:set attribute="else">
+                                        <img src="{!$Resource.WGC_LogoIfisFinance}" class="logo" />
+                                    </aura:set>
+                                </aura:if>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+
+                        <lightning:recordViewForm recordId="{! item.posizione.Id }" objectApiName="WGC_Posizione__c" density="comfy">
+                            <lightning:layout multipleRows="true">
+                                <lightning:layoutItem flexibility="auto">
+                                    <lightning:outputField fieldName="Qualifica_Posizione__c" />
+                                </lightning:layoutItem>
+                                <!-- <lightning:layoutItem flexibility="auto">
+                                    <lightning:outputField fieldName="Num_Contratti_frm__c" />
+                                </lightning:layoutItem> -->
+                                <lightning:layoutItem flexibility="auto">
+                                    <lightning:outputField fieldName="Linee__c" />
+                                </lightning:layoutItem>
+                                <lightning:layoutItem flexibility="auto">
+                                    <lightning:outputField fieldName="Divisa__c" />
+                                </lightning:layoutItem>
+                                <lightning:layoutItem flexibility="auto">
+                                    <lightning:outputField fieldName="Data_Apertura__c" />
+                                </lightning:layoutItem>
+                                <lightning:layoutItem flexibility="auto">
+                                    <lightning:outputField fieldName="Data_Estinzione_frm__c" />
+                                </lightning:layoutItem>
+                                <lightning:layoutItem flexibility="auto">
+                                    <lightning:outputField fieldName="MDI_12_Mesi__c" />
+                                </lightning:layoutItem>
+                                <lightning:layoutItem flexibility="auto">
+                                    <lightning:outputField fieldName="Accordato__c" />
+                                </lightning:layoutItem>
+                                <lightning:layoutItem flexibility="auto">
+                                    <lightning:outputField fieldName="Impiego__c" />
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                        </lightning:recordViewForm>
+                    </aura:iteration>
+                </div>
+            </aura:if>
+
+            <aura:if isTrue="{! v.listaPosContiDeposito.length > 0}">
+                <div class="slds-box slds-m-around_small">
+                    <aura:iteration items="{!v.listaPosContiDeposito}" var="item">
+                        <lightning:layout class="logo-container-layout">
+                            <lightning:layoutItem padding="around-small">
+                                <span class="slds-text-heading_medium slds-text-title_bold">{!$Label.c.WGC_Conti_Deposito}</span>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem alignmentBump="left">
+                                <aura:if isTrue="{! item.codiceIstituto == '881'}">
+                                    <img src="{!$Resource.WGC_LogoIfisItalia}" class="logo" />
+                                    <aura:set attribute="else">
+                                        <img src="{!$Resource.WGC_LogoIfisFinance}" class="logo" />
+                                    </aura:set>
+                                </aura:if>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+
+                        <lightning:recordViewForm recordId="{! item.posizione.Id }" objectApiName="WGC_Posizione__c" density="comfy">
+                            <lightning:layout multipleRows="true">
+                                <lightning:layoutItem flexibility="auto">
+                                    <lightning:outputField fieldName="Qualifica_Posizione__c" />
+                                </lightning:layoutItem>
+                                <!-- <lightning:layoutItem flexibility="auto">
+                                    <lightning:outputField fieldName="Num_Contratti_frm__c" />
+                                </lightning:layoutItem> -->
+                                <lightning:layoutItem flexibility="auto">
+                                    <lightning:outputField fieldName="Linee__c" />
+                                </lightning:layoutItem>
+                                <lightning:layoutItem flexibility="auto">
+                                    <lightning:outputField fieldName="Divisa__c" />
+                                </lightning:layoutItem>
+                                <lightning:layoutItem flexibility="auto">
+                                    <lightning:outputField fieldName="Data_Apertura__c" />
+                                </lightning:layoutItem>
+                                <lightning:layoutItem flexibility="auto">
+                                    <lightning:outputField fieldName="Data_Estinzione_frm__c" />
+                                </lightning:layoutItem>
+                                <lightning:layoutItem flexibility="auto">
+                                    <lightning:outputField fieldName="MDI_12_Mesi__c" />
+                                </lightning:layoutItem>
+                                <lightning:layoutItem flexibility="auto">
+                                    <lightning:outputField fieldName="Accordato__c" />
+                                </lightning:layoutItem>
+                                <lightning:layoutItem flexibility="auto">
+                                    <lightning:outputField fieldName="Impiego__c" />
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                        </lightning:recordViewForm>
+                    </aura:iteration>
+                </div>
+            </aura:if>
+
+        </div>
+    </aura:if>
+
+    <!-- Anticipo PAC/PSR -->
+    <aura:if isTrue="{! v.listaPosAnticipoPAC != null &amp;&amp; v.listaPosAnticipoPAC.length > 0 }">
+        <div class="slds-m-around_x-small slds-p-around_xx-small"
+            style="{! ' background-color: ' + v.color + ';' + 'color: ' + v.colortext + '; border-radius:0 10px 10px 10px; box-shadow: 1px 1px 20px lightgrey;'}">
+            <lightning:layout class="border-title">
+                <lightning:layoutItem class="slds-p-around_small" size="6" smallDeviceSize="6" mediumDeviceSize="6"
+                    largeDeviceSize="6">
+                    <span class="slds-text-title_bold">Anticipo PAC</span>
+                </lightning:layoutItem>
+            </lightning:layout>
+            <div class="slds-box slds-m-around_small">
+                <aura:iteration items="{!v.listaPosAnticipoPAC}" var="item">
+                    <lightning:layout class="logo-container-layout">
+                        <lightning:layoutItem padding="around-small">
+                            <span class="slds-text-heading_medium slds-text-title_bold transparent">{!$Label.c.WGC_Conti_Deposito}</span>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem alignmentBump="left">
+                            <aura:if isTrue="{! item.codiceIstituto == '881'}">
+                                <img src="{!$Resource.WGC_LogoIfisItalia}" class="logo" />
+                                <aura:set attribute="else">
+                                    <img src="{!$Resource.WGC_LogoIfisFinance}" class="logo" />
+                                </aura:set>
+                            </aura:if>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+
+                    <lightning:recordViewForm recordId="{! item.posizione.Id }" objectApiName="WGC_Posizione__c" density="comfy">
+                        <lightning:layout multipleRows="true">
+                            <lightning:layoutItem flexibility="auto">
+                                <lightning:outputField fieldName="Qualifica_Posizione__c" />
+                            </lightning:layoutItem>
+                            <lightning:layoutItem flexibility="auto">
+                                <lightning:outputField fieldName="Num_Contratti_frm__c" />
+                            </lightning:layoutItem>
+                            <lightning:layoutItem flexibility="auto">
+                                <lightning:outputField fieldName="Divisa__c" />
+                            </lightning:layoutItem>
+                            <lightning:layoutItem flexibility="auto">
+                                <lightning:outputField fieldName="Data_Apertura__c" />
+                            </lightning:layoutItem>
+                            <lightning:layoutItem flexibility="auto">
+                                <lightning:outputField fieldName="Data_Estinzione_frm__c" />
+                            </lightning:layoutItem>
+                            <lightning:layoutItem flexibility="auto">
+                                <lightning:outputField fieldName="MDI_12_Mesi__c" />
+                            </lightning:layoutItem>
+                            <lightning:layoutItem flexibility="auto">
+                                <lightning:outputField fieldName="Accordato__c" />
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </lightning:recordViewForm>
+                </aura:iteration>
+            </div>
+        </div>
+    </aura:if>
+
+    <!-- Garanzie -->
+    <aura:if isTrue="{! v.listaPosGaranzie != null &amp;&amp; v.listaPosGaranzie.length > 0 }">
+        <div class="slds-m-around_x-small slds-p-around_xx-small"
+            style="{! ' background-color: ' + v.color + ';' + 'color: ' + v.colortext + '; border-radius:0 10px 10px 10px; box-shadow: 1px 1px 20px lightgrey;'}">
+            <lightning:layout class="border-title">
+                <lightning:layoutItem class="slds-p-around_small" size="6" smallDeviceSize="6" mediumDeviceSize="6"
+                    largeDeviceSize="6">
+                    <span class="slds-text-title_bold">Garanzie</span>
+                </lightning:layoutItem>
+            </lightning:layout>
+            <div class="slds-box slds-m-around_small">
+                <aura:iteration items="{!v.listaPosGaranzie}" var="item">
+                    <lightning:layout class="logo-container-layout">
+                        <lightning:layoutItem padding="around-small">
+                            <span class="slds-text-heading_medium slds-text-title_bold transparent">{!$Label.c.WGC_Conti_Deposito}</span>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem alignmentBump="left">
+                            <aura:if isTrue="{! item.codiceIstituto == '881'}">
+                                <img src="{!$Resource.WGC_LogoIfisItalia}" class="logo" />
+                                <aura:set attribute="else">
+                                    <img src="{!$Resource.WGC_LogoIfisFinance}" class="logo" />
+                                </aura:set>
+                            </aura:if>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+
+                    <lightning:recordViewForm recordId="{! item.posizione.Id }" objectApiName="WGC_Posizione__c" density="comfy">
+                        <lightning:layout multipleRows="true">
+                            <lightning:layoutItem flexibility="auto">
+                                <lightning:outputField fieldName="Num_Garanzie_frm__c" />
+                            </lightning:layoutItem>
+                            <lightning:layoutItem flexibility="auto">
+                                <lightning:outputField fieldName="Data_di_scadenza__c" />
+                            </lightning:layoutItem>
+                            <lightning:layoutItem flexibility="auto">
+                                <lightning:outputField fieldName="MDI_12_Mesi__c" />
+                            </lightning:layoutItem>
+                            <lightning:layoutItem flexibility="auto">
+                                <lightning:outputField fieldName="Impiego_12_Mesi__c" />
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </lightning:recordViewForm>
+                </aura:iteration>
+            </div>
+        </div>
+    </aura:if>
+
+    <!-- CreditiProblematici -->
+    <aura:if isTrue="{! v.listaPosCreditiProblematici != null &amp;&amp; v.listaPosCreditiProblematici.length > 0 }">
+        <div class="slds-m-around_x-small slds-p-around_xx-small"
+            style="{! ' background-color: ' + v.color + ';' + 'color: ' + v.colortext + '; border-radius:0 10px 10px 10px; box-shadow: 1px 1px 20px lightgrey;'}">
+            <lightning:layout class="border-title">
+                <lightning:layoutItem class="slds-p-around_small" size="6" smallDeviceSize="6" mediumDeviceSize="6"
+                    largeDeviceSize="6">
+                    <span class="slds-text-title_bold">Crediti Problematici</span>
+                </lightning:layoutItem>
+            </lightning:layout>
+            <div class="slds-box slds-m-around_small">
+                <aura:iteration items="{!v.listaPosCreditiProblematici}" var="item">
+                    <lightning:layout class="logo-container-layout">
+                        <lightning:layoutItem padding="around-small">
+                            <span class="slds-text-heading_medium slds-text-title_bold transparent">{!$Label.c.WGC_Conti_Deposito}</span>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem alignmentBump="left">
+                            <aura:if isTrue="{! item.codiceIstituto == '881'}">
+                                <img src="{!$Resource.WGC_LogoIfisItalia}" class="logo" />
+                                <aura:set attribute="else">
+                                    <img src="{!$Resource.WGC_LogoIfisFinance}" class="logo" />
+                                </aura:set>
+                            </aura:if>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+
+                    <lightning:recordViewForm recordId="{! item.posizione.Id }" objectApiName="WGC_Posizione__c" density="comfy">
+                        <lightning:layout multipleRows="true">
+                            <lightning:layoutItem flexibility="auto">
+                                <lightning:outputField fieldName="Num_Contratti_frm__c" />
+                            </lightning:layoutItem>
+                            <lightning:layoutItem flexibility="auto">
+                                <lightning:outputField fieldName="Data_di_scadenza__c" />
+                            </lightning:layoutItem>
+                            <lightning:layoutItem flexibility="auto">
+                                <lightning:outputField fieldName="MDI_12_Mesi__c" />
+                            </lightning:layoutItem>
+                            <lightning:layoutItem flexibility="auto">
+                                <lightning:outputField fieldName="Impiego_12_Mesi__c" />
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </lightning:recordViewForm>
+                </aura:iteration>
+            </div>
+        </div>
+    </aura:if>
+
+    <!-- Credito di Firma -->
+    <aura:if isTrue="{! v.listaPosCreditiDiFirma != null &amp;&amp; v.listaPosCreditiDiFirma.length > 0 }">
+        <div class="slds-m-around_x-small slds-p-around_xx-small"
+            style="{! ' background-color: ' + v.color + ';' + 'color: ' + v.colortext + '; border-radius:0 10px 10px 10px; box-shadow: 1px 1px 20px lightgrey;'}">
+            <lightning:layout class="border-title">
+                <lightning:layoutItem class="slds-p-around_small" size="6" smallDeviceSize="6" mediumDeviceSize="6"
+                    largeDeviceSize="6">
+                    <span class="slds-text-title_bold">Crediti Di Firma</span>
+                </lightning:layoutItem>
+            </lightning:layout>
+            <div class="slds-box slds-m-around_small">
+                <aura:iteration items="{!v.listaPosCreditiDiFirma}" var="item">
+                    <lightning:layout class="logo-container-layout">
+                        <lightning:layoutItem padding="around-small">
+                            <span class="slds-text-heading_medium slds-text-title_bold transparent">{!$Label.c.WGC_Conti_Deposito}</span>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem alignmentBump="left">
+                            <aura:if isTrue="{! item.codiceIstituto == '881'}">
+                                <img src="{!$Resource.WGC_LogoIfisItalia}" class="logo" />
+                                <aura:set attribute="else">
+                                    <img src="{!$Resource.WGC_LogoIfisFinance}" class="logo" />
+                                </aura:set>
+                            </aura:if>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+
+                    <lightning:recordViewForm recordId="{! item.posizione.Id }" objectApiName="WGC_Posizione__c" density="comfy">
+                        <lightning:layout multipleRows="true">
+                            <lightning:layoutItem flexibility="auto">
+                                <lightning:outputField fieldName="Num_Contratti_frm__c" />
+                            </lightning:layoutItem>
+                            <lightning:layoutItem flexibility="auto">
+                                <lightning:outputField fieldName="Data_di_scadenza__c" />
+                            </lightning:layoutItem>
+                            <lightning:layoutItem flexibility="auto">
+                                <lightning:outputField fieldName="MDI_12_Mesi__c" />
+                            </lightning:layoutItem>
+                            <lightning:layoutItem flexibility="auto">
+                                <lightning:outputField fieldName="Impiego_12_Mesi__c" />
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </lightning:recordViewForm>
+                </aura:iteration>
+            </div>
+        </div>
+    </aura:if>
+
+    <!-- NPL -->
+    <aura:if isTrue="{! v.listaPosNPL != null &amp;&amp; v.listaPosNPL.length > 0 }">
+        <div class="slds-m-around_x-small slds-p-around_xx-small"
+            style="{! ' background-color: ' + v.color + ';' + 'color: ' + v.colortext + '; border-radius:0 10px 10px 10px; box-shadow: 1px 1px 20px lightgrey;'}">
+            <lightning:layout class="border-title">
+                <lightning:layoutItem class="slds-p-around_small" size="6" smallDeviceSize="6" mediumDeviceSize="6"
+                    largeDeviceSize="6">
+                    <span class="slds-text-title_bold">NPL</span>
+                </lightning:layoutItem>
+            </lightning:layout>
+            <div class="slds-box slds-m-around_small">
+                <aura:iteration items="{!v.listaPosNPL}" var="item">
+                    <lightning:layout class="logo-container-layout">
+                        <lightning:layoutItem padding="around-small">
+                            <span class="slds-text-heading_medium slds-text-title_bold transparent">{!$Label.c.WGC_Conti_Deposito}</span>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem alignmentBump="left">
+                            <aura:if isTrue="{! item.codiceIstituto == '881'}">
+                                <img src="{!$Resource.WGC_LogoIfisItalia}" class="logo" />
+                                <aura:set attribute="else">
+                                    <img src="{!$Resource.WGC_LogoIfisFinance}" class="logo" />
+                                </aura:set>
+                            </aura:if>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+
+                    <lightning:recordViewForm recordId="{! item.posizione.Id }" objectApiName="WGC_Posizione__c" density="comfy">
+                        <lightning:layout multipleRows="true">
+                            <lightning:layoutItem flexibility="auto">
+                                <lightning:outputField fieldName="Num_Contratti_frm__c" />
+                            </lightning:layoutItem>
+                            <lightning:layoutItem flexibility="auto">
+                                <lightning:outputField fieldName="Data_di_scadenza__c" />
+                            </lightning:layoutItem>
+                            <lightning:layoutItem flexibility="auto">
+                                <lightning:outputField fieldName="MDI_12_Mesi__c" />
+                            </lightning:layoutItem>
+                            <lightning:layoutItem flexibility="auto">
+                                <lightning:outputField fieldName="Impiego_12_Mesi__c" />
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </lightning:recordViewForm>
+                </aura:iteration>
+            </div>
+        </div>
+    </aura:if>
+
+</aura:component>

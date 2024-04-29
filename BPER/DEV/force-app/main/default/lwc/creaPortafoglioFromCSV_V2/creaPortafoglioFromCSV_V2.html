@@ -1,0 +1,73 @@
+<!-- sldsValidatorIgnore -->
+<template>
+
+    <template if:true={loading}>
+        <div class="exampleHolder">
+            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+        </div>
+    </template>
+
+    <!--<div class="c-container slds-align_absolute-center" style="border: 1px;">
+        <lightning-layout multiple-rows="true">
+            <lightning-layout-item size="12">
+                <div class="page-section page-header slds-align_absolute-center slds-nav-vertical__title">
+                    <h3>Caricamento Rent</h3>
+                </div>-->
+    <lightning-card icon-name="custom:custom19" title='Crea Portafoglio da CSV'>
+        <lightning-layout multiple-rows="true" class="slds-align_absolute-center">
+            <template lwc:if={showFileUpload}>
+                <lightning-layout-item padding="around-small" size="12">
+                    <div class="header slds-align_absolute-center slds-p-bottom_medium">
+                        <span class="fileUpload" lwc:ref="csvFile">
+                            <!--<lightning-file-upload
+                                name="fileUploader"
+                                title="The tooltip for the file uploader"
+                                accept={acceptedFormats}
+                                record-id={myRecordId}
+                                file-field-name="Origine__c"
+                                file-field-value="componenteCSVHomePage"
+                                onuploadfinished={handleUploadFinished}>
+                            </lightning-file-upload>-->
+                            <lightning-input lwc:ref="csvFile"
+                                id="file-upload-input-01"
+                                type="file"
+                                accept=".csv"
+                                onchange={changeFile}>
+                            </lightning-input>
+                        </span>
+                        <span class="slds-icon_container">
+                            <template lwc:if={showOkFile}>
+                                <lightning-icon icon-name="utility:check" size="small"></lightning-icon>
+                            </template>  
+                        </span>
+                            <div class="slds-form-element__help hidden red" id="errorFile">
+                                <p>{errorMessage}</p>
+                            </div>
+                        </div>
+                        
+                        
+                        <div class="slds-var-m-top_large">
+                            
+                            <lightning-button-group class="slds-align_absolute-center">
+                                <lightning-button onclick={uploadFile}  label="Upload" disabled={disable}></lightning-button>
+                                <lightning-button onclick={reset}  label="Cancel" disabled={disable} ></lightning-button>
+                            </lightning-button-group>
+                            
+                        </div>
+                        
+
+                </lightning-layout-item>
+            </template>
+            <template lwc:if={showTabUpload}>
+                <lightning-datatable
+                    key-field="id"
+                    data={data}
+                    show-row-number-column
+                    hide-checkbox-column
+                    suppress-bottom-bar
+                    columns={columns}>
+                </lightning-datatable>
+            </template>
+        </lightning-layout>
+    </lightning-card>
+</template>

@@ -1,0 +1,72 @@
+<aura:component >
+	<aura:attribute name='itemDetail' type='Object' default='{}' />
+
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+	<lightning:navigation aura:id="navService" />
+
+	<aura:if isTrue="{! !v.itemDetail.notShow }">
+		<li>
+			<div class="{! 'slds-timeline__item_expandable slds-timeline__item_task ' + (v.itemDetail.IsArchived ? 'IsArchived' : '') }">
+				<span class="slds-assistive-text">Scadenza</span>
+				<div class="slds-media">
+					<div class="slds-media__figure">
+						<div class="{! 'slds-icon_container slds-icon-standard-task slds-timeline__icon ' + (v.itemDetail.IsArchived ? 'IsArchived' : '') }" title="Scadenza">
+							<lightning:icon iconName="custom:custom53" />							
+						</div>
+						<aura:if isTrue="{! v.itemDetail.SupportObject }">
+							<lightning:icon class="supportObj" iconName="utility:database" title="Caricamento Pregresso" size="xx-small" />
+						</aura:if>
+					</div>
+					<div class="slds-media__body">
+						<div class="slds-grid slds-grid_align-spread slds-timeline__trigger">
+							<div class="slds-grid slds-grid_vertical-align-center slds-truncate_container_75 slds-no-space">	
+								<h3 class="slds-truncate" title="{! v.itemDetail.CRM_ProdottoCommDS__c }">
+									Scadenza:&nbsp;
+									  <a onclick="{! c.navigateToActivity }">
+										<strong>{! v.itemDetail.CRM_ProdottoCommDS__c }</strong>
+									</a> &nbsp;
+									<aura:if isTrue="{! v.itemDetail.SetFieldIcon }">
+										<lightning:icon iconName="utility:note" title="New note" size="xx-small" />
+									</aura:if>
+								</h3>
+							</div>
+							<div class="slds-timeline__actions slds-timeline__actions_inline">
+									<p class="slds-timeline__date">
+										Data:&nbsp;
+										<lightning:formattedDateTime value="{! v.itemDetail.CRM_DataScadenza__c }" year="numeric" month="numeric" day="numeric" />
+									</p>
+									<lightning:buttonIcon iconName="utility:down"  size="x-small" alternativeText="View More" onclick="{! c.showArticle }" />
+							</div>
+						</div>
+						<p class="slds-m-horizontal_xx-small">
+							NDG:&nbsp;<a onclick="{! c.navigateToNDG }">{! v.itemDetail.FinServ__Account__r.CRM_NDG__c }</a>
+							Esito:&nbsp;{! v.itemDetail.CRM_EsitoContatto__c }
+							Autore:&nbsp;{! v.itemDetail.CRM_Autore__c }
+							Referente:&nbsp;{! v.itemDetail.FinServ__Account__r.CRM_ReferenteNameFormula__c }
+						</p>
+						
+						<!--<aura:if isTrue="{! and(v.isCollapsedItem,v.indexId==v.indice)  }">-->
+						
+							<aura:if isTrue="{! v.itemDetail.isCollapsed }">
+								<article
+									class="{! 'slds-box slds-theme_shade slds-m-top_x-small slds-m-horizontal_xx-small slds-p-around_medium' }"
+									aura:id="{!v.indexId}">
+									
+									<lightning:layout multipleRows="true" pullToBoundary="small">
+										<lightning:layoutItem flexibility="auto"  padding="horizontal-small" size="12">
+											<div>
+												<span class="slds-text-title slds-p-bottom_xx-small">Nota Autore</span>
+												<p class="slds-text-body_medium">{! v.itemDetail.FinServ__Message__c }</p>
+											</div>        
+										</lightning:layoutItem>
+									</lightning:layout>
+									
+								</article>
+							</aura:if>
+					</div>
+				</div>
+			</div>
+		</li>
+	</aura:if>
+</aura:component>

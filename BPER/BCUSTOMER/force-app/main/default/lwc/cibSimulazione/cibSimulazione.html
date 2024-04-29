@@ -1,0 +1,132 @@
+<template>
+    <lightning-card padding="around-small" class="sldx-box slds-p-around-small bper-green-header" title="SIMULAZIONE PRICING">
+        <lightning-button padding="around-small" label="Invia" slot="actions" onclick={sendRequestCalculate}></lightning-button>
+        <template if:false={isNew}>
+            <lightning-button padding="around-small" label="Clona" slot="actions" onclick={handleClone}></lightning-button>
+        </template>
+        <lightning-accordion active-section-name={macroSezioniAttive} allow-multiple-sections-open>
+            <lightning-accordion-section name="macroSezione1" label={titoloMacroSezione1}>
+                <lightning-accordion active-section-name={sezioniAttive} allow-multiple-sections-open>
+                    <lightning-accordion-section name="sezione1" label={titoloSezione1}>
+                        <lightning-layout multiple-rows>
+                            <lightning-layout-item padding="around-small" size="12" medium-device-size="2">
+                                <template if:true={loaded}>
+                                    <c-custom-lookup data-item="gestore" selected-s-object={gestore} s-object-name="user"
+                                        icon-name="standard:user" field-label='Nome Gestore' field-to-like="Name,FederationIdentifier"
+                                        other-field-to-query = 'FederationIdentifier'
+                                        field-alternative-in-label="FederationIdentifier" 
+                                        event-to-dispatch="setgestore" onsetgestore={handleSetGestore}
+                                        p-read-only={hasAnagrafica}
+                                    ></c-custom-lookup>
+                                </template>
+                            </lightning-layout-item>
+                            <lightning-layout-item padding="around-small" size="12" medium-device-size="2">
+                                <template if:true={loaded}>
+                                    <c-custom-lookup data-item="titolareOperazione" selected-s-object={titolareOperazione} s-object-name="user"
+                                        icon-name="standard:user" field-label='Nome titolare operazione' field-to-like="Name,FederationIdentifier"
+                                        other-field-to-query = 'FederationIdentifier'
+                                        field-alternative-in-label="FederationIdentifier" 
+                                        event-to-dispatch="settitolareoperazione" onsettitolareoperazione={handleSetTitolareOperazione}
+                                        required=true p-read-only={hasAnagrafica}
+                                    ></c-custom-lookup>
+                                </template>
+                            </lightning-layout-item>
+                            <lightning-layout-item padding="around-small" size="12" medium-device-size="2">
+                                <lightning-input name="Data_di_Valutazione__c" value={simulazione.Data_di_Valutazione__c} class="validate" type="date" label="Data valutazione" placeholder="Seleziona Data valutazione" onchange={handleFilter} required disabled={hasAnagrafica}></lightning-input>
+                            </lightning-layout-item>
+                            <lightning-layout-item padding="around-small" size="12" medium-device-size="2">
+                                <lightning-input name="NDG__c" value={simulazione.NDG__c} class="validate" type="text" label="NDG" placeholder="Inserire NDG" onchange={handleFilter} required={hasAnagrafica} disabled={hasAnagrafica}></lightning-input>
+                            </lightning-layout-item>
+                            <lightning-layout-item padding="around-small" size="12" medium-device-size="2">
+                                <lightning-input name="Denominazione__c" value={simulazione.Denominazione__c} class="validate" type="text" label="Denominazione" required disabled={hasAnagrafica}></lightning-input>
+                            </lightning-layout-item>
+                            <lightning-layout-item padding="around-small" size="12" medium-device-size="2">
+                                <lightning-input name="NDG_di_Gruppo__c" value={simulazione.NDG_di_Gruppo__c} class="validate" type="text" label="NDG di Gruppo" required={hasAnagrafica} disabled={hasAnagrafica}></lightning-input>
+                            </lightning-layout-item>
+                            <lightning-layout-item padding="around-small" size="12" medium-device-size="2">
+                                <!-- <lightning-input name="Modello_di_Servizio__c" value={simulazione.Modello_di_Servizio__c} type="text" label="Modello di servizio" required></lightning-input> -->
+                                <lightning-combobox name="Modello_di_Servizio__c" value={simulazione.Modello_di_Servizio__c} class="validate" label="Modello di servizio" placeholder="Seleziona Modello di servizio" options={optionsMDS} onchange={handleFilter} required disabled={mdsDisabled}></lightning-combobox>
+                            </lightning-layout-item>
+                            <lightning-layout-item padding="around-small" size="12" medium-device-size="2">
+                                <!-- <lightning-input name="Natura_Giuridica__c" value={simulazione.Natura_Giuridica__c} class="validate" type="text" label="Natura Giuridica" required disabled={hasAnagrafica}></lightning-input> -->
+                                <lightning-combobox name="Natura_Giuridica__c" value={simulazione.Natura_Giuridica__c} class="validate" label="Natura Giuridica" placeholder="Seleziona Natura Giuridica" options={optionsNaturaGiuridica} onchange={handleFilter} required disabled={hasNaturaGiuridica}></lightning-combobox>
+                            </lightning-layout-item>
+                            <lightning-layout-item padding="around-small" size="12" medium-device-size="2">
+                                <lightning-combobox name="Provincia__c" value={simulazione.Provincia__c} class="validate" label="Provincia" placeholder="Seleziona Provincia" options={optionsProvincia} onchange={handleFilter} required disabled={hasAnagrafica}></lightning-combobox>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </lightning-accordion-section>
+
+                    <lightning-accordion-section name="sezione2" label={titoloSezione2}>
+                        <lightning-layout multiple-rows>
+                            <lightning-layout-item padding="around-small" size="12" medium-device-size="2">
+                                <lightning-combobox name="Segmento_di_Rischio__c" value={simulazione.Segmento_di_Rischio__c} class="validate" label="Segmento di Rischio" placeholder="Seleziona Segmento di rischio" options={optionsSegmentoRischio} onchange={handleFilter} required></lightning-combobox>
+                            </lightning-layout-item>
+                            <lightning-layout-item padding="around-small" size="12" medium-device-size="2" class="is-hide-layout-item">
+                                <lightning-combobox name="Segmento_Modello__c" value={simulazione.Segmento_Modello__c} class="validate is-hide" label="Segmento Modello" placeholder="Seleziona Segmento Modello" options={optionsSegmentoModelloDelta} onchange={handleFilter} disabled={segmentoModelloIsOne} required></lightning-combobox>
+                            </lightning-layout-item>
+                            <lightning-layout-item padding="around-small" size="12" medium-device-size="2" class="is-hide-layout-item">
+                                <lightning-combobox name="Classe_di_rating__c" value={simulazione.Classe_di_rating__c} class="validate is-hide" label="Classe di Rating" placeholder="Seleziona Classe di Rating" options={optionsClasseRatingDelta} onchange={handleFilter} required></lightning-combobox>
+                            </lightning-layout-item>
+                            <lightning-layout-item padding="around-small" size="12" medium-device-size="2" class="is-hide-layout-item">
+                                <lightning-combobox name="Giudizio_slotting_criteria__c" value={simulazione.Giudizio_slotting_criteria__c} class="validate is-hide" label="Giudizio Slotting Criteria" placeholder="Seleziona Giudizio Slotting Criteria" options={optionsGiudizioSlottingCriteria} onchange={handleFilter} required></lightning-combobox>
+                            </lightning-layout-item>
+                            <lightning-layout-item padding="around-small" size="12" medium-device-size="2" class="is-hide-layout-item">
+                                <lightning-combobox name="Classe_di_merito_altre_variabili__c" value={simulazione.Classe_di_merito_altre_variabili__c} class="validate is-hide" label="Classe di merito" placeholder="Seleziona Classe di merito" options={optionsClasseMeritoDelta} onchange={handleFilter} required></lightning-combobox>
+                            </lightning-layout-item>
+                            <lightning-layout-item padding="around-small" size="12" medium-device-size="2" class="is-hide-layout-item">
+                                <lightning-input name="Classe_di_rischiosita__c" value={simulazione.Classe_di_rischiosita__c} class="validate is-hide" type="text" label="Classe di rischiosità" placeholder="Inserire Classe di rischiosità" onchange={handleFilter} required disabled></lightning-input>
+                            </lightning-layout-item>
+                            <lightning-layout-item padding="around-small" size="12" medium-device-size="2" class="is-hide-layout-item">
+                                <lightning-input name="Modello_di_rating__c" value={simulazione.Modello_di_rating__c} class="validate is-hide" type="text" label="Modello di rating" placeholder="Inserire Modello di rating" onchange={handleFilter} required disabled></lightning-input>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                        <lightning-layout multiple-rows>
+                            <lightning-layout-item padding="around-small" size="12" medium-device-size="2">
+                                <lightning-input name="Fatturato_di_gruppo__c" value={simulazione.Fatturato_di_gruppo__c} class="validate" type="number" min="0" message-when-range-underflow="Inserire un valore positivo" label="Fatturato di Gruppo" placeholder="Inserire Fatturato di Gruppo" onchange={handleFilter}></lightning-input>
+                            </lightning-layout-item>
+                            <lightning-layout-item padding="around-small" size="12" medium-device-size="2">
+                                <lightning-combobox name="Soglia_fatturato_di_gruppo__c" value={simulazione.Soglia_fatturato_di_gruppo__c} class="validate" label="Soglia Fatturato di Gruppo" placeholder="Seleziona Soglia Fatturato di Gruppo" options={optionsSogliaFatturatoDiGruppo} onchange={handleFilter} required></lightning-combobox>
+                            </lightning-layout-item>
+                            <lightning-layout-item padding="around-small" size="12" medium-device-size="2">
+                                <lightning-radio-group name="Infrastructure_support_factor__c"
+                                    label="Infr. support factor"
+                                    options={optionsSINO}
+                                    value={simulazione.Infrastructure_support_factor__c}
+                                    type="radio"
+                                    onchange={handleFilter}
+                                    class="validate"
+                                    required>
+                                </lightning-radio-group>
+                            </lightning-layout-item>
+                            <!-- <lightning-layout-item padding="around-small" size="12" medium-device-size="2">
+                                <lightning-input name="Probability_of_default_media__c" value={simulazione.Probability_of_default_media__c} class="validate" type="text" label="Probability of default media" placeholder="Inserire Probability of default media" onchange={handleFilter} required={hasAnagrafica}></lightning-input>
+                            </lightning-layout-item> -->
+                        </lightning-layout>
+                    </lightning-accordion-section>
+                </lightning-accordion>
+            </lightning-accordion-section>
+            <lightning-accordion-section name="macroSezione2" label={titoloMacroSezione2}>
+                <lightning-button-icon icon-name="utility:add" variant="border-filled" alternative-text="Aggiungi Linea" slot="actions" onclick={handleAddLineaSimulazione}></lightning-button-icon>
+                <template if:true={showLinee}>
+                    <template for:each={lineeSimulazione} for:item="linea">
+                        <c-cib-linea-simulazione class="lineaSimulazione" key={linea.Number__c} linea-simulazione={linea} options-map={optionsMap} onclone={handleCloneLineaEvent} ondelete={handleDeleteLineaEvent}></c-cib-linea-simulazione>
+                    </template>
+                </template>
+            </lightning-accordion-section>
+        </lightning-accordion>
+        <template if:false={hideFooter}>
+            <div slot="footer">
+                <lightning-button variant="brand"
+                    name="Salva"
+                    label='Salva'
+                    title='Salva'
+                    onclick={handleSave} >
+                </lightning-button>
+            </div>
+        </template>
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Ricerca..." variant="brand"></lightning-spinner>
+        </template>
+    </lightning-card>
+</template>

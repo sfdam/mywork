@@ -1,0 +1,99 @@
+<aura:component implements="force:lightningQuickAction,lightning:actionOverride,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" 
+                access="global" controller="INN_SalesAgentModalController_V2">
+	
+    <!-- HANDLERS-->
+    <aura:attribute name="iconName" type="String" description="Definisce l'icona tra le standard"/>
+    <aura:attribute name="title" type="String" default="" description="Title from Container Card"/>
+    
+    <aura:attribute name="recordId" default="" type="String"/>
+    
+    <aura:attribute name="disableSelect" type ="Boolean" default= "false"/>
+    <aura:attribute name="userInfo" type="User" default="{'sobjectType':'User'}" />
+    <aura:attribute name="PicklistSelected" type="Object" />
+    <aura:attribute name="LookupSelected" type="Object" />
+    <aura:attribute name="AgentList" type="Object[]" />
+    <aura:attribute name="AgentResult" type="Object[]" />
+
+    <aura:attribute name="completeLoad" type="Boolean" default="false"/>
+    <aura:attribute name="showSpinner" type="Boolean" default="false" />
+
+    <!--aura:attribute name="objType" type="String" default="Anagrafica_Venditori__c"/-->    
+    <aura:handler   name="init" value="{! this }" action="{! c.doInit }"/>
+    
+     <aura:handler event="c:INN_SalesAgentEvent_V2" action="{! c.resolveEvent }" />
+
+     <lightning:navigation aura:id="navService" />
+     <lightning:overlayLibrary aura:id="overlayLib" />
+	
+      <lightning:card>
+        <aura:if isTrue="{!v.showSpinner}">
+            <div class="slds-spinner_container">
+                <div class="slds-spinner slds-spinner--small" aria-hidden="false" role="alert">
+                    <div class="slds-spinner__dot-a"></div>
+                    <div class="slds-spinner__dot-b"></div>
+                </div>
+            </div>
+        </aura:if>    
+        <aura:set attribute="title">
+
+            <!-- with container -->
+            <lightning:layout multipleRows="false">
+                <lightning:layoutItem size="10" smallDeviceSize="10" mediumDeviceSize="10" largeDeviceSize="10">
+                    <lightning:icon iconName="{! 'utility:' + v.iconName }" size="small" variant="slds-icon-inverse" />
+                    <div class="title">{! v.title }</div>
+                   
+                </lightning:layoutItem>
+            </lightning:layout>
+        </aura:set>
+
+        <aura:if isTrue="{! v.completeLoad }">
+            <div class='container-card'>
+
+                    <lightning:layout multipleRows="true">
+                        <!--lightning:layoutItem size="1" class="slds-align_center ">
+                            <div>
+                                <lightning:radioGroup   name="searchMode"
+                                                        label=""
+                                                        options="{! v.Types }"
+                                                        value="{! v.objType }"
+                                                        type="radio"/>
+                            </div>
+                        </lightning:layoutItem-->               
+                        <lightning:layoutItem size="12" padding="around-small">       
+                            <lightning:select name="select" label="{! $Label.c.INN_SalesAgentModal_AgentediZona}" onchange="{! c.setItem }" disabled= "{!v.disableSelect}">
+                                <aura:iteration items="{!v.AgentList}" var="agent">
+                                    <option class="{!agent.class}" text="{!agent.label}" value="{!agent.value}" />
+                                </aura:iteration>
+                            </lightning:select>
+                        </lightning:layoutItem>                                         
+                        <lightning:layoutItem size="12" padding="around-small">
+                            <c:SV_CustomLookup  objectAPIName="User" 
+                                                IconName="standard:user"  
+                                                label="{! $Label.c.INN_SalesAgentModal_AgentefuoriZona}"  
+                                                selectedRecord="{!v.LookupSelected}" 
+                                                returnFields="{! 'Id, Name, FirstName, LastName ' }"  
+                                                showField="{! 'Name' }" 
+                                                soqlSearch= 'true' 
+                                                whereCondition = "{! '###LastName### AND Societa__c =\'' + v.userInfo.Societa__c + '\' AND isActive=true' }"
+                                                disabled="{! ! v.userInfo.Agent_Selected_Access__c }" />
+                        </lightning:layoutItem>
+                                
+                    </lightning:layout>
+
+                    <lightning:layout >
+                        <lightning:layoutItem size="12" padding="around-small" class="slds-text-align_center">
+                            <div>
+                                <lightning:buttonGroup>
+                                    <lightning:button label="{! $Label.c.TXT_SalesAgentModal_ButtonOpenCalendar}" onclick="{! c.openModal }" disabled="{! or(v.PicklistSelected.Id, v.LookupSelected.Id) ? 'false' : 'true' }"  />
+                                    <aura:if isTrue="{! v.userInfo.Agent_List_Access__c }">
+                                        <lightning:button label="{! $Label.c.TXT_SalesAgentModal_ButtonOpenAgentList}" onclick="{! c.openVendorListView }" class="slds-truncate" disabled="{! not(v.userInfo.Agent_List_Access__c) }"/>                                    
+                                        <lightning:button label="{! $Label.c.INN_SalesAgentModal_Save}" onclick="{! c.saveOnLead }" disabled="{! or(v.PicklistSelected.Id,v.LookupSelected.Id) ? 'false' : 'true' }"/>
+                                    </aura:if>
+                                </lightning:buttonGroup>
+                            </div>
+                        </lightning:layoutItem>              
+                    </lightning:layout>
+            </div>
+        </aura:if>
+    </lightning:card>    
+</aura:component>

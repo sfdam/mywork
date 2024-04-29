@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_IsCheckFinanziarioPrivatePop__c</fullName>
+    <externalId>false</externalId>
+    <formula>OR(
+	CRM_V_WalletRiskReturnStatus__c,
+	CRM_V_WalletActivity__c,
+	CRM_V_RetentionCheck__c,
+	CRM_V_ExtraordinaryOperations__c,
+	CRM_V_FinExpiringProducts__c,
+	CRM_V_SellingProperties__c,
+	CRM_V_AltroFinanziario__c,
+	CRM_V_ProposteInvestimento__c,
+	CRM_V_GestioniDiPTF__c,
+	CRM_V_PIR__c,
+	CRM_V_Certificate__c,
+	CRM_V_AssicurativoVita__c,
+	CRM_V_FondiInvestimentoCedolari__c,
+	CRM_V_FondiESG__c,
+	CRM_V_FondiSicavTradizionali__c,
+	CRM_V_OrganizzazionePatrimonio__c
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Is Check Finanziario Private popolato</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

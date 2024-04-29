@@ -1,0 +1,3 @@
+<design:component >
+    <design:attribute name="WGC_opportunity_CE_type" label="Tipologia di Opportunity da Visualizzare" datasource="In Bonis,Procedurali"/>
+</design:component>

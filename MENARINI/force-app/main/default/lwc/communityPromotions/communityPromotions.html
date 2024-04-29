@@ -1,0 +1,100 @@
+<template>
+    <template if:true={loading}>
+        <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+    </template>
+
+    <template if:true={downloading}>
+        <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+    </template>
+
+    <template if:false={loading}>
+        <div class="slds-p-vertical_medium promotions-container">
+            <template if:true={showPromotions}>
+
+                <!--
+                <lightning-accordion class="promotions-accordion" allow-multiple-sections-open>
+                    <template for:each={promotions} for:item="promotion">
+                        <lightning-accordion-section key={promotion.index} name={promotion.campaignName} label={promotion.campaignName} title={promotion.campaignName}>
+                            <div class="slds-p-vertical_xxx-small promotion-field">
+                                <label>Data inizio campagna: </label>{promotion.campaignStartDate}
+                            </div>
+                            <div class="slds-p-vertical_xxx-small promotion-field">
+                                <label>Data fine campagna: </label>{promotion.campaignEndDate}
+                            </div>
+                            <div class="slds-p-vertical_xxx-small promotion-field">
+                                <label>Divisione: </label>{promotion.campaignDivision}
+                            </div>
+                            <div class="slds-p-vertical_xxx-small promotion-field">
+                                <label>Azienda: </label>{promotion.campaignCompany}
+                            </div>
+
+                            <div class="slds-p-vertical_xxx-small files-container">
+                                <label>Allegati ({promotion.campaignFiles.length}):</label>
+                                <div>
+                                    <template for:each={promotion.campaignFiles} for:item="file">
+                                        <div key={file.index} >
+                                            <lightning-button variant="base" name={file.contentDocumentId} label={file.name} title={file.name} icon-name="utility:download" class="my-brand" onclick={downloadFile}></lightning-button>
+
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </lightning-accordion-section>
+                    </template>
+                </lightning-accordion>
+                -->
+
+                <div class="slds-grid slds-wrap slds-grid_vertical-stretch">
+                    <template for:each={promotions} for:item="promotion">
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-large-size_1-of-4 slds-p-around_medium" key={promotion.index}>
+                            <div style="height:100%; border-bottom: 2px solid #F5333F; background: #F6F6F6;">
+                                <div class="promotion-logo-container"><img src={promotion.logoHref} class="promotion-logo"></div>
+                                <div class="slds-p-around_small">
+                                    <div class="slds-p-vertical_xxx-small promotion-fieldTitle">
+                                        {promotion.campaignName}
+                                    </div>
+                                    <br>
+                                    <div class="slds-p-vertical_xxx-small promotion-field">
+                                        <label>Data inizio campagna: {promotion.campaignStartDate}</label>
+                                    </div>
+                                    <div class="slds-p-vertical_xxx-small promotion-field">
+                                        <label>Data fine campagna: {promotion.campaignEndDate}</label>
+                                    </div>
+                                    <br>
+                                    <div class="slds-p-vertical_xxx-small promotion-field">
+                                        <label>Divisione: {promotion.campaignDivision}</label>
+                                    </div>
+                                    <div class="slds-p-vertical_xxx-small promotion-field">
+                                        <label>Azienda: {promotion.campaignCompany}</label>
+                                    </div>
+                                    <br>
+                                    <div class="slds-p-vertical_xxx-small files-container">
+                                        <label>Dettagli Campagna ({promotion.campaignFiles.length}):</label>
+                                        <div>
+                                            <template for:each={promotion.campaignFiles} for:item="file">
+                                                <!--
+                                                <ul key={file.index}>
+                                                    <li class="download-button slds-p-vertical_x-small slds-col" onclick={downloadFile} data-content-document-id={file.contentDocumentId}>{file.name}</li>
+                                                </ul> -->
+                                                <div class="slds-grid" key={file.index}>
+                                                    <div class="slds-col slds-grow-none"><lightning-icon icon-name="utility:download" alternative-text="download" variant="download" class="slds-col icon-class"
+                                                                                           size="xx-small"></lightning-icon>&nbsp;&nbsp;</div>
+                                                    <div class="slds-col slds-grow-none"><div class="download-button" onclick={downloadFile} data-content-document-id={file.contentDocumentId}>{file.name}</div></div>
+                                                </div>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </template>
+
+            <template if:false={showPromotions}>
+                <div class="slds-p-around_medium">{noPromotionsMessage}</div>
+            </template>
+
+        </div>
+    </template>
+</template>

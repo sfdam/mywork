@@ -1,0 +1,111 @@
+.THIS {
+}
+
+.THIS.filiale-container{
+    box-shadow: 1px 1px 20px #d1d1d1;
+    /* position: relative; */
+    position: relative;
+}
+
+.THIS .filiale-info-container{
+    /* border:1px 1px 1px 0px solid #888888; */
+    border-top:1px solid #888888;
+    border-right:1px solid #888888;
+    border-bottom:1px solid #888888;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.THIS .colored-col{
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.THIS .filiale-name{
+    font-size: 20px;
+}
+
+.THIS .conversion{
+    font-size:15px;
+}
+
+.THIS .numero-filiale{
+    
+}
+
+.THIS .circular{
+    position: absolute;
+    border: 3px solid #FFF;
+    border-radius: 50px;
+    background: #0064B5;
+    width: 45px;
+    height: 45px;
+    text-align: center;
+    padding-top: 10px;
+    left: 3%;
+    color: white;
+}
+
+.THIS .grassetto{
+    font-weight: bold;
+}
+
+.THIS .text-grey{
+    color:#d1d1d1;
+}
+
+.THIS .text-green{
+    color: token(text_green);
+}
+
+.THIS .back-green{
+    background-color: token(back_green);
+}
+
+.THIS .text-blue{
+    color: token(text_blue);
+}
+
+.THIS .back-blue{
+    background-color: token(back_blue);
+}
+
+.THIS .text-yellow{
+    color: token(text_yellow);
+}
+
+.THIS .back-yellow{
+    background-color: token(back_yellow);
+}
+
+.THIS .text-red{
+    color: token(text_red);
+}
+
+.THIS .back-red{
+    background-color: token(back_red);
+}
+
+.THIS .text-black{
+    color: token(text_black);
+}
+
+.THIS .back-black{
+    background-color: token(back_black);
+}
+
+.THIS .text-white{
+    color: token(text_white);
+}
+
+.THIS .back-white{
+    background-color: token(back_white);
+}
+
+.THIS .back-grey{
+    background-color: token(back_grey);
+}
+
+.THIS .text-grey{
+    color: token(text_grey);
+}

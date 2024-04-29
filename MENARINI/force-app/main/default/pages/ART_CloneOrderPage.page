@@ -1,0 +1,12 @@
+<apex:page standardController="cgcloud__Order__c" recordSetVar="orders">
+    <script>
+    console.log('DK START ART_CloneOrderPage{!selected}');
+    let selectedRows = '{!selected}';
+    if(selectedRows){
+        console.log('DK selected: ' + selectedRows.substring(1, 19));
+        window.location.href = "/lightning/r/cgcloud__Order__c/" + selectedRows.substring(1, 19) + '/view?c__selectedTab=basket&&c__isOpenClone=true';
+    }else{
+        window.history.back();
+    }
+    </script>
+</apex:page>

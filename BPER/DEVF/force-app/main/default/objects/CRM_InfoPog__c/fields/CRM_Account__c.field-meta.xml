@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_Account__c</fullName>
+    <description>DWH: Concat(ISTITUTO_CD&amp;&quot;_&quot;&amp;NDG_CD)</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Account relativo al Pog</inlineHelpText>
+    <label>Account</label>
+    <referenceTo>Account</referenceTo>
+    <relationshipLabel>Info Pogs</relationshipLabel>
+    <relationshipName>Info_Pogs</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

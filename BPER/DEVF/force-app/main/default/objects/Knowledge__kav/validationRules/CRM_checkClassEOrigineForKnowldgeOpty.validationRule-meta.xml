@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_checkClassEOrigineForKnowldgeOpty</fullName>
+    <active>true</active>
+    <errorConditionFormula>IF(AND( RecordType.DeveloperName  = &apos;Opportunit_Knowledge&apos;,
+OR(
+
+ISBLANK(TEXT( Origine_Opportunity__c )))
+),true,false)</errorConditionFormula>
+    <errorMessage>Necessario valorizzare: Classificazione e Origine</errorMessage>
+</ValidationRule>

@@ -1,0 +1,84 @@
+.THIS {
+    height: 410px;
+}
+
+.THIS .slds-card__body {
+    margin: 0 10px 10px 10px;
+}
+
+.THIS .title{
+    display: inline-block;
+    /* margin-left: 10px; */
+    vertical-align: sub;
+    text-transform: uppercase;
+}
+
+.THIS .filiale-container{
+    box-shadow: 1px 1px 20px #d1d1d1;
+}
+
+.THIS .filiale-info-container{
+    /* border:1px 1px 1px 0px solid #888888; */
+    border-top:1px solid #888888;
+    border-right:1px solid #888888;
+    border-bottom:1px solid #888888;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.THIS .colored-col{
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.THIS .filiale-name{
+    font-size: 20px;
+}
+
+.THIS .conversion{
+    font-size:15px;
+}
+
+.THIS .numero-filiale{
+    
+}
+
+/* .THIS .circular{
+    position: absolute;
+    border: 3px solid #FFF;
+    border-radius: 50px;
+    width: 45px;
+    height: 45px;
+    text-align: center;
+    padding-top: 10px;
+    left: 7%;
+    color: white;
+} */
+
+.THIS .grassetto{
+    font-weight: bold;
+}
+
+.THIS .text-grey{
+    color:#d1d1d1;
+}
+
+.THIS .slds-card__header-title .slds-truncate{
+    width:100% !important;
+}
+
+/* .THIS .text-green{
+    color: green;
+}
+
+.THIS .text-red{
+    color: red;
+}
+
+.THIS .back-green{
+    background: #7ED320;
+}
+
+.THIS .back-red{
+    background: #EB4A5B;
+} */

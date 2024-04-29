@@ -1,0 +1,138 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" controller="WGC_HomePageNew_PotSvil_Controller" access="global">
+    
+    <aura:attribute name="tooltip" type="Boolean"/>
+    <aura:attribute name="tooltip1" type="Boolean"/>
+    <aura:attribute name="tooltip2" type="Boolean"/>
+    <aura:attribute name="tooltip3" type="Boolean"/>
+    <aura:attribute name="tooltip4" type="Boolean"/>
+    <aura:attribute name="lead24mesi" type="Decimal"/>
+    <aura:attribute name="lead24mesiCampagne" type="Decimal"/>
+    <aura:attribute name="aziende1324mesi" type="Decimal"/>
+    <aura:attribute name="aziende1324mesiCampagne" type="Decimal"/>
+    <aura:attribute name="clientiBu" type="Decimal"/>
+    <aura:attribute name="clientiBuCampagne" type="Decimal"/>
+    <aura:attribute name="exClienti" type="Decimal"/>
+    <aura:attribute name="exClientiCampagne" type="Decimal"/>
+    <aura:attribute name="debitori" type="Decimal"/>
+    <aura:attribute name="debitoriCampagne" type="Decimal"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <lightning:card>
+        <div class="slds-p-around_none height-max">
+            <lightning:layout multipleRows="true">
+                <lightning:layoutItem size="12" mediumDeviceSize="2">
+                    <div class="back-color-black slds-p-vertical_small slds-p-horizontal_none slds-m-around_none slds-text-align_center central-top">
+                        <lightning:icon iconName="utility:trending" size="large" alternativeText="sss" variant="inverse" />
+                        <h1 style="font-size: 0.75rem; color:white;">{!$Label.c.WGC_Potenzialita_title}<br/>{!$Label.c.WGC_diSviluppo_title}</h1>
+                    </div>
+                </lightning:layoutItem>
+                <span class="circleBaseStriped"></span>
+                <lightning:layoutItem size="4" mediumDeviceSize="2">
+                    <div class="slds-p-vertical_small slds-p-horizontal_none slds-m-around_none slds-text-align_center">
+                        <div class="slds-is-relative">
+                            <div class="circleBase type4">
+                                <div class="circleCamp slds-align_absolute-center" id="lead-con-campagna">{!v.lead24mesiCampagne}</div>
+                                <div class="circleBaseBody" onmouseover="{!c.tooltipOn}" onmouseout="{!c.tooltipOff}" aria-describedby="helpLead">{!v.lead24mesi}</div>
+                                <aura:if isTrue="{!v.tooltip}">
+                                    <div class="slds-align_absolute-center">
+                                        <div class="slds-popover slds-popover_tooltip slds-nubbin_top" role="tooltip" id="helpLead">
+                                            <div class="slds-popover__body">{!$Label.c.WGC_popup_lead}</div>
+                                        </div>
+                                    </div>
+                                </aura:if>
+                            </div>
+                            <div class="div-col span-title">
+                                {!$Label.c.WGC_Lead_title}<br/>{!$Label.c.WGC_Attivita_title}<br/>{!$Label.c.WGC_Mesi_title}
+                            </div>
+                        </div>
+                    </div>
+                </lightning:layoutItem>
+                <lightning:layoutItem size="4" mediumDeviceSize="2">
+                    <div class="slds-p-vertical_small slds-p-horizontal_none slds-m-around_none slds-text-align_center">
+                        <div class="slds-is-relative">
+                            <div class="circleBase type4">
+                                <div class="circleCamp slds-align_absolute-center" id="aziende-con-campagna">{!v.aziende1324mesiCampagne}</div>
+                                <div class="circleBaseBody" onmouseover="{!c.tooltipOn1}" onmouseout="{!c.tooltipOff1}" aria-describedby="helpAziende">{!v.aziende1324mesi}</div>
+                                <aura:if isTrue="{!v.tooltip1}">
+                                    <div class="slds-align_absolute-center">
+                                        <div class="slds-popover slds-popover_tooltip slds-nubbin_top" role="tooltip" id="helpAziende">
+                                            <div class="slds-popover__body">{!$Label.c.WGC_popup_aziende}</div>
+                                        </div>
+                                    </div>
+                                </aura:if>
+                            </div>
+                            <div class="div-col span-title">
+                                {!$Label.c.WGC_Aziende_title}<br/>{!$Label.c.WGC_Attivita_13_24_title}<br/>{!$Label.c.WGC_Mesi_aziende_title}
+                            </div>
+                        </div>
+                    </div>
+                </lightning:layoutItem>
+                <lightning:layoutItem size="4" mediumDeviceSize="2">
+                    <div class="slds-p-vertical_small slds-p-horizontal_none slds-m-around_none slds-text-align_center">
+                        <div class="slds-is-relative">
+                            <div class="circleBase type4">
+                                <div class="circleCamp slds-align_absolute-center" id="clienti-con-campagna">{!v.clientiBuCampagne}</div>
+                                <div class="circleBaseBody" onmouseover="{!c.tooltipOn2}" onmouseout="{!c.tooltipOff2}" aria-describedby="helpClientiBU">{!v.clientiBu}</div>
+                                <aura:if isTrue="{!v.tooltip2}">
+                                    <div class="slds-align_absolute-center">
+                                        <div class="slds-popover slds-popover_tooltip slds-nubbin_top" role="tooltip" id="helpClientiBU">
+                                            <div class="slds-popover__body">{!$Label.c.WGC_popup_altreBU}</div>
+                                        </div>
+                                    </div>
+                                </aura:if>
+                            </div>
+                            <div class="div-col span-title">
+                                {!$Label.c.WGC_AltreBU_Title}}<br/>{!$Label.c.WGC_Leasing_title}
+                            </div>
+                        </div>
+                    </div>
+                </lightning:layoutItem>
+                <lightning:layoutItem size="6" mediumDeviceSize="2">
+                    <div class="slds-p-vertical_small slds-p-horizontal_none slds-m-around_none slds-text-align_center">
+                        <div class="slds-is-relative">
+                            <div class="circleBase type4">
+                                <div class="circleCamp1 slds-align_absolute-center" id="ex-clienti-con-campagna">{!v.exClientiCampagne}</div>
+                                <div class="circleBaseBody" onmouseover="{!c.tooltipOn3}" onmouseout="{!c.tooltipOff3}" aria-describedby="helpExClienti">{!v.exClienti}</div>
+                                <aura:if isTrue="{!v.tooltip3}">
+                                    <div class="slds-align_absolute-center">
+                                        <div class="slds-popover slds-popover_tooltip slds-nubbin_top" role="tooltip" id="helpExClienti">
+                                            <div class="slds-popover__body">{!$Label.c.WGC_popup_exclienti}</div>
+                                        </div>
+                                    </div>
+                                </aura:if>
+                            </div>
+                            <div class="div-col span-title">
+                                {!$Label.c.WGC_exClienti_title}
+                            </div>
+                        </div>
+                    </div>
+                </lightning:layoutItem>
+                <lightning:layoutItem size="6" mediumDeviceSize="2">
+                    <div class="slds-p-vertical_small slds-p-horizontal_none slds-m-around_none slds-text-align_center">
+                        <div class="slds-is-relative">
+                            <div class="circleBase type4">
+                                <div class="circleCamp1 slds-align_absolute-center" id="debitori-con-campagna">{!v.debitoriCampagne}</div>
+                                <div class="circleBaseBody" onmouseover="{!c.tooltipOn4}" onmouseout="{!c.tooltipOff4}" aria-describedby="helpDebitori">{!v.debitori}</div>
+                                <aura:if isTrue="{!v.tooltip4}">
+                                    <div class="slds-align_absolute-center">
+                                        <div class="slds-popover slds-popover_tooltip slds-nubbin_top" role="tooltip" id="helpDebitori">
+                                            <div class="slds-popover__body">{!$Label.c.WGC_popup_debitori}</div>
+                                        </div>
+                                    </div>
+                                </aura:if>
+                            </div>
+                            <div class="div-col span-title">
+                                {!$Label.c.WGC_Debitori_title}
+                            </div>
+                        </div>
+                    </div>
+                </lightning:layoutItem>
+                <div class="slds-is-absolute">
+                    <div class="help" id="help-campaign"></div>
+                    <div class="helpText"><h1>{!$Label.c.WGC_dicuiincampagna_title}</h1></div>
+                </div>
+            </lightning:layout>
+        </div>
+    </lightning:card>
+</aura:component>

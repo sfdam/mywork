@@ -1,0 +1,115 @@
+<aura:component implements="flexipage:availableForAllPageTypes,force:hasRecordId,force:hasSObjectName" access="global" controller = "ManageUserFreezeUnfreezeController" >
+
+<aura:attribute name="profilesList" type="List" />
+<aura:attribute name="mycolumns" type="List"/>
+<aura:attribute name="freezeUsers" type="User[]" />
+<aura:attribute name="unfreezeUsers" type="User[]" />
+<aura:attribute name="selectedUsersToFreeze" type="List" />
+<aura:attribute name ="tmpSelectedUsers" type="List" />
+<aura:attribute name="selectedUsersToUnfreeze" type="List" />
+<aura:attribute name="spinner" type="boolean" default="false"/>
+
+
+<aura:attribute name="searchPhrase" type="String" />
+<aura:attribute name="filteredDataUnfreeze" type="List" />
+<aura:attribute name="filteredDataFreeze" type="List" />
+
+<aura:attribute name="showFreezeUsers" type="boolean" default="false" />
+
+<aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+
+
+     
+
+<lightning:notificationsLibrary aura:id="notifLib"/>
+
+
+
+
+
+<div class="slds-modal__content">
+    <div class="slds-m-top_small">
+        <div class="slds-m-bottom_small">
+            <lightning:select name="Profilo" label="Profilo" onchange="{!c.selectedProfile}" aura:id="Name">
+                                        <option value="">-- Selezionare un profilo --</option>
+                                    <aura:iteration items="{!v.profilesList}" var="item">
+                                        <option value="{!item.Id}" text="{!item.Name}" id="{!item.Name}"></option>
+                                    </aura:iteration>
+            </lightning:select>
+        </div>
+
+        <aura:if isTrue="{!v.showFreezeUsers}" >
+                <!-- Utenti in stato Unfreeze-->
+                <lightning:card variant="Narrow" title="Utenti in stato Unfreeze" iconName="standard:user">
+                    <div class="slds-p-around_small slds-grid slds-grid_align-spread slds-grid_vertical-align-start">
+                        <div>
+                            <span class="slds-var-p-horizontal_x-small slds-m-left_small">
+                                Numero di Utenti: {! (v.unfreezeUsers.length) }
+                            </span>
+                        </div>
+                        <div class="inline-container">
+                            <span class="padding-right">
+                                <lightning:input
+                                    variant="label-hidden"
+                                    placeholder="Cerca"
+                                    type="search"
+                                    aura:id="SearchBox"
+                                    onchange="{! c.searchTableUnfreeze }" />
+                            </span>
+                        </div>
+                    </div>   
+                        <p class="slds-p-horizontal_small">
+                            <div style="max-height: 400px;overflow-y: auto; ">
+                                <aura:if isTrue="{!v.spinner}">
+                                    <lightning:spinner alternativeText="Loading" size="small" />
+                                </aura:if>
+                                    <lightning:datatable data="{! v.filteredDataUnfreeze }"
+                                                        columns="{! v.mycolumns }"
+                                                        keyField="Id"
+                                                        onrowselection="{! c.updateSelectedUnfreezeUsers }"/>
+                                
+                            </div>
+                        </p> 
+                    </lightning:card>
+                    <div class="slds-p-top_medium slds-m-bottom_medium slds-align_absolute-center">
+                        <lightning:button variant="brand-outline" label="Freeze Selected Users" title="Freeze Selected Users" onclick="{! c.freezeUsers }"/>
+                    </div>
+                    <!-- Utenti in stato Freeze-->
+                    <lightning:card variant="Narrow" title="Utenti in stato Freeze" iconName="standard:user">
+                        <div class="slds-p-around_small slds-grid slds-grid_align-spread slds-grid_vertical-align-start">
+                            <div>
+                                <span class="slds-var-p-horizontal_x-small slds-m-left_small">
+                                    Numero di Utenti: {! (v.freezeUsers.length) }
+                                </span>
+                            </div>
+                            <div class="inline-container">
+                                <span class="padding-right">
+                                    <lightning:input
+                                        variant="label-hidden"
+                                        placeholder="Cerca"
+                                        type="search"
+                                        onchange="{! c.searchTableFreeze }" />
+                                </span>
+                            </div>
+                        </div>   
+                        <p class="slds-p-horizontal_small">
+                            <div style="max-height: 400px;overflow-y: auto; ">
+                                <aura:if isTrue="{!v.spinner}">
+                                    <lightning:spinner alternativeText="Loading" size="small" />
+                                </aura:if>
+                                    <lightning:datatable data="{! v.filteredDataFreeze }"
+                                                        columns="{! v.mycolumns }"
+                                                        keyField="Id"
+                                                        onrowselection="{! c.updateSelectedFreezeUsers }"/>
+                                
+                            </div>
+                        </p> 
+                    </lightning:card>
+                    <div class="slds-p-top_medium slds-m-bottom_medium slds-align_absolute-center">
+                        <lightning:button variant="brand-outline" label="Unfreeze Selected Users" title="Unfreeze Selected Users" onclick="{! c.unfreezeUsers }"/>
+                    </div>
+            </aura:if>
+
+    </div>
+</div>
+</aura:component>

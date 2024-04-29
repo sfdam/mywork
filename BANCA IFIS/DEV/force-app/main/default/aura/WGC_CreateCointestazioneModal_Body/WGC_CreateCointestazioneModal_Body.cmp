@@ -1,0 +1,66 @@
+<aura:component controller="WizardOpportunityController" extends="c:WGC_Utility">
+    <!-- ATTRIBUTES -->
+        <!-- INHERITED -->
+        <aura:attribute name="processId" type="String" />
+        <aura:attribute name="sObjectId" type="String" />
+        <!-- PRIVATE -->
+        <aura:attribute name="cointestazioni" type="Object[]" />
+        <aura:attribute name="resultSelected" type="Object" />
+        <aura:attribute name="waiting" type="Boolean" default="true"/>
+        <!-- POLLING -->
+        <aura:attribute name="polling" type="Object" />
+        <aura:attribute name="MAX_ITERATIONS" type="Integer" default="4"/>
+        <aura:attribute name="TIME_INTERVAL" type="Integer" default="6000"/>
+        <aura:attribute name="pollingIteration" type="Integer" default="0"/>
+        <aura:attribute name="retry" type="Boolean" default="false"/>
+
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    <aura:handler event="c:ModalFooter2BodyEvent" action="{! c.manageF2B }" />
+
+    <!-- REGISTER EVENT -->
+    <aura:registerEvent name="resolveEvent" type="c:WGC_CreateCointestazioneResolveEvent" />
+
+    <lightning:notificationsLibrary aura:id="notifLib"/>
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+
+    <lightning:spinner aura:id="spinner" alternativeText="Loading" />
+
+    <lightning:layout>
+        <lightning:layoutItem size="12">
+            <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_info slds-m-bottom_medium" role="alert">
+                <h2>Non è presente la cointestazione?<br/>Per il censimento apri un ticket tramite HD Applicativo all'ufficio Anagrafe Generale indicando i cointestatari che dovranno partecipare alla cointestazione</h2>
+            </div>
+
+            <aura:if isTrue="{! v.waiting }">
+                <h2 class="slds-text-align_center">Recupero cointestazioni in corso...</h2>
+                <aura:set attribute="else">
+                    <aura:if isTrue="{! v.cointestazioni.length > 0 }">
+                        <aura:iteration items="{! v.cointestazioni }" var="cointestazione" indexVar="index">
+                            <div class="resultSelected" aura:id="{!'resultSelected_' + index}" id="{!'resultSelected_' + index}"
+                                onclick="{! c.handleRowSelection }">
+                                <lightning:tile label="{! cointestazione.capoRete.Name }" class="inactiveLink ">
+                                    <lightning:layout pullToBoundary="medium">
+                                        <lightning:layoutItem flexibility="auto" padding="horizontal-medium">
+                                            <div class="custom-box">NDG Gruppo: <span>{! cointestazione.capoRete.NDGGruppo__c }</span></div>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem flexibility="auto" padding="horizontal-medium">
+                                            <div class="custom-box">Codice Rapporto: <span>{! cointestazione.codiceRapporto }</span></div>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem flexibility="auto" padding="horizontal-medium">
+                                            <div class="custom-box">Cointestatari: <span>{! cointestazione.cointestatari.length }</span></div>
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                </lightning:tile>
+                            </div>
+                        </aura:iteration>
+                        <aura:set attribute="else">
+                            <h2 class="slds-text-align_center">Nessuna cointestazione trovata. <aura:if isTrue="{! v.retry }"><a onclick="{! c.retry }">Riprova ora.</a></aura:if></h2>
+                        </aura:set>
+                    </aura:if>
+                </aura:set>
+            </aura:if>
+
+        </lightning:layoutItem>
+    </lightning:layout>
+</aura:component>

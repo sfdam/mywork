@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_ServiziSuMisura__c</fullName>
+    <externalId>false</externalId>
+    <label>Servizi su Misura</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Analisi successoria/Passaggio generazionale</fullName>
+                <default>false</default>
+                <label>Analisi successoria/Passaggio generazionale</label>
+            </value>
+            <value>
+                <fullName>Trust</fullName>
+                <default>false</default>
+                <label>Trust</label>
+            </value>
+            <value>
+                <fullName>Asset protection</fullName>
+                <default>false</default>
+                <label>Asset protection</label>
+            </value>
+            <value>
+                <fullName>Ottimizzazione gestione partecipazioni azionarie</fullName>
+                <default>false</default>
+                <label>Ottimizzazione gestione partecipazioni azionarie</label>
+            </value>
+            <value>
+                <fullName>Cambio residenza fiscale</fullName>
+                <default>false</default>
+                <label>Cambio residenza fiscale</label>
+            </value>
+            <value>
+                <fullName>Analisi patrimoniale immobiliare</fullName>
+                <default>false</default>
+                <label>Analisi patrimoniale immobiliare</label>
+            </value>
+            <value>
+                <fullName>Analisi patrimonio presso terzi</fullName>
+                <default>false</default>
+                <label>Analisi patrimonio presso terzi</label>
+            </value>
+            <value>
+                <fullName>Attività filantropica</fullName>
+                <default>false</default>
+                <label>Attività filantropica</label>
+            </value>
+            <value>
+                <fullName>Art Advisory</fullName>
+                <default>false</default>
+                <label>Art Advisory</label>
+            </value>
+            <value>
+                <fullName>Real estate advisory estero</fullName>
+                <default>false</default>
+                <label>Real estate advisory estero</label>
+            </value>
+            <value>
+                <fullName>Consulenza analitica protezione e piafinicazione patrimoniale</fullName>
+                <default>false</default>
+                <label>Consulenza analitica protezione e piafinicazione patrimoniale</label>
+            </value>
+            <value>
+                <fullName>Analisi e ottimizzazione partecipanti</fullName>
+                <default>false</default>
+                <label>Analisi e ottimizzazione partecipanti</label>
+            </value>
+            <value>
+                <fullName>Tax &amp; legal advisory sul patrimonio</fullName>
+                <default>false</default>
+                <label>Tax &amp; legal advisory sul patrimonio</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

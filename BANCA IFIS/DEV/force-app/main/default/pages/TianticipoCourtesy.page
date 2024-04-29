@@ -1,0 +1,173 @@
+<apex:page sidebar="false" showHeader="false" title="Countdown" standardStylesheets="false">
+
+    <style>
+      body {
+        font-family: 'Roboto', sans-serif;
+      }
+
+      .main-container {
+        margin-top: 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+      }
+
+      .blue-container {
+        width: 900px;
+        height: 490px;
+        background-color: #00477D;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+      }
+
+      .message-container {
+        width: 700px;
+        height: 110px;
+        margin-top: 50px;
+        margin-bottom: 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: flex-start;
+      }
+
+      .title {
+        font-size: 44px;
+        font-weight: 700;
+        color: #FFFFFF;
+      }
+
+      .subtitle {
+        font-size: 40px;
+        font-weight: 400;
+        color: #FFFFFF;
+      }
+
+      .countdown-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+      }
+
+      .days-container,
+      .hours-container,
+      .minutes-container,
+      .seconds-container {
+        font-size: 45px;
+        font-weight: 400;
+        color: #FFFFFF;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+      }
+
+      .days-container,
+      .hours-container,
+      .minutes-container {
+        margin-right: 22px;
+      }
+
+      .days,
+      .hours,
+      .minutes,
+      .seconds {
+        width: 200px;
+        height: 200px;
+        background-color: #FFFFFF;
+        font-size: 120px;
+        font-weight: 400;
+        color: #00477D;
+        margin-bottom: 20px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .days-label,
+      .hours-label,
+      .minutes-label,
+      .seconds-label {
+        text-align: center;
+      }
+
+      .footer {
+        font-size: 18px;
+        font-weight: 400;
+        color: #000000;
+        margin-top: 150px;
+        text-align: center;
+      }
+    </style>
+
+    <div class="main-container">
+      <div class="blue-container">
+        <div class="message-container">
+          <div class="title">Torna a trovarci, manca poco.</div>
+          <div class="subtitle">Per l'esattezza...</div>
+        </div>
+
+        <div class="countdown-container">
+          <div class="days-container">
+            <div class="days" id="days">0</div>
+            <div class="days-label">Giorni</div>
+          </div>
+          <div class="hours-container">
+            <div class="hours" id="hours">0</div>
+            <div class="hours-label">Ore</div>
+          </div>
+          <div class="minutes-container">
+            <div class="minutes" id="minutes">0</div>
+            <div class="minutes-label">Minuti</div>
+          </div>
+          <div class="seconds-container">
+            <div class="seconds" id="seconds">0</div>
+            <div class="seconds-label">Secondi</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <div>Banca Ifis S.p.A.</div>
+        <div>rappresentante del Gruppo IVA con Partita IVA n. 04570150278</div>
+      </div>
+    </div>
+    
+    <script>
+      var targetDate = new Date("Jun 29, 2020 09:00:00").getTime();
+
+      // Update the countdown every second
+      var x = setInterval(function() {
+
+        // Get today's date and time
+        var now = new Date().getTime();
+
+        // Find the distance between now and the count down date
+        var distance = targetDate - now;
+
+        // Time calculations for days, hours, minutes and seconds
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // Display the result inside the HTML elements
+        document.getElementById("days").innerHTML = days;
+        document.getElementById("hours").innerHTML = hours;
+        document.getElementById("minutes").innerHTML = minutes;
+        document.getElementById("seconds").innerHTML = seconds;
+
+        // If the count down is finished set all to 0
+        if (distance < 0) {
+          clearInterval(x);
+          document.getElementById("days").innerHTML = "0";
+          document.getElementById("hours").innerHTML = "0";
+          document.getElementById("minutes").innerHTML = "0";
+          document.getElementById("seconds").innerHTML = "0";
+        }
+      }, 1000);
+    </script>    
+</apex:page>

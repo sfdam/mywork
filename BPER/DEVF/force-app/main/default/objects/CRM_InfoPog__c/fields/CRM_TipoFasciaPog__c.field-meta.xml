@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_TipoFasciaPog__c</fullName>
+    <description>DWH: TIPO_FASCIA_POG_CD</description>
+    <externalId>false</externalId>
+    <label>Tipo Fascia Pog</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>true</sorted>
+            <value>
+                <fullName>Elevata_Protezione</fullName>
+                <default>false</default>
+                <label>Elevata Protezione</label>
+            </value>
+            <value>
+                <fullName>Esperta</fullName>
+                <default>false</default>
+                <label>Esperta</label>
+            </value>
+            <value>
+                <fullName>Normale</fullName>
+                <default>false</default>
+                <label>Normale</label>
+            </value>
+            <value>
+                <fullName>Specialistica</fullName>
+                <default>false</default>
+                <label>Specialistica</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>48.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__HomePage</target>
+        <target>lightning__AppPage</target>
+        <target>lightning__RecordPage</target>
+    </targets>
+
+    <targetConfigs>
+        <targetConfig targets="lightning__HomePage,lightning__AppPage,lightning__RecordPage">
+            <property name="title" type="String" label="Titolo" default="Le mie Opportunità - New Business" description="Definisci il titolo del componente"/>
+            <property name="iconName" type="String" label="Icona" default="" description="Definisci l'icona"/>
+            <property name="vediTutteReportId" type="String" label="Id report vedi tutte" description="Inserisci l'id del report per il bottone vedi tutte"/>
+            <property name="istruttoriaReportId" type="String" label="Id report Opp in Istruttoria" description="Inserire l'id del report per le opportunità in istruttoria"/>
+            <property name="valutazioneReportId" type="String" label="Id report Opp In Valutazione" description="Inserire l'id del report per opporunità in valutazione"/>
+            <property name="firmaContattiReportId" type="String" label="Id report Opp in Firma contratti" description="Inserire l'id del report per le opportunità in firma contratti"/>
+            <property name="daAvviareReportId" type="String" label="Id report Opp da avviare" description="Inserire l'id del report per le opportunità da avviare"/>
+            <property name="ferme30ggReportId" type="String" label="Id report Opp ferme da 30 giorni" description="Inserire l'id del report per le opportunità ferme da 30 giorni"/>
+            <property name="perseReportId" type="String" label="Id report Opp perse" description="Inserire l'id del report per le opportunità perse"/>
+            <property name="vinteReportId" type="String" label="Id report Opp vinte" description="Inserire l'id del report per le opportunità vinte"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

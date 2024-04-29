@@ -1,0 +1,129 @@
+.THIS {
+    height: 410px;
+}
+
+.THIS .slds-card__body {
+    margin: 0 10px 10px 10px;
+}
+
+/* .THIS canvas{
+    width:100%;
+} */
+
+.THIS .canvas-container{
+    width: 100%;
+    height: 270px;
+}
+
+.THIS .title{
+    display: inline-block;
+    /* margin-left: 10px; */
+    vertical-align: sub;
+}
+
+.THIS .chart-container{
+    background-image: linear-gradient(to top,#e6e6e6, white);
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    /* box-shadow: 2px 2px lightgray; */
+}
+
+.THIS .best-card{
+    box-shadow: 1px 1px 5px 0px #e6e6e6;
+    border:1px solid #e6e6e6;
+    border-radius: 5px;
+    /* background: #fae316; */
+    color:white;
+}
+
+/* .THIS .best-performer{
+    box-shadow: 1px 1px 5px 0px #e6e6e6;
+    border:1px solid #e6e6e6;
+    border-radius: 5px;
+    color:white;
+} */
+
+.THIS .team-title{
+    font-size: 13px !important;
+}
+
+.THIS .team-subtitle{
+    font-size: 10px;
+}
+
+.THIS .team-result{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.THIS .team-subresult{
+    font-size:8px;
+}
+
+/* .THIS .back-card{
+    background: black;
+} */
+
+.THIS .quadrant{
+    border:1px solid grey;
+    border-radius:10px;
+    /* padding:7px; */
+}
+
+.THIS .description{
+    font-size:10px;
+    color:#1d1d1d;
+    display: inline;
+    font-weight: bold;
+}
+
+.THIS .desc-result{
+    font-size:13px;
+    color:#0064B5;
+    font-weight: bold;
+    display: inline;
+    /* padding-left: 10px; */
+}
+
+.THIS .circularProg-title{
+    font-size:10px;
+}
+
+.THIS .segnalazioni-title{
+    font-size:10px;
+    font-weight: bold;
+}
+
+.THIS .adjust-margin{
+    margin-top:-15px;
+}
+
+.THIS .slds-card__header-title .slds-truncate{
+    width:100% !important;
+}
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : landscape)
+and (-webkit-min-device-pixel-ratio: 2) { 
+    /* STYLES GO HERE */
+
+    /* .THIS canvas{
+        width:100%;
+        height: 250px;
+    } */
+}
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : portrait)
+and (-webkit-min-device-pixel-ratio: 2) { 
+    /* STYLES GO HERE */
+    
+    /* .THIS canvas{
+        width:100%;
+        height: 250px;
+    } */
+}

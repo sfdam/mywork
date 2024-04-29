@@ -1,0 +1,13 @@
+<aura:component >
+	    <!-- REGISTER EVENT -->
+		<aura:registerEvent name="F2B" type="c:ModalFooter2BodyEvent"/>
+	
+		<!-- HANDLERS -->
+		<aura:handler name="init" value="{! this }" action="{! c.doInit }" />
+		<aura:handler event="c:ModalBody2FooterEvent" action="{! c.manageB2F }" />
+	
+		<lightning:overlayLibrary aura:id="overlayLib"/>
+		
+		<lightning:button aura:id="cancel" class="" label="ANNULLA" name="cancel" onclick="{! c.cancel }"/>
+		<lightning:button aura:id="submit" class="btn" label="SALVA" name="submit" variant="brand" onclick="{! c.submit }"/>
+</aura:component>

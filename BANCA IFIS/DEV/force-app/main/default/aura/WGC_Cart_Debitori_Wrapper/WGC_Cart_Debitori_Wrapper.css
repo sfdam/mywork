@@ -1,0 +1,101 @@
+.THIS {
+}
+
+/* NOT USED */
+.THIS .cstm-hidden {
+    display: none !important;
+}
+/* NOT USED */
+
+.THIS .cstm-scrollable {
+    overflow: auto;
+}
+
+.THIS .cstm-debitore-wrapper {
+    border: 1px solid #5697e3;
+    border-radius: 5px;
+    /* text-align: center; */
+}
+
+.THIS .cstm-debitore-wrapper .cstm-debitore-name {
+    background-color: #f0f0f0;
+    border-radius: 5px 0 0 5px;
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.THIS .cstm-debitore-wrapper .cstm-debitore-name,
+.THIS .cstm-debitore-wrapper .cstm-debitore-edit {
+    padding-top: 17px;
+    padding-left: 30px;
+    padding-bottom: 28px;
+}
+
+.THIS .cstm-debitore-wrapper .cstm-debitore-products-wrapper {
+    position: relative;
+    border-left: 1px solid #e5effb;
+}
+
+.THIS .cstm-debitore-wrapper .cstm-debitore-text {
+    font-size: 14px;
+    padding-left: 20px;
+}
+
+.THIS .cstm-debitore-wrapper .cstm-title-debitore {
+    position: absolute;
+    top: 3px;
+    left: 6px;
+}
+
+.THIS .cstm-big-btn, .THIS .cstm-btn-toggler {
+    background-color: #CCC;
+    padding: 7px;
+    border-radius: 50%;
+    box-shadow: 0 0 2px #CCC;
+}
+
+.THIS .cstm-btn-toggler.bkg-neutral {
+    background-color: #CCC;
+}
+.THIS .cstm-big-btn.bkg-available, .THIS .cstm-btn-toggler.bkg-brand {
+    background-color: #0064b5;
+}
+.THIS .cstm-btn-toggler.bkg-brand.disabled {
+    /* background-color: #eee;
+    border-color: #eee; */
+    background-color: #0BAD58;
+    border-color: #0BAD58;
+    cursor: auto;
+}
+
+.THIS .cstm-btn-toggler.bkg-brand.disabled .slds-icon-text-default {
+    /* fill: #ccc; */
+    fill: #FFF;
+}
+
+.THIS .cstm-big-btn.bkg-completed {
+    background-color: #0bad58;
+}
+
+.THIS .cstm-big-btn .slds-icon-text-default,
+.THIS .cstm-btn-toggler .slds-icon-text-default {
+    fill: #FFF;
+}
+
+.THIS .cstm-remove-debitore {
+    position: absolute;
+    top: 3px;
+    right: 6px;
+    cursor: pointer;
+}
+
+.THIS .cstm-empty-debitori {
+    border-radius: 5px;
+    padding: 20px;
+    text-align: center;
+    font-size: 14px;
+    color: #000;
+    margin: 15px 0;
+    background-color: #F7F7F7;
+}

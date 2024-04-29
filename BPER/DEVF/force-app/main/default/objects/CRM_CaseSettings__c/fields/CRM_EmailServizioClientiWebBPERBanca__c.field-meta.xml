@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_EmailServizioClientiWebBPERBanca__c</fullName>
+    <description>Used for Flow &quot;Web To Case Open Case From Email Message&quot;</description>
+    <encryptionScheme>None</encryptionScheme>
+    <externalId>false</externalId>
+    <inlineHelpText>Insert the Generic Email for WEB SUPPORT - Servizio Clienti Gruppo BPER</inlineHelpText>
+    <label>Email Servizio Clienti WEB BPER Banca</label>
+    <length>255</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

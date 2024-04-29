@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_Cluster__c</fullName>
+    <externalId>false</externalId>
+    <label>Cluster</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>CRM_AmbitoCluster__c</controllingField>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>CONTI_CORRENTI_E_DEPOSITI_RISPARMIO</fullName>
+                <default>false</default>
+                <label>CONTI_CORRENTI_E_DEPOSITI_RISPARMIO</label>
+            </value>
+            <value>
+                <fullName>ASSEGNI</fullName>
+                <default>false</default>
+                <label>ASSEGNI</label>
+            </value>
+            <value>
+                <fullName>ATM</fullName>
+                <default>false</default>
+                <label>ATM</label>
+            </value>
+            <value>
+                <fullName>CARTE</fullName>
+                <default>false</default>
+                <label>CARTE</label>
+            </value>
+            <value>
+                <fullName>CANALI_IB_APP</fullName>
+                <default>false</default>
+                <label>CANALI_IB_APP</label>
+            </value>
+            <value>
+                <fullName>CANALI_CBI</fullName>
+                <default>false</default>
+                <label>CANALI_CBI</label>
+            </value>
+            <value>
+                <fullName>POS</fullName>
+                <default>false</default>
+                <label>POS</label>
+            </value>
+            <value>
+                <fullName>FINANZIAMENTI</fullName>
+                <default>false</default>
+                <label>FINANZIAMENTI</label>
+            </value>
+            <value>
+                <fullName>FINANZA_VITA</fullName>
+                <default>false</default>
+                <label>FINANZA_VITA</label>
+            </value>
+            <value>
+                <fullName>PAGAMENTI</fullName>
+                <default>false</default>
+                <label>PAGAMENTI</label>
+            </value>
+            <value>
+                <fullName>CONTACT_CENTER</fullName>
+                <default>false</default>
+                <label>CONTACT_CENTER</label>
+            </value>
+            <value>
+                <fullName>PRICING</fullName>
+                <default>false</default>
+                <label>PRICING</label>
+            </value>
+            <value>
+                <fullName>CONDIZIONI</fullName>
+                <default>false</default>
+                <label>CONDIZIONI</label>
+            </value>
+            <value>
+                <fullName>BANCASSURANCE_DANNI</fullName>
+                <default>false</default>
+                <label>BANCASSURANCE_DANNI</label>
+            </value>
+            <value>
+                <fullName>ESTERO</fullName>
+                <default>false</default>
+                <label>ESTERO</label>
+            </value>
+            <value>
+                <fullName>SUCCESSIONI</fullName>
+                <default>false</default>
+                <label>SUCCESSIONI</label>
+            </value>
+            <value>
+                <fullName>TESORERIA</fullName>
+                <default>false</default>
+                <label>TESORERIA</label>
+            </value>
+            <value>
+                <fullName>PROCESSI</fullName>
+                <default>false</default>
+                <label>PROCESSI</label>
+            </value>
+            <value>
+                <fullName>IMPRESE</fullName>
+                <default>false</default>
+                <label>IMPRESE</label>
+            </value>
+            <value>
+                <fullName>PRIVATE_BANKING</fullName>
+                <default>false</default>
+                <label>PRIVATE_BANKING</label>
+            </value>
+            <value>
+                <fullName>CREDITI</fullName>
+                <default>false</default>
+                <label>CREDITI</label>
+            </value>
+            <value>
+                <fullName>LEGALE</fullName>
+                <default>false</default>
+                <label>LEGALE</label>
+            </value>
+            <value>
+                <fullName>CASSETTE_DI_SICUREZZA</fullName>
+                <default>false</default>
+                <label>CASSETTE_DI_SICUREZZA</label>
+            </value>
+            <value>
+                <fullName>LOGIN_INIZIALE_CON_CODICI_DI_ACCESSO_UBI</fullName>
+                <default>false</default>
+                <label>LOGIN_INIZIALE_CON_CODICI_DI_ACCESSO</label>
+            </value>
+            <value>
+                <fullName>VERIFICA_CONTATTI</fullName>
+                <default>false</default>
+                <label>VERIFICA_CONTATTI</label>
+            </value>
+            <value>
+                <fullName>VERIFICA_PRODOTTI</fullName>
+                <default>false</default>
+                <label>VERIFICA_PRODOTTI</label>
+            </value>
+            <value>
+                <fullName>CREAZIONE_NUOVE_CREDENZIALI_BPER_SMART</fullName>
+                <default>false</default>
+                <label>CREAZIONE_NUOVE_CREDENZIALI_BPER_SMART</label>
+            </value>
+            <value>
+                <fullName>ACCESSO_CON_NUOVE_CREDENZIALI_BPER</fullName>
+                <default>false</default>
+                <label>ACCESSO_CON_NUOVE_CREDENZIALI_BPER</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>PRODOTTI &amp; SERVIZI</controllingFieldValue>
+            <valueName>CONTI_CORRENTI_E_DEPOSITI_RISPARMIO</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRODOTTI &amp; SERVIZI</controllingFieldValue>
+            <valueName>ASSEGNI</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRODOTTI &amp; SERVIZI</controllingFieldValue>
+            <valueName>ATM</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRODOTTI &amp; SERVIZI</controllingFieldValue>
+            <valueName>CARTE</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRODOTTI &amp; SERVIZI</controllingFieldValue>
+            <valueName>POS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRODOTTI &amp; SERVIZI</controllingFieldValue>
+            <valueName>FINANZIAMENTI</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRODOTTI &amp; SERVIZI</controllingFieldValue>
+            <valueName>FINANZA_VITA</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRODOTTI &amp; SERVIZI</controllingFieldValue>
+            <valueName>PAGAMENTI</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRODOTTI &amp; SERVIZI</controllingFieldValue>
+            <valueName>PRICING</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRODOTTI &amp; SERVIZI</controllingFieldValue>
+            <valueName>CONDIZIONI</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRODOTTI &amp; SERVIZI</controllingFieldValue>
+            <valueName>BANCASSURANCE_DANNI</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRODOTTI &amp; SERVIZI</controllingFieldValue>
+            <valueName>ESTERO</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRODOTTI &amp; SERVIZI</controllingFieldValue>
+            <valueName>SUCCESSIONI</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRODOTTI &amp; SERVIZI</controllingFieldValue>
+            <valueName>TESORERIA</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRODOTTI &amp; SERVIZI</controllingFieldValue>
+            <valueName>CASSETTE_DI_SICUREZZA</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>CANALI</controllingFieldValue>
+            <valueName>CANALI_IB_APP</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>CANALI</controllingFieldValue>
+            <valueName>CANALI_CBI</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>CANALI</controllingFieldValue>
+            <valueName>CONTACT_CENTER</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ORGANIZZAZONE &amp; MODELLI DI SERVIZIO</controllingFieldValue>
+            <valueName>PROCESSI</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ORGANIZZAZONE &amp; MODELLI DI SERVIZIO</controllingFieldValue>
+            <valueName>IMPRESE</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ORGANIZZAZONE &amp; MODELLI DI SERVIZIO</controllingFieldValue>
+            <valueName>PRIVATE_BANKING</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>ORGANIZZAZONE &amp; MODELLI DI SERVIZIO</controllingFieldValue>
+            <valueName>CREDITI</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>LEGALE</controllingFieldValue>
+            <valueName>LEGALE</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>CUSTOMER HELP CENTER</controllingFieldValue>
+            <valueName>LOGIN_INIZIALE_CON_CODICI_DI_ACCESSO_UBI</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>CUSTOMER HELP CENTER</controllingFieldValue>
+            <valueName>VERIFICA_CONTATTI</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>CUSTOMER HELP CENTER</controllingFieldValue>
+            <valueName>VERIFICA_PRODOTTI</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>CUSTOMER HELP CENTER</controllingFieldValue>
+            <valueName>CREAZIONE_NUOVE_CREDENZIALI_BPER_SMART</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>CUSTOMER HELP CENTER</controllingFieldValue>
+            <valueName>ACCESSO_CON_NUOVE_CREDENZIALI_BPER</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

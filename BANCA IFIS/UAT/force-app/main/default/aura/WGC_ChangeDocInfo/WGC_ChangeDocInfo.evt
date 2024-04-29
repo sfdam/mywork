@@ -1,0 +1,6 @@
+<aura:event type="APPLICATION" description="Evento utilizzato per gestire upload documenti e note nel componente documenti">
+    <aura:attribute name="json" type="String" />
+    <!-- attributo utilizzato per indicare se si tratta di un upload di un documento o di gestione note -->
+    <aura:attribute name="type" type="String" />
+    <aura:attribute name="success" type="Boolean" />
+</aura:event>

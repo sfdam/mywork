@@ -1,0 +1,20 @@
+<aura:component
+    implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+    access="global">
+
+    <aura:attribute name="title" type="String" default="Custom Title" />
+    <aura:attribute name="icon" type="String" default="Custom Title" />
+
+    <lightning:layout class="slds-m-top_small" multipleRows="true">
+        <lightning:layoutItem flexibility="auto" class="pippo">
+            <div class="cstm-border-all">
+                <lightning:icon iconName="{! 'standard:' + v.icon }" size="small" variant="slds-icon-inverse" />
+                <div class="title slds-text-heading_small">{! v.title }</div>
+                <!-- with container -->
+                <div class="open-report">
+                    <lightning:button label="Visualizza" />
+                </div>
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+</aura:component>

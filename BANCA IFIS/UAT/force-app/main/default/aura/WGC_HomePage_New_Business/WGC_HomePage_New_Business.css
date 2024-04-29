@@ -1,0 +1,248 @@
+.THIS {
+    height: 410px;
+}
+
+.THIS .title {
+    display: inline-block;
+    margin-left: 10px;
+    vertical-align: sub;
+}
+
+.THIS .open-component {
+    display: inline-block;
+    position: absolute;
+    right: 10px;
+    vertical-align: super;
+    margin-top: -4px;
+}
+
+.THIS .slds-card__body {
+    margin: 0 10px 10px 10px;
+}
+
+/* CALENDAR */
+.THIS .containerCol{
+        margin-bottom: 20px;
+}
+.THIS .calendar-box {
+        box-shadow: 0 0 2px #888888;
+    width: 120px;
+    height: 135px;
+    border-radius: 5px;
+    background: white;
+    text-align: center;
+    /* margin: auto; */
+}
+.THIS .calendar-header-left {
+    color: white;
+    text-align: left;
+    background: #0064B5;
+    height: 35px;
+    border-top-left-radius: 5px 5px;
+    border-top-right-radius: 5px 5px;
+}
+.THIS .header2 {
+    background: transparent;
+}
+.THIS .calendar-month {
+    padding: 5px 5px 0 5px;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.THIS .black {
+    color: #000000;
+}
+.THIS .calendar-body {
+  margin:5%;
+  text-align: center;
+  color:black;
+}
+.THIS .calendar-day {
+  letter-spacing: 2px;
+  font-size:38px;
+    font-weight: bold;
+}
+
+.THIS .slds-button_brand {
+    border-radius: 25px;
+    width: 85%;
+    background: #0064B5;
+    border: 1px solid rgb(221, 219, 218);
+}
+
+.THIS hr {
+    margin: 0;
+    opacity: 0.3;
+}
+
+.THIS .sub {
+	padding: 0 5px 0 5px;
+    color: #888888;
+    font-size: 10px;
+    font-weight: inherit;
+}
+
+.THIS .column-even {
+    background-color: #f8f9fd;
+}
+
+.THIS .row-height {
+        height: 45px;
+    display: block;
+    border-bottom: 1px solid rgb(248, 249, 253, 1);
+    line-height: 12px;
+    padding: 10px 0;
+}
+
+.THIS .col-align-left {
+    text-align: left;
+}
+
+.THIS .col-align-center {
+    text-align: center;
+}
+
+.THIS .row-height-title {
+    text-transform: uppercase;
+    height: 20px;
+    margin: auto 0;
+    font-size: 9px;
+    font-weight: bold;
+    letter-spacing: -0.5px;
+}
+
+.THIS .cstm-border-top {
+    border-top: 1px solid #F6F6F6;
+}
+
+.THIS .cstm-title {
+    text-transform: uppercase;
+    letter-spacing: -.5px;
+    font-size: 11px;
+    font-weight: bold;
+    display: inline-block;
+    vertical-align: sub;
+}
+
+.THIS .cstm-colored-table div[class*="slds-size_"]:nth-child(even) {
+    background-color: #f8f9fd;
+}
+
+.THIS .cstm-colored-table div[class*="slds-size_"] {
+    text-align: center;
+    padding: 2px 0;
+}
+
+.THIS .cstm-colored-table div[class*="slds-size_"]:first-child {
+    text-align: left;
+    letter-spacing: -.5px;
+    line-height: 12px;
+    padding-top: 8px;
+}
+
+.THIS .cstm-colored-table.cstm-header-row div {
+    padding: 5px;
+    text-transform: uppercase;
+    font-size: 8px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    letter-spacing: -.5px;
+    font-weight: bold;
+}
+
+.THIS .cstm-colored-table.cstm-body-row span.cstm-cell {
+    line-height: 37px;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.THIS .cstm-colored-table.cstm-body-row span.cstm-cell span.cstm-small {
+    font-size: 70%;
+    color: #0064B5;
+}
+
+.THIS .cstm-colored-table.cstm-body-row:last-child > div {
+    border-top: 1px solid #F6F6F6;
+}
+
+.THIS .cstm-colored-table.cstm-body-row:last-child > div:first-child {
+    border-top: 0;
+}
+
+.THIS .red {
+    color: #ED495B;
+}
+
+.THIS .slds-card__header-title .slds-truncate{
+    width:100% !important;
+}
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : landscape)
+and (-webkit-min-device-pixel-ratio: 2) { 
+    /* STYLES GO HERE */
+
+}
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : portrait)
+and (-webkit-min-device-pixel-ratio: 2) { 
+    /* STYLES GO HERE */ 
+}
+
+/* 
+  ##Device = Low Resolution Tablets, Mobiles (Landscape)
+  ##Screen = B/w 481px to 767px
+*/
+
+@media only screen 
+and (min-width: 481px) 
+and (max-width: 767px)
+and (orientation : landscape)
+and (-webkit-min-device-pixel-ratio: 1) {
+    /* STYLES GO HERE */
+    
+    
+}
+  
+/* 
+  ##Device = Most of the Smartphones Mobiles (Portrait)
+  ##Screen = B/w 320px to 479px
+*/
+  
+@media only screen 
+and (min-width: 320px) 
+and (max-width: 480px)
+and (orientation : portrait)
+and (-webkit-min-device-pixel-ratio: 1) {
+    /* STYLES GO HERE */
+    .THIS .iphone {
+        display: none;
+    }
+    
+    .THIS .calendar-box {
+        width: 95px;
+        height: 135px;
+    }
+
+    .THIS .cstm-colored-table {
+        font-size: 11px;
+    }
+    
+    .THIS .cstm-colored-table.cstm-header-row div {
+        font-size: 7px;
+    }
+
+    .THIS .cstm-colored-table.cstm-body-row span.cstm-cell {
+        font-size: 14px;
+    }
+}

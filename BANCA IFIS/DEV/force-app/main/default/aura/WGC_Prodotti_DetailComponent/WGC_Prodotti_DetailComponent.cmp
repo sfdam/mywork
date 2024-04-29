@@ -1,0 +1,1076 @@
+<aura:component controller="WGC_Prodotti_Controller"
+	implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId"
+	access="global">
+
+	<ltng:require styles="{!join(',','')}" scripts="{!join(',', 
+             '/resource/WGC_jQuery3x')}" afterScriptsLoaded="{!c.doInit}" />
+
+	<!-- Attribute -->
+	<aura:attribute name="recordId" type="String" />
+	<aura:attribute name="wizardItems" type="Object[]" />
+	<aura:attribute name="stepPage" type="String" default="factoringCedente" />
+	<aura:attribute name="noProduct" type="Boolean" default="true" />
+
+	<aura:attribute name="tabTitle" type="String" default="Factoring" />
+	<!-- attributi che contengono la lista di prodotti -->
+	<aura:attribute name="listaProd" type="Object[]" />
+	<aura:attribute name="listaProdFactCed" type="Object[]" />
+	<aura:attribute name="lastUpdateFactCedente" type="String" />
+
+	<aura:attribute name="listaProdFactDeb" type="Object[]" />
+	<aura:attribute name="listaProdFinanziamenti" type="Object[]" />
+	<aura:attribute name="listaProdLeasing" type="Object[]" />
+	<aura:attribute name="listaProdAltro" type="Object[]" />
+	<aura:attribute name="listaProdServiziBancari" type="Object[]" />
+	<aura:attribute name="listaProdGaranzie" type="Object[]" />
+	<aura:attribute name="listaProdCreditiProblematici" type="Object[]" />
+	<aura:attribute name="listaProdCreditiDiFirma" type="Object[]" />
+	<aura:attribute name="listaProdNPL" type="Object[]" />
+	<aura:attribute name="listaProdErariali" type="Object[]" />
+    <aura:attribute name="listaProdCorporateEstero" type="Object[]" />
+	<!--Attributi che contengono il count dei prodotti raggruppati per stato -->
+
+	<!-- attributi flag che attivano la visualizzazione delle sezioni in base al tab selezionato -->
+	<!-- 
+	<aura:attribute name="FactCed" type="Boolean" default="true" />
+	<aura:attribute name="FactDeb" type="Boolean" default="false" />
+	<aura:attribute name="Finanziamenti" type="Boolean" default="false" />
+	<aura:attribute name="Leasing" type="Boolean" default="false" />
+	<aura:attribute name="Altro" type="Boolean" default="false" /> -->
+	<!-- attributo di appoggio per gestire i tab -->
+	<aura:attribute name="lastActiveTab" type="String" default="FactCed" />
+
+	<lightning:navigation aura:id="navService"/>
+
+	<div class="spinnerDiv">
+		<lightning:spinner alternativeText="Loading" size="large" aura:id="mySpinner" class="slds-hide" />
+	</div>
+	<!-- Body -->
+	<lightning:layout multipleRows="true">
+		<lightning:layoutItem size="12" class="slds-p-bottom_medium">
+			<lightning:layoutItem flexibility="auto" class="slds-align__absolute-center">
+				<aura:if isTrue="{! v.stepPage != 'none'}">
+					<lightning:buttonGroup class="cstm-wizard-wrapper">
+						<aura:iteration items="{! v.wizardItems }" var="wizItem">
+							<lightning:button name="{! wizItem.step }" label="{! wizItem.title }"
+								iconName="{! wizItem.icon }" iconPosition="right" onclick="{! c.selectWizardItem }"
+								class="{! 'slds-text-align_center cstm-wizard-item ' + 
+																	( wizItem.completed ? 'completed ' : '' ) + 
+																	( wizItem.disabled ? 'disabled ' : '' ) + 
+																	( wizItem.active ? 'active ' : '' ) }">
+								<div class="button-label">{! wizItem.title }</div>
+								<aura:if isTrue="{!wizItem.dots.countAttiva > 0}">
+									<div class="blue-dot">
+										<span>{! wizItem.dots.countAttiva }</span>
+									</div>
+								</aura:if>
+								<aura:if isTrue="{!wizItem.dots.countBloccata > 0}">
+									<div class="red-dot">
+										<span>{! wizItem.dots.countBloccata}</span>
+									</div>
+								</aura:if>
+								<aura:if isTrue="{!wizItem.dots.countEstinta > 0}">
+									<div class="grey-dot">
+										<span>{!wizItem.dots.countEstinta}</span>
+									</div>
+								</aura:if>
+							</lightning:button>
+						</aura:iteration>
+					</lightning:buttonGroup>
+					<aura:set attribute="else">
+						<lightning:layout multipleRows="true" class="slds-box">
+								<lightning:layoutItem flexibility="auto">
+									<div class="no-button">
+										{!$Label.c.WGC_Prodotti_DetailComponent_NESSUN_PRODOTTO_ESISTENTE}
+									</div>
+								</lightning:layoutItem>
+						</lightning:layout>
+					</aura:set>
+				</aura:if>
+			</lightning:layoutItem>
+		</lightning:layoutItem>
+		<lightning:layoutItem size="12">
+			<aura:if isTrue="{!v.stepPage == 'factoringCedente'}">
+				<lightning:layout multipleRows="true" class="">
+					<!-- <lightning:layoutItem size="12">
+						<span class="slds-text-heading_small">Factoring Cedente</span>
+					</lightning:layoutItem> -->
+					<lightning:layoutItem size="12" class="slds-text-align_right">
+						<span class="label-last-update">{!$Label.c.WGC_FactoringComponent_Data_ultimo_aggiornamento} </span><span class="label-last-update slds-text-title_bold slds-p-left_xx-small slds-p-right_small">{! v.lastUpdateFactCedente }</span>
+						<lightning:buttonIcon class="btn-header" value="refresh" onclick="{!c.updateParams}" iconName="utility:refresh" />
+					</lightning:layoutItem>
+					<lightning:layoutItem size="12">
+						<aura:iteration var="item" items="{!v.listaProdFactCed}">
+							<lightning:layout multipleRows="true"
+								class="{! ' container-prod slds-p-horizontal_small slds-m-vertical_small ' + (item.prodotto.Stato__c == 'ATTIVO'  ? ' active-prod ' : item.prodotto.Stato__c == 'BLOCCATO' ? ' blocked-prod ' : ' extinct-prod ')}">
+								<!-- <lightning:layoutItem size="12">
+												<span class="slds-text-title_bold">LINEA</span>
+											</lightning:layoutItem> -->
+								<lightning:layoutItem size="12" class="slds-p-vertical_small">
+									<lightning:RecordViewForm recordId="{!item.prodotto.Id}"
+										objectApiName="WGC_Linea_Prodotto__c" density="comfy"> 
+										<lightning:layout multipleRows="true">
+<!--											<aura:if isTrue="{! item.prodotto.RecordType.DeveloperName != 'FACTORINGFISCALE'}">-->
+												<lightning:layoutItem flexibility="auto">
+													<div data-index="{!item.prodotto.Id}" onclick="{!c.goToDetail}">
+														<lightning:outputField class="cstm-lookup" fieldName="Name" />
+													</div>
+												</lightning:layoutItem>
+												<lightning:layoutItem flexibility="auto">
+													<lightning:outputField fieldName="Descrizione_frm__c" />
+												</lightning:layoutItem>
+												<lightning:layoutItem flexibility="auto">
+													<lightning:outputField fieldName="Divisa__c" />
+												</lightning:layoutItem>
+												<lightning:layoutItem flexibility="auto">
+													<lightning:outputField fieldName="Accordato__c" />
+												</lightning:layoutItem>
+												<lightning:layoutItem flexibility="auto">
+													<lightning:outputField fieldName="Data_Attivazione_frm__c" />
+												</lightning:layoutItem>
+												<lightning:layoutItem flexibility="auto">
+													<lightning:outputField class="update-field" fieldName="Data_ultima_cessione__c" />
+												</lightning:layoutItem>
+												<lightning:layoutItem flexibility="auto">
+													<lightning:outputField fieldName="Data_Scadenza__c" />
+												</lightning:layoutItem>
+												<lightning:layoutItem flexibility="auto">
+													<lightning:outputField class="update-field" fieldName="Importo_Finanziabile__c" />
+												</lightning:layoutItem>
+												<lightning:layoutItem flexibility="auto">
+													<lightning:outputField fieldName="Stato__c" />
+												</lightning:layoutItem>
+												<lightning:layoutItem flexibility="auto">
+													<aura:if isTrue="{! item.codiceIstituto == '881'}">
+														<img src="{!$Resource.WGC_LogoIfisItalia}"
+															style="max-width:60px; max-height:30px; margin:8px 0 0 0;" />
+														<aura:set attribute="else">
+															<img src="{!$Resource.WGC_LogoIfisFinance}"
+																style="max-width:60px; max-height:30px; margin:8px 0 0 0;" />
+														</aura:set>
+													</aura:if>
+												</lightning:layoutItem>
+												<!-- FACTORING FISCALE -->
+<!--												<aura:set attribute="else">-->
+<!--													<lightning:layoutItem flexibility="auto">-->
+<!--														<div data-index="{!item.prodotto.Id}" onclick="{!c.goToDetail}">-->
+<!--															<label class="slds-form-element__label" for="form-element-01">Cod. Rapporto</label>-->
+<!--															<lightning:outputField class="cstm-lookup" variant="label-hidden" fieldName="Name" />-->
+<!--														</div>-->
+<!--													</lightning:layoutItem>-->
+<!--													<lightning:layoutItem flexibility="auto">-->
+<!--														<lightning:outputField fieldName="Tipologia_Prodotto__c" />-->
+<!--													</lightning:layoutItem>-->
+<!--													<lightning:layoutItem flexibility="auto">-->
+<!--														<lightning:outputField fieldName="Descrizione_Imposta__c" />-->
+<!--													</lightning:layoutItem>-->
+<!--													<lightning:layoutItem flexibility="auto">-->
+<!--														<lightning:outputField fieldName="Commessa_Rigo__c" />-->
+<!--													</lightning:layoutItem>-->
+<!--													<lightning:layoutItem flexibility="auto">-->
+<!--														<lightning:outputField fieldName="Codice_Origine__c" />-->
+<!--													</lightning:layoutItem>-->
+<!--													<lightning:layoutItem flexibility="auto">-->
+<!--														<lightning:outputField fieldName="Valore_Nominale_cer__c" />-->
+<!--													</lightning:layoutItem>-->
+<!--													<lightning:layoutItem flexibility="auto">-->
+<!--														<lightning:outputField fieldName="WGC_Linea_Prodotto__c" />-->
+<!--													</lightning:layoutItem>-->
+<!--													<lightning:layoutItem flexibility="auto">-->
+<!--														<lightning:outputField fieldName="Prezzo_di_acquisto_cer__c" />-->
+<!--													</lightning:layoutItem>-->
+<!--													<lightning:layoutItem flexibility="auto">-->
+<!--														<lightning:outputField fieldName="Stato__c" />-->
+<!--													</lightning:layoutItem>-->
+<!--													<lightning:layoutItem flexibility="auto">-->
+<!--														<aura:if isTrue="{! item.codiceIstituto == '881'}">-->
+<!--															<img src="{!$Resource.WGC_LogoIfisItalia}"-->
+<!--																 style="max-width:50px; max-height:30px; margin:8px 0 0 0;" />-->
+<!--															<aura:set attribute="else">-->
+<!--																<img src="{!$Resource.WGC_LogoIfisFinance}"-->
+<!--																	 style="max-width:50px; max-height:30px; margin:8px 0 0 0;" />-->
+<!--															</aura:set>-->
+<!--														</aura:if>-->
+<!--													</lightning:layoutItem>-->
+<!--												</aura:set>-->
+<!--											</aura:if>-->
+                            			</lightning:layout>
+									</lightning:RecordViewForm>
+								</lightning:layoutItem>
+							</lightning:layout>
+						</aura:iteration>
+					</lightning:layoutItem>
+				</lightning:layout>
+			</aura:if>
+			<aura:if isTrue="{!v.stepPage == 'factoringDebitore'}">
+				<lightning:layout multipleRows="true" class="">
+					<!-- <lightning:layoutItem size="12">
+						<span class="slds-text-heading_small">Factoring Debitore</span>
+					</lightning:layoutItem> -->
+					<lightning:layoutItem size="12">
+						<aura:iteration var="item" items="{!v.listaProdFactDeb}">
+							<lightning:layout multipleRows="true"
+								class="{! ' container-prod slds-p-horizontal_small slds-m-vertical_small ' + (item.prodotto.Stato__c == 'ATTIVO' ? ' active-prod ' : item.prodotto.Stato__c == 'BLOCCATO' ? ' blocked-prod ' : ' extinct-prod ')}">
+								<!-- <lightning:layoutItem size="12">
+												<span class="slds-text-title_bold">LINEA</span>
+											</lightning:layoutItem> -->
+								<lightning:layoutItem size="12" class="slds-p-vertical_small">
+									<lightning:RecordViewForm recordId="{!item.prodotto.Id}"
+										objectApiName="WGC_Linea_Prodotto__c" density="comfy">
+										<lightning:layout multipleRows="true">
+											<lightning:layoutItem flexibility="auto">
+												<div data-index="{!item.prodotto.Id}" onclick="{!c.goToDetail}">
+													<lightning:outputField class="cstm-lookup" fieldName="Name" />
+												</div>
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Descrizione_frm__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Divisa__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Plafond_Debitore__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Utilizzo_Plafond__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Data_Attivazione_frm__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Data_Estinzione_frm__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Stato__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<aura:if isTrue="{! item.codiceIstituto == '881'}">
+													<img src="{!$Resource.WGC_LogoIfisItalia}"
+														style="max-width:60px; max-height:30px; margin:8px 0 0 0;" />
+													<aura:set attribute="else">
+														<img src="{!$Resource.WGC_LogoIfisFinance}"
+															style="max-width:60px; max-height:30px; margin:8px 0 0 0;" />
+													</aura:set>
+												</aura:if>
+											</lightning:layoutItem>
+                            			</lightning:layout>
+									</lightning:RecordViewForm>
+								</lightning:layoutItem>
+							</lightning:layout>
+						</aura:iteration>
+					</lightning:layoutItem>
+				</lightning:layout>
+			</aura:if>
+			<aura:if isTrue="{!v.stepPage == 'finanziamenti'}">
+				<lightning:layout multipleRows="true" class="">
+					<!-- <lightning:layoutItem size="12">
+						<span class="slds-text-heading_small">Finanziamenti</span>
+					</lightning:layoutItem> -->
+					<lightning:layoutItem size="12">
+						<aura:iteration var="item" items="{!v.listaProdFinanziamenti}">
+							<lightning:layout multipleRows="true"
+								class="{! ' container-prod slds-p-horizontal_small slds-m-vertical_small ' + (item.prodotto.Stato__c == 'ATTIVO' ? ' active-prod ' : item.prodotto.Stato__c == 'BLOCCATO' ? ' blocked-prod ' : ' extinct-prod ')}">
+								<!-- <lightning:layoutItem size="12">
+												<span class="slds-text-title_bold">LINEA</span>
+											</lightning:layoutItem> -->
+								<lightning:layoutItem size="12" class="slds-p-vertical_small">
+									<lightning:RecordViewForm recordId="{!item.prodotto.Id}"
+										objectApiName="WGC_Linea_Prodotto__c" density="comfy">
+										<lightning:layout multipleRows="true">
+											<lightning:layoutItem flexibility="auto">
+												<div data-index="{!item.prodotto.Id}" onclick="{!c.goToDetail}">
+													<lightning:outputField class="cstm-lookup" fieldName="Name" />
+													</div>
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Descrizione_frm__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Divisa__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Data_Apertura__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Data_Estinzione_frm__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="MDI_12_Mesi__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Accordato__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Stato__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<aura:if isTrue="{! item.codiceIstituto == '881'}">
+													<img src="{!$Resource.WGC_LogoIfisItalia}"
+														style="max-width:60px; max-height:30px; margin:8px 0 0 0;" />
+													<aura:set attribute="else">
+														<img src="{!$Resource.WGC_LogoIfisFinance}"
+															style="max-width:60px; max-height:30px; margin:8px 0 0 0;" />
+													</aura:set>
+												</aura:if>
+											</lightning:layoutItem>
+                            			</lightning:layout>
+										<!-- <div class="slds-grid slds-wrap slds-grid_align-spread">
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-12 clickCol" data-index="{!item.prodotto.Id}" onclick="{!c.goToDetail}">
+												<lightning:outputField class="cstm-lookup" fieldName="Name" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-12">
+												<lightning:outputField fieldName="Descrizione_frm__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-12">
+												<lightning:outputField fieldName="Divisa__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-12">
+												<lightning:outputField fieldName="Data_Apertura__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-12">
+												<lightning:outputField fieldName="Data_Estinzione_frm__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-12">
+												<lightning:outputField fieldName="MDI_12_Mesi__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-12">
+												<lightning:outputField fieldName="Accordato__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-12">
+												<lightning:outputField fieldName="Stato__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-12 slds-text-align_center">
+												<aura:if isTrue="{! item.codiceIstituto == '881'}">
+													<img src="{!$Resource.WGC_LogoIfisItalia}"
+														style="max-width:50px; max-height:30px; margin:8px 0 0 0;" />
+													<aura:set attribute="else">
+														<img src="{!$Resource.WGC_LogoIfisFinance}"
+															style="max-width:50px; max-height:30px; margin:8px 0 0 0;" />
+													</aura:set>
+												</aura:if>
+											</div>
+										</div> -->
+									</lightning:RecordViewForm>
+								</lightning:layoutItem>
+							</lightning:layout>
+						</aura:iteration>
+					</lightning:layoutItem>
+				</lightning:layout>
+			</aura:if>
+			<aura:if isTrue="{!v.stepPage == 'leasing'}">
+				<lightning:layout multipleRows="true" class="">
+					<!-- <lightning:layoutItem size="12">
+						<span class="slds-text-heading_small">Leasing</span>
+					</lightning:layoutItem> -->
+					<lightning:layoutItem size="12">
+						<aura:iteration var="item" items="{!v.listaProdLeasing}">
+							<lightning:layout multipleRows="true"
+								class="{! ' container-prod slds-p-horizontal_small slds-m-vertical_small ' + (item.prodotto.Stato__c == 'ATTIVO' ? ' active-prod ' : item.prodotto.Stato__c == 'BLOCCATO' ? ' blocked-prod ' : ' extinct-prod ')}">
+								<!-- <lightning:layoutItem size="12">
+												<span class="slds-text-title_bold">LINEA</span>
+											</lightning:layoutItem> -->
+								<lightning:layoutItem size="12" class="slds-p-vertical_small">
+									<lightning:RecordViewForm recordId="{!item.prodotto.Id}"
+										objectApiName="WGC_Linea_Prodotto__c" density="comfy">
+										<lightning:layout multipleRows="true">
+											<lightning:layoutItem flexibility="auto">
+												<div data-index="{!item.prodotto.Id}" onclick="{!c.goToDetail}">
+													<lightning:outputField class="cstm-lookup" fieldName="Name" />
+												</div>
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Descrizione_frm__c" />
+											</lightning:layoutItem>
+											<!-- <lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Divisa__c" />
+											</lightning:layoutItem> -->
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Data_Apertura__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Data_Estinzione_frm__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="MDI_12_Mesi__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Impiego_12_Mesi__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Stato__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<aura:if isTrue="{! item.codiceIstituto == '881'}">
+													<img src="{!$Resource.WGC_LogoIfisItalia}"
+														style="max-width:60px; max-height:30px; margin:8px 0 0 0;" />
+													<aura:set attribute="else">
+														<img src="{!$Resource.WGC_LogoIfisFinance}"
+															style="max-width:60px; max-height:30px; margin:8px 0 0 0;" />
+													</aura:set>
+												</aura:if>
+											</lightning:layoutItem>
+                            			</lightning:layout>
+										<!-- <div class="slds-grid slds-wrap slds-grid_align-spread">
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-8 clickCol" data-index="{!item.prodotto.Id}" onclick="{!c.goToDetail}">
+												<lightning:outputField class="cstm-lookup" fieldName="Name" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-8">
+												<lightning:outputField fieldName="Descrizione_frm__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-8">
+												<lightning:outputField fieldName="Divisa__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-8">
+												<lightning:outputField fieldName="Data_Apertura__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-8">
+												<lightning:outputField fieldName="Data_Estinzione_frm__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-8">
+												<lightning:outputField fieldName="Impiego_12_Mesi__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-8">
+												<lightning:outputField fieldName="Stato__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-8 slds-text-align_center">
+												<aura:if isTrue="{! item.codiceIstituto == '881'}">
+													<img src="{!$Resource.WGC_LogoIfisItalia}"
+														style="max-width:50px; max-height:30px; margin:8px 0 0 0;" />
+													<aura:set attribute="else">
+														<img src="{!$Resource.WGC_LogoIfisFinance}"
+															style="max-width:50px; max-height:30px; margin:8px 0 0 0;" />
+													</aura:set>
+												</aura:if>
+											</div>
+										</div> -->
+									</lightning:RecordViewForm>
+								</lightning:layoutItem>
+							</lightning:layout>
+						</aura:iteration>
+					</lightning:layoutItem>
+				</lightning:layout>
+			</aura:if>
+			<aura:if isTrue="{!v.stepPage == 'altro'}">
+				<lightning:layout multipleRows="true" class="">
+					{! v.listaProdServiziBancari.lenght }
+					<lightning:layoutItem size="12"
+						class="{! (not(empty(v.listaProdServiziBancari)) ? '' : 'slds-hide') }">
+						<span class="slds-text-heading_medium">{!$Label.c.WGC_Prodotti_DetailComponent_Servizi_Bancari}</span>
+					</lightning:layoutItem>
+					<lightning:layoutItem size="12"
+						class="{! (not(empty(v.listaProdServiziBancari)) ? '' : 'slds-hide') }">
+						<aura:iteration var="item" items="{!v.listaProdServiziBancari}">
+							<lightning:layout multipleRows="true"
+								class="{! ' container-prod slds-p-horizontal_small slds-m-vertical_small ' + (item.prodotto.Stato__c == 'ATTIVO' ? ' active-prod ' : item.prodotto.Stato__c == 'BLOCCATO' ? ' blocked-prod ' : ' extinct-prod ')}">
+								<!-- <lightning:layoutItem size="12">
+												<span class="slds-text-title_bold">LINEA</span>
+											</lightning:layoutItem> -->
+								<lightning:layoutItem size="12" class="slds-p-vertical_small">
+									<lightning:RecordViewForm recordId="{!item.prodotto.Id}"
+										objectApiName="WGC_Linea_Prodotto__c" density="comfy">
+										<lightning:layout multipleRows="true">
+											<lightning:layoutItem flexibility="auto">
+												<div data-index="{!item.prodotto.Id}" onclick="{!c.goToDetail}">
+													<lightning:outputField class="cstm-lookup" fieldName="Name" />
+												</div>
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Descrizione_frm__c" />
+											</lightning:layoutItem>
+											<!-- <lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Divisa__c" />
+											</lightning:layoutItem> -->
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Data_Apertura__c" />
+											</lightning:layoutItem>
+
+											<aura:if isTrue="{! or(item.prodotto.RecordType.DeveloperName == 'Portafoglio_Commerciale', item.prodotto.RecordType.DeveloperName == 'Anticipo_Fatture')}">
+												<lightning:layoutItem flexibility="auto">
+													<lightning:outputField fieldName="Impiego__c" />
+												</lightning:layoutItem>
+												<aura:set attribute="else">
+													<lightning:layoutItem flexibility="auto">
+														<lightning:outputField fieldName="Data_Estinzione_frm__c" />
+													</lightning:layoutItem>
+												</aura:set>
+											</aura:if>
+
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="MDI_12_Mesi__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Accordato__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Stato__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<aura:if isTrue="{! item.codiceIstituto == '881'}">
+													<img src="{!$Resource.WGC_LogoIfisItalia}"
+														style="max-width:60px; max-height:30px; margin:8px 0 0 0;" />
+													<aura:set attribute="else">
+														<img src="{!$Resource.WGC_LogoIfisFinance}"
+															style="max-width:60px; max-height:30px; margin:8px 0 0 0;" />
+													</aura:set>
+												</aura:if>
+											</lightning:layoutItem>
+                            			</lightning:layout>
+										<!-- <div class="slds-grid slds-wrap slds-grid_align-spread">
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-12 clickCol" data-index="{!item.prodotto.Id}" onclick="{!c.goToDetail}">
+												<lightning:outputField class="cstm-lookup" fieldName="Name" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-12">
+												<lightning:outputField fieldName="Descrizione_frm__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-12">
+												<lightning:outputField fieldName="Divisa__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-12">
+												<lightning:outputField fieldName="Data_Apertura__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-12">
+												<lightning:outputField fieldName="Data_Estinzione_frm__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-12">
+												<lightning:outputField fieldName="MDI_12_Mesi__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-12">
+												<lightning:outputField fieldName="Accordato__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-12">
+												<lightning:outputField fieldName="Stato__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-12 slds-text-align_center">
+												<aura:if isTrue="{! item.codiceIstituto == '881'}">
+													<img src="{!$Resource.WGC_LogoIfisItalia}"
+														style="max-width:50px; max-height:30px; margin:8px 0 0 0;" />
+													<aura:set attribute="else">
+														<img src="{!$Resource.WGC_LogoIfisFinance}"
+															style="max-width:50px; max-height:30px; margin:8px 0 0 0;" />
+													</aura:set>
+												</aura:if>
+											</div>
+										</div> -->
+									</lightning:RecordViewForm>
+								</lightning:layoutItem>
+							</lightning:layout>
+						</aura:iteration>
+					</lightning:layoutItem>
+					<lightning:layoutItem size="12" class="{! (not(empty(v.listaProdGaranzie)) ? '' : 'slds-hide') }">
+						<span class="slds-text-heading_medium">{!$Label.c.WGC_Prodotti_DetailComponent_Garanzie}</span>
+					</lightning:layoutItem>
+					<lightning:layoutItem size="12" class="{! (not(empty(v.listaProdGaranzie)) ? '' : 'slds-hide') }">
+						<aura:iteration var="item" items="{!v.listaProdGaranzie}">
+							<lightning:layout multipleRows="true"
+								class="{! ' container-prod slds-p-horizontal_small slds-m-vertical_small ' + (item.prodotto.Stato__c == 'ATTIVO' ? ' active-prod ' : item.prodotto.Stato__c == 'BLOCCATO' ? ' blocked-prod ' : ' extinct-prod ')}">
+								<!-- <lightning:layoutItem size="12">
+												<span class="slds-text-title_bold">LINEA</span>
+											</lightning:layoutItem> -->
+								<lightning:layoutItem size="12" class="slds-p-vertical_small">
+									<lightning:RecordViewForm recordId="{!item.prodotto.Id}"
+										objectApiName="WGC_Linea_Prodotto__c" density="comfy">
+										<lightning:layout multipleRows="true">
+											<lightning:layoutItem flexibility="auto">
+												<div data-index="{!item.prodotto.Id}" onclick="{!c.goToDetail}">
+													<lightning:outputField class="cstm-lookup" fieldName="Name" />
+												</div>
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Descrizione_frm__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Divisa__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Data_Apertura__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Data_Estinzione_frm__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="MDI_12_Mesi__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Impiego_12_Mesi__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Stato__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<aura:if isTrue="{! item.codiceIstituto == '881'}">
+													<img src="{!$Resource.WGC_LogoIfisItalia}"
+														style="max-width:60px; max-height:30px; margin:8px 0 0 0;" />
+													<aura:set attribute="else">
+														<img src="{!$Resource.WGC_LogoIfisFinance}"
+															style="max-width:60px; max-height:30px; margin:8px 0 0 0;" />
+													</aura:set>
+												</aura:if>
+											</lightning:layoutItem>
+                            			</lightning:layout>
+										<!-- <div class="slds-grid slds-wrap slds-grid_align-spread">
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-12 clickCol" data-index="{!item.prodotto.Id}" onclick="{!c.goToDetail}">
+												<lightning:outputField class="cstm-lookup" fieldName="Name" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-12">
+												<lightning:outputField fieldName="Descrizione_frm__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-12">
+												<lightning:outputField fieldName="Divisa__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-12">
+												<lightning:outputField fieldName="Data_Apertura__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-12">
+												<lightning:outputField fieldName="Data_Estinzione_frm__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-12">
+												<lightning:outputField fieldName="MDI_12_Mesi__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-12">
+												<lightning:outputField fieldName="Accordato__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-12">
+												<lightning:outputField fieldName="Stato__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-12 slds-text-align_center">
+												<aura:if isTrue="{! item.codiceIstituto == '881'}">
+													<img src="{!$Resource.WGC_LogoIfisItalia}"
+														style="max-width:50px; max-height:30px; margin:8px 0 0 0;" />
+													<aura:set attribute="else">
+														<img src="{!$Resource.WGC_LogoIfisFinance}"
+															style="max-width:50px; max-height:30px; margin:8px 0 0 0;" />
+													</aura:set>
+												</aura:if>
+											</div>
+										</div> -->
+									</lightning:RecordViewForm>
+								</lightning:layoutItem>
+							</lightning:layout>
+						</aura:iteration>
+					</lightning:layoutItem>
+					<lightning:layoutItem size="12"
+						class="{! (not(empty(v.listaProdCreditiProblematici)) ? '' : 'slds-hide') }">
+						<span class="slds-text-heading_medium">{!$Label.c.WGC_Prodotti_DetailComponent_Crediti_Problematici}</span>
+					</lightning:layoutItem>
+					<lightning:layoutItem size="12"
+						class="{! (not(empty(v.listaProdCreditiProblematici)) ? '' : 'slds-hide') }">
+						<aura:iteration var="item" items="{!v.listaProdCreditiProblematici}">
+							<lightning:layout multipleRows="true"
+								class="{! ' container-prod slds-p-horizontal_small slds-m-vertical_small ' + (item.prodotto.Stato__c == 'ATTIVO' ? ' active-prod ' : item.prodotto.Stato__c == 'BLOCCATO' ? ' blocked-prod ' : ' extinct-prod ')}">
+								<!-- <lightning:layoutItem size="12">
+												<span class="slds-text-title_bold">LINEA</span>
+											</lightning:layoutItem> -->
+								<lightning:layoutItem size="12" class="slds-p-vertical_small">
+									<lightning:RecordViewForm recordId="{!item.prodotto.Id}"
+										objectApiName="WGC_Linea_Prodotto__c" density="comfy">
+										<lightning:layout multipleRows="true">
+											<lightning:layoutItem flexibility="auto">
+												<div data-index="{!item.prodotto.Id}" onclick="{!c.goToDetail}">
+													<lightning:outputField class="cstm-lookup" fieldName="Name" />
+												</div>
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Descrizione_frm__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Divisa__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Data_Apertura__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Data_Estinzione_frm__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="MDI_12_Mesi__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Impiego_12_Mesi__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Stato__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<aura:if isTrue="{! item.codiceIstituto == '881'}">
+													<img src="{!$Resource.WGC_LogoIfisItalia}"
+														style="max-width:60px; max-height:30px; margin:8px 0 0 0;" />
+													<aura:set attribute="else">
+														<img src="{!$Resource.WGC_LogoIfisFinance}"
+															style="max-width:60px; max-height:30px; margin:8px 0 0 0;" />
+													</aura:set>
+												</aura:if>
+											</lightning:layoutItem>
+                            			</lightning:layout>
+										<!-- <div class="slds-grid slds-wrap slds-grid_align-spread">
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-12 clickCol" data-index="{!item.prodotto.Id}" onclick="{!c.goToDetail}">
+												<lightning:outputField class="cstm-lookup" fieldName="Name" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-12">
+												<lightning:outputField fieldName="Descrizione_frm__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-12">
+												<lightning:outputField fieldName="Divisa__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-12">
+												<lightning:outputField fieldName="Data_Apertura__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-12">
+												<lightning:outputField fieldName="Data_Estinzione_frm__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-12">
+												<lightning:outputField fieldName="MDI_12_Mesi__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-12">
+												<lightning:outputField fieldName="Accordato__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-12">
+												<lightning:outputField fieldName="Stato__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-12 slds-text-align_center">
+												<aura:if isTrue="{! item.codiceIstituto == '881'}">
+													<img src="{!$Resource.WGC_LogoIfisItalia}"
+														style="max-width:50px; max-height:30px; margin:8px 0 0 0;" />
+													<aura:set attribute="else">
+														<img src="{!$Resource.WGC_LogoIfisFinance}"
+															style="max-width:50px; max-height:30px; margin:8px 0 0 0;" />
+													</aura:set>
+												</aura:if>
+											</div>
+										</div> -->
+									</lightning:RecordViewForm>
+								</lightning:layoutItem>
+							</lightning:layout>
+						</aura:iteration>
+					</lightning:layoutItem>
+					<!-- -->
+					<lightning:layoutItem size="12"
+						class="{! (not(empty(v.listaProdCreditiDiFirma)) ? '' : 'slds-hide') }">
+						<span class="slds-text-heading_medium">{!$Label.c.WGC_Prodotti_DetailComponent_Crediti_di_Firma}</span>
+					</lightning:layoutItem>
+					<lightning:layoutItem size="12"
+						class="{! (not(empty(v.listaProdCreditiDiFirma)) ? '' : 'slds-hide') }">
+						<aura:iteration var="item" items="{!v.listaProdCreditiDiFirma}">
+							<lightning:layout multipleRows="true"
+								class="{! ' container-prod slds-p-horizontal_small slds-m-vertical_small ' + (item.prodotto.Stato__c == 'ATTIVO' ? ' active-prod ' : item.prodotto.Stato__c == 'BLOCCATO' ? ' blocked-prod ' : ' extinct-prod ')}">
+								<!-- <lightning:layoutItem size="12">
+												<span class="slds-text-title_bold">LINEA</span>
+											</lightning:layoutItem> -->
+								<lightning:layoutItem size="12" class="slds-p-vertical_small">
+									<lightning:RecordViewForm recordId="{!item.prodotto.Id}"
+										objectApiName="WGC_Linea_Prodotto__c" density="comfy">
+										<lightning:layout multipleRows="true">
+											<lightning:layoutItem flexibility="auto">
+												<div data-index="{!item.prodotto.Id}" onclick="{!c.goToDetail}">
+													<lightning:outputField class="cstm-lookup" fieldName="Name" />
+												</div>
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Descrizione_frm__c" />
+											</lightning:layoutItem>
+											<!-- <lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Divisa__c" />
+											</lightning:layoutItem> -->
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Data_Attivazione_frm__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Data_Scadenza__c" />
+											</lightning:layoutItem>
+											<!-- <lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="MDI_12_Mesi__c" />
+											</lightning:layoutItem> -->
+											<!-- <lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Impiego_12_Mesi__c" />
+											</lightning:layoutItem> -->
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Accordato__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Stato__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<aura:if isTrue="{! item.codiceIstituto == '881'}">
+													<img src="{!$Resource.WGC_LogoIfisItalia}"
+														style="max-width:60px; max-height:30px; margin:8px 0 0 0;" />
+													<aura:set attribute="else">
+														<img src="{!$Resource.WGC_LogoIfisFinance}"
+															style="max-width:60px; max-height:30px; margin:8px 0 0 0;" />
+													</aura:set>
+												</aura:if>
+											</lightning:layoutItem>
+                            			</lightning:layout>
+										<!-- <div class="slds-grid slds-wrap slds-grid_align-spread">
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-4 slds-large-size_1-of-12 clickCol" data-index="{!item.prodotto.Id}" onclick="{!c.goToDetail}">
+												<lightning:outputField class="cstm-lookup" fieldName="Name" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-4 slds-large-size_1-of-12">
+												<lightning:outputField fieldName="Descrizione_frm__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-4 slds-large-size_1-of-12">
+												<lightning:outputField fieldName="Divisa__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-4 slds-large-size_1-of-12">
+												<lightning:outputField fieldName="Accordato__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-4 slds-large-size_1-of-12">
+												<lightning:outputField fieldName="Data_Attivazione_frm__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-4 slds-large-size_1-of-12">
+												<lightning:outputField fieldName="Data_ultima_cessione__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-4 slds-large-size_1-of-12">
+												<lightning:outputField fieldName="Importo_Ultima_Cessione__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-4 slds-large-size_1-of-12">
+												<lightning:outputField fieldName="Data_Scadenza__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-4 slds-large-size_1-of-12">
+												<lightning:outputField fieldName="Importo_Finanziabile__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-4 slds-large-size_1-of-12">
+												<lightning:outputField fieldName="Stato__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-4 slds-large-size_1-of-12 slds-text-align_center">
+												<aura:if isTrue="{! item.codiceIstituto == '881'}">
+													<img src="{!$Resource.WGC_LogoIfisItalia}"
+														style="max-width:50px; max-height:30px; margin:8px 0 0 0;" />
+													<aura:set attribute="else">
+														<img src="{!$Resource.WGC_LogoIfisFinance}"
+															style="max-width:50px; max-height:30px; margin:8px 0 0 0;" />
+													</aura:set>
+												</aura:if>
+											</div>
+										</div> -->
+									</lightning:RecordViewForm>
+								</lightning:layoutItem>
+							</lightning:layout>
+						</aura:iteration>
+					</lightning:layoutItem>
+					<!-- -->
+					<lightning:layoutItem size="12"
+						class="{! (not(empty(v.listaProdNPL)) ? '' : 'slds-hide') }">
+						<span class="slds-text-heading_medium">{!$Label.c.WGC_Prodotti_DetailComponent_NPL}</span>
+					</lightning:layoutItem>
+					<lightning:layoutItem size="12"
+						class="{! (not(empty(v.listaProdNPL)) ? '' : 'slds-hide') }">
+						<aura:iteration var="item" items="{!v.listaProdNPL}">
+							<lightning:layout multipleRows="true"
+								class="{! ' container-prod slds-p-horizontal_small slds-m-vertical_small ' + (item.prodotto.Stato__c == 'ATTIVO' ? ' active-prod ' : item.prodotto.Stato__c == 'BLOCCATO' ? ' blocked-prod ' : ' extinct-prod ')}">
+								<!-- <lightning:layoutItem size="12">
+												<span class="slds-text-title_bold">LINEA</span>
+											</lightning:layoutItem> -->
+								<lightning:layoutItem size="12" class="slds-p-vertical_small">
+									<lightning:RecordViewForm recordId="{!item.prodotto.Id}"
+										objectApiName="WGC_Linea_Prodotto__c" density="comfy">
+										<lightning:layout multipleRows="true">
+											<lightning:layoutItem flexibility="auto">
+												<div data-index="{!item.prodotto.Id}" onclick="{!c.goToDetail}">
+													<lightning:outputField class="cstm-lookup" fieldName="Name" />
+												</div>
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Descrizione_frm__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Divisa__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Data_Attivazione_frm__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Data_Scadenza__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="MDI_12_Mesi__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Impiego_12_Mesi__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Stato__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<aura:if isTrue="{! item.codiceIstituto == '881'}">
+													<img src="{!$Resource.WGC_LogoIfisItalia}"
+														style="max-width:60px; max-height:30px; margin:8px 0 0 0;" />
+													<aura:set attribute="else">
+														<img src="{!$Resource.WGC_LogoIfisFinance}"
+															style="max-width:60px; max-height:30px; margin:8px 0 0 0;" />
+													</aura:set>
+												</aura:if>
+											</lightning:layoutItem>
+                            			</lightning:layout>
+										<!-- <div class="slds-grid slds-wrap slds-grid_align-spread">
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-4 slds-large-size_1-of-12 clickCol" data-index="{!item.prodotto.Id}" onclick="{!c.goToDetail}">
+												<lightning:outputField class="cstm-lookup" fieldName="Name" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-4 slds-large-size_1-of-12">
+												<lightning:outputField fieldName="Descrizione_frm__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-4 slds-large-size_1-of-12">
+												<lightning:outputField fieldName="Divisa__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-4 slds-large-size_1-of-12">
+												<lightning:outputField fieldName="Accordato__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-4 slds-large-size_1-of-12">
+												<lightning:outputField fieldName="Data_Attivazione_frm__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-4 slds-large-size_1-of-12">
+												<lightning:outputField fieldName="Data_ultima_cessione__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-4 slds-large-size_1-of-12">
+												<lightning:outputField fieldName="Importo_Ultima_Cessione__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-4 slds-large-size_1-of-12">
+												<lightning:outputField fieldName="Data_Scadenza__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-4 slds-large-size_1-of-12">
+												<lightning:outputField fieldName="Importo_Finanziabile__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-4 slds-large-size_1-of-12">
+												<lightning:outputField fieldName="Stato__c" />
+											</div>
+											<div class="slds-col slds-small-size_1-of-3 slds-medium-size_1-of-4 slds-large-size_1-of-12 slds-text-align_center">
+												<aura:if isTrue="{! item.codiceIstituto == '881'}">
+													<img src="{!$Resource.WGC_LogoIfisItalia}"
+														style="max-width:50px; max-height:30px; margin:8px 0 0 0;" />
+													<aura:set attribute="else">
+														<img src="{!$Resource.WGC_LogoIfisFinance}"
+															style="max-width:50px; max-height:30px; margin:8px 0 0 0;" />
+													</aura:set>
+												</aura:if>
+											</div>
+										</div> -->
+									</lightning:RecordViewForm>
+								</lightning:layoutItem>
+							</lightning:layout>
+						</aura:iteration>
+					</lightning:layoutItem>
+					<!-- PRODOTTO ERARIALI -->
+					<lightning:layoutItem size="12" class="{! (not(empty(v.listaProdErariali)) ? '' : 'slds-hide') }">
+						<span class="slds-text-heading_medium">{!$Label.c.WGC_Team_IFIS_Specialista_Crediti_Erariali}</span>
+					</lightning:layoutItem>
+					<lightning:layoutItem size="12" class="{! (not(empty(v.listaProdErariali)) ? '' : 'slds-hide') }">
+						<aura:iteration var="item" items="{!v.listaProdErariali}">
+							<lightning:layout multipleRows="true"
+											  class="{! ' container-prod slds-p-horizontal_small slds-m-vertical_small ' + (item.prodotto.Stato__c == 'ATTIVO' ? ' active-prod ' : item.prodotto.Stato__c == 'BLOCCATO' ? ' blocked-prod ' : ' extinct-prod ')}">
+
+								<lightning:layoutItem size="12" class="slds-p-vertical_small">
+									<lightning:RecordViewForm recordId="{!item.prodotto.Id}"  objectApiName="WGC_Linea_Prodotto__c" density="comfy">
+										<lightning:layout multipleRows="true">
+											<lightning:layoutItem flexibility="auto">
+												<div data-index="{!item.prodotto.Id}" onclick="{!c.goToDetail}">
+													<label class="slds-form-element__label" for="form-element-01">Cod. Rapporto</label>
+													<lightning:outputField class="cstm-lookup" variant="label-hidden" fieldName="Name" />
+												</div>
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Tipologia_Prodotto__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Descrizione_Imposta__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Commessa_Rigo__c" />
+											</lightning:layoutItem> 
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Codice_Origine__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Valore_Nominale_cer__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Valore_nominale_esigibile__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Prezzo_di_acquisto_cer__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Stato__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<aura:if isTrue="{! item.codiceIstituto == '881'}">
+													<img src="{!$Resource.WGC_LogoIfisItalia}"
+														 style="max-width:60px; max-height:30px; margin:8px 0 0 0;" />
+													<aura:set attribute="else">
+														<img src="{!$Resource.WGC_LogoIfisFinance}"
+															 style="max-width:60px; max-height:30px; margin:8px 0 0 0;" />
+													</aura:set>
+												</aura:if>
+											</lightning:layoutItem>
+										</lightning:layout>
+									</lightning:RecordViewForm>
+								</lightning:layoutItem>
+							</lightning:layout>
+						</aura:iteration>
+					</lightning:layoutItem>
+				</lightning:layout>
+			</aura:if>
+            <aura:if isTrue="{!v.stepPage == 'estero'}">
+				<lightning:layout multipleRows="true" class="">
+					{! v.listaProdCorporateEstero.lenght }
+					<lightning:layoutItem size="12"
+						class="{! (not(empty(v.listaProdCorporateEstero)) ? '' : 'slds-hide') }">
+						<span class="slds-text-heading_medium">{!$Label.c.WGC_Posizione_Estero}</span>
+					</lightning:layoutItem>
+					<lightning:layoutItem size="12"
+						class="{! (not(empty(v.listaProdCorporateEstero)) ? '' : 'slds-hide') }">
+						<aura:iteration var="item" items="{!v.listaProdCorporateEstero}">
+							<lightning:layout multipleRows="true"
+								class="{! ' container-prod slds-p-horizontal_small slds-m-vertical_small ' + (item.prodotto.Stato__c == 'ATTIVO' ? ' active-prod ' : item.prodotto.Stato__c == 'BLOCCATO' ? ' blocked-prod ' : ' extinct-prod ')}">
+								<!-- <lightning:layoutItem size="12">
+												<span class="slds-text-title_bold">LINEA</span>
+											</lightning:layoutItem> -->
+								<lightning:layoutItem size="12" class="slds-p-vertical_small">
+									<lightning:RecordViewForm recordId="{!item.prodotto.Id}"
+										objectApiName="WGC_Linea_Prodotto__c" density="comfy">
+										<lightning:layout multipleRows="true">
+											<lightning:layoutItem flexibility="auto">
+												<div data-index="{!item.prodotto.Id}" onclick="{!c.goToDetail}">
+													<lightning:outputField class="cstm-lookup" fieldName="Name" />
+												</div>
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Descrizione_frm__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Importo_stipulato_originariamente__c" />
+											</lightning:layoutItem> 
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Data_Apertura__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Impiego__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="MDI_12_Mesi__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Accordato__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<lightning:outputField fieldName="Stato__c" />
+											</lightning:layoutItem>
+											<lightning:layoutItem flexibility="auto">
+												<aura:if isTrue="{! item.codiceIstituto == '881'}">
+													<img src="{!$Resource.WGC_LogoIfisItalia}"
+														style="max-width:60px; max-height:30px; margin:8px 0 0 0;" />
+													<aura:set attribute="else">
+														<img src="{!$Resource.WGC_LogoIfisFinance}"
+															style="max-width:60px; max-height:30px; margin:8px 0 0 0;" />
+													</aura:set>
+												</aura:if>
+											</lightning:layoutItem>
+                            			</lightning:layout>
+									</lightning:RecordViewForm>
+								</lightning:layoutItem>
+							</lightning:layout>
+						</aura:iteration>
+					</lightning:layoutItem>
+				</lightning:layout>
+			</aura:if>
+		</lightning:layoutItem>
+	</lightning:layout>
+</aura:component>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_Imp_AutPortaf_InsScad_StesPerioAnPre__c</fullName>
+    <externalId>false</externalId>
+    <formula>Imp_AutPortaf_InsScad_StesPerioAnPrec__c/100</formula>
+    <label>Imp_AutPortaf_InsScad_StesPerioAnPrec</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

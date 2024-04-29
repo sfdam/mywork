@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>UnbluChat</fullName>
+    <active>true</active>
+    <description>Utilizzato per integrazione Unblu Chat</description>
+    <label>Unblu Chat</label>
+    <picklistValues>
+        <picklist>G_MEDIA_TYPE__c</picklist>
+        <values>
+            <fullName>unbluchat</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>G_MotivoDiContatto__c</picklist>
+        <values>
+            <fullName>Aggiunta carta prepagata in rubrica Smart</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Altri prodotti e servizi</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Attivazione carta</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Attivazione nuovo Internet Banking</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Blocco carta</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Blocco carta di debito Carige Cash</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Blocco credenziali di accesso</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Carte di pagamento</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Condizioni economiche</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Conto corrente</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Disposizioni trading Online</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Informazioni</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Informazioni Polizza Sorriso</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Informazioni carta</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Informazioni sugli investimenti</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Informazioni sui finanziamenti</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Internet Banking</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>OFM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Paga Poi</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Prestito Online</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Supporto app</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Supporto trading Online</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

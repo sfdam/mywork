@@ -1,0 +1,79 @@
+<template>
+    <template if:true={rendered}>
+        <div class="slds-box slds-m-top_small">
+            <lightning-layout>
+                <lightning-layout-item size="12">
+                    <template if:true={agenzia.Account__r}>
+                        <lightning-layout>
+                            <lightning-layout-item size="1" class="slds-p-left_large slds-p-vertical_small">
+                                <lightning-icon icon-name="action:edit"> </lightning-icon>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="2">
+                                <h1 class="attore-name">{agenzia.Account__r.Name} </h1>
+                                <p><label>NDG:</label> <span>{agenzia.Account__r.NDGGruppo__c}</span></p>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="9">
+                                    <lightning-layout horizontal-align="space">
+                                        <lightning-layout-item class="slds-p-around_small">
+                                                <label>Partita IVA</label>
+                                                <p>{agenzia.Account__r.PIVA__c}</p>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item class="slds-p-around_small">
+                                            <label>Divisa</label>
+                                            <!-- <p>{agenzia.DivisaNew__c}</p> -->
+                                            <p>EURO</p>
+                                        </lightning-layout-item>
+                                        <!-- SM - CR Ottobre 21 -->
+                                        <!-- <template if:true={notProceduraConcorsuale}> -->
+                                            <lightning-layout-item class="slds-p-around_small">
+                                                <lightning-radio-group name="ANotifica__c" label="A Notifica" options={options} disabled={readOnlyNotifica} value={agenzia.ANotifica__c} type="radio" onchange={updateAttore}></lightning-radio-group>
+                                            </lightning-layout-item>
+                                        <!-- </template> -->
+                                        <!-- SM - CR Ottobre 21 -->
+                                        <template if:true={isFiscaleBonis}>
+                                            <lightning-layout-item class="slds-p-around_small">
+                                                <lightning-radio-group name="Linea_Garantita__c" label="Linea Garantita" options={options} disabled={readOnlyLineaGarantita} value={agenzia.Linea_Garantita__c} type="radio" onchange={updateAttore}></lightning-radio-group>
+                                            </lightning-layout-item>
+                                        </template>
+                                        <lightning-layout-item class="slds-p-around_small">
+                                            <lightning-radio-group name="WGC_Storicita_Rimborsi__c" label="Storicità Rimborsi" options={options} disabled={pReadOnly} value={agenzia.WGC_Storicita_Rimborsi__c}  type="radio" onchange={updateAttore}></lightning-radio-group>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </template>
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+        <div class="slds-box slds-m-top_small">
+            <lightning-layout multiple-rows="true">
+                <lightning-layout-item size="12">
+                    <h1><b>INFORMAZIONI GENERALI</b></h1>
+                </lightning-layout-item>
+                <template for:each={sections} for:item="section" for:index="ind">
+                    <template if:true={section.isVisible}>
+                        <lightning-layout-item key={section.label} size="12">
+                            <h2 class="cstm-subtitle"><b>{section.label}</b></h2>
+                        </lightning-layout-item>
+                        <lightning-layout-item key={section.label} size="12">
+                            <lightning-layout multiple-rows="true">
+                                <template for:each={section.fields} for:item="field" for:index="field_ind">
+                                    <template if:true={field.visibility}>
+                                        <lightning-layout-item key={field.apiName} padding="around-small" flexibility="auto, no-grow">
+                                            <c-wgc_pc_cart_field label={field.label} name={field.apiName} type={field.type} formatter={field.formatter}
+                                                                value={field.value} visibility={field.visibility} read-only={pReadOnly} step-field={field.step}
+                                                                options={field.options} object-name={field.objectName} lookup-title={field.title} filter={field.filter} icon={field.icon} onchangefieldval={updateField} ></c-wgc_pc_cart_field>
+                                        </lightning-layout-item>
+                                    </template>
+                                </template>
+                            </lightning-layout>
+                        </lightning-layout-item>
+                    </template>
+                </template>
+            </lightning-layout>
+        </div>
+    </template>
+    <template if:false={rendered}>
+        <lightning-spinner variant="brand"></lightning-spinner>
+    </template>
+</template>

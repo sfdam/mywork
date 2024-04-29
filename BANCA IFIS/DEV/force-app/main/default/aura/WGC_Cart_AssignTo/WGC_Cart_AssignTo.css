@@ -1,0 +1,28 @@
+.THIS .cstm-btn-round {
+    border-radius: 25px;
+    border-radius: 25px;
+    font-size: 10px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.THIS .cstm-btn-round.cstm-btn-brand {
+    background-color: #0064B5!important;
+    border-color: #0064B5!important;
+    color: #FFF;
+}
+
+.THIS .cstm-btn-round.cstm-btn-brand:disabled {
+    background-color: #CCC!important;
+    border-color: #CCC!important;
+    cursor: not-allowed;
+}
+
+.THIS.slds-lookup.slds-is-open .slds-lookup__menu {
+    position: relative !important;
+}
+
+.THIS.cstm-error-text {
+    color: rgb(194, 57, 52);
+    margin-left: 5px;
+}

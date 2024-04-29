@@ -1,0 +1,58 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+controller="WGC_BaseClienti_DetailController" access="global">
+<!--
+<ltng:require scripts="{!join(',', 
+         '/resource/WGC_jQuery3x',
+         '/resource/WGC_ChartJs')}" afterScriptsLoaded="{!c.doInit}" />
+-->
+<lightning:navigation aura:id="navService" />
+
+<!-- attributes -->
+<aura:attribute name="title" type="String" default="Custom Title" />
+<aura:attribute name="valData" type="String" />
+<aura:attribute name="data" type="Object" />
+<aura:attribute name="columns" type="List" />
+
+
+<!--<c:HomeHeaderComponent />-->
+
+<lightning:layout multipleRows="true">
+    <lightning:layoutItem size="12">
+        <lightning:layout multipleRows="true">
+            <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12" mediumDeviceSize="12"
+                largeDeviceSize="6">
+                <div class="page-section page-left">
+                    <c:WGC_Header_Attivita />
+                </div>
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12" mediumDeviceSize="6"
+                largeDeviceSize="3">
+                <div class="page-section page-center">
+                    <c:WGC_Header_Base_Clienti />
+                </div>
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12" mediumDeviceSize="6"
+                largeDeviceSize="3">
+                <div class="page-section page-right">
+                    <c:WGC_Header_News />
+                </div>
+            </lightning:layoutItem>
+        </lightning:layout>
+    </lightning:layoutItem>
+</lightning:layout>
+
+<div class='container slds-p-around_small'>
+
+    <lightning:card>
+        <aura:set attribute="title">
+            <lightning:icon iconName="utility:chart" size="small" variant="slds-icon-inverse" />
+            <div class="title">{!$Label.c.WGC_BaseClienti_DetailComponent_BASE_CLIENTI}</div>
+            <!-- with container -->
+            <div class="open-component">
+                <lightning:button label="{!$Label.c.WGC_ComponentCard_Header_Back_To_Home}" class="cstm-btn-round remove-oppty" variant="container" 
+                    onclick="{!c.navigateToMyComponent}" />
+            </div>
+        </aura:set>
+    </lightning:card>
+</div>
+</aura:component>

@@ -1,0 +1,225 @@
+<!--
+  @description       : 
+  @author            : simone.viglianti@tengroup.it
+  @group             : 
+  @last modified on  : 10-27-2022
+  @last modified by  : simone.viglianti@tengroup.it
+-->
+<aura:component controller="WGC_Modal_TitolareEsecutore_Controller" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="accountId" type="String" />
+    <aura:attribute name="relationship" type="Map[]"/>
+    <aura:attribute name="contactList" type="Map[]" />
+    <aura:attribute name="consensi" type="Boolean" default="false"/>
+    <aura:attribute name="mavCompleto" type="Boolean" default="false" />
+    <aura:attribute name="toBeSaved" type="Boolean" default="false" />
+    <!--FACOTRY SV START-->
+    <aura:attribute name="nazioni" type="Map" />
+    <aura:attribute name="infoMav" type="Map" />
+    <aura:attribute name="tipoRapp" type="Map" />
+    <aura:attribute name="accRel" type="AccountContactRelation" default="{'sobjectType' : 'AccountContactRelation'}"/>
+    <!--Factory SV END-->
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.toBeSaved}" action="{!c.execute}" />
+    <aura:handler event="c:WGC_CreateContactResolveEvent" action="{! c.resolveEvent }" />
+    <!-- EVENTS -->
+    <aura:registerEvent name="WGC_AdeguataVerificaResolveEvent" type="c:WGC_ModuloAdeguataVerifica_ResolveEvent"/>
+    <aura:registerEvent name="WGC_ChangeMav" type="c:WGC_ChangeMavInfo" />
+    <!-- LIBRARIES -->
+    <lightning:navigation aura:id="navService"/>
+    <lightning:notificationsLibrary aura:id="notifLib"/>
+    
+    <div class="container ">
+        <lightning:card title="">
+            <!-- 
+            <aura:set attribute="title">
+                <div style="display:inline;">
+                    <lightning:recordViewForm recordId="{!v.accountId}" objectApiName="Account">
+                        <div class="title">
+                            Referenti associati: &nbsp;<lightning:outputField class="title" fieldName="Name" variant="label-hidden" />
+                        </div>
+                    </lightning:recordViewForm>
+                    <p style="font-weight:400; font-size:large;">Referenti associati alla pratica</p>
+                </div>
+            </aura:set>
+            <aura:set attribute="actions">
+                <lightning:button label="Aggiungi Referente" onclick="{!c.navigateToModal}"/>
+            </aura:set>
+            -->
+            <div class="slds-text-align_left slds-p-around_small pr-white" style="width:100%;">
+                <span class="level-info subtitle-text">Referenti associati alla pratica</span>
+            </div>
+            <lightning:layout multipleRows="true" class="table-style pr-white">
+				<lightning:layoutItem size="12">
+                    <!-- intestazione tabella -->
+                    <lightning:layout class="slds-text-title_caps header-table">
+                        <lightning:layoutItem size="3" class="slds-p-around_small">
+                            <span style="text-transform: uppercase;">Informazioni referente</span>
+                        </lightning:layoutItem>
+                        <!-- <lightning:layoutItem size="3" class="slds-p-around_small">
+                            <span style="text-transform: uppercase;">Indirizzo</span>
+                        </lightning:layoutItem> -->
+                        <lightning:layoutItem size="2" class="slds-p-around_small">
+                            <span style="text-transform: uppercase;">Ruolo</span>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="1" class="slds-p-around_small">
+                                <span style="text-transform: uppercase;">Seleziona</span>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="2" class="slds-p-around_small">
+                            <span style="text-transform: uppercase;">Tipologia Tit. Eff.</span>
+                        </lightning:layoutItem>
+						<lightning:layoutItem size="2" class="slds-p-around_small">
+                            <span style="text-transform: uppercase;">COMPORTAMENTO CLIENTE/ ESECUTORE</span>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="2" class="slds-p-around_small">
+                            <span style="text-transform: uppercase;">RELAZIONE CLIENTE ESECUTORE</span>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                    <aura:if isTrue="{!v.contactList.length > 0}">
+                        <aura:iteration items="{!v.contactList}" var="item" indexVar="ind">
+                            <lightning:layout class="slds-text-title_caps header-table">
+                                <lightning:layoutItem size="3" class="slds-p-around_small slds-m-vertical_medium">
+                                    <div class="censimento-icon">
+                                        <aura:if isTrue="{! item.contactFull }">
+                                            <lightning:icon iconName="action:approval" size="x-small" />
+                                            <aura:set attribute="else">
+                                                <lightning:icon iconName="action:close" size="x-small" />
+                                            </aura:set>
+                                        </aura:if>
+                                    </div>
+                                    <lightning:icon iconName="standard:user" size="small" />
+                                    <!-- <span style="text-transform: uppercase; margin-left:10px;" aura:id="cId" name="{!ind}" value="{!item.Id}">{!item.FirstName}&nbsp;{!item.LastName}</span> -->
+                                    <aura:if isTrue="{!item.Name != undefined || item.Name != null }">
+                                        <span style="text-transform: uppercase; margin-left:10px;">{!item.Name}</span>
+                                    </aura:if>
+                                    <!-- 
+                                    <aura:if isTrue="{!item.FirstName != null || item.LastName != null}">
+                                        <span style="text-transform: uppercase; margin-left:10px;">{!item.FirstName}&nbsp;{!item.LastName}</span>
+                                    </aura:if>
+                                    -->
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="2" class="slds-p-around_small slds-m-vertical_xx-small">
+                                    <aura:if isTrue="{! and(item.titolareEffettivo,item.titolareEsecutore) }">
+                                        <!-- disabled="{!item.isRelation == false || item.contactFull == false }" -->
+                                        <lightning:select aura:id="ruolo" name="{!ind}" value="{!item.Ruolo_Pratica.value}" disabled="{! !item.isRelation }"  onchange="{!c.changeRole}">
+                                            <option value="">-- seleziona --</option>
+                                            <option value="{! item.titolareEffettivo }">Titolare Effettivo</option>
+                                            <option value="{! item.titolareEsecutore }">Esecutore</option>
+                                            <option value="{! item.titolareEffettivo + ';' + item.titolareEsecutore }">Titolare Effettivo ed Esecutore</option>
+                                        </lightning:select>
+                                        <aura:set attribute="else">
+                                            <!-- disabled="{!item.isRelation == false || item.contactFull == false }" -->
+                                            <lightning:select aura:id="ruolo" name="{!ind}" value="{!item.Ruolo_Pratica.value}" disabled="{! !item.isRelation }"  onchange="{!c.changeRole}">
+                                                <!-- <option value="">- seleziona -</option>
+                                                <option value="{! item.titolareEffettivo }">Titolare Effettivo</option>
+                                                <option value="{! item.titolareEsecutore }">Esecutore</option>
+                                                <option value="{! item.titolareEffettivo + ';' + item.titolareEsecutore }">Titolare Effettivo ed Esecutore</option>
+                                                -->
+                                                <aura:if isTrue="{! item.titolareEffettivo &amp;&amp; !item.titolareEsecutore }">
+                                                    <option value="{! item.titolareEffettivo }">Titolare Effettivo</option>
+                                                </aura:if>
+                                                <aura:if isTrue="{! !item.titolareEffettivo &amp;&amp; item.titolareEsecutore }">
+                                                    <option value="{! item.titolareEsecutore }">Esecutore</option>
+                                                </aura:if>
+                                            </lightning:select>
+                                        </aura:set>
+                                    </aura:if>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="1" class="slds-p-around_small slds-m-vertical_xx-small">
+                                    <!-- disabled="{! !item.contactFull }" -->
+                                    <lightning:input aura:id="selezionato" value="{!item.isRelation}" checked="{!item.isRelation}"  class="toggle-position" type="toggle" name="{!ind}" variant="label-hidden" messageToggleActive="" messageToggleInactive="" onchange="{!c.flagSeleziona}"/>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="2" class="slds-p-around_small slds-m-vertical_xx-small">
+                                    <!-- disabled="{!(item.isRelation == true &amp;&amp; (item.titolareEsecutore))  || item.isRelation == false || item.contactFull == false }" -->
+                                    <lightning:select aura:id="tipologia" name="{!ind}" value="{!item.WGC_Tipologia_Titolare_Effettivo}" disabled="{! and(item.isRelation,(item.Ruolo_Pratica.value == item.titolareEsecutore || item.Ruolo_Pratica.value == '')) || (item.isRelation == false) }"  onchange="{!c.changeTitolare}">
+                                        <option value="">-- seleziona --</option>
+                                        <option value="01">Proprietà diretta</option>
+                                        <option value="02">Proprietà indiretta</option>
+                                        <option value="03">Controllo</option>
+                                        <option value="06">Potere di amministrazione e direzione</option>
+                                        <option value="07">Fondatore e/o beneficiario di Ass./Fond./Org. No profit/PG privata</option>
+                                        <option value="08">Componente di Trust</option>
+                                    </lightning:select>
+                                </lightning:layoutItem>
+
+									<!-- NUOVA SEZIONE -->
+								<lightning:layoutItem size="2" class="slds-p-around_small slds-m-vertical_xx-small">
+                                    <lightning:select aura:id="comportamento" name="{!ind}" value="{!item.comportamentoCliente}" disabled="{! and(item.isRelation,(item.Ruolo_Pratica.value == item.titolareEffettivo || item.Ruolo_Pratica.value == '')) || (item.isRelation == false)}"  onchange="{!c.changeComportamento}">
+                                        <option value="">-- seleziona --</option>
+                                        <option value="1">Normale</option>
+                                        <option value="2">Interposizione soggetti terzi</option>
+                                        <option value="3">Riluttante o incapace a fornire info</option>
+                                        <option value="4">Documenti identificativi contraffatti o difformi</option>
+										<option value="5">Intende operare con prassi illogiche e svantaggiosi</option>
+                                    </lightning:select>
+                                </lightning:layoutItem>
+                                <!--FACTORY SV START-->
+                                <lightning:layoutItem size="2" class="slds-p-around_small slds-m-vertical_xx-small">
+                                    <lightning:select aura:id="rapporto" name="{!ind}" value="{!item.relazioneClienteEsecutore}" disabled="{! and(item.isRelation,(item.Ruolo_Pratica.value == item.titolareEffettivo || item.Ruolo_Pratica.value == '')) || (item.isRelation == false)}"  onchange="{!c.onChangePickValue}">
+                                        <option value="">-- seleziona --</option>
+                                        <option value="01">Congiuge (in cao di cliente PF)</option>
+                                        <option value="02">Figlio/a (in caso di cliente PF)</option>
+                                        <option value="03">Convivente (in caso di cliente PF)</option>
+                                        <option value="04">Soggetto in affari (in caso di cliente PF e PNF)</option>
+                                        <option value="05">Socio / Partecipazione societaria non totalitaria (in caso di cliente PNF)</option>
+                                        <option value="06">Rapporto di lavoro (in caso di cliente PF e PNF)</option>
+                                        <option value="07">Altro legame di parentela (in caso di cliente PF)</option>
+                                        <option value="08">Rapporto di amicizia (in caso di cliente PF)</option>
+                                        <option value="09">Soggetto Apicale / Management esecutivo /Partecipazione totalitaria (in caso di cliente PNF)</option>
+                                        <option value="10">Altro / Altre relazioni di affari, commerciali, professionali (in caso di cliente PF e PNF)</option>
+                                        <option value="91">Controllo / Direzione in Gruppi Societari (in caso di cliente PNF)</option>
+                                        <option value="92">Curatela fallimentare</option>
+                                        <option value="93">Titolare Ditta Individuale</option>
+                                    </lightning:select>
+                                </lightning:layoutItem>
+                                <!--FACTORY SV END-->
+                                <!-- <lightning:layoutItem size="3" class="slds-p-around_small slds-m-vertical_xx-small">
+                                    <aura:if isTrue="{! item.WGC_Ruolo.label == 'Titolare Effettivo ed Esecutore' || item.WGC_Ruolo.label == '' }">
+                                       <lightning:select aura:id="ruolo" name="{!ind}" value="{!item.Ruolo_Pratica.value}" disabled="{!item.isRelation == false || item.contactFull == false }" onchange="{!c.changeRole}">
+                                            <option value="">- seleziona -</option>
+                                            <option value="{! (item.WGC_Ruolo.value == 'J' || item.WGC_Ruolo.value == 'J;Z1' ? 'J' : 'J1') }">Titolare Effettivo</option>
+                                            <option value="Z1">Esecutore</option>
+                                            <option value="{! (item.WGC_Ruolo.value == 'J;Z1' ? 'J;Z1' : 'J1;Z1' ) }">Titolare Effettivo ed Esecutore</option>
+                                        </lightning:select>
+                                        <aura:set attribute="else">
+                                            <lightning:select aura:id="ruolo" name="{!ind}" value="{!item.WGC_Ruolo.value}" disabled="{!item.isRelation == false || item.contactFull == false }" onchange="{!c.changeRole}">
+                                                <option value="{! item.WGC_Ruolo.value }">{! item.WGC_Ruolo.label }</option>
+                                            </lightning:select>
+                                        </aura:set>
+                                    </aura:if>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="2" class="slds-p-around_small slds-m-vertical_xx-small">
+                                    <lightning:input aura:id="selezionato" value="{!item.isRelation}" checked="{!item.isRelation}" disabled="{! !item.contactFull }" class="toggle-position" type="toggle" name="{!ind}" variant="label-hidden" messageToggleActive="" messageToggleInactive="" onchange="{!c.flagSeleziona}"/>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="3" class="slds-p-around_small slds-m-vertical_xx-small">
+                                    <lightning:select aura:id="tipologia" name="{!ind}" value="{!item.WGC_Tipologia_Titolare_Effettivo}" disabled="{!(item.isRelation == true &amp;&amp; (item.Ruolo_Pratica.value == 'Z1' || item.Ruolo_Pratica.value == 'Z') || (item.WGC_Ruolo.value == 'Z1' || item.WGC_Ruolo.value == 'Z') ) || item.isRelation == false || item.contactFull == false }" onchange="{!c.changeTitolare}">
+                                        <option value="">- seleziona -</option>
+                                        <option value="Proprietà diretta">Proprietà diretta</option>
+                                        <option value="Proprietà indiretta">Proprietà indiretta</option>
+                                        <option value="Controllo">Controllo</option>
+                                        <option value="Potere di amministrazione e direzione">Potere di amministrazione e direzione</option>
+                                    </lightning:select>
+                                </lightning:layoutItem> -->
+							</lightning:layout >  
+                        </aura:iteration>
+                        <aura:set attribute="else">
+                            <lightning:layout class="header-table">
+                                <lightning:layoutItem size="3" class="slds-p-around_small slds-m-vertical_small"> 
+                                    <span>Nessun Referente</span>
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                        </aura:set>
+                    </aura:if>
+                    
+                </lightning:layoutItem>
+            </lightning:layout>
+            <!-- 
+            <div class="slds-p-around_small slds-text-align_right">
+                <lightning:button label="Annulla" onclick="{!c.cancel}" />
+                <lightning:button label="Fine" onclick="{!c.execute}" />
+            </div>
+            -->
+        </lightning:card>
+    </div>
+</aura:component>

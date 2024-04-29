@@ -1,0 +1,15 @@
+.app_flexipage-header_header{
+    display:none !important;
+}
+.slds-page-header{
+    display:none !important;
+}
+.div.slds-page-header.header.flexipageHeader { 
+    display: none !important;
+}
+.app_flexipage-header{ 
+    display: none !important;
+}
+.slds-page-header{ 
+    display: none !important;
+}

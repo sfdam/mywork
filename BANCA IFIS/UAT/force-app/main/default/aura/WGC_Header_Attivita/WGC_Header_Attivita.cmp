@@ -1,0 +1,103 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+    controller="WGC_Header_AttivitaController" access="global">
+
+    <ltng:require styles="{!join(',','')}" scripts="{!join(',', 
+    '/resource/WGC_jQuery3x')}" afterScriptsLoaded="{!c.doInit}" />
+
+    <lightning:overlayLibrary aura:id="overlayLib" />
+    <lightning:navigation aura:id="navService" />
+
+    <aura:attribute name="currentUser" type="User" />
+    <aura:attribute name="aziendeDaContattare" type="Decimal" default='0' />
+    <aura:attribute name="visiteDaEsitare" type="Decimal" default='0' />
+    <aura:attribute name="opportunitaDaFinalizzare" type="Decimal" default='0' />
+    <aura:attribute name="contrattiDaFarFirmare" type="Decimal" default='0' />
+    <aura:attribute name="clientiDaAttivare" type="Decimal" default='0' />
+
+    <aura:attribute name="taskScaduti" type="Decimal" default="0"/>
+    <aura:attribute name="visiteScadute" type="Decimal" default="0"/>
+
+    <aura:attribute name="optyScadute" type="Decimal" default="0" />
+    <aura:attribute name="optyScaduteContratto" type="Decimal" default="0" />
+    <aura:attribute name="optyScadutePerf" type="Decimal" default="0"/>
+
+
+    <lightning:card>
+        <aura:set attribute="title">
+        </aura:set>
+        <div class="slds-grid slds-wrap height-max">
+            <div class="slds-col slds-size_1-of-6 height-max back-color-black central-top pointer slds-align_absolute-center" onclick="{!c.navigateToActivity}">
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem size="12">
+                        <lightning:icon iconName="utility:announcement" size="large" alternativeText="sss" variant="inverse" />
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="12">
+                            <h1 class="white-text">{!$Label.c.WGC_Header_Attivita_title}</h1>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </div>
+            <div class="slds-col slds-size_5-of-6 height-max no-padding">
+                <div class="slds-grid slds-wrap height-max horizontal-bkg-container">
+                    <!-- <div class="vl-bottom-dashed"></div> -->
+                    <div class="slds-col slds-size_1-of-5 slds-text-align_center height-max">
+                        <div class="div-col slds-p-vertical_x-small" >
+                            <lightning:badge class="{! ' badge ' + (v.taskScaduti > 0 ? ' negative ' : ' positive ') }" label=">" />
+                            <!-- <span class="slds-badge ">></span> -->
+                        </div>
+                        <div class="div-col">
+                            <span class="span-number">{! v.aziendeDaContattare }</span>
+                        </div>
+                        <div class="div-col span-title">
+                            <!-- {! v.currentUser.Profile.Name == 'Amministratore del sistema' ? 'Aziende da contattare' : 'Rel PTF inattivo nel mese' } -->
+                            {!$Label.c.WGC_Header_Attivita_TaskDiffAccount}
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-5 slds-text-align_center height-max">
+                        <div class="div-col slds-p-vertical_x-small">
+                            <lightning:badge class="{! ' badge ' + (v.visiteScadute > 0 ? ' negative ' : ' positive ') }" label=">"/>
+                        </div>
+                        <div class="div-col">
+                            <span class="span-number">{! v.visiteDaEsitare }</span>
+                        </div>
+                        <div class="div-col span-title">
+                            {!$Label.c.WGC_Header_Attivita_EventDaEsitare}
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-5 slds-text-align_center height-max">
+                        <div class="div-col slds-p-vertical_x-small">
+                            <lightning:badge class="{! ' badge ' + (v.optyScadute > 0 ? ' negative ' : ' positive ' ) }" label=">" />
+                        </div>
+                        <div class="div-col">
+                            <span class="span-number">{! v.opportunitaDaFinalizzare }</span>
+                        </div>
+                        <div class="div-col span-title">
+                            {!$Label.c.WGC_Header_Attivita_OpportunityDaFinalizzare}
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-5 slds-text-align_center height-max">
+                        <div class="div-col slds-p-vertical_x-small">
+                            <lightning:badge class="{! ' badge ' + (v.optyScaduteContratto > 0 ? ' negative ' : ' positive ' ) }" label=">" />
+                        </div>
+                        <div class="div-col">
+                            <span class="span-number">{! v.contrattiDaFarFirmare }</span>
+                        </div>
+                        <div class="div-col span-title">
+                            {!$Label.c.WGC_Header_Attivita_OpportunityDaFarFirmare}
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-5 slds-text-align_center height-max no-padding">
+                        <div class="div-col slds-p-vertical_x-small">
+                            <lightning:badge class="{! ' badge ' + (v.optyScadutePerf > 0 ? ' negative ' : ' positive ' ) }" label=">" />
+                        </div>
+                        <div class="div-col">
+                            <span class="span-number">{! v.clientiDaAttivare }</span>
+                        </div>
+                        <div class="div-col span-title">
+                            {!$Label.c.WGC_Header_Attivita_OpportunityDaAttivare}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </lightning:card>
+</aura:component>

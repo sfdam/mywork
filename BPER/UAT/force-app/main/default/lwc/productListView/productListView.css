@@ -1,0 +1,106 @@
+.tilte-card {
+    display: inline;
+    padding-left: 5px;
+}
+
+.button-new {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    font-size: 12px;
+}
+
+.no-button {
+    text-align: center;
+    color: #D3D3D3;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.product-active {
+    font-size: 12px;
+    margin-left: 15px;
+}
+
+.tableScroll {
+    overflow: auto;
+    overflow-y: hidden;
+    height: 10rem;
+    border: 0;
+}
+
+.lookup{
+    text-decoration: underline;
+}
+
+.popover {
+    width: 200px;
+    height: 130px;
+    position: fixed;
+    top: 10%;
+    left: -50%;
+  }
+  
+  .overflow {
+    height: 100%;
+    overflow: hidden;
+    border: 1px #ddd solid;
+    border-radius: 4%;
+  }
+  
+  .overflow::before {
+    content: '';
+    border: 15px solid transparent;
+    position: absolute;
+    top: -22%;
+    left: 45%;
+    border-bottom-color: #EAEAEA;
+  }
+  
+  .overflow::after {
+    content: '';
+    border: 15px solid transparent;
+    position: absolute;
+    top: -21%;
+    left: 45%;
+    border-bottom-color: #F7F7F7;
+  }
+  
+.header-popover {
+    height: 35px;
+    background: #F7F7F7;
+    border-bottom: 1px solid #EAEAEA;
+    text-align: center;
+    line-height: 35px;
+  }
+  
+.content-popover {
+    background: #fff;
+    height: 100%;
+    padding: 8px;
+  }
+  
+.popover.active  {
+    display: block;
+  }
+
+table tbody tr th.mono {
+    background-image: url("/resource/Monointestazione") !important;
+    background-repeat: no-repeat !important;
+    background-position: center!important;
+    background-size: auto 20px;
+}
+
+table tbody tr th.co-intestato {
+    background-image: url("/resource/Cointestazione") !important;
+    background-repeat: no-repeat !important;
+    background-position: center!important;
+    background-size: auto 20px;
+}
+
+.data-class{
+  font-weight: normal;
+  font-size: 12px;
+  position: absolute;
+  right: 15px;
+}

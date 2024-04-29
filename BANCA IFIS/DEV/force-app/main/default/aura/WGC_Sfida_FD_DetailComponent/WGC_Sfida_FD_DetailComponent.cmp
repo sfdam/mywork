@@ -1,0 +1,279 @@
+<aura:component controller="WGC_Sfida_FD_Detail_Controller" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,lightning:isUrlAddressable" access="global" >
+    <!-- attributes -->
+    <aura:attribute name="results" type="Map" default="{}" />
+    <aura:attribute name="options" type="List" 
+        default="[ { 'label' : 'Anno in corso' , 'value' : 'year' }, { 'label' : 'Anno precedente' , 'value' : 'lastyear'  } ]" />
+    <aura:attribute name="value" type="String" default="year" />
+    <aura:attribute name="dataToday" type="List" />
+    <aura:attribute name="columnsToday" type="List" />
+    <aura:attribute name="dataTodayTeam" type="List" />
+    <aura:attribute name="columnsTodayTeam" type="List" />
+    <aura:attribute name="dataTomorrow" type="List" />
+    <aura:attribute name="columnsTomorrow" type="List" />
+    <aura:attribute name="dataTomorrowTeam" type="List" />
+    <aura:attribute name="columnsTomorrowTeam" type="List" />
+    <aura:attribute name="dataTodayTotale" type="List" />
+    <aura:attribute name="columnsTodayTotale" type="List" />
+    <aura:attribute name="dataTomorrowTotale" type="List" />
+    <aura:attribute name="columnsTomorrowTotale" type="List" />
+    <aura:attribute name="data" type="List" />
+    <aura:attribute name="columns" type="List" />
+    <aura:attribute name="isDirezioneFD" type="Boolean" default="false" />
+    <aura:attribute name="selectedMonth" type="Integer" default="" />
+    <aura:attribute name="months" type="List" />
+    <aura:attribute name="dashboardId" type="String" default="" />
+    <!-- <aura:attribute name="isLoaded" type="Boolean" default="false" /> -->
+    <!-- handlers -->
+    <!-- <aura:handler name="init" value="{! this }" action="{! c.doInit }" /> -->
+    <ltng:require scripts="{!join(',', 
+    '/resource/WGC_jQuery3x',
+    '/resource/WGC_ChartJs')}" afterScriptsLoaded="{!c.doInit}" />
+    <aura:handler name="change" value="{! v.value }" action="{! c.otherDoInit }" />
+    <aura:handler name="change" value="{! v.selectedMonth }" action="{! c.otherDoInit }" />
+    <aura:handler name="change" value="{! v.pageReference.state.c__isDirezioneFD }" action="{! c.doInit }" />
+    <lightning:navigation aura:id="navService" />
+
+    <!-- body -->
+    <div>
+        <lightning:layout multipleRows="true">
+            <lightning:layoutItem size="12">
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12" mediumDeviceSize="12"
+                        largeDeviceSize="4">
+                        <div class="page-section page-left">
+                            <c:WGC_Header_Attivita_FD_Oggi isDirezioneFD="{! v.isDirezioneFD }"/>
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12" mediumDeviceSize="12"
+                        largeDeviceSize="4">
+                        <div class="page-section page-center">
+                            <c:WGC_Header_Attivita_FD_Scadute isDirezioneFD="{! v.isDirezioneFD }" />
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12" mediumDeviceSize="6"
+                        largeDeviceSize="2">
+                        <div class="page-section page-right">
+                            <c:WGC_Header_News />
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem padding="around-small" size="6" smallDeviceSize="6" mediumDeviceSize="3"
+                        largeDeviceSize="1">
+                        <div class="page-section page-right">
+                            <c:WGC_Header_FD_PrevisioneAvvioRapporto isDirezioneFD="{! v.isDirezioneFD }" />
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem padding="around-small" size="6" smallDeviceSize="6" mediumDeviceSize="3"
+                        largeDeviceSize="1">
+                        <div class="page-section page-right">
+                            <c:WGC_Header_FD_FlowLauncher />
+                        </div>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </lightning:layoutItem>
+        </lightning:layout>
+
+        <lightning:card class="slds-m-around_small">
+            <aura:set attribute="title">
+                <lightning:icon iconName="utility:chart" size="small" variant="slds-icon-inverse" />
+                <div class="title">{! $Label.c.WGC_HomePage_Sfida_LaSfida }</div>
+                <!-- with container -->
+                <div class="open-component ipad-disabled">
+                    <lightning:button label="{! $Label.c.WGC_ReteCommerciale_Reporto }" class="btn-report" onclick="{! c.navigateToReport }" />
+                    <lightning:button label="{!$Label.c.WGC_ComponentCard_Header_Back_To_Home}"
+                        class=" remove-oppty" variant="container" onclick="{! c.navigateToHome }" />
+                </div>
+            </aura:set>
+            <!-- <aura:set attribute="actions">
+                <lightning:buttonIcon iconName="utility:expand" variant="bare" onclick="{! c.navigateToHome }" alternativeText="Settings" />
+            </aura:set> -->
+
+            <div>
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem size="3" padding="around-small">
+                        <lightning:select name="mese" value="{! v.selectedMonth }">
+                            <option value="">-- Seleziona --</option>
+                            <aura:iteration var="item" items="{! v.months }">
+                                <option value="{! item.value }" selected="{! item.value == v.selectedMonth ? 'selected' : false }">{! item.label }</option>
+                            </aura:iteration>
+                        </lightning:select>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="4" padding="around-small">
+                        <lightning:radioGroup name="filtri"
+                            label=""
+                            options="{! v.options }"
+                            value="{! v.value }"
+                            type="button"
+                            />
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="10">
+                        <div class="chart-container">
+                            <div class="canvas-container" id="canvas-container-success">
+                                <canvas aura:id="barChartSfidaSuccess" id="barChartSfidaSuccess" style="height: 50vh"/>
+                            </div>
+                            <div class="canvas-container" id="canvas-container">
+                                <canvas aura:id="barChartSfida" id="barChartSfida" style="height:50vh"/>
+                            </div>
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="2">
+                        <lightning:layout multipleRows="true">
+                            <lightning:layoutItem size="12" class="slds-p-around_xx-small">
+                                <div class="quadrant">
+                                    <div class="description">
+                                        <span>{! $Label.c.WGC_HomePage_Sfida_ContattiNelMese }</span>
+                                    </div>
+                                    <div class="desc-result">
+                                        <lightning:formattedNumber value="{! v.results.contattiMese }" />
+                                        <!-- <span>{! v.results.contattiMese }</span> -->
+                                    </div>
+                                </div>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="12" class="slds-p-around_xx-small">
+                                <div class="quadrant">
+                                    <div class="description">
+                                        <span>{! $Label.c.WGC_HomePage_Sfida_AppuntamentiNelMese }</span>
+                                    </div>
+                                    <div class="desc-result">
+                                        <!-- <span>67</span> -->
+                                        <lightning:formattedNumber value="{! v.results.appuntamentiMese }" />
+                                    </div>
+                                </div>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="12" class="slds-p-around_xx-small">
+                                <div class="quadrant">
+                                    <div class="description">
+                                        <span>{! $Label.c.WGC_HomePage_Sfida_AppuntamentiMediGiorno }</span>
+                                    </div>
+                                    <div class="desc-result">
+                                        <!-- <span>67</span> -->
+                                        <lightning:formattedNumber value="{! v.results.appuntamentiMediGiorno }" />
+                                    </div>
+                                </div>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="12" class="slds-p-around_xx-small">
+                                <div class="quadrant">
+                                    <div class="description">
+                                        <span>{! $Label.c.WGC_HomePage_Sfida_PrevisioneAppFineMese }</span>
+                                    </div>
+                                    <div class="desc-result">
+                                        <!-- <span>67</span> -->
+                                        <lightning:formattedNumber value="{! v.results.previsione }" />
+                                    </div>
+                                </div>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="12" class="slds-p-around_xx-small">
+                                <div class="quadrant">
+                                    <div class="description">
+                                        <span>{! $Label.c.WGC_HomePage_Sfida_DeltaAppuntamenti }</span>
+                                    </div>
+                                    <div class="desc-result">
+                                        <!-- <span>67</span> -->
+                                        <lightning:formattedNumber style="percent" value="{! v.results.variazione }" />
+                                    </div>
+                                </div>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="12" class="slds-p-around_xx-small">
+                                <div class="quadrant">
+                                    <div class="description">
+                                        <span>{! $Label.c.WGC_HomePage_Sfida_SuccessoMedio }</span>
+                                    </div>
+                                    <div class="desc-result">
+                                        <!-- <span>8 %</span> -->
+                                        <lightning:formattedNumber value="{! v.results.successoMedio }" style="percent" />
+                                    </div>
+                                </div>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="12" class="slds-box table-container slds-m-top_small">
+                        <lightning:layout multipleRows="true">
+                            <lightning:layoutItem size="8" class="slds-p-around_small today">
+                                <div class="table-title slds-p-bottom_small">
+                                    <span class="desc-result">{! $Label.c.WGC_Sfida_Dettaglio_Oggi }</span>
+                                </div>
+                                <lightning:datatable
+                                    keyField="id"
+                                    data="{! v.dataToday }"
+                                    columns="{! v.columnsToday }"
+                                    hideCheckboxColumn="true"
+                                />
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="4" class="slds-p-around_small">
+                                <div class="table-title slds-p-bottom_small">
+                                    <span class="desc-result">{! $Label.c.WGC_Sfida_Dettaglio_Domani }</span>
+                                </div>
+                                <lightning:datatable
+                                    keyField="id"
+                                    data="{! v.dataTomorrow }"
+                                    columns="{! v.columnsTomorrow }"
+                                    hideCheckboxColumn="true"
+                                />
+                            </lightning:layoutItem>
+                            <!-- sezione cumulativa team -->
+                            <lightning:layoutItem size="8" class="slds-p-around_small today">
+                                <div class="table-title slds-p-bottom_small">
+                                    <span class="desc-result">{! $Label.c.WGC_Sfida_Dettaglio_Oggi } Team</span>
+                                </div>
+                                <lightning:datatable
+                                    keyField="id"
+                                    data="{! v.dataTodayTeam }"
+                                    columns="{! v.columnsTodayTeam }"
+                                    hideCheckboxColumn="true"
+                                />
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="4" class="slds-p-around_small">
+                                <div class="table-title slds-p-bottom_small">
+                                    <span class="desc-result">{! $Label.c.WGC_Sfida_Dettaglio_Domani } Team</span>
+                                </div>
+                                <lightning:datatable
+                                    keyField="id"
+                                    data="{! v.dataTomorrowTeam }"
+                                    columns="{! v.columnsTomorrowTeam }"
+                                    hideCheckboxColumn="true"
+                                />
+                            </lightning:layoutItem>
+                            <!-- sezione totale -->
+                            <lightning:layoutItem size="8" class="slds-p-around_small today">
+                                <div class="table-title slds-p-bottom_small">
+                                    <span class="desc-result">{! $Label.c.WGC_Sfida_Dettaglio_Oggi } Totale</span>
+                                </div>
+                                <lightning:datatable
+                                    keyField="id"
+                                    data="{! v.dataTodayTotale }"
+                                    columns="{! v.columnsTodayTotale }"
+                                    hideCheckboxColumn="true"
+                                />
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="4" class="slds-p-around_small">
+                                <div class="table-title slds-p-bottom_small">
+                                    <span class="desc-result">{! $Label.c.WGC_Sfida_Dettaglio_Domani } Totale</span>
+                                </div>
+                                <lightning:datatable
+                                    keyField="id"
+                                    data="{! v.dataTomorrowTotale }"
+                                    columns="{! v.columnsTomorrowTotale }"
+                                    hideCheckboxColumn="true"
+                                />
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </lightning:layoutItem>
+                    <!-- <lightning:layoutItem size="12" class="slds-box slds-m-top_small">
+                        <lightning:layout multipleRows="true">
+                            <lightning:layoutItem size="12" class="slds-p-around_small">
+                                    <div class="table-title">
+                                        <span>Lorem Ipsum</span>
+                                    </div>
+                                    <lightning:datatable
+                                        keyField="id"
+                                        data="{! v.data }"
+                                        columns="{! v.columns }"
+                                        hideCheckboxColumn="true"
+                                    />
+                                </lightning:layoutItem>
+                        </lightning:layout>
+                    </lightning:layoutItem> -->
+                </lightning:layout>
+            </div>
+        </lightning:card>
+    </div>
+</aura:component>

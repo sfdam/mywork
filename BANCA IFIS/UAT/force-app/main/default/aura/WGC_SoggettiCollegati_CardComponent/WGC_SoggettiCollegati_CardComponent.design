@@ -1,0 +1,7 @@
+<design:component>
+        <design:attribute name="title" label="Titolo" description="Color theme of the component" />
+        <design:attribute name="icon" label="Icona standard" description="Color theme of the component" />
+        <design:attribute name="type" label="Tipo" datasource="Competitors, Clienti partner leasing, Gruppi, Partner leasing, Tribunali, Vicinanza geografica" description="Tipo of the component" />
+        <design:attribute name="idReport" label="Id report" description="Color theme of the component" />
+
+</design:component>

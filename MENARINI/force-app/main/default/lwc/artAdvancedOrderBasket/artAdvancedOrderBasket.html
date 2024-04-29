@@ -1,0 +1,280 @@
+<template>
+    <template if:true={isLoading}>
+        <lightning-spinner alternative-text="Loading" variant="brand" size="large">
+        </lightning-spinner>
+   </template>
+    <template if:true={records}>
+        <lightning-card title={label.ART_Advance_Order_Items} variant="Narrow">
+            <!-- AD START DE-041_042 -->
+            <!-- <lightning-button label={label.ART_Clone} slot="actions" onclick={handleClone}></lightning-button> -->
+            <!-- AD START DE-041_042 -->
+            <template if:true={showAddProducts}>
+                <lightning-button label={label.ADD_PRODUCTS} slot="actions" onclick={addProduct}></lightning-button>
+            </template>
+            <!--LIGHTNING DATATABLE-->
+            <div style="height:450px">
+                <!-- AL 2024-04-08 - Elimina valora hide-checkbox-column per far apparire le CheckBox -->
+                <lightning-datatable key-field="Id"
+                                    data={recordsToDisplay} 
+                                    columns={columns}
+                                    onrowaction={handleRowActions}
+                                    sorted-direction={sortDirection}
+                                    sorted-by={sortedBy}
+                                    onsort={onHandleSort}
+                                    column-widths-mode="auto"></lightning-datatable>
+            </div>
+            <div class="slds-grid slds-grid_vertical-align-center slds-grid_align-spread" style="padding-top: 0.5em;">
+                <!--RECORDS PER PAGE-->
+                <!--div class="slds-col">
+                    <div class="slds-list_inline slds-p-bottom_xx-small">
+                        <label class="slds-text-color_weak slds-p-horizontal_x-small" for="recordsPerPage">Page Size:</label>
+                        <div class="slds-select_container">
+                            <select class="slds-select" id="recordsPerPage" onchange={handleRecordsPerPage}>
+                                <template for:each={pageSizeOptions} for:item="option">
+                                    <option key={option} value={option}>{option}</option>
+                                </template>
+                            </select>
+                        </div>
+                    </div>
+                </div-->
+                <!-- Alessandro Di Nardo @ten-->
+                <div class="slds-clearfix" if:true={showCounters}>
+                    <div class="slds-m-right_medium">
+                        <div class="slds-m-right_medium">
+                            <span class="slds-badge">&nbsp;<p>{label.ART_TotalReferences} : </p>&nbsp;{totalReferenze}</span>
+                        </div>
+                        <div class="slds-m-right_medium">
+                            <span class="slds-badge">&nbsp;{label.ART_Total_Records}&nbsp;{totalRecords}</span>
+                        </div>
+                        <div class="slds-m-right_medium">
+                            <span class="slds-badge">&nbsp;<p>FIRMA Spa : </p>&nbsp;{totalFIR1}</span>
+                        </div>
+                        <div class="slds-m-right_medium">
+                            <span class="slds-badge">&nbsp;<p>Lusofarmaco Spa : </p>&nbsp;{totalLUS1}</span>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="slds-clearfix" if:true={showCounters}>
+                    <div class="slds-m-right_medium">
+                        <span class="slds-badge">&nbsp;<p>A. MENARINI IFR : </p>&nbsp;{totalMEN1}</span>
+                    </div>
+                    <div class="slds-m-right_medium">
+                        <span class="slds-badge">&nbsp;<p>MALESCI Spa : </p>&nbsp;{totalMLS1}</span>
+                    </div>
+                    <div class="slds-m-right_medium">
+                        <span class="slds-badge">&nbsp;<p>Guidotti Spa : </p>&nbsp;{totalGDT1}</span>
+                    </div>
+                </div>
+                
+
+                <!--PAGE NAVIGATION-->
+                <div class="slds-align_absolute-center" style="height:5rem">
+                    <lightning-button disabled={bDisableFirst} icon-name="utility:jump_to_left" label={label.ART_First} class="slds-p-horizontal_x-small" alternative-text={label.ART_First} onclick={firstPage}></lightning-button>
+                    <lightning-button disabled={bDisableFirst} icon-name="utility:chevronleft" label={label.ART_Previous} alternative-text={label.ART_Previous} onclick={previousPage}></lightning-button>
+                    &nbsp;
+                    <span class="slds-badge">{label.ART_Pagine}&nbsp; {pageNumber} &nbsp;{label.Art_di}&nbsp; {totalPages}</span>
+                    &nbsp;
+                    <lightning-button disabled={bDisableLast} icon-name="utility:chevronright" label={label.ART_Next} alternative-text={label.ART_Next} onclick={nextPage} class="slds-p-horizontal_x-small" icon-position="right"></lightning-button>
+                    <lightning-button disabled={bDisableLast} icon-name="utility:jump_to_right" label={label.ART_Last} alternative-text={label.ART_Last} onclick={lastPage} icon-position="right"></lightning-button>
+                </div>
+                <!--TOTAL RECORDS-->
+                <!-- Alessandro Di Nardo @ten backup 2023-08-21
+                <div class="slds-clearfix">
+                    <div class="slds-float_right slds-m-right_medium">
+                        <span class="slds-badge">&nbsp;{label.ART_Total_Records}&nbsp;{totalRecords}</span>
+                    </div>
+                </div>
+                -->
+                <!-- Alessandro Di Nardo @ten-->
+                <div class="slds-clearfix">
+                    <div class="slds-m-right_medium">
+                        <span class="slds-badge">&nbsp;{label.ART_Total_Quantity}&nbsp;<lightning-formatted-number value={totalQuantity} maximum-fraction-digits="2"></lightning-formatted-number></span>
+                    </div>
+                    <div class="slds-m-right_medium">
+                        <span class="slds-badge">&nbsp;{label.ART_NetValue}&nbsp;<lightning-formatted-number value={valueRecipt} minimum-fraction-digits="2" maximum-fraction-digits="2"></lightning-formatted-number></span>
+                    </div>
+                    <!-- <div class="slds-m-right_medium">
+                        <span class="slds-badge">&nbsp;{label.ART_Total_Records}&nbsp;{totalRecords}</span>
+                    </div> -->
+                </div>
+
+            </div>
+        </lightning-card>
+    </template>
+
+    <!-- MODAL -->
+    <template if:true={openmodel}>
+        <div>
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_large">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                            <lightning-icon icon-name="utility:close" size="medium">
+                            </lightning-icon>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <div class="tilte-card"><b>{titoloModale}</b></div>
+
+                        <!-- <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate"></h2> -->
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <!-- FILTRI -->
+                        <!-- <template if:false={isClone}> -->
+                            <lightning-layout>
+                                <lightning-layout-item size="12">
+                                    <div class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none">
+                                        <lightning-layout multiple-rows=true>
+                                            <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="2">
+                                                <lightning-input class="searchEnter" type="text" label="Codice Prodotto" placeholder="Cerca per Codice Prodotto..." value={searchedProductCode} onchange={handleFilter} name="searchedProductCode"></lightning-input>
+                                            </lightning-layout-item>
+                                            <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="2">
+                                                <lightning-input class="searchEnter" type="text" label="Descrizione Prodotto" placeholder="Cerca per Descrizione Prodotto..." value={searchedProductDescription} onchange={handleFilter} name="searchedProductDescription"></lightning-input>
+                                            </lightning-layout-item>
+                                            <!-- DK START DE-012 -->
+                                            <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="2">
+                                                <lightning-combobox                                          
+                                                    label="Azienda"
+                                                    name="searchedAzienda"
+                                                    data-item="searchedAzienda"
+                                                    value={searchedAzienda}
+                                                    placeholder="Cerca per Codice Azienda"
+                                                    options={aziendaPicklistOptions}
+                                                    onchange={handleFilter}
+                                                    message-when-value-missing=" ">
+                                                </lightning-combobox>
+                                            </lightning-layout-item>
+                                            <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="2">
+                                                <lightning-input class="searchEnter" type="text" label="Codice AIC" placeholder="Cerca per Codice AIC..." value={searchedCodiceAIC} onchange={handleFilter} name="searchedCodiceAIC"></lightning-input>
+                                            </lightning-layout-item>
+                                            <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="2">
+                                                <lightning-combobox
+                                                    label="Cluster"
+                                                    name="searchedCluster"
+                                                    data-item="searchedCluster"
+                                                    value={searchedCluster}
+                                                    placeholder="Cerca per Cluster"
+                                                    options={clusterPickListOptions}
+                                                    onchange={handleFilter}
+                                                    message-when-value-missing=" ">
+                                                </lightning-combobox>
+                                                <!-- <lightning-input type="text" label="Cluster" placeholder="Cerca per Cluster..." value={searchedCluster} onchange={handleFilter} name="searchedCluster"></lightning-input> -->
+                                            </lightning-layout-item>
+                                            <!-- DK END DE-012 -->
+                                            <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="2">
+                                                <lightning-button-group class="slds-m-top_large slds-float_right">
+                                                    <lightning-button
+                                                        name="reset"
+                                                        variant="neutral"
+                                                        label="Reset"
+                                                        title="Reset"
+                                                        onclick={handleReset}>
+                                                    </lightning-button>
+                                                    <lightning-button 
+                                                        name="search"
+                                                        variant="neutral"
+                                                        label="Cerca"
+                                                        title="Cerca"
+                                                        onclick={handleSearch}>
+                                                    </lightning-button>
+                                                </lightning-button-group>
+                                            </lightning-layout-item>
+                                        </lightning-layout>
+                                    </div>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        <!-- </template> -->
+                        <template if:false={finalStep}>
+                            <!-- AD START DE-041_042 -->
+                            <lightning-layout multiple-rows=true>
+                                <lightning-layout-item size="12" padding="around-small">
+                                    <div class="recordsTable slds-scrollable_y" style="height:23.3rem">
+                                        <c-custom-lookup selected-s-object={prepopulatedAccount} s-object-name="Account"
+                                        icon-name="standard:account" field-label='Customer' field-to-like="Name,THR_CustomerIdentificationCode__c"
+                                            other-field-to-query = 'THR_CustomerIdentificationCode__c' where-condition={accountFilter}
+                                            field-alternative-in-label="THR_CustomerIdentificationCode__c" 
+                                            event-to-dispatch="filialelookup" onfilialelookup={handleCustomerSelection}
+                                            >
+                                        </c-custom-lookup>
+                                        <c-custom-lookup data-item='customLookupOrder' selected-s-object={prepopulatedOrder} s-object-name="cgcloud__Order__c"
+                                            icon-name="standard:orders" field-label="Order" field-to-like="Name,Owner.Name"
+                                                other-field-to-query = 'Owner.Name' where-condition={orderFilter}
+                                                field-alternative-in-label="Owner.Name" 
+                                                event-to-dispatch="filialelookup" onfilialelookup={handleOrderSelection} p-read-only=true>
+                                        </c-custom-lookup>
+                                        <!-- <lightning-datatable
+                                            data-item="orderTable"
+                                            key-field="Id"
+                                            data={relatedOrderList}
+                                            columns={orderColumnsModal}
+                                            wrap-text-max-lines="5"
+                                            max-row-selection="1">
+                                        </lightning-datatable> -->
+                                    </div>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                            <!-- AD END DE-041_042 -->
+                        </template>
+                        <template if:true={finalStep}>
+                            <!-- DATATABLE -->
+                            <lightning-layout>
+                                <lightning-layout-item size="12">
+                                    <div class="recordsTable slds-scrollable_y" style="height:23.3rem">
+                                        <lightning-datatable
+                                            key-field="cgcloud__ProductCode"
+                                            data={recordsToDisplayModal}
+                                            columns={columnsModal}
+                                            wrap-text-max-lines="5"
+                                            onsave={saveHandleAction}
+                                            errors={errors}
+                                            sorted-direction={sortDirectionModal}
+                                            sorted-by={sortedByModal}
+                                            onsort={onHandleSortModal}
+                                            hide-checkbox-column
+                                            column-widths-mode="auto">
+                                        </lightning-datatable>
+                                    </div>
+                                </lightning-layout-item>
+                            </lightning-layout>
+    
+                            <!--PAGE NAVIGATION-->
+                            <div class="slds-align_absolute-center" style="height:5rem">
+                                <lightning-button disabled={bDisableFirstModal} icon-name="utility:jump_to_left" label={label.ART_First} class="slds-p-horizontal_x-small" alternative-text={label.ART_First} onclick={firstPageModal}></lightning-button>
+                                <lightning-button disabled={bDisableFirstModal} icon-name="utility:chevronleft" label={label.ART_Previous} alternative-text={label.ART_Previous} onclick={previousPageModal}></lightning-button>
+                                &nbsp;
+                                <span class="slds-badge">{label.ART_Pagine}&nbsp; {pageNumberModal} &nbsp;{label.Art_di}&nbsp; {totalPagesModal}</span>
+                                &nbsp;
+                                <lightning-button disabled={bDisableLastModal} icon-name="utility:chevronright" label={label.ART_Next} alternative-text={label.ART_Next} onclick={nextPageModal} class="slds-p-horizontal_x-small" icon-position="right"></lightning-button>
+                                <lightning-button disabled={bDisableLastModal} icon-name="utility:jump_to_right" label={label.ART_Last} alternative-text={label.ART_Last} onclick={lastPageModal} icon-position="right"></lightning-button>
+                            </div>
+    
+                            <!--TOTAL RECORDS-->
+                            <div class="slds-clearfix">
+                                
+                                <div class="slds-float_right slds-m-right_medium">
+                                    <span class="slds-badge">&nbsp;{label.ART_Total_Records}&nbsp;{totalRecords}</span>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <!-- AD START DE-041_042 -->
+                        <template if:false={finalStep}>
+                            <lightning-button variant="neutral" label="Salva" title="Salva" onclick={handleSave}></lightning-button>
+                        </template>
+                        <!-- <template if:true={finalStep}>
+                            <lightning-button variant="neutral" label="Indietro" title="Indietro" onclick={handleBackStep}></lightning-button>
+                        </template> -->
+                        <!-- AD END DE-041_042 -->
+                        <lightning-button label="Annulla" variant="neutral" onclick={closeModal}></lightning-button>
+                    </footer>
+                </div>
+                <template if:true={isLoadingModal}>
+                    <lightning-spinner alternative-text="Loading" variant="brand" size="large">
+                    </lightning-spinner>
+                </template>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </template>
+</template>

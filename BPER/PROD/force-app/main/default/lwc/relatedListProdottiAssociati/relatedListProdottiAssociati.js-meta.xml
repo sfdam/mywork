@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="urn:metadata.tooling.soap.sforce.com" fqn="relatedListProdottiAssociati">
+    <apiVersion>52.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__RecordPage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__RecordPage">
+            <property name="title" type="String" label="Title list view" default="Prodotti Associati" description="definisci il titolo della listView"/>
+            <property name="iconName" type="String" label="Icona" default="utility:file" description="definisci l'icona della listView"/>
+            <property name="maxAssociatedProdNum" type="Integer" label="Numero di righe della list view" default="5" description="definisci il numero di righe da mostrare nella listView"/>
+            <property name="viewAllText" type="String" label="Lable Button View All" default="Mostra Tutto" description="definisci la lable del bottone Mostra Tutto"/>
+            <property name="coupleText" type="String" label="Lable Button Associate" default="Associa" description="definisci la lable del bottone Associa"/>
+            <property name="filterResultsText" type="String" label="Lable Button Filter Results" default="Filtra Risultati" description="definisci la lable del bottone Filtra Risultati"/>
+            <property name="coupleModalText" type="String" label="Lable Button Open Modal Associate" default="Associa Prodotti" description="definisci la lable del bottone della modale Associa Prodotto"/>
+            <property name="noElementMessage" type="String" label="Message no element returned" default="Nessun elemento presente" description="definisci il messaggio per nessun dato presente"/>
+            <property name="errorMessage" type="String" label="Message for errors" default="Si è verificato un errore" description="definisci il messaggio di errore"/>
+            <property name="successMessage" type="String" label="Message for success" default="Operazione effettuata correttamente" description="definisci il messaggio di successo"/>
+            <property name="deleteMessage" type="String" label="Message confirm remove product" default="Sei sicuro di voler rimuovere il prodotto" description="definisci il messaggio di richiesta conferma rimozione prodotto"/>
+            <property name="profiliAutorizzati" type="String" label="Name Profili Autorizzati" description="Lista profili autorizzati separati da ';'"/>
+            <objects>
+                <object>Campaign</object>
+            </objects>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

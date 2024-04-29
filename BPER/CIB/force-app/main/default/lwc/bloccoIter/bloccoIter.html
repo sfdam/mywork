@@ -1,0 +1,147 @@
+<template>
+    <template if:false={isRendered}>
+        <div class="modal-spinner">
+            <lightning-spinner alternative-text="CARICAMENTO" size="large" variant="brand"></lightning-spinner>
+        </div>
+    </template>
+
+    <template if:true={isRendered}>
+        <!-- <div class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none"> -->
+            <lightning-tabset variant="scoped">
+                <lightning-tab label="Unità Organizzativa">
+                    <lightning-layout multiple-rows="true">
+                        <template if:true={isSuperUser}>
+                            <lightning-layout-item size="12" padding="around-small">
+                                <c-custom-lookup is-from-report-page={isFromReportPage}
+                                selected-s-object={prepopulatedAccount}
+                                s-object-name='Account'
+                                icon-name="standard:account"
+                                field-label="Banca/Area/DT/Filiale"
+                                field-to-like="CRM_Nome__c"
+                                other-field-to-query='RecordTypeName__c,PTF_BancaNoEncryption__c'
+                                where-condition={accountFilter}
+                                event-to-dispatch="filialelookup"
+                                onfilialelookup={handleCustomEvent}
+                                field-alternative-in-label = 'RecordTypeName__c,PTF_BancaNoEncryption__c'
+                                p-read-only={disabledInput}>
+                                </c-custom-lookup>  
+                            </lightning-layout-item>
+                        </template>
+                        <template if:false={isSuperUser}>
+                            <lightning-layout-item size="12" padding="around-small">
+                                <c-custom-lookup is-from-report-page={isFromReportPage}
+                                selected-s-object={prepopulatedAccount}
+                                s-object-name='Account'
+                                icon-name="standard:account"
+                                field-label="Banca/Area/DT/Filiale"
+                                field-to-like="CRM_Nome__c"
+                                other-field-to-query='RecordTypeName__c,PTF_BancaNoEncryption__c'
+                                where-condition={accountFilter}
+                                event-to-dispatch="filialelookup"
+                                onfilialelookup={handleCustomEvent}
+                                field-alternative-in-label = 'RecordTypeName__c,PTF_BancaNoEncryption__c'
+                                p-read-only={disabledInput}>
+                                </c-custom-lookup>
+                            </lightning-layout-item>
+                        </template>
+                    </lightning-layout>
+                    <template if:true={selectedFiliale}>
+                        <div class="slds-box slds-p-around_small slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none">
+                            <lightning-layout multiple-rows="true">
+                                <lightning-layout-item size="12" padding="around-small">
+                                    <div class="slds-p-around_small lgc-bg">
+                                        <lightning-tile label={labelFiliale} type="media">
+                                            <lightning-icon slot="media" size="large" icon-name="standard:groups"></lightning-icon>
+                                            <p class="slds-truncate" title={labelBanca}>Banca: {labelBanca}</p>
+                                            <p class="slds-truncate" title={labelDReg}>Direzione Territoriale: {labelDReg}</p>
+                                            <p class="slds-truncate" title={labelArea}>Area: {labelArea}</p>
+                                            <p class="slds-truncate" title={labelCapofila}>Capofila: {labelCapofila}</p>
+                                        </lightning-tile>
+                                    </div>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </div>
+                    </template>
+                    <lightning-layout multiple-rows="true">
+                        <lightning-layout-Item size="12" padding="around-small">
+                            <lightning-textarea label="Motivazioni" placeholder="Indica le motivazioni del blocco" value={note} onchange={handleFilter} name="note" data-item="note" message-when-value-missing=" "></lightning-textarea>
+                        </lightning-layout-Item>
+                        <lightning-layout-item size="12" padding="around-small">
+                            <button type="submit" class="slds-button slds-button_neutral slds-button_stretch" onclick={blockIterUO}>Blocca Iter per NDG</button>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </lightning-tab>
+                <lightning-tab label="Carica CSV" title="2nd tab extended title">
+                    <lightning-layout multiple-rows="true">
+                        <lightning-layout-item class="slds-align_absolute-center" padding="around-small">
+                            <lightning-helptext class="slds-m-top_x-small" content='Selezionare il file CSV da caricare oppure trascinare direttamente il file nel box Upload File'></lightning-helptext>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" padding="around-small">
+                            <p><b>INSERIRE MOTIVAZIONE PRIMA DI CARICARE IL FILE</b></p>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" padding="around-small">
+                            <lightning-input type="file" 
+                                     accept={acceptedFormats}
+                                     onchange={handleUploadFinished}>
+                            </lightning-input>                    
+                        </lightning-layout-item>
+                        <lightning-layout-Item size="12" padding="around-small">
+                            <lightning-textarea label="Motivazioni" placeholder="Indica le motivazioni del blocco" value={note} onchange={handleFilter} name="note" data-item="note" message-when-value-missing=" "></lightning-textarea>
+                        </lightning-layout-Item>
+                    </lightning-layout>
+
+                    <!-- <lightning-layout multiple-rows="true" padding="around-small">
+                        <lightning-layout-item padding="around-small">
+                            <div class="error">{error} - Controllare il file CSV e ripetere l'operazione</div>            
+                        </lightning-layout-item>
+                    </lightning-layout> -->
+                    <!-- <template if:true={data}>
+                        <lightning-layout multiple-rows="true">
+                            <lightning-layout-item size="12" padding="around-small">
+                                <lightning-datatable data-item="ndgTable"
+                                    columns={columns} 
+                                    data={data} 
+                                    key-field="Id"
+                                    show-row-number-column>
+                                </lightning-datatable>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" padding="around-small">
+                                <button type="submit" class="slds-button slds-button_neutral slds-button_stretch" onclick={updateNDGs}>Blocca Iter per NDG</button>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </template> -->
+                </lightning-tab>
+            </lightning-tabset>
+        <!-- </div> -->
+    </template>
+
+    <template if:true={openDialog}>
+        <lightning-card>
+            <div class="slds-container_small">
+                <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container">
+                        <header class="slds-modal__header">
+                            <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate"></h2>
+                        </header>
+                        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                            <p>L'operazione una volta conclusa blocchera lo spostamento di {numElementi} NDG.</p>
+                        </div>
+                        <footer class="slds-modal__footer">
+                            <lightning-button variant="neutral"
+                                              name="cancel"
+                                              label='Annulla'
+                                              title='Cancel'
+                                              onclick={handleClickDialog} ></lightning-button>
+                            <lightning-button variant="brand"
+                                              name="Conferma"
+                                              label='Conferma'
+                                              title='Conferma'
+                                              onclick={handleClickDialog} ></lightning-button>
+                        </footer>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </div>
+        </lightning-card>
+    </template>
+</template>

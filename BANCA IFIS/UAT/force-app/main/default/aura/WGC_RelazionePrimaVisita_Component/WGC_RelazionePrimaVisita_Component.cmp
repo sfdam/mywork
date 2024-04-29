@@ -1,0 +1,341 @@
+<aura:component controller="WGC_RelazionePrimaVisita" implements="flexipage:availableForRecordHome,force:hasRecordId">
+    <aura:attribute name="title" type="String" default="Compila documento"/>
+    <aura:attribute name="tipo" type="String" default="Relazione prima visita"/>
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="relazione" type="RelazionePrimaVisita__c" default="{ 'sobjectType': 'RelazionePrimaVisita__c'}"/>
+    <aura:attribute name="sommaPubPriv" type="Boolean" default="false" />
+    <aura:attribute name="sommaNazEst" type="Boolean" default="false" />
+    <aura:attribute name="sommaContSpot" type="Boolean" default="false" />
+    <aura:attribute name="sommaAppForn" type="Boolean" default="false" />
+    <aura:attribute name="globalError" type="Boolean" default="false" />
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <!-- <aura:handler name="change" value="{!v.relazione.ClientelaFornitoriPub__c}" action="{!c.onChangeClientelaFornitoriPP}" />
+    <aura:handler name="change" value="{!v.relazione.ClientelaFornitoriPriv__c}" action="{!c.onChangeClientelaFornitoriPP}" />
+    <aura:handler name="change" value="{!v.relazione.ClientelaFornitoriNaz__c}" action="{!c.onChangeClientelaFornitoriNE}" />
+    <aura:handler name="change" value="{!v.relazione.ClientelaFornitoriEst__c}" action="{!c.onChangeClientelaFornitoriNE}" /> -->
+
+    <!-- Library -->
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    <lightning:notificationsLibrary aura:id="notifLib"/>
+    
+    <div class="container-doc" style="margin:0 -20px -20px -20px;">
+        <div class="slds-grid slds-wrap slds-p-horizontal_x-large slds-p-bottom_small">
+            <!-- <div class="slds-col slds-size_1-of-1 slds-text-align_left slds-p-around_small">
+                <p class="slds-text-body_small subtitle-text">TIPO DI DOCUMENTO</p>
+            </div> -->
+            <div class="slds-col slds-size_12-of-12 slds-text-align_left slds-p-around_small">
+                <div class="icon-container">
+                    <lightning:icon class="icon" variant="inverse" iconName="utility:file" size="small"/>
+                </div>
+                <div class="title-container">
+                    <span class="slds-text-title_bold" >{!v.tipo}</span>
+                </div>
+            </div>
+        </div>
+        <!-- <div style="background:lightgray;"> -->
+        <lightning:layout multipleRows="true" class="pr-gray slds-p-horizontal_x-large slds-p-vertical_medium">
+            <lightning:layoutItem size="12" class="slds-p-around_small">
+                <span class="subtitle-text">INFORMAZIONI</span>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="12" >
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem size="12" class="slds-p-around_small">
+                        <i class="question">Account</i>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="12" class="slds-p-horizontal_small">
+                        <force:inputField class="input-field-backgray" aura:id="lookup" required="true" value="{!v.relazione.Account__c}"/>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </lightning:layoutItem>
+            <!-- <lightning:layoutItem size="12" >
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem size="12" class="slds-p-around_small">
+                        <i class="question">Opportunità</i>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="12" class="slds-p-horizontal_small">
+                        <force:inputField class="input-field-backgray" required="true" value="{!v.relazione.Opportunita__c}"/>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </lightning:layoutItem> -->
+            <lightning:layoutItem size="6" >
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem size="12" class="slds-p-around_small">
+                        <i class="question">Settore</i>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="12" class="slds-p-horizontal_small">
+                        <force:inputField aura:id="sector" class="input-field-backgray" value="{!v.relazione.Settore__c}"/>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="6" >
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem size="12" class="slds-p-around_small">
+                        <i class="question">Anni di attività</i>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="12" class="slds-p-horizontal_small">
+                        <force:inputField class="input-field-backgray" value="{!v.relazione.AnniDiAttivita__c}"/>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </lightning:layoutItem>
+        </lightning:layout>
+        <!-- -->
+        <lightning:layout multipleRows="true" class="pr-white slds-p-horizontal_x-large slds-p-vertical_medium">
+            <lightning:layoutItem size="12" class="slds-p-around_small">
+                <span class="subtitle-text">CLIENTELA</span>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="6">
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem size="12"  class="slds-p-around_small">
+                        <i class="question">Clientela/fornitori pubblica/i(%)</i>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="12" class="slds-p-horizontal_small">
+                        <force:inputField class="input-field-backwhite" aura:id="inputPub" value="{!v.relazione.ClientelaFornitoriPub__c}"/>
+                        <aura:if isTrue="{!v.sommaPubPriv}">
+                            <span style="color:red;">La percentuale della clientela pubblica più privata, 
+                                o dei fornitori pubblici più privati deve essere uguale a 100% </span>
+                        </aura:if>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="6" >
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem size="12" class="slds-p-around_small">
+                        <i class="question">Clientela/fornitori nazionale/i(%)</i>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="12" class="slds-p-horizontal_small">
+                        <force:inputField class="input-field-backwhite" aura:id="inputNaz" value="{!v.relazione.ClientelaFornitoriNaz__c}"/>
+                        <aura:if isTrue="{!v.sommaNazEst}">
+                            <span style="color:red;">La percentuale della clientela nazionale più estera,
+                                o dei fornitori nazionali più esteri deve essere uguale a 100%</span>
+                        </aura:if>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="6" >
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem size="12" class="slds-p-around_small">
+                        <i class="question">Clientela/fornitori privata/i(%)</i>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="12" class="slds-p-horizontal_small">
+                        <force:inputField class="input-field-backwhite" value="{!v.relazione.ClientelaFornitoriPriv__c}"/>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="6">
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem size="12" class="slds-p-around_small">
+                        <i class="question">Clientela/fornitori estera/i(%)</i>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="12" class="slds-p-horizontal_small">
+                        <force:inputField class="input-field-backwhite" value="{!v.relazione.ClientelaFornitoriEst__c}"/>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="6">
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem size="12" class="slds-p-around_small">
+                        <i class="question">Concentrazione clientela/fornitori</i>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="12" class="slds-p-horizontal_small">
+                        <force:inputField class="input-field-backwhite" value="{!v.relazione.ConcentrazioneClientelaFornitori__c}"/>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="6">
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem size="12" class="slds-p-around_small">
+                        <i class="question">Durata media rapporto clienti/fornitori</i>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="12" class="slds-p-horizontal_small">
+                        <force:inputField class="input-field-backwhite" value="{!v.relazione.DurataMediaRapportoPrincipaliClientiForn__c}"/>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </lightning:layoutItem>
+        </lightning:layout>
+        <!-- <div style="background:lightgray;"> -->
+        <lightning:layout multipleRows="true" class="pr-gray slds-p-horizontal_x-large slds-p-vertical_medium">
+            <lightning:layoutItem size="12" class="slds-p-around_small">
+                <span class="subtitle-text">FORNITURA</span>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="6">
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem size="12" class="slds-p-around_small">
+                        <i class="question">Fornitura/Ordinativi continuativa/i (%)</i>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="12" class="slds-p-horizontal_small">
+                        <force:inputField class="input-field-backgray" aura:id="inputCont" value="{!v.relazione.FornituraOrdinativiCont__c}"/>
+                        <aura:if isTrue="{!v.sommaContSpot == true}">
+                            <span style="color:red;">La percentuale della fornitura continuativa più spot,
+                                o degli ordinativi continuativi più spot deve essere uguale a 100%</span>
+                        </aura:if>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="6">
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem size="12" class="slds-p-around_small">
+                        <i class="question">Appalto d'opera/fornitura con posa(%)</i>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="12" class="slds-p-horizontal_small">
+                        <force:inputField class="input-field-backgray" aura:id="inputForn" value="{!v.relazione.AppaltoOperaFornituraConPosa__c}"/>
+                        <aura:if isTrue="{!v.sommaAppForn == true}">
+                            <span style="color:red;">La somma delle percentuali di Appalto d'opera/fornitura con posa,
+                                Appalto di servizi, Fornitura di beni e Fornitura di servizi deve essere pari al 100%</span>
+                        </aura:if>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="6">
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem size="12" class="slds-p-around_small">
+                        <i class="question">Fornitura/Ordinativi spot(%)</i>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="12" class="slds-p-horizontal_small">
+                        <force:inputField class="input-field-backgray" value="{!v.relazione.FornituraOrdinativiSpot__c}"/>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="6">
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem size="12" class="slds-p-around_small">
+                        <i class="question">Appalto di servizi forn./ordinativi(%)</i>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="12" class="slds-p-horizontal_small">
+                        <force:inputField class="input-field-backgray" value="{!v.relazione.AppaltoDiServiziFornOrd__c}"/>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="6">
+                <!-- spazio inserito per mantenere la formattazione-->
+            </lightning:layoutItem>
+            <lightning:layoutItem size="6">
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem size="12" class="slds-p-around_small">
+                        <i class="question">Fornitura di beni (%)</i>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="12" class="slds-p-horizontal_small">
+                        <force:inputField class="input-field-backgray" value="{!v.relazione.FornituraBeni__c}"/>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="6">
+                <!-- spazio inserito per mantenere la formattazione-->
+            </lightning:layoutItem>
+            <lightning:layoutItem size="6">
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem size="12" class="slds-p-around_small">
+                        <i class="question">Fornitura di servizi (%)</i>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="12" class="slds-p-horizontal_small">
+                        <force:inputField class="input-field-backgray" value="{!v.relazione.FornituraServizi__c}"/>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </lightning:layoutItem>
+        </lightning:layout>
+        <!-- -->
+        <!-- <div style="background:white;"> -->
+        <lightning:layout multipleRows="true" class="pr-white slds-p-horizontal_x-large slds-p-vertical_medium">
+            <lightning:layoutItem size="12" class="slds-p-around_small">
+                <span class="subtitle-text">FATTURATO</span>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="6">
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem size="12" class="slds-p-around_small">
+                        <i class="question">Fatturato ultimo anno</i>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="12" class="slds-p-horizontal_small">
+                        <force:inputField class="input-field-backwhite" value="{!v.relazione.FatturatoUltimoAnno__c}"/>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="6">
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem size="12" class="slds-p-around_small">
+                        <i class="question">Previsione anno in corso</i>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="12" class="slds-p-horizontal_small">
+                        <force:inputField class="input-field-backwhite" value="{!v.relazione.PrevisioneAnnoInCorso__c}"/>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="6">
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem size="12" class="slds-p-around_small">
+                        <i class="question">Fatturato anno precedente</i>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="12" class="slds-p-horizontal_small">
+                        <force:inputField class="input-field-backwhite" value="{!v.relazione.FatturatoAnnoPrecedente__c}"/>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="6" >
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem size="12" class="slds-p-around_small">
+                        <i class="question">Previsione anno successivo</i>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="12" class="slds-p-horizontal_small">
+                        <force:inputField class="input-field-backwhite" value="{!v.relazione.PrevisioneAnnoSuccessivo__c}"/>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </lightning:layoutItem>
+        </lightning:layout>
+        <!-- </div> -->
+        <!-- <div style="background:lightgray;"> -->
+        <lightning:layout multipleRows="true" class="pr-gray slds-p-horizontal_x-large slds-p-vertical_medium">
+            <lightning:layoutItem size="12" class="slds-p-around_small">
+                <span class="subtitle-text">REFERENTE</span>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="6">
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem size="12" class="slds-p-around_small">
+                        <i class="question">Ruolo referente</i>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="12" class="slds-p-horizontal_small">
+                        <force:inputField class="input-field-backgray" value="{!v.relazione.Ruolo_referente__c}"/>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="6">
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem size="12" class="slds-p-around_small">
+                        <i class="question">Disponibilità referente</i>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="12" class="slds-p-horizontal_small">
+                        <force:inputField class="input-field-backgray" value="{!v.relazione.DisponibilitaReferente__c}"/>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="6">
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem size="12" class="slds-p-around_small">
+                        <i class="question">Atteggiamento referente</i>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="12" class="slds-p-horizontal_small">
+                        <force:inputField class="input-field-backgray" value="{!v.relazione.AtteggiamentoReferente__c}"/>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </lightning:layoutItem>
+        </lightning:layout>
+        <lightning:layout multipleRows="true" class="pr-white slds-p-horizontal_x-large slds-p-vertical_medium">
+            <lightning:layoutItem size="12" class="slds-p-around_small">
+                <span class="subtitle-text">NOTE</span>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="12">
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem size="12" class="slds-p-around_small">
+                        <i class="question">Inserisci una nota</i>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="12" class="slds-p-horizontal_small">
+                        <force:inputField class="input-field-backwhite" value="{!v.relazione.Note__c}"/>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </lightning:layoutItem>
+        </lightning:layout>
+        <!-- </div> -->
+        <footer class="slds-modal__footer">
+            <lightning:button variant="neutral" onclick="{!c.close}" label="ANNULLA" />
+            <lightning:button class="btn" variant="neutral" onclick="{!c.saveRecord}" label="SALVA" />
+        </footer>
+</div>
+</aura:component>

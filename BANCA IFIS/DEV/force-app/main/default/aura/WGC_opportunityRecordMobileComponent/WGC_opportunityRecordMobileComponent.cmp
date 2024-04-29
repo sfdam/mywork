@@ -1,0 +1,38 @@
+<aura:component implements="force:lightningQuickAction,lightning:actionOverride,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes"
+                access="global">
+    
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="iPhone" type="Boolean" default="FALSE" />
+
+    <!-- HANDLERS -->
+    <!-- <aura:handler name="init" value="{!this}" action="{!c.doInit}"/> -->
+    <aura:handler name="change" value="{! v.recordId }" action="{!c.doInit}"/>
+
+    <div>
+            <aura:if isTrue="{! !v.iPhone }">
+        
+                    <c:WGC_OpportunityRedirect recordId="{!v.recordId}" />
+            
+                    <aura:set attribute="else">
+                            <lightning:layout multipleRows="true" class="slds-box">
+                                <lightning:layoutItem flexibility="auto" padding="around-small">
+                                    <div class="no-button">
+                                        {!$Label.c.WGC_opportunityRecordMobileComponent_Not_Show_Mobile}
+                                    </div>
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                    </aura:set>
+                </aura:if>
+                
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem size="12" smallDeviceSize="12"
+                                          mediumDeviceSize="12" largeDeviceSize="12">
+                        <div class="page-section">
+                            <force:recordView recordId="{!v.recordId}" />
+                        </div>
+                    </lightning:layoutItem>
+                </lightning:layout>
+    </div>
+    
+    
+</aura:component>

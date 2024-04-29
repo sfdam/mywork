@@ -1,0 +1,61 @@
+<aura:component extends="c:WGC_Utility">
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="items" type="Object[]"/>
+    <aura:attribute name="readOnly" type="Boolean" />
+    <aura:attribute name="fields" type="Object[]" default="[]" />
+    <aura:attribute name="opportunityRecord" type="Object" />
+    <aura:attribute name="records" type="Object[]" />
+    <!-- SV CONTENITORE DELLE CHIAMATE -->
+    <!-- <aura:attribute name="otherInformation" type="Object" /> -->
+    <aura:attribute name="CCData" type="Object[]" />
+
+    <!-- REGISTER EVENTS -->
+    <aura:registerEvent name="subProductChange" type="c:WGC_SubProduct_Event"/>
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }" />
+
+    <!-- BODY -->
+    <lightning:layout multipleRows="true">
+        <aura:if isTrue="{! v.fields.length > 0 }">
+            <aura:iteration items="{! v.fields }" var="field" indexVar="ind">
+                <aura:if isTrue="{! field.visible }">
+                    <lightning:layoutItem flexibility="grow, no-shrink" class="slds-p-around_x-small">
+                        <aura:if isTrue="{! field.type == 'select' }">
+                            <lightning:select name="{! field.name }" label="{! field.label }" value="{! field.value }" disabled="{! field.disabled || v.readOnly }" required="{! field.required }" onchange="{! c.onChangeData }">
+                                <option value="">--seleziona--</option>
+                                <aura:iteration items="{! field.options }" var="opt">
+                                    <option value="{! opt.value }" disabled="{! opt.disabled }">{! opt.label }</option>
+                                </aura:iteration>
+                            </lightning:select>
+                            <!-- <aura:set attribute="else">
+                                <aura:if isTrue="{! field.type == 'toggle' }">
+                                    <label class="slds-form-element__label">{! field.label }</label><br />
+                                </aura:if>
+                                <lightning:input type="{! field.type }" name="{! field.name }" label="{! field.label }" value="{! field.value }" step="{! field.step }" checked="{! field.value }" disabled="{! field.disabled || v.readOnly }" variant="{! (field.type == 'toggle' ? 'label-hidden' : 'standard' ) }" class="{! (field.type == 'toggle' ? 'cstm-display-block' : '' ) }" messageToggleActive="" messageToggleInactive="" onchange="{! c.onChangeData }" />
+                            </aura:set> -->
+                        </aura:if>
+
+                        <aura:if isTrue="{! field.type == 'radio' }">
+                            <lightning:radioGroup name="radioGroup"
+                                label="{! field.label }"
+                                options="{! field.options }"
+                                value="{! field.value }"
+                                type="{! field.type }"
+                                disabled="{! field.disabled || v.readOnly }"
+                                required="{! field.required }"
+                                onchange="{! c.onChangeData }"/>
+                        </aura:if>
+
+                        <aura:if isTrue="{! field.type == 'number' }">
+                            <lightning:input type="{! field.type }" name="{! field.name }" label="{! field.label }" value="{! field.value }" step="{! field.step }" checked="{! field.value }" disabled="{! field.disabled || v.readOnly }" required="{! field.required }" variant="{! (field.type == 'toggle' ? 'label-hidden' : 'standard' ) }" class="{! (field.type == 'toggle' ? 'cstm-display-block' : '' ) }" messageToggleActive="" messageToggleInactive="" onchange="{! c.onChangeData }" />
+                        </aura:if>
+
+                    </lightning:layoutItem>
+                </aura:if>
+            </aura:iteration>
+            <aura:set attribute="else">
+                <p>Nessun campo disponibile</p>
+            </aura:set>
+        </aura:if>
+    </lightning:layout>
+</aura:component>

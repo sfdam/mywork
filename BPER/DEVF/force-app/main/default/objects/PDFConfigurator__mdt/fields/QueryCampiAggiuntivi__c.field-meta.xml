@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>QueryCampiAggiuntivi__c</fullName>
+    <description>campi relativi alle relazioni, separati da virgola</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Campi relativi alle relazioni, separati da virgola.
+In caso di elemento ROOT: utilizzati per recuperare campi addentrati nelle relazioni
+In caso di elemento non root: utilizzati solo se Has Query flaggato per recuperare campi addentrati nelle relazioni</inlineHelpText>
+    <label>Query Campi Aggiuntivi</label>
+    <length>20000</length>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

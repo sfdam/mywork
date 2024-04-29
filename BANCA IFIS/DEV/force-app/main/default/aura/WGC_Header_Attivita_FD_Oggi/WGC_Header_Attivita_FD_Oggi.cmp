@@ -1,0 +1,79 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" controller="WGC_Header_Attivita_FD_Controller">
+	<ltng:require styles="{!join(',','')}" scripts="{!join(',', 
+    '/resource/WGC_jQuery3x')}" afterScriptsLoaded="{!c.doInit}" />
+
+    <lightning:overlayLibrary aura:id="overlayLib" />
+    <lightning:navigation aura:id="navService" />
+
+    <aura:attribute name="currentUser" type="User" />
+    <aura:attribute name="aziendeDaContattare" type="Decimal" default='0' />
+    <aura:attribute name="aziendeDaRisentire" type="Decimal" default='0' />
+    <aura:attribute name="promemoria" type="Decimal" default='0' />
+    <aura:attribute name="prova" type="Decimal" default="1000" />
+
+    <aura:attribute name="isDirezioneFD" type="Boolean" default="false" />
+
+    <!-- handlers -->
+    <aura:handler event="c:WGC_FilterEvent_FD" action="{! c.filter }" />
+    <aura:handler name="change" value="{! v.isDirezioneFD }" action="{! c.doInit }" />
+
+    <!-- body -->
+    <lightning:card>
+        <aura:set attribute="title">
+        </aura:set>
+        <div class="slds-grid slds-wrap height-max">
+            <div class="slds-col slds-size_3-of-12 height-max back-color-black central-top pointer slds-align_absolute-center" onclick="{!c.navigateToActivity}">
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem size="12">
+                        <lightning:icon iconName="utility:announcement" size="large" alternativeText="sss" variant="inverse" />
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="12">
+                            <h1 class="white-text">{!$Label.c.WGC_Header_Attivita_title} DI OGGI</h1>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </div>
+            <div class="slds-col slds-size_9-of-12 height-max no-padding">
+                <div class="slds-grid slds-wrap height-max horizontal-bkg-container">
+                    <!-- <div class="vl-bottom-dashed"></div> -->
+                    <div class="slds-col slds-size_1-of-3 slds-text-align_center height-max">
+                        <div class="div-col slds-p-vertical_x-small" >
+                            <lightning:badge class="badge positive" label=">" />
+                            <!-- <span class="slds-badge ">></span> -->
+                        </div>
+                        <div class="div-col">
+                            <lightning:formattedNumber class="span-number" value="{! v.aziendeDaContattare }" />
+                            <!-- <span class="span-number">{! v.aziendeDaContattare }</span> -->
+                        </div>
+                        <div class="div-col span-title">
+                            <!-- {! v.currentUser.Profile.Name == 'Amministratore del sistema' ? 'Aziende da contattare' : 'Rel PTF inattivo nel mese' } -->
+                            {!$Label.c.WGC_Header_Attivita_TaskDiffAccount}
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-3 slds-text-align_center height-max">
+                        <div class="div-col slds-p-vertical_x-small">
+                            <lightning:badge class="badge positive" label=">"/>
+                        </div>
+                        <div class="div-col">
+                            <lightning:formattedNumber class="span-number" value="{! v.aziendeDaRisentire }" />
+                            <!-- <span class="span-number">{! v.aziendeDaRisentire }</span> -->
+                        </div>
+                        <div class="div-col span-title">
+                            {! $Label.c.WGC_Header_Attivita_AziendeDaRisentire }
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-3 slds-text-align_center height-max">
+                        <div class="div-col slds-p-vertical_x-small">
+                            <lightning:badge class="badge positive" label=">" />
+                        </div>
+                        <div class="div-col">
+                            <lightning:formattedNumber class="span-number" value="{! v.promemoria }" />
+                        </div>
+                        <div class="div-col span-title">
+                            {! $Label.c.WGC_Header_Attivita_CommercialeDaContattare }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </lightning:card>
+</aura:component>

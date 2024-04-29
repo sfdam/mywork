@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Residuale</fullName>
+    <active>true</active>
+    <label>Residuale</label>
+    <picklistValues>
+        <picklist>PTF_ModelloDiServizio__c</picklist>
+        <values>
+            <fullName>Assente</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Business PMI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Consulenti Finanziari</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Controparti Istituzionali</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Corporate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Couco</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Enti e Tesorerie</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Family</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Key Client Imprese</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Key Client Privati</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Large Corporate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Non Portafogliati</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>POE</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Personal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Private</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Residuale</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Small Business</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

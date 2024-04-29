@@ -1,0 +1,83 @@
+<template>
+    <div class="containerXXX">
+        <lightning-layout>
+            <lightning-layout-item size="12" class="slds-card_boundary">
+                <lightning-card>
+                    <div slot="title" class="title">
+                        <div style="display: flex;">
+                            <lightning-icon icon-name={iconName} size="small"></lightning-icon>
+                            <div class="tilte-card"><b>{title}</b></div>
+                        </div>
+                    </div>
+                    <template if:false={loaded}>
+                        <div class="slds-align_absolute-center">
+                            <lightning-spinner alternative-text="CARICAMENTO" size="small"></lightning-spinner>
+                        </div>
+                    </template>
+                    <template if:true={loaded}>
+                        <template if:true={hasToClose}>
+                            <div class="no-button">
+                                <p>Il Numero di Richiesta è visualizzato in rosso se mancano {alertDays} o meno giorni all'annullamento automatico</p>
+                            </div>
+                        </template>
+                        <lightning-tabset class="approvalTabs">
+                            <lightning-tab label="ITER">
+                                <template if:true={notEmptyList}>
+                                    <lightning-layout>
+                                        <lightning-layout-item size="12">
+                                            <lightning-datatable data-item="requestsTable" 
+                                                hide-checkbox-column
+                                                show-row-number-column
+                                                key-field="Id"
+                                                columns={columns}
+                                                data={approvalRequests}>
+                                            </lightning-datatable>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </template>
+                                <template if:false={notEmptyList}>
+                                    <lightning-layout-Item size="12">
+                                        <div class="no-button">
+                                            <p>Non ci sono richieste in pending assegnate a te.</p>
+                                        </div>
+                                    </lightning-layout-Item>
+                                </template>
+                            </lightning-tab>
+                            <template if:true={notEmptyNFList}>
+                                <lightning-tab label="ITER BACKUP">
+                                    <lightning-layout>
+                                        <lightning-layout-item size="12">
+                                            <lightning-datatable data-item="requestsTable" 
+                                                hide-checkbox-column
+                                                show-row-number-column
+                                                key-field="Id"
+                                                columns={columns}
+                                                data={approvalNFRequests}>
+                                            </lightning-datatable>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-tab>
+                            </template>
+                            <template if:true={notEmptyDelegatedList}>
+                                <lightning-tab label="ITER DELEGATI">
+                                    <lightning-layout>
+                                        <lightning-layout-item size="12">
+                                            <lightning-datatable data-item="requestsTable" 
+                                                hide-checkbox-column
+                                                show-row-number-column
+                                                key-field="Id"
+                                                columns={columns}
+                                                data={approvalDelegatedRequests}>
+                                            </lightning-datatable>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-tab>
+                            </template>
+                        </lightning-tabset>
+                    </template>
+                </lightning-card>       
+            </lightning-layout-item>
+        </lightning-layout>
+    </div>
+
+</template>

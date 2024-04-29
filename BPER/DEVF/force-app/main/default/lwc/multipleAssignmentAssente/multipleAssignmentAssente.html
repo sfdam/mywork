@@ -1,0 +1,195 @@
+<!-- Author : Dam Kebe @Lutech -->
+<template>
+    <lightning-card  title="Gestisci NDG">
+        <template if:true={showNDGs}>
+            <lightning-layout multiple-rows="true">
+                <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="5" large-device-size="5">
+                    <lightning-input type="text" label="Nome" placeholder="Cerca per nome..." value={searchedNome} onchange={handleFilter} name="searchedNome" data-item="searchedNome"></lightning-input>
+                </lightning-layout-item>
+                <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="4" large-device-size="4">
+                    <lightning-input type="text" label="NDG" placeholder="Cerca per NDG..." value={searchedNDG} onchange={handleFilter} name="searchedNDG" data-item="searchedNDG"></lightning-input>
+                </lightning-layout-item>
+                <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="3" large-device-size="3">
+                    <lightning-button-group class="slds-m-top_large slds-float_right">
+                        <lightning-button 
+                            variant="neutral"
+                            label="Reset"
+                            title="Reset"
+                            onclick={handleNDGReset}>
+                        </lightning-button>
+                        <lightning-button 
+                            variant="neutral"
+                            label="Cerca"
+                            title="Cerca"
+                            onclick={handleNDGSearch}>
+                        </lightning-button>
+                    </lightning-button-group>
+                </lightning-layout-item>
+            </lightning-layout>
+    
+            <template if:true={hasNDGRows}>
+                <lightning-layout class="paginator">
+                    <lightning-layout-item alignment-bump="left">
+                        <lightning-layout class="slds-align_absolute-center">
+                            <lightning-layout-item padding="around-small">
+                                <div class="lgc-bg">
+                                    <lightning-button-icon icon-name="utility:chevronleft"  variant="container" alternative-text="Settings" title="Settings" onclick={handleIndietro} disabled={disabledButtonIndietro}></lightning-button-icon>
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item padding="around-small">
+                                Pag. {page}
+                            </lightning-layout-item>
+                            <lightning-layout-item padding="around-small">
+                                <div class="lgc-bg">
+                                    <lightning-button-icon icon-name="utility:chevronright"  variant="container" alternative-text="Settings" title="Settings" onclick={handleAvanti} disabled={disabledButtonAvanti}></lightning-button-icon>
+                                </div>                
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </lightning-layout-item>
+                </lightning-layout>
+    
+                <lightning-layout multiple-rows="true">
+                    <lightning-layout-item padding="around-small" size="12">
+                        <div style="height: 9rem">
+                            <lightning-datatable data-item="ndgTable" key-field="Id"
+                                                     columns={columns}
+                                                     data={currentPageData}
+                                                     max-row-selection=1
+                                                     selected-rows={selectedNDGRows} >
+                            </lightning-datatable>
+                        </div>
+                    </lightning-layout-item>
+                    
+                </lightning-layout>
+    
+                <lightning-layout>
+                    <lightning-layout-item padding="around-small" size="12">
+                        <lightning-button-group class="slds-float_right">
+                            <lightning-button 
+                                variant="neutral"
+                                label="Assegna a Microportafoglio"
+                                title="Assegna a Microportafoglio"
+                                onclick={handleNextPressed}
+                            ></lightning-button>
+                        </lightning-button-group>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </template>
+
+            <template if:false={hasNDGRows}>
+                <lightning-layout-item flexibility="auto" padding="around-small" size="12">
+                    <div class="slds-box no-button">
+                        <p>Non ci sono NDG relazionati al portafoglio corrente.</p>
+                    </div>
+                </lightning-layout-item>
+            </template>
+        </template>
+
+        <template if:false={showNDGs}>
+
+        <lightning-layout multiple-rows="true">
+            <lightning-layout-item flexibility="auto" padding="around-small" size="10" medium-device-size="4" large-device-size="4">
+                <lightning-combobox type="text" label="Modello di Servizio" placeholder="Cerca per modello di servizio..." options={optionsModello} value={searchedModello} onchange={handleFilter} name="searchedModello" data-item="searchedModello" class="slds-m-right_small"></lightning-combobox>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" padding="around-small" size="10" medium-device-size="4" large-device-size="4">
+                <lightning-input type="text" label="Nome referente" placeholder="Cerca per referente..." value={searchedNomeRef} onchange={handleFilter} name="searchedNomeRef" data-item="searchedNomeRef" class="slds-m-right_small"></lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="3" large-device-size="3">
+                <lightning-button-group class="slds-m-top_large slds-float_right">
+                    <lightning-button 
+                        variant="neutral"
+                        label="Reset"
+                        title="Reset"
+                        onclick={handleMWReset}>
+                    </lightning-button>
+                    <lightning-button 
+                        variant="neutral"
+                        label="Cerca"
+                        title="Cerca"
+                        onclick={handleMWSearch}>
+                    </lightning-button>
+                </lightning-button-group>
+            </lightning-layout-item>
+        </lightning-layout>
+    
+            <template if:true={showMessage}>
+                <lightning-layout>
+                    <lightning-layout-item flexibility="auto" padding="around-small" size="12">
+                        <div class="slds-box no-button">
+                            <p>{message}</p>
+                            <p>{lastMessage}</p>
+                        </div>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </template>
+
+            <lightning-layout class="paginator">
+                <lightning-layout-item alignment-bump="left">
+                    <lightning-layout class="slds-align_absolute-center">
+                        <lightning-layout-item padding="around-small">
+                            <div class="lgc-bg">
+                                <lightning-button-icon icon-name="utility:chevronleft"  variant="container" alternative-text="Settings" title="Settings" onclick={handleIndietroMW} disabled={disabledButtonIndietroMW}></lightning-button-icon>
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item padding="around-small">
+                            Pag. {pageMW}
+                        </lightning-layout-item>
+                        <lightning-layout-item padding="around-small">
+                            <div class="lgc-bg">
+                                <lightning-button-icon icon-name="utility:chevronright"  variant="container" alternative-text="Settings" title="Settings" onclick={handleAvantiMW} disabled={disabledButtonAvantiMW}></lightning-button-icon>
+                            </div>                
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </lightning-layout-item>
+            </lightning-layout>
+
+            <lightning-layout>
+                <lightning-layout-item flexibility="auto" padding="around-small" size="12">
+                    <div class="slds-box">
+                        <div style="height: 10rem;">
+                            <lightning-datatable data-item="mwTable"
+                                            key-field="Id"
+                                            columns={mwColumns}
+                                            data={currentPageDataMW}
+                                            max-row-selection=1
+                                            onrowselection={handleWMRowSelection} >
+                            </lightning-datatable>
+                        </div>
+                    </div>
+                </lightning-layout-item>
+            </lightning-layout>
+            <lightning-layout>
+                <lightning-layout-item padding="around-small" size="12">
+                    <lightning-button-group class="slds-float_right">
+                        <lightning-button 
+                            variant="neutral"
+                            label="Precedente"
+                            title="Precedente"
+                            onclick={handlePreviousSelected}>
+                        </lightning-button>
+                        <template if:true={showAllMwButton}>
+                            <lightning-button 
+                                variant="neutral"
+                                label="Mostra tutti i Microportafogli"
+                                title="Mostra tutti i Microportafogli"
+                                onclick={handleLoadAllMw}>
+                            </lightning-button>
+                        </template>
+                        <lightning-button 
+                            variant="brand"
+                            label="Salva"
+                            title="Salva"
+                            onclick={handleAssignNDGs}>
+                        </lightning-button>
+                    </lightning-button-group>
+                </lightning-layout-item>
+            </lightning-layout>
+        </template>
+
+        <template if:false={loaded}>
+            <div class="spinner-holder">
+                <lightning-spinner alternative-text="Loading"></lightning-spinner>
+            </div>
+        </template>
+    </lightning-card>
+</template>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_CheckNewInsert__c</fullName>
+    <externalId>false</externalId>
+    <formula>Campaign__r.CRM_TipologiaAzione__c =&apos;Dinamica&apos; &amp;&amp; ((DATEVALUE(CreatedDate) = DATE( YEAR(TODAY()), MONTH(TODAY()), DAY(TODAY())-1))|| (DATEVALUE(CreatedDate) = DATE( YEAR(TODAY()), MONTH(TODAY()), DAY(TODAY()))))</formula>
+    <label>CheckNewInsert</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

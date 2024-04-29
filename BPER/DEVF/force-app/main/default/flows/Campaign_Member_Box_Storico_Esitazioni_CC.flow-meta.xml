@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>55.0</apiVersion>
+    <decisions>
+        <name>Set_Box_Visibility</name>
+        <label>Set Box Visibility</label>
+        <locationX>552</locationX>
+        <locationY>370</locationY>
+        <defaultConnector>
+            <targetReference>Storico_Esitazioni_Contact_Center</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Show Box</defaultConnectorLabel>
+        <rules>
+            <name>Check_Storico_Esitazioni</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>GetCurrentCampaignMember.CC_Storico_Esitazioni__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Storico_Esitazioni_Contact_Center_0</targetReference>
+            </connector>
+            <label>Check Storico Esitazioni</label>
+        </rules>
+    </decisions>
+    <description>Mostra lo storico delle esitazioni su un singolo campaign member</description>
+    <environments>Default</environments>
+    <interviewLabel>Campaign Member - Box Storico Esitazioni CC {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Campaign Member - Box Storico Esitazioni CC</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordLookups>
+        <name>GetCurrentCampaignMember</name>
+        <label>GetCurrentCampaignMember</label>
+        <locationX>470</locationX>
+        <locationY>197</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Set_Box_Visibility</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>CampaignMember</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <screens>
+        <name>Storico_Esitazioni_Contact_Center</name>
+        <label>Storico Esitazioni CM Contact Center</label>
+        <locationX>386</locationX>
+        <locationY>511</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>StoricoEsitazioni_Title</name>
+            <fieldText>&lt;p&gt;&lt;strong style=&quot;font-size: 14px;&quot;&gt;Storico Esitazioni &lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>Storico_Esitazioni</name>
+            <fieldText>&lt;p&gt;{!GetCurrentCampaignMember.CC_Storico_Esitazioni__c}&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>false</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>Storico_Esitazioni_Contact_Center_0</name>
+        <label>Storico Esitazioni CM Contact Center</label>
+        <locationX>696</locationX>
+        <locationY>502</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>StoricoEsitazioni_Title_0</name>
+            <fieldText>&lt;p&gt;&lt;strong style=&quot;font-size: 14px;&quot;&gt;Storico Esitazioni &lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>Storico_Esitazioni_0</name>
+            <fieldText>&lt;p&gt;Non ci sono esitazioni da mostrare su questo campaign member.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>false</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <start>
+        <locationX>343</locationX>
+        <locationY>28</locationY>
+        <connector>
+            <targetReference>GetCurrentCampaignMember</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

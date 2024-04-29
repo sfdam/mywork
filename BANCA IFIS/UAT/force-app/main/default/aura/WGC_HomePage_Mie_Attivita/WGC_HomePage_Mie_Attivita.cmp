@@ -1,0 +1,169 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" 
+    controller="WGC_HomePage_Mie_AttivitaController" access="global" >
+    
+    <ltng:require styles="{!join(',','')}" scripts="{!join(',', 
+             '/resource/WGC_jQuery3x')}"
+        afterScriptsLoaded="{!c.doInit}" />
+    
+    <lightning:overlayLibrary aura:id="overlayLib" />
+    <lightning:navigation aura:id="navService" />
+    
+    <aura:attribute name="iconName" type="String" description="Definisce l'icona tra le standard"/>
+    <aura:attribute name="title" type="String" default="" description="Title from Container Card"/>
+    <aura:attribute name="Dettaglio" type="String" access="global"/>
+    
+    <aura:attribute name="idDashboard" type="String" />
+
+    <aura:attribute name="userEvent" type="Object[]" description="All user Event filter from data last 12 mounth"/>
+    <aura:attribute name="oncomingDateEvent" type="String" description="num of daily Task"/> 
+    <aura:attribute name="oncomingTimeEvent" type="String" description="num of daily Task"/> 
+    <aura:attribute name="oncomingNameEvent" type="String" description="num of daily Task"/>  
+    <aura:attribute name="mounthEvent" type="Decimal" description="num of mounth Event"/>  
+    <aura:attribute name="dayInMounthFreeEvent" type="Decimal" description="num of mounth Event"/>  
+
+
+    <aura:attribute name="userTask" type="Object[]" description="All user Task filter from data last 12 mounth"/>
+    <aura:attribute name="dailyTask" type="Decimal" description="num of daily Task"/>  
+    <aura:attribute name="numScaduti" type="Decimal" default="0" description=""/>  
+    <aura:attribute name="numAScadere" type="Decimal" default="0" description=""/>  
+    <aura:attribute name="numLIR" type="Decimal" default="0" description=""/>  
+    <aura:attribute name="numLP" type="Decimal" default="0" description=""/>  
+    <aura:attribute name="numQQ" type="Decimal" default="0" description=""/>
+
+    <aura:attribute name="Scadenziario" type="String" access="global"/>
+
+        <lightning:card>
+            <aura:set attribute="title">
+
+            <!-- with container -->
+            <lightning:layout multipleRows="false">
+                <lightning:layoutItem size="10" smallDeviceSize="10" mediumDeviceSize="10" largeDeviceSize="10">
+                    <lightning:icon iconName="{! 'utility:' + v.iconName }" size="small" variant="slds-icon-inverse" />
+                    <div class="title">{! v.title }</div>
+                </lightning:layoutItem>
+                <lightning:layoutItem class="slds-text-align_right" size="2" smallDeviceSize="2" mediumDeviceSize="2"
+                    largeDeviceSize="2">
+                    <aura:if isTrue="{! v.Dettaglio == 'attivo' }">
+                        <div class="header-button">
+                        <lightning:buttonIcon iconName="utility:expand" size="medium" variant="bare" iconClass=""
+                        onclick="{!c.navigateToMyComponent}"
+                        class="" />
+                        </div>
+                    </aura:if>
+                </lightning:layoutItem>
+            </lightning:layout>
+        </aura:set>
+            <div class='container-card'>
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_1-of-3 slds-p-horizontal_x-small">
+                    <div class="containerCol">
+                        <!-- CALENDAR BOX -->
+                        <div class="calendar-box">
+                            <div class="calendar-header header2">
+                                <div class="calendar-month black" id="month">{!$Label.c.WGC_Homepage_Mie_Attivita_OGGI}</div>
+                            </div>
+                            <div class="calendar-body">
+                                <div class="calendar-day" id="day">{! v.dailyTask }</div>
+                                <div class="calendar-day-text" id="day-text"><span class="display_bock">{!$Label.c.WGC_HomePage_Mie_Attivita_Task}</span><span class="display_bock">{!$Label.c.WGC_HomePage_Mie_Attivita_Task_Valore}</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="containerCol">
+                        <!-- BUTTON BOX -->
+                        <div class="calendar-box">
+                            <div class="calendar-header header2">
+                                <div class="calendar-month black" id="month"></div>
+                            </div>
+                            <div class="calendar-body">
+                                <div class="calendar-icon slds-align_absolute-center" id="day">
+                                    <lightning:icon iconName="action:new_event" alternativeText="Settings" size="medium" onclick="{!c.createActivity}" />
+                                </div>
+                                <div class="calendar-day-text" id="day-text"><span class="display_bock">{!$Label.c.WGC_HomePage_Mie_Attivita_Crea}</span><span class="display_bock">{!$Label.c.WGC_HomePage_Mie_Attivita_Crea_Valore}</span></div>
+                            </div>
+                        </div>                    
+                    </div>
+                </div>
+                <div class="slds-col slds-size_2-of-3 slds-p-horizontal_x-small">
+                    <hr/>
+                    <div class="cstm-title">{!$Label.c.WGC_HomePage_Mie_Attivita_Prossimo_Appuntamento}</div>
+                    <div class="box">
+                        <div class="slds-grid slds-wrap box_col">
+                            <aura:if isTrue="{! v.oncomingNameEvent }">
+                                <div class="slds-col slds-size_1-of-3 box_col2">
+                                    <!-- <div class="box_col_title">{!$Label.c.WGC_HomePage_Mie_Attivita_Orario}</div> -->
+                                    <div class="box_col_title">{! v.oncomingDateEvent }</div>
+                                    <div class="box_col1_val">{! v.oncomingTimeEvent }</div>
+                                </div>
+                                <div class="slds-col slds-size_2-of-3 box_col2">
+                                    <div class="box_col_title">{!$Label.c.WGC_HomePage_Mie_Attivita_Cliente}</div>
+                                    <div class="box_col2_val">{! v.oncomingNameEvent }</div>
+                                </div>
+                                <aura:set attribute="else">
+                                    <div class="slds-col slds-size_3-of-3">
+                                        <div class="box_no_val">{!$Label.c.WGC_HomePage_Mie_Attivita_NessunaVisita}</div>
+                                    </div>
+                                </aura:set>
+                            </aura:if>
+                        </div>
+                    </div>     
+                    <hr/>
+                    <div class="cstm-title">{!$Label.c.WGC_HomePage_Mie_Attivita_Pianificazione_Agenda}</div>
+                    <div class="slds-grid slds-wrap margin10_col">
+                        <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-grid slds-align_absolute-center">
+                                <div class="circleBase type1">
+                                    <div class="circleBaseBody">{! v.mounthEvent }</div>
+                                </div>
+                                <div class="slds-col circleRightBody">
+                                    <div>{!$Label.c.WGC_HomePage_Mie_Attivita_Incontri_Fissati}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-grid slds-align_absolute-center">
+                                <div class="circleBase type2">
+                                    <div class="circleBaseBody">{! v.dayInMounthFreeEvent }</div>
+                                </div>
+                                <div class="slds-col circleRightBody">
+                                    <div>{!$Label.c.WGC_HomePage_Mie_Attivita_Giornate_Senza_Visite}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <aura:if isTrue="{! v.Scadenziario == 'attivo' }">
+                            <hr/>
+                            <div class="cstm-title">{!$Label.c.WGC_HomePage_Mie_Attivita_Attivita_In_Scadenza}</div>
+                            <div class="slds-grid slds-wrap margin10_col">
+                                <div class="slds-col slds-size_1-of-2">
+                                    <div class="slds-grid">
+                                        <div class="container-circle">
+                                                <div class="circleBase type2">
+                                                        <div class="circleBaseBody">{! v.numScaduti }</div>
+                                                    </div>
+                                                    <div>{!$Label.c.WGC_Homepage_Mie_Attivita_Scaduti}</div>
+                                        </div>
+                                        <div class="container-circle">
+                                                <div class="circleBase type3">
+                                                        <div class="circleBaseBody">{! v.numAScadere }</div>
+                                                    </div>
+                                                    <div>{!$Label.c.WGC_Homepage_Mie_Attivita_A_Scadere}</div>
+                                        </div>                          
+                                    </div>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-align_absolute-center">
+                                        <div class="slds-grid">
+                                            <div>
+                                                    <lightning:button class="slds-buttonX slds-button_brand" variant="brand" label="Scadenziario"
+                                                    title="Brand" onclick="{!c.goToScadenziario}" value="anag" />
+                                            </div>
+                                        </div>
+                                </div>
+                                
+                            </div>
+                    </aura:if>
+                    
+                </div>
+            </div>
+            </div>
+       </lightning:card>
+</aura:component>

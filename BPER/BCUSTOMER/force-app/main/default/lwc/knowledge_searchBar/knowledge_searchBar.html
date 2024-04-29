@@ -1,0 +1,161 @@
+<template>
+    <lightning-card  variant="Narrow"  title={title} icon-name={iconName}>
+        <!-- <lightning-button-icon  icon-name="utility:down" variant="border-filled" alternative-text="Show More" slot="actions"></lightning-button-icon> -->
+        <div class="c-container">
+            <lightning-layout multiple-rows="true">
+                <lightning-layout-item size="8" padding="around-small">
+                    <div onkeyup={handleKeyUp}
+                        onchange={handleInput} > 
+                        <lightning-input
+                            name="enter-search"
+                            label="Ricerca"
+                            type="search"
+                            min-length="3"
+                            message-when-too-short="Inserire almeno 3 caratteri"
+                        ></lightning-input>
+                    </div>
+                    &nbsp;
+                    <template if:true ={emptySearch}>
+                        <lightning:layout>
+                                    <lightning:layoutItem >
+                                        <div class="slds-box no-button">
+                                            <p class="slds-align_absolute-center" >{label.Nessun_Risultato}</p>
+                                        </div>
+                                    </lightning:layoutItem>
+                        </lightning:layout>
+                    </template>
+                </lightning-layout-item>
+                <template if:true={tipoArticolo}>
+                    <lightning-layout-item size="4" padding="around-small">
+                        <div> 
+                            <lightning-combobox
+                                name="progress"
+                                label="Tipo Articolo"
+                                value={value}
+                                placeholder="Select Progress"
+                                options={recordTypeList}
+                                onchange={handleChangeRecordType} ></lightning-combobox>
+                        </div>
+                    </lightning-layout-item>
+                </template>
+            </lightning-layout>
+
+            <lightning-layout multiple-rows="true">
+                <template if:true={isRenderedBreadcrumbs}>
+                    <lightning-layout-item size="12">
+                        <lightning-breadcrumbs class="slds-p-left_medium">
+                            <template for:each={myBreadcrumbs} for:item="crumbs">
+                                <lightning-breadcrumb
+                                    key={crumbs.id}
+                                    label={crumbs.label}
+                                    name={crumbs.name}>
+                                </lightning-breadcrumb>
+                            </template>
+                        </lightning-breadcrumbs>
+                    </lightning-layout-item>
+                </template>
+                <lightning-layout-item size="12" padding="around-small">
+                        <template for:each={getForNumRowsResultToShow} for:item="data">
+                            <div key={data.Id} class="slds-p-around_medium slds-m-bottom_medium lgc-bg" onclick={openArticle} id={data.Id}>
+                                <lightning-tile label={data.Title} href="javascript:void(0);">
+                                    <ul class="slds-list_horizontal slds-has-dividers_right">
+                                        <li class="slds-item">{data.ArticleNumber}</li>
+                                        <li class="slds-item">{data.RecordType}</li>
+                                        <li class="slds-item">{data.LastPublishedDate}</li>
+                                    </ul>
+                                </lightning-tile>
+                                </div>
+                        </template>
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+        <template if:true={isRendered}>
+            <template if:true={notEmptyList}>
+                <div>
+                    <lightning-layout>
+                        <lightning-layout-item size="12" class="slds-align_absolute-center">
+                            <lightning-button variant="base" label="Visualizza tutto" title="View All" onclick={openModal} class="slds-m-left_x-small"></lightning-button>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+            </template>
+        </template>
+        
+    </lightning-card>
+
+    <!-- MODAL -->
+    <template if:true={openmodel}>
+        <div>
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_large">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                            <lightning-icon icon-name="utility:close" size="medium">
+                            </lightning-icon>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <div class="tilte-card">
+                            <lightning-layout multiple-rows="true">
+                                <lightning-layout-item size="2">
+                                </lightning-layout-item>
+                                <lightning-layout-item size="8" class="tilte-card">
+                                    <b>{title}</b>
+                                </lightning-layout-item>
+                                <template if:true={tipoArticolo}>
+                                    <lightning-layout-item size="2" alignment-bump="left" class="picklistModalTitle">
+                                        <div>
+                                            <lightning-combobox
+                                                name="progress"
+                                                label="Tipo Articolo"
+                                                value={value}
+                                                placeholder="Select Progress"
+                                                options={recordTypeList}
+                                                onchange={handleChangeRecordType} ></lightning-combobox>
+                                        </div>
+                                    </lightning-layout-item>
+                                </template>
+                            </lightning-layout>
+                        </div>
+
+                        <!-- <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate"></h2> -->
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <lightning-layout multiple-rows="true">
+                            <template if:true={isRenderedBreadcrumbs}>
+                                <lightning-layout-item size="12">
+                                    <lightning-breadcrumbs class="slds-p-left_medium">
+                                        <template for:each={myBreadcrumbs} for:item="crumbs">
+                                            <lightning-breadcrumb
+                                                key={crumbs.id}
+                                                label={crumbs.label}
+                                                name={crumbs.name}>
+                                            </lightning-breadcrumb>
+                                        </template>
+                                    </lightning-breadcrumbs>
+                                </lightning-layout-item>
+                            </template>
+                            <lightning-layout-item size="12" padding="around-small">
+                                <template for:each={getAllResultToShow} for:item="data">
+                                    <div key={data.Id} class="slds-p-around_medium slds-m-bottom_medium lgc-bg" onclick={openArticle} id={data.Id}>
+                                        <lightning-tile label={data.Title} href="javascript:void(0);">
+                                            <ul class="slds-list_horizontal slds-has-dividers_right">
+                                                <li class="slds-item">{data.ArticleNumber}</li>
+                                                <li class="slds-item">{data.RecordType}</li>
+                                                <li class="slds-item">{data.LastPublishedDate}</li>
+                                            </ul>
+                                        </lightning-tile>
+                                    </div>
+                                </template>                                
+                            </lightning-layout-item>
+                        </lightning-layout>
+                            
+                    </div>
+                    <footer class="slds-modal__footer">
+                            <lightning-button label="Annulla" variant="neutral" onclick={closeModal}></lightning-button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </template>
+</template>

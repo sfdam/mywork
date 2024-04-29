@@ -1,0 +1,52 @@
+<aura:component implements="lightning:isUrlAddressable,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:hasSObjectName,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+    controller="TXT_Storico_AttivitaController" access="global">
+
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+
+    <lightning:navigation aura:id="navService" />
+
+    <!-- attributes -->
+    <aura:attribute name="iconName" type="String" description="Definisce l'icona tra le standard"/>
+    <aura:attribute name="title" type="String" default="" description="Title from Container Card"/>
+    <aura:attribute name="CanCreateActivity" type="Boolean" default="false" />
+    <aura:attribute name="attivita" type="String" default="all" description="Definisce l'attivita da visualizzare"/>
+
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="sobjecttype" type="String" default="{!v.sObjectName}"/>
+
+    <aura:attribute name="allDataValue" type="Object" default='{}' />
+    <aura:attribute name="allDataChoiseValue" type="Object[]" default='[]' />
+
+    <aura:attribute name="userInfo" type="User" default="{'sobjectType':'User'}" />
+
+    <lightning:card>
+            <aura:set attribute="title">
+
+                    <!-- with container -->
+                    <lightning:layout multipleRows="false">
+                        <lightning:layoutItem size="10" smallDeviceSize="10" mediumDeviceSize="10" largeDeviceSize="10">
+                            <lightning:icon iconName="{! 'utility:' + v.iconName }" size="small" variant="slds-icon-inverse" />
+                            <div class="title">{! v.title } su {!v.sobjecttype}</div>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                </aura:set>
+        <div class='container slds-p-around_small'>
+            <aura:if isTrue="{! v.CanCreateActivity }">
+                <div class="slds-m-bottom_medium">
+                    <c:TXT_CreateActivity  recordId="{!v.recordId}" sObjectName="{!v.sobjecttype}"/>
+                    <!-- <c:CalendarContainer recordId="{!v.recordId}" sObjectName="{!v.sobjecttype}" selectedId="{!v.userInfo.Id}" socName="{!v.userInfo.Societa__c}" personSelector="true" /> -->
+                </div>
+            </aura:if>
+
+            <div>
+                <ul class="slds-timeline">
+                    <aura:iteration items="{!v.allDataChoiseValue}" var="item" indexVar="index">
+                        <c:TXT_ActivityTimeLine_Item activityType="{! item.objectType }" itemDetail="{! item }" userInfo="{! v.userInfo }" />
+                    </aura:iteration>
+                  </ul>
+            </div>
+            
+        </div>
+    </lightning:card>
+    
+</aura:component>

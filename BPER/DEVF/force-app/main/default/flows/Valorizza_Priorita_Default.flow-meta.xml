@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>57.0</apiVersion>
+    <assignments>
+        <name>Assegna_Priorita_Def</name>
+        <label>Assegna Priorità Default</label>
+        <locationX>176</locationX>
+        <locationY>287</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Priorita_Campagna__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Assegna_Priorita_default</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <description>Fix valori Default</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>Assegna_Priorita_default</name>
+        <dataType>Number</dataType>
+        <expression>IF ({!$Record.RecordType.DeveloperName} = &apos;Trigger_Monostep&apos;, 2000, IF (({!$Record.RecordType.DeveloperName} = &apos;Top_Down_Monostep&apos; &amp;&amp; text ({!$Record.CRM_SottotipologiaCampagna__c}) = &apos;Campagna&apos;), 4000, 3000))</expression>
+        <scale>0</scale>
+    </formulas>
+    <interviewLabel>Valorizza Priorità Default {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Valorizza Priorità Default</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Assegna_Priorita_Def</targetReference>
+        </connector>
+        <filterLogic>1</filterLogic>
+        <filters>
+            <field>Priorita_Campagna__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <object>Campaign</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

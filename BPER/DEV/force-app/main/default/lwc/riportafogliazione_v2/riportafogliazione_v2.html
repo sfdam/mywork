@@ -1,0 +1,118 @@
+<template>
+    <div>
+        <div class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none">
+            <lightning-layout multiple-rows="true">
+                <lightning-layout-item flexibility="auto" padding="around-small" size="12">
+                    <lightning-layout multiple-rows="true">
+                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="2" large-device-size="2">
+                            <lightning-input type="text" label="Denominazione" placeholder="Cerca per denominazione..." value={searchedNome} onchange={handleFilter} name="searchedNome" data-item="searchedNome"></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="2" large-device-size="2">
+                            <lightning-input type="text" label="NDG" placeholder="Cerca per NDG..." value={searchedNDG} onchange={handleFilter} name="searchedNDG" data-item="searchedNDG"></lightning-input>
+                        </lightning-layout-item>
+                        
+                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="2" large-device-size="2">
+                            <lightning-input type="number" label="Patrimonio Min" placeholder="Cerca per patrimonio..." value={searchedPatrimonioMin} onchange={handleFilter} name="searchedPatrimonioMin" data-item="searchedPatrimonioMin"></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="2" large-device-size="2">
+                            <lightning-input type="number" label="Patrimonio Max" placeholder="Cerca per patrimonio..." value={searchedPatrimonio} onchange={handleFilter} name="searchedPatrimonio" data-item="searchedPatrimonio"></lightning-input>
+                        </lightning-layout-item>
+                        
+                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="2" large-device-size="2">
+                            <lightning-input type="number" label="Utilizzato Min" placeholder="Cerca per utilizzato..." value={searchedUtilizzatoMin} onchange={handleFilter} name="searchedUtilizzatoMin" data-item="searchedUtilizzatoMin"></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="2" large-device-size="2">
+                            <lightning-input type="number" label="Utilizzato Max" placeholder="Cerca per utilizzato..." value={searchedUtilizzato} onchange={handleFilter} name="searchedUtilizzato" data-item="searchedUtilizzato"></lightning-input>
+                        </lightning-layout-item>
+
+
+                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="3" large-device-size="3">
+                            <lightning-input type="text" label="Portafoglio di partenza" placeholder="Cerca per Portafoglio di partenza..." value={searchedMWOld} onchange={handleFilter} name="searchedMWOld" data-item="searchedMWOld"></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="3" large-device-size="3">
+                            <lightning-input type="text" label="MMDS" placeholder="Cerca per MMDS..." value={searchedMMDS} onchange={handleFilter} name="searchedMMDS" data-item="searchedMMDS"></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="3" large-device-size="3">
+                            <lightning-input type="text" label="Portafoglio di destinazione" placeholder="Cerca per Portafoglio di destinazione..." value={searchedMWNew} onchange={handleFilter} name="searchedMWNew" data-item="searchedMWNew"></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="3" large-device-size="3">
+                            <lightning-input type="text" label="MMDS Obiettivo" placeholder="Cerca per MMDS Obiettivo..." value={searchedMMDSOb} onchange={handleFilter} name="searchedMMDSOb" data-item="searchedMMDSOb"></lightning-input>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </lightning-layout-item>
+                <lightning-layout-item flexibility="auto" padding="around-small" size="12">
+                    <lightning-button-group class="slds-float_right">
+                        <lightning-button 
+                            variant="neutral"
+                            label="Reset"
+                            title="Reset"
+                            onclick={handleReset}>
+                        </lightning-button>
+                        <lightning-button 
+                            variant="neutral"
+                            label="Cerca"
+                            title="Cerca"
+                            onclick={handleSearch}>
+                        </lightning-button>
+                    </lightning-button-group>
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+        <template if:true={loaded}>
+            <div class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none">
+                <lightning-layout multiple-rows="true">
+                    
+                    <lightning-layout class="paginator">
+                        <lightning-layout-item alignment-bump="left">
+                            <lightning-layout class="slds-align_absolute-center">
+                                <lightning-layout-item padding="around-small">
+                                    <div class="lgc-bg">
+                                        <lightning-button-icon icon-name="utility:chevronleft"  variant="container"  onclick={handleIndietro} disabled={disabledButtonIndietro}></lightning-button-icon>
+                                    </div>
+                                </lightning-layout-item>
+                                <lightning-layout-item padding="around-small">
+                                    Pag. {page}
+                                </lightning-layout-item>
+                                <lightning-layout-item padding="around-small">
+                                    <div class="lgc-bg">
+                                        <lightning-button-icon icon-name="utility:chevronright"  variant="container"  onclick={handleAvanti} disabled={disabledButtonAvanti}></lightning-button-icon>
+                                    </div>                
+                                </lightning-layout-item>
+                                <ul class="slds-list_horizontal slds-has-dividers_right">
+                                    <template if:true={isNDGAffidabili}>
+                                        <li class="slds-item">Numero Spostamenti Approvati:&nbsp; <b>{sommaAccettato}</b></li>
+                                        <li class="slds-item">Numero Spostamenti Rifiutati per il Portafoglio:&nbsp; <b>{sommaMotivoDiRifiuto}</b></li>
+                                        <li class="slds-item">Numero Spostamenti Rifiutati:&nbsp; <b>{sommaRifiutatoPTFDifferente}</b></li>
+                                        <li class="slds-item">NDG Affinabili:&nbsp; <b>{sommaRowToUpdate}</b></li>
+                                    </template>
+                                </ul>
+                            </lightning-layout>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                    
+                    <lightning-layout-item flexibility="auto" padding="around-small" size="12">
+                        <div>
+                            <c-l-w-c-custom-datatable-type
+                                data-item="ndgTable"
+                                key-field="Id"
+                                data={currentPageData}
+                                columns={columns} 
+                                draft-values={draftValues} 
+                                oncellchange={handleCellChange}
+                                onsave={handleSave}
+                                oncancel={handleCancel}
+                                show-row-number-column = "false"
+                                hide-checkbox-column = "true">
+                            </c-l-w-c-custom-datatable-type>
+                        </div>                                        
+                    </lightning-layout-item>
+                </lightning-layout>
+            </div>
+        </template>
+        <template if:false={loaded}>
+            <div class="spinner-holder">
+                <lightning-spinner alternative-text="CARICAMENTO" size="small"></lightning-spinner>
+            </div>
+        </template>
+    </div>
+</template>

@@ -1,0 +1,4 @@
+<aura:component >
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    <lightning:button name="ok" label="OK" variant="brand" onclick="{!c.handleOK}"/>
+</aura:component>

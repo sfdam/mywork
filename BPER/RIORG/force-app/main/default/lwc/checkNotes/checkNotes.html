@@ -1,0 +1,44 @@
+<template>
+  
+    <template  if:true={isLoading}>
+        
+    </template>
+    <template  if:false={isLoading}>
+            
+
+        <template if:false={isError}>
+            
+            <template if:false={isEmptyList}>
+                
+                <lightning-layout>
+                    <div style="max-height:12rem;background-color:white">
+                    <lightning-datatable
+                    key-field="id"
+                    hide-checkbox-column
+                    wrap-text-max-lines = "1000"
+                    data={records}
+                    columns={columns}>
+                    </lightning-datatable>
+                </div>
+                </lightning-layout>
+            
+            </template>
+
+        </template>
+        <template if:true={isError}>
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
+                <div class="slds-form_horizontal slds-form slds-grid slds-wrap">
+                    <p><i>{errorMessage}.</i> Verificare i parametri di input e la correttezza della struttura del JSON</p>
+                </div> 
+            </div>
+        </template>
+        
+    </template>
+    <template if:true={isEmptyList}>
+        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+            <div class="slds-form_horizontal slds-form slds-grid slds-wrap">
+                <p>Non sono presenti note</p>
+            </div> 
+        </div>
+    </template>
+</template>

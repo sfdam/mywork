@@ -1,0 +1,879 @@
+<aura:component implements='flexipage:availableForRecordHome,force:hasRecordId,force:appHostable' controller= 'ComponentePricing_Classe' >
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>   
+    
+    <aura:attribute name="disaccoppiamento" type="Boolean"/>
+    <aura:attribute name="CondPag" type="List"/>
+    <aura:attribute name="treegrid" type="Object" />
+  
+    <aura:attribute name="showConfirmDialog" type="boolean" default="false"/> 
+    
+    
+    <aura:handler event="force:showToast" action="{!c.doInit}"/> <!--> refresh dopo l'edit<!-->
+    <!--><aura:handler event="force:editRecord" action="{!c.doRefreshPage}"/>  <!-->
+    <aura:handler event="force:refreshView" action="{!c.doInit}"/> <!--> se in una function c'è forcerefresh, quando la esegui lui  doinit e refresh <!-->
+    <aura:handler event="force:showToast" action="{!c.echo}"/> 
+    
+    
+    
+    
+    <aura:handler event="aura:waiting" action="{!c.showSpinner}"/>
+    <aura:handler event="aura:doneWaiting" action="{!c.hideSpinner}"/>
+    
+    <!--component attributs -->
+    <aura:attribute name="spinner" type="boolean" default="FALSE"/>
+    <aura:if isTrue="{!v.spinner}">
+        <div aura:id="spinnerId" class="slds-spinner_container">
+            <div class="slds-spinner--brand  slds-spinner slds-spinner--large slds-is-relative" role="alert">
+                <span class="slds-assistive-text">Loading...</span>
+                <div class="slds-spinner__dot-a"></div>
+                <div class="slds-spinner__dot-b"></div>
+            </div>
+        </div>
+    </aura:if>
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    <tr>
+        <td style="font-size: 10px">
+            
+            
+    <aura:if isTrue="{!v.disaccoppiamento == false}">  
+    
+   
+    
+            <a onclick="{!c.createRecordFin}"  style="font-family: Salesforce Sans;">Nuovo Finanziamento</a>   
+            &nbsp;   
+            <a onclick="{!c.createRecordCondSingola}"  style="font-family: Salesforce Sans;">Nuova Condizione senza Finanziamento</a>  
+            &nbsp;    
+       
+  </aura:if>      
+            
+        </td>
+    </tr>
+    
+    
+    <!--> qua inizia la tabella dei finanziamenti <-->
+    
+    
+    
+    <table aura:id='TableFin'>  
+        
+        <thead>               
+            <aura:iteration items="{!v.treegrid.FinanziamentiArray}" var="Fin" indexVar="indexFin">
+                
+                <tr>
+                    
+                    
+                    <th style= "text-align:right"><lightning:icon iconName="utility:moneybag" size="small"/></th>  
+                    
+                    <th colspan="2" style="background: #F5F5F5 ; padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-left: 2px solid silver;border-top: 2px solid silver;border-bottom: 2px solid silver" >Finanziamento</th>
+                    <th style="background: #F5F5F5 ;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver"></th> 
+                    <th style="background: #F5F5F5 ;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver">Nome Finanziamento</th>
+                    <th style="background: #F5F5F5 ;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver"></th>
+                    <th style="background: #F5F5F5 ;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver"></th>  
+                    <th   style="background: #F5F5F5 ;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver" >Importo</th> 
+                    <th style="background: #F5F5F5;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver"></th>
+                    <th style="background: #F5F5F5 ;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver"></th> 
+                    <th style="background: #F5F5F5 ;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver" >Stima</th> 
+                    <th style="background: #F5F5F5 ;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver"></th> 
+                    <th style="background: #F5F5F5 ;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver"></th>
+                    <th style="background: #F5F5F5 ;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver"></th>   
+                    <th  style="background: #F5F5F5 ;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver"   >Fattura</th> 
+                    <th colspan="3" style="background: #F5F5F5 ;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-bottom: 2px solid silver;border-top: 2px solid silver"    ></th>
+                    <th style="background: #F5F5F5;border-bottom: 2px solid silver;border-top: 2px solid silver;border-right: 2px solid silver" ></th>    
+                </tr>
+                
+                
+                
+                
+                <tr>
+                    
+                    <td>  
+                           <aura:if isTrue="{!v.disaccoppiamento == false}">    
+                          
+               
+                                               
+                        <div style="text-align:right"><a data-record="{!Fin.thisFin.Id}" onclick="{!c.createRecordCond}" title = "Nuova Condizione del Finanziamento" ><img style= "height: 18px;width: 25px" src="{!$Resource.NuovaCondizionedelFinanziamento}"/>     </a>     </div>
+                        <div style="text-align:right"> <a  data-record="{!Fin.thisFin.Id}" onclick="{!c.handleEdit}" >✎</a>   </div>   
+           
+                         
+                          </aura:if> 
+            
+        
+        
+                    </td> 
+                    <td colspan="2" style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-left: 2px solid silver" >{!Fin.thisFin.Tipologia_Finanziamento_WarrantCPQ__c}</td> 
+                    <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver" ></td>  
+                    <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver" > {!Fin.thisFin.Name}</td>
+                    <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver" ></td>
+                    <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver" ></td> 
+                    <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver">  <lightning:formattedNumber  value="{!Fin.thisFin.Importo_WarrantCPQ__c}" maximumFractionDigits="2" />     </td>
+                    <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver" ></td>
+                    <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver" ></td> 
+                    <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver"    > <lightning:formattedNumber  value="{!Fin.thisFin.Stima_WarrantCPQ__c}" maximumFractionDigits="2" /></td>
+                    <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver" ></td>
+                    <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver" ></td>
+                    <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver" ></td>    
+                    <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver" >{!Fin.thisFin.Fattura_WarrantCPQ__c}</td>
+                    <td colspan="3"   style="background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver" ></td>
+                    <td style="background: #fffffd;border-bottom: 2px solid silver;border-right: 2px solid silver;border-top: 2px solid silver"></td>
+                    <td>    
+                        
+                        <aura:if isTrue="{!v.disaccoppiamento == false}">  
+                        <div onclick="{!c.cancellaFin}" data-value="{!Fin.thisFin.Id}">
+                            <a value="{!Fin.thisFin.Id}"> <lightning:icon iconName="utility:delete" size="x-small"/></a>
+                        </div> 
+                            </aura:if> 
+                    </td>  
+                    
+                </tr>
+                
+                
+                
+                
+                &nbsp;  
+                
+                
+                <!--> qua inizia la tabella delle condizioni <-->
+                
+                <aura:iteration items="{!Fin.CondizioniConPagamentiArray}" var="Cond" indexVar="indexCond">
+                    
+                    
+                    
+                    <tr> 
+                        <th></th>    
+                        
+                        <!--> condizione dell'icona <!-->    
+                        <aura:if isTrue="{!not(empty(Cond.Condizioni_Opzionali__r.records))}">        
+                            <th style=" padding: 5px;text-align:right" ><img style= "height: 20px;width: 25px" src="{!$Resource.Condizione}"/> <lightning:icon iconName="utility:linked" size="small"/></th>
+                            <aura:set attribute="else">     
+                                <th style=" padding: 5px;text-align:right" ><img style= "height: 20px;width: 25px" src="{!$Resource.Condizione}"/> </th>    
+                            </aura:set>    
+                        </aura:if>      
+                        <!--> condizione dell'icona <!-->        
+                        
+                        <th colspan="2" style="background:  #fff5e6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-left: 2px solid silver;border-top: 2px solid silver;border-bottom: 2px solid silver">Nome Condizione</th>                        
+                        <th style=" background:  #fff5e6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver">Tipo</th>
+                        <th style=" background:  #fff5e6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver">Tipologia Finanziamento</th>                        
+                        <th style=" background:  #fff5e6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver">%</th>
+                        <th style=" background: #fff5e6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver">Fisso</th>
+                        
+                        <th style=" background:  #fff5e6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver">Min</th> 
+                        <th style=" background:  #fff5e6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver"></th>     
+                        <th style="background:  #fff5e6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver">Max</th> 
+                        <th style=" background:  #fff5e6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver"></th>      
+                        <th style=" background:  #fff5e6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver">Limite </th> 
+                        <th style=" background:  #fff5e6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver">Min Garantito</th>
+                        <th style=" background:  #fff5e6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver">Valore Max</th> 
+                        <th style=" background:  #fff5e6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver"> </th>   
+                        <th style=" background:  #fff5e6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver">Importo</th> 
+                        <th style="background:  #fff5e6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver"></th> 
+                        <th style=" border-right: 2px solid silver;background:  #fff5e6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver">Stima</th> 
+                        
+                        
+                        
+                        
+                    </tr>
+                    
+                    
+                    
+                    
+                    
+                    <tr>
+                        <td colspan="2" style="font-family: Salesforce Sans;text-align:right" >
+                            
+                            <aura:if isTrue="{!v.disaccoppiamento == false}">  
+                            
+                            <a data-record="{!Cond.Id}" data-record2="{!Cond.Quote_Line__r.SBQQ__Product__c}" data-record3="{!Cond.Quote_Line__r.SBQQ__Quote__r.WRT_Modalita_pagamento__c}" onclick="{!c.createRecordPag}"  style="font-family: Salesforce Sans"  title = "Nuovo Pagamento" >   <img style= "height: 16px;width: 23px" src="{!$Resource.NuovoPagamento}"/>     </a>    
+                            <a data-record="{!Cond.Id}" onclick="{!c.createRecordOpz}"  style="font-family: Salesforce Sans" title = "Aggiungi Opzionale"   ><img style= "height: 13px;width: 23px" src="{!$Resource.AggiungiOpzionale}"/> </a>     
+                            <a data-record="{!Cond.Id}" onclick="{!c.handleEdit}"  style="font-family: Salesforce Sans" >✎</a>
+                            </aura:if>     
+                                
+                        </td>
+                        <td colspan="2" style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-left: 2px solid silver;border-bottom: 2px solid silver">{!Cond.Name}</td> 
+                        
+                        
+                        <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver">{!Cond.Tipo_WarrantCPQ__c}</td> 
+                        
+                        
+                        <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver">{!Cond.WRT_Tipologia_Finanziamento_FORM__c}</td> 
+                        
+                        <aura:if isTrue="{!Cond.Percentuale_WarrantCPQ__c == null}">                        
+                            <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver"></td>
+                            <aura:set attribute="else"> 
+                                <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver">{!Cond.Percentuale_WarrantCPQ__c}%</td>    
+                            </aura:set>    
+                        </aura:if>      
+                        
+                        
+                        
+                        <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver"> <lightning:formattedNumber  value="{!Cond.Fisso_WarrantCPQ__c}" maximumFractionDigits="2" /></td>
+                        
+                        <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver"><lightning:formattedNumber  value="{!Cond.Minimo_WarrantCPQ__c}" maximumFractionDigits="2" /></td>
+                        
+                        <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver"></td>
+                        
+                        <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver"><lightning:formattedNumber  value="{!Cond.Massimo_WarrantCPQ__c}" maximumFractionDigits="2" /></td>
+                        <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver"></td>
+                        <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver"><lightning:formattedNumber  value="{!Cond.Limite_WarrantCPQ__c}" maximumFractionDigits="2" /></td>
+                        
+                        <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver"><lightning:formattedNumber  value="{!Cond.Min_garantito_WarrantCPQ__c}" maximumFractionDigits="2" /></td>
+                        
+                        <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver"><lightning:formattedNumber  value="{!Cond.Valore_max_WarrantCPQ__c}" maximumFractionDigits="2" /></td>
+                        <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver"></td> 
+                        <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver"><lightning:formattedNumber  value="{!Cond.Importo_Appoggio__c}" maximumFractionDigits="2" /></td>
+                        <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver"></td>
+                        <td style="border-right: 2px solid silver;font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver"><lightning:formattedNumber  value="{!Cond.Stima_Appoggio__c}" maximumFractionDigits="2" /></td>
+                        
+                        
+                        
+                        
+                        <td>   
+                            
+                            <aura:if isTrue="{!v.disaccoppiamento == false}">  
+                            <div onclick="{!c.cancellaCond}" data-value="{!Cond.Id}">
+                                <a value="{!Cond.Id}"> <lightning:icon iconName="utility:delete" size="x-small"/></a>
+                            </div>  
+                            </aura:if>     
+                        </td>                        
+                    </tr>
+                    
+                    
+                    <aura:if isTrue="{!not(empty(Cond.Condizioni_Opzionali__r.records))}">   
+                        
+                        &nbsp;
+                    </aura:if> 
+                    
+                    
+                    
+                    
+                    <!--> qua le cond opzionali, radice finanziamento<-->
+                    
+                    
+                    
+                    <aura:iteration items="{!Cond.Condizioni_Opzionali__r.records}" var="Cond" indexVar="indexCond">
+                        
+                        
+                        <!--> header delle cond opzionali
+<tr>
+    
+<th></th>    
+<th style="padding: 5px"></th>
+<th  style="padding: 5px;text-align:right"><lightning:icon iconName="utility:linked" size="small"/></th> 
+<th  style="background:  #F5F5F5;padding: 5px;font-family: Salesforce Sans;font-size: 14px;border-bottom: 2px solid silver;border-left: 2px solid silver;border-top: 2px solid silver">Nome CondOpzionale</th>            
+<th style=" background:  #F5F5F5;padding: 5px;font-family: Salesforce Sans;font-size: 14px;border-bottom: 2px solid silver;border-top: 2px solid silver">Tipo</th>
+<th style=" background:  #F5F5F5;padding: 5px;font-family: Salesforce Sans;font-size: 14px;border-bottom: 2px solid silver;border-top: 2px solid silver">Tipologia Finanziamento</th>                       
+<th  style="background:  #F5F5F5;padding: 5px;font-family: Salesforce Sans;font-size: 14px;border-bottom: 2px solid silver;border-top: 2px solid silver">%</th>
+<th  style="background:  #F5F5F5;padding: 5px;font-family: Salesforce Sans;font-size: 14px;border-bottom: 2px solid silver;border-top: 2px solid silver">Fisso</th>
+<th  style="background:  #F5F5F5;padding: 5px;font-family: Salesforce Sans;font-size: 14px;border-bottom: 2px solid silver;border-top: 2px solid silver">Min</th>                                               
+<th  style="background:  #F5F5F5;padding: 5px;font-family: Salesforce Sans;font-size: 14px;border-bottom: 2px solid silver;border-top: 2px solid silver">Max</th> 
+<th  style="background:  #F5F5F5;padding: 5px;font-family: Salesforce Sans;font-size: 14px;border-bottom: 2px solid silver;border-top: 2px solid silver">Limite</th> 
+<th  style="background:  #F5F5F5; padding: 5px;font-family: Salesforce Sans;font-size: 14px;border-bottom: 2px solid silver;border-top: 2px solid silver">Min Garantito</th> 
+<th  style="background:  #F5F5F5;padding: 5px;font-family: Salesforce Sans;font-size: 14px;border-bottom: 2px solid silver;border-top: 2px solid silver">Valore Max</th> 
+<th  style="background:  #F5F5F5;padding: 5px;font-family: Salesforce Sans;font-size: 14px;border-bottom: 2px solid silver;border-top: 2px solid silver">Importo</th> 
+<th  style="background:  #F5F5F5;padding: 5px;font-family: Salesforce Sans;font-size: 14px;border-bottom: 2px solid silver;border-top: 2px solid silver">Stima</th> 
+
+<th colspan="3"  style="background:  #F5F5F5;padding: 5px;border-bottom: 2px solid silver;border-top: 2px solid silver" ></th>    
+<th style="background:  #F5F5F5;padding: 5px;border-bottom: 2px solid silver;border-top: 2px solid silver;border-right: 2px solid silver" ></th>                       
+                    
+</tr>
+<!-->               
+                        
+                        
+                        
+                        
+                        <tr>
+                            <td></td>
+                            <td></td>
+                           
+                            <td style="background: #fffffd;padding: 5px;font-family: Salesforce Sans;text-align:right">
+                                <lightning:icon iconName="utility:linked" size="small"/>
+                                 <aura:if isTrue="{!v.disaccoppiamento == false}">  
+                                <a data-record="{!Cond.Id}" onclick="{!c.handleEdit}">✎</a>
+                                </aura:if>    
+                                </td>
+
+                            
+                            <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-left: 2px solid silver;border-bottom: 2px solid silver;border-top: 2px solid silver">  {!Cond.Name}</td>
+                            <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver">{!Cond.Tipo_WarrantCPQ__c}</td> 
+                            <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver">{!Cond.WRT_Tipologia_Finanziamento_FORM__c}</td> 
+                            
+                            <aura:if isTrue="{!Cond.Percentuale_WarrantCPQ__c == null}">                                  
+                                <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver"></td>
+                                <aura:set attribute="else">     
+                                    <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver">{!Cond.Percentuale_WarrantCPQ__c}%</td>  
+                                </aura:set>    
+                            </aura:if>      
+                            
+                            
+                            <td style=" font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver"><lightning:formattedNumber  value="{!Cond.Fisso_WarrantCPQ__c}" maximumFractionDigits="2" /></td>
+                            
+                            <td style="font-size: 10px;background: #fffffd; padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver"><lightning:formattedNumber  value="{!Cond.Minimo_WarrantCPQ__c}" maximumFractionDigits="2" /></td>
+                            <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver"></td>  
+                            <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver"><lightning:formattedNumber  value="{!Cond.Massimo_WarrantCPQ__c}" maximumFractionDigits="2" /></td>
+                            <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver"></td>   
+                            <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver"> <lightning:formattedNumber  value="{!Cond.Limite_WarrantCPQ__c}" maximumFractionDigits="2" /></td>
+                            
+                            <td style="font-size: 10px;background: #fffffd; padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver"><lightning:formattedNumber  value="{!Cond.Min_garantito_WarrantCPQ__c}" maximumFractionDigits="2" /></td>
+                            
+                            <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver"><lightning:formattedNumber  value="{!Cond.Valore_max_WarrantCPQ__c}" maximumFractionDigits="2" /></td>
+                            <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver"></td>   
+                            <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver"> <lightning:formattedNumber  value="{!Cond.Formula_Importo_WarrantCPQ__c}" maximumFractionDigits="2" /></td>
+                            <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver"></td>  
+                            <td style="border-right: 2px solid silver;font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver"><lightning:formattedNumber  value="{!Cond.Formula_Stima_WarrantCPQ__c}" maximumFractionDigits="2" /></td>
+                            
+                            
+                            
+                            
+                            
+                            <td>
+                                <aura:if isTrue="{!v.disaccoppiamento == false}">  
+                                <div onclick="{!c.cancellaOpz}" data-value="{!Cond.Id}" >
+                                <a value="{!Cond.Id}"> <lightning:icon iconName="utility:delete" size="x-small"/></a>
+                                </div>
+                                </aura:if> 
+                            </td>    
+                        </tr> 
+                        
+                        
+                        
+                        
+                    </aura:iteration>
+                    <tr>&nbsp;</tr>           <!--> spazio fra opz e pag <!-->      
+                    
+                    
+                    
+                    <!--> qua tabella pag radice fin<-->        
+                    
+                    
+                    <aura:iteration items="{!Cond.Pagamenti__r.records}" var="Pag"   indexVar="index" >
+                        
+                        <!-->  if condition for show only the first element of the list <!-->               
+                        
+                        <aura:if isTrue="{! index == 0 }">
+                            
+                            
+                            
+                            
+                            <tr>
+                                <th></th>    
+                                <th   style="padding: 5px;text-align:right"> <img style= "height: 20px;width: 30px" src="{!$Resource.Pagamento}"/>    </th>
+                                <th   style="background: #e6ffe6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-left: 2px solid silver;border-bottom: 2px solid silver;border-top: 2px solid silver"><div style="padding: 5px;">Nome Pagamento</div></th>                       
+                                <th   style=" background: #e6ffe6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-bottom: 2px solid silver;border-top: 2px solid silver">%</th>
+                                <th   style=" background: #e6ffe6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-bottom: 2px solid silver;border-top: 2px solid silver">Importo</th>                                              
+                                <th   style=" background: #e6ffe6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-bottom: 2px solid silver;border-top: 2px solid silver">Stima</th>
+                                <th   style=" width:85px; background: #e6ffe6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-bottom: 2px solid silver;border-top: 2px solid silver">Scadenza</th>
+                                <th   style=" background: #e6ffe6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-bottom: 2px solid silver;border-top: 2px solid silver">Procedimento Pagamento </th>
+                                <th   style=" background: #e6ffe6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-bottom: 2px solid silver;border-top: 2px solid silver">Parte</th>
+                                <th   style=" background: #e6ffe6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-bottom: 2px solid silver;border-top: 2px solid silver">Probabilità</th>
+                                <th   style=" background: #e6ffe6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-bottom: 2px solid silver;border-top: 2px solid silver">Opzione</th>
+                                <th   style=" background: #e6ffe6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-bottom: 2px solid silver;border-top: 2px solid silver">Stato pagamento</th>   
+                                <th   style=" background: #e6ffe6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-bottom: 2px solid silver;border-top: 2px solid silver">Blocco Fattura</th>
+                                <th   style=" background: #e6ffe6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-bottom: 2px solid silver;border-top: 2px solid silver">Numero e data fattura</th>
+                                <th   style=" background: #e6ffe6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-bottom: 2px solid silver;border-top: 2px solid silver">Descrizione fattura</th>
+                                <th   style=" background: #e6ffe6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-bottom: 2px solid silver;border-top: 2px solid silver">Tipo Pagamento</th>
+                                
+                                <th   style=" background: #e6ffe6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-bottom: 2px solid silver;border-top: 2px solid silver">Codice Ordine Cliente</th>
+                                <th   style=" background: #e6ffe6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-bottom: 2px solid silver;border-top: 2px solid silver">CIG</th>
+                                <th   style=" background: #e6ffe6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-bottom: 2px solid silver;border-top: 2px solid silver;border-right: 2px solid silver">CUP</th>
+                                
+                                
+                            </tr>
+                            
+                            
+                        </aura:if> 
+                        
+                        
+                        
+                        <tr>
+                            <td></td>    
+                            
+                            <td style="text-align:right;padding: 5px"> 
+                                
+
+                            <aura:if isTrue="{!v.disaccoppiamento == false}">       
+                            <a data-record="{!Pag.Id}" onclick="{!c.handleEdit}">✎</a>
+                            </aura:if> 
+                            </td>
+                        
+                            
+                            <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-left: 2px solid silver;border-bottom: 2px solid silver;border-top: 2px solid silver "><div style="padding: 5px;" > {!Pag.Name}</div></td> 
+                            
+                            <aura:if isTrue="{!Pag.Percentuale_WarrantCPQ__c == null}">                            
+                                <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver; border-top: 2px solid silver"></td>
+                                <aura:set attribute="else">      
+                                    <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver; border-top: 2px solid silver">{!Pag.Percentuale_WarrantCPQ__c}%</td>
+                                </aura:set>    
+                            </aura:if>      
+                            
+                            
+                            <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver; border-top: 2px solid silver"><lightning:formattedNumber  value="{!Pag.Formula_Importo_WarrantCPQ__c}" maximumFractionDigits="2" /></td>
+                            <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver"><lightning:formattedNumber  value="{!Pag.Formula_Stima_WarrantCPQ__c}" maximumFractionDigits="2" /></td>
+                            <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver">{!Pag.Scadenza_WarrantCPQ__c}</td>
+                            <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver">{!Pag.Procedimento_pagamento__r.Name}</td>
+                            <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver">{!Pag.Parte_WarrantCPQ__c}</td>
+                            <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver">{!Pag.Probabilita_WarrantCPQ__c}</td>
+                            <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver">{!Pag.Opzione_WarrantCPQ__c}</td>
+                            
+                            <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver">{!Pag.WRT_Stato_pagamento__c} </td>
+                            
+                            
+                            <aura:if isTrue="{!Pag.Blocco_riga_pagamento__c == true}">
+                                <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver">✔</td>
+                                <aura:set attribute="else">    
+                                    <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver"></td>    
+                                </aura:set>    
+                            </aura:if>
+                            
+                            
+                            <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver">{!Pag.Formula_Numero_e_data_fattura__c}</td>
+                            <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver">{!Pag.Descrizione_fattura_WarrantCPQ__c}</td>
+                            <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver">{!Pag.Tipo_pagamento_WarrantCPQ__c}</td>
+                            
+                            <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver">{!Pag.Codice_Ordine_Cliente_WarrantCPQ__c}</td>
+                            <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver">{!Pag.WRT_cig__c}</td>
+                            <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-right: 2px solid silver;border-bottom: 2px solid silver;border-top: 2px solid silver">{!Pag.WRT_cup__c}</td>
+                            
+                            <td>    
+                                <aura:if isTrue="{!v.disaccoppiamento == false}">  
+                                <div onclick="{!c.cancellaPag}" data-value="{!Pag.Id}">
+                                    <a value="{!Pag.Id}"> <lightning:icon iconName="utility:delete" size="x-small"/></a>
+                                </div>
+                                </aura:if> 
+                            </td>
+                            
+                        </tr>
+                        
+                        
+                        
+                        
+                        
+                        
+                    </aura:iteration>   <!-- pag-->
+                    
+                    
+                    
+                    <tr>&nbsp;</tr>
+                    
+                    
+                    
+                    
+                    
+                    
+                </aura:iteration><!--> fine iterazione Cond radice fin <-->
+                
+                <tr>&nbsp;</tr> 
+                
+                
+                
+                
+                
+            </aura:iteration><!--> fine iteration dei Fin <-->  
+            
+            
+        </thead>
+        
+    </table>
+    
+    
+    
+    <tr>&nbsp;</tr>
+    <tr>&nbsp;</tr>
+    
+    
+    
+    
+    
+    <!--> radice cond ____________________________________________________________________________________________________________<!-->
+    
+    
+    
+    <table aura:id='TableCond'>
+        <thead>
+            
+            <!--> Header vuoto del fin. If per nasconderlo se non ci sono Cond dopo. <!-->
+            
+            <aura:if isTrue="{!not(empty(v.CondPag))}">    
+                
+                <tr>  
+                    
+                    <th style= "text-align:right"><lightning:icon iconName="utility:moneybag" size="small"/></th>    
+                    
+                    <th colspan="2" style="background: #F5F5F5 ;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-left: 2px solid silver;border-top: 2px solid silver;border-bottom: 2px solid silver">Finanziamento</th>
+                    <th style="background: #F5F5F5 ;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver"></th>  
+                    <th style="background: #F5F5F5 ;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver">Nome Finanziamento</th>
+                    <th style="background: #F5F5F5 ;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver"></th> 
+                    <th style="background: #F5F5F5 ;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver"></th>
+                    <th   style="background: #F5F5F5 ;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver">Importo</th>
+                    <th style="background: #F5F5F5 ;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver"></th>
+                    
+                    <th style="background: #F5F5F5 ;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver"></th>
+                    <th style="background: #F5F5F5 ;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver">Stima</th> 
+                    <th style="background: #F5F5F5 ;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver"></th> 
+                    <th style="background: #F5F5F5 ;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver"></th>
+                    <th style="background: #F5F5F5 ;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver"></th>
+                    <th  style="background: #F5F5F5 ;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver">Fattura</th> 
+                    <th colspan="3"   style="background: #F5F5F5 ;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver"></th>
+                    <th style="background: #F5F5F5 ;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver;border-right: 2px solid silver"></th>
+                    
+                </tr>
+                
+                
+                <tr>
+                    <td></td>    
+                    
+                    <td colspan="2" style="background: #fffffd;padding: 5px;border-left: 2px solid silver;border-top: 2px solid silver;border-bottom: 2px solid silver" >&nbsp; </td>                            
+                    
+                    <td  colspan="15"    style="background: #fffffd;padding: 5px;border-bottom: 2px solid silver" >&nbsp; </td>
+                    <td style="background: #fffffd;padding: 5px;border-right: 2px solid silver;border-bottom: 2px solid silver" >&nbsp; </td>
+                    
+                    
+                </tr>
+                
+                <tr>&nbsp;</tr>
+                
+            </aura:if> 
+            <!--> end aura if <!-->    
+            
+            
+            <!--> qua iniziano le Cond senza fin <!-->
+            
+            <aura:iteration items="{!v.CondPag}" var="Cond" indexVar = "indexCond">
+                
+                
+                
+                
+                <tr>   
+                    <th></th>                      
+                    <!--> condizione dell'icona <!-->      
+                    <aura:if isTrue="{!not(empty(Cond.Condizioni_Opzionali__r))}">      
+                        <th style="padding: 5px;text-align:right" ><img style= "height: 20px;width: 25px" src="{!$Resource.Condizione}"/><lightning:icon iconName="utility:linked" size="small"/></th>
+                        <aura:set attribute="else">    
+                            <th style="padding: 5px;text-align:right" ><img style= "height: 20px;width: 25px" src="{!$Resource.Condizione}"/></th> 
+                        </aura:set>    
+                    </aura:if>       
+                    <!--> condizione dell'icona <!-->      
+                    
+                    <th colspan="2" style="background:  #fff5e6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-left: 2px solid silver;border-top: 2px solid silver;border-bottom: 2px solid silver">Nome Condizione</th>
+                    
+                    
+                    <th style="background:  #fff5e6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver">Tipo</th>
+                    <th style="background:  #fff5e6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver">Tipologia Finanziamento</th>
+                    
+                    <th style="background:  #fff5e6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver">%</th>
+                    <th style="background: #fff5e6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver">Fisso</th>
+                    
+                    <th style="background:  #fff5e6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver">Min</th>
+                    <th style="background:  #fff5e6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver"></th>   
+                    <th style="background:  #fff5e6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver">Max</th>
+                    <th style="background:  #fff5e6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver"></th>   
+                    <th style="background:  #fff5e6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver">Limite</th> 
+                    
+                    <th style="background:  #fff5e6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver">Min Garantito</th> 
+                    
+                    <th style="background:  #fff5e6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver">Valore Max</th> 
+                    <th style="background:  #fff5e6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver"></th>  
+                    <th style="background:  #fff5e6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver">Importo</th> 
+                    <th style="background:  #fff5e6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver"></th>  
+                    <th style="background:  #fff5e6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-top: 2px solid silver;border-bottom: 2px solid silver;border-right: 2px solid silver">Stima</th> 
+                    
+                    
+                    
+                    
+                    
+                </tr>
+                
+                
+                
+                <tr>     
+                    
+                    <td colspan="2" style="font-family: Salesforce Sans;text-align:right" >
+                        <aura:if isTrue="{!v.disaccoppiamento == false}">  
+                        <a data-record="{!Cond.Id}" data-record2="{!Cond.Quote_Line__r.SBQQ__Product__c}" data-record3="{!Cond.Quote_Line__r.SBQQ__Quote__r.WRT_Modalita_pagamento__c}" onclick="{!c.createRecordPag}"  style="font-family: Salesforce Sans"  title = "Nuovo Pagamento" >   <img style= "height: 16px;width: 23px" src="{!$Resource.NuovoPagamento}"/>     </a>    
+                        <a data-record="{!Cond.Id}" onclick="{!c.createRecordOpz}"  style="font-family: Salesforce Sans" title = "Aggiungi Opzionale"   ><img style= "height: 13px;width: 23px" src="{!$Resource.AggiungiOpzionale}"/> </a>     
+                        <a data-record="{!Cond.Id}" onclick="{!c.handleEdit}"  style="font-family: Salesforce Sans" >✎</a>
+                        </aura:if> 
+                    </td>   
+                    
+                    <td colspan="2" style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-left: 2px solid silver;border-bottom: 2px solid silver">{!Cond.Name}</td> 
+                    <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver">{!Cond.Tipo_WarrantCPQ__c}</td>
+                    <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver">{!Cond.WRT_Tipologia_Finanziamento_FORM__c}</td>
+                    <aura:if isTrue="{!Cond.Percentuale_WarrantCPQ__c == null}">        
+                        <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver"></td>
+                        <aura:set attribute="else"> 
+                            <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver">{!Cond.Percentuale_WarrantCPQ__c}%</td>    
+                        </aura:set>    
+                    </aura:if>      
+                    
+                    <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver"><lightning:formattedNumber  value="{!Cond.Fisso_WarrantCPQ__c}" maximumFractionDigits="2" /></td>
+                    
+                    <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver"><lightning:formattedNumber  value="{!Cond.Minimo_WarrantCPQ__c}" maximumFractionDigits="2" /></td>
+                    <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver"></td>  
+                    <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver"><lightning:formattedNumber  value="{!Cond.Massimo_WarrantCPQ__c}" maximumFractionDigits="2" /></td>
+                    <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver"></td>  
+                    <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver"><lightning:formattedNumber  value="{!Cond.Limite_WarrantCPQ__c}" maximumFractionDigits="2" /></td>
+                    
+                    <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver"><lightning:formattedNumber  value="{!Cond.Min_garantito_WarrantCPQ__c}" maximumFractionDigits="2" /></td>
+                    
+                    <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver"><lightning:formattedNumber  value="{!Cond.Valore_max_WarrantCPQ__c}" maximumFractionDigits="2" /></td>
+                    <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver"></td>  
+                    <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver"><lightning:formattedNumber  value="{!Cond.Importo_Appoggio__c}" maximumFractionDigits="2" /></td>
+                    <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver"></td>  
+                    
+                    <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-right: 2px solid silver"><lightning:formattedNumber  value="{!Cond.Stima_Appoggio__c}" maximumFractionDigits="2" /></td>
+                    
+                    <td>
+                        
+                        <aura:if isTrue="{!v.disaccoppiamento == false}">  
+                        <div onclick="{!c.cancellaCond}" data-value="{!Cond.Id}">
+                            <a value="{!Cond.Id}"> <lightning:icon iconName="utility:delete" size="x-small"/></a>
+                        </div>
+                        </aura:if>     
+                    </td>
+                    
+                    
+                </tr>
+                
+                
+                
+                <aura:if isTrue="{!not(empty(Cond.Condizioni_Opzionali__r))}">   
+                    &nbsp;
+                </aura:if>
+                
+                <!--> qua cond opzionali radice cond<!-->
+                
+                <aura:iteration items="{!Cond.Condizioni_Opzionali__r}" var="Cond">
+                    
+                    <!-->
+                <tr>
+                    <th></th>
+                    <th></th>
+                        <th  style="padding: 5px;text-align:right"><lightning:icon iconName="utility:linked" size="small"/></th>    
+                       
+                        <th  style="background:  #F5F5F5;padding: 5px;font-family: Salesforce Sans;font-size: 14px;border-left: 2px solid silver;border-top: 2px solid silver;border-bottom: 2px solid silver"><div style="padding: 5px;">  Nome CondOpzionale</div></th>
+                    
+                        <th style="background:  #F5F5F5;padding: 5px;font-family: Salesforce Sans;font-size: 14px;border-top: 2px solid silver;border-bottom: 2px solid silver">Tipo</th>
+                          <th style="background:  #F5F5F5;padding: 5px;font-family: Salesforce Sans;font-size: 14px;border-top: 2px solid silver;border-bottom: 2px solid silver">Tipologia Finanziamento</th>
+                    
+                        <th  style="background:  #F5F5F5;padding: 5px;font-family: Salesforce Sans;font-size: 14px;border-top: 2px solid silver;border-bottom: 2px solid silver">%</th>
+                        <th  style="background:  #F5F5F5;padding: 5px;font-family: Salesforce Sans;font-size: 14px;border-top: 2px solid silver;border-bottom: 2px solid silver">Fisso</th>
+                        <th  style="background:  #F5F5F5;padding: 5px;font-family: Salesforce Sans;font-size: 14px;border-top: 2px solid silver;border-bottom: 2px solid silver">Min</th> 
+                        <th  style="background:  #F5F5F5;padding: 5px;font-family: Salesforce Sans;font-size: 14px;border-top: 2px solid silver;border-bottom: 2px solid silver">Max</th> 
+                        <th  style="background:  #F5F5F5;padding: 5px;font-family: Salesforce Sans;font-size: 14px;border-top: 2px solid silver;border-bottom: 2px solid silver">Limite</th> 
+                        <th  style="background:  #F5F5F5; padding: 5px;font-family: Salesforce Sans;font-size: 14px;border-top: 2px solid silver;border-bottom: 2px solid silver">Min Garantito</th> 
+                        <th  style="background:  #F5F5F5;padding: 5px;font-family: Salesforce Sans;font-size: 14px;border-top: 2px solid silver;border-bottom: 2px solid silver">Valore Max</th> 
+                        <th  style="background:  #F5F5F5;padding: 5px;font-family: Salesforce Sans;font-size: 14px;border-top: 2px solid silver;border-bottom: 2px solid silver">Importo</th> 
+                        <th  style="background:  #F5F5F5;padding: 5px;font-family: Salesforce Sans;font-size: 14px;border-top: 2px solid silver;border-bottom: 2px solid silver">Stima</th> 
+                      
+                    
+                        <th colspan="3"  style="background:  #F5F5F5;padding: 5px;border-top: 2px solid silver;border-bottom: 2px solid silver"></th>    
+                         <th  style="background:  #F5F5F5;padding: 5px;border-top: 2px solid silver;border-bottom: 2px solid silver;border-right: 2px solid silver"></th>   
+                    
+                </tr>
+                <!-->
+                    
+                    
+                    <tr>   
+                        
+                        <td></td>                        
+                        <td></td>
+                        <td style="text-align:right;padding: 5px">
+                        <lightning:icon iconName="utility:linked" size="small"/>
+                            
+                         <aura:if isTrue="{!v.disaccoppiamento == false}">     
+                        <a data-record="{!Cond.Id}" onclick="{!c.handleEdit}">✎</a>
+                        </aura:if> 
+                       </td>
+                        <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-left: 2px solid silver;border-bottom: 2px solid silver;border-top: 2px solid silver"> <div style="padding: 5px;"> {!Cond.Name}</div></td>                           
+                        <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver">{!Cond.Tipo_WarrantCPQ__c}</td>            
+                        <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver">{!Cond.WRT_Tipologia_Finanziamento_FORM__c}</td>
+                        
+                        <aura:if isTrue="{!Cond.Percentuale_WarrantCPQ__c == null}">                              
+                            <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver"></td>
+                            <aura:set attribute="else">     
+                                <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver">{!Cond.Percentuale_WarrantCPQ__c}%</td>
+                            </aura:set>    
+                        </aura:if>   
+                        
+                        <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver"><lightning:formattedNumber  value="{!Cond.Fisso_WarrantCPQ__c}" maximumFractionDigits="2" /></td>
+                        
+                        <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver"><lightning:formattedNumber  value="{!Cond.Minimo_WarrantCPQ__c}" maximumFractionDigits="2" /></td>   
+                        <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver"></td> 
+                        <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver"><lightning:formattedNumber  value="{!Cond.Massimo_WarrantCPQ__c}" maximumFractionDigits="2" /></td>
+                        <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver"></td> 
+                        <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver"><lightning:formattedNumber  value="{!Cond.Limite_WarrantCPQ__c}" maximumFractionDigits="2"  /></td>
+                        
+                        <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver"><lightning:formattedNumber  value="{!Cond.Min_garantito_WarrantCPQ__c}" maximumFractionDigits="2" /></td>
+                        
+                        <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver"><lightning:formattedNumber  value="{!Cond.Valore_max_WarrantCPQ__c}" maximumFractionDigits="2" /></td>
+                        <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver"></td>  
+                        <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver"><lightning:formattedNumber  value="{!Cond.Formula_Importo_WarrantCPQ__c}" maximumFractionDigits="2" /></td>
+                        <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver"></td> 
+                        <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver;border-right: 2px solid silver;"><lightning:formattedNumber  value="{!Cond.Formula_Stima_WarrantCPQ__c}" maximumFractionDigits="2" /></td>                                              
+                        
+                        
+                        
+                        <td>
+                            <aura:if isTrue="{!v.disaccoppiamento == false}">  
+                            <div onclick="{!c.cancellaOpz}" data-value="{!Cond.Id}">
+                                <a value="{!Cond.Id}"> <lightning:icon iconName="utility:delete" size="x-small"/></a>
+                            </div> 
+                            </aura:if>     
+                        </td>                              
+                    </tr> 
+                    
+                    
+                    
+                    
+                    
+                    
+                </aura:iteration>
+                
+                <tr>&nbsp;</tr>
+                
+                
+                
+                
+                
+                <!--> qua pag radice cond <!-->
+                <aura:iteration items="{!Cond.Pagamenti__r}" var="Pag" indexVar="index" >
+                    <aura:if isTrue="{! index == 0 }">  
+                        
+                        
+                        <tr>
+                            <th></th>
+                            <th style="padding: 5px;text-align:right"><img style= "height: 20px;width: 30px" src="{!$Resource.Pagamento}"/>  </th>
+                            <th style="background: #e6ffe6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-left: 2px solid silver;border-bottom: 2px solid silver;border-top: 2px solid silver"><div style="padding: 5px;">Nome Pagamento</div></th>
+                            <th style=" background: #e6ffe6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-bottom: 2px solid silver;border-top: 2px solid silver">%</th>
+                            <th style=" background: #e6ffe6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-bottom: 2px solid silver;border-top: 2px solid silver">Importo</th>                    
+                            <th style="background: #e6ffe6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-bottom: 2px solid silver;border-top: 2px solid silver">Stima</th>
+                            <th style="width:85px; background: #e6ffe6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-bottom: 2px solid silver;border-top: 2px solid silver">Scadenza</th>
+                            <th style="background: #e6ffe6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-bottom: 2px solid silver;border-top: 2px solid silver">Procedimento Pagamento</th>
+                            <th style="background: #e6ffe6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-bottom: 2px solid silver;border-top: 2px solid silver"> Parte</th>
+                            <th style="background: #e6ffe6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-bottom: 2px solid silver;border-top: 2px solid silver">Probabilità</th>
+                            <th style="background: #e6ffe6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-bottom: 2px solid silver;border-top: 2px solid silver">Opzione</th>
+                            <th style="background: #e6ffe6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-bottom: 2px solid silver;border-top: 2px solid silver">Stato pagamento</th>
+                            <th style="background: #e6ffe6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-bottom: 2px solid silver;border-top: 2px solid silver">Blocco fattura</th>
+                            <th style="background: #e6ffe6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-bottom: 2px solid silver;border-top: 2px solid silver">Numero e data fattura</th>
+                            <th style="background: #e6ffe6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-bottom: 2px solid silver;border-top: 2px solid silver">Descrizione fattura</th>
+                            <th style="background: #e6ffe6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-bottom: 2px solid silver;border-top: 2px solid silver">Tipo Pagamento</th>
+                            <th style="background: #e6ffe6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-bottom: 2px solid silver;border-top: 2px solid silver">Codice Ordine Cliente</th> 
+                            <th style="background: #e6ffe6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-bottom: 2px solid silver;border-top: 2px solid silver">CIG</th> 
+                            <th style="background: #e6ffe6;padding: 5px;font-family: Salesforce Sans;font-size: 10px;border-bottom: 2px solid silver;border-top: 2px solid silver;border-right: 2px solid silver">CUP</th> 
+                            
+                        </tr>
+                        
+                    </aura:if> 
+                    
+                    
+                    
+                    
+                    <tr>
+                        <td></td>
+                        <td style="padding: 5px;text-align:right"> 
+                         <aura:if isTrue="{!v.disaccoppiamento == false}">     
+                        <a data-record="{!Pag.Id}" onclick="{!c.handleEdit}">✎</a> 
+                        </aura:if> 
+                        </td>
+                        <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-left: 2px solid silver;border-bottom: 2px solid silver;border-top: 2px solid silver"><div style="padding: 5px;font-family: Salesforce Sans;">{!Pag.Name}</div></td>  
+                        
+                        <aura:if isTrue="{!Pag.Percentuale_WarrantCPQ__c == null}">    
+                            <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver"></td>
+                            <aura:set attribute="else">    
+                                <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver">{!Pag.Percentuale_WarrantCPQ__c}%</td>                             
+                            </aura:set>    
+                        </aura:if> 
+                        
+                        
+                        <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver"><lightning:formattedNumber  value="{!Pag.Formula_Importo_WarrantCPQ__c}" maximumFractionDigits="2" /></td>
+                        
+                        <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver"><lightning:formattedNumber  value="{!Pag.Formula_Stima_WarrantCPQ__c}" maximumFractionDigits="2" /></td>
+                        <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver">{!Pag.Scadenza_WarrantCPQ__c}</td>
+                        <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver">{!Pag.Procedimento_pagamento__r.Name}</td>
+                        <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver">{!Pag.Parte_WarrantCPQ__c}</td>
+                        <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver">{!Pag.Probabilita_WarrantCPQ__c}</td>
+                        <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver">{!Pag.Opzione_WarrantCPQ__c}</td>
+                        
+                        <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver">{!Pag.WRT_Stato_pagamento__c} </td>
+                        
+                        <aura:if isTrue="{!Pag.Blocco_riga_pagamento__c == true}">
+                            <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver" >✔</td>
+                            <aura:set attribute="else">  
+                                <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver" ></td>
+                            </aura:set>    
+                        </aura:if> 
+                        
+                        
+                        
+                        <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver">{!Pag.Formula_Numero_e_data_fattura__c}</td>
+                        <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver">{!Pag.Descrizione_fattura_WarrantCPQ__c}</td>
+                        <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver">{!Pag.Tipo_pagamento_WarrantCPQ__c}</td>
+                        
+                        <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver" >{!Pag.Codice_Ordine_Cliente_WarrantCPQ__c}</td>
+                        <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-top: 2px solid silver" >{!Pag.WRT_cig__c}</td>
+                        <td style="font-size: 10px;background: #fffffd;padding: 5px;font-family: Salesforce Sans;border-bottom: 2px solid silver;border-right: 2px solid silver;border-top: 2px solid silver" >{!Pag.WRT_cup__c}</td>
+                        
+                        <td>
+                            <aura:if isTrue="{!v.disaccoppiamento == false}">  
+                            <div onclick="{!c.cancellaPag}" data-value="{!Pag.Id}">
+                                <a value="{!Pag.Id}"> <lightning:icon iconName="utility:delete" size="x-small"/></a>
+                            </div>  
+                            </aura:if>     
+                        </td>
+                        
+                        
+                        
+                    </tr>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                </aura:iteration>
+                
+                
+                
+                
+                
+                <tr>&nbsp;</tr>
+                
+                
+                
+                
+            </aura:iteration>
+            
+            
+            
+            
+        </thead>
+    </table> 
+    
+    
+    <tr>
+        <aura:if isTrue="{!v.disaccoppiamento == false}">  
+        <td style="font-size: 10px"> 
+            <a onclick="{!c.createRecordFin}"  style="padding: 5px;font-family: Salesforce Sans;"   >Nuovo Finanziamento</a> 
+        </td>
+        
+        
+        <td style="font-size: 10px">
+            <a onclick="{!c.createRecordCondSingola}"  style="padding: 5px;font-family: Salesforce Sans;"   >Nuova Condizione senza Finanziamento  </a>    
+        </td>
+        </aura:if> 
+    </tr>    
+    
+</aura:component>

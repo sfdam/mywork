@@ -1,0 +1,49 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 10-02-2020
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+  Modifications Log 
+  Ver   Date         Author                               Modification
+  1.0   09-29-2020   ChangeMeIn@UserSettingsUnder.SFDoc   Initial Version
+-->
+<template>
+    <lightning-layout if:false={notShowComponent}>
+        
+        <lightning-layout-item size="12" class="slds-card_boundary" >
+            <lightning-card>
+                <div slot="title">
+                    <lightning-icon icon-name={builderIcon} size="small"></lightning-icon>
+                    <div class="tilte-card"><b>{title}</b></div>
+                </div>
+                <lightning-button-group slot="actions">
+                  <!--  <lightning-button label="Nuovo" onclick={handleClickNew}></lightning-button>-->
+                    <lightning-button-icon icon-name="utility:refresh" alternative-text="Refresh" onclick={refreshClick} ></lightning-button-icon>
+                </lightning-button-group>
+                
+                <template if:false={isRendered}>
+                    <div class="slds-align_absolute-center">
+                        <lightning-spinner alternative-text="CARICAMENTO" size="small"></lightning-spinner>
+                    </div>
+                </template>
+                <template if:true={isRendered}>
+                    <c-extended-data-table
+                    data-item="extend"
+                        key-field="id"
+                        data={data}
+                        columns={columns}
+                        sorted-by={sortBy}
+                        sorted-direction={sortDirection}
+                        onsort={doSorting}
+                        resize-column-disabled="false"
+                        hide-checkbox-column="true"
+                        >
+                    </c-extended-data-table>
+                        <div style="margin-left: 8px; "><p>{noDataMessage}</p></div>    
+                </template>
+            </lightning-card>
+        </lightning-layout-item>
+    </lightning-layout>
+
+</template>

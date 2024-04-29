@@ -1,0 +1,21 @@
+<template>
+    <div class="quote-suggestions">
+        <lightning-button variant="brand" label="Quote Suggestions" title="Quote Suggestions" onclick={handleQuoteSuggestions} class="slds-m-left_x-small"></lightning-button>
+    </div>
+
+    <c-modal class="quote-suggestions-modal" size="small" loading={loading}>
+        <div slot="header">Quote - {quoteName}</div>
+        <div slot="content">
+            <template if:true={showSuggestions}>
+                <ul class="slds-list_dotted">
+                    <template for:each={suggestions} for:item="suggestion">
+                        <li key={suggestion.key}>{suggestion.value}</li>
+                    </template>
+                </ul>
+            </template>
+            <template if:false={showSuggestions}>
+                Nessuno sconto applicabile
+            </template>
+        </div>
+    </c-modal>
+</template>

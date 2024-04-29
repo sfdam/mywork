@@ -1,0 +1,247 @@
+.THIS {
+}
+
+/*.THIS.container-doc{
+    border:2px solid #0BAD58;
+    border-radius:10px;
+}*/
+
+.THIS .block{
+    display:block;
+}
+
+.THIS .text-doc{
+    font-size:x-small; 
+    color:gray;
+}
+
+.THIS .title-color{
+    color:rgba(180, 180, 180, 0.473);
+}
+
+.THIS .container-border-title-red{
+    border:1px solid #ED495B;
+    border-right:1px solid #ED495B;
+    border-top-left-radius:10px;
+    border-bottom-left-radius:10px;
+}
+
+.THIS .container-border-content-red{
+    border:1px solid #ED495B;
+    border-top-right-radius:10px;
+    border-bottom-right-radius:10px;
+}
+
+.THIS .container-border-title-blue{
+    border:1px solid #0064B5;
+    border-right:1px solid #0064B5;
+    border-top-left-radius:10px;
+    border-bottom-left-radius:10px;
+}
+
+.THIS .container-border-content-blue{
+    border:1px solid #0064B5;
+    border-top-right-radius:10px;
+    border-bottom-right-radius:10px;
+}
+
+.THIS .container-title{
+    min-height: 250px;
+    border-right: 1px solid lightgray;
+    box-shadow: 2px 0 10px lightgrey;
+}
+
+/*.THIS .container-title-red{
+    background:#ED495B;
+}*/
+
+.THIS .container-title-blue{
+    background:#0064B5;
+}
+
+.THIS .container-title-small{
+    min-height: 135px;
+    border-right: 1px solid lightgray;
+    box-shadow: 2px 0 10px lightgrey;
+}
+
+.THIS .back-icon{
+    width:50px;
+    height:50px;
+    border-radius:25px;
+    background-color: #0BAD58;
+}
+
+.THIS .back-icon-negative{
+    width:50px;
+    height:50px;
+    border-radius:25px;
+    background-color: #ED495B;
+    /*border: 1px solid #ED495B;*/
+}
+
+.THIS .back-icon-positive{
+    width:50px;
+    height:50px;
+    border-radius:25px;
+    background-color: #0064B5;
+    /*border: 1px solid #5598E2;*/
+}
+
+.THIS .back-icon-action{
+    width:50px;
+    height:50px;
+    border-radius:25px;
+    background-color: white;
+}
+
+.THIS .back-icon-action-positive{
+    width:50px;
+    height:50px;
+    border-radius:25px;
+    /*background-color: white;*/
+    border:2px solid #0064B5;
+}
+
+.THIS .back-icon-action-negative{
+    width:50px;
+    height:50px;
+    border-radius:25px;
+    /*background-color: white;*/
+    border:2px solid #ED495B;
+}
+
+.THIS .back-icon-action-positive-small{
+    width:40px;
+    height:40px;
+    border-radius:25px;
+    /*background-color: white;*/
+    border:2px solid #0064B5;
+}
+
+.THIS .back-icon-action-negative-small{
+    width:40px;
+    height:40px;
+    border-radius:25px;
+    /*background-color: white;*/
+    border:2px solid #ED495B;
+}
+
+.THIS .single-doc{
+    min-height:160px;
+    min-width:25%;
+    border:1px solid lightgray;
+    margin: 0px;
+}
+
+/* Fix per il bordo dei singoli doc */
+/*
+.THIS div > div:nth-child(n){
+    border-top:0px;
+    border-left:0px;
+}
+*/
+
+.THIS div > div:nth-child(n+5){
+    border-bottom:0px;
+}
+
+.THIS .btn-header{
+    background-color: #0064B5;
+    border-color: #0064B5;
+    color: rgb(255, 255, 255);
+    /*border-radius:20px;*/
+ }
+
+
+.THIS .single-doc_back{
+    min-height:160px;
+    min-width:25%;
+    border:1px solid lightgray;
+    margin: 0px;
+    /*background-color: #0BAD58;*/
+}
+
+.THIS .single-doc_back-negative{
+    min-height:150px;
+    min-width:25%;
+    background-color: #ED495B;
+    margin: 0px;
+}
+
+.THIS .single-doc_back-positive{
+    min-height:150px;
+    min-width:25%;
+    background-color: #0064B5;
+    margin: 0px;
+}
+
+
+.THIS .btn {
+    background-color: #0064B5;
+    border-color: #0064B5;
+    color: rgb(255, 255, 255);
+    border-radius:20px;
+ }
+
+ .THIS .btn:hover {
+    background-color: #0064B5;
+    border-color: #0064B5;
+    color: rgb(255, 255, 255);
+ }
+
+ .THIS .btn-expand{
+     border: 1px solid #0064B5;
+     border-radius: 25px;
+ }
+
+ .THIS .required{
+     font-size: 10px;
+ }
+
+ .THIS .required:after{
+    content: "*";
+    font-size: 13px;
+}
+
+.THIS .slds-radio_button [type="radio"]:checked + .slds-radio_button__label{
+    background-color:#0064B5;
+}
+
+.THIS fieldset{
+    display: inline-block;
+}
+
+.THIS .slds-form-element{
+    float: right;
+}
+
+.THIS .text-doc .slds-form-element{
+    float:left;
+}
+
+.THIS .slds-form-element__control{
+    display: inline-block;
+}
+
+.THIS .slds-form-element__label{
+    padding-top: 0.5rem;
+}
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : landscape)
+and (-webkit-min-device-pixel-ratio: 2) { 
+    /* STYLES GO HERE */
+
+}
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : portrait)
+and (-webkit-min-device-pixel-ratio: 2) { 
+    /* STYLES GO HERE */
+
+}

@@ -1,0 +1,63 @@
+<template>
+    <lightning-card  title={title} class="slds-m-around_small">
+        
+        <lightning-layout multiple-rows="true">
+            <template if:false={isRendered}>
+                <div class="slds-align_absolute-center">
+                    <lightning-spinner alternative-text="CARICAMENTO" size="small"></lightning-spinner>
+                </div>
+            </template>
+            <!-- <lightning-layout-item size="12" padding="around-small"> -->
+                <!-- filtri di ricerca -->
+            <!-- </lightning-layout-item> -->
+            <lightning-layout-item flexibility="auto" padding="around-small">
+                <button type="submit" class="slds-button slds-button_neutral slds-button_stretch color-button" onclick={handleSendRequest}>{buttonLabel}</button>
+            </lightning-layout-item>
+        </lightning-layout>
+        <template if:true={listaMovimenti}>
+            <lightning-layout class="paginator">
+                <lightning-layout-item alignment-bump="right">
+                    <lightning-layout class="slds-align_absolute-center">
+                        <lightning-layout-item padding="around-small">
+                            <div class="lgc-bg">
+                                <lightning-button-icon icon-name="utility:chevronleft"  variant="container" alternative-text="Settings" title="Settings" onclick={handleIndietro} disabled={disabledButtonIndietro}></lightning-button-icon>
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item padding="around-small">
+                            Pag. {page}
+                        </lightning-layout-item>
+                        <lightning-layout-item padding="around-small">
+                            <div class="lgc-bg">
+                                <lightning-button-icon icon-name="utility:chevronright"  variant="container" alternative-text="Settings" title="Settings" onclick={handleAvanti} disabled={disabledButtonAvanti}></lightning-button-icon>
+                            </div>                
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </lightning-layout-item>
+                <lightning-layout-item padding="around-small" alignment-bump="left">
+                    <lightning-combobox
+                        name="PageSizePic"
+                        label="Page Size"
+                        value={perpageStr}
+                        options={pageSizeOptions}
+                        onchange={handlePageSizePick}>
+                    </lightning-combobox>
+                </lightning-layout-item>
+            </lightning-layout>
+            <lightning-layout>
+                <lightning-layout-item size="12" padding="around-small">    
+                    <!-- <div style="max-height: 50rem;"> -->
+                        <lightning-layout-item size="12" padding="around-small">
+                            <lightning-datatable
+                                key-field="chiaveNumeroMovimento"
+                                data={currentPageData}
+                                columns={columns}
+                                wrap-text-max-lines="5"
+                                hide-checkbox-column>
+                            </lightning-datatable>
+                        </lightning-layout-item>
+                    <!-- </div> -->
+                </lightning-layout-item>
+            </lightning-layout>
+        </template>
+    </lightning-card>
+</template>

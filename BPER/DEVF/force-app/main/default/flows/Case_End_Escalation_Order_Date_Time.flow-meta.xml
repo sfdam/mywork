@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>55.0</apiVersion>
+    <decisions>
+        <name>Check_End_Escalation_Owner_checkbox</name>
+        <label>Check End Escalation Owner checkbox</label>
+        <locationX>537</locationX>
+        <locationY>666</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>End_Escalation_Owner_checkbox</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Check_End_Escalation_Owner__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Case_End_Escalation_Owner</targetReference>
+            </connector>
+            <label>End Escalation Owner checkbox</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Owner_ID_change_to_individual_user</name>
+        <label>Owner ID change to individual user</label>
+        <locationX>440</locationX>
+        <locationY>444</locationY>
+        <defaultConnector>
+            <targetReference>Check_End_Escalation_Owner_checkbox</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>OwnerID_Still_2_Level</name>
+            <conditionLogic>1 OR 2</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Owner:Group.Name</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <stringValue>2° Livello</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Owner:Group.Name</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <stringValue>Pool Reclami Contact Center</stringValue>
+                </rightValue>
+            </conditions>
+            <label>OwnerID Still 2 Level</label>
+        </rules>
+    </decisions>
+    <environments>Default</environments>
+    <interviewLabel>Case - End Escalation Order Date/Time {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Case - End Escalation Owner Date/Time</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Update_Case_End_Escalation_Owner</name>
+        <label>Update Case End Escalation Owner</label>
+        <locationX>584</locationX>
+        <locationY>842</locationY>
+        <inputAssignments>
+            <field>Case_End_Escalation_Owner__c</field>
+            <value>
+                <elementReference>$Flow.CurrentDateTime</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Check_End_Escalation_Owner__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>331</locationX>
+        <locationY>48</locationY>
+        <connector>
+            <targetReference>Owner_ID_change_to_individual_user</targetReference>
+        </connector>
+        <filterLogic>1 AND (2 OR 3 OR 4)</filterLogic>
+        <filters>
+            <field>OwnerId</field>
+            <operator>IsChanged</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>CRM_QueueForEscalation__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>2° livello</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>CRM_QueueForEscalation__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Pool  Reclami Contact Center</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>CRM_QueueForEscalation__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Task Force FOL</stringValue>
+            </value>
+        </filters>
+        <object>Case</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>checkOwnerID</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>OwnerIDisnotchanged</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+</Flow>

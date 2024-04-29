@@ -1,0 +1,10 @@
+.vertical-align {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+}
+
+.reassign-modal .lookup {
+    min-height: 200px;
+}

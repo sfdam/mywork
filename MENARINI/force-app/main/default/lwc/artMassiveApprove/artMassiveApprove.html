@@ -1,0 +1,69 @@
+<template>
+    
+    <lightning-card variant="Narrow" title={label.ART_Multiple_order_approval} icon-name="custom:custom84">
+        
+        <lightning-layout multiple-rows=true>
+            <lightning-layout-item size="12" class="slds-border_top"></lightning-layout-item>
+
+            <lightning-layout-item size="12" medium-device-size="10" padding="around-small">
+                <p>{headerLabel}</p>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" medium-device-size="2" padding="around-small" >
+                <lightning-button-group class="slds-float_right">
+                    <lightning-button variant="brand-outline" label="Approve" title="Approve" onclick={openApproveModal} disabled={disableButtons}></lightning-button>
+                    <lightning-button variant="brand-outline" label="Reject" title="Reject" onclick={openRejectModal} disabled={disableButtons}></lightning-button>
+                </lightning-button-group>
+            </lightning-layout-item>
+            <div class="slds-border_top"></div>
+            <template if:true={loading}>
+                <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+            </template>
+            <template if:false={loading}>
+                <lightning-layout-item size="12" padding="around-small" class="slds-border_top">
+                    <lightning-datatable
+                            key-field="Id"
+                            data={rows}
+                            show-row-number-column
+                            columns={columns}
+                            default-sort-direction={defaultSortDirection}
+                            sorted-direction={sortDirection}
+                            sorted-by={sortedBy}
+                            onsort={handleSort}
+                            onrowaction={handleRowActions}
+                            onrowselection={handleRowSelection}
+                            row-number-offset={rowNumberOffset}>
+                    </lightning-datatable>
+                </lightning-layout-item>
+            </template>
+        </lightning-layout>
+    </lightning-card>
+    <c-modal class="approve-modal" size="small" loading={loading}>
+        <div slot="header">Approve Requests</div>
+        <div slot="content">
+            <!-- <div class="slds-p-vertical_small approvalOptions">
+                <lightning-combobox name="approvalOptions" label="Approval Options" placeholder="Select an approval option" options={approvalOptions} required></lightning-combobox>
+            </div> -->
+            <h3>Commenti</h3>
+            <div class="slds-p-vertical_small comments">
+                <lightning-textarea name="comments"></lightning-textarea>
+            </div>
+        </div>
+        <div slot="footer">
+            <lightning-button variant="neutral" label="Close" title="Close" name="approve-modal" onclick={closeModal} class="slds-m-left_x-small"></lightning-button>
+            <lightning-button variant="brand" label="Approve" title="Approve" onclick={approveHandler} class="slds-m-left_x-small"></lightning-button>
+        </div>
+    </c-modal>
+    <c-modal class="reject-modal" size="small" loading={loading}>
+        <div slot="header">Reject Requests</div>
+        <div slot="content">
+            <h3>Commenti</h3>
+            <div class="slds-p-vertical_small comments">
+                <lightning-textarea name="comments"></lightning-textarea>
+            </div>
+        </div>
+        <div slot="footer">
+            <lightning-button variant="neutral" label="Close" title="Close" name="reject-modal" onclick={closeModal} class="slds-m-left_x-small"></lightning-button>
+            <lightning-button variant="brand" label="Reject" title="Reject" onclick={rejectHandler} class="slds-m-left_x-small"></lightning-button>
+        </div>
+    </c-modal>
+</template>

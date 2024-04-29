@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_AttivitaTempoLibero__c</fullName>
+    <externalId>false</externalId>
+    <label>Attività nel tempo libero</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Viaggiare</fullName>
+                <default>false</default>
+                <label>Viaggiare</label>
+            </value>
+            <value>
+                <fullName>Fare sport</fullName>
+                <default>false</default>
+                <label>Fare sport</label>
+            </value>
+            <value>
+                <fullName>Ascoltare musica/concerti</fullName>
+                <default>false</default>
+                <label>Ascoltare musica/concerti</label>
+            </value>
+            <value>
+                <fullName>Andare al cinema/teatro</fullName>
+                <default>false</default>
+                <label>Andare al cinema/teatro</label>
+            </value>
+            <value>
+                <fullName>Guardare la tv</fullName>
+                <default>false</default>
+                <label>Guardare la tv</label>
+            </value>
+            <value>
+                <fullName>Giardinaggio</fullName>
+                <default>false</default>
+                <label>Giardinaggio</label>
+            </value>
+            <value>
+                <fullName>Leggere libri/riviste/quotidiani</fullName>
+                <default>false</default>
+                <label>Leggere libri/riviste/quotidiani</label>
+            </value>
+            <value>
+                <fullName>Fare shopping</fullName>
+                <default>false</default>
+                <label>Fare shopping</label>
+            </value>
+            <value>
+                <fullName>Andare ristorante/percorsi enogas.</fullName>
+                <default>false</default>
+                <label>Andare ristorante/percorsi enogas.</label>
+            </value>
+            <value>
+                <fullName>Curare la casa/design</fullName>
+                <default>false</default>
+                <label>Curare la casa/design</label>
+            </value>
+            <value>
+                <fullName>Bricolage/fai da te</fullName>
+                <default>false</default>
+                <label>Bricolage/fai da te</label>
+            </value>
+            <value>
+                <fullName>Fotografia</fullName>
+                <default>false</default>
+                <label>Fotografia</label>
+            </value>
+            <value>
+                <fullName>Curare la cosa/design</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Curare la cosa/design</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>6</visibleLines>
+</CustomField>

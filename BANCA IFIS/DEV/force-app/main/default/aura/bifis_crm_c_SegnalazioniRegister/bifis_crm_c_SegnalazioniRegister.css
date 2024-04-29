@@ -1,0 +1,63 @@
+.THIS #error {
+    padding: 10px 10px;
+    background-color: #ff0000;
+    color: #ffffff;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.THIS #success {
+    padding: 10px 10px;
+    background-color: #008000;
+    color: #ffffff;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.THIS .sfdc_register_container{
+    margin-bottom:10px;
+    padding: 10px 0px;
+    background-color:white;
+}
+
+.THIS .registerIcon {
+    float:left;
+    width:23px;
+    height:25px;
+    padding:5px 2px 0px 2px;
+    margin:0px;    
+}
+
+.THIS .registerInputBelow {
+    margin-bottom: 10px;
+}
+
+.THIS .errorIcon {
+    float:left;
+    width:23px;
+    height:25px;
+    padding:3px 2px 0px 2px;
+    margin:0px;  
+}
+
+.THIS .errorIcon svg {
+    fill: #ffffff !important;    
+}
+
+
+.THIS .fullWidth {
+    width: 100%;
+    padding: 5px 8px;
+    font-size: 16px;
+    color: white!important;
+}
+
+.THIS .slds-spinner_container {  
+  z-index: 10000;
+  position: fixed;   
+}
+
+.THIS .disclaimer {
+    text-align: justify;
+    margin-bottom: 15px;
+}

@@ -1,0 +1,51 @@
+<aura:component controller="WGC_Documenti_Controller" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" >
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="linguaScelta" type="String" default="" />
+    <aura:attribute name="lingue" type="List" default="" /> 
+    <aura:attribute name="modalBodyAttributeName" type="String" default="" />
+    <aura:attribute name="isRSF" type="Boolean" default="false" />
+    <aura:attribute name="isLoaded" type="Boolean" default="false" />
+    <!-- LIBRARIES -->
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    <!-- HANDLER -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <div class="container">
+        <aura:if isTrue="{! v.isLoaded }">
+            <lightning:layout multipleRows="true" class="slds-p-around_small">
+                <lightning:layoutItem size="12" class="slds-p-around_small slds-align_absolute-center">
+                    <aura:if isTrue="{! v.lingue.length > 0 }">
+                        <lightning:radioGroup name="lingua"
+                            label="Seleziona lingua documenti"
+                            options="{! v.lingue }"
+                            value="{! v.linguaScelta }"
+                            type="button"
+                            required="false"
+                            />
+                        <aura:set attribute="else">
+                            <span class="subtitle">Nessuna lingua disponibile</span>
+                        </aura:set>
+                    </aura:if>
+                </lightning:layoutItem>
+            </lightning:layout>
+            <div class="slds-p-vertical_medium">
+                <aura:if isTrue="{! v.lingue.length > 0 }">
+                    <footer class="slds-modal__footer">
+                        <lightning:button variant="neutral" onclick="{!c.close}" label="ANNULLA" />
+                        <lightning:button class="btn" variant="neutral" onclick="{! c.selezionaLingua }" label="SELEZIONA" />
+                    </footer>
+                    <aura:set attribute="else">
+                        <footer class="slds-modal__footer">
+                            <lightning:button variant="neutral" onclick="{!c.close}" label="ANNULLA" />
+                        </footer>
+                    </aura:set>
+                </aura:if>
+            </div>
+            <aura:set attribute="else">
+                <div class="slds-is-relative">
+                    <lightning:spinner alternativeText="CARICAMENTO" />
+                </div>
+            </aura:set>
+        </aura:if>
+    </div>
+</aura:component>

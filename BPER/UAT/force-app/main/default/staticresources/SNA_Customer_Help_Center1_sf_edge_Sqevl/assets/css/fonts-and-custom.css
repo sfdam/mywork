@@ -1,0 +1,307 @@
+/*Topic Articoli*/
+.topicLabel{
+    font-size: 1.4vmax!important;
+    line-height: 1;
+    padding: 7px!important;
+    margin-top: 168px!important;
+    width: 100%!important;
+}
+
+@media screen and (max-width: 600px) {
+
+    .topicLabel{
+
+    font-size: 1.4vmax!important;
+
+    line-height: 1;
+
+    padding: 7px!important;
+
+    margin-top: 100px!important;
+
+    width: 100%!important;
+
+               }
+
+}
+
+
+
+/*Font*/
+@font-face {
+    font-family: 'FontKievitProLight';
+    src: url('https://migrazioneib.bper.it/s/sfsites/c/resource/FontKievitProLight') format('woff');
+}
+
+/*Immagine box topic*/
+.topicImage {
+    border-radius: 19px;
+    max-width: 500px!important;
+    max-height: 170px!important;
+    width:70%!important;
+    height:100%!important;
+    position: relative;
+    left: 15%!important;   
+}
+
+@media screen and (max-width:600px) {
+    .topicImage {
+    border-radius: 19px;
+    max-width: 550px!important;
+    max-height: 100px!important;
+    width:80%!important;
+    height:100%!important;
+    position: relative;
+    left: 10%!important;   
+    } 
+}
+
+/*Box in homepage: visualizzazione*/
+.forceTopicFeaturedTopicItem.topicItem {
+    width: 25%!important;
+    height: 250px!important;
+}
+
+@media screen and (max-width: 600px) {
+.forceTopicFeaturedTopicItem.topicItem {
+    width: 50%!important;
+    height: 150px!important;
+  }
+}
+
+.slds-text-body_small {
+    font-size: 0.9rem;
+}
+
+/*Titolo HomePage Articoli visitati più spesso (setting)*/
+.slds-text-heading--small {
+    color: rgb(277,114,034)!Important;
+    display: block!important;
+    justify-content: flex-start!important;
+    font-size: 2.8vmax!important;
+    font-weight: 900!important;
+    margin-top: 0.5rem!important;
+    margin-bottom:2.5rem!important;
+    margin-left:5%!important;
+    text-transform: lowercase!important;
+    }
+
+@media screen and (max-width: 600px) {
+    .slds-text-heading--small {
+    color: rgb(277,114,034)!Important;
+    display: block!important;
+    justify-content: flex-start!important;
+    font-size: 2.8vmax!important;
+    font-weight: 900!important;
+    margin-top: 2px!important;
+    margin-bottom: 7px!important;
+    margin-left:5%!important;
+    text-transform: lowercase!important;
+    }
+}
+    
+.slds-text-heading--small:first-letter {
+    text-transform: uppercase!important;
+}
+
+.headlineTitleText {
+    font-size: 2.1rem;
+}
+
+/*Titolo HomePage Domande e risposte Utili (setting)*/
+@media screen and (max-width:600px) {
+.featuredTopicHeader {
+    color: rgb(277,114,034)!Important;
+    display: block!important;
+    justify-content: flex-start!important;
+    font-size: 2.8vmax!important;
+    font-weight: 900!important;
+    margin-top: 2px!important;
+    margin-bottom:7px!important;
+    margin-left: 5%!important;
+    text-transform: lowercase!important;
+    }
+}
+.featuredTopicHeader {
+    color: rgb(277,114,034)!Important;
+    display: block!important;
+    justify-content: flex-start!important;
+    font-size: 2.8vmax!important;
+    font-weight: 900!important;
+    margin-top: 1rem!important;
+    margin-bottom:2.5rem!important;
+    margin-left: 5%!important;
+    text-transform: lowercase!important;
+    }
+
+.featuredTopicHeader:first-letter {
+    text-transform: uppercase!important;
+}
+
+/*Titolo articolo (cancellazione tooltip)*/
+.uiTooltip.tooltip-trigger {
+    display:none!important;
+}
+
+/*Articolo specifico (cancellazione campi)*/
+.selfServiceArticleLayout .test-id__section:nth-child(1) {
+    display: none;
+}
+
+.selfServiceArticleLayout .test-id__section:nth-child(3) {
+    display: none;
+}
+
+/*Articoli HomePage (rimozione bordo inferiore)*/
+.slds-border_bottom, .slds-border--bottom {
+    border-style: hidden!important;
+}
+
+/*Rimozione campi articoli*/
+.test-id__section:nth-child(1) {
+    display: none;
+}
+
+.test-id__field-label {
+    display: none;
+}
+
+/*Scritta ricerca*/
+.slds-form-element__label {
+    font-size: 22rem!important;
+    font-weight: 900!important;
+    color: rgb(0,81,87)!important;
+}
+
+/*Rimozione bordo flow*/
+.forceCommunityFlowCommunity{
+    border: none!important;
+}
+
+/*font ricerca*/
+.slds-tile__title, .slds-truncate {
+    font-size: 1rem!important;
+    font-weight: 800!important;
+}
+
+/*Barra di Ricerca: titolo*/
+.slds-form-element__label {
+    font-size: 1.1rem!important;
+    font-weight: 900!important;
+    color: rgb(0,81,87)!important;
+}
+
+/*Scritta "Ricerca"*/
+.slds-media_center, .slds-media--center {
+    display: none!important;
+}
+
+.slds-card, .slds-card_narrow {
+    border: none;
+}
+
+/*font ricerca*/
+.slds-tile__title, .slds-truncate {
+    font-size: 1rem!important;
+    font-weight: 800!important;
+}
+
+/*icona lentina*/
+.slds-input-has-icon .slds-input__icon {
+    fill: rgb(70,70,70)!important;
+}
+
+/*Barra di ricerca*/
+.slds-input {
+    border-color: rgb(200,200,200);
+    font-size: 1rem!important;
+    border-style: solid!important;
+    border-width: 1.8px!important;
+    height: 38px!important;
+    }
+
+/*Contenuto box topic*/
+.forceTopicFeaturedTopics .topicContent{
+    border-radius: 19px;
+    max-width: 490px!important;
+    max-height: 170px!important;
+    width:70%!important;
+    height:100%!important;
+    position: relative;
+    left: 15%!important;
+}
+
+.slds-wrap {
+    padding-left: 4%!important;
+    padding-right: 4%!important;
+}
+
+/*LOGO*/
+@media screen and (max-width: 600px) {
+    .themeLogo {
+    padding-left: 1%!important;
+    padding-top: 1%!important;
+	}
+}
+
+.themeLogo{
+    padding-left: 3%!important;
+    padding-top: 1%!important;
+}
+
+/*Sottotitolo in HomePage customizzabile da KM*/
+.Sottotitolo {
+    padding-left: 6%!important;
+    padding-right: 6%!important;
+}
+
+/*Lista articoli visitati più spesso*/
+.slds-text-body_small {
+    padding-left:1%;
+    font-size: 1.2vmax
+}
+
+/*posizione logo article page*/
+@media screen and (max-width: 600px) {
+.forceCommunityThemeHeaderBase {
+    width: 39.5%!important;
+	}
+}
+
+.slds-col--padded.comm-content-header.comm-layout-colum {
+    padding-top: 0.5px!important;
+    padding-bottom: 0.5px!important;
+}
+
+/*Lista articoli visitati più spesso*/
+.slds-p-vertical_small {
+    padding-top: 9px!important;
+    padding-bottom: 9px!important;
+}
+
+@media screen and (max-width: 600px) {
+.slds-p-vertical_small {
+    padding-top: 4px!important;
+    padding-bottom: 4px!important;
+	}
+}
+
+/*Contenitore barra di ricerca*/
+.slds-p-around_small {
+    padding-top: 1px!important;
+}
+
+.slds-card__header {
+    margin-bottom: 2px!important;
+}
+
+/*titolo articoli bold*/
+.uiOutputText{
+    font-weight: bold;
+    color: rgb(0, 81, 87);
+}
+
+.tooltipIcon {
+    display:none;
+}
+:root { --dxp-c-section-columns-max-width: 1170px; }

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_StatusAmministrativo__c</fullName>
+    <externalId>false</externalId>
+    <label>Status Amministrativo</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>REGOLARI</fullName>
+                <default>false</default>
+                <label>REGOLARI</label>
+            </value>
+            <value>
+                <fullName>SOTTO OSSERVAZIONE</fullName>
+                <default>false</default>
+                <label>SOTTO OSSERVAZIONE</label>
+            </value>
+            <value>
+                <fullName>INCAGLIATO</fullName>
+                <default>false</default>
+                <label>INCAGLIATO</label>
+            </value>
+            <value>
+                <fullName>SCAD/SCONF 90 GIORNI</fullName>
+                <default>false</default>
+                <label>SCAD/SCONF 90 GIORNI</label>
+            </value>
+            <value>
+                <fullName>CONTROLLO CREDITI</fullName>
+                <default>false</default>
+                <label>CONTROLLO CREDITI</label>
+            </value>
+            <value>
+                <fullName>SOFFERENZA</fullName>
+                <default>false</default>
+                <label>SOFFERENZA</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,17 @@
+<template>
+    <template if:true={rendered}>
+    <div class="slds-p-around_medium slds-scrollable_x">
+        <lightning-layout>
+            <lightning-layout-item size="12">
+                <lightning-datatable key-field="desc" resize-column-disabled hide-checkbox-column columns={columns} data={data} min-column-width="100"></lightning-datatable>
+            </lightning-layout-item>
+        </lightning-layout>
+        <div class="slds-m-top_medium slds-text-align_right">
+            <lightning-button label="Conferma" variant="brand" class="cstm-btn-round" onclick={confirm}></lightning-button>
+        </div>
+    </div>
+    </template>
+    <template if:false={rendered}>
+        <lightning-spinner alternative-text="CARICAMENTO" variant="brand"></lightning-spinner>
+    </template>
+</template>

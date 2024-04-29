@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Durata__c</fullName>
+    <externalId>false</externalId>
+    <label>Duration</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>1 mese</fullName>
+                <default>false</default>
+                <label>1 mese</label>
+            </value>
+            <value>
+                <fullName>2 mesi</fullName>
+                <default>false</default>
+                <label>2 mesi</label>
+            </value>
+            <value>
+                <fullName>3 mesi</fullName>
+                <default>false</default>
+                <label>3 mesi</label>
+            </value>
+            <value>
+                <fullName>6 mesi</fullName>
+                <default>false</default>
+                <label>6 mesi</label>
+            </value>
+            <value>
+                <fullName>9 mesi</fullName>
+                <default>false</default>
+                <label>9 mesi</label>
+            </value>
+            <value>
+                <fullName>1 anno</fullName>
+                <default>false</default>
+                <label>1 anno</label>
+            </value>
+            <value>
+                <fullName>18 mesi</fullName>
+                <default>false</default>
+                <label>18 mesi</label>
+            </value>
+            <value>
+                <fullName>2 anni</fullName>
+                <default>false</default>
+                <label>2 anni</label>
+            </value>
+            <value>
+                <fullName>3 anni</fullName>
+                <default>false</default>
+                <label>3 anni</label>
+            </value>
+            <value>
+                <fullName>4 anni</fullName>
+                <default>false</default>
+                <label>4 anni</label>
+            </value>
+            <value>
+                <fullName>5 anni</fullName>
+                <default>false</default>
+                <label>5 anni</label>
+            </value>
+            <value>
+                <fullName>6 anni</fullName>
+                <default>false</default>
+                <label>6 anni</label>
+            </value>
+            <value>
+                <fullName>7 anni</fullName>
+                <default>false</default>
+                <label>7 anni</label>
+            </value>
+            <value>
+                <fullName>8 anni</fullName>
+                <default>false</default>
+                <label>8 anni</label>
+            </value>
+            <value>
+                <fullName>9 anni</fullName>
+                <default>false</default>
+                <label>9 anni</label>
+            </value>
+            <value>
+                <fullName>10 anni</fullName>
+                <default>false</default>
+                <label>10 anni</label>
+            </value>
+            <value>
+                <fullName>11 anni</fullName>
+                <default>false</default>
+                <label>11 anni</label>
+            </value>
+            <value>
+                <fullName>12 anni</fullName>
+                <default>false</default>
+                <label>12 anni</label>
+            </value>
+            <value>
+                <fullName>13 anni</fullName>
+                <default>false</default>
+                <label>13 anni</label>
+            </value>
+            <value>
+                <fullName>14 anni</fullName>
+                <default>false</default>
+                <label>14 anni</label>
+            </value>
+            <value>
+                <fullName>15 anni</fullName>
+                <default>false</default>
+                <label>15 anni</label>
+            </value>
+            <value>
+                <fullName>16 anni</fullName>
+                <default>false</default>
+                <label>16 anni</label>
+            </value>
+            <value>
+                <fullName>17 anni</fullName>
+                <default>false</default>
+                <label>17 anni</label>
+            </value>
+            <value>
+                <fullName>18 anni</fullName>
+                <default>false</default>
+                <label>18 anni</label>
+            </value>
+            <value>
+                <fullName>19 anni</fullName>
+                <default>false</default>
+                <label>19 anni</label>
+            </value>
+            <value>
+                <fullName>20 anni</fullName>
+                <default>false</default>
+                <label>20 anni</label>
+            </value>
+            <value>
+                <fullName>21 anni</fullName>
+                <default>false</default>
+                <label>21 anni</label>
+            </value>
+            <value>
+                <fullName>22 anni</fullName>
+                <default>false</default>
+                <label>22 anni</label>
+            </value>
+            <value>
+                <fullName>23 anni</fullName>
+                <default>false</default>
+                <label>23 anni</label>
+            </value>
+            <value>
+                <fullName>24 anni</fullName>
+                <default>false</default>
+                <label>24 anni</label>
+            </value>
+            <value>
+                <fullName>25 anni</fullName>
+                <default>false</default>
+                <label>25 anni</label>
+            </value>
+            <value>
+                <fullName>26 anni</fullName>
+                <default>false</default>
+                <label>26 anni</label>
+            </value>
+            <value>
+                <fullName>27 anni</fullName>
+                <default>false</default>
+                <label>27 anni</label>
+            </value>
+            <value>
+                <fullName>28 anni</fullName>
+                <default>false</default>
+                <label>28 anni</label>
+            </value>
+            <value>
+                <fullName>29 anni</fullName>
+                <default>false</default>
+                <label>29 anni</label>
+            </value>
+            <value>
+                <fullName>30 anni</fullName>
+                <default>false</default>
+                <label>30 anni</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

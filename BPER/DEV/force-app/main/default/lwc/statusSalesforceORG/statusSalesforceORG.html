@@ -1,0 +1,26 @@
+<template>
+    <lightning-card icon-name="custom:custom19" title={orgInfo}>
+        <div class="exampleHolder">
+            <template if:false={loaded}>
+                <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+            </template>
+        </div>
+        <div class="c-container slds-is-relative">
+            <lightning-layout class="slds-is-absolute positionUpload">
+                <lightning-layout-item class="slds-align_absolute-center">
+                    <lightning-helptext class="slds-m-top_x-small" content='Selezionare il file CSV da caricare oppure trascinare direttamente il file nel box Upload File'></lightning-helptext>
+                </lightning-layout-item>
+                <lightning-layout-item padding="around-small">                   
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+
+        <div if:true={error}>
+            <lightning-layout>
+                <lightning-layout-item padding="around-small">
+                    <div class="error">{error} - Controllare il file CSV e ripetere l'operazione</div>            
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>    
+    </lightning-card>
+</template>

@@ -1,0 +1,85 @@
+<template>
+    <lightning-card  variant="Narrow"  title={title} icon-name={iconName}>
+        <!-- <lightning-button-icon  icon-name="utility:down" variant="border-filled" alternative-text="Show More" slot="actions"></lightning-button-icon> -->
+        <div class="slds-p-horizontal_small">
+            <!-- LEVEL 0 AREA -->
+            <lightning-accordion allow-multiple-sections-open
+                onsectiontoggle={handleSectionToggle}
+                active-section-name={activeSectionsArea}>
+
+                <template for:each={getAllArea} for:item="area">
+                    <lightning-accordion-section key={area.Name} name={area.Name} label={area.Name} >
+                        <!-- LEVEL 1 SCOPE -->
+                        <!-- <lightning-button-menu slot="actions" alternative-text="Show menu" icon-size="x-small" menu-alignment="auto" onselect={handleMenuSelectArea}>
+                            <lightning-menu-item value={area.Name} label="Vai agli Articoli"></lightning-menu-item>
+                        </lightning-button-menu> -->
+                        <lightning-accordion allow-multiple-sections-open
+                            onsectiontoggle={handleSectionToggleScope}
+                            active-section-name={activeSectionsScope}>
+
+                            <template for:each={area.scopeChild} for:item="scope">
+                                <lightning-accordion-section key={scope.CRM_Scope__c} name={scope.CRM_Scope__c} label={scope.CRM_Scope__c} >
+                                    <!-- LEVEL 2 LEVEL1 -->
+                                    <!-- <lightning-button-menu slot="actions" alternative-text="Show menu" icon-size="x-small" menu-alignment="auto">
+                                        <lightning-menu-item value="New" label="Vai agli Articoli"></lightning-menu-item>
+                                    </lightning-button-menu> -->
+                                    <lightning-accordion allow-multiple-sections-open
+                                        onsectiontoggle={handleSectionToggleLevel1}
+                                        active-section-name={activeSectionsLevel1}>
+
+                                        <template for:each={scope.level1Child} for:item="level1">
+                                            <lightning-accordion-section key={level1.CRM_Level1__c} name={level1.CRM_Level1__c} label={level1.CRM_Level1__c} >
+                                                <!-- LEVEL 3 LEVEL2 -->
+                                                <!-- <lightning-button-menu slot="actions" alternative-text="Show menu" icon-size="x-small" menu-alignment="auto">
+                                                    <lightning-menu-item value="New" label="Vai agli Articoli"></lightning-menu-item>
+                                                </lightning-button-menu> -->
+                                                <lightning-accordion allow-multiple-sections-open
+                                                    onsectiontoggle={handleSectionToggleLevel2}
+                                                    active-section-name={activeSectionsLevel2}>
+
+                                                    <template for:each={level1.level2Child} for:item="level2">
+                                                        <lightning-accordion-section key={level2.CRM_Level2__c} name={level2.CRM_Level2__c} label={level2.CRM_Level2__c} >
+                                                            <!-- LEVEL 4 LEVEL3 -->
+                                                            <!-- <lightning-button-menu slot="actions" alternative-text="Show menu" icon-size="x-small" menu-alignment="auto">
+                                                                <lightning-menu-item value="New" label="Vai agli Articoli"></lightning-menu-item>
+                                                            </lightning-button-menu> -->
+                                                            <lightning-accordion  allow-multiple-sections-open
+                                                            onsectiontoggle={handleSectionToggleLevel3}
+                                                            active-section-name={activeSectionsLevel3}>
+
+                                                                <template for:each={level2.level3Child} for:item="level3">
+                                                                    <lightning-accordion-section key={level3.CRM_Level3__c} name={level3.CRM_Level3__c} label={level3.CRM_Level3__c} >
+                                                                        <!-- LEVEL 4 LEVEL3 -->
+                                                                        <!-- <lightning-button-menu slot="actions" alternative-text="Show menu" icon-size="x-small" menu-alignment="auto">
+                                                                            <lightning-menu-item value="New" label="Vai agli Articoli"></lightning-menu-item>
+                                                                        </lightning-button-menu> -->
+
+
+                                                                    </lightning-accordion-section>
+                                                                </template>
+
+                                                            </lightning-accordion>
+
+
+                                                        </lightning-accordion-section>
+                                                    </template>
+
+                                                </lightning-accordion>
+
+
+                                            </lightning-accordion-section>
+                                        </template>
+
+                                    </lightning-accordion>
+                                </lightning-accordion-section>
+                            </template>
+
+                        </lightning-accordion>
+                    </lightning-accordion-section>
+                </template>
+
+            </lightning-accordion>
+        </div>
+        <!-- <div slot="footer">Card Footer</div> -->
+    </lightning-card>
+</template>

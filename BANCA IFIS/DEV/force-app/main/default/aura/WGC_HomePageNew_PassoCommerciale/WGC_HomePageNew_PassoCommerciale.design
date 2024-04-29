@@ -1,0 +1,4 @@
+<design:component >
+    <design:attribute name="title" label="Titolo" default="Attività Passo Commerciale" description="Definisci il titolo del componente"/>
+    <design:attribute name="vediTutteReportId" label="Id report vedi tutte" description="Inserisci l'id del report per il bottone vedi tutte"/>
+</design:component>

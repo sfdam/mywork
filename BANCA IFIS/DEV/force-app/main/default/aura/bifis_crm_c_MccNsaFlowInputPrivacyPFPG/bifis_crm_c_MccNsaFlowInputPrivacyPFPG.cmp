@@ -1,0 +1,171 @@
+<aura:component implements="lightning:availableForFlowScreens" access="global">  
+	
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/> 
+    
+    <aura:attribute name="privacyValues" type="List" default="[{'label': 'Acconsento', 'value': 'OK'}, {'label': 'Non Acconsento', 'value': 'KO'} ]"/>
+    <aura:attribute name="tradizionaliValues" type="List" default="[{'label': 'SI', 'value': 'SI'}, {'label': 'No', 'value': 'NO'} ]"/>
+    
+    <aura:attribute name="workflowRecordCandidatoID" type="String"/>
+    <aura:attribute name="workflowRecordCandidatoNEXT" type="WorkflowMutui__c"/>
+    <aura:attribute name="workflowRecordCandidato" type="WorkflowMutui__c"/>
+    <aura:attribute name="workflowRecordCandidatoERROR" type="String"/>
+        
+    <force:recordData aura:id="flowRecordHandlerWorkflowCandidatoId"
+                      recordId="{!v.workflowRecordCandidatoID}"
+                      layoutType="FULL"
+                      targetFields="{!v.workflowRecordCandidato}"
+                      targetError="{!v.workflowRecordCandidatoERROR}"
+                      recordUpdated="{!c.handleRecordUpdated}"
+                      targetRecord="{!v.workflowRecordCandidatoNEXT}"
+                      mode="EDIT"                      
+                      />    
+    
+    <c:bifis_crm_c_MccNsaFlowPath selectedPathValue="3"/>
+    
+    <c:bifis_crm_c_CommonFlowNavigator availableActions="{!v.availableActions}" navigateFlowEvent="{!c.handleNavigate}"/>
+
+    <!-- Display Lightning Data Service errors, if any -->
+    <aura:if isTrue="{!not(empty(v.workflowRecordCandidatoERROR))}">
+        <ui:message title="Errore" severity="error" closable="true">{!v.workflowRecordCandidatoERROR}</ui:message>
+    </aura:if>
+
+	<lightning:card variant="Narrow" title="Indicare le scelte di privacy per il perfezionamento" iconName="standard:record" />
+    
+    <hr style="margin-top:1px;margin-bottom:1px;"/>
+    
+    <lightning:card variant="Narrow" title="PRIVACY AZIENDA" iconName="standard:channel_programs">
+        <p class="slds-p-horizontal_small">
+            
+            <div class="slds-grid slds-gutters slds-border_bottom">
+              <div class="slds-col slds-size_3-of-4">
+                <div class="slds-m-around_small">1. Rilevazione dei gusti, delle preferenze, delle abitudini, dei bisogni e delle scelte di consumo dell'Interessato (c.d. profilazione) (solo qualora l’Interessato sia una persona fisica)</div>
+              </div>
+              <div class="slds-col slds-size_1-of-4">
+                <div class="slds-m-around_small"><lightning:radioGroup aura:id="flowInputPrivacyAzienda1RadioId" type="button" name="flowInputPrivacyAzienda1RadioGroup" options="{! v.privacyValues }" value="{!v.workflowRecordCandidato.Privacy_Azienda_1__c}" required="false" /></div>
+              </div>
+            </div>
+            
+            <div class="slds-grid slds-gutters slds-border_bottom">
+              <div class="slds-col slds-size_3-of-4">
+                <div class="slds-m-around_small">2. Promozione ed offerta di prodotti/servizi della Banca o ricerche di mercato volte a rilevare il grado di soddisfazione dell'Interessato, attraverso modalità c.d. automatizzate e tradizionali</div>
+              </div>
+              <div class="slds-col slds-size_1-of-4">
+                <div class="slds-m-around_small"><lightning:radioGroup aura:id="flowInputPrivacyAzienda2RadioId" type="button" name="flowInputPrivacyAziend2RadioGroup" options="{! v.privacyValues }" value="{!v.workflowRecordCandidato.Privacy_Azienda_2__c}" required="false" /></div>
+              </div>
+            </div>
+            
+            <div class="slds-grid slds-gutters slds-border_bottom">
+              <div class="slds-col slds-size_3-of-4">
+                <div class="slds-m-around_small">3. Promozione ed offerta di prodotti/servizi di terzi, attraverso modalità c.d. automatizzate e tradizionali</div>
+              </div>
+              <div class="slds-col slds-size_1-of-4">
+                <div class="slds-m-around_small"><lightning:radioGroup aura:id="flowInputPrivacyAzienda3RadioId" type="button" name="flowInputPrivacyAzienda3RadioGroup" options="{! v.privacyValues }" value="{!v.workflowRecordCandidato.Privacy_Azienda_3__c}" required="false" /></div>
+              </div>
+            </div>
+
+            <div class="slds-grid slds-gutters slds-border_bottom">
+              <div class="slds-col slds-size_3-of-4">
+                <div class="slds-m-around_small">4. Comunicazione di dati personali a terzi per promozione ed offerta di prodotti/servizi della Banca o ricerche di mercato volte a rilevare il grado di soddisfazione dell'Interessato, attraverso modalità c.d. automatizzate e tradizionali</div>
+              </div>
+              <div class="slds-col slds-size_1-of-4">
+                <div class="slds-m-around_small"><lightning:radioGroup aura:id="flowInputPrivacyAzienda4RadioId" type="button" name="flowInputPrivacyAzienda4RadioGroup" options="{! v.privacyValues }" value="{!v.workflowRecordCandidato.Privacy_Azienda_4__c}" required="false" /></div>
+              </div>
+            </div>
+
+            <div class="slds-grid slds-gutters slds-border_bottom">
+              <div class="slds-col slds-size_3-of-4">
+                <div class="slds-m-around_small">5. Comunicazione di dati personali a terzi per promozione ed offerta di prodotti/servizi di terzi medesimi, attraverso modalità c.d. automatizzate e tradizionali</div>
+              </div>
+              <div class="slds-col slds-size_1-of-4">
+                <div class="slds-m-around_small"><lightning:radioGroup aura:id="flowInputPrivacyAzienda5RadioId" type="button" name="flowInputPrivacyAzienda5RadioGroup" options="{! v.privacyValues }" value="{!v.workflowRecordCandidato.Privacy_Azienda_5__c}" required="false" /></div>
+              </div>
+            </div>
+
+            <div class="slds-grid slds-gutters">
+              <div class="slds-col slds-size_4-of-4">
+                <div class="slds-m-around_small">Il sottoscritto dichiara di voler ricevere le comunicazioni promozionali (di cui ai suddetti punti da 2 a 5) esclusivamente attraverso le modalità tradizionali (es. posta ordinaria, telefonate con operatore) e non quelle automatizzate (es. e-mail, SMS, MMS, fax, telefonate preregistrate):</div>
+              </div>
+            </div>
+            
+            <div class="slds-grid slds-gutters slds-border_bottom">
+              <div class="slds-col slds-size_3-of-4">
+                <div class="slds-m-around_small">Solo modalità tradizionali</div>
+              </div>
+              <div class="slds-col slds-size_1-of-4">
+                <div class="slds-m-around_small"><lightning:radioGroup aura:id="flowInputPrivacyAziendaTradizionaliRadioId" type="button" name="flowInputPrivacyAziendaTradizionaliRadioGroup" options="{! v.tradizionaliValues }" value="{!v.workflowRecordCandidato.Privacy_Azienda_Tradizionali__c}" required="false" /></div>
+              </div>
+            </div>
+
+        </p>
+    </lightning:card>
+
+    <lightning:card variant="Narrow" title="PRIVACY ESECUTORE" iconName="standard:people">
+        <p class="slds-p-horizontal_small">
+
+            <div class="slds-grid slds-gutters slds-border_bottom">
+              <div class="slds-col slds-size_3-of-4">
+                <div class="slds-m-around_small">1. Rilevazione dei gusti, delle preferenze, delle abitudini, dei bisogni e delle scelte di consumo dell'Interessato (c.d. profilazione) (solo qualora l’Interessato sia una persona fisica)</div>
+              </div>
+              <div class="slds-col slds-size_1-of-4">
+                <div class="slds-m-around_small"><lightning:radioGroup aura:id="flowInputPrivacyEsecutore1RadioId" type="button" name="flowInputPrivacyEsecutore1RadioGroup" options="{! v.privacyValues }" value="{!v.workflowRecordCandidato.Privacy_Esecutore_1__c}" required="false" /></div>
+              </div>
+            </div>            
+
+            <div class="slds-grid slds-gutters slds-border_bottom">
+              <div class="slds-col slds-size_3-of-4">
+                <div class="slds-m-around_small">2. Promozione ed offerta di prodotti/servizi della Banca o ricerche di mercato volte a rilevare il grado di soddisfazione dell'Interessato, attraverso modalità c.d. automatizzate e tradizionali</div>
+              </div>
+              <div class="slds-col slds-size_1-of-4">
+                <div class="slds-m-around_small"><lightning:radioGroup aura:id="flowInputPrivacyEsecutore2RadioId" type="button" name="flowInputPrivacyEsecutore2RadioGroup" options="{! v.privacyValues }" value="{!v.workflowRecordCandidato.Privacy_Esecutore_2__c}" required="false" /></div>
+              </div>
+            </div> 
+
+            <div class="slds-grid slds-gutters slds-border_bottom">
+              <div class="slds-col slds-size_3-of-4">
+                <div class="slds-m-around_small">3. Promozione ed offerta di prodotti/servizi di terzi, attraverso modalità c.d. automatizzate e tradizionali</div>
+              </div>
+              <div class="slds-col slds-size_1-of-4">
+                <div class="slds-m-around_small"><lightning:radioGroup aura:id="flowInputPrivacyEsecutore3RadioId" type="button" name="flowInputPrivacyEsecutore3RadioGroup" options="{! v.privacyValues }" value="{!v.workflowRecordCandidato.Privacy_Esecutore_3__c}" required="false" /></div>
+              </div>
+            </div> 
+
+            <div class="slds-grid slds-gutters slds-border_bottom">
+              <div class="slds-col slds-size_3-of-4">
+                <div class="slds-m-around_small">4. Comunicazione di dati personali a terzi per promozione ed offerta di prodotti/servizi della Banca o ricerche di mercato volte a rilevare il grado di soddisfazione dell'Interessato, attraverso modalità c.d. automatizzate e tradizionali</div>
+              </div>
+              <div class="slds-col slds-size_1-of-4">
+                <div class="slds-m-around_small"><lightning:radioGroup aura:id="flowInputPrivacyEsecutore4RadioId" type="button" name="flowInputPrivacyEsecutore4RadioGroup" options="{! v.privacyValues }" value="{!v.workflowRecordCandidato.Privacy_Esecutore_4__c}" required="false" /></div>
+              </div>
+            </div> 
+            
+            <div class="slds-grid slds-gutters slds-border_bottom">
+              <div class="slds-col slds-size_3-of-4">
+                <div class="slds-m-around_small">5. Comunicazione di dati personali a terzi per promozione ed offerta di prodotti/servizi di terzi medesimi, attraverso modalità c.d. automatizzate e tradizionali</div>
+              </div>
+              <div class="slds-col slds-size_1-of-4">
+                <div class="slds-m-around_small"><lightning:radioGroup aura:id="flowInputPrivacyEsecutore5RadioId" type="button" name="flowInputPrivacyEsecutore5RadioGroup" options="{! v.privacyValues }" value="{!v.workflowRecordCandidato.Privacy_Esecutore_5__c}" required="false" /></div>
+              </div>
+            </div> 
+            
+            <div class="slds-grid slds-gutters">
+              <div class="slds-col slds-size_4-of-4">
+                <div class="slds-m-around_small">Il sottoscritto dichiara di voler ricevere le comunicazioni promozionali (di cui ai suddetti punti da 2 a 5) esclusivamente attraverso le modalità tradizionali (es. posta ordinaria, telefonate con operatore) e non quelle automatizzate (es. e-mail, SMS, MMS, fax, telefonate preregistrate):</div>
+              </div>
+            </div>
+            
+            <div class="slds-grid slds-gutters slds-border_bottom">
+              <div class="slds-col slds-size_3-of-4">
+                <div class="slds-m-around_small">Solo modalità tradizionali</div>
+              </div>
+              <div class="slds-col slds-size_1-of-4">
+                <div class="slds-m-around_small"><lightning:radioGroup aura:id="flowInputPrivacyEsecutoreTradizionaliRadioId" type="button" name="flowInputPrivacyEsecutoreTradizionaliRadioGroup" options="{! v.tradizionaliValues }" value="{!v.workflowRecordCandidato.Privacy_Esecutore_Tradizionali__c}" required="false" /></div>
+              </div>
+            </div>            
+            
+        </p>
+    </lightning:card>    
+    
+    <c:bifis_crm_c_CommonFlowNavigator availableActions="{!v.availableActions}" navigateFlowEvent="{!c.handleNavigate}"/>
+    
+    
+</aura:component>

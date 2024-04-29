@@ -1,0 +1,409 @@
+<aura:component implements="lightning:availableForFlowScreens" access="global">  
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/> 
+    
+    <aura:attribute name="opzioniTipoIndirizzo" type="List" default="[
+	{'label': 'ALZ.',  'value': 'ALZ.'},    
+	{'label': 'ANDR.', 'value': 'ANDR.'}, 
+	{'label': 'ANDRA', 'value': 'ANDRA'}, 
+	{'label': 'ANG.',  'value': 'ANG.'},  
+	{'label': 'ARCHI', 'value': 'ARCHI'}, 
+	{'label': 'ARCO',  'value': 'ARCO'},  
+	{'label': 'AREA',  'value': 'AREA'},  
+	{'label': 'ARGI.', 'value': 'ARGI.'}, 
+	{'label': 'B.DO',  'value': 'B.DO'},  
+	{'label': 'B.GO',  'value': 'B.GO'},  
+	{'label': 'B.LIO', 'value': 'B.LIO'}, 
+	{'label': 'BANC.', 'value': 'BANC.'}, 
+	{'label': 'BAST.', 'value': 'BAST.'}, 
+	{'label': 'BELV.', 'value': 'BELV.'}, 
+	{'label': 'BGO',   'value': 'BGO'},   
+	{'label': 'BIVIO', 'value': 'BIVIO'}, 
+	{'label': 'BO.TA', 'value': 'BO.TA'}, 
+	{'label': 'BORG.', 'value': 'BORG.'}, 
+	{'label': 'BORGO', 'value': 'BORGO'}, 
+	{'label': 'BOSCO', 'value': 'BOSCO'}, 
+	{'label': 'C.DA',  'value': 'C.DA'},  
+	{'label': 'C.LLA', 'value': 'C.LLA'}, 
+	{'label': 'C.NE',  'value': 'C.NE'},  
+	{'label': 'C.SO',  'value': 'C.SO'},  
+	{'label': 'C.TRA', 'value': 'C.TRA'}, 
+	{'label': 'C.TRO', 'value': 'C.TRO'}, 
+	{'label': 'C.VIA', 'value': 'C.VIA'}, 
+	{'label': 'C/DA',  'value': 'C/DA'},  
+	{'label': 'CA.NE', 'value': 'CA.NE'}, 
+	{'label': 'CA',    'value': 'CA'},   
+	{'label': 'CAL.',  'value': 'CAL.'},  
+	{'label': 'CALLE', 'value': 'CALLE'}, 
+	{'label': 'CAMP.', 'value': 'CAMP.'}, 
+	{'label': 'CAMPO', 'value': 'CAMPO'}, 
+	{'label': 'CAN.',  'value': 'CAN.'},  
+	{'label': 'CANT.', 'value': 'CANT.'}, 
+	{'label': 'CAPA',  'value': 'CAPA'},  
+	{'label': 'CAPO',  'value': 'CAPO'},  
+	{'label': 'CASA',  'value': 'CASA'},  
+	{'label': 'CASAL', 'value': 'CASAL'}, 
+	{'label': 'CASC.', 'value': 'CASC.'}, 
+	{'label': 'CASE',  'value': 'CASE'},  
+	{'label': 'CAV.',  'value': 'CAV.'},  
+	{'label': 'CAVA',  'value': 'CAVA'},  
+	{'label': 'CEN.',  'value': 'CEN.'},  
+	{'label': 'CIP',   'value': 'CIP'},   
+	{'label': 'CIRC.', 'value': 'CIRC.'}, 
+	{'label': 'CLA.',  'value': 'CLA.'},  
+	{'label': 'CLIVO', 'value': 'CLIVO'}, 
+	{'label': 'COLLE', 'value': 'COLLE'}, 
+	{'label': 'CONT.', 'value': 'CONT.'}, 
+	{'label': 'CONTR', 'value': 'CONTR'}, 
+	{'label': 'COR.',  'value': 'COR.'},  
+	{'label': 'CORSO', 'value': 'CORSO'}, 
+	{'label': 'CORT.', 'value': 'CORT.'}, 
+	{'label': 'CORTE', 'value': 'CORTE'}, 
+	{'label': 'CORTI', 'value': 'CORTI'}, 
+	{'label': 'COSTA', 'value': 'COSTA'}, 
+	{'label': 'CROC.', 'value': 'CROC.'}, 
+	{'label': 'CSO',   'value': 'CSO'},   
+	{'label': 'CUPA',  'value': 'CUPA'},  
+	{'label': 'D.SA',  'value': 'D.SA'},  
+	{'label': 'DARS.', 'value': 'DARS.'}, 
+	{'label': 'DIRAM', 'value': 'DIRAM'}, 
+	{'label': 'DISC.', 'value': 'DISC.'}, 
+	{'label': 'ERTA',  'value': 'ERTA'},  
+	{'label': 'F.ATO', 'value': 'F.ATO'}, 
+	{'label': 'F.CO',  'value': 'F.CO'},  
+	{'label': 'F.DO',  'value': 'F.DO'},  
+	{'label': 'F.TA',  'value': 'F.TA'},  
+	{'label': 'FOND.', 'value': 'FOND.'}, 
+	{'label': 'FONDO', 'value': 'FONDO'}, 
+	{'label': 'FONT.', 'value': 'FONT.'}, 
+	{'label': 'FORO',  'value': 'FORO'},  
+	{'label': 'FOSSA', 'value': 'FOSSA'}, 
+	{'label': 'FOSSO', 'value': 'FOSSO'}, 
+	{'label': 'FRAZ.', 'value': 'FRAZ.'}, 
+	{'label': 'G.LE',  'value': 'G.LE'},  
+	{'label': 'G.TI',  'value': 'G.TI'},  
+	{'label': 'GALL.', 'value': 'GALL.'}, 
+	{'label': 'GI.NI', 'value': 'GI.NI'}, 
+	{'label': 'GI.NO', 'value': 'GI.NO'}, 
+	{'label': 'GRAD.', 'value': 'GRAD.'}, 
+	{'label': 'IS.TO', 'value': 'IS.TO'}, 
+	{'label': 'ISOLA', 'value': 'ISOLA'}, 
+	{'label': 'L.AD',  'value': 'L.AD'},  
+	{'label': 'L.ADI', 'value': 'L.ADI'}, 
+	{'label': 'L.ARG', 'value': 'L.ARG'}, 
+	{'label': 'L.ARN', 'value': 'L.ARN'}, 
+	{'label': 'L.BIS', 'value': 'L.BIS'}, 
+	{'label': 'L.GO',  'value': 'L.GO'},  
+	{'label': 'L.LAG', 'value': 'L.LAG'}, 
+	{'label': 'L.M.',  'value': 'L.M.'},  
+	{'label': 'L.NO',  'value': 'L.NO'},  
+	{'label': 'L.P.',  'value': 'L.P.'},  
+	{'label': 'L.PO',  'value': 'L.PO'},  
+	{'label': 'L.STU', 'value': 'L.STU'}, 
+	{'label': 'L.TEV', 'value': 'L.TEV'}, 
+	{'label': 'L.TIC', 'value': 'L.TIC'}, 
+	{'label': 'L.TOR', 'value': 'L.TOR'}, 
+	{'label': 'LARGO', 'value': 'LARGO'}, 
+	{'label': 'LDORA', 'value': 'LDORA'}, 
+	{'label': 'LGO',   'value': 'LGO'},   
+	{'label': 'LIDO',  'value': 'LIDO'},  
+	{'label': 'LMARE', 'value': 'LMARE'}, 
+	{'label': 'LOC',   'value': 'LOC'},   
+	{'label': 'LOC.',  'value': 'LOC.'},  
+	{'label': 'LUN.',  'value': 'LUN.'},  
+	{'label': 'LUNGO', 'value': 'LUNGO'}, 
+	{'label': 'LUNPO', 'value': 'LUNPO'}, 
+	{'label': 'MASSE', 'value': 'MASSE'}, 
+	{'label': 'MERC.', 'value': 'MERC.'}, 
+	{'label': 'MOLO',  'value': 'MOLO'},  
+	{'label': 'MONTE', 'value': 'MONTE'}, 
+	{'label': 'MURA',  'value': 'MURA'},  
+	{'label': 'NUCL.', 'value': 'NUCL.'}, 
+	{'label': 'P.ATA', 'value': 'P.ATA'}, 
+	{'label': 'P.GIO', 'value': 'P.GIO'}, 
+	{'label': 'P.ISO', 'value': 'P.ISO'}, 
+	{'label': 'P.LE',  'value': 'P.LE'},  
+	{'label': 'P.LLO', 'value': 'P.LLO'}, 
+	{'label': 'P.TA',  'value': 'P.TA'},  
+	{'label': 'P.TTA', 'value': 'P.TTA'}, 
+	{'label': 'P.ZA',  'value': 'P.ZA'},  
+	{'label': 'P.ZZA', 'value': 'P.ZZA'}, 
+	{'label': 'PAL.',  'value': 'PAL.'},  
+	{'label': 'PALAZ', 'value': 'PALAZ'}, 
+	{'label': 'PAR.',  'value': 'PAR.'},  
+	{'label': 'PARCO', 'value': 'PARCO'}, 
+	{'label': 'PASS.', 'value': 'PASS.'}, 
+	{'label': 'PASSO', 'value': 'PASSO'}, 
+	{'label': 'PEND.', 'value': 'PEND.'}, 
+	{'label': 'PIAG.', 'value': 'PIAG.'}, 
+	{'label': 'PIANO', 'value': 'PIANO'}, 
+	{'label': 'PLE',   'value': 'PLE'},   
+	{'label': 'POD.',  'value': 'POD.'},  
+	{'label': 'PODLE', 'value': 'PODLE'}, 
+	{'label': 'POGG.', 'value': 'POGG.'}, 
+	{'label': 'PONTE', 'value': 'PONTE'}, 
+	{'label': 'PORT.', 'value': 'PORT.'}, 
+	{'label': 'PORTA', 'value': 'PORTA'}, 
+	{'label': 'PORTO', 'value': 'PORTO'}, 
+	{'label': 'PR.LE', 'value': 'PR.LE'}, 
+	{'label': 'PRATO', 'value': 'PRATO'}, 
+	{'label': 'PROL.', 'value': 'PROL.'}, 
+	{'label': 'PROV',  'value': 'PROV'},  
+	{'label': 'PROV.', 'value': 'PROV.'}, 
+	{'label': 'PTA',   'value': 'PTA'},   
+	{'label': 'PZA',   'value': 'PZA'},   
+	{'label': 'PZALE', 'value': 'PZALE'}, 
+	{'label': 'PZZA',  'value': 'PZZA'},  
+	{'label': 'Q.RE',  'value': 'Q.RE'},  
+	{'label': 'QUAD.', 'value': 'QUAD.'}, 
+	{'label': 'QUAR.', 'value': 'QUAR.'}, 
+	{'label': 'R.DA',  'value': 'R.DA'},  
+	{'label': 'R.NE',  'value': 'R.NE'},  
+	{'label': 'RACCO', 'value': 'RACCO'}, 
+	{'label': 'RAMO',  'value': 'RAMO'},  
+	{'label': 'RAMPA', 'value': 'RAMPA'}, 
+	{'label': 'RECI.', 'value': 'RECI.'}, 
+	{'label': 'REG.',  'value': 'REG.'},  
+	{'label': 'RES.',  'value': 'RES.'},  
+	{'label': 'RETT.', 'value': 'RETT.'}, 
+	{'label': 'RIG.',  'value': 'RIG.'},  
+	{'label': 'RIO',   'value': 'RIO'},   
+	{'label': 'RIONE', 'value': 'RIONE'}, 
+	{'label': 'RIPA',  'value': 'RIPA'},  
+	{'label': 'RIV.',  'value': 'RIV.'},  
+	{'label': 'RIVA',  'value': 'RIVA'},  
+	{'label': 'RONCO', 'value': 'RONCO'}, 
+	{'label': 'RONDO', 'value': 'RONDO'}, 
+	{'label': 'ROT.',  'value': 'ROT.'},  
+	{'label': 'RUA',   'value': 'RUA'},   
+	{'label': 'RUE',   'value': 'RUE'},   
+	{'label': 'RUGA',  'value': 'RUGA'},  
+	{'label': 'S.DA',  'value': 'S.DA'},  
+	{'label': 'S.GO',  'value': 'S.GO'},  
+	{'label': 'S.ICO', 'value': 'S.ICO'}, 
+	{'label': 'S.LA',  'value': 'S.LA'},  
+	{'label': 'S.LGO', 'value': 'S.LGO'}, 
+	{'label': 'S.OIA', 'value': 'S.OIA'}, 
+	{'label': 'S.S.',  'value': 'S.S.'},  
+	{'label': 'SAL',   'value': 'SAL'},   
+	{'label': 'SAL.',  'value': 'SAL.'},  
+	{'label': 'SALIZ', 'value': 'SALIZ'}, 
+	{'label': 'SC.',   'value': 'SC.'},   
+	{'label': 'SC.NE', 'value': 'SC.NE'}, 
+	{'label': 'SCAL.', 'value': 'SCAL.'}, 
+	{'label': 'SCALA', 'value': 'SCALA'}, 
+	{'label': 'SCALI', 'value': 'SCALI'}, 
+	{'label': 'SCESA', 'value': 'SCESA'}, 
+	{'label': 'SCOR.', 'value': 'SCOR.'}, 
+	{'label': 'SECCO', 'value': 'SECCO'}, 
+	{'label': 'SEST.', 'value': 'SEST.'}, 
+	{'label': 'SITO',  'value': 'SITO'},  
+	{'label': 'SOTTO', 'value': 'SOTTO'}, 
+	{'label': 'SP.',   'value': 'SP.'},   
+	{'label': 'SP.TA', 'value': 'SP.TA'}, 
+	{'label': 'SP.ZO', 'value': 'SP.ZO'}, 
+	{'label': 'SPAL.', 'value': 'SPAL.'}, 
+	{'label': 'SS.',   'value': 'SS.'},   
+	{'label': 'ST.',   'value': 'ST.'},   
+	{'label': 'ST.LA', 'value': 'ST.LA'}, 
+	{'label': 'ST.NA', 'value': 'ST.NA'}, 
+	{'label': 'ST.NE', 'value': 'ST.NE'}, 
+	{'label': 'STR',   'value': 'STR'},   
+	{'label': 'STR.',  'value': 'STR.'},  
+	{'label': 'STR.A', 'value': 'STR.A'}, 
+	{'label': 'STR.E', 'value': 'STR.E'}, 
+	{'label': 'STR.O', 'value': 'STR.O'}, 
+	{'label': 'STRET', 'value': 'STRET'}, 
+	{'label': 'SUP.',  'value': 'SUP.'},  
+	{'label': 'SUPP.', 'value': 'SUPP.'}, 
+	{'label': 'T.TA',  'value': 'T.TA'},  
+	{'label': 'TANG.', 'value': 'TANG.'}, 
+	{'label': 'TE.TA', 'value': 'TE.TA'}, 
+	{'label': 'TETTI', 'value': 'TETTI'}, 
+	{'label': 'TETTO', 'value': 'TETTO'}, 
+	{'label': 'TORR.', 'value': 'TORR.'}, 
+	{'label': 'TRA.',  'value': 'TRA.'},  
+	{'label': 'TRAT.', 'value': 'TRAT.'}, 
+	{'label': 'TRAV.', 'value': 'TRAV.'}, 
+	{'label': 'TRAVE', 'value': 'TRAVE'}, 
+	{'label': 'TRAZ.', 'value': 'TRAZ.'}, 
+	{'label': 'TRES.', 'value': 'TRES.'}, 
+	{'label': 'TRON',  'value': 'TRON'},  
+	{'label': 'V.',    'value': 'V.'},    
+	{'label': 'V. DI', 'value': 'V. DI'}, 
+	{'label': 'V.LE',  'value': 'V.LE'},  
+	{'label': 'V.LO',  'value': 'V.LO'},  
+	{'label': 'V.N.',  'value': 'V.N.'},  
+	{'label': 'V.NE',  'value': 'V.NE'},  
+	{'label': 'V.P.',  'value': 'V.P.'},  
+	{'label': 'V.TTO', 'value': 'V.TTO'}, 
+	{'label': 'V.V.',  'value': 'V.V.'},  
+	{'label': 'V.ZZA', 'value': 'V.ZZA'}, 
+	{'label': 'V.ZZO', 'value': 'V.ZZO'}, 
+	{'label': 'VAL',   'value': 'VAL'},   
+	{'label': 'VALL.', 'value': 'VALL.'}, 
+	{'label': 'VALLE', 'value': 'VALLE'}, 
+	{'label': 'VAR.',  'value': 'VAR.'},  
+	{'label': 'VIA',   'value': 'VIA'},   
+	{'label': 'VIALE', 'value': 'VIALE'}, 
+	{'label': 'VIC',   'value': 'VIC'},   
+	{'label': 'VIC.',  'value': 'VIC.'},  
+	{'label': 'VICIN', 'value': 'VICIN'}, 
+	{'label': 'VICO',  'value': 'VICO'},  
+	{'label': 'VILL.', 'value': 'VILL.'}, 
+	{'label': 'VILLA', 'value': 'VILLA'}, 
+	{'label': 'VILLE', 'value': 'VILLE'}, 
+	{'label': 'VIOT.', 'value': 'VIOT.'}, 
+	{'label': 'VLE',   'value': 'VLE'},   
+	{'label': 'VLG',   'value': 'VLG'},   
+	{'label': 'VO',    'value': 'VO'},    
+	{'label': 'VOC',   'value': 'VOC'},   
+	{'label': 'VOC.',  'value': 'VOC.'},  
+	{'label': 'VOLTA', 'value': 'VOLTA'}, 
+	{'label': 'VOLTO', 'value': 'VOLTO'}, 
+	{'label': 'Z.I.',  'value': 'Z.I.'},  
+	{'label': 'ZONA',  'value': 'ZONA'},  
+    ]"/>
+
+    <aura:attribute name="workflowRecordCandidatoID" type="String"/>
+    <aura:attribute name="workflowRecordCandidatoNEXT" type="WorkflowMutui__c"/>
+    <aura:attribute name="workflowRecordCandidato" type="WorkflowMutui__c"/>
+    <aura:attribute name="workflowRecordCandidatoERROR" type="String"/>
+    
+    <aura:attribute name="tipoIndirizzoValues" type="List" default="[{'label': 'Sede Legale', 'value': 'billing'}, {'label': 'Sede Amministrativa', 'value': 'shipping'}, {'label': 'Altro', 'value': 'other'} ]"/>    
+
+    <force:recordData aura:id="flowRecordHandlerWorkflowCandidatoId"
+                      recordId="{!v.workflowRecordCandidatoID}"
+                      layoutType="FULL"
+                      targetFields="{!v.workflowRecordCandidato}"
+                      targetError="{!v.workflowRecordCandidatoERROR}"
+                      recordUpdated="{!c.handleRecordUpdated}"
+                      targetRecord="{!v.workflowRecordCandidatoNEXT}"
+                      mode="EDIT"                      
+                      />    
+ 
+    <c:bifis_crm_c_MccNsaFlowPath selectedPathValue="5"/>
+    
+    <c:bifis_crm_c_CommonFlowNavigator availableActions="{!v.availableActions}" navigateFlowEvent="{!c.handleNavigate}"/>
+
+    <!-- Display Lightning Data Service errors, if any -->
+    <aura:if isTrue="{!not(empty(v.workflowRecordCandidatoERROR))}">
+        <ui:message title="Errore" severity="error" closable="true">{!v.workflowRecordCandidatoERROR}</ui:message>
+    </aura:if>
+    
+    <lightning:card variant="Narrow" title="Indicare le scelte relative alle tecniche di comunicazione" iconName="standard:record" />
+    
+    <hr style="margin-top:1px;margin-bottom:1px;"/>
+    
+    <lightning:card variant="Narrow" title="CONTATTI TELEFONICI E MAIL" iconName="standard:call">
+        <p class="slds-p-horizontal_small">
+            <div class="slds-grid slds-wrap">                  
+                <div class="slds-size_1-of-4">
+                    <div class="slds-m-around_x-small"><lightning:input type="tel" aura:id="flowInputAnagraficaTelefonoInputId" label="Telefono" name="flowInputAnagraficaTelefonoInput" required="false" value="{!v.workflowRecordCandidato.Telefono__c}"  maxlength="30"/></div>
+                </div>       
+                <div class="slds-size_1-of-4">
+                    <div class="slds-m-around_x-small"><lightning:input type="tel" aura:id="flowInputAnagraficaFaxInputId" label="Fax" name="flowInputAnagraficaFaxInput" required="false" value="{!v.workflowRecordCandidato.Fax__c}"  maxlength="30"/></div>                
+                </div>                 
+                <div class="slds-size_1-of-4">
+                    <div class="slds-m-around_x-small"><lightning:input type="email" aura:id="flowInputAnagraficaEmailInputId" label="EMail" name="flowInputAnagraficaEmailInput" required="false" value="{!v.workflowRecordCandidato.Email__c}"  maxlength="50"/></div>
+                </div>   
+                <div class="slds-size_1-of-4">
+                    <div class="slds-m-around_x-small"><lightning:input type="email" aura:id="flowInputAnagraficaEmailPecInputId" label="Email (PEC)" name="flowInputAnagraficaEmailPecInput" required="false" value="{!v.workflowRecordCandidato.EmailPEC__c}"  maxlength="50"/></div>
+                </div>   
+            </div>
+        </p>
+    </lightning:card>  
+    
+    <div class="slds-grid slds-wrap slds-p-left_x-small">  
+        <div class="slds-size_4-of-4">
+            <div class="slds-m-around_x-small"><lightning:radioGroup aura:id="flowInputTipoIndirizzoTCRadioId" type="button" name="flowInputTipoIndirizzoTCRadioGroup" options="{! v.tipoIndirizzoValues }" value="{!v.workflowRecordCandidato.MTC_Indirizzo__c}" required="false" /></div>
+        </div>     
+    </div>
+    
+    <aura:if isTrue="{!v.workflowRecordCandidato.MTC_Indirizzo__c == 'billing'}">
+        <lightning:card variant="Narrow" title="SEDE LEGALE" iconName="standard:address">
+            <p class="slds-p-horizontal_small">
+                
+                <div class="slds-grid slds-wrap"> 
+                    <div class="slds-size_1-of-6">
+                        <div class="slds-m-around_x-small"><lightning:input label="Tipo Indirizzo" aura:id="flowInputAnagraficaTipoViaLegaleInputId" name="flowInputAnagraficaTipoViaLegaleInput" required="false" value="{!v.workflowRecordCandidato.TipoViaLegale__c}" disabled="true"/></div>
+                    </div>                           
+                    <div class="slds-size_1-of-6">
+                        <div class="slds-m-around_x-small"><lightning:input label="Indirizzo" aura:id="flowInputAnagraficaViaLegaleInputId" name="flowInputAnagraficaViaLegaleInput" required="false" value="{!v.workflowRecordCandidato.IndirizzoLegale__c}" disabled="true"/></div>
+                    </div>        
+					<div class="slds-size_1-of-6">
+						<div class="slds-m-around_x-small"><lightning:input label="Civico" aura:id="flowInputAnagraficaCivicoLegaleInputId" name="flowInputAnagraficaCivicoLegaleInput" required="false" value="{!v.workflowRecordCandidato.CivicoLegale__c}" disabled="true" /></div>
+					</div>    
+                    <div class="slds-size_1-of-6">
+                        <div class="slds-m-around_x-small"><lightning:input label="Città" aura:id="flowInputAnagraficaCittaLegaleInputId" name="flowInputAnagraficaCittaLegaleInput" required="false" value="{!v.workflowRecordCandidato.CittaLegale__c}" disabled="true"/></div>
+                    </div>   
+                    <div class="slds-size_1-of-6">
+                        <div class="slds-m-around_x-small"><lightning:input label="CAP" aura:id="flowInputAnagraficaCapLegaleInputId" name="flowInputAnagraficaCapLegaleInput" required="false" value="{!v.workflowRecordCandidato.CapLegale__c}" disabled="true"/></div>
+                    </div>   
+                    <div class="slds-size_1-of-6">
+                        <div class="slds-m-around_x-small"><lightning:input label="Provincia" aura:id="flowInputAnagraficaProvinciaLegaleInputId" name="flowInputAnagraficaProvinciaLegaleInput" required="false" value="{!v.workflowRecordCandidato.ProvinciaLegale__c}"  disabled="true"/></div>
+                    </div>   
+                </div>
+            </p>
+        </lightning:card>  
+    </aura:if>
+    
+    <aura:if isTrue="{!v.workflowRecordCandidato.MTC_Indirizzo__c == 'shipping'}">
+        <lightning:card variant="Narrow" title="SEDE AMMINISTRATIVA" iconName="standard:address">
+            <p class="slds-p-horizontal_small">
+                
+                <div class="slds-grid slds-wrap">       
+                    <div class="slds-size_1-of-6">
+                        <div class="slds-m-around_x-small"><lightning:input label="Tipo Indirizzo" aura:id="flowInputAnagraficaTipoViaSpedizioneInputId" name="flowInputAnagraficaTipoViaSpedizioneInput" required="false" value="{!v.workflowRecordCandidato.TipoViaSpedizione__c}" disabled="true"/></div>
+                    </div>                                               
+                    <div class="slds-size_1-of-6">
+                        <div class="slds-m-around_x-small"><lightning:input label="Indirizzo" aura:id="flowInputAnagraficaViaSpedizioneInputId" name="flowInputAnagraficaViaSpedizioneInput" required="false" value="{!v.workflowRecordCandidato.IndirizzoSpedizione__c}" disabled="true"/></div>
+                    </div>        
+					<div class="slds-size_1-of-6">
+						<div class="slds-m-around_x-small"><lightning:input label="Civico" aura:id="flowInputAnagraficaCivicoSpedizioneInputId" name="flowInputAnagraficaCivicoSpedizioneInput" required="false" value="{!v.workflowRecordCandidato.CivicoSpedizione__c}" disabled="true" /></div>
+					</div>    
+                    <div class="slds-size_1-of-6">
+                        <div class="slds-m-around_x-small"><lightning:input label="Città" aura:id="flowInputAnagraficaCittaSpedizioneInputId" name="flowInputAnagraficaCittaSpedizioneInput" required="false" value="{!v.workflowRecordCandidato.CittaSpedizione__c}" disabled="true"/></div>
+                    </div>   
+                    <div class="slds-size_1-of-6">
+                        <div class="slds-m-around_x-small"><lightning:input label="CAP" aura:id="flowInputAnagraficaCapSpedizioneInputId" name="flowInputAnagraficaCapSpedizioneInput" required="false" value="{!v.workflowRecordCandidato.CapSpedizione__c}" disabled="true"/></div>
+                    </div>   
+                    <div class="slds-size_1-of-6">
+                        <div class="slds-m-around_x-small"><lightning:input label="Provincia" aura:id="flowInputAnagraficaProvinciaSpedizioneInputId" name="flowInputAnagraficaProvinciaSpedizioneInput" required="false" value="{!v.workflowRecordCandidato.ProvinciaSpedizione__c}"  disabled="true"/></div>
+                    </div>   
+                </div>
+            </p>
+        </lightning:card>  
+    </aura:if>
+
+    <aura:if isTrue="{!v.workflowRecordCandidato.MTC_Indirizzo__c == 'other'}">
+        <lightning:card variant="Narrow" title="ALTRO" iconName="standard:address">
+            <p class="slds-p-horizontal_small">
+                
+                <div class="slds-grid slds-wrap">       
+                    <div class="slds-size_1-of-6">
+                        <div class="slds-m-around_x-small"><lightning:combobox label= "Tipo Indirizzo" required="false" aura:id="flowInputAnagraficaTipoViaAltroInputId" name="flowInputAnagraficaTipoViaAltroInput" value="{!v.workflowRecordCandidato.TipoViaAltro__c}" placeholder="Seleziona un tipo indirizzo" options="{!v.opzioniTipoIndirizzo}" onchange="{! c.handleComboTipoIndirizzoChange }" /></div>
+                    </div>                                               
+                    <div class="slds-size_1-of-6">
+                        <div class="slds-m-around_x-small"><lightning:input label="Indirizzo" aura:id="flowInputAnagraficaViaAltroInputId" name="flowInputAnagraficaViaAltroInput" required="false" value="{!v.workflowRecordCandidato.IndirizzoAltro__c}" maxlength="24" disabled="false"/></div>
+                    </div>        
+					<div class="slds-size_1-of-6">
+						<div class="slds-m-around_x-small"><lightning:input label="Civico" aura:id="flowInputAnagraficaCivicoAltroInputId" name="flowInputAnagraficaCivicoAltroInput" required="false" value="{!v.workflowRecordCandidato.CivicoAltro__c}" maxlength="6" disabled="false" /></div>
+					</div>    
+                    <div class="slds-size_1-of-6">
+                        <div class="slds-m-around_x-small"><lightning:input label="Città" aura:id="flowInputAnagraficaCittaAltroInputId" name="flowInputAnagraficaCittaAltroInput" required="false" value="{!v.workflowRecordCandidato.CittaAltro__c}" maxlength="24" disabled="false"/></div>
+                    </div>   
+                    <div class="slds-size_1-of-6">
+                        <div class="slds-m-around_x-small"><lightning:input label="CAP" aura:id="flowInputAnagraficaCapAltroInputId" name="flowInputAnagraficaCapAltroInput" required="false" value="{!v.workflowRecordCandidato.CapAltro__c}" maxlength="5" disabled="false"/></div>
+                    </div>   
+                    <div class="slds-size_1-of-6">
+                        <div class="slds-m-around_x-small"><lightning:input label="Provincia" aura:id="flowInputAnagraficaProvinciaAltroInputId" name="flowInputAnagraficaProvinciaAltroInput" required="false" value="{!v.workflowRecordCandidato.ProvinciaAltro__c}" maxlength="2" minlength="2" disabled="false"/></div>
+                    </div>   
+                </div>
+            </p>
+        </lightning:card>  
+    </aura:if>    
+    
+    <c:bifis_crm_c_CommonFlowNavigator availableActions="{!v.availableActions}" navigateFlowEvent="{!c.handleNavigate}"/>    
+    
+</aura:component>

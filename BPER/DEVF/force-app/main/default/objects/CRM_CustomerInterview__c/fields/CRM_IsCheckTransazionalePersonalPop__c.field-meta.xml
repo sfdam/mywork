@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_IsCheckTransazionalePersonalPop__c</fullName>
+    <externalId>false</externalId>
+    <formula>OR (
+				 CRM_V_DebitCards__c,
+				 CRM_V_CreditCards__c ,
+				 CRM_V_SmartWeb__c ,
+				 CRM_V_OnlineTrading__c ,
+				 CRM_V_TransVarious__c 
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Is Check Transazionale Personal popolato</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

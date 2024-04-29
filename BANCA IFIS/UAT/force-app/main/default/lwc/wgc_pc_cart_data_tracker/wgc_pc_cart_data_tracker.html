@@ -1,0 +1,271 @@
+<template>
+    <template if:true={rendered}>
+        <template if:true={showModal}>
+            <!-- OLD -->
+            <!-- onupdatecreditotime={handleUpdateCredito} -->
+            <c-wgc_generic_modal onclosemodal={handleCloseModal} params={modalParams} show-close-btn="true" cmp-name={cmpModal} record-id={recordId} record-type-id={recordTypeId}></c-wgc_generic_modal>
+        </template>
+        <!-- <template if:true={renderError}>
+            <div>
+                <p>Nessun Dato</p>
+            </div>
+        </template> -->
+        <!-- <template if:false={renderError}> -->
+        <!-- <div class="slds-box"> -->
+            <div class="slds-m-top_small">
+                <lightning-layout multiple-rows="true">
+                    <!-- DETTAGLIO -->
+                    <lightning-layout-item size="12" class="section-container">
+                        <lightning-layout multiple-rows="true" class="slds-p-around_small">
+                            <lightning-layout-item size="12" class="slds-p-bottom_small">
+                                <h2><b>DETTAGLIO CARTELLA</b></h2>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="6" class="slds-p-around_small">
+                                <lightning-layout multiple-rows="true">
+                                    <lightning-layout-item size="6">
+                                        <p><b>ID Cartella:</b></p>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="6">
+                                        <p>{_dettaglioCartella.codPratica}</p>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="6">
+                                        <p><b>Codice Pratica:</b></p>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="6">
+                                        <p>{_dettaglioCartella.codPratica}</p>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="6">
+                                        <p><b>Stato Pratica: </b></p>
+                                    </lightning-layout-item>
+                                    <!-- <template if:true={_dettaglioCartella}> -->
+                                        <lightning-layout-item size="6">
+                                            <p>{_dettaglioCartella.desStatoPratica}</p>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="6">
+                                            <p><b>Tipo Pratica: </b></p>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="6">
+                                            <p>{_dettaglioCartella.desTipoPratica}</p>
+                                        </lightning-layout-item>
+                                    <!-- </template> -->
+                                </lightning-layout>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="6" class="slds-p-around_small">
+                                <!-- <template if:true={_dettaglioCartella}> -->
+                                    <lightning-layout multiple-rows="true">
+                                        <lightning-layout-item size="6">
+                                            <p><b>Data Creazione:</b></p>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="6">
+                                            <p><lightning-formatted-date-time value={_dettaglioCartella.datCreazione}></lightning-formatted-date-time></p>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="6">
+                                            <p><b>Ruolo Attivo:</b></p>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="6">
+                                            <p>{_dettaglioCartella.codRuoloAttivo}</p>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="6">
+                                            <p><b>Ruolo Deliberante: </b></p>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="6">
+                                            <p>{_dettaglioCartella.codRuoloDeliberante}</p>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="6">
+                                            <p><b>Data Delibera: </b></p>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="6">
+                                            <p><lightning-formatted-date-time value={_dettaglioCartella.datDelibera}></lightning-formatted-date-time> </p>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                <!-- </template> -->
+                            </lightning-layout-item>
+                            <!--
+                            <lightning-layout-item size="2" class="slds-align_absolute-center">
+                                <lightning-button variant="brand" class="cstm-btn-invia" label="INVIA IN TIME" onclick={inviaTime}></lightning-button>
+                            </lightning-layout-item>
+                            -->
+                        </lightning-layout>
+                    </lightning-layout-item>
+                    <!-- ELENCO LINEE -->
+                    <lightning-layout-item size="12" class="section-container slds-m-top_small">
+                        <lightning-layout multiple-rows="true" class="slds-p-around_small">
+                            <lightning-layout-item size="12" class="slds-p-bottom_small">
+                                <h2><b>ELENCO CREDITI</b></h2>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12">
+                                <lightning-accordion allow-multiple-sections-open>
+                                    <template for:each={creditiCRM} for:item="c" for:index="ind">
+                                        <lightning-accordion-section key={c.numLineaCredito} name={c.numLineaCredito} label={c.Name}>
+                                            <div slot="actions" class="cstm-btn-time-margin">
+                                                <lightning-layout class="cstm-main-wizard-wrapper dataTracker">
+                                                    <lightning-layout-item size="8">
+                                                        <lightning-progress-bar value={c.wizardProgressValue} size="x-small" class="cstm-main-wizard-progress-bar slds-p-top_small"></lightning-progress-bar>
+
+                                                        <div class="cstm-main-wizard-items">
+                                                            <template for:each={c.wizardItems} for:item="wizItem">
+                                                                    <!-- "{! 'cstm-main-wizard-item ' + wizItem.state +
+                                                                    ( wizItem.clickable ? ' clickable' : '' ) + 
+                                                                    ( wizItem.active ? ' active' : '' ) }" -->
+                                                                    <div key={wizItem.title} class={wizItem.class} data-name={wizItem.title}>
+                                                                        <div class="cstm-main-wizard-dot"></div>
+                                                                        <div class="cstm-main-wizard-label">{wizItem.title}</div>
+                                                                        <div class="cstm-main-wizard-time">
+                                                                            <template if:true={wizItem.date}>
+                                                                                <lightning-formatted-date-time value={wizItem.date} ></lightning-formatted-date-time>
+                                                                            </template>
+                                                                            <template if:false={wizItem.date}>
+                                                                                -
+                                                                            </template>
+                                                                        </div>
+                                                                    </div>
+                                                                <!-- </aura:if> -->
+                                                            </template>
+                                                        </div>
+                                                    </lightning-layout-item>
+                                                    <lightning-layout-item size="5" class="slds-p-around_small slds-align_absolute-center">
+                                                        <!-- <lightning-layout-item size="2"> -->
+                                                            <template if:true={c.confirmed}>
+                                                                <lightning-button variant="brand" data-c-id={c.idCredito} data-index={ind} class="cstm-btn-invia disabled" label="INVIA IN TIME" disabled={c.confirmed} onclick={inviaTime}></lightning-button>
+                                                            </template>
+                                                            <template if:false={c.confirmed}>
+                                                                <lightning-button variant="brand" data-c-id={c.idCredito} data-index={ind} class="cstm-btn-invia" label="INVIA IN TIME" disabled={c.confirmed} onclick={inviaTime}></lightning-button>
+                                                            </template>
+                                                        <!-- </lightning-layout-item> -->
+                                                    </lightning-layout-item>
+                                                </lightning-layout>
+                                            </div>
+                                            <lightning-layout class="slds-p-around_small" multiple-rows="true">
+                                                <lightning-layout-item size="4">
+                                                    <lightning-layout multiple-rows="true">
+                                                        <!-- <lightning-layout-item size="6">
+                                                            <p><b>Codice</b></p>
+                                                        </lightning-layout-item>
+                                                        <lightning-layout-item size="6">
+                                                            <p>{c.codLineaSistema}</p>
+                                                        </lightning-layout-item> -->
+                                                        <lightning-layout-item size="6">
+                                                            <p><b>Stato</b></p>
+                                                        </lightning-layout-item>
+                                                        <lightning-layout-item size="6">
+                                                            <p>{c.desStatoLinea}</p>
+                                                        </lightning-layout-item>
+                                                        <!-- <lightning-layout-item size="6">
+                                                            <p><b>Numero Linea</b></p>
+                                                        </lightning-layout-item>
+                                                        <lightning-layout-item size="6">
+                                                            <p>{c.numLineaCredito}</p>
+                                                        </lightning-layout-item> -->
+                                                        <!-- <lightning-layout-item size="6">
+                                                            <p><b>Importo Quota Oneri</b></p>
+                                                        </lightning-layout-item>
+                                                        <lightning-layout-item size="6">
+                                                            <p><lightning-formatted-number value={c.impQuotaOneri}></lightning-formatted-number></p>
+                                                        </lightning-layout-item> -->
+                                                        <!-- <lightning-layout-item size="6">
+                                                            <p><b>Importo Proposto</b></p>
+                                                        </lightning-layout-item>
+                                                        <lightning-layout-item size="6">
+                                                            <p><lightning-formatted-number format-style="currency" currency-code="EUR" value={c.impQuotaNotifica}></lightning-formatted-number></p>
+                                                        </lightning-layout-item>
+                                                        <lightning-layout-item size="6">
+                                                            <p><b>Importo Accordato Linea</b></p>
+                                                        </lightning-layout-item>
+                                                        <lightning-layout-item size="6">
+                                                            <p><lightning-formatted-number format-style="currency" currency-code="EUR" value={c.impAccordatoLinea}></lightning-formatted-number></p>
+                                                        </lightning-layout-item> -->
+                                                        <lightning-layout-item size="6">
+                                                            <p><b>Rigo</b></p>
+                                                        </lightning-layout-item>
+                                                        <lightning-layout-item size="6">
+                                                            <p>{c.rigo}</p>
+                                                        </lightning-layout-item>
+                                                        <lightning-layout-item size="6">
+                                                            <p><b>Commessa</b></p>
+                                                        </lightning-layout-item>
+                                                        <lightning-layout-item size="6">
+                                                            <p>{c.commessa}</p>
+                                                        </lightning-layout-item>
+                                                    </lightning-layout>
+                                                </lightning-layout-item>
+                                                <!-- 
+                                                <lightning-layout-item size="9">
+                                                    <h2 class="cstm-datatable-title">ELENCO DEBITORI</h2>
+                                                    <lightning-datatable key-field="codRapportoEst"
+                                                                        data={c.dataColumns}
+                                                                        columns={columns}
+                                                                        hide-checkbox-column>
+                                                    </lightning-datatable>
+                                                </lightning-layout-item>
+                                                -->
+                                            </lightning-layout>
+                                            <lightning-layout>
+                                                <lightning-layout-item>
+                                                    <!-- SV -->
+                                                    <c-wgc_pc_cart_credito_data_tracker item={c} user-info={userInfo} onunlockbtninviotime={handleCreditoCompleted} p-read-only={c.readOnly} ></c-wgc_pc_cart_credito_data_tracker>
+                                                </lightning-layout-item>
+                                            </lightning-layout>
+                                        </lightning-accordion-section>
+                                    </template>
+                                </lightning-accordion>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" class="section-container slds-m-top_small">
+                        <lightning-layout multiple-rows="true" class="slds-p-around_small">
+                            <lightning-layout-item size="12" class="slds-p-bottom_small">
+                                <h2><b>ELENCO NOTE</b></h2>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12">
+                                <lightning-accordion allow-multiple-sections-open>
+                                    <template for:each={notes} for:item="nota">
+                                        <lightning-accordion-section key={nota.numVersione} name={nota.numVersione} label={nota.title}>
+                                            <lightning-layout>
+                                                <lightning-layout-item flexibility="auto">
+                                                    <lightning-layout multiple-rows="true">
+                                                        <lightning-layout-item size="3">
+                                                            <p><b>Tipo Nota</b></p>
+                                                        </lightning-layout-item>
+                                                        <lightning-layout-item size="9">
+                                                            <p>{nota.codTipoNota}</p>
+                                                        </lightning-layout-item>
+                                                        <lightning-layout-item size="3">
+                                                            <p><b>Data</b></p>
+                                                        </lightning-layout-item>
+                                                        <lightning-layout-item size="9">
+                                                            <p><lightning-formatted-date-time value={nota.datInserimNota}></lightning-formatted-date-time></p>
+                                                        </lightning-layout-item>
+                                                        <lightning-layout-item size="12">
+                                                            <lightning-layout>
+                                                                <lightning-layout-item size="3">
+                                                                    <p><b>Descrizione</b></p>
+                                                                </lightning-layout-item>
+                                                                <lightning-layout-item size="9">
+                                                                    <lightning-formatted-rich-text value={nota.decodedDes}></lightning-formatted-rich-text>
+                                                                </lightning-layout-item>
+                                                            </lightning-layout>
+                                                        </lightning-layout-item>
+                                                    </lightning-layout>
+                                                </lightning-layout-item>
+                                            </lightning-layout>
+                                        </lightning-accordion-section>
+                                    </template>
+                                </lightning-accordion>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" class="section-container slds-m-top_small">
+                        <lightning-layout class="slds-p-around_small">
+                            <lightning-layout-item size="12">
+                                <c-wgc_documents account-id={accountId}></c-wgc_documents>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </div>
+        <!-- </template> -->
+    </template>
+    <template if:false={rendered}>
+        <lightning-spinner variant="brand"></lightning-spinner>
+    </template>
+</template>

@@ -1,0 +1,35 @@
+.THIS .customRequired{
+    font-weight: 400; }
+.THIS .customRequired:before{    
+    content: "*";
+    margin: 0 0.125rem 0 0.125rem;
+    color: rgb(194, 57, 52);
+    float: left; }
+.THIS abbr.slds-required {
+    display: none;
+}
+
+.THIS .personal-margin {
+    margin: -20px -20px 10px -20px;
+}
+
+.THIS .white {
+    color: #FFF;
+}
+
+.THIS .spinnerDiv {
+    position: fixed !important;
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+}
+
+.THIS .slds-dropdown-trigger .slds-dropdown {
+    max-height: 280px;
+}
+
+.THIS .slds-dropdown-trigger.cstm-is-open .slds-dropdown {
+    display: inline-block;
+    visibility: visible;
+    opacity: 1;
+}

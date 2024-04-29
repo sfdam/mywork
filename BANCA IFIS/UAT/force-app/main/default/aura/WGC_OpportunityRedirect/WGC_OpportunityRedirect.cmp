@@ -1,0 +1,21 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId" access="global" extends="c:WGC_Utility" controller="WizardOpportunityController">
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="recordId" type="String"/>
+    <!-- <aura:attribute name="opportunityRecord" type="Object"/>
+    <aura:attribute name="recordLoadError" type="String"/> -->
+
+    <!-- HANDLERS -->
+    <!-- <aura:handler name="change" value="{! v.opportunityRecord }" action="{! c.checkFactoringForRedirect }"/>     -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <lightning:navigation aura:id="navService" />
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    
+    <!-- <force:recordData aura:id="recordLoader"
+        recordId="{!v.recordId}"
+        fields="Name,RecordType.DeveloperName"
+        targetFields="{!v.opportunityRecord}"
+        targetError="{!v.recordLoadError}"
+        /> -->
+
+</aura:component>

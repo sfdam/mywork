@@ -1,0 +1,233 @@
+<template>  
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_medium">
+        
+        <div class="slds-modal__container">
+
+            <div class="slds-is-relative">
+
+                <!-- SPINNER -->
+                <template if:true={showSpinner}>
+                    <lightning-spinner variant="brand"></lightning-spinner>
+                </template>
+
+                <!-- HEADER -->
+                <header class="slds-modal__header">               
+                    <lightning-button-icon class="slds-modal__close" title="Close" icon-name="utility:close" icon-class="slds-button_icon-inverse"  onclick={close}></lightning-button-icon>
+                    <h2 class="slds-text-heading_medium slds-hyphenate">{masterTitle}</h2>
+                </header>
+
+                <!-- BODY -->
+                <div class="slds-modal__content">
+                	<div class="slds-scrollable_y slds-grid slds-wrap slds-p-bottom_small" style="height:30rem;">  
+                        
+                        <!-- LOGO  -->
+                        <div class="slds-col slds-size_12-of-12 slds-text-align_left slds-p-around_small">
+                            <div class="icon-container">
+                                <lightning-icon id="ic" class="icon slds-has-focus" variant="inverse" icon-name="utility:file" size="small" access="global"></lightning-icon>
+                            </div>
+                            <div class="title-container">
+                                <span  class="slds-text-title_bold">{masterTitle}</span>                                
+                            </div>
+                        </div>
+
+                        <!-- SEZIONE 1 -->
+                        <lightning-layout multiple-rows="true" class="pr-gray slds-p-vertical_medium slds-p-horizontal_x-large">
+                            <lightning-layout-item size="12" class="slds-p-around_small">
+                                <span class="subtitle-text">{sezione1Title}</span>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" class="slds-p-around_small">
+                                <span>{sezione1}</span>
+                            </lightning-layout-item>
+                        </lightning-layout>
+
+                        <!-- SEZIONE 2 -->
+                        <lightning-layout multiple-rows="true" class="pr-white slds-p-vertical_medium slds-p-horizontal_x-large">
+                            <lightning-layout-item size="12" class="slds-p-around_small">
+                                <span class="subtitle-text">{sezione2Title}</span>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" class="slds-p-around_small">
+                                <span>{sezione2}</span>
+                            </lightning-layout-item>
+                        </lightning-layout>
+
+                        <!-- SEZIONE 3 -->
+                        <lightning-layout multiple-rows="true" class="pr-gray slds-p-vertical_medium slds-p-horizontal_x-large">
+                            <lightning-layout-item size="12" class="slds-p-around_small">
+                                <span class="subtitle-text">{sezione3Title}</span>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" class="slds-p-around_small">
+                                <span>{sezione3}</span>
+                            </lightning-layout-item>
+                        </lightning-layout>
+
+                        <!-- SEZIONE 4 -->
+                        <lightning-layout multiple-rows="true" class="pr-white slds-p-vertical_medium slds-p-horizontal_x-large">
+                            <lightning-layout-item size="12" class="slds-p-around_small">
+                                <span class="subtitle-text">{sezione4Title}</span>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" class="slds-p-around_small">
+                                <span>{sezione4}</span>
+                            </lightning-layout-item>
+                        </lightning-layout>
+
+                        <!-- SEZIONE 5 -->
+                        <lightning-layout multiple-rows="true" class="pr-gray slds-p-vertical_medium slds-p-horizontal_x-large">
+                            <lightning-layout-item size="12" class="slds-p-around_small">
+                                <span class="subtitle-text">{sezione5Title}</span>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" class="slds-p-around_small">
+                                <span>{sezione5}</span>
+                            </lightning-layout-item>
+                        </lightning-layout>
+
+                        <!-- CONSENSI -->
+                        <lightning-layout class="pr-white slds-p-vertical_medium slds-p-horizontal_x-large" multiple-rows="true">
+                            <lightning-layout-item size="12">
+                                <lightning-layout multiple-rows="true">
+                                    <lightning-layout-item size="12" class="slds-p-around_small">
+                                        <span class="subtitle-text">{sezione6Title}</span>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="slds-p-around_small">
+                                        <span>{sezione6}</span>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </lightning-layout-item>
+    
+                            <lightning-layout-item size="12">
+                                <lightning-layout multiple-rows="true">
+                                    <lightning-layout-item size="12" class="slds-p-around_small">
+                                        <i class="question"><b>1</b> {notaConsensi}</i>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="3" small-device-size="6" class="slds-p-horizontal_small">
+                                        <lightning-input id="r0" type="radio" checked={rec.consensoProfilazioneTrue} label="Acconsento" name="ConsensoAllaProfilazione__c" onchange={onGroup}></lightning-input>                                        
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="3" small-device-size="6" class="slds-p-horizontal_small">
+                                        <lightning-input id="r1" type="radio" checked={rec.consensoProfilazioneFalse} label="Non Acconsento" name="ConsensoAllaProfilazione__c" onchange={onGroup}></lightning-input>                                         
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </lightning-layout-item>
+    
+                            <lightning-layout-item size="12">
+                                <lightning-layout multiple-rows="true">
+                                    <lightning-layout-item size="12" class="slds-p-around_small">
+                                        <i class="question"><b>2</b> {notaConsensi2}</i>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="3" small-device-size="6" class="slds-p-horizontal_small">
+                                        <lightning-input id="r2" type="radio" checked={rec.ConsensoProdottiBancaRicercheMercatoTrue} label="Acconsento" name="ConsensoProdottiBancaRicercheMercato__c" onchange={onGroup}></lightning-input>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="3" small-device-size="6" class="slds-p-horizontal_small">
+                                        <lightning-input id="r3" type="radio" checked={rec.ConsensoProdottiBancaRicercheMercatoFalse} label="Non Acconsento" name="ConsensoAllaConsensoProdottiBancaRicercheMercato__c" onchange={onGroup}></lightning-input>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </lightning-layout-item>
+    
+                            <lightning-layout-item size="12">
+                                <lightning-layout multiple-rows="true">
+                                    <lightning-layout-item size="12" class="slds-p-around_small">
+                                        <i class="question"><b>3</b> {notaConsensi3}</i>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="3" small-device-size="6" class="slds-p-horizontal_small" >
+                                        <lightning-input id="r4" type="radio" checked={rec.ConsensoProdottiSocietaTerzeTrue} label="Acconsento" name="ConsensoProdottiSocietaTerze__c" onchange={onGroup}></lightning-input>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="3" small-device-size="6" class="slds-p-horizontal_small">
+                                        <lightning-input id="r5" type="radio" checked={rec.ConsensoProdottiSocietaTerzeFalse} label="Non Acconsento" name="ConsensoProdottiSocietaTerze__c" onchange={onGroup}></lightning-input>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </lightning-layout-item>
+    
+                            <lightning-layout-item size="12">
+                                <lightning-layout multiple-rows="true">
+                                    <lightning-layout-item size="12" class="slds-p-around_small">
+                                        <i class="question"><b>4</b> {notaConsensi4}</i>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="3" small-device-size="6" class="slds-p-horizontal_small">
+                                        <lightning-input id="r6" type="radio" checked={rec.ConsensoAttivitaPromRicercheMercatoTrue} label="Acconsento" name="ConsensoAttivitaPromRicercheMercato__c" onchange={onGroup}></lightning-input>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="3" small-device-size="6" class="slds-p-horizontal_small">
+                                        <lightning-input id="r7" type="radio" checked={rec.ConsensoAttivitaPromRicercheMercatoFalse} label="Non Acconsento" name="ConsensoAttivitaPromRicercheMercato__c" onchange={onGroup}></lightning-input>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </lightning-layout-item>
+    
+                            <lightning-layout-item size="12">
+                                <lightning-layout multiple-rows="true">
+                                    <lightning-layout-item size="12" class="slds-p-around_small">
+                                        <i class="question"><b>5</b> {notaConsensi5}</i>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="3" small-device-size="6" class="slds-p-horizontal_small">
+                                        <lightning-input id="r8" type="radio" checked={rec.ConsensoAttivitaPromozionaleTerziTrue} label="Acconsento" name="ConsensoAttivitaPromozionaleTerzi__c" onchange={onGroup}></lightning-input>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="3" small-device-size="6" class="slds-p-horizontal_small">
+                                        <lightning-input id="r9" type="radio" checked={rec.ConsensoAttivitaPromozionaleTerziFalse} label="Non Acconsento" name="ConsensoAttivitaPromozionaleTerzi__c" onchange={onGroup}></lightning-input>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </lightning-layout-item>
+                            
+                            <lightning-layout-item size="12">
+                                <lightning-layout multiple-rows="true">
+                                    <lightning-layout-item size="12" class="slds-p-around_small">
+                                        <span>{notaConsensi6}</span>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="12" class="slds-p-around_small">
+                                        <i class="question">{notaConsensi7}</i>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="3" small-device-size="6" class="slds-p-horizontal_small">
+                                        <lightning-input id="r10" type="radio" checked={rec.ConsensoSoloModalitaTradizionaliTrue} label="Si" name="ConsensoSoloModalitaTradizionali__c" onchange={onGroup}></lightning-input>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="3" small-device-size="6" class="slds-p-horizontal_small">
+                                        <lightning-input id="r11" type="radio" checked={rec.ConsensoSoloModalitaTradizionaliFalse} label="No" name="ConsensoSoloModalitaTradizionali__c" onchange={onGroup}></lightning-input>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+				</div>
+
+                <template if:true={isAccount}>  
+                    <lightning-layout class="pr-white slds-p-vertical_medium slds-p-horizontal_x-large" multiple-rows="true">
+                        <lightning-layout-item size="12">
+                            <lightning-layout multiple-rows="true">
+
+                                <lightning-layout-item size="12" class="slds-p-around_small">
+                                    <span class="subtitle-text">Seleziona Esecutore per il modulo privacy</span>
+                                </lightning-layout-item>
+
+                                <lightning-layout-item size="12" class="slds-p-around_small">
+
+                                    <!-- ESECUTORI -->
+                                    <template if:true={listaEsecutoriSize}>
+                                        <lightning-combobox label="Esecutore" value={esecutore} options={listaEsecutori}                                                            
+                                                            class="label-hidden" onchange={changeEsecutore}>
+                                        </lightning-combobox>  
+                                    </template> 
+
+                                    <!-- NESSUN ESECUTORE -->
+                                    <template if:false={listaEsecutoriSize}>
+                                        <span class="subtitle-text">Nessun Esecutore Disponibile</span>
+                                    </template>
+
+                                </lightning-layout-item>
+ 
+                            </lightning-layout>
+                        </lightning-layout-item>
+                    </lightning-layout> 
+
+                    <footer class="slds-modal__footer modal-hidden">
+                        <lightning-button variant="neutral" onclick={close} label="ANNULLA"></lightning-button>
+                        <lightning-button class="slds-m-left_x-small btn" variant="neutral" onclick={saveRecordWithEsecutore} label="SALVA"></lightning-button>
+                    </footer>
+                </template>
+
+                <template if:false={isAccount}>  
+                    <footer class="slds-modal__footer modal-hidden">
+                        <lightning-button variant="neutral" onclick={close} label="ANNULLA"></lightning-button>
+                        <lightning-button class="slds-m-left_x-small btn" variant="neutral" onclick={saveRecord} label="SALVA"></lightning-button>
+                    </footer>
+                </template>
+
+            </div>    
+        </div>  
+    </div>
+</section>
+<div class="slds-backdrop slds-backdrop_open"></div>
+</template>

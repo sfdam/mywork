@@ -1,0 +1,14 @@
+<aura:component  implements="lightning:isUrlAddressable,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:hasSObjectName,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" 
+    controller="TXT_CalendarCustomController" access="global">
+    
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+
+    <aura:attribute name="userInfo" type="User" default="{'sobjectType':'User'}" />
+
+    <lightning:card>
+        
+        <div class='container slds-p-around_small'>
+            <c:CalendarContainerLayout selectedId="{!v.userInfo.Id}" userInfo="{! v.userInfo }" personSelector="false" />            
+        </div>
+    </lightning:card>
+</aura:component>

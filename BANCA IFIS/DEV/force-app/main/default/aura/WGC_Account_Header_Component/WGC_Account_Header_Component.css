@@ -1,0 +1,215 @@
+.THIS header.slds-card__header.slds-grid {
+    padding: 0;
+    margin: 0;
+}
+
+.THIS .fullwidth{
+    width:100%;
+}
+
+.THIS .block{
+    display:block;
+}
+
+.THIS .slds-card__body {
+    padding: 10px;
+    margin: 0;
+}
+
+.THIS .border-right{
+    border-top:0px solid #e5e5e5;
+    border-right:2px solid #e5e5e5;
+    border-bottom:0px solid #e5e5e5;
+    border-left:0px solid #e5e5e5;
+    min-height: 95px;
+}
+
+.THIS .title-recordName {
+    font-size: 18px;
+    font-weight: bold;
+    padding-bottom: 5px;
+    padding-left: 20px;
+}
+
+.THIS .title-recordName img {
+    padding: 0 5px;
+}
+
+.THIS .title {
+    font-size: 13px;
+    height:20px;
+    word-wrap: break-word;
+}
+
+.THIS div.val {
+    font-weight: bolder;
+    font-size: 13px;
+}
+
+.THIS div.prop {
+    color: #A2A2A2;
+    font-size: 13px;
+}
+
+.THIS span.val {
+    font-weight: bolder;
+    font-size: 13px;
+}
+
+.THIS .valQal {
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.THIS span.prop {
+    color: #A2A2A2;
+    font-size: 13px; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}
+
+.THIS button.slds-button {
+    height: 28px;
+    margin-bottom: 5px;
+    line-height: 0;
+    width: 90%;
+    padding: 4px;
+    text-overflow: ellipsis;
+    border-radius: 25px;
+    font-size: 10px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.THIS .attivo {
+    color: green;
+    font-size: 20px !important;
+}
+
+.THIS .button-container {
+    text-align:  center;
+}
+
+.THIS .slds-button_brand:not(:disabled), .THIS .slds-button--brand:not(:disabled) {
+    background: #0064B5;
+    border-color: #0064B5;
+}
+
+.THIS button.slds-button_icon {
+    height: 12px;
+    width: 85%;
+}
+
+.THIS .patrimonio{
+    font-size:xx-small;
+}
+
+.THIS .red{
+    color:red;
+}
+
+.THIS .green{
+    color:green;
+}
+
+.THIS .orange{
+    color:orange;
+}
+
+.THIS .grey{
+    color:rgb(201, 199, 197);
+}
+
+.THIS .number{
+    font-size: 13px;
+}
+
+.THIS .title-recordName img.cstm-account-icon {
+    margin-right: 10px;
+    width: 25px;
+    padding: 0;
+}
+.THIS .title-recordName img.cstm-account-icon.large {
+    width: 60px;
+}
+
+.THIS .overflow-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}
+
+.THIS .info {
+    width: 100%;
+    padding: 0 10px;
+}
+
+.THIS .freccia {
+    height: 14px;
+    padding-left: 5px;
+}
+
+.THIS .freccia-down {
+    height: 14px;
+    padding-right: 5px;
+}
+
+.THIS .infoXXX {
+    margin-top: 20px;
+}
+
+.THIS .comments-icn{
+    --sds-c-icon-color-foreground-default: green;
+    position: absolute;
+    padding-top:2px;
+}
+
+.THIS .comments-ecn-warning{
+    --sds-c-icon-color-foreground-default: orange;
+    position: absolute;
+    padding-top:2px;
+}
+
+.THIS .comments-ecn-error{
+    --sds-c-icon-color-foreground-default: red;
+    position: absolute;
+    padding-top:2px;
+}
+            
+.THIS .helpTextTransparent .slds-form-element__icon .slds-button_icon{
+    color:transparent;            
+}
+
+
+@media screen and (max-width: 1023px) {
+    .THIS .button-container {
+        padding-top: 20px;
+    }
+
+    .THIS .border-notShow{
+        border-right: none;
+    }
+
+    .THIS .infoXXX {
+        margin-top: 0;
+    }
+    
+}
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : landscape)
+and (-webkit-min-device-pixel-ratio: 2) { 
+    /* STYLES GO HERE */
+
+}
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : portrait)
+and (-webkit-min-device-pixel-ratio: 2) { 
+    /* STYLES GO HERE */ 
+}

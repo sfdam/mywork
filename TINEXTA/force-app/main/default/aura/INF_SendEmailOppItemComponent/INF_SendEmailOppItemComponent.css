@@ -1,0 +1,17 @@
+.THIS.modal-body{
+    min-height: 575px;
+}
+
+.THIS .dataTables_info{
+    float: right;
+}
+
+.THIS .slds-button-group{
+    position: fixed;
+    right: 30px;
+    margin-top: -77px;
+}
+
+.THIS .check{
+    text-align-last: center;
+}

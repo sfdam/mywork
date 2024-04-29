@@ -1,0 +1,16 @@
+.THIS {
+}
+
+.THIS.container{
+    min-height: 140px;
+}
+
+.THIS .btn{
+    background-color: #0064B5;
+    border-color: #0064B5;
+    color: rgb(255, 255, 255);
+ }
+
+.THIS .slds-modal__footer{
+    margin:-20px -20px -41px -20px;
+}

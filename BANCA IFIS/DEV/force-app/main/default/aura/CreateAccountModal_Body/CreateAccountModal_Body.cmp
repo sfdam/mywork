@@ -1,0 +1,751 @@
+<aura:component controller="CreateAccount" extends="c:WGC_Utility">
+
+    <ltng:require styles="{!join(',','')}" scripts="{!join(',','/resource/WGC_jQuery3x')}" />
+
+    <!-- REGISTER EVENT -->
+    <aura:registerEvent name="B2F" type="c:ModalBody2FooterEvent" />
+    <aura:registerEvent name="resolveEvent" type="c:WGC_CreateAccountResolveEvent" />
+
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler event="c:ModalFooter2BodyEvent" action="{! c.manageF2B }" />
+
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="userInfo" type="User" default="{'sobjectType':'User'}" />
+    <aura:attribute name="accountSelected" type="Account" default="{'sobjectType':'Account'}"
+        description="selected account" />
+    <aura:attribute name="tipoRecord" type="String" default="" description="tipo record passato" />
+    <aura:attribute name="whoAreYou" default="" type="String" />
+    <aura:attribute name="cointestazione" default="false" type="Boolean" />
+
+    <aura:attribute name="options" type="Object[]"
+        default=" [ { 'title': 'search', 'buttons': [{ 'type': 'next', 'requireValidation': true }] } , { 'title': 'result', 'buttons': [{ 'type': 'next', 'visible': false }] } , { 'title': 'submit' } ] " />
+    <aura:attribute name="page" type="String" />
+
+    <!-- INSERT CUSTOM ATTRIBUTES HERE -->
+    <lightning:navigation aura:id="navService" />
+    <aura:attribute name="optionsPicklistNazione" type="List" access="PRIVATE" description="selected value" />
+    <aura:attribute name="optionsPicklistProvince" type="List" access="PRIVATE" description="selected value" />
+    <aura:attribute name="optionsPicklistComune" type="List" access="PRIVATE" description="selected value" />
+    <aura:attribute name="optionsPicklistComuneShipping" type="List" access="PRIVATE" description="selected value" />
+
+    <aura:attribute name="optionsPicklistAddressType" type="List" access="PRIVATE" description="selected value" />
+
+    <aura:attribute name="InputPicklistNaturaGiuridica" type="List" access="PRIVATE" description="selected value" />
+    <aura:attribute name="InputPicklistRAE" type="List" access="PRIVATE" description="selected value" />
+    <aura:attribute name="InputPicklistRAE_all" type="List" access="PRIVATE" description="selected value" />
+    <aura:attribute name="InputPicklistEnteSegnalante" type="List" access="PRIVATE" description="selected value" />
+
+    <aura:attribute name="InputPicklistSAE" type="List" access="PRIVATE" description="selected value" />
+    <aura:attribute name="InputPicklistAteco" type="List" access="PRIVATE" description="selected value" />
+
+    <aura:attribute name="result" type="Account[]" description="RecordType associati all'account" />
+    <aura:attribute name="resultSelected" type="Account" default="{'sobjectType':'Account'}"
+        description="RecordType associati all'account" />
+    <aura:attribute name="resultSelectedBefor" type="Account" default="{'sobjectType':'Account'}"
+        description="RecordType associati all'account" />
+
+    <aura:attribute name="atecoSelected" type="Ateco__c" default="{'sobjectType':'Ateco__c'}"
+        description="RecordType associati all'account" />
+    <aura:attribute name="atecoList" type="Ateco__c[]" description="RecordType associati all'account" />
+
+
+    <aura:attribute name="contactDI" type="Contact" default="{'sobjectType':'Contact'}" description="" />
+    <aura:attribute name="InputPicklistSex" type="List" access="PRIVATE" description="selected value" />
+    <aura:attribute name="InputPicklistTipoDoc" type="List" access="PRIVATE" description="selected value" />
+    <aura:attribute name="InputPicklistTAE" type="List" access="PRIVATE" description="selected value" />
+
+    <aura:attribute name="requestType" type="String" description="Memorizza il tipo di richiesta scelta" />
+    <aura:attribute name="InputRecordTypeOptions" type="String[]" description="RecordType associati all'account" />
+    <aura:attribute name="inputObject" type="CreateAccount.WrapperRecords"
+        description="Memorizza il tipo di richiesta scelta" />
+
+    <aura:attribute access="private" name="errors" type="String[]" default="" />
+    <aura:attribute name="addManualmente" type="Boolean" default="false"
+        description="RecordType associati all'account" />
+    <aura:attribute name="sedeOperativa" type="Boolean" default="false" description="" />
+    <aura:attribute name="contactFromDI" type="Boolean" default="false" description="" />
+
+    <aura:attribute name="isProvinciaEsteraBilling" type="Boolean" default="false"
+        description="selected value" />
+    <aura:attribute name="isProvinciaEsteraShipping" type="Boolean" default="false"
+        description="selected value" />
+
+    <aura:handler name="change" value="{! v.resultSelected.NaturaGiuridica__c }"
+        action="{! c.accountSelectedNaturaGiuridica }" />
+    <aura:handler name="change" value="{! v.resultSelected.SAE__c }" action="{! c.accountSelectedSAE }" />
+    <aura:handler name="change" value="{! v.atecoSelected }" action="{! c.updateAteco }" />
+    <aura:attribute name="atecoError" type="Boolean" default="false" description="" />
+    <!-- <aura:handler name="change" value="{! v.resultSelected.RAE__c }" action="{! c.accountSelectedRAE }" /> -->
+    <!-- <aura:handler name="change" value="{! v.resultSelected.BillingState }" action="{! c.updateComuni }" /> -->
+
+    <aura:attribute name="buttonAggiugniECompletaDopo" type="Boolean" default="false"
+        description="Variabile che mi disattiva il bottone aggiungi e completa dopo" />
+    <aura:attribute name="buttonAggiugniECompletaDopoNascosto" type="Boolean" default="false"
+        description="Variabile che mi disattiva il bottone aggiungi e completa dopo" />
+
+    <aura:attribute name="activeSectionsA" type="List" default="['A','B', 'C', 'D']" />
+    <aura:attribute name="activeSectionsB" type="List" default="['E']" />
+    <aura:attribute name="activeLightSections" type="List" default="['A']" />
+
+    <aura:attribute access="private" name="CedacriSleepError" type="String[]" default="" />
+
+    <aura:attribute name="ifisFinance" type="Boolean" default="false" />
+
+    <!-- A.M. Gestione anagrafiche estere o PA -->
+    <aura:attribute name="AccountNoREA" type="Boolean" default="false" />
+
+
+    <!-- INSERT CUSTOM ATTRIBUTES HERE -->
+
+    <lightning:overlayLibrary aura:id="overlayLib" />
+
+    <!-- DEFAULT ITERATION TO PRINT CONTENT -->
+    <!-- DEFAULT ITERATION TO PRINT CONTENT -->
+
+    <!-- INSERT CUSTOM CONTENT HERE -->
+
+    <div class="spinnerDiv">
+        <lightning:spinner alternativeText="Loading" size="large" aura:id="mySpinner" class="" />
+    </div>
+
+    <aura:if isTrue="{! !empty(v.CedacriSleepError)}">
+        <div>
+            <div aura:id="errors-container-Cedacri"
+                class="slds-grid slds-wrap slds-theme--shade slds-theme--alert-texture slds-theme_warning personal-margin slds-p-around_small"
+                role="warning">
+                <div class="slds-col slds-size_12-of-12 slds-large-size_12-of-12">
+                    <div class="slds-form-element">
+                        <lightning:buttonIcon class="slds-float_right white" iconName="utility:close" variant="bare"
+                            size="small" onclick="{! c.closeCedacriError }" alternativeText="Close" />
+                    </div>
+                </div>
+
+
+                <aura:iteration items="{!v.CedacriSleepError}" var="r">
+                    <div class="slds-col slds-size_12-of-12 slds-large-size_12-of-12">
+                        <div class="slds-form-element">
+                            <li>{!r}</li>
+                        </div>
+                    </div>
+                </aura:iteration>
+
+            </div>
+        </div>
+    </aura:if>
+
+    <aura:if isTrue="{! !empty(v.errors)}">
+        <div>
+            <div aura:id="errors-container"
+                class="slds-grid slds-wrap slds-theme_alert-texture slds-theme_error personal-margin slds-p-around_small"
+                role="alert">
+                <div class="slds-col slds-size_12-of-12 slds-large-size_12-of-12">
+                    <div class="slds-form-element">
+                        <lightning:buttonIcon class="slds-float_right white" iconName="utility:close" variant="bare"
+                            size="small" onclick="{! c.closeError }" alternativeText="Close" />
+                    </div>
+                </div>
+
+
+                <aura:iteration items="{!v.errors}" var="r">
+                    <div class="slds-col slds-size_12-of-12 slds-large-size_12-of-12">
+                        <div class="slds-form-element">
+                            <li>{!r}</li>
+                        </div>
+                    </div>
+                </aura:iteration>
+
+            </div>
+        </div>
+    </aura:if>
+
+    <div class="container-body">
+        <ui:scrollerWrapper class="scrollerSize">
+
+            <aura:if isTrue="{! v.page == 'search' }">
+                <!-- INSERT CONTENT HERE -->
+
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12">
+                        <lightning:tabset selectedTabId="piva">
+
+							<!-- tab ricerca per P.IVA, START -->
+                            <lightning:tab label="{! $Label.c.WGC_CreateAccount_Modal_Body_Partita_IVA}" id="piva" aura:id="piva" onactive="{!c.SetRequestType}">
+                                <div class="slds-text-title_bold slds-text-align_center">{! $Label.c.WGC_CreateAccount_Modal_Body_Partita_IVA}</div>
+                                <div class="slds-grid slds-grid_align-end toggle-estero">
+                                    <div class="slds-col">
+                                        <lightning:input type="toggle" label="{! $Label.c.WGC_CreateAccount_Modal_Body_Estero}" name="input1"
+                                            checked="{!v.inputObject.estero}" messageToggleActive="Off"
+                                            messageToggleInactive="Off"
+                                            disabled="{! v.ifisFinance }" />
+                                    </div>
+                                </div>
+
+                                <lightning:input aura:id="search_piva" label="{! $Label.c.WGC_CreateAccount_Modal_Body_Partita_IVA}" name="firstname"
+                                    placeholder="{! $Label.c.WGC_CreateAccountModalBody_Inserisci_Partita_IVA_Codice_fiscale}"
+                                    messageWhenBadInput="Campo Obligatirio" value="{!v.inputObject.pivaOrCf}" />
+                            </lightning:tab>
+							<!-- tab ricerca per P.IVA, END -->
+
+							<!-- tab ricerca per rag. soc., START -->
+                            <lightning:tab label="{! $Label.c.WGC_CreateAccount_Modal_Body_Ragione_Sociale}" id="RagioneSociale" onactive="{!c.SetRequestType}">
+                                <div class="slds-text-title_bold slds-text-align_center">{! $Label.c.WGC_CreateAccount_Modal_Body_RICERCA_PER_RAGIONE_SOCIALE}
+                                </div>
+                                <div class="slds-grid slds-grid_align-end toggle-estero">
+                                    <div class="slds-col">
+                                        <lightning:input type="toggle" label="{! $Label.c.WGC_CreateAccount_Modal_Body_Estero}" name="input1"
+                                            checked="{!v.inputObject.estero}" messageToggleActive="Off"
+                                            messageToggleInactive="Off"
+                                            disabled="{! v.ifisFinance }" />
+                                    </div>
+                                </div>
+
+                                <lightning:input aura:id="search_ragioneSociale" label="{! $Label.c.WGC_CreateAccount_Modal_Body_Ragione_Sociale}"
+                                    name="firstname" placeholder="{! $Label.c.WGC_CreateAccountModalBody_Inserisci_la_Ragione_sociale}"
+                                    messageWhenBadInput="Campo Obbilgatorio" value="{!v.inputObject.ragioneSociale}" />
+                                <!-- onchange="setOptionsPicklistComune()" -->
+                                <aura:if isTrue="{! !v.inputObject.estero }">
+                                    <lightning:select name="search_provincia" label="{! $Label.c.WGC_CreateAccount_Modal_Body_Provincia}"
+                                        aura:id="search_provincia" value="{!v.inputObject.provincia}">
+                                        <aura:iteration items="{!v.optionsPicklistProvince}" var="option">
+                                            <option text="{!option.label}" value="{!option.value}"
+                                                selected="{!option.selected}" />
+                                        </aura:iteration>
+                                    </lightning:select>
+                                </aura:if>
+                            </lightning:tab>
+							<!-- tab ricerca per rag. soc., END -->
+
+							<!-- tab ricerca per NDG, START -->
+                            <lightning:tab label="{! $Label.c.WGC_CreateAccount_Modal_Body_Ricerca_NDG}" id="ndg" aura:id="ndg" onactive="{!c.SetRequestType}">
+                                <div class="slds-text-title_bold slds-text-align_center">{! $Label.c.WGC_CreateAccount_Modal_Body_Ricerca_NDG}</div>
+                                <div class="slds-grid slds-grid_align-end toggle-estero">
+                                    <div class="slds-col">
+                                        <lightning:input type="toggle" label="{! $Label.c.WGC_CreateAccount_Modal_Body_Estero}" name="input1"
+                                            checked="{!v.inputObject.estero}" messageToggleActive="Off"
+                                            messageToggleInactive="Off"
+                                            disabled="{! v.ifisFinance }" />
+                                    </div>
+                                </div>
+
+                                <lightning:input aura:id="search_ndg" label="{! $Label.c.WGC_CreateAccount_Modal_Body_NDG}" name="firstname"
+                                    placeholder="{! $Label.c.WGC_CreateAccountModalBody_Inserisci_Ricerca_NDG}"
+                                    messageWhenBadInput="Campo Obbligatorio" value="{!v.inputObject.ndg}" />
+                            </lightning:tab> <!-- tab ricerca per NDG, END -->
+
+                        </lightning:tabset>
+                    </lightning:layoutItem>
+                </lightning:layout>
+
+
+                <!-- INSERT CONTENT HERE -->
+            </aura:if>
+
+            <aura:if isTrue="{! v.page == 'result' }">
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12">
+                        <aura:iteration items="{!v.result}" var="item" indexVar="index">
+                            <div class="resultSelected" aura:id="{!'resultSelected_' + index}"
+                                id="{!'resultSelected_' + index}" onclick="{! c.handleRowSelection }">
+                                <lightning:tile label="{! item.Name }" class="inactiveLink ">
+                                    <aura:set attribute="media">
+                                        <lightning:avatar
+                                            src="{! item.Origine__c == 'CRM' ? $Resource.WGC_CRM : (item.Origine__c == 'Cedacri' ? $Resource.WGC_AnagrafeDiGruppo : $Resource.WGC_Infoprovider) }"
+                                            class="{! item.Origine__c }" fallbackIconName="standard:person_account"
+                                            alternativeText="{! item.Origine__c }" />
+                                    </aura:set>
+                                    <lightning:layout multipleRows="true">
+                                        <lightning:layoutItem flexibility="auto" size="6" smallDeviceSize="6" mediumDeviceSize="2" largeDeviceSize="2">
+                                            <div class="custom-box">{! $Label.c.WGC_CreateAccount_Modal_Body_Origine}
+                                                <span>
+                                                    <aura:if isTrue="{! item.Origine__c == 'Cedacri' }">
+                                                        {! $Label.c.WGC_CreateAccount_Modal_Body_Anagrafe_di_gruppo}
+                                                    </aura:if>
+                                                    <aura:if isTrue="{! item.Origine__c == 'Cerved' }">
+                                                        {! $Label.c.WGC_CreateAccount_Modal_Body_Info_provider}
+                                                    </aura:if>
+                                                    <aura:if isTrue="{! item.Origine__c == 'CRM' }">
+                                                        {! item.Origine__c }
+                                                    </aura:if>
+                                                </span>
+                                            </div>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem flexibility="auto" size="6" smallDeviceSize="6" mediumDeviceSize="2" largeDeviceSize="2">
+                                            <div class="custom-box">{! $Label.c.WGC_CreateAccount_Modal_Body_CF}<span>{! item.CF__c }</span></div>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem flexibility="auto" size="6" smallDeviceSize="6" mediumDeviceSize="2" largeDeviceSize="2" class="{! item.Origine__c == 'Cerved' ? 'slds-hide' : '' }">
+                                            <div class="custom-box">{! $Label.c.WGC_CreateAccount_Modal_Body_NDG}<span>{! item.NDGGruppo__c }</span></div>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem flexibility="auto" size="6" smallDeviceSize="6" mediumDeviceSize="2" largeDeviceSize="2">
+                                            <div class="custom-box">{! $Label.c.WGC_CreateAccount_Modal_Body_P_IVA}<span>{! item.PIVA__c }</span></div>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem flexibility="auto" size="6" smallDeviceSize="6" mediumDeviceSize="2" largeDeviceSize="2">
+                                            <div class="custom-box">{! $Label.c.WGC_CreateAccount_Modal_Body_Natura_giuridica}<span>{! item.NaturaGiuridica__c}</span></div>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem flexibility="auto" size="6" smallDeviceSize="6" mediumDeviceSize="2" largeDeviceSize="2" class="{! item.Origine__c == 'Cerved' ? '' : 'slds-hide' }">
+                                            <div class="custom-box">{! $Label.c.WGC_CreateAccount_Modal_Body_Situazione_Impresa}<span>{! item.StatoAnagrafica__c}</span></div>
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                </lightning:tile>
+                            </div>
+                        </aura:iteration>
+
+                        <aura:if
+                            isTrue="{! v.inputObject.tipoDiRicerca == 'RagioneSociale' ? (!v.addManualmente ? true : false) : false}">
+                            <lightning:layout>
+                                <lightning:layoutItem flexibility="auto" padding="around-small">
+                                    <lightning:button class="btn" aura:id="searchInRibes"
+                                        label="{! $Label.c.WGC_CreateAccount_Modal_Body_Non_ho_trovato_quello_che_cercavo}" title="Non trovato"
+                                        onclick="{! c.searchInRibes }" />
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                        </aura:if>
+
+                        <aura:if isTrue="{! v.addManualmente }">
+                            <lightning:layout>
+                                <lightning:layoutItem flexibility="auto" padding="around-small">
+                                    <lightning:button class="btn" aura:id="goToSubmit" label="{! $Label.c.WGC_CreateAccount_Modal_Body_Aggiungi_Manualmente}"
+                                        title="Aggiungi Manualmente" onclick="{! c.goToSubmit }" />
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                        </aura:if>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </aura:if>
+
+            <aura:if isTrue="{! v.page == 'submit' }">
+                
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12">
+                        <lightning:layout pullToBoundary="small">
+                            <lightning:layoutItem flexibility="auto" padding="horizontal-small">
+                                <lightning:input name="ragioneSociale" id="ragioneSociale" aura:id="ragioneSociale"
+                                    label="{! $Label.c.WGC_CreateAccount_Modal_Body_Ragione_socialeB}" class="customRequired" value="{! v.resultSelected.Name }"
+                                    onblur="{! c.verifyAllField }" />
+                                </lightning:layoutItem>
+                            </lightning:layout>
+
+                            <lightning:layout  multipleRows="true" pullToBoundary="small">
+                                <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="6" padding="horizontal-small">
+                                    <lightning:input name="piva" id="piva" aura:id="piva" label="{! $Label.c.WGC_CreateAccount_Modal_Body_P_IVA}"
+                                        value="{! v.resultSelected.PIVA__c }" class="customRequired"
+                                        onblur="{! c.verifyAllField }" />
+                                </lightning:layoutItem>
+                                <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="6" padding="horizontal-small">
+                                    <lightning:input name="codFisc" id="codFisc" aura:id="codFisc" label="{! $Label.c.WGC_CreateAccount_Modal_Body_Codice_Fiscale}"
+                                        value="{! v.resultSelected.CF__c }" class="customRequired"
+                                        onblur="{! c.verifyAllField }" />
+                                </lightning:layoutItem>
+                            </lightning:layout>
+
+                            <aura:if isTrue="{! v.contactFromDI }">
+                                        <hr />
+                                        <h2 class="sub-title">{! $Label.c.WGC_CreateAccount_Modal_Body_DATI_TITOLARE}</h2>
+                                            <lightning:layout multipleRows="true" pullToBoundary="small">
+                                                <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="6" padding="horizontal-small">
+                                                    <lightning:input name="contact_firstName" id="contact_firstName"
+                                                        aura:id="contact_firstName" label="{! $Label.c.WGC_CreateAccount_Modal_Body_Nome}"
+                                                        value="{! v.contactDI.FirstName }" class="customRequired"
+                                                        onblur="{! c.verifyAllField }" />
+                                                </lightning:layoutItem>
+                                                <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="6" padding="horizontal-small">
+                                                    <lightning:input name="contact_lastName" id="contact_lastName"
+                                                        aura:id="contact_lastName" value="{! v.contactDI.LastName }"
+                                                        class="customRequired" onblur="{! c.verifyAllField }"
+                                                        label="{! $Label.c.WGC_CreateAccount_Modal_Body_Cognome}" />
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            <lightning:layout pullToBoundary="small">
+                                                <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12" mediumDeviceSize="4" largeDeviceSize="4" padding="horizontal-small">
+                                                    <lightning:input type="date" name="contact_birthdate" id="contact_birthdate"
+                                                        aura:id="contact_birthdate" label="{! $Label.c.WGC_CreateAccount_Modal_Body_Data_di_nascita}" required="true"
+                                                        onblur="{! c.verifyAllField }" value="{! v.contactDI.Birthdate }"
+                                                        min="1900-01-01" max="2040-12-31" />
+                                                </lightning:layoutItem>
+                                                <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12" mediumDeviceSize="4" largeDeviceSize="4" padding="horizontal-small">
+                                                    <lightning:select name="contact_sex" aura:id="contact_sex"
+                                                        label="{! $Label.c.WGC_CreateAccount_Modal_Body_Seleziona_Sesso}" class="customRequired"
+                                                        value="{! v.contactDI.Sesso__c }" onblur="{! c.verifyAllField }">
+                                                        <aura:iteration items="{!v.InputPicklistSex}" var="option">
+                                                            <option text="{!option.label}" value="{!option.value}"
+                                                                selected="{!option.selected}" />
+                                                        </aura:iteration>
+                                                    </lightning:select>
+                                                </lightning:layoutItem>
+                                                <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12" mediumDeviceSize="4" largeDeviceSize="4" padding="horizontal-small">
+                                                    <lightning:input name="contact_luogoDiNascita" id="contact_luogoDiNascita"
+                                                        aura:id="contact_luogoDiNascita" label="{! $Label.c.WGC_CreateAccount_Modal_Body_Luogo_di_nascita}"
+                                                        class="customRequired" onblur="{! c.verifyAllField }"
+                                                        value="{! v.contactDI.LuogoNascita__c }" />
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            <lightning:layout multipleRows="true" pullToBoundary="small">
+                                                <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12" mediumDeviceSize="5" largeDeviceSize="5" padding="horizontal-small">
+                                                    <lightning:input name="contact_codFiscale" id="contact_codFiscale"
+                                                        aura:id="contact_codFiscale" label="{! $Label.c.WGC_CreateAccount_Modal_Body_Codice_Fiscale}"
+                                                        class="customRequired" onblur="{! c.verifyAllField }"
+                                                        value="{! v.contactDI.CF__c }" />
+                                                </lightning:layoutItem>
+                                                <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12" mediumDeviceSize="4" largeDeviceSize="4" padding="horizontal-small">
+                                                    
+                                                    <!-- <lightning:select name="contact_sae" aura:id="contact_sae" class="customRequired"
+                                                        label="{! $Label.c.WGC_CreateAccount_Modal_Body_Seleziona_SAE}" value="{! v.contactDI.SAE__c }"
+                                                        onblur="{! c.verifyAllField }">
+                                                        <aura:iteration items="{!v.InputPicklistSAE}" var="option">
+                                                            <option text="{!option.label}" value="{!option.value}"
+                                                                selected="{!option.selected}" />
+                                                        </aura:iteration>
+                                                    </lightning:select> -->
+
+                                                    
+                                                    <lightning:input name="contact_sae" id="contact_sae" aura:id="contact_sae"
+                                                        label="{! $Label.c.WGC_CreateAccount_Modal_Body_Seleziona_SAE}" value="{! v.contactDI.SAE__c }" />
+                                                </lightning:layoutItem>
+                                                <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12" mediumDeviceSize="3" largeDeviceSize="3" padding="horizontal-small">
+                                                    <lightning:input name="contact_tae" id="contact_tae" aura:id="contact_tae"
+                                                        label="{! $Label.c.WGC_CreateAccount_Modal_Body_Codice_TAE}" value="{! v.contactDI.TAECode__c }"
+                                                        disabled="true" />
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                        </aura:if>
+
+                            <hr />
+                        <h2 class="sub-title">{! $Label.c.WGC_CreateAccount_Modal_Body_SEDE_LEGALE}</h2>
+                        <div class="section-sede">
+                                    <lightning:layout pullToBoundary="small" class="button-right-according">
+                                            <lightning:layoutItem flexibility="auto" padding="around-small"
+                                                class="slds-grid slds-grid_align-end">
+                                                <lightning:input type="toggle" label="{! $Label.c.WGC_CreateAccount_Modal_Body_Sede_operativa_diversa_da_quella_legale}"
+                                                    name="inputSede" checked="{!v.sedeOperativa}" messageToggleActive="Off"
+                                                    messageToggleInactive="Off" onchange="{! c.verifyAllField }" />
+                                            </lightning:layoutItem>
+                                        </lightning:layout>
+                                    <lightning:layout multipleRows="true" pullToBoundary="small">
+                                        <lightning:layoutItem flexibility="auto" size="12" padding="horizontal-small">
+                                            <lightning:select name="nazione" class="customRequired" label="{! $Label.c.WGC_CreateAccount_Modal_Body_Nazione}"
+                                                aura:id="nazione" value="{!v.resultSelected.BillingCountry}"
+                                                onchange="{!c.updateProvincia}" onblur="{! c.verifyAllField }">
+                                                <aura:iteration items="{!v.optionsPicklistNazione}" var="option">
+                                                    <option text="{!option.label}" value="{!option.value}"
+                                                        selected="{!option.selected}" />
+                                                </aura:iteration>
+                                            </lightning:select>
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+
+                                    <lightning:layout multipleRows="true" pullToBoundary="small">
+                                        <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="6" padding="horizontal-small">
+                                            <lightning:select name="provincia" class="customRequired"
+                                                label="{! $Label.c.WGC_CreateAccount_Modal_Body_Seleziona_provincia}" aura:id="provincia"
+                                                value="{!v.resultSelected.BillingState}" onchange="{!c.updateComuni}"
+                                                onblur="{! c.verifyAllField }" disabled="{! v.isProvinciaEsteraBilling }">
+                                                <aura:iteration items="{!v.optionsPicklistProvince}" var="option">
+                                                    <option text="{!option.label}" value="{!option.value}"
+                                                        selected="{!option.selected}" />
+                                                </aura:iteration>
+                                            </lightning:select>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="6" padding="horizontal-small">
+                                            <!-- ToDo COMUNI -->
+                                            <!-- onchange="setOptionsPicklistComune()" su province -->
+                                            <aura:renderIf isTrue="{! v.isProvinciaEsteraBilling }">
+                                                <lightning:input name="comuneEstero" class="customRequired" id="comuneEstero"
+                                                    aura:id="comuneEstero" label="{! $Label.c.WGC_CreateAccount_Modal_Body_Seleziona_comune}"
+                                                    value="{!v.resultSelected.BillingCity}" onblur="{! c.verifyAllField }" />
+                                                <aura:set attribute="else">
+                                                    <lightning:select name="comune" class="customRequired"
+                                                        label="{! $Label.c.WGC_CreateAccount_Modal_Body_Seleziona_comune}" aura:id="comune"
+                                                        value="{!v.resultSelected.BillingCity}" onblur="{! c.verifyAllField }">
+                                                        <aura:iteration items="{!v.optionsPicklistComune}" var="option">
+                                                            <option text="{!option.label}" value="{!option.value}"
+                                                                selected="{!option.selected}" />
+                                                        </aura:iteration>
+                                                    </lightning:select>
+                                                </aura:set>
+                                            </aura:renderIf>
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                    <lightning:layout multipleRows="true" pullToBoundary="small">
+                                        <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12" mediumDeviceSize="2" largeDeviceSize="2" padding="horizontal-small">
+                                            <lightning:select name="streetType" class="customRequired" label="{! $Label.c.WGC_CreateAccount_Modal_Body_Tipo_Via}"
+                                                aura:id="streetType" value="{!v.resultSelected.BillingStreetType__c}"
+                                                onblur="{! c.verifyAllField }">
+                                                <aura:iteration items="{!v.optionsPicklistAddressType}" var="option">
+                                                    <option text="{!option.label}" value="{!option.value}"
+                                                        selected="{!option.selected}" />
+                                                </aura:iteration>
+                                            </lightning:select>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12" mediumDeviceSize="4" largeDeviceSize="4" padding="horizontal-small">
+                                            <lightning:input name="street" id="street" aura:id="street" class="customRequired"
+                                                label="{! $Label.c.WGC_CreateAccount_Modal_Body_Inserisci_indirizzo}" value="{! v.resultSelected.BillingStreetName__c }"
+                                                onblur="{! c.verifyAllField }" />
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12" mediumDeviceSize="3" largeDeviceSize="3" padding="horizontal-small">
+                                            <lightning:input name="civico" id="civico" aura:id="civico" class="customRequired"
+                                                label="{! $Label.c.WGC_CreateAccount_Modal_Body_Civico}" value="{! v.resultSelected.BillingStreetNumber__c }"
+                                                onblur="{! c.verifyAllField }" />
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12" mediumDeviceSize="3" largeDeviceSize="3" padding="horizontal-small">
+                                            <lightning:input name="cap" id="cap" aura:id="cap" class="customRequired"
+                                                label="{! $Label.c.WGC_CreateAccount_Modal_Body_Inserisci_CAP}" value="{! v.resultSelected.BillingPostalCode }"
+                                                onblur="{! c.verifyAllField }" />
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                </div>
+
+                            <aura:if isTrue="{! v.sedeOperativa }">
+                                    <hr />
+                                    <h2 class="sub-title">{! $Label.c.WGC_CreateAccount_Modal_Body_SEDE_OPERATIVA}</h2>
+                                        <lightning:layout multipleRows="true" pullToBoundary="small">
+                                            <lightning:layoutItem flexibility="auto" size="12" padding="horizontal-small">
+                                                <lightning:select name="nazione_shipping" label="{! $Label.c.WGC_CreateAccount_Modal_Body_Nazione}"
+                                                    aura:id="nazione_shipping" value="{!v.resultSelected.ShippingCountry}"
+                                                    onchange="{!c.updateProvinciaShipping}" onblur="{! c.verifyAllField }">
+                                                    <aura:iteration items="{!v.optionsPicklistNazione}" var="option">
+                                                        <option text="{!option.label}" value="{!option.value}"
+                                                            selected="{!option.selected}" />
+                                                    </aura:iteration>
+                                                </lightning:select>
+                                            </lightning:layoutItem>
+                                        </lightning:layout>
+
+                                        <lightning:layout multipleRows="true" pullToBoundary="small">
+                                            <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="6" padding="horizontal-small">
+                                                <lightning:select name="provincia_shipping" label="{! $Label.c.WGC_CreateAccount_Modal_Body_Seleziona_provincia}"
+                                                    aura:id="provincia_shipping" value="{!v.resultSelected.ShippingState}"
+                                                    onchange="{!c.updateComuniShipping}" onblur="{! c.verifyAllField }"
+                                                    disabled="{! v.isProvinciaEsteraShipping }">
+                                                    <aura:iteration items="{!v.optionsPicklistProvince}" var="option">
+                                                        <option text="{!option.label}" value="{!option.value}"
+                                                            selected="{!option.selected}" />
+                                                    </aura:iteration>
+                                                </lightning:select>
+                                            </lightning:layoutItem>
+                                            <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="6" padding="horizontal-small">
+                                                <!-- ToDo COMUNI -->
+                                                <!-- onchange="setOptionsPicklistComune()" su province -->
+                                                <aura:if isTrue="{! v.isProvinciaEsteraShipping }">
+                                                    <lightning:input name="comuneEstero_shipping" id="comuneEstero_shipping"
+                                                        aura:id="comuneEstero_shipping" label="{! $Label.c.WGC_CreateAccount_Modal_Body_Seleziona_comune}"
+                                                        value="{!v.resultSelected.ShippingCity}"
+                                                        onblur="{! c.verifyAllField }" />
+                                                    <aura:set attribute="else">
+                                                        <lightning:select name="comune_shipping" label="{! $Label.c.WGC_CreateAccount_Modal_Body_Seleziona_comune}"
+                                                            aura:id="comune_shipping" class="custom-select"
+                                                            value="{!v.resultSelected.ShippingCity}"
+                                                            onblur="{! c.verifyAllField }">
+                                                            <aura:iteration items="{!v.optionsPicklistComuneShipping}" var="option">
+                                                                <option text="{!option.label}" value="{!option.value}"
+                                                                    selected="{!option.selected}" />
+                                                            </aura:iteration>
+                                                        </lightning:select>
+                                                    </aura:set>
+                                                </aura:if>
+                                            </lightning:layoutItem>
+                                        </lightning:layout>
+                                        <lightning:layout multipleRows="true" pullToBoundary="small">
+                                            <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12" mediumDeviceSize="2" largeDeviceSize="2" padding="horizontal-small">
+                                                <lightning:select name="tipoVia_shipping" label="{! $Label.c.WGC_CreateAccount_Modal_Body_Tipo_Via}"
+                                                    aura:id="tipoVia_shipping" value="{!v.resultSelected.ShippingStreetType__c}"
+                                                    onblur="{! c.verifyAllField }">
+                                                    <aura:iteration items="{!v.optionsPicklistAddressType}" var="option">
+                                                        <option text="{!option.label}" value="{!option.value}"
+                                                            selected="{!option.selected}" />
+                                                    </aura:iteration>
+                                                </lightning:select>
+                                            </lightning:layoutItem>
+                                            <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12" mediumDeviceSize="4" largeDeviceSize="4" padding="horizontal-small">
+                                                <lightning:input name="street_shipping" id="street_shipping"
+                                                    aura:id="street_shipping" label="{! $Label.c.WGC_CreateAccount_Modal_Body_Inserisci_indirizzo}"
+                                                    value="{! v.resultSelected.ShippingStreetName__c }"
+                                                    onblur="{! c.verifyAllField }" />
+                                            </lightning:layoutItem>
+                                            <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12" mediumDeviceSize="3" largeDeviceSize="3" padding="horizontal-small">
+                                                <lightning:input name="civico_shipping" id="civico_shipping"
+                                                    aura:id="civico_shipping" label="{! $Label.c.WGC_CreateAccount_Modal_Body_Civico}"
+                                                    value="{! v.resultSelected.ShippingStreetNumber__c }"
+                                                    onblur="{! c.verifyAllField }" />
+                                            </lightning:layoutItem>
+                                            <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12" mediumDeviceSize="3" largeDeviceSize="3" padding="horizontal-small">
+                                                <lightning:input name="cap_shipping" id="cap_shipping" aura:id="cap_shipping"
+                                                    label="{! $Label.c.WGC_CreateAccount_Modal_Body_Inserisci_CAP}" value="{! v.resultSelected.ShippingPostalCode }"
+                                                    onblur="{! c.verifyAllField }" />
+                                            </lightning:layoutItem>
+                                        </lightning:layout>
+</aura:if>
+
+                    <lightning:layout>
+                        <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12" padding="horizontal-small" class="{! v.ifisFinance ? 'slds-hide' : ''}">
+                                    <lightning:button aura:id="aggiungiECompletaDopo"
+                                            class="{! (v.buttonAggiugniECompletaDopo ? 'btn btnMargin disabled' : 'btn btnMargin') + ' ' +  (v.buttonAggiugniECompletaDopoNascosto ? 'slds-hide' : '') }"
+                                            label="{! $Label.c.WGC_CreateAccount_Modal_Body_Aggiungi_e_completa_dopo}" title="Aggiungi" onclick="{! c.partialRegistration }"
+                                            variant="brand" disabled="{! v.buttonAggiugniECompletaDopo }" />
+                                </lightning:layoutItem>
+                    </lightning:layout>
+                            <hr />
+                            <h2 class="sub-title">{! $Label.c.WGC_CreateAccount_Modal_Body_POSIZIONE_GIURIDICA}</h2>
+
+                                        <lightning:layout multipleRows="true" pullToBoundary="small">
+                                            <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12" mediumDeviceSize="4" largeDeviceSize="4" padding="horizontal-small">
+                                                <lightning:select name="naturaGiuridica" aura:id="naturaGiuridica"
+                                                    class="customRequired" label="{! $Label.c.WGC_CreateAccount_Modal_Body_Seleziona_forma_giuridica}"
+                                                    value="{! v.resultSelected.NaturaGiuridica__c }"
+                                                    onblur="{! c.verifyAllField }"
+                                                    disabled="{! v.ifisFinance }">
+                                                    <aura:iteration items="{!v.InputPicklistNaturaGiuridica}" var="option">
+                                                        <option text="{!option.label}" value="{!option.value}"
+                                                            selected="{!option.selected}" />
+                                                    </aura:iteration>
+                                                </lightning:select>
+
+                                            </lightning:layoutItem>
+                                            <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12" mediumDeviceSize="8" largeDeviceSize="8" padding="horizontal-small">
+                                                <lightning:select name="sae" aura:id="sae" class="customRequired"
+                                                    label="{! $Label.c.WGC_CreateAccount_Modal_Body_Seleziona_SAE}" value="{! v.resultSelected.SAE__c }"
+                                                    onblur="{! c.verifyAllField }"
+                                                    disabled="{! v.ifisFinance }">
+                                                    <aura:iteration items="{!v.InputPicklistSAE}" var="option">
+                                                        <option text="{!option.label}" value="{!option.value}"
+                                                            selected="{!option.selected}" />
+                                                    </aura:iteration>
+                                                </lightning:select>
+                                            </lightning:layoutItem>
+                                        </lightning:layout>
+                                        <lightning:layout multipleRows="true" pullToBoundary="small">
+                                            <lightning:layoutItem size="12" flexibility="auto" padding="horizontal-small">
+                                                <c:WGC_CustomLookup objectAPIName="Ateco__c" IconName="standard:campaign"
+                                                    label="{! $Label.c.WGC_CreateAccount_Modal_Body_Seleziona_Ateco}" hasError="{! v.atecoError }" required="true" disabled="{! v.ifisFinance }"
+                                                    selectedRecord="{!v.atecoSelected}"
+                                                    returnFields="{! 'Id, Name, Cedacri__c, Descrizione__c' }"
+                                                    showField="{! 'Cedacri__c| |Descrizione__c' }" />
+                                            </lightning:layoutItem>
+                                        </lightning:layout>
+                                        <lightning:layout multipleRows="true" pullToBoundary="small">
+                                            <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12" mediumDeviceSize="4" largeDeviceSize="4" padding="horizontal-small" class="{! v.ifisFinance ? 'slds-hide' : ''}">
+                                                <lightning:input type="rea" name="rea" id="rea" aura:id="rea"
+                                                    class="{! 'customRequired '}" value="{! v.resultSelected.REA__c }"
+                                                    label="{! $Label.c.WGC_CreateAccount_Modal_Body_Inserisci_REA}" onblur="{! c.verifyAllField }" />
+                                            </lightning:layoutItem>
+                                            <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12" mediumDeviceSize="4" largeDeviceSize="4" padding="horizontal-small" class="{! v.ifisFinance ? 'slds-hide' : ''}">
+                                                <lightning:select name="provinciaCCIAA" label="{! $Label.c.WGC_CreateAccount_Modal_Body_Seleziona_provincia_CCIAA}"
+                                                    aura:id="provinciaCCIAA" class="customRequired"
+                                                    value="{!v.resultSelected.ProvinciaCCIAA__c}"
+                                                    onblur="{! c.verifyAllField }">
+                                                    <aura:iteration items="{!v.optionsPicklistProvince}" var="option">
+                                                        <option text="{!option.label}" value="{!option.value}"
+                                                            selected="{!option.selected}" />
+                                                    </aura:iteration>
+                                                </lightning:select>
+                                            </lightning:layoutItem>
+                                            <!-- <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12" mediumDeviceSize="2" largeDeviceSize="2" padding="horizontal-small">
+                                                <lightning:select name="ente" aura:id="ente" label="{! $Label.c.WGC_CreateAccount_Modal_Body_Ente_Segnalante}"
+                                                    value="{! v.resultSelected.WGC_Ente_segnalante__c }">
+                                                    <aura:iteration items="{!v.InputPicklistEnteSegnalante}" var="option">
+                                                        <option text="{!option.label}" value="{!option.value}"
+                                                            selected="{!option.selected}" />
+                                                    </aura:iteration>
+                                                </lightning:select>
+                                            </lightning:layoutItem> -->
+                                            <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12" mediumDeviceSize="4" largeDeviceSize="4" padding="horizontal-small" class="{! v.ifisFinance ? 'slds-hide' : ''}">
+                                                    <lightning:input type="date" name="dateIscrizioneCCIAA" id="dateIscrizioneCCIAA"
+                                                        aura:id="dateIscrizioneCCIAA" label="{! $Label.c.WGC_CreateAccount_Modal_Body_Data_IscrizioneCCIAA}"
+                                                        value="{! v.resultSelected.DataIscrizioneCCIAA__c }"
+                                                        min="1900-01-01" max="2040-12-31" />
+                                                </lightning:layoutItem>
+                                        </lightning:layout>
+
+                                <hr />
+                                <h2 class="sub-title">{! $Label.c.WGC_CreateAccount_Modal_Body_DATI_DI_CONTATTO}</h2>
+                                    <lightning:layout multipleRows="true" pullToBoundary="small">
+                                        <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="6" padding="horizontal-small">
+                                            <lightning:input name="sitoWeb" id="sitoWeb" aura:id="sitoWeb"
+                                                label="{! $Label.c.WGC_CreateAccount_Modal_Body_Inserisci_sito_web}" value="{! v.resultSelected.Website }"
+                                                onblur="{! c.verifyAllField }" />
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="6" padding="horizontal-small">
+                                            <lightning:input name="emailPEC" id="emailPEC" aura:id="emailPEC"
+                                                label="{! $Label.c.WGC_CreateAccount_Modal_Body_Inserisci_email_PEC}" value="{! v.resultSelected.EmailPEC__c }"
+                                                onblur="{! c.verifyAllField }" />
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                    <lightning:layout multipleRows="true" pullToBoundary="small">
+                                        <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12" mediumDeviceSize="4" largeDeviceSize="4" padding="horizontal-small">
+                                            <lightning:input type="email" name="email" id="email" aura:id="email"
+                                                value="{! v.resultSelected.Email__c }" label="{! $Label.c.WGC_CreateAccount_Modal_Body_Inserisci_Email}"
+                                                onblur="{! c.verifyAllField }" />
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12" mediumDeviceSize="4" largeDeviceSize="4" padding="horizontal-small">
+                                            <lightning:input name="prefisso" id="prefisso" aura:id="prefisso"
+                                                label="{! $Label.c.WGC_CreateAccount_Modal_Body_Inserisci_prefisso}" value="{! v.resultSelected.TelefonoPrefisso__c }"
+                                                onblur="{! c.verifyAllField }" />
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12" mediumDeviceSize="4" largeDeviceSize="4" padding="horizontal-small">
+                                            <lightning:input name="telefono" id="telefono" aura:id="telefono"
+                                                label="{! $Label.c.WGC_CreateAccount_Modal_Body_Inserisci_telefono}" value="{! v.resultSelected.TelefonoNumero__c }"
+                                                onblur="{! c.verifyAllField }" />
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                    <hr />
+                                    <aura:if isTrue="{! v.contactFromDI }">
+                                            
+                                            <h2 class="sub-title">{! $Label.c.WGC_CreateAccount_Modal_Body_DOCUMENTO_D_IDENTITA}</h2>
+                                            <lightning:layout multipleRows="true" pullToBoundary="small">
+                                                <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12" mediumDeviceSize="4" largeDeviceSize="4" padding="horizontal-small">
+                                                    <lightning:select name="contact_tipoDoc" aura:id="contact_tipoDoc"
+                                                        class="customRequired" label="{! $Label.c.WGC_CreateAccount_Modal_Body_Tipo_documento}"
+                                                        value="{! v.contactDI.TipoDocumentoId__c }"
+                                                        onblur="{! c.verifyAllField }">
+                                                        <aura:iteration items="{!v.InputPicklistTipoDoc}" var="option">
+                                                            <option text="{!option.label}" value="{!option.value}"
+                                                                selected="{!option.selected}" />
+                                                        </aura:iteration>
+                                                    </lightning:select>
+                                                </lightning:layoutItem>
+                                                <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12" mediumDeviceSize="4" largeDeviceSize="4" padding="horizontal-small">
+                                                    <lightning:input name="contact_numDoc" id="contact_numDoc"
+                                                        aura:id="contact_numDoc" label="{! $Label.c.WGC_CreateAccount_Modal_Body_Numero_documento}"
+                                                        onblur="{! c.verifyAllField }" class="customRequired"
+                                                        value="{! v.contactDI.NumeroDoc__c }" />
+                                                </lightning:layoutItem>
+                                                <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12" mediumDeviceSize="4" largeDeviceSize="4" padding="horizontal-small">
+                                                    <lightning:input name="contact_luogoEmissione" id="contact_luogoEmissione"
+                                                        aura:id="contact_luogoEmissione" label="{! $Label.c.WGC_CreateAccount_Modal_Body_Luogo_emissione}"
+                                                        class="customRequired" onblur="{! c.verifyAllField }"
+                                                        value="{! v.contactDI.LuogoEmissioneDoc__c }" />
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                            <lightning:layout multipleRows="true" pullToBoundary="small">
+                                                <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="6" padding="horizontal-small">
+                                                    <lightning:input type="date" name="contact_dataEmissione"
+                                                        id="contact_dataEmissione" aura:id="contact_dataEmissione"
+                                                        required="true" label="{! $Label.c.WGC_CreateAccount_Modal_Body_Data_emissione}"
+                                                        value="{! v.contactDI.DataEmissioneDoc__c }" min="1900-01-01"
+                                                        max="2040-12-31" onblur="{! c.verifyAllField }" />
+                                                </lightning:layoutItem>
+                                                <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="6" padding="horizontal-small">
+                                                    <lightning:input type="date" name="contact_dataScadenza"
+                                                        id="contact_dataScadenza" aura:id="contact_dataScadenza" required="true"
+                                                        label="{! $Label.c.WGC_CreateAccount_Modal_Body_Data_scadenza}" value="{! v.contactDI.DataScadenzaDoc__c }"
+                                                        min="1900-01-01" max="2040-12-31" onblur="{! c.verifyAllField }" />
+                                                </lightning:layoutItem>
+                                                <!-- <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12" mediumDeviceSize="4" largeDeviceSize="4" padding="horizontal-small">
+                                                    <lightning:input name="contact_enteEmittente" id="contact_enteEmittente"
+                                                        aura:id="contact_enteEmittente" label="{! $Label.c.WGC_CreateAccount_Modal_Body_Ente_emittente}"
+                                                        class=""
+                                                        value="{! v.contactDI.EnteEmitettenteDocumento__c }"
+                                                        onblur="{! c.verifyAllField }" />
+                                                </lightning:layoutItem> -->
+                                            </lightning:layout>
+                                            <hr />
+                                </aura:if>
+                    </lightning:layoutItem>
+                </lightning:layout>                    
+            </aura:if>
+
+        </ui:scrollerWrapper>
+    </div>
+
+    <!-- INSERT CUSTOM CONTENT HERE -->
+
+</aura:component>

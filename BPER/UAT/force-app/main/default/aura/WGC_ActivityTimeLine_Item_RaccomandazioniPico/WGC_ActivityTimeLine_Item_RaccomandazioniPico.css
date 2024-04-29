@@ -1,0 +1,76 @@
+.THIS .slds-timeline__item_expandable:before {
+    left: 16px;
+}
+
+.THIS .slds-timeline__item_task:before {
+    background-color:#E7806F;
+}
+
+/* .THIS .IsArchived .slds-icon-standard-task {
+    background-color: #676363;
+}
+
+.THIS .slds-timeline__item_expandable.slds-timeline__item_task.IsArchived:Before {
+    background: #676363;
+} */
+
+.THIS hr {
+    margin: 2px 0 2px 0;
+}
+
+.THIS .text-macro-esito {
+    text-align: right;
+    margin-right: 20px;
+}
+
+.THIS .dot{
+    position: relative;
+}
+
+.THIS .green{
+    /* position: absolute;
+    right: 0; */
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color:#49c642;
+    box-shadow: 0 0 5px 1px rgb(194, 194, 194);
+}
+
+.THIS .red{
+    /* position: absolute;
+    right: 0; */
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color:#C30217;
+    box-shadow: 0 0 5px 1px rgb(194, 194, 194);
+
+}
+
+.THIS .grey{
+    /* position: absolute;
+    right: 0; */
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color:#808080;
+    box-shadow: 0 0 5px 1px rgb(194, 194, 194);
+}
+
+.THIS .blu{
+    /* position: absolute;
+    right: 0; */
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color:#40409b;
+    box-shadow: 0 0 5px 1px rgb(194, 194, 194);
+}
+
+.THIS .supportObj{
+    position: absolute;
+    z-index: 100;
+    left: 20px;
+    top: 34px;
+}

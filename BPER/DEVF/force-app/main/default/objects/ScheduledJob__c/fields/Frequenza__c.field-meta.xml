@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Frequenza__c</fullName>
+    <externalId>false</externalId>
+    <label>Frequenza</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Giornaliera</fullName>
+                <default>false</default>
+                <label>Giornaliera</label>
+            </value>
+            <value>
+                <fullName>Settimanale</fullName>
+                <default>false</default>
+                <label>Settimanale</label>
+            </value>
+            <value>
+                <fullName>Mensile</fullName>
+                <default>false</default>
+                <label>Mensile</label>
+            </value>
+            <value>
+                <fullName>Annuale</fullName>
+                <default>false</default>
+                <label>Annuale</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

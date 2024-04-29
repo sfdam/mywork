@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_TypeofOperation__c</fullName>
+    <externalId>false</externalId>
+    <label>Type of Operation</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Contact variations</fullName>
+                <default>false</default>
+                <label>Contact variations</label>
+            </value>
+            <value>
+                <fullName>User activation</fullName>
+                <default>false</default>
+                <label>User activation</label>
+            </value>
+            <value>
+                <fullName>Password activation</fullName>
+                <default>false</default>
+                <label>Password activation</label>
+            </value>
+            <value>
+                <fullName>Products linked</fullName>
+                <default>false</default>
+                <label>Products linked</label>
+            </value>
+            <value>
+                <fullName>User extintion</fullName>
+                <default>false</default>
+                <label>User extintion</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,43 @@
+<aura:component  implements="force:lightningQuickAction,lightning:actionOverride,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" 
+                access="global" controller="TXT_OpportunityApprovalCompController">
+
+     <aura:attribute name="iconName" type="String" description="Definisce l'icona tra le standard"/>
+     <aura:attribute name="title" type="String" default="" description="Title from Container Card"/>
+
+     <aura:attribute name="recordId" type="String" />
+     <aura:attribute name="selectedUser" type="Object" />
+     <aura:attribute name="userInfo" type="User" default="{'sobjectType':'User'}" />   
+
+    <lightning:overlayLibrary aura:id="overlayLib" />
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+
+    <lightning:card>
+          <aura:set attribute="title">
+               <!-- with container -->
+               <lightning:layout multipleRows="false">
+                    <lightning:layoutItem size="10" smallDeviceSize="10" mediumDeviceSize="10" largeDeviceSize="10">
+                         <lightning:icon iconName="{! 'utility:' + v.iconName }" size="small" variant="slds-icon-inverse" />
+                         <div class="title">{! v.title }</div>                 
+                    </lightning:layoutItem>
+               </lightning:layout>
+          </aura:set>
+          <lightning:layout>
+               <lightning:layoutItem size="12" padding="around-small">
+                              <c:SV_CustomLookup  objectAPIName="User" 
+                                                  IconName="standard:user"  
+                                                  label="{! $Label.c.TXT_OpportunityApprovalComponent_Search}"  
+                                                  selectedRecord="{!v.selectedUser}" 
+                                                  returnFields="{! 'Id, Name, FirstName, LastName ' }"  
+                                                  showField="{! 'Name' }" 
+                                                  soqlSearch= 'true' 
+                                                  whereCondition = "{! '###LastName###  AND Societa__c =\'' + v.userInfo.Societa__c + '\' ' }"
+                                                  disabled='false' />
+               </lightning:layoutItem>
+          </lightning:layout>
+          <lightning:layout >
+               <lightning:layoutItem size="12" padding="around-small" class="slds-text-align_center">
+                    <lightning:button label="{! $Label.c.TXT_OpportunityApprovalComponent_Change}" title="approve" onclick="{! c.onclick }"/> 
+               </lightning:layoutItem>
+          </lightning:layout>
+     </lightning:card>
+</aura:component>

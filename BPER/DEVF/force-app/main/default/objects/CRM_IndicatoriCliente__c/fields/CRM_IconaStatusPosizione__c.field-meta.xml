@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_IconaStatusPosizione__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF (
+TEXT(CRM_StatusPosizione__c) = &apos;Giallo&apos;,
+IMAGE(&apos;/resource/yellowCircle_small&apos;, &quot;Yellow&quot;,18,18),
+IF (
+TEXT(CRM_StatusPosizione__c) = &apos;Grigio&apos;,
+IMAGE(&apos;/resource/greyCircle_small&apos;, &quot;Grey&quot;,18,18),
+IF (
+TEXT(CRM_StatusPosizione__c) = &apos;Nero&apos;,
+IMAGE(&apos;/resource/blackCircle_small&apos;, &quot;Black&quot;,18,18),
+IF (
+TEXT(CRM_StatusPosizione__c) = &apos;Rosso&apos;,
+IMAGE(&apos;/resource/redCircle_small&apos;, &quot;Red&quot;,18,18),
+IF (
+TEXT(CRM_StatusPosizione__c) = &apos;Verde&apos;,
+IMAGE(&apos;/resource/greenCircle_small&apos;, &quot;Green&quot;,18,18),
+IF (
+TEXT(CRM_StatusPosizione__c) = &apos;Viola&apos;,
+IMAGE(&apos;/resource/violetCircle_small&apos;, &quot;Violet&quot;,18,18),
+IF (
+TEXT(CRM_StatusPosizione__c) = &apos;Rosso Scuro&apos;,
+IMAGE(&apos;/resource/darkredCircle_small&apos;, &quot;Dark Red&quot;,18,18),
+IF (
+TEXT(CRM_StatusPosizione__c) = &apos;Arancio&apos;,
+IMAGE(&apos;/resource/orangeCircle_small&apos;, &quot;Orange&quot;,18,18),
+IF (
+TEXT(CRM_StatusPosizione__c) = &apos;Arancio Scuro&apos;,
+IMAGE(&apos;/resource/darkorangeCircle_small&apos;, &quot;Dark Orange&quot;,18,18),
+NULL
+)
+)
+)
+)
+)
+)
+)
+)
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Icona status posizione</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

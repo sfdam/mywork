@@ -1,0 +1,237 @@
+<aura:component implements="lightning:availableForFlowScreens" access="global">  
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/> 
+    
+    <aura:attribute name="opzioniNaturaGiuridica" type="List" default="[
+	{'label': 'Ditta Individuale', 'value': 'DI'},
+    {'label': 'Società Anonima', 'value': 'AAA'},
+    {'label': 'Società Cooperativa', 'value': 'COOP'},
+    {'label': 'Società Consortile per Azioni', 'value': 'CSPA'},
+    {'label': 'Società Sociale', 'value': 'OO'},
+    {'label': 'Società in Accomandita Semplice', 'value': 'SAS'},
+    {'label': 'Soc. Cooperativa Consortile A Resp. Lim.', 'value': 'SCCRL'},
+    {'label': 'Società Consortile Per Azioni', 'value': 'SCOA'},
+    {'label': 'Società di Fatto', 'value': 'SDF'},
+    {'label': 'Società In Nome Collettivo', 'value': 'SNC'},
+    {'label': 'Società Per Azioni', 'value': 'SPA'},
+    {'label': 'Societa Per Azioni A Socio Unico', 'value': 'SPAU'},
+    {'label': 'Società a Responsabilità Limitata', 'value': 'SRL'},
+    {'label': 'Società a Responsabilità Limitata Semplificata', 'value': 'SRLS'},
+    {'label': 'Società a Resp. Lim. Unipersonale', 'value': 'SRLU'},
+    {'label': 'Società Semplice', 'value': 'SS'},
+    ]"/>
+
+    <aura:attribute name="opzioniProvincia" type="List" default="[
+	  {'label': 'Agrigento','value': 'AG'},
+	  {'label': 'Alessandria','value': 'AL'},
+	  {'label': 'Ancona','value': 'AN'},
+	  {'label': 'Aosta','value': 'AO'},
+	  {'label': 'Arezzo','value': 'AR'},
+	  {'label': 'Ascoli Piceno','value': 'AP'},
+	  {'label': 'Asti','value': 'AT'},
+	  {'label': 'Avellino','value': 'AV'},
+	  {'label': 'Bari','value': 'BA'},
+	  {'label': 'Barletta-Andria-Trani','value': 'BT'},
+	  {'label': 'Belluno','value': 'BL'},
+	  {'label': 'Benevento','value': 'BN'},
+	  {'label': 'Bergamo','value': 'BG'},
+	  {'label': 'Biella','value': 'BI'},
+	  {'label': 'Bologna','value': 'BO'},
+	  {'label': 'Bolzano','value': 'BZ'},
+	  {'label': 'Brescia','value': 'BS'},
+	  {'label': 'Brindisi','value': 'BR'},
+	  {'label': 'Cagliari','value': 'CA'},
+	  {'label': 'Caltanissetta','value': 'CL'},
+	  {'label': 'Campobasso','value': 'CB'},
+	  {'label': 'Caserta','value': 'CE'},
+	  {'label': 'Catania','value': 'CT'},
+	  {'label': 'Catanzaro','value': 'CZ'},
+	  {'label': 'Chieti','value': 'CH'},
+	  {'label': 'Como','value': 'CO'},
+	  {'label': 'Cosenza','value': 'CS'},
+	  {'label': 'Cremona','value': 'CR'},
+	  {'label': 'Crotone','value': 'KR'},
+	  {'label': 'Cuneo','value': 'CN'},
+	  {'label': 'Enna','value': 'EN'},
+	  {'label': 'Fermo','value': 'FM'},
+	  {'label': 'Ferrara','value': 'FE'},
+	  {'label': 'Firenze','value': 'FI'},
+	  {'label': 'Foggia','value': 'FG'},
+	  {'label': 'Forlì-Cesena','value': 'FC'},
+	  {'label': 'Frosinone','value': 'FR'},
+	  {'label': 'Genova','value': 'GE'},
+	  {'label': 'Gorizia','value': 'GO'},
+	  {'label': 'Grosseto','value': 'GR'},
+	  {'label': 'Imperia','value': 'IM'},
+	  {'label': 'Isernia','value': 'IS'},
+	  {'label': 'L\'Aquila','value': 'AQ'},
+	  {'label': 'La Spezia','value': 'SP'},
+	  {'label': 'Latina','value': 'LT'},
+	  {'label': 'Lecce','value': 'LE'},
+	  {'label': 'Lecco','value': 'LC'},
+	  {'label': 'Livorno','value': 'LI'},
+	  {'label': 'Lodi','value': 'LO'},
+	  {'label': 'Lucca','value': 'LU'},
+	  {'label': 'Macerata','value': 'MC'},
+	  {'label': 'Mantova','value': 'MN'},
+	  {'label': 'Massa-Carrara','value': 'MS'},
+	  {'label': 'Matera','value': 'MT'},
+	  {'label': 'Messina','value': 'ME'},
+	  {'label': 'Milano','value': 'MI'},
+	  {'label': 'Modena','value': 'MO'},
+	  {'label': 'Monza e della Brianza','value': 'MB'},
+	  {'label': 'Napoli','value': 'NA'},
+	  {'label': 'Novara','value': 'NO'},
+	  {'label': 'Nuoro','value': 'NU'},
+	  {'label': 'Oristano','value': 'OR'},
+	  {'label': 'Padova','value': 'PD'},
+	  {'label': 'Palermo','value': 'PA'},
+	  {'label': 'Parma','value': 'PR'},
+	  {'label': 'Pavia','value': 'PV'},
+	  {'label': 'Perugia','value': 'PG'},
+	  {'label': 'Pesaro e Urbino','value': 'PU'},
+	  {'label': 'Pescara','value': 'PE'},
+	  {'label': 'Piacenza','value': 'PC'},
+	  {'label': 'Pisa','value': 'PI'},
+	  {'label': 'Pistoia','value': 'PT'},
+	  {'label': 'Pordenone','value': 'PN'},
+	  {'label': 'Potenza','value': 'PZ'},
+	  {'label': 'Prato','value': 'PO'},
+	  {'label': 'Ragusa','value': 'RG'},
+	  {'label': 'Ravenna','value': 'RA'},
+	  {'label': 'Reggio Calabria','value': 'RC'},
+	  {'label': 'Reggio Emilia','value': 'RE'},
+	  {'label': 'Rieti','value': 'RI'},
+	  {'label': 'Rimini','value': 'RN'},
+	  {'label': 'Roma','value': 'RM'},
+	  {'label': 'Rovigo','value': 'RO'},
+	  {'label': 'Salerno','value': 'SA'},
+	  {'label': 'Sassari','value': 'SS'},
+	  {'label': 'Savona','value': 'SV'},
+	  {'label': 'Siena','value': 'SI'},
+	  {'label': 'Siracusa','value': 'SR'},
+	  {'label': 'Sondrio','value': 'SO'},
+	  {'label': 'Sud Sardegna','value': 'SU'},
+	  {'label': 'Taranto','value': 'TA'},
+	  {'label': 'Teramo','value': 'TE'},
+	  {'label': 'Terni','value': 'TR'},
+	  {'label': 'Torino','value': 'TO'},
+	  {'label': 'Trapani','value': 'TP'},
+	  {'label': 'Trento','value': 'TN'},
+	  {'label': 'Treviso','value': 'TV'},
+	  {'label': 'Trieste','value': 'TS'},
+	  {'label': 'Udine','value': 'UD'},
+	  {'label': 'Varese','value': 'VA'},
+	  {'label': 'Venezia','value': 'VE'},
+	  {'label': 'Verbano-Cusio-Ossola','value': 'VB'},
+	  {'label': 'Vercelli','value': 'VC'},
+	  {'label': 'Verona','value': 'VR'},
+	  {'label': 'Vibo Valentia','value': 'VV'},
+	  {'label': 'Vicenza','value': 'VI'},
+	  {'label': 'Viterbo','value': 'VT'},
+	  ]"/>
+
+    <aura:attribute name="opzioniTipoIndirizzo" type="List" default="[ 
+	{'label': 'CALLE', 'value': 'CALLE'}, 
+	{'label': 'CAMPO', 'value': 'CAMPO'}, 
+	{'label': 'CONTR', 'value': 'CONTR'}, 
+	{'label': 'CORSO', 'value': 'CORSO'}, 
+	{'label': 'LARGO', 'value': 'LARGO'}, 
+	{'label': 'P.ZZA', 'value': 'P.ZZA'}, 
+	{'label': 'STR',   'value': 'STR'},    
+	{'label': 'VIA',   'value': 'VIA'},   
+	{'label': 'VIALE', 'value': 'VIALE'}, 
+	{'label': 'VIC.',  'value': 'VIC.'},  
+	{'label': 'Z.I.',  'value': 'Z.I.'},  
+    ]"/>
+
+    <aura:attribute name="workflowRecordCandidatoID" type="String"/>
+    <aura:attribute name="workflowRecordCandidatoNEXT" type="WorkflowSegnalatori__c"/>
+    <aura:attribute name="workflowRecordCandidato" type="WorkflowSegnalatori__c"/>
+    <aura:attribute name="workflowRecordCandidatoERROR" type="String"/>
+    
+    <force:recordData aura:id="flowRecordHandlerWorkflowCandidatoId"
+                      recordId="{!v.workflowRecordCandidatoID}"
+                      fields="Stato__c,Ragione_Sociale__c,PartitaIVA__c"
+                      targetFields="{!v.workflowRecordCandidato}"
+                      targetError="{!v.workflowRecordCandidatoERROR}"
+                      recordUpdated="{!c.handleRecordUpdated}"
+                      targetRecord="{!v.workflowRecordCandidatoNEXT}"
+                      mode="EDIT"                      
+                      />    
+       
+    <c:BI_PSE_FlowPath_LCOM selectedPathValue="0"/>
+    
+    <!-- Display Lightning Data Service errors, if any -->
+    <aura:if isTrue="{!not(empty(v.workflowRecordCandidatoERROR))}">
+        <ui:message class="errorMessage" title="Errore" severity="error" closable="true">{!v.workflowRecordCandidatoERROR}</ui:message>
+    </aura:if>
+    
+    <lightning:card variant="Narrow" title="Anagrafica (1/2) - Azienda" iconName="standard:record" />
+    
+    <hr style="margin-top:1px;margin-bottom:10px;"/>
+
+    <lightning:card variant="Narrow" title="DATI PRINCIPALI" iconName="standard:account">
+        <p class="slds-p-horizontal_small">
+            <div class="slds-grid slds-wrap">        
+                <div class="slds-size_4-of-4">
+                    <div class="slds-m-around_x-small"><lightning:input aura:id="flowInputAnagraficaRagioneSocialeInputId" label="Ragione Sociale" name="flowInputAnagraficaRagioneSocialeInput" required="false" value="{!v.workflowRecordCandidato.Ragione_Sociale__c}" disabled="true" /></div>
+                </div>
+                <div class="slds-size_2-of-4">
+                    <div class="slds-m-around_x-small"><lightning:input aura:id="flowInputAnagraficaPartitaIvaInputId" label="Partita Iva" name="flowInputAnagraficaPartitaIvaInput" required="false" value="{!v.workflowRecordCandidato.PartitaIVA__c}" disabled="true" /></div>
+                </div>
+                <div class="slds-size_2-of-4">
+                    <div class="slds-m-around_x-small"><lightning:input aura:id="flowInputAnagraficaCodiceFiscaleInputId" label="Codice Fiscale" name="flowInputAnagraficaCodiceFiscaleInput" required="false" value="{!v.workflowRecordCandidato.PartitaIVA__c}" disabled="true" /></div>
+                </div>
+				<!--
+                <div class="slds-size_2-of-4">
+                    <div class="slds-m-around_x-small"><lightning:combobox label= "Provincia CCIAA" required="false" aura:id="flowInputAnagraficaCCIAAInputId" name="flowInputAnagraficaCCIAAInput" value="{!v.workflowRecordCandidato.ProvinciaCCIAA__c}" placeholder="Seleziona una provincia" options="{!v.opzioniProvincia}" onchange="{! c.handleComboProvinciaCCIAAChange }" /></div>
+                </div>    
+                <div class="slds-size_2-of-4">
+                    <div class="slds-m-around_x-small"><lightning:input aura:id="flowInputAnagraficaREAInputId" label="REA N." name="flowInputAnagraficaREAInput" required="false" value="{!v.workflowRecordCandidato.REA__c}" maxlength="10" /></div>
+                </div>  
+                <div class="slds-size_1-of-4">
+                    <div class="slds-m-around_x-small"><lightning:combobox label= "Natura Giuridica" required="false" aura:id="flowInputAnagraficaNaturaGiuridicaInputId" name="flowInputAnagraficaNaturaGiuridicaInput" value="{!v.workflowRecordCandidato.Natura_Giuridica__c}" placeholder="Seleziona una natura giuridica" options="{!v.opzioniNaturaGiuridica}" onchange="{! c.handleComboNaturaGiuridicaChange }" /></div>
+                </div> 
+                <div class="slds-size_1-of-4">
+                    <div class="slds-m-around_x-small"><lightning:input aura:id="flowInputAnagraficaSaeInputId" type="number" label="SAE" name="flowInputAnagraficaSaeInput" required="false" value="{!v.workflowRecordCandidato.SAE__c}" max="999" min="100"/></div>
+                </div>          
+                <div class="slds-size_1-of-4">
+                    <div class="slds-m-around_x-small"><lightning:input aura:id="flowInputAnagraficaRaeInputId" type="number" label="RAE" name="flowInputAnagraficaRaeInput" required="false" value="{!v.workflowRecordCandidato.RAE__c}" max="999" min="1"/></div>
+                </div>    
+                <div class="slds-size_1-of-4">
+                    <div class="slds-m-around_x-small"><lightning:input aura:id="flowInputAnagraficaAtecoInputId" label="ATECO" name="flowInputAnagraficaAtecoInput" required="false" value="{!v.workflowRecordCandidato.ATECO__c}"  maxlength="8" pattern="[0-9]{1,2}.[0-9]{1,2}(.[0-9]{1,2})?"/></div>
+                </div>              
+				-->   
+            </div>
+        </p>
+    </lightning:card>
+    <!--
+    <lightning:card variant="Narrow" title="SEDE LEGALE" iconName="standard:address">
+        <p class="slds-p-horizontal_small">
+            <div class="slds-grid slds-wrap">       
+                <div class="slds-size_1-of-6">
+                    <div class="slds-m-around_x-small"><lightning:combobox label= "Tipo Indirizzo" required="false" aura:id="flowInputAnagraficaTipoViaLegaleInputId" name="flowInputAnagraficaTipoViaLegaleInput" value="{!v.workflowRecordCandidato.TipoViaLegale__c}" placeholder="Seleziona un tipo indirizzo" options="{!v.opzioniTipoIndirizzo}" onchange="{! c.handleComboTipoIndirizzoChange }" /></div>
+                </div>   
+                <div class="slds-size_1-of-6">
+                    <div class="slds-m-around_x-small"><lightning:input label="Indirizzo" aura:id="flowInputAnagraficaViaLegaleInputId" name="flowInputAnagraficaViaLegaleInputCpd" required="false" value="{!v.workflowRecordCandidato.IndirizzoLegale__c}" maxlength="24" /></div>
+                </div>      
+                <div class="slds-size_1-of-6">
+                    <div class="slds-m-around_x-small"><lightning:input label="Civico" aura:id="flowInputAnagraficaCivicoLegaleInputId" name="flowInputAnagraficaCivicoLegaleInputCpd" required="false" value="{!v.workflowRecordCandidato.CivicoLegale__c}" maxlength="6" /></div>
+                </div>    
+                <div class="slds-size_1-of-6">
+                    <div class="slds-m-around_x-small"><lightning:input label="Città" aura:id="flowInputAnagraficaCittaLegaleInputId" name="flowInputAnagraficaCittaLegaleInput" required="false" value="{!v.workflowRecordCandidato.CittaLegale__c}"  maxlength="24" /></div>
+                </div>   
+                <div class="slds-size_1-of-6">
+                    <div class="slds-m-around_x-small"><lightning:input label="CAP" aura:id="flowInputAnagraficaCapLegaleInputId" name="flowInputAnagraficaCapLegaleInput" required="false" value="{!v.workflowRecordCandidato.CapLegale__c}"  maxlength="5" /></div>
+                </div>   
+                <div class="slds-size_1-of-6">
+                    <div class="slds-m-around_x-small"><lightning:combobox label= "Provincia" required="false" aura:id="flowInputAnagraficaProvinciaLegaleInputId" name="flowInputAnagraficaProvinciaLegaleInput" value="{!v.workflowRecordCandidato.ProvinciaLegale__c}" placeholder="Seleziona una provincia" options="{!v.opzioniProvincia}" /></div>
+                </div>    
+            </div>
+        </p>
+    </lightning:card>    
+    -->
+    <c:bifis_crm_c_CommonFlowNavigator availableActions="{!v.availableActions}" navigateFlowEvent="{!c.handleNavigate}"/>    
+    
+</aura:component>

@@ -1,0 +1,78 @@
+<apex:page showHeader="false" controller="ExternalRoutingController">
+	<head>
+  		<apex:slds /> 
+	</head>
+    <body>
+        <!-- This script takes the endpoint URL parameter passed from the deployment page and makes it the action for the form -->
+        <script type='text/javascript'> 
+            (function () {
+                function handlePageLoad() {
+                    var endpointMatcher = new RegExp("[\\?\\&]endpoint=([^&#]*)");
+                    document.getElementById('prechatForm').setAttribute('action',
+                        decodeURIComponent(endpointMatcher.exec(document.location.search)[1].replace("javascript:", "")));
+                } if (window.addEventListener) {
+                    window.addEventListener('load', handlePageLoad, false);
+                } else {
+                    window.attachEvent('onload', handlePageLoad, false);
+                }
+            })();  
+        </script>
+		
+        <div class="slds-box">
+            <h1 class="slds-text-heading--small slds-m-bottom--medium">Live Agent Pre-Chat Form</h1>
+            
+            <!-- Form that gathers information from the chat visitor and sets the values to Live Agent Custom Details used later in the example -->
+            <form method='post' id='prechatForm'>
+                <div class="slds-form-element">
+                    <span class="slds-form-element__label">First name: </span>
+                    <div class="slds-form-element__control">
+                        <input type='text' name='liveagent.prechat:ContactFirstName' id='firstName' class="slds-input" />
+                    </div>
+                </div>
+                <div class="slds-form-element">
+                    <span class="slds-form-element__label">Last name: </span>
+                    <div class="slds-form-element__control">
+                        <input type='text' name='liveagent.prechat:ContactLastName' id='lastName' class="slds-input" />
+                    </div>
+                </div>
+                    
+                <input type="hidden" name="liveagent.prechat:prechatid" id="prechat_id" value=""/>
+                <input type="hidden" name="liveagent.prechat.save:prechatid" value="softphoneerc__IWS_PreChat_Id__c" />
+                
+                <input type="hidden" name="liveagent.prechat:customername" id="customer_name" value=""/>
+                <input type="hidden" name="liveagent.prechat.save:customername" value="softphoneerc__IWS_Customer_Name__c" />
+                
+                <br /><br /><br />
+                <div class="slds-media">
+                    <div class="slds-media__body">
+                        <div class="slds-button-group slds-m-top--small" role="group">
+                            <input type="button" value='Chat Now' id='prechat_submit' class="slds-button slds-button_brand" />
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Set the visitor's name for the agent in the Console to first and last name provided by the customer -->
+                <script type="text/javascript">
+                    var id = new Date().getTime();
+                    document.getElementById("prechat_id").value = id;        
+                    var form = document.getElementById("prechatForm");
+                    document.getElementById("prechat_submit").addEventListener("click", function () {
+                        let firstName = document.getElementById("firstName").value;
+                        let lastName = document.getElementById("lastName").value;
+                        var customerName =  firstName + " " + lastName;
+                        document.getElementById("customer_name").value = customerName;    
+                        //Commen the Task Creation for omni flow use case
+                        ExternalRoutingController.createTask(id, customerName , res => console.log("response from publish : ", res));
+                        form.submit();        
+                        
+                    });
+                </script>
+                <style type="text/css">
+                    p {
+                    font-weight: bolder
+                    }
+                </style>
+            </form>
+        </div>
+    </body>
+</apex:page>

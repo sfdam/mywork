@@ -1,0 +1,181 @@
+<aura:component implements="lightning:availableForFlowScreens" access="global">  
+	
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/> 
+
+    <aura:attribute name="workflowRecordCandidatoID" type="String"/>
+    <aura:attribute name="workflowRecordCandidatoNEXT" type="WorkflowMutui__c"/>
+    <aura:attribute name="workflowRecordCandidato" type="WorkflowMutui__c"/>
+    <aura:attribute name="workflowRecordCandidatoERROR" type="String"/>
+
+    <force:recordData aura:id="flowRecordHandlerWorkflowCandidatoId"
+                      recordId="{!v.workflowRecordCandidatoID}"
+                      layoutType="FULL"
+                      targetFields="{!v.workflowRecordCandidato}"
+                      targetError="{!v.workflowRecordCandidatoERROR}"
+                      recordUpdated="{!c.handleRecordUpdated}"
+                      targetRecord="{!v.workflowRecordCandidatoNEXT}"
+                      mode="EDIT"                      
+                      />    
+    
+    <c:bifis_crm_c_MccNsaFlowPath selectedPathValue="4"/>
+
+    <c:bifis_crm_c_CommonFlowNavigator availableActions="{!v.availableActions}" navigateFlowEvent="{!c.handleNavigate}"/>
+    
+    <!-- Display Lightning Data Service errors, if any -->
+    <aura:if isTrue="{!not(empty(v.workflowRecordCandidatoERROR))}">
+        <ui:message title="Errore" severity="error" closable="true">{!v.workflowRecordCandidatoERROR}</ui:message>
+    </aura:if>
+    
+	<lightning:card variant="Narrow" title="Indicare le scelte relative all'adeguata verifica" iconName="standard:record" />
+
+    <hr style="margin-top:1px;margin-bottom:1px;"/>
+	
+    <lightning:card variant="Narrow" title="NATURA DEL RAPPORTO CONTINUATIVO" iconName="standard:product_required">
+        <p class="slds-p-horizontal_small">
+            <div class="slds-grid slds-wrap"> 
+                <div class="slds-size_4-of-4">
+                    <div class="slds-m-around_x-small"><lightning:input aura:id="flowInputNaturaRapportoInputId" name="flowInputNaturaRapportoInput" required="false" value="{!v.workflowRecordCandidato.MAV_Natura_Rapporto__c}" maxlength="255" disabled="false" /></div>
+                </div>     
+            </div>
+        </p>
+    </lightning:card>
+    
+    <lightning:card variant="Narrow" title="SCOPO DEL RAPPORTO CONTINUATIVO" iconName="standard:product_required">
+        <p class="slds-p-horizontal_small">
+            
+            <div class="slds-grid slds-gutters slds-border_bottom">
+              <div class="slds-col slds-size_3-of-4">
+                <div class="slds-m-around_small">Gestione tesorerie aziendali</div>
+              </div>
+              <div class="slds-col slds-size_1-of-4">
+                <div class="slds-m-around_small"><lightning:input aura:id="flowInputMavTesorerieToggleId" type="toggle" name="flowInputMavTesorerieToggle" checked="{!v.workflowRecordCandidato.MAV_Tesorerie__c}" /></div>
+              </div>
+            </div>
+            
+            <div class="slds-grid slds-gutters slds-border_bottom">
+              <div class="slds-col slds-size_3-of-4">
+                <div class="slds-m-around_small">Affidamenti Concessi</div>
+              </div>
+              <div class="slds-col slds-size_1-of-4">
+                <div class="slds-m-around_small"><lightning:input aura:id="flowInputMavAffidamentiToggleId" type="toggle" name="flowInputMavAffidamentiToggle" checked="{!v.workflowRecordCandidato.MAV_Affidamenti__c}" /></div>
+              </div>
+            </div>            
+            
+            <div class="slds-grid slds-gutters slds-border_bottom">
+              <div class="slds-col slds-size_3-of-4">
+                <div class="slds-m-around_small">Attività di Investimento</div>
+              </div>
+              <div class="slds-col slds-size_1-of-4">
+                <div class="slds-m-around_small"><lightning:input aura:id="flowInputMavInvestimentoToggleId" type="toggle" name="flowInputMavInvestimentoToggle" checked="{!v.workflowRecordCandidato.MAV_Investimento__c}" /></div>
+              </div>
+            </div>   
+            
+            <div class="slds-grid slds-gutters slds-border_bottom">
+              <div class="slds-col slds-size_3-of-4">
+                <div class="slds-m-around_small">Gestione inc/pag. az. - cc su basi attive</div>
+              </div>
+              <div class="slds-col slds-size_1-of-4">
+                <div class="slds-m-around_small"><lightning:input aura:id="flowInputMavIncassiPagamentiToggleId" type="toggle" name="flowInputMavIncassiPagamentiToggle" checked="{!v.workflowRecordCandidato.MAV_Incassi_Pagamenti__c}" /></div>
+              </div>
+            </div>              
+            
+            <div class="slds-grid slds-gutters slds-border_bottom">
+              <div class="slds-col slds-size_3-of-4">
+                <div class="slds-m-around_small">Smobilizzo crediti commerciali Italia</div>
+              </div>
+              <div class="slds-col slds-size_1-of-4">
+                <div class="slds-m-around_small"><lightning:input aura:id="flowInputMavSmobilizzoItaliaToggleId" type="toggle" name="flowInputMavSmobilizzoItaliaToggle" checked="{!v.workflowRecordCandidato.MAV_Smobilizzo_Italia__c}" /></div>
+              </div>
+            </div> 
+            
+            <div class="slds-grid slds-gutters slds-border_bottom">
+              <div class="slds-col slds-size_3-of-4">
+                <div class="slds-m-around_small">Gestione stipendi dei dipendenti</div>
+              </div>
+              <div class="slds-col slds-size_1-of-4">
+                <div class="slds-m-around_small"><lightning:input aura:id="flowInputMavStipendiToggleId" type="toggle" name="flowInputMavStipendiToggle" checked="{!v.workflowRecordCandidato.MAV_Stipendi__c}" /></div>
+              </div>
+            </div> 
+            
+            <div class="slds-grid slds-gutters slds-border_bottom">
+              <div class="slds-col slds-size_3-of-4">
+                <div class="slds-m-around_small">Gestione fornitori</div>
+              </div>
+              <div class="slds-col slds-size_1-of-4">
+                <div class="slds-m-around_small"><lightning:input aura:id="flowInputMavFornitoriToggleId" type="toggle" name="flowInputMavFornitoriToggle" checked="{!v.workflowRecordCandidato.MAV_Fornitori__c}" /></div>
+              </div>
+            </div> 
+            
+            <div class="slds-grid slds-gutters slds-border_bottom">
+              <div class="slds-col slds-size_3-of-4">
+                <div class="slds-m-around_small">Smobilizzo crediti commerciali Estero</div>
+              </div>
+              <div class="slds-col slds-size_1-of-4">
+                <div class="slds-m-around_small"><lightning:input aura:id="flowInputMavSmobilizzoEsteroToggleId" type="toggle" name="flowInputMavSmobilizzoEsteroToggle" checked="{!v.workflowRecordCandidato.MAV_Smobilizzo_Estero__c}" /></div>
+              </div>
+            </div> 
+            
+            <div class="slds-grid slds-gutters slds-border_bottom">
+              <div class="slds-col slds-size_3-of-4">
+                <div class="slds-m-around_small">Regolamento transazioni da e per Estero</div>
+              </div>
+              <div class="slds-col slds-size_1-of-4">
+                <div class="slds-m-around_small"><lightning:input aura:id="flowInputMavTransazioniEsteroToggleId" type="toggle" name="flowInputMavTransazioniEsteroToggle" checked="{!v.workflowRecordCandidato.MAV_Transazioni_Estero__c}" /></div>
+              </div>
+            </div> 
+            
+        </p>
+    </lightning:card>
+    
+    <lightning:card variant="Narrow" title="ADEGUATA VERIFICA: ORIGINE DEI FONDI" iconName="standard:product_required">
+        <p class="slds-p-horizontal_small">
+            
+            <div class="slds-grid slds-gutters slds-border_bottom">
+              <div class="slds-col slds-size_3-of-4">
+                <div class="slds-m-around_small">Proventi dell'attività d'impresa</div>
+              </div>
+              <div class="slds-col slds-size_1-of-4">
+                <div class="slds-m-around_small"><lightning:input aura:id="flowInputMavProventiToggleId" type="toggle" name="flowInputMavProventiToggle" checked="{!v.workflowRecordCandidato.MAV_Proventi__c}" onchange="{! c.handleMavProventiClick }" /></div>
+              </div>
+            </div>             
+           
+            <div class="slds-grid slds-gutters slds-border_bottom">
+              <div class="slds-col slds-size_3-of-4">
+                <div class="slds-m-around_small">Proventi straordinari</div>
+              </div>
+              <div class="slds-col slds-size_1-of-4">
+                <div class="slds-m-around_small"><lightning:input aura:id="flowInputMavStraordinariToggleId" type="toggle" name="flowInputMavStraordinariToggle" checked="{!v.workflowRecordCandidato.MAV_Straordinari__c}" onchange="{! c.handleMavStraordinariClick }" /></div>
+              </div>
+            </div>           
+           
+            <div class="slds-grid slds-gutters slds-border_bottom">
+              <div class="slds-col slds-size_3-of-4">
+                <div class="slds-m-around_small">Cessione Beni</div>
+              </div>
+              <div class="slds-col slds-size_1-of-4">
+                <div class="slds-m-around_small"><lightning:input aura:id="flowInputMavCessioneToggleId" type="toggle" name="flowInputMavCessioneToggle" checked="{!v.workflowRecordCandidato.MAV_Cessione__c}" onchange="{! c.handleMavCessioneClick }" /></div>
+              </div>
+            </div>  
+           
+            <div class="slds-grid slds-gutters">
+              <div class="slds-col slds-size_3-of-4">
+                <div class="slds-m-around_small">Altro (specificare)</div>
+              </div>
+              <div class="slds-col slds-size_1-of-4">
+                <div class="slds-m-around_small"><lightning:input aura:id="flowInputMavAltroToggleId" type="toggle" name="flowInputMavAltroToggle" checked="{!v.workflowRecordCandidato.MAV_Altro__c}" onchange="{! c.handleMavAltroClick }" /></div>
+              </div>               
+            </div>  
+            
+            <div class="slds-grid slds-gutters slds-border_bottom">
+              <div class="slds-col slds-size_4-of-4">
+                <div class="slds-m-around_small"><lightning:input aura:id="flowInputAltroInputId" name="flowInputAltroInput" required="false" value="{!v.workflowRecordCandidato.MAV_Altro_Descrizione__c}" maxlength="255" disabled="true" /></div>
+              </div>                
+            </div>  
+            
+        </p>
+    </lightning:card>
+    
+    <c:bifis_crm_c_CommonFlowNavigator availableActions="{!v.availableActions}" navigateFlowEvent="{!c.handleNavigate}"/>
+
+    
+</aura:component>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_IsCheckInvestAltPrivatePop__c</fullName>
+    <externalId>false</externalId>
+    <formula>OR (
+CRM_V_PrivateEquity__c,
+CRM_V_RealEstateFondi__c,
+CRM_V_VenutreCapital__c,
+CRM_V_Infrastrutture__c,
+CRM_V_PrivateDebt__c,
+CRM_V_Cartolarizzazioni__c,
+CRM_V_NPL__c,
+CRM_V_Commodity__c,
+CRM_V_RealEstateDiretto__c,
+CRM_V_Arte__c,
+CRM_V_HedgeFund__c,
+CRM_V_InteresseClubDeal__c,
+CRM_V_InteresseIPO__c,
+CRM_V_AcquistoPartAsset__c,
+CRM_V_Criptovalute__c,
+CRM_V_InvestimentiviaToken__c,
+CRM_V_AltroInvesAlternat__c
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Is Check Invest Alter Private popolato</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

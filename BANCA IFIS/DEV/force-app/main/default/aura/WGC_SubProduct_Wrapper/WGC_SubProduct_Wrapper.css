@@ -1,0 +1,23 @@
+.THIS {
+}
+
+.THIS .cstm-subproducts-row:not(:first-child) {
+    border-top: 1px solid #EEE;
+}
+
+.THIS .cstm-subproducts-row-checkbox {
+    padding-top: 30px;
+}
+
+.THIS .cstm-display-block .slds-checkbox_faux_container {
+    display: block;
+}
+
+.THIS .cstm-subproducts-row > .slds-grid > .slds-grow {
+    padding: 0 7px;
+}
+
+.THIS .cstm-subproducts-row .cstm-subproducts-row-selector {
+    padding-top: 28px;
+    padding-left: 8px;
+}

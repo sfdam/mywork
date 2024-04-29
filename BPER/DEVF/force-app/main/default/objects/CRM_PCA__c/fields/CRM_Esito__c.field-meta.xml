@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_Esito__c</fullName>
+    <externalId>false</externalId>
+    <label>Esito</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Da ricontattare</fullName>
+                <default>false</default>
+                <label>Da ricontattare</label>
+            </value>
+            <value>
+                <fullName>Presentazione PCA</fullName>
+                <default>false</default>
+                <label>Presentazione PCA</label>
+            </value>
+            <value>
+                <fullName>Monitoraggio piano</fullName>
+                <default>false</default>
+                <label>Monitoraggio piano</label>
+            </value>
+            <value>
+                <fullName>Revisione piano</fullName>
+                <default>false</default>
+                <label>Revisione piano</label>
+            </value>
+            <value>
+                <fullName>Nuovo piano</fullName>
+                <default>false</default>
+                <label>Nuovo piano</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

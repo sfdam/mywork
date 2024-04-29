@@ -1,0 +1,18 @@
+<template>
+
+    <lightning-card title={title} icon-name={iconName} size="medium" class="c-container">
+        <div style="height:340px;">
+        <template if:true={loadcharts}>
+            <div style="height:310px;">
+                <c-wgc-contatti-visite-completate-chart tipo-filtro={tipoFiltro} filter-value={filterValue} apexmethod="VisiteCompletate;Contatti"> <!-- charttitle={charttitle} -->
+                </c-wgc-contatti-visite-completate-chart>
+            </div>
+            <div class="slds-align_absolute-center">
+                <lightning-button variant="brand" style="padding-right:10px;" label={reportlabel} onclick={handlereport}></lightning-button> <!-- class="custombutton" -->
+                <lightning-button variant="brand" style="padding-left:10px;" label={reportlabel2} onclick={handlereport2}></lightning-button> <!-- class="custombutton2" -->
+            </div>
+        </template>
+    </div>
+    </lightning-card>
+
+</template>

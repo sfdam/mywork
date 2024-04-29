@@ -1,0 +1,108 @@
+<aura:component >
+    
+    <!-- Aura Attribute -->
+    <aura:attribute name='activityType' type='String' default='Task' />
+    <aura:attribute name='itemDetail' type='Object' default='{}' />
+
+
+    <aura:If isTrue="{! v.activityType == 'CRM_AccountDetail__c'}" >
+        <c:WGC_ActivityTimeLine_Item_OFS itemDetail="{! v.itemDetail }" />
+    </aura:If>
+    
+    <aura:If isTrue="{! v.activityType == 'Task'}" >
+        <c:WGC_ActivityTimeLine_Item_Task itemDetail="{! v.itemDetail }" />
+    </aura:If>
+    
+    <aura:If isTrue="{! v.activityType == 'Event'}" >
+         <c:WGC_ActivityTimeLine_Item_Event itemDetail="{! v.itemDetail }" />
+    </aura:If>
+    
+    <aura:If isTrue="{! v.activityType == 'Diario'}" >
+         <c:WGC_ActivityTimeLine_Item_Diario itemDetail="{! v.itemDetail }" />
+    </aura:If>
+
+    <aura:If isTrue="{! v.activityType == 'Promemoria'}" >
+         <c:WGC_ActivityTimeLine_Item_Promemoria itemDetail="{! v.itemDetail }" />
+    </aura:If>
+
+    <aura:If isTrue="{! v.activityType == 'CampaignMember'}" >
+         <c:WGC_ActivityTimeLine_Item_CampaignMember itemDetail="{! v.itemDetail }" />
+    </aura:If>
+
+    <aura:If isTrue="{! v.activityType == 'Opportunity'}" >
+         <c:WGC_ActivityTimeLine_Item_Opportunity itemDetail="{! v.itemDetail }" />
+    </aura:If>
+
+    <aura:If isTrue="{! v.activityType == 'Case'}" >
+         <c:WGC_ActivityTimeLine_Item_Case itemDetail="{! v.itemDetail }" />
+    </aura:If>
+
+    <aura:If isTrue="{! v.activityType == 'BookMember__c'}" >
+         <c:WGC_ActivityTimeLine_Item_CambioModelloDiServizio itemDetail="{! v.itemDetail }" />
+    </aura:If>
+
+    <aura:If isTrue="{! v.activityType == 'NDGManagementMember__c'}" >
+         <c:WGC_ActivityTimeLine_Item_CambioGestore itemDetail="{! v.itemDetail }" />
+    </aura:If>
+
+    <!--<aura:If isTrue="{! v.activityType == 'et4ae5__SMSDefinition__c'}" >
+         <c:WGC_ActivityTimeLine_Item_SMS itemDetail="{! v.itemDetail }" />
+    </aura:If>-->
+
+    <aura:If isTrue="{! v.activityType == 'Marketing_SMSDefinition__c'}" >
+         <c:WGC_ActivityTimeLine_Item_SMS_MKT itemDetail="{! v.itemDetail }" />
+    </aura:If>
+
+    <aura:If isTrue="{! v.activityType == 'et4ae5__IndividualEmailResult__c'}" >
+         <c:WGC_ActivityTimeLine_Item_DEM itemDetail="{! v.itemDetail }" />
+    </aura:If>
+
+    <aura:If isTrue="{! v.activityType == 'EmailMessage'}" >
+         <c:WGC_ActivityTimeLine_Item_Email itemDetail="{! v.itemDetail }" />
+    </aura:If>
+
+    <aura:If isTrue="{! v.activityType == 'ServiceAppointment'}" >
+         <c:WGC_ActivityTimeLine_Item_ServiceAppointment itemDetail="{! v.itemDetail }" />
+    </aura:If>
+
+    <aura:If isTrue="{! v.activityType == 'FinServ__FinancialAccount__c'}" >
+         <c:WGC_ActivityTimeLine_Item_AttivazioneEstinzioneProdotto itemDetail="{! v.itemDetail }" />
+    </aura:If>
+
+    <aura:If isTrue="{! v.activityType == 'CRM_Claims__c'}" >
+         <c:WGC_ActivityTimeLine_Item_Reclami itemDetail="{! v.itemDetail }" />
+    </aura:If>
+
+    <aura:If isTrue="{! v.activityType == 'CRM_RaccomandazioniPICO__c'}" >
+         <c:WGC_ActivityTimeLine_Item_RaccomandazioniPico itemDetail="{! v.itemDetail }" />
+    </aura:If>
+
+    <aura:If isTrue="{! v.activityType == 'CRM_IngaggioRetiEsterne__c'}" >
+         <c:WGC_ActivityTimeLine_Item_IngaggioRetiEsterne itemDetail="{! v.itemDetail }" />
+    </aura:If>
+
+    <aura:If isTrue="{! v.activityType == 'FinServ__Alert__c'}" >
+         <c:WGC_ActivityTimeLine_Item_Scadenze itemDetail="{! v.itemDetail }" />
+    </aura:If>
+
+    <aura:If isTrue="{! v.activityType == 'CRM_CustomerInterview__c'}" >
+         <c:WGC_ActivityTimeLine_Item_Tagliando itemDetail="{! v.itemDetail }" />
+    </aura:If>
+
+    <aura:If isTrue="{! v.activityType == 'CRM_Memo__c'}" >
+         <c:WGC_ActivityTimeLine_Item_Memo itemDetail="{! v.itemDetail }" />
+    </aura:If>
+
+    <aura:If isTrue="{! v.activityType == 'CRM_PCA__c'}" >
+        <c:WGC_ActivityTimeLine_Item_PCA itemDetail="{! v.itemDetail }" />
+    </aura:If>
+
+    <aura:If isTrue="{! v.activityType == 'CRM_ProposteContrattiPreventivi__c'}" >
+        <c:WGC_ActivityTimeLine_Item_Proposte itemDetail="{! v.itemDetail }" />
+    </aura:If>
+	<!-- SV Proposal Advisor start-->
+     <aura:if isTrue="{!v.activityType == 'CRM_PropostaAdvisory__c'}">
+          <c:WGC_ActivityTimeLine_Item_Advisory itemDetail="{!v.itemDetail}"/>
+     </aura:if>
+     <!-- SV Proposal Advisor end-->
+</aura:component>

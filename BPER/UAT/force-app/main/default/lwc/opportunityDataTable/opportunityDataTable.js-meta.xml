@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>49.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__RecordPage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__RecordPage">
+            <property name="title" type="String" label="Titolo" description="definisci il titolo del componente"/>
+            <property name="flowLabel" type="String" label="Flow Label" description="definisci il titolo del componente"/>
+            <property name="viewAllLabel" type="String" label="Label Pulasnte View All" description="definisci la label del pulsane View All"/>
+            <property name="pagina" type="Integer" label="funzionalità" description="Digita 1 per la pagina di un Account,
+                                                                            Digita 2 per la pagina di un Case
+                                                                            "/>
+            <property name="widthc01" type="Integer" label="Larghezza colonna Stato" default="50"/>
+            <property name="widthc02" type="Integer" label="Larghezza colonna Nome opportunità" default="50"/>
+            <property name="widthc03" type="Integer" label="Larghezza colonna Data/Ora Apertura" default="50"/>
+            <property name="widthc04" type="Integer" label="Larghezza colonna Product Category" default="50"/>
+            <property name="widthc05" type="Integer" label="Larghezza colonna Fase" default="50"/>
+            <property name="widthc06" type="Integer" label="Larghezza colonna Creato da" default="50"/>
+            <property name="widthc07" type="Integer" label="Larghezza colonna Recall Date" default="50"/>
+            <property name="widthc08" type="Integer" label="Larghezza colonna Appointment date at the branch" default="50"/>
+            <property name="widthc09" type="Integer" label="Larghezza colonna Appointment Branch Name" default="50"/>
+            <property name="widthc10" type="Integer" label="Larghezza colonna Owner" default="50"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

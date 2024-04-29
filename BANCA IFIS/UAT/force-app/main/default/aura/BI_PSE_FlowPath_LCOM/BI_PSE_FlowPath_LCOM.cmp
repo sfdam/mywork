@@ -1,0 +1,67 @@
+<aura:component access="global" implements="lightning:availableForFlowScreens">
+    
+    <aura:attribute type="String[]" name="pathValues" default="['Anagrafica','Prodotti','Documentazione','Controlli e invio']" access="private" />    
+    <aura:attribute name="selectedPathValue" type="Integer" default='0' />
+    
+
+    <div class="slds-path">
+        <div class="slds-grid slds-path__track">
+            <div class="slds-grid slds-path__scroller-container">
+                <div class="slds-path__scroller" role="application">
+                    <div class="slds-path__scroller_inner">
+                        <ul class="slds-path__nav" role="listbox" aria-orientation="horizontal">
+                            
+                            <aura:iteration items="{!v.pathValues}" var="pathValue" indexVar="pathValueIndex">            
+                                
+                                <li class="{!v.selectedPathValue == pathValueIndex ? 'slds-path__item slds-is-current slds-is-active branding' : 'slds-path__item slds-is-incomplete'}" role="presentation">
+                                    <span class="{!v.selectedPathValue == pathValueIndex ? 'slds-path__link testoBianco' : 'slds-path__link testoDefault'}">
+                                        <span class="slds-path__title">{!pathValue}</span>
+                                    </span>
+                                </li>
+                                
+                            </aura:iteration>
+                            
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--
+<div class="slds-path">
+  <div class="slds-grid slds-path__track">
+    <div class="slds-grid slds-path__scroller-container">
+      <div class="slds-path__scroller">
+        <div class="slds-path__scroller_inner">
+          <ul class="slds-path__nav" role="listbox" aria-orientation="horizontal">
+            <li class="slds-path__item slds-is-current slds-is-active" role="presentation">
+              <a aria-selected="true" class="slds-path__link" href="javascript:void(0);" id="path-1" role="option" tabindex="0">
+                <span class="slds-path__stage">
+                  <span class="slds-assistive-text">Current Stage:</span>
+                </span>
+                <span class="slds-path__title">Contacted</span>
+              </a>
+            </li>
+            <li class="slds-path__item slds-is-incomplete" role="presentation">
+              <a aria-selected="false" class="slds-path__link" href="javascript:void(0);" id="path-2" role="option" tabindex="-1">
+                <span class="slds-path__stage">
+                </span>
+                <span class="slds-path__title">Open</span>
+              </a>
+            </li>
+            <li class="slds-path__item slds-is-incomplete" role="presentation">
+              <a aria-selected="false" class="slds-path__link" href="javascript:void(0);" id="path-3" role="option" tabindex="-1">
+                <span class="slds-path__stage">
+                </span>
+                <span class="slds-path__title">Unqualified</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    -->
+</aura:component>

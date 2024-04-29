@@ -1,0 +1,4 @@
+<aura:component implements="force:lightningQuickAction,lightning:availableForFlowActions">
+    <lightning:workspaceAPI aura:id="workspace"/>
+    <aura:attribute name="recordId" type="String" />
+</aura:component>

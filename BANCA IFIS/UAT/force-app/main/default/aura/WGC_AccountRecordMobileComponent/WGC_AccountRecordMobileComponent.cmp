@@ -1,0 +1,352 @@
+<aura:component
+    implements="force:lightningQuickAction,lightning:actionOverride,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes"
+    access="global">
+    <aura:attribute name="recordId" type="String" />
+    
+
+    <aura:attribute name="filterValue" type="String" />
+    <aura:attribute name="currentYear" type="Integer" />
+    <aura:attribute name="currentUser" type="String" />
+
+    <aura:attribute name="iPhone" type="Boolean" default="FALSE" />
+
+
+    <aura:attribute name="HideOnError" type="Boolean" default="false" access="global" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <lightning:navigation aura:id="navService" />
+
+    <div class="c-container">
+        <c:WGC_Account_Utility_Component recordId='{!v.recordId}' />
+
+        <lightning:layout>
+            <lightning:layoutItem size="12" padding="around-small">
+                <c:WGC_Account_Header_Component recordId='{!v.recordId}' />
+            </lightning:layoutItem>
+        </lightning:layout>
+
+        <lightning:layout multipleRows="true">
+            <lightning:layoutItem size="12" padding="around-small">
+                <lightning:tabset>
+                    <lightning:tab label="Sintesi" id="sintesi">
+                        <lightning:layout multipleRows="true">
+                            <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12"
+                                mediumDeviceSize="12" largeDeviceSize="12">
+                                <div class="page-section">
+                                    <!-- COMPONENT -->
+                                    <c:WGC_Profilo_CardComponent recordId='{!v.recordId}' />
+                                </div>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12"
+                                mediumDeviceSize="12" largeDeviceSize="12">
+                                <div class="page-section">
+                                    <!-- COMPONENT -->
+                                    <c:WGC_IndicatoriRischio_CardComponent recordId='{!v.recordId}' />
+                                </div>
+                            </lightning:layoutItem>
+
+                            <aura:if isTrue="{! !v.iPhone }">
+                                <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12"
+                                    mediumDeviceSize="12" largeDeviceSize="12">
+                                    <div class="page-section">
+                                        <!-- COMPONENT -->
+                                        <c:WGC_Analytics_Graphics title="POSIZIONE" Flip="disattivo"
+                                            recordId='{!v.recordId}' Grafico="{! $Label.c.WGC_AccountRecordMobileComponent_Grafico_First}"
+                                            Filtro="{! $Label.c.WGC_AccountRecordMobileComponent_Filtro_First}" />
+                                    </div>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12"
+                                    mediumDeviceSize="12" largeDeviceSize="12">
+                                    <div class="page-section">
+                                        <!-- COMPONENT -->
+                                        <c:WGC_Analytics_Graphics title="PERFORMANCE" Flip="disattivo"
+                                            recordId='{!v.recordId}' Grafico="{! $Label.c.WGC_AccountRecordMobileComponent_Grafico_Second}"
+                                            Filtro="{! $Label.c.WGC_AccountRecordMobileComponent_Filtro_Second}" />
+                                    </div>
+                                </lightning:layoutItem>
+                            </aura:if>
+                            
+                        </lightning:layout>
+
+                    </lightning:tab>
+                    <lightning:tab label="Profilo" id="profilo">
+                        <lightning:tabset>
+                            <lightning:tab label="Anagrafica" id="anagrafica">
+                                    <lightning:layout multipleRows="true">
+                                        <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12"
+                                            mediumDeviceSize="12" largeDeviceSize="12" class="slds-text-align--right">
+                                            <div class="page-section">
+                                                <lightning:button label="MODIFICA" variant="brand" class="cstm-btn-round" onclick="{! c.goTo }" />
+                                            </div>
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                    <lightning:layout multipleRows="true">
+                                        <lightning:layoutItem size="12" smallDeviceSize="12"
+                                            mediumDeviceSize="12" largeDeviceSize="12">
+                                            <div class="page-section">
+                                                <force:recordView recordId="{!v.recordId}" />
+                                            </div>
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                
+                            </lightning:tab>
+
+                            <lightning:tab label="Referenti" id="referenti">
+                                <!-- EnhancedLightningGrid -->
+
+                                <sortablegrid:sdg PreventResponsiveness="false" Title="Referenti"
+                                    SVGName="standard:account" SDGConfiguration="CustomObject:WGC_Contacts"
+                                    recordId="{! v.recordId }" />                   
+
+                                <lightning:layout>
+                                    <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12"
+                                        mediumDeviceSize="12" largeDeviceSize="12">
+                                        <div class="page-section">
+
+                                        </div>
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                            </lightning:tab>
+
+                            <lightning:tab label="Soggetti Collegati" id="soggettiCollegati">
+                                <sortablegrid:sdg Title="Fornitori" SVGName="standard:proposition"
+                                    SDGConfiguration="CustomObject:WGC_Fornitori" HideOnError="{!v.HideOnError}"
+                                    PreventResponsiveness="false" recordId="{! v.recordId }" DefaultPageSize="10" />
+                                <!-- <lightning:layout multipleRows="true">
+                                    <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12"
+                                        mediumDeviceSize="12" largeDeviceSize="12">
+                                        <div class="page-section">
+                                            <sortablegrid:sdg Title="Fornitori" SVGName="standard:proposition" SDGConfiguration="CustomObject:WGC_Fornitori"
+                                                HideOnError="{!v.HideOnError}" PreventResponsiveness="true" ShowDebug='true' recordId="{! v.recordId }" DefaultPageSize="10"/>
+                                        </div>
+                                    </lightning:layoutItem>
+                                </lightning:layout> -->
+
+                                <sortablegrid:sdg Title="Clienti" SVGName="standard:individual" 
+                                SDGConfiguration="CustomObject:WGC_Clienti" HideOnError="{!v.HideOnError}" 
+                                PreventResponsiveness="false" recordId="{! v.recordId }" DefaultPageSize="10"/>
+                                <!-- <lightning:layout multipleRows="true">
+                                    <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12"
+                                        mediumDeviceSize="12" largeDeviceSize="12">
+                                        <div class="page-section">
+                                            <sortablegrid:sdg Title="Clienti" SVGName="standard:individual" SDGConfiguration="CustomObject:WGC_Clienti"
+                                                HideOnError="{!v.HideOnError}" PreventResponsiveness="true" ShowDebug='true' recordId="{! v.recordId }" DefaultPageSize="10"/>
+                                        </div>
+                                    </lightning:layoutItem>
+                                </lightning:layout> -->
+
+                                <lightning:layout multipleRows="true">
+                                    <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12"
+                                        mediumDeviceSize="12" largeDeviceSize="12">
+                                        <div class="page-section">
+                                            <c:WGC_SoggettiCollegati_CardComponent recordId="{! v.recordId }"
+                                                title="Competitors" icon="team_member" type="Competitors"
+                                                idReport="00O1x000000OE6gEAG" />
+                                        </div>
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+
+                                <lightning:layout multipleRows="true">
+                                    <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12"
+                                        mediumDeviceSize="12" largeDeviceSize="12">
+                                        <div class="page-section">
+                                            <c:WGC_SoggettiCollegati_CardComponent recordId="{! v.recordId }"
+                                                title="Vicinanza Geografica" icon="location" type="Vicinanza geografica"
+                                                idReport="00O1x000000OE8NEAW" />
+                                        </div>
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+
+
+                                <lightning:layout multipleRows="true">
+                                    <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12"
+                                        mediumDeviceSize="12" largeDeviceSize="12">
+                                        <div class="page-section">
+                                            <c:WGC_SoggettiCollegati_CardComponent recordId="{! v.recordId }"
+                                                title="Partners Leasing" icon="partners" type="Partner leasing" />
+                                        </div>
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+
+                                <lightning:layout multipleRows="true">
+                                    <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12"
+                                        mediumDeviceSize="12" largeDeviceSize="12">
+                                        <div class="page-section">
+                                            <c:WGC_SoggettiCollegati_CardComponent recordId="{! v.recordId }"
+                                                title="Clienti Partner Leasing" icon="customers"
+                                                type="Clienti partner leasing" />
+                                        </div>
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+
+                                <sortablegrid:sdg Title="Referral Effettuati" SVGName="standard:logging" 
+                                SDGConfiguration="CustomObject:WGC_Referral_Effettuati" HideOnError="{!v.HideOnError}" 
+                                PreventResponsiveness="false" recordId="{! v.recordId }" DefaultPageSize="10"/>                                        
+                                <!-- <lightning:layout multipleRows="true">
+                                    <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12"
+                                        mediumDeviceSize="12" largeDeviceSize="12">
+                                        <div class="page-section">
+                                            <sortablegrid:sdg Title="Referral Effettuati" SVGName="standard:logging" SDGConfiguration="CustomObject:WGC_Referral_Effettuati"
+                                                HideOnError="{!v.HideOnError}" PreventResponsiveness="true" recordId="{! v.recordId }" DefaultPageSize="10"/>
+                                        </div>
+                                    </lightning:layoutItem>
+                                </lightning:layout> -->
+
+                                <sortablegrid:sdg Title="Referral Ricevuti" SVGName="standard:product_consumed" 
+                                SDGConfiguration="CustomObject:WGC_Referral_Ricevuti" HideOnError="{!v.HideOnError}" 
+                                PreventResponsiveness="false" recordId="{! v.recordId }" DefaultPageSize="10"/>                                        
+                                <!-- <lightning:layout multipleRows="true">
+                                    <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12"
+                                        mediumDeviceSize="12" largeDeviceSize="12">
+                                        <div class="page-section">
+                                            <sortablegrid:sdg Title="Referral Ricevuti" SVGName="standard:product_consumed" SDGConfiguration="CustomObject:WGC_Referral_Ricevuti"
+                                                HideOnError="{!v.HideOnError}" PreventResponsiveness="true" recordId="{! v.recordId }" DefaultPageSize="10"/>
+                                        </div>
+                                    </lightning:layoutItem>
+                                </lightning:layout> -->
+
+                                <lightning:layout multipleRows="true">
+                                    <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12"
+                                        mediumDeviceSize="12" largeDeviceSize="12">
+                                        <div class="page-section">
+                                            <c:WGC_SoggettiCollegati_CardComponent recordId="{! v.recordId }"
+                                                title="Gruppi" icon="data_integration_hub" type="Gruppi"
+                                                idReport="00O1x000000OFw9EAG" />
+                                        </div>
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+
+                                <lightning:layout multipleRows="true">
+                                    <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12"
+                                        mediumDeviceSize="12" largeDeviceSize="12">
+                                        <div class="page-section">
+                                            <c:WGC_SoggettiCollegati_CardComponent recordId="{! v.recordId }"
+                                                title="Tribunali" icon="approval" type="Tribunali"
+                                                idReport="00O1x000000OEBWEA4" />
+                                        </div>
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+
+                                <sortablegrid:sdg Title="FCI" SVGName="custom:custom103" 
+                                SDGConfiguration="CustomObject:WGC_FCI" HideOnError="{!v.HideOnError}" 
+                                PreventResponsiveness="false" recordId="{! v.recordId }" DefaultPageSize="10"/>                                        
+                                <!-- <lightning:layout multipleRows="true">
+                                    <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12"
+                                        mediumDeviceSize="12" largeDeviceSize="12">
+                                        <div class="page-section">
+                                            <sortablegrid:sdg Title="FCI" SVGName="custom:custom103" SDGConfiguration="CustomObject:WGC_FCI"
+                                                HideOnError="{!v.HideOnError}" PreventResponsiveness="true" recordId="{! v.recordId }" DefaultPageSize="10"/>
+                                        </div>
+                                    </lightning:layoutItem>
+                                </lightning:layout> -->
+                            </lightning:tab>
+                            <lightning:tab label="Team Ifis" id="teamIfis">
+                                <!-- COMPONENT -->
+                                <lightning:layout multipleRows="true">
+                                    <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12"
+                                        mediumDeviceSize="12" largeDeviceSize="12">
+                                        <div class="page-section">
+                                            <c:WGC_TeamIFIS_Reference recordId='{!v.recordId}' />
+                                        </div>
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                            </lightning:tab>
+                        </lightning:tabset>
+                    </lightning:tab>
+                    <lightning:tab label="Documenti" id="documenti">
+                        <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12"
+                            mediumDeviceSize="12" largeDeviceSize="12">
+                            <div class="page-section">
+                                <!-- COMPONENT -->
+                                <c:WGC_Documenti_2_Component recordId='{!v.recordId}' />
+                            </div>
+                        </lightning:layoutItem>
+                    </lightning:tab>
+                    <lightning:tab label="Opportunità" id="opportunita">
+                        <lightning:layout multipleRows="true">
+                            <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12"
+                                mediumDeviceSize="12" largeDeviceSize="12">
+                                <div class="page-section">
+                                    <c:WGC_MainCalloutComponent calloutText="Apri una nuova opportunità"
+                                        calloutButtonText="Apri" />
+                                </div>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                        
+                        <sortablegrid:sdg Title="Opportunità" SVGName="standard:opportunity" 
+                                SDGConfiguration="CustomObject:Opportunities" HideOnError="{!v.HideOnError}" 
+                                PreventResponsiveness="false" recordId="{! v.recordId }" DefaultPageSize="10"/> 
+                        
+                    </lightning:tab>
+                    <!-- <lightning:tab label="Diario" id="diario">
+
+                        E
+                    </lightning:tab> -->
+                    <aura:if isTrue="{! !v.iPhone }">
+                        <lightning:tab label="Analisi" id="analisi">
+                            <lightning:tabset>
+
+                                <lightning:tab label="Posizione" id="posizione">
+                                    <lightning:layout multipleRows="true">
+                                        <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12"
+                                            mediumDeviceSize="12" largeDeviceSize="12">
+                                            <div class="page-section">
+                                                <c:WGC_Position_DetailComponent recordId='{!v.recordId}' />
+                                            </div>
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                </lightning:tab>
+                                <lightning:tab label="Bilancio" id="bilancio">
+                                    <lightning:layout multipleRows="true">
+                                        <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12"
+                                            mediumDeviceSize="12" largeDeviceSize="12">
+                                            <div class="page-section">
+                                                <c:WGC_Bilancio_DetailComponent recordId='{!v.recordId}' />
+                                            </div>
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                </lightning:tab>
+                                <lightning:tab label="CR" id="cr">
+                                    <lightning:layout multipleRows="true">
+                                        <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12"
+                                            mediumDeviceSize="12" largeDeviceSize="12">
+                                            <div class="page-section">
+                                                <c:WGC_CR_DetailComponent recordId='{!v.recordId}' />
+                                            </div>
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                </lightning:tab>
+                                <lightning:tab label="Eventi Negativi" id="eventiNegativi">
+                                    <lightning:layout multipleRows="true">
+                                        <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12"
+                                            mediumDeviceSize="12" largeDeviceSize="12">
+                                            <div class="page-section">
+                                                <c:WGC_EventiNegativi_Component recordId='{!v.recordId}' />
+                                            </div>
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                </lightning:tab>
+                            </lightning:tabset>
+                        </lightning:tab>
+
+                        <lightning:tab label="Prodotti" id="prodotti">
+                            <lightning:layout multipleRows="true">
+                                <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12"
+                                    mediumDeviceSize="12" largeDeviceSize="12">
+                                    <div class="page-section">
+                                        <c:WGC_Prodotti_DetailComponent recordId='{!v.recordId}' />
+                                    </div>
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                        </lightning:tab>
+                    </aura:if>
+
+                    <!-- <lightning:tab label="Notizie" id="notizie">
+                        H
+
+                    </lightning:tab> -->
+                </lightning:tabset>
+            </lightning:layoutItem>
+        </lightning:layout>
+    </div>
+</aura:component>

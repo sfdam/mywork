@@ -1,0 +1,444 @@
+<!-- IMPORTANTE per community TiAnticipo: lasciare custom controller per recuperare Opportunity -->
+<apex:page renderAs="pdf"  showHeader="false" applyHtmlTag="false" applyBodyTag="false" standardStylesheets="false" controller="ExtPdfAdeguataVerificaClientela">
+    <html>
+        <head>
+            <apex:stylesheet value="{!$Resource.CssPdfGeneration}"/>
+            <style>
+                 p {
+                  margin:0px;}
+
+                 p, li, div, span {
+                  font-family: sans-serif;
+                 }
+
+                 p.MsoNormal, li.MsoNormal, div.MsoNormal
+                  {margin:0cm;
+                  margin-bottom:.0001pt;}
+
+                  .checkrow {
+                    float: right;
+                    margin-right: 100px;
+                  }
+
+                  .ElementList1 {
+                    margin:0cm;
+                    margin-bottom:.0001pt;
+                    font-size:7.5pt;
+                    text-align:justify;
+                  }
+
+                  .checkboxImgNoMargin{
+                    width:12px;
+                    height:12px;
+                  }
+
+                  .lineInput {
+                    border-bottom: solid;
+                    border-bottom-width: 1pt;
+                    margin-left: 4pt;
+                    margin-right: 4pt;
+                    padding-left: 5pt;
+                    padding-right: 5pt;
+                  }
+
+                  .normalLine {
+                    padding-left:80pt;
+                    border-bottom: solid;
+                    border-bottom-width: 1pt;
+                    margin-left: 4pt;
+                    margin-right: 4pt;
+                  }
+
+                p.MsoFootnoteText, li.MsoFootnoteText, div.MsoFootnoteText
+                  { margin:0cm;
+                  margin-bottom:.0001pt;
+                  font-size:9.0pt;}
+
+                  body {
+                    font-size:7.5pt;
+                    text-align:justify;
+                    font-family: sans-serif;
+                  }
+
+                  #tabellaConsensi img {
+                    width: 12px;
+                    height: 12px;
+                  }
+
+                 ol
+                  {margin-bottom:0cm;}
+                ul
+                  {margin-bottom:0cm;}
+            </style>
+        </head>
+        <body>
+            <!--footer and header-->
+            <div class="header_left" style="margin-left:5pt;">
+                <img class="header_logo_img" src="{!$Resource.BancaIfisLogoNew}"/>
+            </div>
+            <div class="footer_center">
+                <p class="docName">Informativa Privacy - ottobre 2020</p>
+                <img class="footerLargeImg" src="{!$Resource.FooterIfisPrivacy}"/>
+            </div>
+            <div class="footer_right pageNumberFooter">
+                <span class="pagenumber"/>
+            </div>
+            <p class="MsoFootnoteText" align="center" style="margin-right:-14.3pt;text-align:center">
+                <b>
+                    <span  style="color:black">INFORMATIVA PRIVACY</span>
+                </b>
+            </p>
+            <!-- premessa-->
+            <div class="uniqueBlock">
+                <h2 class="subSectionName">1. <span class="subSectionSpace"/>Premessa</h2>
+                <p>Ai sensi degli artt. 13 e 14 del Regolamento (UE) 2016/679 (il “Regolamento”), Banca Ifis S.p.A. (la “Banca” o il “Titolare”), in qualità di Titolare del trattamento, desidera informare i propri clienti, anche potenziali, i garanti, i coobbligati e i terzi pagatori, nonché terzi in genere (es. delegati, legali rappresentanti, ecc.) che entrano in contatto con la medesima in rappresentanza o su mandato dei clienti, anche potenziali (gli “Interessati”), che i dati personali a loro riferibili (i “Dati”) saranno trattati in modo lecito, corretto e trasparente, secondo le modalità e per le finalità di seguito illustrate.</p>
+                <p>
+                Qualora l’Interessato sia una persona giuridica, le informazioni che seguono sono rese anche con riguardo ai dati personali delle persone fisiche che legalmente e/o organicamente la rappresentano, dei quali il Titolare del trattamento venga a conoscenza.
+                </p>
+            </div>
+            <!-- Fonte dei dati personali -->
+            <div class="uniqueBlock">
+                <h2 class="subSectionName">2. <span class="subSectionSpace"/>Fonte dei dati personali</h2>
+                <p>I Dati oggetto di attività di trattamento da parte del Titolare sono acquisiti, direttamente dalla Banca e/o per il tramite di soggetti terzi a ciò appositamente incaricati, presso gli Interessati e/o presso terzi (soggetti che dispongono operazioni a favore dell’Interessato, società di informazione commerciale e dei rischi finanziari, società esterne ai fini di ricerche di mercato, ecc.), anche attraverso le tecniche di comunicazione a distanza delle quali il Titolare si avvale (es. siti web, app per smartphone e tablet, call center, ecc.). Saranno altresì utilizzati i Dati provenienti da fonti pubbliche, come pubblici registri, elenchi, documenti conoscibili da chiunque (es. bilanci, informazioni contenute nel registro delle imprese presso le Camere di commercio, atti immobiliari e altri atti c.d. pregiudizievoli, come l’iscrizione di ipoteche o la trascrizione di pignoramenti, decreti ingiuntivi o altri atti giudiziari), nonché i Dati estratti da fonti pubblicamente e generalmente accessibili da chiunque, come le testate giornalistiche cartacee o digitali, le informazioni attinte da elenchi telefonici, da siti web di enti pubblici o di altre autorità di vigilanza e controllo.</p>
+            </div>
+            <!-- 3. Finalità del trattamento e base giuridica -->
+            <div class="uniqueBlock">
+                <h2 class="subSectionName">3. <span class="subSectionSpace"/>Finalità e base giuridica del trattamento</h2>
+                <p>I Dati sono trattati nell'ambito della normale attività della Banca, per le seguenti finalità:</p>
+                <ol class="numericList1">
+                    <li class="ElementList1">adempimento di obblighi di legge, sia nazionale che europea, nonché di ordini/disposizioni di Pubbliche Autorità e/o Organismi di Vigilanza (es. obblighi imposti dalla normativa finalizzata al contrasto del riciclaggio, del terrorismo, della commercializzazione di materiale pedopornografico e dell'evasione fiscale, ecc.);</li>
+                    <li class="ElementList1">esecuzione di obblighi derivanti da un contratto concluso con l’Interessato e/o necessari ai fini della conclusione di un contratto, compresi la gestione e l’adempimento di specifiche richieste pervenute dall’Interessato stesso, nonché di altre attività connesse e strumentali all’esecuzione e alla gestione del rapporto (es. valutazione del merito creditizio; gestione degli incassi; verifiche sull'andamento dei rapporti, nonché sui rischi connessi; cartolarizzazione dei crediti; assicurazione dei crediti; operazioni di pagamento anche internazionali, quali bonifici transfrontalieri, per le quali è necessario utilizzare il servizio di messaggistica internazionale SWIFT, ecc.);</li>
+                    <li class="ElementList1">
+                        <p>previo specifico consenso:</p>
+                        <p>c.1) rilevazione dei gusti, delle preferenze, delle abitudini, dei bisogni e delle scelte di consumo dell’Interessato (c.d. profilazione) per attività di marketing diretto (solo qualora l’Interessato sia una persona fisica);</p>
+                        <p>c.2) promozione ed offerta di prodotti/servizi della Banca o ricerche di mercato volte a rilevare il grado di soddisfazione dell'Interessato;</p>
+                        <p>c.3) promozione ed offerta di prodotti/servizi di terzi;</p>
+                        <p>c.4) comunicazione di dati personali a terzi per promozione ed offerta di prodotti/servizi della Banca o ricerche di mercato volte a rilevare il grado di soddisfazione dell’Interessato;</p>
+                        <p>c.5) comunicazione di dati personali a terzi per promozione ed offerta di prodotti/servizi di terzi medesimi.</p>
+                    </li>
+                    <li class="ElementList1">perseguimento del legittimo interesse del titolare del trattamento (es. tutela del patrimonio aziendale; recupero crediti, rendicontazione e audit; monitoraggio crediti; monitoraggio e verifica qualità del servizio; gestione delle controversie, quindi esercizio o difesa di un diritto in sede stragiudiziale e giudiziale; ecc.).</li>                  
+                </ol>
+                <p>In merito alle finalità <i>sub</i> A) e B), il trattamento dei Dati da parte del Titolare, anche per ciò che concerne la loro comunicazione ai soggetti di cui al successivo paragrafo 7 e, nei limiti in cui tale comunicazione risulti funzionale al perseguimento delle relative finalità, non necessita del consenso, posto che la base giuridica del trattamento è, rispettivamente, l’adempimento di un obbligo legale e il contratto o la gestione di attività necessarie ai fini della conclusione di un contratto. L’eventuale rifiuto dell’Interessato a fornire le informazioni necessarie comporta l’impossibilità per il Titolare di dare seguito al rapporto con l’Interessato stesso. Per quanto riguarda, invece, le finalità sub C), l’Interessato ha il diritto di non acconsentire, oltre che di opporsi in qualsiasi momento, allo svolgimento delle previste operazioni di trattamento da parte del Titolare, poiché la base giuridica del trattamento è il consenso dell’Interessato. L'unica conseguenza derivante dal rifiuto di prestare il consenso sarà l'impossibilità per l'Interessato di fruire dei relativi servizi, senza che questo comporti qualsivoglia conseguenza pregiudizievole. Il consenso potrà essere revocato in qualsiasi momento, senza che ciò pregiudichi la liceità dei trattamenti antecedentemente svolti. In relazione alle finalità <i>sub</i> D), non è necessario il consenso dell’Interessato, poiché la base giuridica del trattamento è il legittimo interesse del titolare, tenuto conto del bilanciamento dei diritti di quest’ultimo e dell’Interessato.</p>
+            </div>
+            <!-- categorie di dati personali-->
+            <div class="uniqueBlock">
+                <h2 class="subSectionName">4. <span class="subSectionSpace"/>Categorie di dati personali</h2>
+                <p>I dati personali che possono essere trattati per le finalità indicate al paragrafo 3 appartengono alle seguenti categorie: dati identificativi e di contatto (es. nome, cognome, luogo e data di nascita, indirizzo e-mail, codice fiscale, professione e settore di attività, nome utente e password utilizzati per l’accesso ai sistemi che il Titolare mette a disposizione dell’Interessato, ivi comprese le applicazioni mobile), nonché dati relativi al loro collegamento con altri soggetti; dati relativi alle transazioni (es. il numero di conto corrente, i depositi e i prelievi, l’importo e le date delle operazioni, gli estremi identificativi di altri rapporti bancari, IBAN); dati finanziari (es. la situazione patrimoniale, finanziaria, lo storico dei pagamenti, l’affidabilità economica e la puntualità nei pagamenti); dati idonei a rivelare gusti, preferenze, abitudini di vita o di consumo; dati relativi a condanne penali e reati. Il Titolare, inoltre, limitatamente a quanto necessario per il perseguimento delle finalità di cui al paragrafo 3, potrebbe venire a conoscenza e trattare anche dati che il Regolamento definisce particolari (es. i dati idonei a rivelare l’origine razziale ed etnica, le convinzioni religiose o filosofiche, l'appartenenza sindacale, nonché i dati genetici, i dati biometrici, i dati relativi alla salute o alla vita sessuale o all'orientamento sessuale della persona), qualora questi siano trasmessi direttamente dall’interessato.</p>
+            </div>          
+            <!-- modalità di trattamento dei dati personali-->
+            <div class="uniqueBlock">
+                <h2 class="subSectionName">5. <span class="subSectionSpace"/>Modalità di trattamento dei dati personali</h2>
+                <p>Il trattamento dei Dati avviene mediante strumenti manuali, informatici e telematici, con logiche strettamente correlate alle finalità sopra evidenziate e, in ogni caso, nel rispetto delle cautele, delle garanzie e delle misure necessarie prescritte dalla normativa di riferimento, volte ad assicurare la riservatezza, l’integrità e la disponibilità dei Dati, nonché ad evitare danni, siano essi materiali o immateriali (es. perdita del controllo dei dati personali o limitazione dei diritti, discriminazione, furto o usurpazione d'identità, perdite finanziarie, decifratura non autorizzata della pseudonimizzazione, pregiudizio alla reputazione, perdita di riservatezza dei dati personali protetti da segreto professionale o qualsiasi altro danno economico o sociale significativo).</p>
+                <p>I trattamenti svolti dal Titolare possono basarsi su processi decisionali automatizzati che producono effetti giuridici o che incidono in modo analogo significativamente sulla persona dell’interessato, compresa la profilazione: in particolare, il Titolare adotta un sistema automatizzato atto a profilare gli Interessati sulla base del comportamento creditizio e adottare decisioni conseguentemente al profilo generato nell’ambito delle attività di valutazione del merito di credito connesse all'istruttoria di una richiesta di credito (credit scoring) e un sistema parzialmente automatizzato atto a profilare gli Interessati sulla base del comportamento creditizio e adottare decisioni conseguentemente al profilo generato nell’ambito delle di segnalazione a sofferenza della posizione dell’interessato alla Centrale dei Rischi (CR) e ai sistemi di informazione creditizia (SIC). La Centrale dei Rischi è un sistema informativo, gestito dalla Banca d'Italia, che raccoglie le informazioni fornite da banche e società finanziarie sui crediti che concedono ai loro clienti e sulle relative garanzie e che fornisce una fotografia d’insieme dei debiti di famiglie e imprese verso il sistema bancario e finanziario. I sistemi di informazione creditizia sono le banche dati private consultate da banche e finanziarie per verificare affidabilità e puntualità nei pagamenti e servono per valutare l'opportunità di concedere credito al consumo, prestiti e finanziamenti in qualsiasi forma tecnica. La consultazione della Centrale dei Rischi e dei sistemi di informazione creditizia serve ai clienti che hanno una buona “storia creditizia” per ottenere un finanziamento più facilmente e a condizioni migliori. Serve alle banche e alle società finanziarie per valutare la capacità dei clienti di restituire i finanziamenti concessi. Il sistema di credit scoring utilizzato per l’istruttoria di una richiesta di credito, nonché la segnalazione a sofferenza dell’Interessato alla Centrale dei Rischi e ai sistemi di informazione creditizia, quindi, potrebbero avere come conseguenza quello di impedire all’interessato di accedere a un finanziamento richiesto. I modelli o i fattori di analisi statistica, nonché gli algoritmi di calcolo dei giudizi, indicatori o punteggi utilizzati nell’ambito di tali trattamenti sono verificati periodicamente con cadenza almeno annuale e aggiornati in funzione delle risultanze di tali verifiche.</p>
+            </div>
+            <!-- 6. Trasferimento di dati verso Paesi/organizzazioni extra UE -->
+            <div class="uniqueBlock">
+                <h2 class="subSectionName">6. <span class="subSectionSpace"/>Trasferimento di dati verso Paesi/organizzazioni extra UE</h2>
+                <p>Ove necessario per il perseguimento delle finalità di cui al paragrafo 3, i Dati dell’Interessato potrebbero essere trasferiti all’estero, verso Paesi/organizzazioni extra UE che garantiscano un livello di protezione dei dati personali ritenuto adeguato dalla Commissione Europea con propria decisione, o comunque sulla base di altre garanzie appropriate, quali ad esempio le Clausole Contrattuali Standard adottate dalla Commissione Europea.</p>
+                <p>Una copia dei Dati eventualmente trasferiti all’estero, nonché l’elenco dei Paesi/organizzazioni extra UE verso i quali i Dati sono stati trasferiti, potranno essere richiesti al Titolare utilizzando i recapiti indicati ai successivi paragrafi 9 e 10.</p>
+            </div>
+            <!-- 7. Categorie di soggetti ai quali i dati personali possono essere comunicati o che possono venirne a conoscenza -->
+            <div>
+                <h2 class="subSectionName">7. <span class="subSectionSpace"/>Categorie di soggetti ai quali i dati personali possono essere comunicati o che possono venirne a conoscenza</h2>
+                <p>Per il perseguimento delle finalità descritte al paragrafo 3, il Titolare si riserva la facoltà di comunicare i Dati ai destinatari appartenenti alle seguenti categorie:</p>
+                <ul style="margin-top:0cm;" type="disc">
+                    <li>soggetti che svolgono servizi bancari, finanziari ed assicurativi;</li>
+                    <li>soggetti coobbligati, garanti e terzi pagatori;</li>
+                    <li>Autorità e Organismi di vigilanza e controllo e, in generale, soggetti, pubblici o privati, con funzioni di rilievo pubblicistico (es.: UIF, Banca d'Italia, Agenzia delle Entrate, Centrale di Allarme Interbancaria, Centrale Rischi della Banca d'Italia, Autorità Giudiziaria, in ogni caso solo nei limiti in cui ricorrano i presupposti stabiliti dalla normativa applicabile);</li>
+                    <li>Enti Pubblici (economici e territoriali) e Pubbliche Amministrazioni;</li>
+                    <li>associazioni di categoria;</li>
+                    <li>altre società del gruppo di cui è parte la Banca, o comunque società controllanti, controllate o collegate, ai sensi dell’art. 2359 c.c. (situate anche all’estero);</li>
+                    <li>società che provvedono a confrontare i dati forniti dagli Interessati con quelli disponibili su pubblici registri, elenchi, atti o documenti conoscibili a chiunque, al fine di verificarne la veridicità, anche in ottemperanza agli obblighi di adeguata verifica imposti dal Decreto Anti-Riciclaggio, oltre che l'eventuale esistenza di protesti e iscrizioni pregiudizievoli;</li>
+                    <li>soggetti che effettuano servizi di acquisizione, lavorazione ed elaborazione dati;</li>
+                    <li>soggetti che forniscono servizi per la gestione del sistema informativo del Titolare e delle reti di telecomunicazioni (ivi compresi i servizi di mailing);</li>
+                    <li>soggetti che svolgono attività di stampa, imbustamento, trasmissione, trasporto e smistamento delle comunicazioni;</li>
+                    <li>soggetti che svolgono attività di archiviazione della documentazione e data-entry;</li>
+                    <li>soggetti che svolgono attività di assistenza all’Interessato;</li>
+                    <li>società di gestione di sistemi nazionali e internazionali per il controllo delle frodi ai danni delle banche e degli intermediari finanziari;</li>
+                    <li>studi professionali o società nell'ambito di rapporti di assistenza e consulenza (es. studi commercialisti, studi legali, ecc.);</li>
+                    <li>società che prestano attività in materia di valutazione del merito creditizio, rilevazione dei rischi creditizi e di insolvenze, prevenzione del sovraindebitamento e tutela del credito, ivi compresi i sistemi di informazione creditizia;</li>
+                    <li>agenti in attività finanziaria, mediatori creditizi, altri intermediari operanti nel settore creditizio, finanziario o bancario aventi il compito di promuovere e collocare i prodotti e/o i servizi della Banca;</li>
+                    <li>soggetti che effettuano il servizio di "Corporate Banking Interbancario" – CBI;</li>
+                    <li>soggetti che effettuano operazioni finanziarie internazionali (es. la "Society for Worldwide Interbank Financial Telecommunication" – SWIFT);</li>
+                    <li>soggetti che effettuano attività di assistenza e consulenza di comunicazione (es. ricerche di mercato volte a rilevare il grado di soddisfazione degli Interessati sulla qualità dei servizi e sull'attività svolta dalla Banca, telemarketing, ecc.);</li>
+                    <li>soggetti che svolgono adempimenti di controllo, revisione e certificazione delle attività poste in essere dalla Banca;</li>
+                    <li>soggetti che a vario titolo succedono alla Banca nella titolarità dei rapporti giuridici (es. cessionari o potenziali cessionari di beni, crediti e/o contratti).</li>
+                </ul>
+                <p>I soggetti appartenenti alle categorie sopra annoverate operano in autonomia come distinti titolari del trattamento, o come responsabili all’uopo nominati dalla Banca, il cui elenco, costantemente aggiornato, è pubblicato sul sito web www.bancaifis.it.</p>
+                <p>I Dati potranno inoltre essere conosciuti, in relazione allo svolgimento delle mansioni assegnate, dal personale del Titolare, ivi compresi gli stagisti, i lavoratori interinali, i consulenti, tutti appositamente autorizzati al trattamento.</p>
+                <p>I dati personali, in ogni caso, non saranno oggetto di diffusione e, pertanto, non saranno portati a conoscenza di soggetti indeterminati, in qualunque forma, ad esempio mediante la loro messa a disposizione o consultazione. </p>
+            </div>
+            <!-- 8. Conservazione e cancellazione dei dati personali -->
+            <div class="uniqueBlock">
+                <h2 class="subSectionName">8. <span class="subSectionSpace"/>Conservazione e cancellazione dei dati personali</h2>
+                <p>Come previsto ai sensi dell’art. 5 co. 1 lett. e) del Regolamento, di regola, i Dati saranno conservati in una forma che consenta l'identificazione dell'Interessato per un arco di tempo non superiore a quello necessario al conseguimento delle finalità per le quali sono stati raccolti e trattati, nel rispetto del principio di proporzionalità e necessità sanciti dalla normativa in materia di protezione dei dati personali. Nella determinazione del periodo di conservazione, sono altresì prese in considerazione le leggi applicabili alle attività e ai settori in cui il Titolare opera (es. la normativa antiriciclaggio e la normativa che disciplina la tenuta dei registri contabili), nonché i provvedimenti generali e speciali del Garante per la protezione dei dati personali (es. in relazione alle tempistiche di conservazione per finalità di marketing e di profilazione). Decorsi i termini così stabiliti, i Dati saranno cancellati o trasformati in forma anonima, salvo che la loro ulteriore conservazione sia necessaria per assolvere ad obblighi di legge o per adempiere ad ordini impartiti da Pubbliche Autorità e/o Organismi di Vigilanza.</p>
+            </div>
+            <!-- 9. Diritti dell'Interessato -->
+            <div class="uniqueBlock">
+                <h2 class="subSectionName">9. <span class="subSectionSpace"/>Diritti dell'Interessato</h2>
+                <p>Ai sensi degli articoli da 15 a 22, il Regolamento conferisce agli Interessati la possibilità di esercitare specifici diritti.</p>
+                <p>In particolare, l'Interessato può ottenere: a) la conferma dell'esistenza di trattamenti di dati personali che lo riguardano e, in tal caso, l’acceso a tali dati; b) la rettifica dei dati personali inesatti e l’integrazione dei dati personali incompleti; c) la cancellazione dei dati personali che lo riguardano, nei casi in cui ciò sia consentito dal Regolamento; d) la limitazione del trattamento, nelle ipotesi previste dal Regolamento; e) la comunicazione, ai destinatari cui siano stati trasmessi i dati personali, delle richieste di rettifica/cancellazione dei dati personali e di limitazione del trattamento pervenute dall’Interessato, salvo che ciò si riveli impossibile o implichi uno sforzo sproporzionato; f) la ricezione, in un formato strutturato, di uso comune e leggibile da dispositivo automatico, dei dati personali forniti al Titolare, nonché la trasmissione degli stessi a un altro titolare del trattamento, e ciò in qualsiasi momento, anche alla cessazione dei rapporti eventualmente intrattenuti col Titolare.</p>
+                <p>L’Interessato ha altresì il diritto di opporsi in qualsiasi momento ai trattamenti di dati personali che lo riguardano: in tali casi, il Titolare è tenuto ad astenersi da ogni ulteriore trattamento, fatte salve le ipotesi consentite dal Regolamento.</p>
+                <p>L’interessato ha inoltre il diritto di non essere sottoposto a una decisione basata unicamente sul trattamento automatizzato, compresa la profilazione, che produca effetti giuridici che lo riguardano o che incida in modo analogo significativamente sulla sua persona, salvo che tale decisione: a) sia necessaria per la conclusione o l’esecuzione di un contratto tra l’Interessato e il Titolare; b) sia autorizzata dal diritto dell’Unione o dello Stato membro cui è soggetto il Titolare; c) si basi sul consenso esplicito dell’Interessato. Nelle ipotesi di cui alle predette lettere a) e c), l’Interessato ha il diritto di ottenere l’intervento umano da parte del Titolare, di esprimere la propria opinione e di contestare la decisione.</p>
+                <p>Le richieste possono essere presentate all’unità organizzativa preposta al riscontro dell’Interessato, mediante posta ordinaria inviata alla sede del Titolare o mediante posta elettronica inviata all’indirizzo privacy@bancaifis.it.</p>
+                <p>L’Interessato ha, inoltre, il diritto di proporre reclamo al Garante Privacy, come previsto dall’art. 77 del Regolamento, nonché di adire le opportune sedi giudiziarie ai sensi degli artt. 78 e 79 del Regolamento.</p>
+            </div>
+            <!-- 10. Titolare e Responsabili del trattamento -->
+            <div class="uniqueBlock">
+                <h2 class="subSectionName">10. <span class="subSectionSpace"/>Titolare del trattamento e Responsabile della Protezione dei Dati</h2>
+                <p>Il Titolare del trattamento dei dati personali è Banca Ifis S.p.A., con sede in Venezia-Mestre, Via Terraglio n. 63. Il Titolare ha nominato un Responsabile della Protezione dei Dati, raggiungibile all’indirizzo rpd@bancaifis.it.</p>
+            </div>
+            <!-- INFORMATIVA PRIVACY RELATIVA ALLE ATTIVITÀ DI TRASFERIMENTO DEI FONDI SVOLTA DALLA SWIFT -->
+            <div class="uniqueBlock">
+                <p class="sectionName sectionNameTopLine"> INFORMATIVA PRIVACY RELATIVA ALLE ATTIVITÀ DI TRASFERIMENTO DEI FONDI SVOLTA DALLA SWIFT </p>
+                <p>Per dare corso ad operazioni finanziarie internazionali (es. un bonifico transfrontaliero) e ad alcune specifiche operazioni in ambito nazionale richieste dalla clientela, è necessario utilizzare un servizio di messaggistica internazionale. Detto servizio è gestito dalla “Society for Worldwide Interbank Financial Telecommunication” (SWIFT) avente sede legale in Belgio.</p>
+                <p>La Banca comunica a SWIFT (titolare del sistema SwiftNet Fin) dati riferiti a chi effettua le transazioni (es. nome dell’ordinante, del beneficiario e delle rispettive banche, le coordinate bancarie e l’importo). Diversamente, la Banca non potrebbe eseguire le operazioni richieste dalla clientela.</p>
+                <p>Si precisa inoltre che:</p>
+                <ul style="margin-top:0cm;" type="disc">
+                    <li>tutti i dati della clientela utilizzati per eseguire le predette transazioni finanziarie attualmente vengono - per motivi di sicurezza operativa - duplicati, trasmessi e conservati temporaneamente in copia da SWIFT in un server della società sito negli Stati Uniti d’America;</li>
+                    <li>i dati memorizzati in tale server sono accessibili ed utilizzabili negli USA, in conformità alla locale normativa di contrasto del terrorismo, da parte delle competenti autorità statunitensi (es. il Dipartimento del Tesoro).</li>
+                </ul>
+                <p>L’interessato conserva tutti i diritti previsti normativa in materia di protezione dei dati personali.</p>
+            </div>
+            <!-- INFORMATIVA PRIVACY RELATIVA ALLA REGISTRAZIONE DELLE TELEFONATE -->
+            <div class="uniqueBlock">
+                <p class="sectionName sectionNameTopLine"> INFORMATIVA PRIVACY RELATIVA ALLA REGISTRAZIONE DELLE TELEFONATE </p>
+                <p>La Banca desidera informare gli Interessati che abbiano in essere un contratto di locazione finanziaria che è attivo un sistema di registrazione delle telefonate nell’ambito delle attività di proposizione telefonica di contratti assicurativi connessi al prodotto leasing già concesso, svolta da una società terza opportunamente designata quale responsabile del trattamento dei dati personali. Tale sistema di registrazione è finalizzato alla prova dell’instaurazione dei rapporti, alla gestione degli stessi e al monitoraggio della qualità del servizio reso all’utenza. Tali registrazioni saranno archiviate con accesso riservato e conservate a norma di legge presso la sede della società terza per 10 anni decorrenti dal momento in cui scadranno i relativi effetti.</p>
+                <p>La registrazione delle telefonate avviene a mezzo di sistemi automatizzati che registrano le chiamate in uscita, adottando misure idonee a garantire la sicurezza e la riservatezza dei dati raccolti, così come previsto dalla vigente normativa sulla protezione dei dati personali. I file audio così generati saranno accessibili soltanto ai soggetti espressamente autorizzati al trattamento dei dati personali.</p>
+                <p>La Banca desidera informare gli Interessati che abbiano in essere un contratto di conto che è attivo un sistema di registrazione delle telefonate relative alle telefonate inbound e outbound gestite dal Servizio Clienti al fine di analizzare e monitorare la qualità dei processi e dei servizi resi alla clientela, nonché di approntate un’idonea difesa in caso di contestazioni avanzate dalla clientela stessa.</p>
+                <p>La registrazione delle telefonate avviene a mezzo di un sistema automatizzato che registra le chiamate in entrata e in uscita, adottando misure idonee a garantire la sicurezza e la riservatezza dei dati raccolti, così come previsto dalla vigente normativa sulla protezione dei dati personali. Le registrazioni saranno archiviate con accesso riservato e conservate per il tempo strettamente necessario a conseguire gli scopi per cui sono state raccolte. In ogni caso, il tempo massimo di conservazione non potrà eccedere il periodo di 10 anni dalla data di acquisizione delle registrazioni stesse, salvo che non siano intervenute circostanze che ne impongano l’ulteriore conservazione ai sensi della normativa tempo per tempo vigente. Le registrazioni delle telefonate saranno accessibili ai soggetti espressamente autorizzati al trattamento dei dati personali, al fine di tutelare i lavoratori della Banca interessati e il patrimonio aziendale in relazione ai danni diretti o indiretti che potrebbero derivare dalle contestazioni mosse dalla clientela, monitorare la qualità del servizio reso all’utenza, assolvere le funzioni di controllo interno previste da norme di legge e/o regolamentari a garanzia della tutela della clientela e/o del patrimonio aziendale e riscontrare le richieste degli enti esterni di controllo (Consob, Banca d’Italia, Società di revisione, ecc.), legittimati ad accedere alle registrazioni delle telefonate in qualità di titolari autonomi.</p>
+            </div>
+            <!-- INFORMATIVA PRIVACY RELATIVA ALL’UTILIZZO DELLE APPLICAZIONI MOBILE -->
+            <div class="uniqueBlock">
+                <p class="sectionName sectionNameTopLine"> INFORMATIVA PRIVACY RELATIVA ALL’UTILIZZO DELLE APPLICAZIONI MOBILE </p>
+                <p>La Banca desidera informare gli Interessati che abbiano in essere un contratto di conto e che utilizzassero l’applicazione mobile “Banca Ifis Retail” a disposizione per il download sui marketplace di riferimento in merito al trattamento dei dati personali in essere per il tramite della medesima. L’applicazione “Banca Ifis Retail”, sviluppata, aggiornata e manutenuta dalla società CEDACRI S.p.A., è a tutti gli effetti di legge di proprietà di Banca Ifis S.p.A.</p>
+                <p>I dati personali sono trattati dal Titolare per consentire all’Interessato di fruire di tutte le funzionalità previste dalla medesima e per assicurarne il corretto funzionamento. A questo scopo, attraverso l’applicazione “Banca Ifis Retail”, la Banca utilizza cookie tecnici, la cui lista, costantemente aggiornata, è disponibile sul sito web del relativo prodotto. L’utente, inoltre, può consentire l’integrazione dell’app con la rubrica dello smartphone per la condivisione del denaro, nonché per l’avvio di chiamate ai contatti utili.</p>
+                <p>I dati personali così trattati sono protetti da idonee misure di sicurezza che inibiscono il funzionamento dell’app “Banca Ifis Retail” installata nei dispositivi che risultano manomessi attraverso procedure di rooting/jailbreaking.</p>
+                <p>In qualsiasi momento l’Interessato può ottenere la cessazione del trattamento qui descritto effettuato dalla Banca tramite l’applicazione “Banca Ifis Retail” disinstallando l’applicazione dal proprio device. </p>
+            </div>          
+            <!-- INFORMATIVA AI SENSI DELL’ARTICOLO 6 DEL CODICE DI CONDOTTA PER I SISTEMI INFORMATIVI GESTITI DA SOGGETTI PRIVATI IN TEMA DI CREDITI AL CONSUMO, AFFIDABILITÀ E PUNTUALITÀ NEI PAGAMENTI -->
+            <p class="sectionName sectionNameTopLine">INFORMATIVA AI SENSI DELL’ARTICOLO 6 DEL CODICE DI CONDOTTA PER I SISTEMI INFORMATIVI GESTITI DA SOGGETTI PRIVATI IN TEMA DI CREDITI AL CONSUMO, AFFIDABILITÀ E PUNTUALITÀ NEI PAGAMENTI</p>
+            <h4>Come utilizziamo i Suoi dati</h4>
+            <p>La presente informativa di cui agli artt. 13 e 14 del Regolamento (UE) 2016/679 è resa anche per conto dei sistemi di informazioni creditizie.<br/>Gentile Cliente, Banca Ifis S.p.A., in qualità di Titolare del trattamento, La informa che, per dare seguito alla sua richiesta, utilizza alcuni dati che La riguardano. Si tratta di informazioni che Lei stesso ci fornisce o che otteniamo consultando alcune banche dati.</p>
+            <p>Tali banche dati (“Sistemi di Informazioni Creditizie” o “SIC”) contenenti informazioni circa gli interessati sono consultate per valutare, assumere o gestire un rischio di credito, per valutare l’affidabilità e la puntualità nei pagamenti dell’interessato e sono gestite da privati e partecipate da soggetti privati appartenenti alle categorie che troverà nelle informative fornite dai gestori dei SIC.</p>
+            <p>Queste informazioni saranno conservate presso di noi; alcune delle informazioni che Lei stesso ci fornisce, assieme alle informazioni originate dal Suo comportamento nei pagamenti riguardo al rapporto che si andrà ad instaurare potranno essere comunicate periodicamente ai SIC.</p>
+            <p>Ciò significa che i soggetti appartenenti alle categorie sopra menzionate, a cui Lei chiederà l’instaurazione di un rapporto, potranno sapere se Lei ha presentato a noi una richiesta e se paga regolarmente.</p>
+            <p>Il trattamento e la comunicazione dei Suoi dati è un requisito necessario per la conclusione del contratto. Senza questi dati potremmo non essere in condizione di dar seguito alla sua richiesta.</p>
+            <p>La conservazione di queste informazioni da parte delle banche dati viene effettuato sulla base del legittimo interesse del titolare del trattamento a consultare i SIC.</p>
+            <h4>Trattamento effettuato dalla Banca</h4>
+            <p>I Suoi dati potrebbero essere oggetto di trasferimento verso un Paese terzo extra-UE o un’organizzazione internazionale, secondo le modalità previste al paragrafo 6 dell’informativa che precede.</p>
+            <p>Secondo i termini, le modalità e nei limiti di applicabilità stabiliti dalla normativa vigente, Lei ha diritto di conoscere i Suoi dati e di esercitare i diversi diritti relativi al loro utilizzo (rettifica, aggiornamento, cancellazione, limitazione del trattamento, opposizione, ecc.).</p>
+            <p>Lei potrà proporre reclamo al Garante per la protezione dei dati personali (www.garanteprivacy.it), nonché ricorrere agli altri mezzi di tutela previsti dalla normativa applicabile.</p>
+            <p>Conserviamo i Suoi dati presso di noi per il tempo necessario per gestire il Suo rapporto contrattuale e per adempiere ad obblighi di legge (ad esempio per quanto previsto dall’articolo 2220 del codice civile in materia di conservazione delle scritture contabili).</p>
+            <p>Per ogni richiesta riguardante i Suoi dati, può scrivere a codesta Banca all’indirizzo privacy@bancaifis.it e/o alle società sotto indicate, cui comunicheremo i Suoi dati.</p>
+            <p>I Suoi dati potranno essere utilizzati nel processo decisionale automatizzato di una richiesta nel caso in cui tale decisione sia necessaria per la conclusione o l’esecuzione del Suo contratto con noi. In particolare, le informazioni ottenute consultando banche dati private, relative a finanziamenti richiesti ed erogati da altri intermediari finanziari, vengono elaborate dai nostri sistemi al fine di valutare la richiesta di finanziamento presentata alla Banca. In presenza di informazioni di tipo negativo all’interno della banche dati private, la richiesta di finanziamento avanzata alla Banca viene respinta e detto rifiuto viene tempestivamente comunicato all’interessato.</p>
+            <p>Le comunichiamo inoltre che per ogni occorrenza può essere contattato il nostro Responsabile della Protezione dei Dati al seguente recapito: rpd@bancaifis.it.</p>
+            <h4>Trattamento effettuato dal gestore dei SIC</h4>
+            <p>Al fine di meglio valutare il rischio di credito, nonché l’affidabilità e puntualità nei pagamenti, comunichiamo alcuni dati (dati anagrafici, anche della persona eventualmente coobbligata, tipologia del contratto, importo del credito, modalità di rimborso) ai Sistemi di Informazioni Creditizie, i quali sono regolati dal relativo Codice di condotta e che rivestono la qualifica di autonomi titolari del trattamento. I dati sono resi accessibili anche ai diversi soggetti privati appartenenti alle categorie che troverà nelle informative fornite dai gestori dei SIC, disponibili attraverso i canali di seguito elencati.</p>
+            <p>I dati che La riguardano sono aggiornati periodicamente con informazioni acquisite nel corso del rapporto (andamento dei pagamenti, esposizione debitoria residuale, stato del rapporto).</p>
+            <p>Nell'ambito dei SIC, i Suoi dati saranno trattati secondo modalità di organizzazione, raffronto ed elaborazione strettamente indispensabili per perseguire le finalità sopra descritte.</p>
+            <p>I Suoi dati sono oggetto di elaborazioni statistiche al fine di attribuirLe un giudizio sintetico o un punteggio sul Suo grado di affidabilità e solvibilità (cd. credit scoring), tenendo conto delle seguenti principali tipologie di fattori: a titolo esemplificativo e non esaustivo, numero e caratteristiche dei rapporti di credito in essere, andamento e storia dei pagamenti dei rapporti in essere o estinti, eventuale presenza e caratteristiche delle nuove richieste di credito, storia dei rapporti di credito estinti, esistenza o meno di dati pregiudizievoli, etc., che consentono di ottenere, attraverso l’applicazione di metodi e modelli statistici, risultati espressi in forma di giudizi sintetici, indicatori numerici o punteggi, diretti a fornire una rappresentazione in termini predittivi o probabilistici, del profilo di rischio, affidabilità o puntualità nei pagamenti dell’interessato.</p>
+            <p>Alcune informazioni aggiuntive possono esserLe fornite in caso di mancato accoglimento di una Sua richiesta.</p>
+            <p>I SIC cui noi aderiamo sono gestiti da:</p>
+            <ol style="margin-top:0cm;">
+                <li>
+                    <p>ESTREMI IDENTIFICATIVI: ASSOCIAZIONE ITALIANA LEASING – ASSILEA </p>
+                    <p>DATI DI CONTATTO: sede legale in 00184 Roma, Via Massimo d'Azeglio n. 33 (tel 06/9970361 – fax 06/45440739); sito web www.assilea.it; RESPONSABILE PER IL RISCONTRO AGLI INTERESSATI: ASSILEA SERVIZI S.R.L. (e-mail: bdcr@assilea.it)</p>
+                    <p>TIPO DI SISTEMA: positivo e negativo</p>
+                    <p>TEMPI DI CONSERVAZIONE DEI DATI: tali tempi sono indicati nella tabella sotto riportata</p>
+                    <p>USO DI SISTEMI AUTOMATIZZATI DI CREDIT SCORING: sì</p>
+                    <p>ESISTENZA DI UN PROCESSO DECISIONALE AUTOMATIZZATO: no</p>
+                </li>
+                <li>
+                    <p>ESTREMI IDENTIFICATIVI: CRIF S.P.A.</p>
+                    <p>DATI DI CONTATTO: sede legale in 40131 Bologna, Via M. Fantin n. 1-3 (tel 051/4176111 – fax 051/4176110); sito web www.crif.com; Responsabile della protezione dei dati: dirprivacy@crif.com, crif@pec.crif.com.</p>
+                    <p>TIPO DI SISTEMA: positivo e negativo</p>
+                    <p>TEMPI DI CONSERVAZIONE DEI DATI: tali tempi sono indicati nella tabella sotto riportata </p>
+                    <p>USO DEI SISTEMI AUTOMATIZZATI DI CREDIT SCORING: sì</p>
+                    <p>ESISTENZA DI UN PROCESSO DECISIONALE AUTOMATIZZATO: no</p>
+                    <p>ALTRO: CRIF S.p.A. aderisce ad un circuito internazionale di sistemi di informazioni creditizie che operano in vari Paesi europei ed extra-europei. Le informazioni potranno quindi essere comunicate (se presenti tutti i presupposti di legge) ad altre società, anche estere, che, seguendo la legislazione del loro paese, gestiscono in autonomia questi sistemi di informazioni creditizie e trattano le informazioni con le stesse finalità del sistema gestito da CRIF S.p.A.</p>
+                </li>
+                <li>
+                    <p>ESTREMI IDENTIFICATIVI: Experian Italia S.p.A.</p>
+                    <p>DATI DI CONTATTO: sede legale in 00185 Roma, Piazza dell’Indipendenza n. 11/b; Servizio Tutela Consumatori: tel 199183538 fax 199101850; RPD: dpoItaly@experian.com; sito internet: www.experian.it </p>
+                    <p>TIPO DI SISTEMA: positivo e negativo </p>
+                    <p>TEMPI DI CONSERVAZIONE DEI DATI: tali tempi sono indicati nella tabella sotto riportata </p>
+                    <p>USO DI SISTEMI AUTOMATIZZATI DI CREDIT SCORING: si </p>
+                    <p>ESISTENZA DI UN PROCESSO DECISIONALE AUTOMATIZZATO: no </p>
+                    <p>ALTRO: Experian Italia S.p.A., per finalità comunque correlate alla verifica dell’affidabilità, della situazione finanziaria ed a prevenire artifizi o raggiri, tratta anche dati provenienti dalle c.d. fonti pubbliche e partecipa, come aderente indiretto, al sistema Scipafi. I dati sono conservati all’interno dello Spazio Economico Europeo-SEE (il server principale è ubicato nel Regno Unito). Quando sono oggetto di operazioni di trattamento da parte di soggetti al di fuori dello SEE, i trasferimenti sono effettuati verso paesi per i quali vi è una decisione di adeguatezza da parte della Commissione europea, ovvero sono basati sulle Clausole Standard di protezione dei dati adottate dalla Commissione europea o su programmi internazionali per la libera circolazione dei dati (es.: EU-U.S. Privacy Shield Framework). Ulteriori dettagli informativi sono disponibili sul sito www.experian.it (Area Consumatori - Informativa SIC).</p>
+                </li>
+            </ol>
+            <p>Lei ha diritto di accedere in ogni momento ai dati che La riguardano. Si rivolga alla nostra Banca, inviando le Sue istanze all’indirizzo privacy@bancaifis.it, oppure ai gestori dei SIC, ai recapiti sopra indicati.</p>
+            <p>Allo stesso modo può richiedere la correzione, l'aggiornamento o l'integrazione dei dati inesatti o incompleti, ovvero la cancellazione o il blocco per quelli trattati in violazione di legge, o ancora opporsi al loro utilizzo per motivi legittimi da evidenziare nella richiesta (artt. da 15 a 22 del Regolamento (UE) 2016/679 escluso art. 20).</p>
+            
+            
+            <div class="uniqueBlock">
+                 <p style="margin-top:15px"><b>Tempi di conservazione dei dati nei SIC:</b></p>
+                <table class="borderedTable" style="margin-top: 15px; margin-bottom:15px">
+                    <col width="30%"/>
+                    <col width="70%"/>
+                    <tr>
+                        <td>
+                            richiesta di finanziamento
+                        </td>
+                        <td>
+                            non oltre 180 giorni dalla data di presentazione, se la richiesta è accolta<br/>
+                            non oltre 90 giorni dalla data dell’aggiornamento mensile, se la richiesta non è accolta o è oggetto di rinuncia
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            ritardi non superiori a due rate o a due mesi regolarizzate
+                        </td>
+                        <td>
+                            fino a 12 mesi dalla regolarizzazione
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            ritardi superiori a due rate o a due mesi regolarizzate
+                        </td>
+                        <td>
+                            fino a 24 mesi dalla regolarizzazione
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            ritardi o inadempimenti non regolarizzati
+                        </td>
+                        <td>
+                            non oltre 36 mesi dalla data di scadenza contrattuale del rapporto o dalla data in cui è risultato necessario l'ultimo aggiornamento, e comunque non oltre 60 mesi dalla scadenza contrattuale del rapporto
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            rapporti che si sono estinti con l’estinzione di ogni obbligazione pecuniaria
+                        </td>
+                        <td>
+                            non oltre 60 mesi dalla data di cessazione del rapporto o di scadenza del relativo contratto, ovvero dal primo aggiornamento effettuato nel mese successivo a tali date <br/>
+                            oltre 60 mesi, in presenza di ritardi od inadempimenti non regolarizzati relativi ad altri rapporti di credito 
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <!-- CONSENSO -->
+            <div style="page-break-before:always;"/>
+            <p class="sectionName"> CONSENSO </p>
+            <p>Dichiaro di aver ricevuto l’informativa privacy, ai sensi degli artt. 13 e 14 del Regolamento (UE) 2016/679 e 6 del Codice di condotta sui sistemi di informazioni creditizie, di essere edotto in merito ai trattamenti svolti, alle finalità e alle modalità degli stessi, nonché ai soggetti ai quali i dati possono essere comunicati nel rispetto di dette finalità.</p>
+            <p>Autorizzo Banca Ifis S.p.A. a trattare i miei dati personali, anche particolari e ancorché sulla base di processi decisionali automatizzati, e alla comunicazione degli stessi a terzi, per il perseguimento delle finalità dichiarate. </p>
+            <p style="margin-top:15px">In particolare, in relazione alle finalità di cui alla lettera C) del paragrafo 3, esprimo quanto segue:</p>
+
+            <table id="tabellaConsensi" style="margin-bottom: 15px">
+                <col width="74%"/>
+                <col width="13%" align="center"/>
+                <col width="13%" align="center"/>
+                <tr>
+                    <th/>
+                    <th align="center">AUTORIZZO</th>
+                    <th align="center">NON AUTORIZZO</th>
+                </tr>
+                <tr>
+                    <td>1)&nbsp;&nbsp;rilevazione dei gusti, delle preferenze, delle abitudini, dei bisogni e delle scelte di consumo dell’Interessato (c.d. profilazione) (solo qualora l’Interessato sia una persona fisica)</td>
+                    <td align="center">
+                        <img src="{!IF(a.ConsensoAllaProfilazione__c = TRUE, $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>
+                    </td>
+                    <td align="center">
+                        <img src="{!IF(a.ConsensoAllaProfilazione__c = TRUE, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <p>2)&nbsp;&nbsp;promozione ed offerta di prodotti/servizi della Banca o ricerche di mercato volte a rilevare il grado di soddisfazione dell'Interessato, attraverso modalità c.d. automatizzate e tradizionali</p>
+                    </td>
+                    <td align="center">
+                        <img src="{!IF(a.ConsensoProdottiBancaRicercheMercato__c = TRUE, $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>
+                    </td>
+                    <td align="center">
+                        <img src="{!IF(a.ConsensoProdottiBancaRicercheMercato__c = TRUE, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td >
+                        <p>3)&nbsp;&nbsp;promozione ed offerta di prodotti/servizi di terzi, attraverso modalità c.d. automatizzate e tradizionali</p>
+                    </td>
+                    <td align="center">
+                        <img src="{!IF(a.ConsensoProdottiSocietaTerze__c = TRUE, $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>
+                    </td>
+                    <td align="center">
+                        <img src="{!IF(a.ConsensoProdottiSocietaTerze__c = TRUE, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <p>4)&nbsp;&nbsp;comunicazione di dati personali a terzi per promozione ed offerta di prodotti/servizi della Banca o ricerche di mercato volte a rilevare il grado di soddisfazione dell'Interessato, attraverso modalità c.d. automatizzate e tradizionali</p>
+                    </td>
+                    <td align="center">
+                        <img src="{!IF(a.ConsensoAttivitaPromozionaleTerzi__c = TRUE, $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>
+                    </td>
+                    <td align="center">
+                        <img src="{!IF(a.ConsensoAttivitaPromozionaleTerzi__c = TRUE, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <p>5)&nbsp;&nbsp;comunicazione di dati personali a terzi per promozione ed offerta di prodotti/servizi di terzi medesimi, attraverso modalità c.d. automatizzate e tradizionali</p>
+                    </td>
+                    <td align="center">
+                        <img src="{!IF(a.ConsensoAttivitaPromRicercheMercato__c = TRUE, $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/>
+                    </td>
+                    <td align="center">
+                        <img src="{!IF(a.ConsensoAttivitaPromRicercheMercato__c = TRUE, $Resource.PrivacyPFCheckbox, $Resource.PrivacyPFCheckbox_selected)}"/>
+                    </td>
+                </tr>
+            </table>
+            <p>Il sottoscritto dichiara di voler ricevere le comunicazioni promozionali (di cui ai suddetti punti da 2 a 5) esclusivamente attraverso le modalità tradizionali (es. posta ordinaria, telefonate con operatore) e non quelle automatizzate (es. e-mail, SMS, MMS, fax, telefonate preregistrate):</p>
+            <p style="margin-left:70px; margin-top: 10px">
+                <img style="vertical-align: -3px; width:12px; height:12px; margin-right: 10px" src="{!IF(a.ConsensoSoloModalitaTradizionali__c = TRUE, $Resource.PrivacyPFCheckbox_selected, $Resource.PrivacyPFCheckbox)}"/> solo modalità tradizionali
+            </p>
+
+            <!-- form -->
+            <div style="margin-top: 30px; text-align: right">
+                <!-- NOME e COGNOME -->
+                <div style="padding: 13px 0px;">
+                    <span>NOME e COGNOME</span>
+                    <span class="{!IF(OR(ISBLANK(esecutore), ISBLANK(esecutore.Name)), 'hugeLine', 'hiddenInput')}"/>
+                    <span class="{!IF(AND(!ISBLANK(esecutore), !ISBLANK(esecutore.Name)), 'linedInput', 'hiddenInput')}"> {!esecutore.Name} </span>
+                </div>
+                <!-- AZIENDA -->
+                <div style="padding: 13px 0px;">
+                    <span>AZIENDA</span>
+                    <span class="{!IF(OR(ISBLANK(a), ISBLANK(a.Name)), 'hugeLine', 'hiddenInput')}"/>
+                    <span class="{!IF(AND(!ISBLANK(a), !ISBLANK(a.Name)), 'linedInput', 'hiddenInput')}"> {!a.Name} </span>
+                </div>
+            </div>
+            <div style="padding: 13px 0px;">
+                <!-- LUOGO e DATA -->
+                <div style="display: inline-block">
+                    <span class="{!IF( ISBLANK(a.BillingCity), 'normalLine', 'hiddenInput')}" />
+                    <span class="{!IF( !ISBLANK(a.BillingCity), 'linedInput', 'hiddenInput')}" > {!a.BillingCity} </span>
+                    <span style="font-size:9.0pt;">, li
+                        <span class= "{!IF( ISBLANK(a.DataInserimentoConsensi__c), 'normalLine', 'hiddenInput')}"/>
+                        <span class= "{!IF( !ISBLANK(a.DataInserimentoConsensi__c), 'linedInput', 'hiddenInput')}">
+                            <apex:outputText value="{0,date,dd/MM/yyyy}">
+                                <apex:param value="{!a.DataInserimentoConsensi__c}" />
+                            </apex:outputText>
+                        </span>
+                    </span>
+                </div>
+                <!-- FIRMA -->
+                <div style="display: inline-block; position: absolute; right: 8px; text-align:right;">
+                    <span>FIRMA</span>
+                    <span class="hugeLine"/>
+                </div>
+            </div>
+
+        </body>
+
+    </html>
+
+
+</apex:page>

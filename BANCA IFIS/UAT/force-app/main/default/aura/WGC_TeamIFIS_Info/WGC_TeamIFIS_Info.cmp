@@ -1,0 +1,46 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+                controller="WGC_TeamIFIS_ReferenceController" access="global">
+    
+    <ltng:require scripts="{!join(',', 
+                           '/resource/WGC_jQuery3x')}"
+                  afterScriptsLoaded="{!c.doInit}" />
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="address" type="Map" />
+    <aura:attribute name="recordId" type="String" />
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <div class="container sdgborder">
+        <lightning:layout >
+            <lightning:layoutItem flexibility="auto" size="2" class="image">
+               <img src="{!$Resource.WGC_DeskIcon}" class=""/>
+            </lightning:layoutItem>
+            <lightning:layoutItem flexibility="auto" size="9" class="info slds-p-vertical_large" >
+                <aura:if isTrue="{!v.address.Address.City != null}">
+                    <div class="intestazione">
+                        Filiale di {!v.address.Address.city}
+                    </div>
+                </aura:if>
+                    <div class="indirizzo">
+                        <!-- {!v.address.BillingAddress.street}, {!v.address.BillingAddress.city} -->
+                        <aura:if isTrue="{!v.address.Address.street != null}">
+                            {!v.address.Address.street}
+                        </aura:if>
+                        <aura:if isTrue="{!v.address.Address.state != null}">
+                            , {!v.address.Address.state}
+                        </aura:if>
+                        <aura:if isTrue="{!v.address.Address.postalCode != null}">
+                            , {!v.address.Address.postalCode}
+                        </aura:if>
+                        <aura:if isTrue="{!v.address.Address.country != null}">
+                            , {!v.address.Address.country}
+                        </aura:if>
+                    </div>
+                <!-- <div class="code">
+                	Ag. 01234567
+                </div> -->
+            </lightning:layoutItem>
+            
+        </lightning:layout>
+    </div>
+</aura:component>

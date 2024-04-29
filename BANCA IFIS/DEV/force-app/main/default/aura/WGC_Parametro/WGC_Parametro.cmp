@@ -1,0 +1,79 @@
+<aura:component access="global">
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="parameter" type="Object"/>
+    <aura:attribute name="options" type="List" access="PRIVATE"/>
+    <aura:attribute name="yesNoOptions" type="List" access="PRIVATE" default="[{label:'Sì',value:'TRUE'},{label:'No',value:'FALSE'}]"/>
+    <aura:attribute name="value" type="Object" default=""/>
+    <!-- SM - TENAM-216 -->
+    <aura:attribute name="valueForListbox" type="List" default="[]" />
+    <aura:attribute name="preview" type="String" default=""/>
+    <aura:attribute name="showPreview" type="Boolean" default="false"/>
+    <aura:attribute name="isDashboard" type="Boolean" default="false"/>
+    <aura:attribute name="isDeroga" type="Boolean" default="false"/>
+    <aura:attribute name="isRevisione" type="Boolean" default="false"/>
+    <aura:attribute name="disableRevisionedLines" type="Boolean" default="false"/>
+    <aura:attribute name="readOnly" type="Boolean" default="false"/>
+    <aura:attribute name="precisioneDecimali" type="Object"/>
+    
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    <aura:handler name="change" value="{! v.parameter }" action="{! c.reloadValue }"/>
+
+    <!-- REGISTER EVENT -->
+    <aura:registerEvent  name="changeParam" type="c:WGC_ChangeParamValue"/>
+    
+    <aura:if isTrue="{! v.parameter.tipologia == 'Picklist' }">
+        <lightning:select aura:id="WGC_Parameter" label="{! v.parameter.nome }" name="{! v.parameter.codice }" value="{! v.value }" disabled="{! v.readOnly || v.parameter.readonly || and(!v.parameter.derogaFidoDiCoppia, v.isDeroga) || v.isRevisione || v.disableRevisionedLines }" onchange="{! c.onChangeParam }" required="{! v.parameter.obbligatorio }">
+            <aura:iteration items="{!v.options}" var="option">
+                <option text="{!option.label}" value="{!option.value}" selected="{!option.selected}"/>
+            </aura:iteration>
+        </lightning:select>
+    </aura:if>
+
+    <aura:if isTrue="{! v.parameter.tipologia == 'Stringa' }">
+        <lightning:input aura:id="WGC_Parameter" type="text" label="{! v.parameter.nome }" name="{! v.parameter.codice }" disabled="{! v.readOnly || v.parameter.readonly || and(!v.parameter.derogaFidoDiCoppia, v.isDeroga) || v.isRevisione || v.disableRevisionedLines }" value="{! v.value }" onchange="{! c.onChangeParam }" required="{! v.parameter.obbligatorio }"/>
+    </aura:if>
+    
+    <aura:if isTrue="{! v.parameter.tipologia == 'Importo' || v.parameter.tipologia == 'Divisa' }">
+        <aura:if isTrue="{! v.showPreview }">
+            <span class="cstm-input-numeric-preview">{! v.preview }</span>
+        </aura:if>
+        <lightning:input aura:id="WGC_Parameter" type="number" class="cstm-input-numeric" label="{! v.parameter.nome }" name="{! v.parameter.codice }" disabled="{! v.readOnly || v.parameter.readonly || and(!v.parameter.derogaFidoDiCoppia, v.isDeroga) || v.isRevisione || v.disableRevisionedLines }" formatter="currency" value="{! v.value }" step="{! v.precisioneDecimali }" onchange="{! c.onChangeParam }" required="{! v.parameter.obbligatorio }" onfocus="{! c.onFocusCurrency }" onblur="{! c.onBlurCurrency }" max="{! v.parameter.limiteKNET }"/>
+    </aura:if>
+    
+    <aura:if isTrue="{! v.parameter.tipologia == 'Numero' }">
+        <lightning:input aura:id="WGC_Parameter" type="number" label="{! v.parameter.nome }" name="{! v.parameter.codice }" disabled="{! v.readOnly || v.parameter.readonly || and(!v.parameter.derogaFidoDiCoppia, v.isDeroga) || v.isRevisione || v.disableRevisionedLines }" value="{! v.value }" onchange="{! c.onChangeParam }" required="{! v.parameter.obbligatorio }" max="{! v.parameter.limiteKNET }"/>
+    </aura:if>
+    
+    <aura:if isTrue="{! v.parameter.tipologia == 'Percentuale' }">
+        <lightning:input aura:id="WGC_Parameter" type="number" class="cstm-input-numeric" label="{! v.parameter.nome }" name="{! v.parameter.codice }" formatter="decimal" disabled="{! v.readOnly || v.parameter.readonly || and(!v.parameter.derogaFidoDiCoppia, v.isDeroga) || v.isRevisione || v.disableRevisionedLines }" value="{! v.value }" step="{! v.precisioneDecimali }" onchange="{! c.onChangeParam }" required="{! v.parameter.obbligatorio }" max="{! v.parameter.limiteKNET }"/>
+    </aura:if>
+
+    <aura:if isTrue="{! v.parameter.tipologia == 'Flag' }">
+        <lightning:radioGroup 
+            aura:id="WGC_Parameter"
+            name="{! v.parameter.codice }"
+            label="{! v.parameter.nome }"
+            options="{! v.yesNoOptions }"
+            value="{! v.value }"
+            disabled="{! v.readOnly || v.parameter.readonly || and(!v.parameter.derogaFidoDiCoppia, v.isDeroga) || v.isRevisione || v.disableRevisionedLines }"
+            type="radio"
+            onchange="{! c.onChangeParam }" 
+            required="{! v.parameter.obbligatorio }"/>
+    </aura:if>
+    
+    <aura:if isTrue="{! v.parameter.tipologia == 'Multi-picklist' }">
+        <lightning:dualListbox 
+            aura:id="WGC_Parameter"
+            name="{! v.parameter.codice }"  
+            label= "{! v.parameter.nome }"
+            options="{!v.options}"
+            value="{! v.valueForListbox }"
+            disabled="{! v.readOnly || v.parameter.readonly || and(!v.parameter.derogaFidoDiCoppia, v.isDeroga) || v.isRevisione || v.disableRevisionedLines }"
+            class="cstm-multi-picklist"
+            onchange="{! c.onChangeParam }" 
+            required="{! v.parameter.obbligatorio }"/>
+            <!-- onchange="{! c.handleChange }" -->
+    </aura:if>
+
+</aura:component>

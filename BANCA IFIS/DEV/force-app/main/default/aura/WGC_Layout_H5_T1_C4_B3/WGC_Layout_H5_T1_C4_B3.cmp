@@ -1,0 +1,82 @@
+<aura:component implements="lightning:AppHomeTemplate" description="Header 5 Column. Row 1, 4, 3, 1">
+
+    <ltng:require
+    styles="{!$Resource.WGC_HideHeaderApp}" />
+
+    <aura:attribute name="column" type="Aura.Component[]" />
+    <aura:attribute name="header_1" type="Aura.Component[]" />
+    <aura:attribute name="header_2" type="Aura.Component[]" />
+    <aura:attribute name="header_3" type="Aura.Component[]" />
+    <aura:attribute name="header_4" type="Aura.Component[]" />
+    <aura:attribute name="header_5" type="Aura.Component[]" />
+    <aura:attribute name="column_top" type="Aura.Component[]" />
+    <aura:attribute name="columnC_1" type="Aura.Component[]" />
+    <aura:attribute name="columnC_2" type="Aura.Component[]" />
+    <aura:attribute name="columnC_3" type="Aura.Component[]" />
+    <aura:attribute name="columnC_4" type="Aura.Component[]" />
+    <aura:attribute name="columnB_1" type="Aura.Component[]" />
+    <aura:attribute name="columnB_2" type="Aura.Component[]" />
+    <aura:attribute name="columnB_3" type="Aura.Component[]" />
+    <aura:attribute name="column_bottom" type="Aura.Component[]" />
+
+    <div>
+        <lightning:layout multipleRows="true">
+            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="4" padding="around-small">
+            	{!v.header_1}
+            </lightning:layoutItem>
+            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="4" padding="around-small">
+            	{!v.header_2}
+            </lightning:layoutItem>
+            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="2" padding="around-small">
+            	{!v.header_3}
+            </lightning:layoutItem>
+            <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="3" largeDeviceSize="1" padding="around-small">
+            	{!v.header_4}
+            </lightning:layoutItem>
+            <lightning:layoutItem size="12" smallDeviceSize="6" mediumDeviceSize="3" largeDeviceSize="1" padding="around-small">
+            	{!v.header_5}
+            </lightning:layoutItem>
+        </lightning:layout>
+
+        <lightning:layout multipleRows="true">
+        	<lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12" padding="around-small" class="page-section page-center-top">
+            	{!v.column_top}
+            </lightning:layoutItem>
+        </lightning:layout>
+
+        <lightning:layout multipleRows="true">
+			<lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="3" padding="around-small">
+            	{!v.columnC_1}
+            </lightning:layoutItem>
+            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="4" padding="around-small">
+            	{!v.columnC_2}
+            </lightning:layoutItem>
+            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="3" padding="around-small">
+            	{!v.columnC_3}
+            </lightning:layoutItem>
+            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="2" padding="around-small">
+            	{!v.columnC_4}
+            </lightning:layoutItem>
+        </lightning:layout>
+
+        <lightning:layout multipleRows="true">
+			<lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="4" padding="around-small">
+            	{!v.columnB_1}
+            </lightning:layoutItem>
+            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="4" padding="around-small">
+            	{!v.columnB_2}
+            </lightning:layoutItem>
+            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="4" padding="around-small">
+            	{!v.columnB_3}
+            </lightning:layoutItem>
+        </lightning:layout>
+
+        <lightning:layout multipleRows="true">
+        	<lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12" padding="around-small" class="page-section page-center-bottom">
+            	{!v.column_bottom}
+            </lightning:layoutItem>
+        </lightning:layout>
+    </div>
+
+
+</aura:component>

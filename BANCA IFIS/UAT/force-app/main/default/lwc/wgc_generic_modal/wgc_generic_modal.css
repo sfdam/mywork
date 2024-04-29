@@ -1,0 +1,17 @@
+.cstm-modal-large{
+    position: relative;
+    transform: translate(0, 0);
+    transition: transform var(--lwc-durationQuickly,0.1s) linear,opacity var(--lwc-durationQuickly,0.1s) linear;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 var(--lwc-spacingXLarge,2rem);
+    height: 100%;
+    padding: var(--lwc-squareIconLargeBoundary,3rem) 0;
+    border-radius: var(--lwc-borderRadiusMedium,0.25rem);
+
+    margin: 0 auto;
+    width: 75%;
+    max-width: 75rem;
+    min-width: 20rem;
+}

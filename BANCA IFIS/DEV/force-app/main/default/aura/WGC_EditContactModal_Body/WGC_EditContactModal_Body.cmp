@@ -1,0 +1,36 @@
+<aura:component controller="WGC_EditContact" extends="c:WGC_Utility">
+
+    <ltng:require styles="{!join(',','/resource/WGC_GlobalCSS')}" scripts="{!join(',', 
+             '/resource/WGC_jQuery3x')}" />
+
+    <!-- REGISTER EVENT -->
+    <aura:registerEvent name="B2F" type="c:ModalBody2FooterEvent" />
+    <aura:registerEvent name="resolveEvent" type="c:WGC_EditContactResolveEvent" />
+
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <!-- <aura:handler name="change" value="{! v.recordId}" action="{!c.reloadRecord}" /> -->
+    <!-- <aura:handler name="change" value="{! v.sections }" action="{! c.onSectionsReload }" /> ModalFooter2BodyEvent-->
+    <aura:handler event="c:PageLayoutRecordDisplayEvent" action="{! c.manageF2B }" />
+
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="currentContact" type="Contact" default="{'sobjectType':'Contact'}" description="RecordType associati al contact" />
+    <aura:attribute name="PageLayout" type="String" />
+    <!-- <aura:attribute name="account" type="Account" default="{'sobjectType':'Account'}" description="" />
+    <aura:attribute name="tipoRecord" type="String" default="" description="tipo record passato" /> -->
+
+    <!-- INSERT CUSTOM ATTRIBUTES HERE -->
+
+    <lightning:navigation aura:id="navService" />
+    <lightning:overlayLibrary aura:id="overlayLib" />
+
+    <!-- DEFAULT ITERATION TO PRINT CONTENT -->
+    <!-- DEFAULT ITERATION TO PRINT CONTENT -->
+
+    <!-- INSERT CUSTOM CONTENT HERE -->
+    <!-- NEW COMPONENT -->
+    
+    <c:WGC_PageLayoutRecordDisplay currentContact="{! v.currentContact }" recordId="{! v.recordId }" PageLayout="{! v.PageLayout }" sObjectName="Contact"/>
+
+</aura:component>

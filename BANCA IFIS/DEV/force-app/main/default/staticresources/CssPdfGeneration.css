@@ -1,0 +1,447 @@
+@page {
+  size: A4 portrait;
+
+  margin-right: 36pt;
+  margin-left: 36pt;
+  margin-top: 54pt;
+  margin-bottom: 90pt;
+
+  @top-center {
+    content: element(header_center);
+  }
+
+  @top-left {
+    content: element(header_left);
+  }
+
+  @top-right {
+    content: element(header_right);
+  }
+
+  @bottom-left {
+    content: element(footer_left);
+  }
+
+  @bottom-center {
+    content: element(footer_center);
+  }
+
+  @bottom-right {
+    content: element(footer_right);
+  }
+}
+
+tr {
+page-break-inside: avoid;
+}
+
+
+.footer_left {
+ text-align: left;
+ position: running(footer_left);
+}
+
+.footer_right {
+ text-align: right;
+ position: running(footer_right);
+}
+
+.footer_center {
+ text-align: center;
+ position: running(footer_center);
+}
+
+.header_left {
+ text-align: left;
+ position: running(header_left);
+}
+
+.header_logo_img {
+height:10mm;
+margin-top: 0px;
+margin-left: 0px;
+}
+
+.footerLargeImg {
+width:190mm;
+margin-top: 0pt;
+}
+
+.docName {
+font-size:8pt;
+font-style: italic;
+margin-top: 0pt;
+margin-left: 0pt;
+margin-bottom:0pt;
+text-align: left;
+}
+
+.sectionName {
+  margin-top:15px;
+  margin-bottom:15px;
+  font-size:9.0pt;
+  font-weight: bold;
+  text-align: center;
+  width:100%;
+}
+
+.sectionNameTopLine {
+  border-top: solid;
+  border-top-width: 0.5pt;
+  padding-top: 15px;
+}
+
+.subSectionName {
+  font-size: 9.0pt;
+  margin-left: 18.0pt;
+  margin-top: 3pt;
+  margin-bottom: 1pt;
+}
+
+.subSectionSpace {
+  display:inline-block;
+  width: 10pt;
+}
+
+.borderedTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.borderedTable td {
+  border: 0.5px solid #000;
+  padding: 5px;
+}
+
+.pageNumberFooter {
+  font-size: 10px;
+  font-style: italic;
+  margin-left: -50pt;
+  margin-bottom: 60px;
+}
+
+/*css scritta documento nel footer*/
+#footer_pdf_name {
+font-style: italic;
+font-size: 10px;
+margin-left: 20px;
+}
+
+/*per stampare tutto il blocco nella stessa pagina*/
+.uniqueBlock {
+page-break-inside: avoid;
+}
+
+/* per dare un margine prefissato al blocco*/
+.lowMarginBlock {
+margin-bottom: 5px;
+}
+
+.midMarginBlock {
+margin-bottom: 10px;
+}
+
+/*immagini delle checkbox*/
+.checkboxImgSmall {
+width:12px;
+height:12px;
+margin-right: 10px;
+}
+
+.checkboxImgVerySmall {
+width:10px;
+height:10px;
+}
+
+/*spazio riservato per la banca*/
+.spazioRiservatobanca {
+border-width: 1px;
+border-color: black;
+border-style: solid;
+padding: 5px;
+}
+
+/* Caratteri particolari (rumeni)*/
+
+/*
+Questo elemento 'rChar' è da utilizzare per eventuali fix da applicare alle lettere rumene non renderizzabili:
+Deve contenere solamente la lettera coinvolta. Aggiunge una piccola virgola al di sotto di essa.
+Al momento è utilizzato per gestire i seguenti caratteri: ș ț
+*/
+rChar {
+  display: inline-block;
+  position: relative;
+}
+
+rChar::before {
+content: ',';
+display: inline-block;
+
+/* Posiziono una virgola al di sotto della lettera.. */
+position: absolute;
+bottom: -0.05em;
+left: 0;
+
+/* ..centrandola e sistemandone la grandezza */
+text-align: center;
+width: 100%;
+font-size: 70%;
+}
+
+.ElementList1 rChar::before {
+bottom: -0.4em;
+}
+
+/* stile scritte nel paragrafo  */
+
+.paragrafoStandard75 {
+margin:0cm;
+margin-bottom:.0001pt;
+font-size:7.5pt;
+text-align:justify;
+}
+.paragrafoStandard8 {
+margin:0cm;
+margin-bottom:.0001pt;
+font-size:8.0pt;
+text-align:justify;
+}
+
+.paragrafoStandard85 {
+margin:0cm;
+margin-bottom:.0001pt;
+font-size:8.5pt;
+text-align:justify;
+}
+
+.paragrafoStandard9 {
+margin:0cm;
+margin-bottom:.0001pt;
+font-size:9.0pt;
+text-align:justify;
+}
+
+.paragrafoStandard10 {
+margin:0cm;
+margin-bottom:.0001pt;
+font-size:10.0pt;
+text-align:justify;
+}
+
+.paragrafoTabella {
+margin:0cm;
+font-size:9.5pt;
+margin-top: 2pt;
+margin-bottom: 2pt;
+}
+
+/* loghi ifis */
+.logoIfisSinistra {
+height:30px;
+width:120px;
+}
+
+.logoIfisEstesoDestra {
+height:94px;
+width:160px;
+margin-top: -10px;
+margin-bottom: -30px;
+float:right;
+}
+
+/*LISTE*/
+.ElementList1 {
+margin:0cm;
+margin-bottom:.0001pt;
+font-size:10.0pt;
+line-height:10.0pt;
+text-align:justify;
+}
+
+.RomanList1 {
+margin-top: 0pt;
+margin-left: 15pt;
+list-style-type: lower-roman;
+}
+
+.numericList1 {
+margin-top: 3pt;
+margin-left: 38pt;
+list-style-type: upper-alpha;
+}
+
+
+/* INPUT per parti dinamiche*/
+.dottedInput {
+border-bottom: dotted;
+border-bottom-width: 1pt;
+margin-left: 4pt;
+margin-right: 4pt;
+padding-left: 5pt;
+padding-right: 5pt;
+}
+
+.linedInput {
+border-bottom: solid;
+border-bottom-width: 1px;
+margin-left: 4pt;
+margin-right: 4pt;
+padding-left: 10pt;
+padding-right: 10pt;
+}
+
+.CFcell {
+  display:inline-table;
+  text-align: center;
+  border-bottom: solid;
+  border-left: solid;
+  border-right: solid;
+  border-bottom-width: 1px;
+  border-left-width: 1px;
+  border-right-width: 1px;
+  margin-left: 0pt;
+  margin-right: 0pt;
+  width: 15pt;
+  border-collapse: separate;
+  height: 18px;
+}
+
+.CFstring {
+margin-left:10pt;
+}
+
+/* aree puntinate in caso di campi vuoti */
+.veryLongDot {
+padding-left:130pt;
+border-bottom: dotted;
+border-bottom-width: 1pt;
+margin-left: 4pt;
+margin-right: 4pt;
+}
+
+.longDot {
+padding-left:100pt;
+border-bottom: dotted;
+border-bottom-width: 1pt;
+margin-left: 4pt;
+margin-right: 4pt;
+}
+
+.normalDot {
+padding-left:80pt;
+border-bottom: dotted;
+border-bottom-width: 1pt;
+margin-left: 4pt;
+margin-right: 4pt;
+}
+
+.shortDot {
+padding-left:35pt;
+border-bottom: dotted;
+border-bottom-width: 1pt;
+margin-left: 4pt;
+margin-right: 4pt;
+}
+
+.veryShortDot {
+padding-left:20pt;
+border-bottom: dotted;
+border-bottom-width: 1pt;
+margin-left: 4pt;
+margin-right: 4pt;
+}
+
+.veryLongLine {
+padding-left:130pt;
+border-bottom: solid;
+border-bottom-width: 1px;
+margin-left: 4pt;
+margin-right: 4pt;
+}
+
+.hugeLine {
+padding-left:170pt;
+border-bottom: solid;
+border-bottom-width: 1px;
+margin-left: 4pt;
+margin-right: 4pt;
+}
+
+.normalLine {
+padding-left:80pt;
+border-bottom: solid;
+border-bottom-width: 1px;
+margin-left: 4pt;
+margin-right: 4pt;
+}
+
+/* to dinamically hide input */
+.hiddenInput {
+  display: none;
+}
+
+/* stile numero di pagina footer */
+.pageNumberFooter {
+  font-size: 10px;
+  font-style: italic;
+}
+
+.pagenumber:before {
+  content: counter(page);
+}
+
+.pagecount:before {
+ content: counter(pages);
+}
+
+@media screen {
+    div.header {
+      height:115px;
+      top: 0;
+        }
+    div.footer {
+          position: fixed;
+            bottom: 0;
+            width:  100%;
+        }
+}
+
+@media print {
+
+  div.header {
+    top:0;
+    /*padding-bottom:20px;*/
+    height:115px;
+  }
+
+  div.footer {
+        position: fixed;
+        /*position: running(footer);*/
+        bottom: 30pt;
+        width:  100%;
+  }
+}
+
+table.MsoTableGrid
+  {mso-style-name:"Table Grid";
+  mso-tstyle-rowband-size:0;
+  mso-tstyle-colband-size:0;
+  mso-style-priority:59;
+  mso-style-unhide:no;
+  border:solid windowtext 1.0pt;
+  mso-border-alt:solid windowtext .5pt;
+  mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+  mso-border-insideh:.5pt solid windowtext;
+  mso-border-insidev:.5pt solid windowtext;
+  mso-para-margin:0cm;
+  mso-para-margin-bottom:.0001pt;
+  text-align:justify;
+  mso-pagination:widow-orphan;
+  font-size:11.0pt;
+  font-family:"Calibri",sans-serif;
+  mso-ascii-font-family:Calibri;
+  mso-ascii-theme-font:minor-latin;
+  mso-hansi-font-family:Calibri;
+  mso-hansi-theme-font:minor-latin;
+  mso-fareast-language:EN-US;}
+

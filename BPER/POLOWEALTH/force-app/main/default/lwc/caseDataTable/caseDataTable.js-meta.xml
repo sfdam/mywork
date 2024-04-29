@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>49.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__RecordPage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__RecordPage">
+            <property name="title" type="String" label="Titolo" description="definisci il titolo del componente"/>
+            <property name="viewAllLabel" type="String" label="Label Pulasnte View All" description="definisci la label del pulsane View All"/>
+            <property name="pagina" type="Integer" label="funzionalità" description="Digita 1 per la pagina di un Account,
+                                                                            Digita 2 per la pagina di un Canale,
+                                                                            Digita 3 per la pagina di un Prodotto(Case legati all'Account),
+                                                                            Digita 4 per la pagina di un Prodotto(Case legati al Prodotto)
+                                                                            "/>
+            <property name="widthc_01" type="Integer" label="Larghezza colonna Stato" default="50"/>
+            <property name="widthc_02" type="Integer" label="Larghezza colonna Caso" default="50"/>
+            <property name="widthc_03" type="Integer" label="Larghezza colonna Data/Ora Apertura" default="50"/>
+            <property name="widthc_04" type="Integer" label="Larghezza colonna Area" default="50"/>
+            <property name="widthc_05" type="Integer" label="Larghezza colonna Esito" default="50"/>
+            <property name="widthc_06" type="Integer" label="Larghezza colonna Canale" default="50"/>
+            <property name="widthc_07" type="Integer" label="Larghezza colonna Ambito" default="50"/>
+            <property name="widthc_08" type="Integer" label="Larghezza colonna Reclamo" default="50"/>
+            <property name="widthc_09" type="Integer" label="Larghezza colonna Lamentela" default="50"/>
+            <property name="widthc_10" type="Integer" label="Larghezza colonna Blocco New" default="50"/>
+            <property name="widthc_11" type="Integer" label="Larghezza colonna Primo assegnatario" default="50"/>
+            <property name="widthc_12" type="Integer" label="Larghezza colonna Owner" default="50"/>
+            <property name="widthc_13" type="Integer" label="Larghezza colonna Team Owner" default="50"/>
+            <property name="widthc_14" type="Integer" label="Larghezza colonna Polo Owner" default="50"/>
+            <property name="widthc_15" type="Integer" label="Larghezza colonna Attività" default="50"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

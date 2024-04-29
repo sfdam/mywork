@@ -1,0 +1,8 @@
+.THIS .none{
+ display:none; }
+
+
+.THIS .inlineRadio .slds-form-element__label {
+    color: rgb(0, 35, 120);
+    font-weight: bold;
+}

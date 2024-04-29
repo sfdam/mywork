@@ -1,0 +1,66 @@
+<template>
+    <lightning-card title={titleCard}>
+        <lightning-accordion allow-multiple-sections-open="true">
+            <template for:each={mapping} for:item="m">
+                <lightning-accordion-section name={m.header} label={m.header} key={m.header}>
+                    <table class="slds-table slds-table_cell-buffer slds-no-row-hover slds-table_bordered slds-table_fixed-layout" aria-label="Example table of Opportunities with no row hovers">
+                        <thead>
+                            <tr class="slds-line-height_reset">
+                                <th class={columns_size_class} scope="col">
+                                    <div class="slds-truncate" title="">&nbsp;</div>
+                                </th>
+                                <template for:each={m.table.headers} for:item="h">
+                                    <th class={columns_size_class} scope="col" key={h}>
+                                        <div class="slds-line-clamp_x-small" style="width: 100px;" title={h}>{h}</div>
+                                    </th>
+                                </template>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={m.table.rows} for:item="c">
+                                <tr class="slds-hint-parent" key={c.label}>
+                                    <th data-label="Opportunity Name" scope="row" class={c.css_header}>
+                                        <div class="slds-truncate" title={c.label}>
+                                            <lightning-formatted-text value={c.label}></lightning-formatted-text>
+                                        </div>
+                                    </th>
+                                    <template for:each={c.records} for:item="r">
+                                        <td data-label={r} key={r} class={c.css_row}>
+                                            <div class="slds-truncate" title={r}>
+                                                <template if:true={r.is_blank}>
+                                                    <lightning-formatted-text value="-"></lightning-formatted-text>
+                                                </template>
+                                                <template if:false={r.is_blank}>
+                                                    <template if:true={c.is_text}>
+                                                        <lightning-formatted-text value={r.value}></lightning-formatted-text>
+                                                    </template>
+                                                    <template if:true={c.is_number}>
+                                                        <lightning-formatted-number value={r.value} format-style="decimal" minimum-fraction-digits={c.scale} maximum-fraction-digits={c.scale}></lightning-formatted-number>
+                                                    </template>
+                                                    <template if:true={c.is_percent}>
+                                                        <lightning-formatted-number value={r.value} format-style="percent-fixed" minimum-fraction-digits={c.scale} maximum-fraction-digits={c.scale}></lightning-formatted-number>
+                                                    </template>
+                                                    <template if:true={c.is_currency}>
+                                                        <lightning-formatted-number value={r.value} format-style="currency"  minimum-fraction-digits={c.scale} maximum-fraction-digits={c.scale}></lightning-formatted-number>
+                                                    </template>
+                                                    <!--<template if:true={c.is_boolean}>
+                                                        <template if:true={r.value}>
+                                                            <lightning-input type="checkbox" checked disabled></lightning-input>
+                                                        </template>
+                                                        <template if:false={r.value}>
+                                                            <lightning-formatted-text value=''></lightning-formatted-text>
+                                                        </template>
+                                                    </template>-->
+                                                </template>
+                                            </div>
+                                        </td>
+                                    </template>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </lightning-accordion-section>
+            </template>
+        </lightning-accordion>
+    </lightning-card>
+</template>

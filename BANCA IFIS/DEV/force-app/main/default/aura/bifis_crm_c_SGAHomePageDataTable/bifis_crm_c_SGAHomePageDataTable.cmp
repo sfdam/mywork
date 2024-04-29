@@ -1,0 +1,265 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="bifis_crm_c_SGAHomePageDataTableCtrl">  
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/> 
+    <aura:attribute name="workflows" type="WorkflowSGA__c[]" />
+    <aura:attribute name="isMainFlowOpen" type="boolean" default="false"/>
+    <aura:attribute name="isDeleteFlowOpen" type="boolean" default="false"/>
+    <aura:attribute name="deletableWorkflowId" type="String" default=""/>
+    <aura:attribute name="modifiableWorkflowId" type="String" default=""/>
+    
+    <aura:attribute name="valoreFiltroRicerca" type="String" default=""/>    
+
+    <aura:attribute name="modalWindowTitle" type="String" default=""/>    
+ 
+    <div class="bifisInfoArea">
+        <span class="slds-m-left_large slds-text-heading_medium" style="white-space: nowrap;">Vuoi inserire una nuova pratica IFIS-SGA?</span><span style="width:100%"></span><span class="slds-m-right_large" style="white-space: nowrap;"><button class="slds-button slds-button_neutral" style="white-space: nowrap;" onclick="{!c.openNewWorkflow}">CREA NUOVA PRATICA</button></span>        
+    </div>
+    
+    <div class="slds-m-top_small">
+        <div class="slds-text-title_caps"><lightning:input aura:id="flowInputFiltroRicercaInputId" name="flowInputFiltroRicercaInput" type="search" placeholder="Cerca pratica per P.IVA, Creatore o Numero Pratica (min. 3 caratteri)" value="{!v.valoreFiltroRicerca}" onchange="{! c.handleChange }"/></div>
+    </div>   
+    
+    <hr style="margin-top:10px;margin-bottom:10px;"/>
+    
+    <div class="slds-m-left_large slds-m-bottom_medium slds-m-top_medium">
+        <div class="slds-text-title_caps">ULTIME PRATICHE INSERITE</div>
+    </div> 
+    
+    <table class="slds-table slds-table_bordered slds-table_resizable-cols slds-table_striped" role="grid">
+        <thead>
+            <tr class="slds-line-height_reset">
+                
+                <th aria-sort="none" class="slds-is-sortable slds-is-resizable slds-text-title_caps bifisColumnHeaderLeft" aria-label="PARTITA IVA" scope="col">
+                    <a class="slds-th__action slds-text-link_reset" href="javascript:void(0);" role="button" tabindex="-1">
+                        <span class="slds-assistive-text">Sort by: </span>
+                        <span class="slds-truncate" title="PARTITA IVA">PARTITA IVA</span>
+                        <div class="slds-icon_container">
+                            
+                        </div>
+                    </a>
+                    <span class="slds-assistive-text" aria-live="assertive" aria-atomic="true">Sorted none</span>
+                    <div class="slds-resizable">
+                        <input type="range" min="20" max="1000" aria-label="Name column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-138" tabindex="-1" />
+                        <span class="slds-resizable__handle">
+                            <span class="slds-resizable__divider"></span>
+                        </span>
+                    </div>
+                </th>
+                
+                <th aria-sort="none" class="slds-is-sortable slds-is-resizable slds-text-title_caps bifisColumnHeader" aria-label="RAGIONE SOCIALE" scope="col">
+                    <a class="slds-th__action slds-text-link_reset" href="javascript:void(0);" role="button" tabindex="-1">
+                        <span class="slds-assistive-text">Sort by: </span>
+                        <span class="slds-truncate" title="RAGIONE SOCIALE">RAGIONE SOCIALE</span>
+                        <div class="slds-icon_container">
+                            
+                        </div>
+                    </a>
+                    <span class="slds-assistive-text" aria-live="assertive" aria-atomic="true">Sorted none</span>
+                    <div class="slds-resizable">
+                        <input type="range" min="20" max="1000" aria-label="Name column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-138" tabindex="-1" />
+                        <span class="slds-resizable__handle">
+                            <span class="slds-resizable__divider"></span>
+                        </span>
+                    </div>
+                </th>
+                <th aria-sort="none" class="slds-is-sortable slds-is-resizable slds-text-title_caps bifisColumnHeader" aria-label="CREATORE" scope="col">
+                    <a class="slds-th__action slds-text-link_reset" href="javascript:void(0);" role="button" tabindex="-1">
+                        <span class="slds-assistive-text">Sort by: </span>
+                        <span class="slds-truncate" title="CREATORE">CREATORE</span>
+                        <div class="slds-icon_container">
+                            
+                        </div>
+                    </a>
+                    <span class="slds-assistive-text" aria-live="assertive" aria-atomic="true">Sorted none</span>
+                    <div class="slds-resizable">
+                        <input type="range" min="20" max="1000" aria-label="Close Date column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-140" tabindex="-1" />
+                        <span class="slds-resizable__handle">
+                            <span class="slds-resizable__divider"></span>
+                        </span>
+                    </div>
+                </th>                  
+                <th aria-sort="none" class="slds-is-sortable slds-is-resizable slds-text-title_caps bifisColumnHeader" aria-label="STATO" scope="col">
+                    <a class="slds-th__action slds-text-link_reset" href="javascript:void(0);" role="button" tabindex="-1">
+                        <span class="slds-assistive-text">Sort by: </span>
+                        <span class="slds-truncate" title="STATO">STATO</span>
+                        <div class="slds-icon_container">
+                            
+                        </div>
+                    </a>
+                    <span class="slds-assistive-text" aria-live="assertive" aria-atomic="true">Sorted none</span>
+                    <div class="slds-resizable">
+                        <input type="range" min="20" max="1000" aria-label="Close Date column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-140" tabindex="-1" />
+                        <span class="slds-resizable__handle">
+                            <span class="slds-resizable__divider"></span>
+                        </span>
+                    </div>
+                </th>        
+                <th aria-sort="none" class="slds-is-sortable slds-is-resizable slds-text-title_caps bifisColumnHeader" aria-label="DATA INVIO" scope="col">
+                    <a class="slds-th__action slds-text-link_reset" href="javascript:void(0);" role="button" tabindex="-1">
+                        <span class="slds-assistive-text">Sort by: </span>
+                        <span class="slds-truncate" title="DATA INVIO">DATA INVIO</span>
+                        <div class="slds-icon_container">
+                            
+                        </div>
+                    </a>
+                    <span class="slds-assistive-text" aria-live="assertive" aria-atomic="true">Sorted none</span>
+                    <div class="slds-resizable">
+                        <input type="range" min="20" max="1000" aria-label="Close Date column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-140" tabindex="-1" />
+                        <span class="slds-resizable__handle">
+                            <span class="slds-resizable__divider"></span>
+                        </span>
+                    </div>
+                </th>       
+                <th aria-sort="none" class="slds-is-sortable slds-is-resizable slds-text-title_caps bifisColumnHeader" aria-label="NUMERO PRATICA" scope="col">
+                    <a class="slds-th__action slds-text-link_reset" href="javascript:void(0);" role="button" tabindex="-1">
+                        <span class="slds-assistive-text">Sort by: </span>
+                        <span class="slds-truncate" title="NUMERO PRATICA">NUMERO PRATICA</span>
+                        <div class="slds-icon_container">
+                            
+                        </div>
+                    </a>
+                    <span class="slds-assistive-text" aria-live="assertive" aria-atomic="true">Sorted none</span>
+                    <div class="slds-resizable">
+                        <input type="range" min="20" max="1000" aria-label="Account Name column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-139" tabindex="-1" />
+                        <span class="slds-resizable__handle">
+                            <span class="slds-resizable__divider"></span>
+                        </span>
+                    </div>
+                </th>                 
+                <th aria-sort="none" class="slds-is-sortable slds-is-resizable slds-text-title_caps bifisColumnHeaderRight" aria-label="" scope="col">
+                    <a class="slds-th__action slds-text-link_reset" href="javascript:void(0);" role="button" tabindex="-1">
+                        <span class="slds-assistive-text">Sort by: </span>
+                        <span class="slds-truncate" title="AZIONI">AZIONI</span>
+                        <div class="slds-icon_container">
+                            
+                        </div>
+                    </a>
+                    <span class="slds-assistive-text" aria-live="assertive" aria-atomic="true">Sorted none</span>
+                    <div class="slds-resizable">
+                        <input type="range" min="10" max="1000" aria-label="Close Date column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-140" tabindex="-1" />
+                        <span class="slds-resizable__handle">
+                            <span class="slds-resizable__divider"></span>
+                        </span>
+                    </div>
+                </th>                  
+            </tr>
+        </thead>
+        <tbody>
+            <aura:iteration items="{!v.workflows}" var="actualWorkflow">
+                <tr class="slds-hint-parent">    
+                    <td role="gridcell">
+                        <div class="slds-truncate" title="{!actualWorkflow.Name}">{!actualWorkflow.PartitaIVA__c}</div>
+                    </td>
+                    <td role="gridcell">
+                        <div class="slds-truncate" title="{!actualWorkflow.Ragione_Sociale__c}">{!actualWorkflow.Ragione_Sociale__c}</div>
+                    </td>
+                    <td role="gridcell">
+                        <div class="slds-truncate" title="{!actualWorkflow.CreatedDate}">{!actualWorkflow.Owner.Name}</div>
+                    </td>                    
+                    <td role="gridcell">
+                        <div class="slds-truncate" title="">{!actualWorkflow.Stato__c}</div>
+                    </td>            
+                    <td role="gridcell">
+                        <div class="slds-truncate" title=""><lightning:formattedDateTime value="{!actualWorkflow.DataInvioIfis__c}" year="numeric" month="2-digit" day="2-digit" /></div>
+                    </td>    
+                    <td role="gridcell">
+                        <div class="slds-truncate" title="">{!actualWorkflow.Name}</div>
+                    </td>                    
+                    <td role="gridcell">
+                        <div class="slds-truncate" title="">
+                            <aura:if isTrue="{!actualWorkflow.Stato__c == 'SEGNALAZIONE POSIZIONE'}">
+                                <div style="display:inline-block;cursor:pointer;" data-actualstate="{!actualWorkflow.Stato__c}" data-id="{!actualWorkflow.Id}" onclick="{!c.openModifyWorkflow}" title="MODIFICA PRATICA"><lightning:icon iconName="utility:edit" size="xx-small" alternativeText="Modifica pratica SEGNALAZIONE POSIZIONE"/></div>
+                                <div style="display:inline-block;cursor:pointer;" data-actualstate="{!actualWorkflow.Stato__c}" data-id="{!actualWorkflow.Id}" onclick="{!c.openDeleteWorkflow}" title="ELIMINA PRATICA"><lightning:icon iconName="utility:delete" size="xx-small" class="slds-m-left_medium" alternativeText="Elimina pratica SEGNALAZIONE POSIZIONE" /></div>
+                            </aura:if>
+                            <aura:if isTrue="{!actualWorkflow.Stato__c == 'OPPORTUNITA PERSA'}">
+                                <div style="display:inline-block;cursor:pointer;" data-actualstate="{!actualWorkflow.Stato__c}" data-id="{!actualWorkflow.Id}" onclick="{!c.openModifyWorkflow}" title="VISUALIZZA PRATICA"><lightning:icon iconName="utility:dislike" variant="error" size="xx-small" alternativeText="Visualizza pratica"/></div>
+                                <div style="display:inline-block;"></div>
+                            </aura:if>                            
+                            <aura:if isTrue="{!actualWorkflow.Stato__c == 'ATTIVAZIONE RAPPORTO'}">
+                                <div style="display:inline-block;cursor:pointer;" data-actualstate="{!actualWorkflow.Stato__c}" data-id="{!actualWorkflow.Id}" onclick="{!c.openModifyWorkflow}" title="VISUALIZZA PRATICA"><lightning:icon iconName="utility:like" variant="success" size="xx-small" alternativeText="Visualizza pratica"/></div>
+                                <div style="display:inline-block;"></div>
+                            </aura:if>                                
+                            <aura:if isTrue="{!actualWorkflow.Stato__c == 'PRE-VALUTAZIONE CLIENTE'}">
+                                <div style="display:inline-block;cursor:pointer;" data-actualstate="{!actualWorkflow.Stato__c}" data-id="{!actualWorkflow.Id}" onclick="{!c.openModifyWorkflow}" title="VISUALIZZA PRATICA"><lightning:icon iconName="utility:preview" size="xx-small" alternativeText="Visualizza pratica"/></div>
+                                <div style="display:inline-block;"></div>
+                            </aura:if>      
+                            <aura:if isTrue="{!actualWorkflow.Stato__c == 'VISITA E FINALIZZAZIONE MANDATO'}">
+                                <div style="display:inline-block;cursor:pointer;" data-actualstate="{!actualWorkflow.Stato__c}" data-id="{!actualWorkflow.Id}" onclick="{!c.openModifyWorkflow}" title="VISUALIZZA PRATICA"><lightning:icon iconName="utility:preview" size="xx-small" alternativeText="Visualizza pratica"/></div>
+                                <div style="display:inline-block;"></div>
+                            </aura:if>                
+                            <aura:if isTrue="{!actualWorkflow.Stato__c == 'VALUTAZIONE PRATICA'}">
+                                <div style="display:inline-block;cursor:pointer;" data-actualstate="{!actualWorkflow.Stato__c}" data-id="{!actualWorkflow.Id}" onclick="{!c.openModifyWorkflow}" title="VISUALIZZA PRATICA"><lightning:icon iconName="utility:preview" size="xx-small" alternativeText="Visualizza pratica"/></div>
+                                <div style="display:inline-block;"></div>
+                            </aura:if>                                         
+                        </div>
+                    </td>                       
+                </tr>
+            </aura:iteration>         
+        </tbody>
+    </table>
+    
+    <aura:if isTrue="{!v.isMainFlowOpen}">
+        
+        <!-- MODALE CONTENITORE DEL FLUSSO -->
+        
+        <div role="dialog" tabindex="-1" aria-labelledby="header99" class="slds-modal slds-fade-in-open slds-modal_large ">
+            <div class="slds-modal__container">
+                <!-- HEADER -->
+                <div class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close" onclick="{! c.closeNewAndModifyWorkflow }" alternativeText="Chiudi" variant="bare-inverse" class="slds-modal__close"/>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate"><ui:outputText value="{!v.modalWindowTitle}"/></h2>
+                </div>
+                <!-- CORPO -->
+                <div class="slds-modal__content slds-p-around--medium">
+                    
+                    <lightning:flow aura:id="AcquisizioneSGA" onstatuschange="{!c.statusChange}"/>
+                    
+                </div>
+                <!-- FOOTER -->
+                <div class="slds-modal__footer">
+                    <lightning:button variant="neutral" label="Chiudi" title="Chiudi" onclick="{! c.closeNewAndModifyWorkflow }"/>
+                </div>
+            </div>
+        </div>
+        <div class="slds-backdrop slds-backdrop--open"></div>
+        
+    </aura:if>    
+    
+    <aura:if isTrue="{!v.isDeleteFlowOpen}">
+        
+        <!-- MODALE CANCELLAZIONE WORKFLOW -->
+        
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-modal_medium slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- HEADER -->
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close" onclick="{! c.closeDeleteWorkflow }" alternativeText="Chiudi" variant="bare-inverse" class="slds-modal__close"/>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate"><ui:outputText value="{!v.modalWindowTitle}"/></h2>
+                </header>
+                <!-- CORPO -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    
+                    <div class="slds-scoped-notification slds-media slds-media_center" role="status">
+                        <div class="slds-media__figure">
+                            <span class="slds-icon_container slds-icon-utility-info" title="">
+                                <lightning:icon iconName="utility:warning" alternativeText="Warning"/>
+                            </span>
+                        </div>
+                        <div class="slds-media__body">
+                            <p>Proseguendo (bottone CONFERMA), verrà eliminata in modo definitivo la pratica in stato SEGNALAZIONE POSIZIONE selezionata. <b>Si volte realmente procedere?</b></p>
+                        </div>                     
+                    </div>
+                    
+                </div>
+                <!-- FOOTER -->
+                <footer class="slds-modal__footer">
+                    <lightning:button aura:id="" variant="destructive" label="Elimina" title="Elimina" onclick="{! c.executeDeleteWorkflow }"/>
+                    <lightning:button variant="neutral" label="Chiudi" title="Chiudi" onclick="{! c.closeDeleteWorkflow }"/>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+        
+    </aura:if>
+    
+</aura:component>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VerificaFlagValorizzazioneOFS</fullName>
+    <active>false</active>
+    <errorConditionFormula>and(CRM_OFS__c = TRUE,  CRM_Customer__r.PTF_OFS__c = FALSE)</errorConditionFormula>
+    <errorMessage>L&apos;NDG non è abilitato all&apos;Offerta Fuori Sede. Pertanto non è possibile effettuare l&apos;azione scelta.</errorMessage>
+</ValidationRule>

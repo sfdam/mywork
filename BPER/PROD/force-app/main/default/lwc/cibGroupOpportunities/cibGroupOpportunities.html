@@ -1,0 +1,45 @@
+<template>
+    <div class="slds-box">
+        <lightning-card  variant="Narrow"  title={titolo} icon-name="standard:opportunity" >
+            <lightning-layout>
+                <lightning-layout-item size="12" padding="around-small"> 
+                    <template if:true={data}>
+                        <div style="height: 11rem;">
+                            <lightning-datatable data-item="dataTable" 
+                                                    key-field="Id"
+                                                    columns={columns}
+                                                    data={currentPageData}
+                                                    hide-checkbox-column=true
+                                                    column-widths-mode="auto">
+                            </lightning-datatable>
+                        </div>
+                        <lightning-layout class="paginator">
+                            <lightning-layout-item alignment-bump="left">
+                                <lightning-layout class="slds-align_absolute-center">
+                                    <lightning-layout-item padding="around-small">
+                                        <div class="lgc-bg">
+                                            <lightning-button-icon icon-name="utility:chevronleft"  variant="container" alternative-text="Settings" title="Settings" onclick={handleIndietro} disabled={disabledButtonIndietro}></lightning-button-icon>
+                                        </div>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item padding="around-small">
+                                        Pag. {page}
+                                    </lightning-layout-item>
+                                    <lightning-layout-item padding="around-small">
+                                        <div class="lgc-bg">
+                                            <lightning-button-icon icon-name="utility:chevronright"  variant="container" alternative-text="Settings" title="Settings" onclick={handleAvanti} disabled={disabledButtonAvanti}></lightning-button-icon>
+                                        </div>                
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </template>
+                    <template if:false={data}>
+                        <div class="slds-box">
+                            <p><b>NON CI SONO OPPORTUNITÀ LEGATI AI MEMBRI DI QUESTO GRUPPO</b></p>
+                        </div>
+                    </template>
+                </lightning-layout-item>
+            </lightning-layout>
+        </lightning-card>
+    </div>
+</template>

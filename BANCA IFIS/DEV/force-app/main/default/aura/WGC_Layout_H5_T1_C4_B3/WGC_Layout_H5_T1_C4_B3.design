@@ -1,0 +1,22 @@
+<design:component label="WGC - H5.T1.C4.B3.B1">
+    <flexipage:template >
+        <flexipage:region name="header_1" defaultWidth="MEDIUM"/>
+        <flexipage:region name="header_2" defaultWidth="MEDIUM"/>
+        <flexipage:region name="header_3" defaultWidth="SMALL" />
+        <flexipage:region name="header_4" defaultWidth="SMALL"/>
+        <flexipage:region name="header_5" defaultWidth="SMALL"/>
+
+        <flexipage:region name="column_top" defaultWidth="LARGE" />
+
+        <flexipage:region name="columnC_1" defaultWidth="MEDIUM" />
+        <flexipage:region name="columnC_2" defaultWidth="LARGE" />
+        <flexipage:region name="columnC_3" defaultWidth="LARGE" />
+        <flexipage:region name="columnC_4" defaultWidth="MEDIUM" />
+
+        <flexipage:region name="columnB_1" defaultWidth="MEDIUM" />
+        <flexipage:region name="columnB_2" defaultWidth="LARGE" />
+        <flexipage:region name="columnB_3" defaultWidth="MEDIUM" />
+
+        <flexipage:region name="column_bottom" defaultWidth="LARGE" />
+    </flexipage:template>
+</design:component>

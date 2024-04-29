@@ -1,0 +1,58 @@
+<template>
+    <!-- <template if:true={rendered}> -->
+        <div class="slds-box">
+            <lightning-layout>
+                <lightning-layout-item size="12" class="slds-p-horizontal_small">
+                    <template if:false={readOnly}>
+                        <template if:false={goNextBtnV}>
+                            <lightning-button label="Conferma" variant="brand" class="cstm-btn-round slds-float_right slds-m-left_xx-small" onclick={confirmCrediti}></lightning-button>
+                        </template>
+                    </template>
+                    <template if:true={goNextBtnV}>
+                        <lightning-button label="Avanti" variant="brand" class="cstm-btn-round slds-float_right slds-m-left_xx-small" onclick={goNextStep}></lightning-button>
+                    </template>
+                    <lightning-button label="Indietro" class="cstm-btn-round slds-float_right" onclick={goBack}></lightning-button>
+                </lightning-layout-item>
+            </lightning-layout>
+            <!-- LINEE SELEZIONATE -->
+            <c-wgc_pc_cart_products_container products={selectedProducts} title="LINEE SELEZIONATE"></c-wgc_pc_cart_products_container>
+            <!--
+            <div class="slds-box slds-m-top_medium">
+                <lightning-layout multiple-rows="true">
+                    <lightning-layout-item size="12">
+                        <h1>LINEE SELEZIONATE</h1>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12">
+                        <lightning-layout>
+                            <template for:each={selectedProds} for:item="prod" for:index="ind">
+                                <lightning-layout-item class="slds-p-around_small" key={prod.name} size="3">
+                                    <c-wgc_pc_cart_product prod={prod} read-only={readOnly} selected={prod.selected} index={ind} ></c-wgc_pc_cart_product>
+                                </lightning-layout-item>
+                            </template>
+                        </lightning-layout>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </div>
+            -->
+            <!-- BOX CREDITI -->
+            <c-wgc_pc_cart_crediti_wrapper record-id={recordId} record-type={recordType} linea={linea} cod-prod={codProd} payload={payload} user-info={userInfo} p-read-only={readOnly} onspinnerevt={handleSpinner} oncheckcompleted={updateCompleted}></c-wgc_pc_cart_crediti_wrapper>
+            <!-- <div class="slds-box slds-m-top_small">
+                <lightning-layout multiple-rows="true">
+                    <lightning-layout-item size="12" padding="around-small" class="slds-text-align_right">
+                        <lightning-button label="Aggiungi Credito" icon-name="utility:add" disabled={readOnly} onclick={addCredito}></lightning-button>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12">
+                        <lightning-accordion>
+                            <template for:each={crediti} for:item="credito" for:index="ind">
+                                <lightning-accordion-section key={credito.name} name={ind} label={credito.name}>
+                                    <c-wgc_pc_cart_credito credito={credito} payload={privatePayload} user-info={userInfo} read-only={readOnly} index={ind} onupdatecredito={updateCreditoHandler}></c-wgc_pc_cart_credito>
+                                </lightning-accordion-section>
+                            </template>
+                        </lightning-accordion>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </div> -->
+            <!-- BOX CREDITI -->
+        </div>
+    <!-- </template> -->
+</template>

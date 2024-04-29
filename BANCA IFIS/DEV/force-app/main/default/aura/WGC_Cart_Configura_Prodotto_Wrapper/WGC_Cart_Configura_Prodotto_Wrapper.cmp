@@ -1,0 +1,522 @@
+<aura:component access="global" extends="c:WGC_Utility">
+  <!-- ATTRIBUTES -->
+  <aura:attribute name="opportunityId" type="String" />
+  <aura:attribute name="recordTypeId" type="String" />
+  <aura:attribute name="items" type="Object[]" />
+  <aura:attribute name="factoringProducts" type="Object[]" />
+  <aura:attribute
+    name="yesNoOptions"
+    type="List"
+    default="[{'label': 'Sì', 'value': 'S'},{'label': 'No', 'value': 'N'}]"
+  />
+  <aura:attribute name="value" type="String" default="option1" />
+  <!-- <aura:attribute name="garantiAndGaranzieIsOpen" type="Boolean" default="false"/> -->
+  <aura:attribute
+    name="multipleConfDebPerLine"
+    type="Boolean"
+    default="false"
+  />
+  <aura:attribute
+    name="isAvailableMultipleConfDebPerLine"
+    type="Boolean"
+    access="PRIVATE"
+    default="false"
+  />
+  <aura:attribute name="selectedDeb" type="String" />
+  <aura:attribute name="showNext" type="Boolean" default="false" />
+
+  <aura:attribute name="picklistOptions" type="Object[]" />
+  <aura:attribute name="diviseOptions" type="WGC_Mapping_Divisa__mdt[]" />
+  <aura:attribute
+    name="parametriEConfigurazioniLinee"
+    type="Object"
+    default=""
+  />
+  <aura:attribute name="payload" type="Object" />
+
+  <aura:attribute name="parametriPerLineaDebitore" type="Object" />
+  <aura:attribute name="sezioni" type="Object" />
+  <aura:attribute name="parametriSezioni" type="Object" />
+  <aura:attribute name="condizioniSezioni" type="Object" />
+  <aura:attribute name="debitoriPerLinea" type="Object[]" />
+  <aura:attribute name="availableDebs" type="Object" />
+  <aura:attribute name="icarManuali" type="Object[]" />
+  <aura:attribute name="icarManualiOptions" type="Object[]" />
+  <aura:attribute name="icarManualiValues" type="Object[]" />
+  <aura:attribute name="lineHasIcarManuali" type="Boolean" default="false" />
+  <aura:attribute name="isRevisionedLine" type="Boolean" default="false" />
+  <aura:attribute
+    name="disableRevisionedLines"
+    type="Boolean"
+    default="false"
+  />
+  <aura:attribute name="garanziaRequired" type="Boolean" default="false" />
+  <aura:attribute name="codiciCoppia" type="Object" />
+
+  <aura:attribute name="readOnly" type="Boolean" default="false" />
+  <aura:attribute name="readOnlyConst" type="Boolean" default="false" />
+
+  <!-- SM - Spese Istruttoria -->
+  <aura:attribute name="speseIstruttoria" type="List" />
+  <aura:attribute name="tipoOpty" type="String" />
+
+  <!-- ATTRIBUTES FOR FACTORING FISCALE -->
+  <aura:attribute name="lineHasCrediti" type="Boolean" default="false" />
+  <aura:attribute name="currentUser" type="Object" />
+  <aura:attribute name="activeLine" type="Object" />
+  <aura:attribute name="isCreditiCompleted" type="Boolean" default="false" />
+  <aura:attribute name="creditiRendered" type="Boolean" default="false" />
+
+  <!-- ATTRIBUTES FOR COMMISSIONE CORPORATE -->
+  <aura:attribute name="commissione" type="Decimal" />
+  <aura:attribute name="modalAction" type="String" />
+  <aura:attribute name="isSBF" type="Boolean" default="false" />
+  <aura:attribute name="isCorporate" type="Boolean" default="false" />
+  <aura:attribute name="metadatoCondizioni" type="Object[]" default="[]" />
+
+  <!-- REGISTER EVENTS -->
+  <aura:registerEvent name="navigateSubWizard" type="c:WGC_NavigateSubWizard" />
+  <aura:registerEvent name="savePayload" type="c:WGC_SavePayload" />
+  <aura:registerEvent name="cartCallServer" type="c:WGC_Cart_Call_Server" />
+
+  <!-- HANDLERS -->
+  <aura:handler name="init" value="{! this }" action="{! c.doInit }" />
+  <aura:handler
+    name="change"
+    value="{! v.parametriEConfigurazioniLinee }"
+    action="{! c.reloadParameters }"
+  />
+  <aura:handler
+    name="change"
+    value="{! v.payload }"
+    action="{! c.reloadParameters }"
+  />
+  <aura:handler
+    name="change"
+    value="{! v.disableRevisionedLines }"
+    action="{! c.onRevisionedLineDisabled }"
+  />
+  <aura:handler
+    name="change"
+    value="{! v.debitoriPerLinea }"
+    action="{! c.reloadIcarManuali }"
+  />
+  <!-- CUSTOM HANDLERS -->
+  <aura:handler
+    name="subProductChange"
+    event="c:WGC_SubProduct_Event"
+    action="{! c.onChangeIcarManuali }"
+  />
+  <aura:handler
+    name="changeParam"
+    event="c:WGC_ChangeParamValue"
+    action="{! c.onChangeParamValue }"
+  />
+  <aura:handler
+    name="productClick"
+    event="c:WGC_ProductClickEvent"
+    action="{! c.handleProductClick }"
+  />
+  <!-- SM - Spese Istruttoria -->
+  <aura:handler
+    name="change"
+    value="{! v.speseIstruttoria }"
+    action="{! c.modalSpeseIstruttoria }"
+  />
+  <!-- HANDLERS FOR FACTORING FISCALE -->
+  <aura:handler
+    name="change"
+    value="{! v.creditiRendered }"
+    action="{! c.onCreditiRendered }"
+  />
+  <!-- SM - Banca Corporate -->
+  <aura:handler event="c:WGC_GenericEvent" action="{! c.saveCommissione }" />
+  <aura:handler
+    name="change"
+    value="{! v.metadatoCondizioni }"
+    action="{! c.onLoadCondizioniSpread }"
+  />
+  <aura:handler
+    event="c:WGC_ChangeCondizioneValue"
+    action="{! c.onChangeCondizioneValue }"
+  />
+  <!-- LIB -->
+  <lightning:overlayLibrary aura:id="overlayLib" />
+  <!--
+    <ltng:require scripts="{! join(',', 
+        $Resource.WGC_jQuery3x, 
+        $Resource.WGC_RequireJS,
+        $Resource.WGC_JEXL + '/Jexl-master/dist/jexl.min.js') }" afterScriptsLoaded="{! c.doInit }"/>
+-->
+
+  <lightning:notificationsLibrary aura:id="notifLib" />
+
+  <lightning:layout>
+    <lightning:layoutItem
+      size="12"
+      padding="horizontal-small"
+      class="slds-text-align_right"
+    >
+      <!-- <aura:if isTrue="{! v.isSBF }">
+                <lightning:button label="Spread SBF d.i." variant="brand" class="cstm-btn-round" onclick="{! c.modalParametriBC }" />
+            </aura:if> -->
+      <aura:if isTrue="{! v.isCorporate }">
+        <lightning:button
+          label="Spese soggetto"
+          variant="brand"
+          class="cstm-btn-round"
+          onclick="{! c.modalCommissione }"
+        />
+      </aura:if>
+      <lightning:button
+        label="Indietro"
+        class="cstm-btn-round"
+        onclick="{! c.back }"
+      />
+      <!-- SM - TEN: Aggiunta condizione per il controllo della commissione nel caso di banca corporate -->
+
+      <aura:if
+        isTrue="{! and((v.showNext || v.readOnly),(and(v.isCorporate,v.commissione) || !v.isCorporate)) }"
+      >
+        <lightning:button
+          label="Avanti"
+          variant="brand"
+          class="cstm-btn-round"
+          onclick="{! c.next }"
+          disabled="{! v.disableRevisionedLines || v.garanziaRequired }"
+        />
+        <lightning:button
+          label="{! $Label.c.WGC_Cart_VaiAGaranzie }"
+          variant="brand"
+          class="cstm-btn-round"
+          onclick="{! c.goToGaranzie }"
+          disabled="{! v.disableRevisionedLines }"
+        />
+        <aura:set attribute="else">
+          <lightning:button
+            label="Conferma"
+            variant="brand"
+            class="cstm-btn-round"
+            onclick="{! c.conferma }"
+            disabled="{! v.disableRevisionedLines }"
+          />
+        </aura:set>
+      </aura:if>
+    </lightning:layoutItem>
+  </lightning:layout>
+
+  <c:WGC_Cart_Products_Wrapper
+    title="Linee Selezionate"
+    items="{! v.items }"
+    readOnly="{! v.readOnly }"
+  />
+
+  <lightning:layout class="cstm-border-all slds-m-top_small">
+    <lightning:layoutItem size="12">
+      <!-- <lightning:spinner aura:id="WGC_spinner" /> -->
+      <!-- <aura:if isTrue="{! !v.garantiAndGaranzieIsOpen }"> -->
+      <lightning:tabset class="cstm-tabset-wrapper tabs-2">
+        <!-- <div class="slds-tabs_default cstm-tabset-wrapper tabs-2"> -->
+        <lightning:tab
+          label="{! $Label.c.WGC_Cart_ConfigurationTabParametersTitle }"
+          id="parametri"
+        >
+          <lightning:layout>
+            <lightning:layoutItem size="12">
+              <aura:if isTrue="{! v.parametriSezioni.length > 0 }">
+                <aura:if
+                  isTrue="{! and(and(v.isAvailableMultipleConfDebPerLine, !v.payload.valutazionePortafoglio), !v.disableRevisionedLines) }"
+                >
+                  <aura:if isTrue="{! !v.multipleConfDebPerLine }">
+                    <div
+                      class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_info"
+                      role="alert"
+                    >
+                      <h2>
+                        <a
+                          href="javascript:void(0);"
+                          onclick="{! c.toggleMultipleConfDebPerLine }"
+                          >{! $Label.c.WGC_Cart_DerogaFidiCoppia }</a
+                        >
+                      </h2>
+                    </div>
+                    <aura:set attribute="else">
+                      <lightning:layout>
+                        <lightning:layoutItem
+                          size="2"
+                          class="cstm-form-section-title color-weak slds-text-title_caps"
+                          padding="around-small"
+                        >
+                          Debitore
+                        </lightning:layoutItem>
+                        <lightning:layoutItem
+                          size="10"
+                          class="cstm-form-section"
+                          padding="around-small"
+                        >
+                          <lightning:layout>
+                            <lightning:layoutItem
+                              size="4"
+                              padding="around-small"
+                            >
+                              <lightning:select
+                                name="select-debitori"
+                                class="cstm-no-label"
+                                value="{! v.selectedDeb }"
+                                onchange="{! c.onChangeDebitore }"
+                              >
+                                <option value="">--Seleziona debitore--</option>
+                                <aura:iteration
+                                  items="{! v.availableDebs }"
+                                  var="deb"
+                                >
+                                  <option value="{! deb.id }">
+                                    {! deb.rsociale }
+                                  </option>
+                                </aura:iteration>
+                              </lightning:select>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem
+                              size="8"
+                              padding="around-small"
+                            >
+							<!-- SDCHG-5166 - Revisione parametri: modifica label e colore pulsante-->
+                              <lightning:button
+                                label="Salva e torna alla linea"
+                                class="cstm-btn-round cstm-btn-brand"
+                                onclick="{! c.toggleMultipleConfDebPerLine }"
+                              />
+                            </lightning:layoutItem>
+                          </lightning:layout>
+                        </lightning:layoutItem>
+                      </lightning:layout>
+                    </aura:set>
+                  </aura:if>
+                </aura:if>
+
+                <c:WGC_Parametri_Wrapper
+                  parametri="{! v.parametriSezioni }"
+                  isDeroga="{! v.selectedDeb != '' }"
+                  disableRevisionedLines="{! v.disableRevisionedLines }"
+                  readOnly="{! v.readOnly }"
+                />
+
+                <!-- <lightning:layout>
+                                        <lightning:layoutItem size="12" padding="around-small" class="slds-text-align_right">
+                                            <lightning:button label="Indietro" class="cstm-btn-round" onclick="{! c.back }"/>
+                                            <aura:if isTrue="{! v.showNext }">
+                                                <lightning:button label="Avanti" variant="brand" class="cstm-btn-round" onclick="{! c.next }" disabled="{! v.disableRevisionedLines }"/>
+                                                <aura:set attribute="else">
+                                                    <lightning:button label="Conferma" variant="brand" class="cstm-btn-round" onclick="{! c.conferma }" disabled="{! v.disableRevisionedLines }"/>
+                                                </aura:set>
+                                            </aura:if>
+                                            <lightning:button label="Conferma" variant="brand" class="cstm-btn-round" onclick="{! c.conferma }" disabled="{! v.disableRevisionedLines }"/>
+                                        </lightning:layoutItem>
+                                    </lightning:layout> -->
+                <aura:set attribute="else">
+                  <h2 class="slds-p-horizontal_large">
+                    <i>Nessun parametro da visualizzare.</i>
+                  </h2>
+                  <!-- <lightning:layout>
+                                            <lightning:layoutItem size="12" padding="around-small" class="slds-text-align_right">
+                                                <lightning:button label="Indietro" class="cstm-btn-round" onclick="{! c.back }"/>
+                                                <aura:if isTrue="{! v.showNext }">
+                                                    <lightning:button label="Avanti" variant="brand" class="cstm-btn-round" onclick="{! c.next }" disabled="{! v.disableRevisionedLines }"/>
+                                                </aura:if>
+                                            </lightning:layoutItem>
+                                        </lightning:layout> -->
+                </aura:set>
+              </aura:if>
+
+              <aura:if isTrue="{! v.lineHasCrediti }"
+                ><!-- ?onrender? -->
+                <c:wgc_pc_cart_crediti_wrapper
+                  aura:id="creditiWrapper"
+                  recordId="{! v.opportunityId }"
+                  recordType="{! v.recordTypeId }"
+                  linea="{! v.activeLine }"
+                  userInfo="{! v.currentUser }"
+                  pReadOnly="{! v.readOnly }"
+                  isCompleted="{! v.isCreditiCompleted }"
+                  oncreditiwrapperrender="{! c.onCreditiRendered }"
+                  oncheckcompleted="{! c.onChangeCrediti }"
+                ></c:wgc_pc_cart_crediti_wrapper>
+              </aura:if>
+            </lightning:layoutItem>
+          </lightning:layout>
+        </lightning:tab>
+
+        <!-- TAB SEPARATOR -->
+
+        <lightning:tab
+          label="{! $Label.c.WGC_Cart_ConfigurationTabConditionsTitle }"
+          id="condizioni"
+        >
+          <lightning:layout>
+            <lightning:layoutItem size="12">
+              <aura:if isTrue="{! v.condizioniSezioni.length > 0 }">
+                <aura:if
+                  isTrue="{! and(and(v.isAvailableMultipleConfDebPerLine, !v.payload.valutazionePortafoglio), !v.disableRevisionedLines) }"
+                >
+                  <aura:if isTrue="{! !v.multipleConfDebPerLine }">
+                    <div
+                      class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_info"
+                      role="alert"
+                    >
+                      <h2>
+                        <a
+                          href="javascript:void(0);"
+                          onclick="{! c.toggleMultipleConfDebPerLine }"
+                          >{! $Label.c.WGC_Cart_DerogaFidiCoppia }</a
+                        >
+                      </h2>
+                    </div>
+                    <aura:set attribute="else">
+                      <lightning:layout>
+                        <lightning:layoutItem
+                          size="2"
+                          class="cstm-form-section-title color-weak slds-text-title_caps"
+                          padding="around-small"
+                        >
+                          Debitore
+                        </lightning:layoutItem>
+                        <lightning:layoutItem
+                          size="10"
+                          class="cstm-form-section"
+                          padding="around-small"
+                        >
+                          <lightning:layout>
+                            <lightning:layoutItem
+                              size="4"
+                              padding="around-small"
+                            >
+                              <lightning:select
+                                name="select-debitori"
+                                class="cstm-no-label"
+                                value="{! v.selectedDeb }"
+                                onchange="{! c.onChangeDebitore }"
+                              >
+                                <option value="">--Seleziona debitore--</option>
+                                <aura:iteration
+                                  items="{! v.availableDebs }"
+                                  var="deb"
+                                >
+                                  <option value="{! deb.id }">
+                                    {! deb.rsociale }
+                                  </option>
+                                </aura:iteration>
+                              </lightning:select>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem
+                              size="8"
+                              padding="around-small"
+                            >
+                              <lightning:button
+                                label="Chiudi e torna alla linea"
+                                class="cstm-btn-round"
+                                onclick="{! c.toggleMultipleConfDebPerLine }"
+                              />
+                            </lightning:layoutItem>
+                          </lightning:layout>
+                        </lightning:layoutItem>
+                      </lightning:layout>
+                    </aura:set>
+                  </aura:if>
+                </aura:if>
+                <!-- SM - TEN: Aggiunto pulsante per gestione spread sbf tramite metadato -->
+                <aura:if isTrue="{! v.isSBF }">
+                  <div class="slds-text-align_right slds-p-horizontal_small">
+                    <lightning:button
+                      label="Spread SBF d.i."
+                      variant="brand"
+                      class="cstm-btn-round"
+                      onclick="{! c.openParametriBC }"
+                    />
+                  </div>
+                </aura:if>
+                <c:WGC_Parametri_Wrapper
+                  parametri="{! v.condizioniSezioni }"
+                  isDeroga="{! v.selectedDeb != '' }"
+                  isRevisione="{! v.isRevisionedLine }"
+                  disableRevisionedLines="{! v.disableRevisionedLines }"
+                  readOnly="{! v.readOnly }"
+                />
+
+                <aura:if isTrue="{! v.lineHasIcarManuali }">
+                  <lightning:layout class="slds-p-around_small">
+                    <lightning:layoutItem
+                      size="2"
+                      class="cstm-form-section-title"
+                    >
+                      {! $Label.c.WGC_Cart_DatiFattura }
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="10" class="cstm-form-section">
+                      <c:WGC_SubProduct_Wrapper
+                        subproducts="{! v.icarManuali }"
+                        items="{! v.items }"
+                        rows="{! v.icarManualiValues }"
+                        options="{! v.icarManualiOptions }"
+                        icarManuali="true"
+                        addBtnLabel="Aggiungi Riferimento Fattura"
+                        removeBtnLabel="Rimuovi Fattura"
+                        readOnly="{! v.readOnly }"
+                      />
+                    </lightning:layoutItem>
+                  </lightning:layout>
+                </aura:if>
+
+                <!-- <lightning:layout>
+                                        <lightning:layoutItem size="12" padding="around-small" class="slds-text-align_right">
+                                            <lightning:button label="Indietro" class="cstm-btn-round" onclick="{! c.back }"/>
+                                            <aura:if isTrue="{! v.showNext }">
+                                                <lightning:button label="Avanti" variant="brand" class="cstm-btn-round" onclick="{! c.next }" disabled="{! v.disableRevisionedLines }"/>
+                                                <aura:set attribute="else">
+                                                    <lightning:button label="Conferma" variant="brand" class="cstm-btn-round" onclick="{! c.conferma }" disabled="{! v.disableRevisionedLines }"/>
+                                                </aura:set>
+                                            </aura:if>
+                                            <lightning:button label="Conferma" variant="brand" class="cstm-btn-round" onclick="{! c.conferma }" disabled="{! v.disableRevisionedLines }"/>
+                                        </lightning:layoutItem>
+                                    </lightning:layout> -->
+                <aura:set attribute="else">
+                  <h2 class="slds-p-horizontal_large">
+                    <i>Nessun parametro da visualizzare.</i>
+                  </h2>
+                  <!-- <lightning:layout>
+                                            <lightning:layoutItem size="12" padding="around-small" class="slds-text-align_right">
+                                                <lightning:button label="Indietro" class="cstm-btn-round" onclick="{! c.back }"/>
+                                                <aura:if isTrue="{! v.showNext }">
+                                                    <lightning:button label="Avanti" variant="brand" class="cstm-btn-round" onclick="{! c.next }" disabled="{! v.disableRevisionedLines }"/>
+                                                </aura:if>
+                                            </lightning:layoutItem>
+                                        </lightning:layout> -->
+                </aura:set>
+              </aura:if>
+            </lightning:layoutItem>
+          </lightning:layout>
+        </lightning:tab>
+        <lightning:tab label="hidden"></lightning:tab>
+      </lightning:tabset>
+      <!-- </aura:if> -->
+
+      <!-- <aura:if isTrue="{! v.garantiAndGaranzieIsOpen }">
+                <lightning:layout>
+                    <lightning:layoutItem size="12">
+                        <lightning:layout>
+                            <lightning:layoutItem size="6" padding="around-small">
+                                <c:WGC_MainCalloutComponent calloutText="Aggiungi garanzia" calloutIcon="utility:description" calloutButtonText="Aggiungi"/>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="6" padding="around-small">
+                                <c:WGC_MainCalloutComponent calloutText="Aggiungi garante" calloutIcon="utility:adduser" calloutButtonText="Aggiungi"/>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                        <lightning:layout>
+                            <lightning:layoutItem size="12" class="slds-text-align_right" padding="around-small">
+                                <lightning:button label="Conferma" class="cstm-btn-round" variant="brand"/>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </aura:if> -->
+    </lightning:layoutItem>
+  </lightning:layout>
+</aura:component>

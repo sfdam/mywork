@@ -1,0 +1,19 @@
+<aura:component implements="force:lightningQuickAction,lightning:actionOverride,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" 
+                controller="WGC_EditTaskModalController" access="global">
+	
+    <!-- HANDLERS-->
+    <aura:attribute name="recordId" default="" type="String"/>
+    <aura:attribute name="objectName" type="String" />
+    <aura:attribute name="result" type="Object[]" />
+
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    
+    <lightning:navigation aura:id="navService" />
+    
+    <lightning:layout>
+            <lightning:layoutItem size="12" padding="around-small">
+                <c:WGC_ListView objectName="Activity" resultActivity="{!v.result}" />
+            </lightning:layoutItem>
+        </lightning:layout>
+    
+</aura:component>

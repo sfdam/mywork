@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Classe_di_rischiosita__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(OR(TEXT(Classe_di_rating__c) = &apos;1&apos;,TEXT(Classe_di_rating__c) = &apos;2&apos;),&apos;Rishio molto basso&apos;,
+		  IF(OR(TEXT(Classe_di_rating__c) = &apos;3&apos;,TEXT(Classe_di_rating__c) = &apos;4&apos;),&apos;Rischio basso&apos;,
+			IF(OR(TEXT(Classe_di_rating__c) = &apos;5&apos;,TEXT(Classe_di_rating__c) = &apos;6&apos;,TEXT(Classe_di_rating__c) = &apos;7&apos;),&apos;Rischio medio&apos;,
+				IF(OR(TEXT(Classe_di_rating__c) = &apos;8&apos;,TEXT(Classe_di_rating__c) = &apos;9&apos;),&apos;Rischio rilevante&apos;,
+					IF(TEXT(Classe_di_rating__c) &gt;= &apos;10&apos;,&apos;Rischio elevato&apos;,&apos;N/A&apos;
+					)
+				)
+			)
+		  )
+	)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Classe di rischiosità</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,192 @@
+<template>
+    <table class="slds-table slds-table_bordered slds-table_resizable-cols ">
+        <thead>
+            <tr>
+                <th colspan="2" class="background">
+                    <div class="slds-align_absolute-center" style="font-size: 16px;">
+                        Mese di Riferimento</div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="slds-hint-parent accordion">
+                <td class="">
+
+                    <lightning-combobox value={value}  placeholder="" options={optionsMonth} onchange={handleChangeMonth}
+                        variant="label-hidden">
+                    </lightning-combobox>
+
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <template if:false={isError}>
+        <div class="slds-scrollable_x slds-m-top_medium" style="position:relative">
+            <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_resizable-cols ">
+                <template if:false={isRendered}>
+                    <div class="modal-spinner" >
+                        <lightning-spinner alternative-text="CARICAMENTO" size="small"></lightning-spinner>
+                    </div>
+                </template>
+
+                <thead>
+                    <template for:each={jsonThead1} for:item="tr">
+                        <tr key={tr.key}>
+                            <template for:each={tr.thElements} for:item="th">
+                                <th key={th.key} rowspan={th.rowspan} colspan={th.colspan} class={th.class}
+                                    style={th.style}>
+                                    <template for:each={th.divElements} for:item="div">
+                                        <template if:true={th.isText}>
+                                            <div key={div.key} class={div.class} style={div.style}>{th.value}</div>
+                                        </template>
+                                        <template if:false={th.isText}>
+                                            <div key={div.key} class={div.class} style={div.style}>{div.value}</div>
+                                        </template>
+                                    </template>
+                                </th>
+                            </template>
+                        </tr>
+                    </template>
+                </thead>
+                <tbody>
+                    <template for:each={jsonTbody1} for:item="tr">
+                        <tr key={tr.key} data-id={tr.key} class={tr.class} style={tr.style}>
+                            <template for:each={tr.tdElements} for:item="td">
+                                <td key={td.key} class={td.class} style={td.style} onclick={handleClickDARE}>
+                                    <template for:each={td.divElements} for:item="div">
+                                        <div key={div.key}>
+                                            <template if:true={td.isText}>
+                                                <div class={div.class} style={div.style}>{td.value}</div>
+                                            </template>
+                                            <template if:true={td.isNumber}>
+                                                <div class={div.class} style={div.style}>
+                                                    <lightning-formatted-number value={td.value}
+                                                        format-style={td.formatted.style} minimum-fraction-digits="0">
+                                                    </lightning-formatted-number>
+                                                </div>
+                                            </template>
+                                            <template if:true={div.buttonAccordion}>
+                                                <div class="slds-is-absolute" style="right: 5px; top: 3px">
+                                                    <lightning-button-icon icon-name="utility:down" size="medium"
+                                                        variant="bare" alternative-text="Espandi" title="Espandi"
+                                                        class="slds-m-left_xx-small">
+                                                    </lightning-button-icon>
+                                                </div>
+                                            </template>
+                                            <template if:true={div.helpText}>
+                                                <div class="slds-is-relative">
+                                                    <lightning-helptext style={div.style} content={div.helpTextContent}>
+                                                    </lightning-helptext>
+                                                </div>
+                                            </template>
+                                            <template if:true={td.isCheckbox}>
+                                                <div class="slds-is-relative">
+                                                    <lightning-input type="checkbox" checked={td.value} disabled>
+                                                    </lightning-input>
+                                                </div>
+                                            </template>
+                                        </div>
+                                    </template>
+                                </td>
+                            </template>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="slds-scrollable_x slds-m-top_medium" style="position:relative">
+            <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_resizable-cols ">
+                <template if:false={isRendered}>
+                    <div class="modal-spinner" >
+                        <lightning-spinner alternative-text="CARICAMENTO" size="small"></lightning-spinner>
+                    </div>
+                </template>
+
+                <thead>
+                    <template for:each={jsonThead2} for:item="tr">
+                        <tr key={tr.key}>
+                            <template for:each={tr.thElements} for:item="th">
+                                <th key={th.key} rowspan={th.rowspan} colspan={th.colspan} class={th.class}
+                                    style={th.style}>
+                                    <template for:each={th.divElements} for:item="div">
+                                        <template if:true={th.isText}>
+                                            <div key={div.key} class={div.class} style={div.style}>{th.value}</div>
+                                        </template>
+                                        <template if:false={th.isText}>
+                                            <div key={div.key} class={div.class} style={div.style}>{div.value}</div>
+                                        </template>
+                                    </template>
+                                </th>
+                            </template>
+                        </tr>
+                    </template>
+                </thead>
+                <tbody>
+                    <template for:each={jsonTbody2} for:item="tr">
+                        <tr key={tr.key} data-id={tr.key} class={tr.class} style={tr.style}>
+                            <template for:each={tr.tdElements} for:item="td">
+                                <td key={td.key} class={td.class} style={td.style} onclick={handleClickDARE}>
+                                    <template for:each={td.divElements} for:item="div">
+                                        <div key={div.key}>
+                                            <template if:true={td.isText}>
+                                                <div class={div.class} style={div.style}>{td.value}</div>
+                                            </template>
+                                            <template if:true={td.isNumber}>
+                                                <div class={div.class} style={div.style}>
+                                                    <lightning-formatted-number value={td.value}
+                                                        format-style={td.formatted.style} minimum-fraction-digits="0">
+                                                    </lightning-formatted-number>
+                                                </div>
+                                            </template>
+                                            <template if:true={div.buttonAccordion}>
+                                                <div class="slds-is-absolute" style="right: 5px; top: 3px">
+                                                    <lightning-button-icon icon-name="utility:down" size="medium"
+                                                        variant="bare" alternative-text="Espandi" title="Espandi"
+                                                        class="slds-m-left_xx-small">
+                                                    </lightning-button-icon>
+                                                </div>
+                                            </template>
+                                            <template if:true={div.helpText}>
+                                                <div class="slds-is-relative">
+                                                    <lightning-helptext style={div.style} content={div.helpTextContent}>
+                                                    </lightning-helptext>
+                                                </div>
+                                            </template>
+                                            <template if:true={td.isCheckbox}>
+                                                <div class="slds-is-relative">
+                                                    <lightning-input type="checkbox" checked={td.value} disabled>
+                                                    </lightning-input>
+                                                </div>
+                                            </template>
+                                        </div>
+                                    </template>
+                                </td>
+                            </template>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </div>
+
+        <!--
+            inserico il componente delle tabelle dinamiche
+
+                    <c-dynamic-tables specific-record-id={id} title="" icon-name="" object_field="CRM_IndicatoriCliente__c#Id" file-j-s="CRM_TabellaRischioDettaglio1.js"></c-dynamic-tables>
+
+        -->
+
+
+    </template>
+
+    <template if:true={isError}>
+        <div class="slds-box">
+            <p><b>Attenzione!</b> Non ci sono dati per il mese di riferimento selezionato. Si prega di cambiare mese di
+                riferimento</p>
+        </div>
+    </template>
+
+
+</template>

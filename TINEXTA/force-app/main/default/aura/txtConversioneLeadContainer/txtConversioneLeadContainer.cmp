@@ -1,0 +1,5 @@
+<aura:component controller="TXT_ConversioneLead" implements="lightning:isUrlAddressable,force:appHostable,flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes,force:hasRecordId,force:hasSObjectName,force:lightningQuickAction,flexipage:availableForRecordHome,force:hasRecordId,lightning:actionOverride,lightning:hasPageReference" access="global">
+    <lightning:workspaceAPI aura:id="workspace"/>
+
+    <c:txtConversioneLead recordId="{! v.recordId }" name="Conversione Lightning" oncstmcloseconsoletab="{! c.handleCloseTab }" />
+</aura:component>

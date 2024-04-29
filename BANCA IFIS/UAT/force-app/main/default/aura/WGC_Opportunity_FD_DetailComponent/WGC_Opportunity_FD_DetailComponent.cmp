@@ -1,0 +1,321 @@
+<aura:component
+    implements="lightning:isUrlAddressable,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+    controller="WGC_Opportunity_FD_DetailController" access="global">
+
+    <ltng:require scripts="{!join(',', 
+             '/resource/WGC_jQuery3x',
+             '/resource/WGC_ChartJs')}" afterScriptsLoaded="{!c.doInit}" />
+
+    <lightning:navigation aura:id="navService" />
+
+    <!-- attributes -->
+    <aura:attribute name="title" type="String" default="Custom Title" />
+    <aura:attribute name="idDashboard" type="String" default="" />
+
+
+    <aura:attribute name="userInfo" type="User" default="{'sobjectType':'User'}" />
+    <aura:attribute name="operatoriList" type="User[]" description="RecordType associati all'account" />
+    
+    <aura:attribute name="choiseObj" type="Map" default="{'categoria':'all', 'filiale':'all', 'periodo':'thisYear', 'operatore': 'all', 'iniziativa' : 'Totale' }" />
+    
+    <aura:attribute name="status" type="String" default="thisYear" />
+    <aura:handler name="change" value="{!v.status}" action="{!c.selectPeriodo}" />
+
+    <aura:attribute name="categoria" type="String" default="all" />
+    <aura:handler name="change" value="{!v.categoria}" action="{!c.selectPeriodo}" />
+
+    <aura:attribute name="filiale" type="String" default="all" />
+    <aura:handler name="change" value="{!v.filiale}" action="{!c.selectPeriodo}" />
+
+    <aura:attribute name="operatore_selected" type="String" default="all" />
+    <aura:handler name="change" value="{! v.operatore_selected }" action="{! c.selectPeriodo }" />
+
+    <!-- CR Lotto 4.2 Id 336 c -->
+    <aura:attribute name="iniziativa" type="String" default="Totale" />
+    <aura:handler name="change" value="{! v.iniziativa }" action="{! c.selectPeriodo }" />
+
+    <aura:attribute name="allDataValue" type="Object" default='{}' />
+
+    <aura:attribute name="visiteTotGraf" type="Integer" default='0' />
+    <aura:attribute name="visiteTotTab" type="Integer" default='0' />
+    <aura:attribute name="oppTotGraf" type="Integer" default='0' />
+    <aura:attribute name="oppTotTab" type="Integer" default='0' />
+    <aura:attribute name="praticheTotGraf" type="Integer" default='0' />
+    <aura:attribute name="praticheTotTab" type="Integer" default='0' />
+    <aura:attribute name="clientiTotGraf" type="Integer" default='0' />
+    <aura:attribute name="clientiTotTab" type="Integer" default='0' />
+    
+    <aura:attribute name="dataV" type="Object"/>
+    <aura:attribute name="columnsV" type="List"/>
+
+    <aura:attribute name="dataO" type="Object"/>
+    <aura:attribute name="columnsO" type="List"/>
+
+    <aura:attribute name="dataP" type="Object"/>
+    <aura:attribute name="columnsP" type="List"/>
+
+    <aura:attribute name="dataC" type="Object"/>
+    <aura:attribute name="columnsC" type="List"/>
+
+    <aura:attribute name="isDirezioneFD" type="Boolean" default="false" />
+
+    <aura:attribute name="filiali" type="List" default="[]" />
+
+    <aura:handler name="change" value="{! v.pageReference.state.c__isDirezioneFD }" action="{! c.doInit }" />
+    <!--<c:HomeHeaderComponent />-->
+
+    <lightning:layout multipleRows="true">
+        <lightning:layoutItem size="12">
+            <lightning:layout multipleRows="true">
+                <aura:if isTrue="{! v.userInfo.Qualifica_Utente__c == 'Filo Diretto' }">
+                        <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12" mediumDeviceSize="12"
+                        largeDeviceSize="4">
+                        <div class="page-section page-left">
+                            <c:WGC_Header_Attivita_FD_Oggi isDirezioneFD="{! v.isDirezioneFD }" />
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12" mediumDeviceSize="12"
+                        largeDeviceSize="4">
+                        <div class="page-section page-center">
+                            <c:WGC_Header_Attivita_FD_Scadute isDirezioneFD="{! v.isDirezioneFD }" />
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12" mediumDeviceSize="6"
+                        largeDeviceSize="2">
+                        <div class="page-section page-right">
+                            <c:WGC_Header_News />
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem padding="around-small" size="6" smallDeviceSize="6" mediumDeviceSize="3"
+                        largeDeviceSize="1">
+                        <div class="page-section page-right">
+                            <c:WGC_Header_FD_PrevisioneAvvioRapporto isDirezioneFD="{! v.isDirezioneFD }" />
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem padding="around-small" size="6" smallDeviceSize="6" mediumDeviceSize="3"
+                        largeDeviceSize="1">
+                        <div class="page-section page-right">
+                            <c:WGC_Header_FD_FlowLauncher />
+                        </div>
+                    </lightning:layoutItem>
+                        <aura:set attribute="else">
+                                <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12" mediumDeviceSize="12"
+                                largeDeviceSize="6">
+                                <div class="page-section page-left">
+                                    <c:WGC_Header_Attivita />
+                                </div>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12" mediumDeviceSize="6"
+                                largeDeviceSize="3">
+                                <div class="page-section page-center">
+                                    <c:WGC_Header_Base_Clienti />
+                                </div>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12" mediumDeviceSize="6"
+                                largeDeviceSize="3">
+                                <div class="page-section page-right">
+                                    <c:WGC_Header_News />
+                                </div>
+                            </lightning:layoutItem>
+                                
+                            </aura:set>
+                        
+                </aura:if>
+
+            </lightning:layout>
+        </lightning:layoutItem>
+    </lightning:layout>
+
+    <div class='container slds-p-around_small'>
+
+        <lightning:card>
+            <aura:set attribute="title">
+                <lightning:icon iconName="utility:chart" size="small" variant="slds-icon-inverse" />
+                <div class="title">{!$Label.c.WGC_Opportunity_DetailComponent_PERFORMANCE}</div>
+                <!-- with container -->
+                <div class="open-component ipad-disabled">
+                    <lightning:button label="{!$Label.c.WGC_ComponentCard_Header_Back_To_Home}"
+                        class=" remove-oppty" variant="container" onclick="{!c.navigateToMyComponent}" />
+                </div>
+            </aura:set>
+
+            <div class='container-card'>
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem size="12">
+                        <lightning:layout multipleRows="true">
+                            <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12"
+                                mediumDeviceSize="12" largeDeviceSize="12" class="ipad">
+                                <div class="containerCol">
+                                    <lightning:layout>
+                                        <lightning:layoutItem padding="around-small" size="3"
+                                            class="slds-text-align_right">
+
+                                            <lightning:select name="operatore_filo_diretto" label="{! $Label.c.WGC_Opportunity_Dettaglio_Operatore }"
+                                                aura:id="operatore_filo_diretto" value="{!v.operatore_selected}">
+                                                <option value="all">All</option>
+                                                <aura:iteration items="{!v.operatoriList}" var="item">
+                                                    <optgroup label="{! item.gruppo }">
+                                                        <aura:iteration items="{! item.listaFiltri }" var="operatore">
+                                                            <option text="{!operatore.label}" value="{!operatore.value}" />
+                                                        </aura:iteration>
+                                                    </optgroup> 
+                                                </aura:iteration>
+                                            </lightning:select>
+                                            
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem padding="around-small" size="3"
+                                            class="slds-text-align_right">
+                                            <lightning:select aura:id="filiale" name="filiale" label="{! $Label.c.WGC_Opportunity_Dettaglio_Filiale }"
+                                                value="{!v.filiale}">
+                                                <option value="all">All</option>
+                                                <aura:iteration var="filiale" items="{! v.filiali }">
+                                                    <option value="{! filiale }">{! filiale }</option>
+                                                </aura:iteration>
+                                                <!-- <option value="ancona">Ancona</option>
+                                                <option value="avellino">Avellino</option>
+                                                <option value="bari">Bari</option>
+                                                <option value="bergamo">Bergamo</option>
+                                                <option value="bologna">Bologna</option>
+                                                <option value="brescia">Brescia</option>
+                                                <option value="cagliari">Cagliari</option>
+                                                <option value="catania">Catania</option>
+                                                <option value="firenze">Firenze</option>
+                                                <option value="gallarate">Gallarate</option>
+                                                <option value="genova">Genova</option>
+                                                <option value="milano">Milano</option> -->
+                                                <!-- <option value="mondovi">Mondovì</option> -->
+                                                <!-- <option value="napoli">Napoli</option>
+                                                <option value="padova">Padova</option>
+                                                <option value="palermo">Palermo</option>
+                                                <option value="perugia">Perugia</option>
+                                                <option value="pescara">Pescara</option>
+                                                <option value="pisa">Pisa</option>
+                                                <option value="roma">Roma</option>
+                                                <option value="salerno">Salerno</option>
+                                                <option value="torino 1">Torino 1</option>
+                                                <option value="torino 2">Torino 2</option>
+                                                <option value="treviso">Treviso</option>
+                                                <option value="udine">Udine</option>
+                                                <option value="verona">Verona</option>
+                                                <option value="vicenza">Vicenza</option>
+                                                -->
+                                            </lightning:select>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem padding="around-small" size="3"
+                                            class="slds-text-align_right">
+                                            <lightning:select aura:id="select" name="select" label="{! $Label.c.WGC_Opportunity_Dettaglio_SelezionaPeriodo }"
+                                                value="{!v.status}">
+                                                <option value="thisYear">{!$Label.c.WGC_Opportunity_DetailComponent_Anno_in_corso}</option>
+                                                <option value="lastYear">{!$Label.c.WGC_Opportunity_DetailComponent_Anno_precedente}</option>
+                                                <option value="last2Year">Ultimi 2 anni</option>
+                                            </lightning:select>
+                                        </lightning:layoutItem>
+                                        <!-- CR Lotto 4.2 Id 336 c -->
+                                        <lightning:layoutItem padding="around-small" size="3"
+                                            class="slds-text-align_right">
+                                            <lightning:select aura:id="select" name="select" label="Iniziativa"
+                                                value="{!v.iniziativa}">
+                                                <option value="Totale">Totale</option>
+                                                <option value="INBOUND">Inbound</option>
+                                                <option value="OUTBOUND">Outbound</option>
+                                                <option value="INDIRETTO">Indiretto</option>
+                                                <option value="PORTAFOGLIO">Portafoglio</option>
+                                                <option value="">Non Categorizzato</option>
+                                            </lightning:select>
+                                        </lightning:layoutItem>
+                                        <!-- END CR Lotto 4.2 Id 336 c -->
+                                    </lightning:layout>
+                                       
+                                    <lightning:layout verticalAlign="center" class="marginTop">
+                                        <lightning:layoutItem size="12"
+                                            class="slds-text-align_center">
+                                            <!-- <img src="{! $Resource.WGC_Opportunita_chart }" /> -->
+
+                                            <div id="chart-container_Opp" class="chart-container">
+                                                <canvas aura:id="chartJS_OppFD" id="chartJS_OppFD" style="height:60vh" />
+                                            </div>
+                                        </lightning:layoutItem>
+                                    </lightning:layout>  
+                                    
+                                    <lightning:layout  multipleRows="true" verticalAlign="center">
+                                        <lightning:layoutItem size="3" smallDeviceSize="12"
+                                        mediumDeviceSize="6" largeDeviceSize="3"
+                                            class="slds-box">
+                                            <!-- <img src="{! $Resource.WGC_Opportunita_chart }" /> -->
+                                            <div class="table-title_Opp slds-text-title_caps slds-align_absolute-center">{! $Label.c.WGC_Opportunity_Dettaglio_Visite }</div>
+
+                                            <div id="table-container_Opp" class="table-container_Opp">
+                                                <lightning:datatable
+                                                    keyField="id"
+                                                    data="{! v.dataV }"
+                                                    columns="{! v.columnsV }"
+                                                    hideCheckboxColumn="true"/>
+                                            </div>
+
+                                            <div class="table-total_Opp slds-text-title_caps">Tot.: <lightning:formattedNumber value="{! v.visiteTotTab }"/></div>
+
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem size="3" smallDeviceSize="12"
+                                        mediumDeviceSize="6" largeDeviceSize="3"
+                                            class="slds-box">
+                                            <!-- <img src="{! $Resource.WGC_Opportunita_chart }" /> -->
+                                            <div class="table-title_Opp slds-text-title_caps slds-align_absolute-center">{! $Label.c.WGC_Opportunity_Dettaglio_Opportunita }</div>
+
+                                            <div id="table-container_Opp" class="table-container_Opp">
+                                                <lightning:datatable
+                                                    keyField="id"
+                                                    data="{! v.dataO }"
+                                                    columns="{! v.columnsO }"
+                                                    hideCheckboxColumn="true"/>
+                                            </div>
+
+                                            <div class="table-total_Opp slds-text-title_caps">Tot.: <lightning:formattedNumber value="{! v.oppTotTab }"/></div>
+
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem size="3" smallDeviceSize="12"
+                                        mediumDeviceSize="6" largeDeviceSize="3"
+                                            class="slds-box">
+                                            <!-- <img src="{! $Resource.WGC_Opportunita_chart }" /> -->
+                                            <div class="table-title_Opp slds-text-title_caps slds-align_absolute-center">{! $Label.c.WGC_Opportunity_Dettaglio_Pratiche }</div>
+
+                                            <div id="table-container_Opp" class="table-container_Opp">
+                                                <lightning:datatable
+                                                    keyField="id"
+                                                    data="{! v.dataP }"
+                                                    columns="{! v.columnsP }"
+                                                    hideCheckboxColumn="true"/>
+                                            </div>
+
+                                            <div class="table-total_Opp slds-text-title_caps">Tot.: <lightning:formattedNumber value="{! v.praticheTotTab }"/></div>
+
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem size="3" smallDeviceSize="12"
+                                        mediumDeviceSize="6" largeDeviceSize="3"
+                                            class="slds-box">
+                                            <!-- <img src="{! $Resource.WGC_Opportunita_chart }" /> -->
+                                            <div class="table-title_Opp slds-text-title_caps slds-align_absolute-center">{! $Label.c.WGC_Opportunity_Dettaglio_Clienti }</div>
+
+                                            <div id="table-container_Opp" class="table-container_Opp">
+                                                <lightning:datatable
+                                                    keyField="id"
+                                                    data="{! v.dataC }"
+                                                    columns="{! v.columnsC }"
+                                                    hideCheckboxColumn="true"/>
+                                            </div>
+
+                                            <div class="table-total_Opp slds-text-title_caps">Tot.: <lightning:formattedNumber value="{! v.clientiTotTab }"/></div>
+
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                </div>
+                            </lightning:layoutItem>
+
+                        </lightning:layout>
+                    </lightning:layoutItem>
+
+                </lightning:layout>
+            </div>
+        </lightning:card>
+    </div>
+
+</aura:component>

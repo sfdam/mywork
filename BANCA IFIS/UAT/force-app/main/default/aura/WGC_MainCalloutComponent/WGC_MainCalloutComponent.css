@@ -1,0 +1,50 @@
+.THIS.containerCol{
+    border:1px solid #DAD7D8;
+    border-radius:5px;
+    padding: 25px;
+    margin-bottom: 20px;
+    color: #FFF;
+    font-weight: 300;
+}
+
+.THIS.containerButton{
+    background-color: #0064B5;
+    box-shadow: 1px 1px 5px rgb(184, 184, 184, 0.5);
+}
+
+.THIS.containerCol .mainCalloutButton {
+    text-transform: uppercase;
+    color: #0064B5;
+    border-radius: 50px;
+    font-weight: bold;
+}
+
+.THIS .mainCalloutButton[disabled], .THIS .mainCalloutButton:disabled {
+    background: rgb(201, 199, 197);
+    border-color: rgb(201, 199, 197);
+    color: rgb(255, 255, 255);
+}
+
+.THIS .button-modal {
+    width: 100%;
+    height: 45px;
+}
+
+.THIS .sezione-dettaglio {
+    background: #EFEFEF;
+}
+
+.THIS .sezione-assegna {
+    height: 100px;
+    background: linear-gradient(to right, rgb(236, 187, 182, 1), rgb(236, 187, 182, 0.75), rgb(236, 187, 182, 0.5));
+}
+
+.THIS .slds-button_icon-border {
+    background: white;
+    border-radius: 50%;
+    
+}
+
+.THIS .no-overflow {
+    min-height: 77px;
+}

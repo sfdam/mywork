@@ -1,0 +1,302 @@
+.THIS {
+} 
+.THIS .title {
+    display: inline-block;
+    margin-left: 10px;
+    vertical-align: sub;
+}
+
+.THIS .open-component {
+    display: inline-block;
+    position: absolute;
+    right: 10px;
+    vertical-align: super;
+    margin-top: -4px;
+}
+
+.THIS .slds-card__body {
+    padding: 0 10px 10px 10px;
+    margin: 0;
+}
+
+
+/* CIRCLE */
+.THIS .container {
+    position: relative;
+    height: 130px;
+}
+
+.THIS .circle {
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    bottom: 0px;
+}
+
+.THIS .circleBase {
+    border-radius: 50%;
+    padding: 0;
+}
+
+.THIS .circleBaseBody {
+    text-align: center;
+    font-size: 36px;
+    font-weight: bolder;
+    color: #0064B5;
+    line-height: 80px;
+    width: 76px;
+}
+
+.THIS .found-white {
+    color: #FFFFFF;
+}
+
+.THIS .found-red {
+    color: #ED495B;
+}
+
+.THIS .found-grey {
+    color: #c2c2c2;
+}
+
+.THIS .circleBaseBodyTitle {
+    font-size: 12px;
+    text-align: center;
+    font-weight: bolder;
+    color: #000000;
+    text-transform: uppercase;
+}
+
+.THIS .circleBaseBodySub {
+    text-align: center;
+    color:#c2c2c2;
+    font-size: 12px;
+}
+
+.THIS .circleRightBody {
+    line-height: 15px;
+    font-weight: bold;
+    font-size: 12px;
+    padding-top: 3px;
+     padding-right: 0;
+    padding-left: 5px;
+}
+
+.THIS .type4 {
+    margin: 0 auto;
+    width: 80px;
+    height: 80px;
+    background: #FFFFFF;
+    box-shadow: 0px 0px 10px rgb(46, 46, 46, 0.2);
+    z-index: 10;
+}
+
+.THIS .border-white {
+    border: 2px solid #ffffff;
+}
+
+.THIS .border-grey {
+    border: 2px solid #c2c2c2;
+}
+
+.THIS .border-red {
+    border: 2px solid #ED495B;
+}
+
+.THIS .background-red {
+    background-color: #ED495B;
+}
+
+.THIS .margin {
+    margin: 20px 0 5px 0;
+}
+
+.THIS .badge {
+    margin: 10px auto 5px;
+        z-index: 10;
+}
+
+.THIS .badgeX {
+    margin: 10px 60px 25px 60px;
+    z-index: 10;
+}
+
+.THIS .circleBaseStriped {
+    background: linear-gradient(to right, rgb(106, 172, 250, 1), rgb(106, 172, 250, 0.75), rgb(106, 172, 250, 0.50), rgb(106, 172, 250, 0.25));
+    height: 20px;
+    margin: auto 70px;
+    margin-top: 100px;
+    position: absolute;
+    z-index: 10;
+}
+
+.THIS .circleBaseStriped_bonis {
+    width: 60%;
+}
+
+.THIS .circleBaseStriped_procedurale {
+    width: 39.2%;
+}
+
+.THIS .circleBaseStriped_base {
+    width: 65%;
+}
+
+.THIS .colorType1 {
+    background-color: #0064B5;
+    color: #ffffff;
+}
+
+.THIS .colorType2 {
+    background-color: #9AC9FF;
+    color: #ffffff;
+}
+
+.THIS .cstm-border-all {
+    border: 1px solid #CCC;
+    border-radius: 5px;
+}
+
+.THIS .dropdownSearchArrow {
+    height: 19px;
+    position: relative;
+    overflow: hidden;
+    display: block;
+    top: 1px;
+  }
+.THIS .dropdownSearchArrow:after {
+    content: " ";
+    position: absolute;
+    border: 1px solid #ccc;
+    width: 20px;
+    height: 20px;
+    background: #F7F7F7;
+    transform: rotate(45deg);
+    bottom: -10px;
+    left: 5%;
+    margin-left: 8px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+  
+  }
+
+/*A.M. CR 152*/
+.THIS button.slds-buttonX {
+    height: 33px;
+    margin-bottom: 5px;
+    line-height: 0;
+    padding: 4px;
+    width: 170px;
+    text-overflow: ellipsis;
+    border-radius: 25px;
+    font-size: 12px;
+    text-transform: uppercase;
+    font-weight: bold;
+    background: #0064B5;
+    border-color: #0064B5;
+}
+/*A.M.*/
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : landscape)
+and (-webkit-min-device-pixel-ratio: 2) { 
+    /* STYLES GO HERE */
+    .THIS .circleBaseStriped {
+        margin-left: 60px;
+    }
+
+ 
+}
+  
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : portrait)
+and (-webkit-min-device-pixel-ratio: 2) { 
+    /* STYLES GO HERE */
+    .THIS .type4 {
+        width: 60px;
+        height: 60px;
+    }
+
+    .THIS .circleBaseBody {
+        font-size: 28px;
+        line-height: 60px;
+        width: 56px;
+    }
+
+    .THIS .circleBaseBodyTitle {
+        font-size: 8px;
+    }
+
+    .THIS .circleBaseBodySub {
+        font-size: 8px;
+    }
+
+    .THIS .circleBaseStriped {
+        margin-top: 83px;
+        margin-left: 30px;
+    }
+
+    .THIS .container {
+        height: 100px;
+    }
+}
+
+/* 
+  ##Device = Low Resolution Tablets, Mobiles (Landscape)
+  ##Screen = B/w 481px to 767px
+*/
+
+@media only screen 
+and (min-width: 481px) 
+and (max-width: 767px)
+and (orientation : landscape) {
+    /* STYLES GO HERE */
+
+}
+  
+/* 
+  ##Device = Most of the Smartphones Mobiles (Portrait)
+  ##Screen = B/w 320px to 479px
+*/
+  
+@media only screen 
+and (min-width: 320px) 
+and (max-width: 480px)
+and (orientation : portrait) {
+    /* STYLES GO HERE */
+    .THIS .iphone {
+        display: none;
+    }
+
+    .THIS .type4 {
+        width: 60px;
+        height: 60px;
+    }
+
+    .THIS .circleBaseBody {
+        font-size: 28px;
+        line-height: 60px;
+        width: 56px;
+    }
+
+    .THIS .circleBaseBodyTitle {
+        font-size: 8px;
+    }
+
+    .THIS .circleBaseBodySub {
+        font-size: 8px;
+    }
+
+    .THIS .circleBaseStriped {
+        margin-top: 62px;
+    }
+
+    .THIS .container {
+        height: 100px;
+    }
+
+}

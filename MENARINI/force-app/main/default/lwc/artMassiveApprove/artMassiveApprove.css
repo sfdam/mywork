@@ -1,0 +1,4 @@
+:host {
+    --slds-c-card-heading-font-weight: bold;
+    --slds-c-card-body-spacing-inlinestart: 20px;
+}

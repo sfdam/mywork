@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_AssegnatarioFormula__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF (
+OR (
+TEXT(CRM_Account__r.ModelloDiServizio__c) = &apos;Family&apos;,
+TEXT(CRM_Account__r.ModelloDiServizio__c) = &apos;POE&apos;,
+TEXT(CRM_Account__r.ModelloDiServizio__c) = &apos;Assente&apos;,
+TEXT(CRM_Account__r.ModelloDiServizio__c) = &apos;Non Portafogliato&apos;),
+CRM_AssegnatarioUser__r.FirstName + &quot; &quot; + CRM_AssegnatarioUser__r.LastName,
+IF(! ISBLANK(CRM_AssegnatarioUser__c),CRM_AssegnatarioUser__r.FirstName + &quot; &quot; + CRM_AssegnatarioUser__r.LastName,
+IF (
+CRM_Account__r.PTF_PortafoglioAssegnato__c,
+CRM_Account__r.PTF_Portafoglio__r.CRM_ReferentePortafoglio__r.FirstName + &quot; &quot; + CRM_Account__r.PTF_Portafoglio__r.CRM_ReferentePortafoglio__r.LastName,
+NULL
+)
+)
+)</formula>
+    <label>CRM_AssegnatarioFormula</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

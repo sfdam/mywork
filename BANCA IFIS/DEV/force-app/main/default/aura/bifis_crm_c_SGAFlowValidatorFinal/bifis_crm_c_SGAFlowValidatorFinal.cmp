@@ -1,0 +1,11 @@
+<aura:component controller="bifis_crm_c_SGACommonCtrl" implements="lightning:availableForFlowActions" access="global">
+    
+    <aura:attribute name="workflowRecordCandidatoID" type="String"/>       
+    
+	<aura:attribute name="flowValidatorQualiQuantiErrorsVar" type="String[]" />       
+	<aura:attribute name="flowValidatorConfSegnalErrorsVar" type="String[]" />   
+	<aura:attribute name="flowValidatorDocErrorsVar" type="String[]" />      
+         
+	<aura:attribute name="flowValidatorFinalResultVar" type="String" />    
+    
+</aura:component>

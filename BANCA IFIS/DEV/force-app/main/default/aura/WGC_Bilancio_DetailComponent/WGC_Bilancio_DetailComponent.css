@@ -1,0 +1,210 @@
+.THIS .cstm-callout {
+    background-color: #E0ECFC;
+    border-radius: 5px;
+}
+
+.THIS .cstm-callout .cstm-callout-text {
+    font-size: 16px;
+    color: #0064B5;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.THIS .cstm-callout .cstm-callout-btn,
+.THIS .cstm-datatable-wrapper .cstm-datatable-footer-action-btn {
+    max-width: 100%;
+    border-radius: 25px;
+    background-color: #0064B5!important;
+    border: none;
+    text-transform: uppercase;
+    padding: 0 32px;
+}
+
+.THIS .cstm-datatable-wrapper {
+    padding-top: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 8px #DDD;
+}
+
+.THIS .cstm-datatable-wrapper .cstm-datatable-header {
+    padding-left: 16px;
+    border-left: 3px solid #0064B5;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.THIS .cstm-datatable-wrapper .slds-table tbody tr:nth-child(even) th,
+.THIS .cstm-datatable-wrapper .slds-table tbody tr:nth-child(even) td {
+    background-color: #fafafa;
+}
+
+.THIS .cstm-datatable-wrapper .slds-table tbody tr td.main-col,
+.THIS .cstm-datatable-wrapper .slds-table tbody tr td.support-col {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/*.THIS .cstm-datatable-wrapper .slds-table tbody tr:last-child th,
+.THIS .cstm-datatable-wrapper .slds-table tbody tr:last-child td {
+    background-color: #2E2E2E;
+    color: #FFF;
+}*/
+
+.THIS .cstm-datatable-wrapper .slds-table thead tr th {
+    color: #0064B5;
+    font-weight: bold;
+}
+
+.THIS .cstm-datatable-wrapper .slds-table thead tr th:first-child {
+    padding-left: 10px;
+}
+
+.THIS .cstm-datatable-wrapper .slds-table tbody tr th {
+    padding-left: 18px;
+}
+
+/*
+.THIS .cstm-datatable-wrapper .slds-table tbody tr th,
+.THIS .cstm-datatable-wrapper .slds-table tbody tr td {
+    border-top: none !important;
+    font-size: 11px;
+    letter-spacing: -.5px;
+    font-weight: bold;
+}
+*/
+
+/* CONDITIONAL FORMATTING */
+.THIS .cstm-datatable-wrapper .slds-table tbody tr th.inline-header {
+    color: #FFF !important;
+    font-weight: bold;
+}
+
+.THIS .cstm-datatable-wrapper .slds-table tbody tr td.positive-value,
+.THIS .cstm-datatable-wrapper .slds-table tbody tr td.negative-value {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.THIS .cstm-datatable-wrapper .slds-table tbody tr td.positive-value {
+    color: #1C9F5D !important;
+}
+
+.THIS .cstm-datatable-wrapper .slds-table tbody tr td.negative-value {
+    color: #A70E1D !important;
+}
+
+.THIS .cstm-datatable-wrapper .slds-table tbody tr th.desc-padding {
+    padding-left: 4%;
+}
+
+/*
+.THIS .cstm-datatable-wrapper .slds-table tbody tr:last-child th,
+.THIS .cstm-datatable-wrapper .slds-table tbody tr:last-child td {
+    background-color: #222;
+    color: #FFF;
+}
+*/
+
+/* INVERSE STYLING */
+.THIS .cstm-datatable-wrapper.inverse {
+    padding-left: 20px;
+}
+
+/*.THIS .cstm-datatable-wrapper.inverse .slds-table_header-fixed_container.slds-scrollable_x {
+    background-color: #2E2E2E !important;
+}*/
+
+.THIS .cstm-datatable-wrapper.inverse .slds-table tbody tr:first-child th {
+    padding-top: 20px;
+}
+
+.THIS .cstm-datatable-wrapper.inverse .slds-table tbody tr th,
+.THIS .cstm-datatable-wrapper.inverse .slds-table tbody tr td {
+    color: #CCC;
+}
+
+/*.THIS .cstm-datatable-wrapper.inverse,
+.THIS .cstm-datatable-wrapper.inverse table th,
+.THIS .cstm-datatable-wrapper.inverse table td,
+.THIS .cstm-datatable-wrapper.inverse table th div.slds-cell-fixed {
+    background-color: #2E2E2E !important;
+    color: #FFF;
+}*/
+
+.THIS .slds-cell-fixed{
+    background-color:white;
+}
+
+.THIS th.inline-header{
+    font-weight:bold;
+}
+
+.THIS th{
+    color:lighgray;
+}
+
+.THIS td.positive-value{
+    color:#0064B5;
+}
+
+.THIS td.negative-value{
+    color:#A70E1D;
+}
+
+.THIS .container-card{
+    border:1px solid lightgray;
+    border-radius:10px;
+}
+
+.THIS .title{
+    color:#0064B5;
+    font-weight:bold;
+}
+
+.THIS .slds-cell-fixed{
+    background-color:white;
+    border-bottom:2px solid #0064B5; 
+}
+
+/*.THIS .cstm-datatable-wrapper.inverse .slds-table thead tr th .slds-th__action:focus,
+.THIS .cstm-datatable-wrapper.inverse .slds-table thead tr th .slds-th__action:hover {
+    background-color: #222 !important;
+}*/
+
+.THIS .cstm-accordion-icon, .THIS .cstm-datatable-body {
+    transition: 0.6s;
+    /* height: 100%;
+    overflow: hidden; */
+}
+
+.THIS .cstm-accordion-icon.collapsed {
+    transform: rotate(180deg);
+}
+
+.THIS .slds-th__action{
+    font-weight: bold;
+}
+
+.THIS .slds-tabs_default__link, .THIS .slds-tabs--default__link {
+    font-size: 1rem;
+    text-transform: capitalize;
+    letter-spacing: normal;
+}
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : landscape)
+and (-webkit-min-device-pixel-ratio: 2) { 
+    /* STYLES GO HERE */
+
+}
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : portrait)
+and (-webkit-min-device-pixel-ratio: 2) { 
+    /* STYLES GO HERE */ 
+}

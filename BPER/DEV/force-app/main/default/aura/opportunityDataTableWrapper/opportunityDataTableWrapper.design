@@ -1,0 +1,21 @@
+<design:component >
+    <design:attribute name="title" label="Titolo" description="definisci il titolo del componente" />
+    <design:attribute name="flowLabel" label="label flow" description="definisci la Label del Flow" />
+    <design:attribute name="viewAllLabel" label="Label Pulasnte View All" description="definisci la label del pulsane View All" />
+    <design:attribute name="pagina" label="funzionalità" description="Digita 1 per la pagina di un Account,
+    Digita 2 per la pagina di un Case
+    "/>
+
+    <design:attribute name="widthc01" label="Larghezza colonna Stato" default="0" />
+    <design:attribute name="widthc02"  label="Larghezza colonna Opportunità" default="50" />
+    <design:attribute name="widthc03"  label="Larghezza colonna Data/Ora Apertura" default="50" />
+    <design:attribute name="widthc04"  label="Larghezza colonna Product Category" default="50" />
+    <design:attribute name="widthc05"  label="Larghezza colonna Fase" default="50" />
+    <design:attribute name="widthc06"  label="Larghezza colonna Creato da" default="50"/>
+    <design:attribute name="widthc07"  label="Larghezza colonna Recall Date" default="50"/>
+    <design:attribute name="widthc08"  label="Larghezza colonna Appointment date at the branch" default="50" />
+    <design:attribute name="widthc09"  label="Larghezza colonna Appointment Branch Name" default="50" />
+    <design:attribute name="widthc10"  label="Larghezza colonna Owner" default="50" />
+
+    
+</design:component>

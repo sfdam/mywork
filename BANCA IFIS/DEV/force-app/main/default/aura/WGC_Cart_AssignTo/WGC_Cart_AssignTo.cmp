@@ -1,0 +1,31 @@
+<aura:component extends="c:WGC_Utility">
+    <!-- ATTRIBUTE -->
+    <aura:attribute name="opportunityId" type="String"/>
+    <aura:attribute name="owner" type="Object"/>
+    <aura:attribute name="hasError" type="Boolean"/>
+
+    <!-- REGISTER EVENTS -->
+    <aura:registerEvent name="cartCallServer" type="c:WGC_Cart_Call_Server"/>
+
+    <!-- HANDLERS -->
+    <aura:handler name="change" value="{! v.owner }" action="{! c.onChangeOwner }"/>
+
+    <c:WGC_CustomLookup objectAPIName="User" IconName="utility:user"
+                        label="Assegna a:" hasError="{! v.hasError }"
+                        Message=""
+                        selectedRecord="{! v.owner }"
+                        returnFields="Id, Name"
+                        showField="Name"
+                        soqlSearch="true"
+                        whereCondition="###Name### " />
+                        <!-- AND Qualifica_Utente__c = 'Sviluppo_Commerciale_Filiali' -->
+    <aura:if isTrue="{! v.hasError }">
+        <lightning:icon iconName="utility:warning" alternativeText="Seleziona un utente" size="xx-small" />
+        <small class="cstm-error-text">Seleziona un utente</small>
+    </aura:if>
+
+    <div class="slds-m-top_medium slds-text-align_right">
+        <lightning:button class="cstm-btn-round cstm-btn-brand" variant="brand" name="conferma" label="Conferma" disabled="{! v.hasError }" onclick="{! c.onConfermaClick }"/>
+    </div>
+
+</aura:component>

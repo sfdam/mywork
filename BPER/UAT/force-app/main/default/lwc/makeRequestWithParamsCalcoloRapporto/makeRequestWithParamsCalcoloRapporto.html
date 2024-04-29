@@ -1,0 +1,205 @@
+<template>
+    <lightning-card variant="Narrow" title={title} icon-name={iconName}>
+        <!-- <lightning-button-icon  icon-name="utility:down" variant="border-filled" alternative-text="Show More" slot="actions"></lightning-button-icon> -->
+        <div class="c-container-params">
+            <div class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none">
+                <div class="button-reset slds-float_right">
+                    <lightning-button-icon icon-name="utility:refresh" variant="bare" alternative-text="Refresh Filtri"
+                        title="Refresh Filtri" onclick={handleRefresh}></lightning-button-icon>
+                </div>
+                <lightning-layout multiple-rows="true">
+                    <template for:each={getAllParams} for:item="param">
+                        <template if:true={param.picklist}>
+                            <lightning-layout-item key={param.label} flexibility="auto" padding="around-small">
+                                <div class="slds-is-relative">
+                                    <lightning-combobox id={param.key} data-item={param.key} label={param.label}
+                                        value={param.value} placeholder={param.placeholder} options={param.option}
+                                        onchange={handleChange} disabled={param.disabled}>
+                                    </lightning-combobox>
+                                    <template if:true={param.helper}>
+                                        <lightning-helptext content={param.helperText}></lightning-helptext>
+                                    </template>
+                                </div>
+                            </lightning-layout-item>
+                        </template>
+                        <template if:true={param.input}>
+                            <lightning-layout-item key={param.label} flexibility="auto" padding="around-small">
+                                <div class="slds-is-relative">
+                                    <lightning-input id={param.key} data-item={param.key} type={param.type}
+                                        label={param.label} placeholder={param.placeholder} value={param.value}
+                                        onchange={handleChange} disabled={param.disabled} date-style="short">
+                                    </lightning-input>
+                                    <template if:true={param.helper}>
+                                        <lightning-helptext content={param.helperText}></lightning-helptext>
+                                    </template>
+                                </div>
+                            </lightning-layout-item>
+                        </template>
+                    </template>
+                </lightning-layout>
+            </div>
+            <lightning-layout class="slds-align_absolute-center">
+                <template if:true={buttonX}>
+                    <lightning-layout-item flexibility="auto" class="slds-p-bottom_small">
+                        <button type="submit" class="slds-button slds-button_neutral slds-button_stretch color-button"
+                            onclick={handleSendRequest}>{buttonXName}</button>
+                    </lightning-layout-item>
+                </template>
+                <template if:true={buttonPage}>
+                    <lightning-layout-item padding="around-small">
+                        <div class="lgc-bg">
+                            <lightning-button-icon icon-name="utility:chevronleft" variant="container"
+                                alternative-text="Settings" title="Settings" onclick={handleSendRequestIndietro}
+                                disabled={disabledButtonIndietro}></lightning-button-icon>
+                        </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small">
+                        Pag. {numPage}
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small">
+                        <div class="lgc-bg">
+                            <lightning-button-icon icon-name="utility:chevronright" variant="container"
+                                alternative-text="Settings" title="Settings" onclick={handleSendRequestAvanti}
+                                disabled={disabledButtonAvanti}></lightning-button-icon>
+                        </div>
+                    </lightning-layout-item>
+                </template>
+            </lightning-layout>
+
+        </div>
+        <template if:false={isRenderedDataTable}>
+            <div class="slds-align_absolute-center">
+                <lightning-spinner alternative-text="CARICAMENTO" size="small"></lightning-spinner>
+            </div>
+        </template>
+        <template if:true={isRenderedDataTable}>
+            <template if:true={notEmptyList}>
+                <div>
+                    <lightning-layout multiple-rows="true">
+                        <lightning-layout-item size="12" padding="around-small">
+                            <div class="tableTitle">ENTRATE</div>
+                            <div class="recordsTable">
+                                <lightning-datatable key-field="numeroMovimento" data={entrataMovimenti10}
+                                    columns={responseColumns} wrap-text-max-lines="5" hide-checkbox-column>
+                                </lightning-datatable>
+                                <lightning-layout>
+                                    <lightning-layout-item size="6" class="slds-align_absolute-center">
+                                        <lightning-button variant="base" label="View All" title="View All" id="Entrate"
+                                            onclick={openModal} class="slds-m-left_x-small"></lightning-button>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </div>
+                        </lightning-layout-item>
+
+                        <lightning-layout-item size="12" padding="around-small">
+                            <div class="tableTitle">USCITE</div>
+                            <div class="recordsTable">
+                                <lightning-datatable key-field="numeroMovimento" data={uscitaMovimenti10}
+                                    columns={responseColumns} wrap-text-max-lines="5" hide-checkbox-column>
+                                </lightning-datatable>
+                                <lightning-layout>
+                                    <lightning-layout-item size="6" class="slds-align_absolute-center">
+                                        <lightning-button variant="base" label="View All" title="View All" id="Uscite"
+                                            onclick={openModal} class="slds-m-left_x-small"></lightning-button>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </div>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+            </template>
+            <template if:false={notEmptyList}>
+                <div>
+                    <lightning-layout>
+                        <lightning-layout-item size="12">
+                            <div class="slds-box no-button">
+                                <p>NESSUN RISULTATO</p>
+                            </div>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+            </template>
+        </template>
+        <template if:true={isRenderdDataRapporto}>
+            <div>
+                <lightning-layout>
+                    <lightning-layout-item size="2" padding="around-small">
+
+                        <lightning-input type="number" data-name="rata stimata" label="Rata stimata:" value={rataStimata}
+                            onblur={blurInput} formatter="currency" step="0.01" required></lightning-input>
+
+                    </lightning-layout-item>
+                    <lightning-layout-item size="2" padding="around-small">
+
+                        <lightning-input type="number" name="altre entrate" label="Altre entrate:" value={altreEntrate}
+                            onblur={blurInputEntrate} formatter="currency" step="0.01"></lightning-input>
+
+                    </lightning-layout-item>
+                    <lightning-layout-item size="2" padding="around-small">
+
+                        <lightning-input type="number" name="altre uscite" label="Altre uscite:" value={altreUscite}
+                            onblur={blurInputUscite} formatter="currency" step="0.01"></lightning-input>
+
+                    </lightning-layout-item>
+                    <lightning-layout-item flexibility="auto" padding="around-small">
+                        <button class="slds-button slds-button_neutral slds-button_stretch color-button position-button"
+                            onclick={handleCalutateRapporto}>Calcola rapporto</button>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="2" padding="around-small">
+
+                        <lightning-input type="number" name="input7" label="Rapporto Stimato:" value={rapportoStimato}
+                            disabled="true" formatter="percent" step="0.0001"></lightning-input>
+
+                    </lightning-layout-item>
+                </lightning-layout>
+            </div>
+        </template>
+
+    </lightning-card>
+    <template if:true={openmodel}>
+        <div>
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+                aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_large">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                            title="Close" onclick={closeModal}>
+                            <lightning-icon icon-name="utility:close" size="medium">
+                            </lightning-icon>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <div class="tilte-card"><b>
+                                <template if:true={viewAllEntrate}>ENTRATE</template>
+                                <template if:true={viewAllUscite}>USCITE</template>
+                            </b></div>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <lightning-layout>
+                            <lightning-layout-item size="12">
+
+                                <div class="recordsTable">
+                                    <template if:true={viewAllEntrate}>
+                                        <lightning-datatable key-field="numeroMovimento" data={entrataMovimenti}
+                                            columns={responseColumns} wrap-text-max-lines="5" hide-checkbox-column>
+                                        </lightning-datatable>
+
+                                    </template>
+                                    <template if:true={viewAllUscite}>
+                                        <lightning-datatable key-field="numeroMovimento" data={uscitaMovimenti}
+                                            columns={responseColumns} wrap-text-max-lines="5" hide-checkbox-column>
+                                        </lightning-datatable>
+
+                                    </template>
+                                </div>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning-button label="Annulla" variant="neutral" onclick={closeModal}></lightning-button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </template>
+</template>

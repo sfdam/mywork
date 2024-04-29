@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>51.0</apiVersion>
+    <formulas>
+        <name>Formula_AssicurazioneCreditiEstero</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Get_record_Estero.CRM_AssicurazioneCreditiEstero__c}) = false,
+{!Get_record_Estero.CRM_AssicurazioneCreditiEstero__c},
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_DatiAl</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Get_record_Estero.CRM_DatiAl__c}) = false,
+IF(VALUE(TEXT(DAY({!Get_record_Estero.CRM_DatiAl__c}))) &lt; 10, &quot;0&quot; + TEXT(DAY({!Get_record_Estero.CRM_DatiAl__c})), TEXT(DAY({!Get_record_Estero.CRM_DatiAl__c}))) + &quot;/&quot; + 
+IF(VALUE(TEXT(MONTH({!Get_record_Estero.CRM_DatiAl__c}))) &lt; 10, &quot;0&quot; + TEXT(MONTH({!Get_record_Estero.CRM_DatiAl__c})), TEXT(MONTH({!Get_record_Estero.CRM_DatiAl__c}))) + &quot;/&quot; + 
+TEXT(YEAR({!Get_record_Estero.CRM_DatiAl__c})),
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_FatturatoComplessivo</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Formula_FatturatoComplessivo1000}) = false,
+IF( 
+ {!Formula_FatturatoComplessivo1000} &gt;= 1000000000000, 
+  RIGHT(TEXT(FLOOR({!Formula_FatturatoComplessivo1000}/ 1000000000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ {!Formula_FatturatoComplessivo1000} &gt;= 1000000000, 
+  RIGHT(TEXT(FLOOR({!Formula_FatturatoComplessivo1000}/ 1000000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+{!Formula_FatturatoComplessivo1000} &gt;= 1000000, 
+  RIGHT(TEXT(FLOOR({!Formula_FatturatoComplessivo1000} / 1000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+  {!Formula_FatturatoComplessivo1000} &gt;= 1000, 
+  RIGHT(TEXT(FLOOR({!Formula_FatturatoComplessivo1000} / 1000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+RIGHT(TEXT(FLOOR({!Formula_FatturatoComplessivo1000})), 3) + &quot; €&quot;,
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_FatturatoComplessivo1000</name>
+        <dataType>Currency</dataType>
+        <expression>{!Get_record_Estero.IncExpSuFatturato_FatturatoComplessivo__c}</expression>
+        <scale>2</scale>
+    </formulas>
+    <formulas>
+        <name>Formula_FatturatoExport</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Get_record_Estero.IncExpSuFatturato_FatturatoExport__c}) = false,
+{!Get_record_Estero.IncExpSuFatturato_FatturatoExport__c},
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_MercatoEsportazione1</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Get_record_Estero.CRM_MercatoEsportazione1__c}) = false,
+{!Get_record_Estero.CRM_MercatoEsportazione1__c},
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_MercatoEsportazione2</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Get_record_Estero.CRM_MercatoEsportazione2__c}) = false,
+{!Get_record_Estero.CRM_MercatoEsportazione2__c},
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_MercatoEsportazione3</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Get_record_Estero.CRM_MercatoEsportazione3__c}) = false,
+{!Get_record_Estero.CRM_MercatoEsportazione3__c},
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_MercatoImportazione2</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Get_record_Estero.CRM_MercatoImportazione2__c}) = false,
+{!Get_record_Estero.CRM_MercatoImportazione2__c},
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_MercatoImportazione3</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Get_record_Estero.CRM_MercatoImportazione3__c}) = false,
+{!Get_record_Estero.CRM_MercatoImportazione3__c},
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_ModalitaIncasso1</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Get_record_Estero.CRM_ModalitaIncasso1__c}) = false,
+{!Get_record_Estero.CRM_ModalitaIncasso1__c},
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_ModalitaIncasso2</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Get_record_Estero.CRM_ModalitaIncasso2__c}) = false,
+{!Get_record_Estero.CRM_ModalitaIncasso2__c},
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_ModalitaIncasso3</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Get_record_Estero.CRM_ModalitaIncasso3__c}) = false,
+{!Get_record_Estero.CRM_ModalitaIncasso3__c},
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_ModalitaPagamento1</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Get_record_Estero.CRM_ModalitaPagamento1__c}) = false,
+{!Get_record_Estero.CRM_ModalitaPagamento1__c},
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_ModalitaPagamento2</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Get_record_Estero.CRM_ModalitaPagamento2__c}) = false,
+{!Get_record_Estero.CRM_ModalitaPagamento2__c},
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_ModalitaPagamento3</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Get_record_Estero.CRM_ModalitaPagamento3__c}) = false,
+{!Get_record_Estero.CRM_ModalitaPagamento3__c},
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_PrincipaliMercatiImportazione</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Get_record_Estero.CRM_MercatoImportazione1__c}) = false,
+{!Get_record_Estero.CRM_MercatoImportazione1__c},
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_TempiMediIncasso</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Get_record_Estero.CRM_TempiMediIncasso__c}) = false,
+{!Get_record_Estero.CRM_TempiMediIncasso__c},
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_TempiMediPagamento</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Get_record_Estero.CRM_TempiMediPagamento__c}) = false,
+{!Get_record_Estero.CRM_TempiMediPagamento__c},
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_ValutaFatturazione</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Get_record_Estero.IncExpSuFatturato_ValutaFatturazione__c}) = false,
+{!Get_record_Estero.IncExpSuFatturato_ValutaFatturazione__c},
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Impresa</name>
+        <dataType>String</dataType>
+        <expression>&apos;https://intrawseal.gbbper.priv/schede/SchedaImprese/#/schede/&apos; + {!Get_NDG.CRM_NDGGoverno__c}</expression>
+    </formulas>
+    <formulas>
+        <name>PCA</name>
+        <dataType>String</dataType>
+        <expression>&apos;https://intrawseal.gbbper.priv/pca/main/sessioni?fc=&apos; + {!Get_NDG.CRM_TaxId__c}</expression>
+    </formulas>
+    <interviewLabel>Display Estero {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Display Estero scheda Cliente</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordLookups>
+        <name>Get_NDG</name>
+        <label>Get NDG</label>
+        <locationX>207</locationX>
+        <locationY>353</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_record_Estero</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Account</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_record_Estero</name>
+        <label>Get record Estero</label>
+        <locationX>402</locationX>
+        <locationY>382</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Estero</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>CRM_Account__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>CRM_Estero__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <runInMode>SystemModeWithoutSharing</runInMode>
+    <screens>
+        <name>Estero</name>
+        <label>Estero</label>
+        <locationX>626</locationX>
+        <locationY>336</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>Estero_Section1</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Estero_Section1_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>ImmagineInfoSchedaImprese</name>
+                    <extensionName>flowruntime:image</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>imageName</name>
+                        <value>
+                            <stringValue>InfoSchedaImprese</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>horizontalAlignment</name>
+                        <value>
+                            <stringValue>Center</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>10</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Estero_Section1_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>linkSchedaImprese</name>
+                    <fieldText>&lt;p&gt;&lt;a href=&quot;{!Impresa}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;background-color: rgb(255, 255, 255); color: rgb(32, 38, 221);&quot;&gt;&lt;u&gt;Scheda Imprese&lt;/u&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;{!PCA}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;background-color: rgb(255, 255, 255); color: rgb(32, 38, 221);&quot;&gt;&lt;u&gt;PCA&lt;/u&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>2</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+        </fields>
+        <fields>
+            <name>Estero_Section2</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Estero_Section2_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>FatturatoComplessivo_Title</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;Fatturato Complessivo&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); background-color: rgb(255, 255, 255); font-size: 14px;&quot;&gt;﻿{!Formula_FatturatoComplessivo}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;{!IconaBarra}&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px; color: rgb(62, 60, 60);&quot;&gt;﻿Valuta di fatturazione diversa dall&apos;euro (divise out)&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(8, 7, 7);&quot;&gt;{!Formula_ValutaFatturazione}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <fields>
+                    <name>ModalitaPagamento_Title</name>
+                    <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 16px;&quot;&gt;Import&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); background-color: rgb(255, 255, 255); font-size: 12px;&quot;&gt;Principali modalità di pagamento&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(8, 7, 7);&quot;&gt;{!Formula_ModalitaPagamento1}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); background-color: rgb(255, 255, 255); font-size: 14px;&quot;&gt;{!Formula_ModalitaPagamento2}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); background-color: rgb(255, 255, 255); font-size: 14px;&quot;&gt;{!Formula_ModalitaPagamento3}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px; color: rgb(62, 62, 60);&quot;&gt;Tempi medi di pagamento&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); font-size: 14px;&quot;&gt;{!Formula_TempiMediPagamento}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); background-color: rgb(255, 255, 255);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;span style=&quot;color: rgb(8, 7, 7);&quot;&gt;﻿&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; color: rgb(62, 62, 60);&quot;&gt;Principali mercati di importazione&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); font-size: 14px;&quot;&gt;{!Formula_PrincipaliMercatiImportazione}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); font-size: 14px;&quot;&gt;{!Formula_MercatoImportazione2}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); font-size: 14px;&quot;&gt;{!Formula_MercatoImportazione3}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px; color: rgb(62, 62, 60);&quot;&gt;Data Validazione Scheda Impresa&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); font-size: 14px;&quot;&gt;{!Formula_DatiAl}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Estero_Section2_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>FatturatoExport_Title</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; color: rgb(62, 62, 60);&quot;&gt;Fatturato export (%)&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(8, 7, 7); font-size: 14px;&quot;&gt;﻿{!Formula_FatturatoExport}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;﻿&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <fields>
+                    <name>ModalitaIncasso_Value</name>
+                    <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 16px; background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;Export&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px; background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;Principali modalità di incasso&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(8, 7, 7);&quot;&gt;{!Formula_ModalitaIncasso1}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(8, 7, 7); font-size: 14px;&quot;&gt;{!Formula_ModalitaIncasso2}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(8, 7, 7); font-size: 14px;&quot;&gt;{!Formula_ModalitaIncasso3}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px; background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;﻿&lt;/span&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px; color: rgb(62, 62, 60);&quot;&gt;Tempi medi di incasso&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(8, 7, 7);&quot;&gt;{!Formula_TempiMediIncasso}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7);&quot;&gt;﻿&lt;/span&gt;&lt;span style=&quot;color: rgb(62, 62, 60); background-color: rgb(255, 255, 255);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(62, 60, 60); background-color: rgb(255, 255, 255); font-size: 12px;&quot;&gt;Principali mercati di esportazione&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(8, 7, 7);&quot;&gt;{!Formula_MercatoEsportazione1}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(8, 7, 7); font-size: 14px;&quot;&gt;{!Formula_MercatoEsportazione2}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(8, 7, 7); font-size: 14px;&quot;&gt;{!Formula_MercatoEsportazione3}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px; color: rgb(62, 62, 60);&quot;&gt;Assicurazione crediti estero&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(8, 7, 7);&quot;&gt;{!Formula_AssicurazioneCreditiEstero}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7);&quot;&gt;﻿&lt;/span&gt;&lt;span style=&quot;color: rgb(62, 62, 60); background-color: rgb(255, 255, 255);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+        </fields>
+        <showFooter>false</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <start>
+        <locationX>211</locationX>
+        <locationY>144</locationY>
+        <connector>
+            <targetReference>Get_NDG</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>IconaBarra</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <stringValue>&lt;img src=&apos;/resource/Barra&apos;/&gt;</stringValue>
+        </value>
+    </variables>
+    <variables>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

@@ -1,0 +1,224 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" 
+    controller="WGC_HomePage_OpportunitaController" access="global" >
+    
+    <ltng:require 
+    scripts="{!join(',', 
+             '/resource/WGC_jQuery3x',
+             '/resource/WGC_ChartJs')}"
+    
+    afterScriptsLoaded="{!c.doInit}" />
+    
+    <lightning:navigation aura:id="navService"/>
+    
+    <aura:attribute name="iconName" type="String" description="Definisce l'icona tra le standard"/>
+    <aura:attribute name="title" type="String" default="" description="Title from Container Card"/>
+    <aura:attribute name="Dettaglio" type="String" access="global"/>
+    <aura:attribute name="idDashboard" type="String" default="" />
+
+    
+    <aura:attribute name="valData" type="String"/>
+
+    <aura:attribute name="aziendeContattate" type="Decimal" default='0' />
+    <aura:attribute name="aziendeVisitate" type="Decimal" default='0' />
+    <aura:attribute name="opportunita" type="Decimal" default='0' />
+    <aura:attribute name="opportunitaD" type="Decimal" default='0' />
+    <aura:attribute name="account" type="Decimal" default='0' />
+    <aura:attribute name="redemption" type="Decimal" default='0' />
+    <aura:attribute name="convertion" type="Decimal" default='0' />
+    <aura:attribute name="numCampOpenTaskClose" type="Decimal" default='0' />
+    <aura:attribute name="numCampOpenTaskOpen" type="Decimal" default='0' />
+    <aura:attribute name="numCampCloseTaskOpen" type="Decimal" default='0' />
+
+    <aura:attribute name="percentTaskOpen" type="Decimal" default='0' />
+    <aura:attribute name="percentTaskClose" type="Decimal" default='0' />
+
+    <aura:attribute name="bestPractice_Redemption" type="Decimal" default='0' />
+    <aura:attribute name="bestPractice_Convertion" type="Decimal" default='0' />
+
+	<!-- <aura:attribute name="userRecord" type="Object"/> -->
+
+
+        <lightning:card>
+
+                <!-- <force:recordData aura:id="recordLoader"
+                recordId="{! $SObjectType.CurrentUser.Id }"
+                fields="Name,Profile.Name"
+                targetFields="{!v.userRecord}"
+                /> -->
+
+            <aura:set attribute="title">
+
+            <!-- with container -->
+            <lightning:layout multipleRows="false">
+                <lightning:layoutItem size="10" smallDeviceSize="10" mediumDeviceSize="10" largeDeviceSize="10">
+                    <lightning:icon iconName="{! 'utility:' + v.iconName }" size="small" variant="slds-icon-inverse" />
+                    <div class="title">{! v.title }</div>
+                </lightning:layoutItem>
+                <lightning:layoutItem class="slds-text-align_right iphone" size="2" smallDeviceSize="2" mediumDeviceSize="2"
+                    largeDeviceSize="2">
+                    <aura:if isTrue="{! v.Dettaglio == 'attivo' }">
+                        <div class="header-button">
+                        <lightning:buttonIcon iconName="utility:expand" size="medium" variant="bare" iconClass=""
+                        onclick="{!c.navigateToMyComponent}"
+                        class="" />
+                        </div>
+                    </aura:if>
+                </lightning:layoutItem>
+            </lightning:layout>
+        </aura:set>
+            <div class='container-card'>
+                <div class="slds-grid slds-gutters slds-p-horizontal_x-small">
+                    <div class="slds-col slds-size_1-of-1">
+                        <div class="cstm-title">{!$Label.c.WGC_HomePage_Opportunita_Attivita_Completate}</div>
+                    </div>
+                </div>
+                <div class="slds-grid slds-gutters margin">
+                    <div class="circleBaseStriped"></div>
+                    <div class="slds-col slds-size_1-of-5">
+                        <div class="slds-grid">
+                            <div class="circleBase type4">
+                                <div class="circleBaseBody">{! v.aziendeContattate }</div>
+                                <div class="circleBaseBodySub">{!$Label.c.WGC_HomePage_Opportunita_Contatti}</div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="slds-col slds-size_1-of-5">
+                        <div class="slds-grid">
+                            <div class="circleBase type4">
+                                <div class="circleBaseBody">{! v.aziendeVisitate }</div>
+                                <div class="circleBaseBodySub">{!$Label.c.WGC_HomePage_Opportunita_Visite}</div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="slds-col slds-size_1-of-5">
+                        <div class="slds-grid">
+                            <div class="circleBase type4">
+                                <div class="circleBaseBody">{! v.opportunita }</div>
+                                <div class="circleBaseBodySub">{!$Label.c.WGC_HomePage_Opportunita_Opportunita}</div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="slds-col slds-size_1-of-5">
+                        <div class="slds-grid">
+                            <div class="circleBase type4">
+                                <div class="circleBaseBody">{! v.opportunitaD }</div>
+                                <div class="circleBaseBodySub">{!$Label.c.WGC_HomePage_Opportunita_Deliberati}</div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="slds-col slds-size_1-of-5">
+                        <div class="slds-grid">
+                            <div class="circleBase type4">
+                                <div class="circleBaseBody">{! v.account }</div>
+                                <div class="circleBaseBodySub">{!$Label.c.WGC_HomePage_Opportunita_Attivati}</div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <!--  OLD CODE
+                <div class="slds-grid slds-gutters">
+                    <div class="slds-col">
+                        <div class="slds-grid">
+                            <div class="vl-left"></div>
+                            <div class="vl-right"></div>
+                            <div class="vl-bottom"></div>
+                            <div class="badge">
+                                <lightning:badge class="colorType1" label="Redemption VS Budget   5% VS 7%"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-grid slds-gutters slds-grid_align-end">
+                    <div class="slds-col">
+                        <div class="slds-grid">
+                            <div class="vl-leftX"></div>
+                            <div class="vl-bottomX"></div>
+                            <div class="badgeX">
+                                <lightning:badge class="colorType2" label="Convertion   10% VS 12%"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                -->
+                <!-- NEW CODE -->
+                <lightning:layout class="cstm-p-horizontal_10pct slds-m-top_small">
+                    <lightning:layoutItem size="12" class="slds-text-align_center middle-bkg">
+                        <div class="left-bkg"></div>
+                        <div class="commercialPipelineSingleColorBar medium">
+                            <lightning:layout>
+                                <lightning:layoutItem size="12" class="slds-text-align_center result ">
+                                    <lightning:helptext
+                                        content="{!$Label.c.WGC_HomePage_Opportunita_Redemption_vs_BP}"
+                                        iconName="utility:info"
+                                    />
+                                    <lightning:formattedNumber value="{! v.redemption }" maximumFractionDigits="2" style="percent"/> 
+                                    vs 
+                                    <lightning:formattedNumber value="{! v.bestPractice_Redemption }" maximumFractionDigits="2" style="percent"/> 
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                        </div>
+                        <div class="right-bkg"></div>
+                    </lightning:layoutItem>
+                </lightning:layout>
+                <lightning:layout class="cstm-p-horizontal_10pct">
+                    <lightning:layoutItem size="3"></lightning:layoutItem>
+                    <lightning:layoutItem size="9" class="slds-text-align_center middle-bkg">
+                        <div class="left-bkg"></div>
+                        <div class="commercialPipelineSingleColorBar medium">
+                            <lightning:layout>
+                                <lightning:layoutItem size="12" class="slds-text-align_center result">
+                                    <lightning:helptext
+                                        content="{!$Label.c.WGC_HomePage_Opportunita_Convertion_VS_BP}"
+                                        iconName="utility:info"
+                                    />
+                                    <lightning:formattedNumber value="{! v.convertion }" maximumFractionDigits="2" style="percent"/> 
+                                    vs 
+                                    <lightning:formattedNumber value="{! v.bestPractice_Convertion }" maximumFractionDigits="2" style="percent"/> 
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                        </div>
+                        <div class="right-bkg"></div>
+                    </lightning:layoutItem>
+                </lightning:layout>
+                <!-- END - NEW CODE -->
+                <div class="slds-grid slds-gutters slds-p-horizontal_x-small slds-m-top_small">
+                    <div class="slds-col slds-size_1-of-1">
+                        <hr/>
+                        <div class="cstm-title">{!$Label.c.WGC_HomePage_Opportunita_Iniziative_Dal_Centro}</div>
+                        <lightning:layout>
+                            <lightning:layoutItem padding="around-small" size="4">
+                                <c:StatusDot color="4a90e2" label="Contatti Effettuati su campagne aperte" />
+                            </lightning:layoutItem>
+                            <lightning:layoutItem padding="around-small" size="4">
+                                <c:StatusDot color="e5e5e5" label="Contatti da Effettuare su campagne aperte" />
+                            </lightning:layoutItem>
+                            <lightning:layoutItem padding="around-small" size="4">
+                                <c:StatusDot color="ED495B" label="Contatti da Effettuare su campagne chiuse" />
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                        <div class="marginProgressBar">
+                            <div class="{! 'first slds-text-align_right percent_' + v.percentTaskClose }">
+                                {! v.numCampOpenTaskClose }
+                            </div>
+                            <div class="{! 'second slds-text-align_right percent_' + v.percentTaskOpen }">
+                                {! v.numCampOpenTaskOpen }
+                            </div>
+
+                            <div class="third slds-text-align_center">
+                                {! v.numCampCloseTaskOpen }
+                            </div>
+
+                        </div>
+                        
+                    
+                    </div>
+                </div>
+            </div>
+       </lightning:card>
+</aura:component>

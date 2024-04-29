@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CC_Ordinamento_Prodotti__c</fullName>
+    <externalId>false</externalId>
+    <formula>CASE( CC_Prodotto__c,
+&quot;Prestito&quot;, &quot;1&quot;,
+&quot;PagaPoi&quot;, &quot;2&quot;,
+&quot;Carte&quot;, &quot;3&quot;,&quot;&quot;)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Ordinamento Prodotti</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

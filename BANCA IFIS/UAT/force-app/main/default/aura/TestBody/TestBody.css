@@ -1,0 +1,19 @@
+/**
+ * Created by telnext on 09/06/17.
+ */
+.THIS .contentPanel:before,
+.THIS .contentPanel:after {
+    content: " ";
+    display: table;
+}
+.THIS .contentPanel:after {
+    clear: both;
+}
+.THIS .left {
+    float: left;
+    width: 50%;
+}
+.THIS .right {
+    float: right;
+    width: 50%;
+}

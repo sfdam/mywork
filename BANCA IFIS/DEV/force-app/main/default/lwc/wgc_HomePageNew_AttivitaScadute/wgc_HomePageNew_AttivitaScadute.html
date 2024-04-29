@@ -1,0 +1,40 @@
+<template>
+    <lightning-card title={title} icon-name={iconName}>
+        <lightning-button-icon icon-name="utility:zoomin" slot="actions" variant="brand" title="Mostra dettagli"  onclick={viewAll}></lightning-button-icon>
+        <lightning-layout multiple-rows="true">
+            <lightning-layout-item size="4" class="slds-text-align_center">
+                <div class="container">
+                    <div class="circleBaseBodyTitle">PROMEMORIA</div>
+                    <div class="circleBaseBodySub"></div>
+                    <div class="circle">
+                        <div class="circleBase type1 clickable">
+                            <div class="circleBaseBody" onclick={onClickPromemoria}>{Promemoria}</div>
+                        </div>
+                    </div>
+                </div>
+            </lightning-layout-item>
+            <lightning-layout-item size="4" class="slds-text-align_center">  
+                <div class="container">
+                    <div class="circleBaseBodyTitle">CONTATTI</div>
+                    <div class="circleBaseBodySub"></div>
+                    <div class="circle">
+                        <div class="circleBase type1 clickable">
+                            <div class="circleBaseBody" onclick={onClickContatti}>{Contatti}</div>
+                        </div>
+                    </div>
+                </div>
+            </lightning-layout-item>
+            <lightning-layout-item size="4" class="slds-text-align_center">  
+                <div class="container">
+                    <div class="circleBaseBodyTitle">VISITE</div>
+                    <div class="circleBaseBodySub"></div>
+                    <div class="circle">
+                        <div class="circleBase type1 clickable">
+                            <div class="circleBaseBody" onclick={onClickVisite}>{Visite}</div>
+                        </div>
+                    </div>
+                </div>
+            </lightning-layout-item>
+        </lightning-layout>
+    </lightning-card>
+</template>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_SuggerimentoSegmValoriale__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF (
+TEXT(CRM_SegmentoValoriale__c) = &apos;Elevata Profittabilità&apos;,
+&apos;- Fidelizzare stimoalndo nuovi bisogni&apos; + BR() + &apos;- Presidio della retention&apos;,
+IF (
+TEXT(CRM_SegmentoValoriale__c) = &apos;Strategici&apos;,
+&apos;- Cura e attenzione&apos; + BR() + &apos;- Ascolto&apos; + BR() + &apos;- Presidio della retention&apos;,
+IF (
+TEXT(CRM_SegmentoValoriale__c) = &apos;Basso Valore&apos;,
+&apos;- Selezionare&apos; + BR() + &apos;- Controllo dei costi&apos; + BR() + &apos;- Upselling&apos;,
+IF (
+TEXT(CRM_SegmentoValoriale__c) = &apos;Potenziali&apos;,
+&apos;- Accrescere il valore&apos; + BR() + &apos;- Ottimizzazione redditività&apos;,
+&apos;-&apos;
+)
+)
+)
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Suggerimento Segmento Valoriale</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

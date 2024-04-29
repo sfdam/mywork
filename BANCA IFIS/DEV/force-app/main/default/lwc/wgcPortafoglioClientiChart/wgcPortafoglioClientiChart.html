@@ -1,0 +1,12 @@
+<template>
+    <template if:false={hasdata}>
+        <div style="height:100%;">
+            <p class="slds-align_absolute-center" style="height: inherit;">{nodatatxt}</p>
+        </div>
+    </template>
+    <template if:true={hasdata}>
+        <div>
+            <canvas class="chart" lwc:dom="manual"></canvas>
+        </div>
+    </template>
+</template>

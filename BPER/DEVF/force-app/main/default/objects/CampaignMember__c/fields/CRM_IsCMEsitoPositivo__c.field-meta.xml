@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_IsCMEsitoPositivo__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF( Campaign__r.CRM_TipologiaCampagnaStep__c == &quot;Monostep&quot;, ISPICKVAL(CRM_EsitoCampagna__r.CRM_TipoEsitazione__c, &quot;Esito Positivo&quot;), ISPICKVAL(CRM_EsitoCampagnaCC__r.CRM_TipoEsitazione__c, &quot;Esito Positivo&quot;) || ISPICKVAL(CRM_EsitoCampagnaRete__r.CRM_TipoEsitazione__c, &quot;Esito Positivo&quot;) )</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>IS CM esito Positivo (formula)</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,69 @@
+<apex:page showHeader="true" sidebar="false">
+  <style type="text/css">
+    .titolo {
+      color: white;
+    }
+
+    .sottotitolo {
+      font-size:20px;
+      padding-top:200px;
+    }
+
+    .link {
+      color:#1797C0;
+      padding-top:10px;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .sottotitolo2 {
+      font-size:18px;
+    }
+
+    .boxTitolo {
+      padding: 5px 9px;
+      display: block;
+      border-radius: 5px;
+      background-color: #E10811;
+    }
+
+    .boxCorpo {
+      background-color: #FBEECC;
+      border-radius: 5px;
+      margin-top: 3px;
+      padding: 10px;
+    }
+
+  </style>
+
+  <script>
+    function switcha() {
+      var isChromium = window.chrome
+      if(isChromium) {
+        // è chrome, vado su lightning
+        //sfdcPage.handleSwitchToLightningClick('LightningExperiencePreferred',true,'/one/one.app?source=aloha')
+        window.top.location.href = '/one/one.app?source=aloha'
+
+      } else {
+        alert('Devi utilizzare Chrome per utilizzare Salesforce')
+      }
+    }
+
+  </script>
+
+
+  <div class="boxAvviso">
+    <div class="boxTitolo">
+        <h2 class="titolo">Attenzione!</h2>
+    </div>
+    <div class="boxCorpo">
+      <center><img src="/img/s.gif" alt="" class="unresolvedIcon" title="" /><br />
+      Stai utilizzando la vecchia versione di Salesforce</center><br />
+      <p><center><img src="https://upload.wikimedia.org/wikipedia/commons/8/87/Google_Chrome_icon_(2011).png" height="20px"/><br /><br />
+      <b>Apri Chrome e vai su bancaifis.my.salesforce.com</b></center></p>
+      <center><p class="link" onclick="switcha()"> Se stai usando Chrome<br/> <b>CLICCA QUI</b></p></center>
+    </div>
+  </div>
+
+
+</apex:page>

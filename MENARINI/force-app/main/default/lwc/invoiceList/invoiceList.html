@@ -1,0 +1,20 @@
+<template>
+    <template if:false={loaded}>
+        <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+    </template>
+
+    <div class="slds-p-vertical_xx-large">
+        <c-enhanced-record-list configuration={enhancedRecordListConfiguration} hide-view-selection onrowactions={handleRowActions}></c-enhanced-record-list>
+    </div>
+
+    <c-modal class="invoice-items-modal" size="medium">
+        <div slot="header">Dettaglio documento - Nr.{invoice.THR_AccountingDocumentFI__c}</div>
+        <div slot="content">
+            <c-invoice-item-list invoice-id={invoice.Id}></c-invoice-item-list>
+        </div>
+        <div slot="footer">
+            <lightning-button variant="neutral" label="Chiudi" title="Chiudi" onclick={closeModal} class="slds-m-left_x-small"></lightning-button>
+        </div>
+    </c-modal>
+
+</template>

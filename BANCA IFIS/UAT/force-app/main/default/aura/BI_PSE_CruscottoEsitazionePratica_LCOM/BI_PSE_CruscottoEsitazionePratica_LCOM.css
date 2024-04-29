@@ -1,0 +1,29 @@
+.THIS .slds-form-element__label {
+
+    display: none !important;
+
+}
+
+.THIS .slds-timeline__item_customgo:before {
+    background: #2a739e;
+}
+
+.THIS .slds-icon-custom-go {
+    background-color: var(--sds-c-icon-color-background, #4bc076);
+}
+
+.THIS .slds-timeline__item_customnogo:before {
+    background: #eb7092;
+}
+
+.THIS .slds-icon-custom-nogo {
+    background-color: var(--sds-c-icon-color-background, #eb7092);
+}
+
+.THIS .slds-timeline__item_customsent:before {
+    background: #3c97dd;
+}
+
+.THIS .slds-icon-custom-sent {
+    background-color: var(--sds-c-icon-color-background, #3c97dd);
+}

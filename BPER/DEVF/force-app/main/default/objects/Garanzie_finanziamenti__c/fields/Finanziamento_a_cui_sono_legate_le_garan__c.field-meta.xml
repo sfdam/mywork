@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Finanziamento_a_cui_sono_legate_le_garan__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <externalId>false</externalId>
+    <label>Finanziamento a cui sono legate le garan</label>
+    <referenceTo>FinServ__FinancialAccount__c</referenceTo>
+    <relationshipLabel>Garanzie finanziamenti</relationshipLabel>
+    <relationshipName>Garanzie_finanziamenti</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

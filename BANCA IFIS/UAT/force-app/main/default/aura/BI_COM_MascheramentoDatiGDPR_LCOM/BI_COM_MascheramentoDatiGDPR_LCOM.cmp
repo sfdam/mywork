@@ -1,0 +1,219 @@
+<aura:component implements="flexipage:availableForAllPageTypes" access="global" controller="BI_COM_MascheramentoDatiGDPR_CTRL"> 
+	
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>	
+
+
+	<aura:attribute name="fileName" type="String" default="Nessun file selezionato ..." />
+	<aura:attribute name="fileRows" type="Integer" default="0" />
+	<aura:attribute name="fileQuality" type="String" default="-" />	
+	<aura:attribute name="csvSeparator" type="String" default=";" />
+	<aura:attribute name="columnNumber" type="Integer" default="27" />	
+	<aura:attribute name="recordType" type="String" default="" />	
+	<aura:attribute name="recordMalformedLength" type="String" default="-" />	
+	<aura:attribute name="fileParsingResult" type="String" default="" />	
+	<aura:attribute name="updatedRecords" type="Integer" default="0" />	
+	<aura:attribute name="deletedRecords" type="Integer" default="0" />	
+	<aura:attribute name="errorRecords" type="Integer" default="0" />	
+	<aura:attribute name="notFoundRecords" type="Integer" default="0" />	
+	<aura:attribute name="PGRecords" type="Integer" default="0" />	
+	<aura:attribute name="PFRecords" type="Integer" default="0" />	
+
+    <aura:attribute name="progress" type="Integer" default="0"/>
+    <aura:attribute name="isProgressing" type="Boolean" default="false"/>
+	<aura:attribute name="isEnded" type="Boolean" default="false"/>
+
+    <div class="slds-grid slds-wrap slds-grid_vertical-align-top">        
+		<div class="slds-size_1-of-4">
+			<div class="slds-m-around_x-small">
+				<lightning:card variant="Narrow" title="FILE IN INGRESSO" iconName="action:upload">
+					<p class="slds-p-horizontal_small" style="min-height:380px;">
+						<div class="slds-grid slds-wrap slds-grid_vertical-align-center">        
+							<div class="slds-col slds-size_2-of-4">
+								<div class="slds-m-around_xx-small">
+									<lightning:formattedText value="Separatore colonne CSV:"/>
+								</div>
+							</div>
+							<div class="slds-col slds-size_2-of-4">
+								<div class="slds-m-around_xx-small">
+									<lightning:input name="csvSeparator" value="{!v.csvSeparator}" maxlength="1"/>	
+								</div>
+							</div>
+							<div class="slds-col slds-size_2-of-4">
+								<div class="slds-m-around_xx-small">
+									<lightning:formattedText value="Numero colonne CSV:"/>
+								</div>
+							</div>
+							<div class="slds-col slds-size_2-of-4">
+								<div class="slds-m-around_xx-small">
+									<lightning:input name="columnNumber" value="{!v.columnNumber}" maxlength="2" disabled="true"/>	
+								</div>
+							</div>
+							<div class="slds-col slds-size_4-of-4">
+								<div class="slds-m-around_xx-small">
+									<lightning:formattedRichText value="{!v.recordType}"/>
+								</div>
+							</div>
+							<div class="slds-col slds-size_2-of-4">
+								<div class="slds-m-around_xx-small">
+									<lightning:input aura:id="fileUploaderCSVFile" 
+													 onchange="{!c.handleFilesChange}" 
+													 type="file" 
+													 name="fileUploaderCSVFile" 
+													 accept=".csv"
+													 multiple="false"/>
+								</div>
+							</div>
+							<div class="slds-col slds-size_2-of-4">
+								<div class="slds-m-around_xx-small">
+									<lightning:input value="{!v.fileName}" disabled="true"/>
+									
+								</div>
+							</div>
+
+						
+							<div class="slds-col slds-size_4-of-4">
+								<div class="slds-m-top_large slds-m-left_xx-small">
+									<lightning:button aura:id="buttonUploadCSVFile" name="buttonUploadCSVFile" label="AVANTI >>" disabled="true" onclick="{!c.fileUploaderAcquireFile}"/>
+								</div>
+							</div>                
+						</div>
+					</p>
+				</lightning:card>
+			</div>
+		</div>
+		<div class="slds-size_1-of-4">
+			<div class="slds-m-around_x-small">
+				<lightning:card variant="Narrow" title="INFORMAZIONI" iconName="action:info">
+					<p class="slds-p-horizontal_small" style="min-height:380px;">
+						<div class="slds-grid slds-wrap slds-grid_vertical-align-center">     
+							<div class="slds-col slds-size_2-of-4">
+								<div class="slds-m-around_xx-small">
+									Stato lettura del file:
+								</div>
+							</div>            
+							<div class="slds-col slds-size_2-of-4">
+								<div class="slds-m-around_xx-small">
+									{!v.fileQuality}
+								</div>
+							</div>   
+							<div class="slds-col slds-size_2-of-4">
+								<div class="slds-m-around_xx-small">
+									Presenza record anomali:
+								</div>
+							</div>            
+							<div class="slds-col slds-size_2-of-4">
+								<div class="slds-m-around_xx-small">
+									{!v.recordMalformedLength}
+								</div>
+							</div>   
+							<div class="slds-col slds-size_2-of-4">
+								<div class="slds-m-around_xx-small">
+									Numero righe caricate:
+								</div>
+							</div>            
+							<div class="slds-col slds-size_2-of-4">
+								<div class="slds-m-around_xx-small">
+									{!v.fileRows}
+								</div>
+							</div>     
+							<div class="slds-col slds-size_4-of-4">
+								<div class="slds-m-top_large slds-m-left_xx-small">
+									<lightning:button aura:id="buttonInfoFile" name="buttonInfoFile" label="AVANTI >>" disabled="true" onclick="{!c.infoFile}"/>
+
+								</div>
+							</div>           
+						</div>
+					</p>
+				</lightning:card>
+			</div>
+		</div> 
+		<div class="slds-size_1-of-4">
+			<div class="slds-m-around_x-small">
+				<lightning:card variant="Narrow" title="IMPORTAZIONE" iconName="action:user_activation">
+					<p class="slds-p-horizontal_small" style="min-height:380px;">
+
+									<div class="exampleHolder">
+										<aura:if isTrue="{! v.isProgressing }">
+											<lightning:spinner alternativeText="Loading" />
+										</aura:if>
+										<aura:if isTrue="{! v.isEnded }">
+											<lightning:icon iconName="action:approval" alternativeText="Finish!" size="large"/>
+										</aura:if>
+									</div>
+					</p>
+				</lightning:card>
+			</div>
+		</div> 
+		<div class="slds-size_1-of-4">
+			<div class="slds-m-around_x-small">
+				<lightning:card variant="Narrow" title="RISULTATO" iconName="action:check">
+					<p class="slds-p-horizontal_small" style="min-height:380px;">
+						<div class="slds-grid slds-grid_vertical-align-end slds-wrap">        
+							<div class="slds-size_2-of-4">
+								<div class="slds-m-around_xx-small">
+									Record aggiornati:
+								</div>
+							</div>
+							<div class="slds-size_2-of-4">
+								<div class="slds-m-around_xx-small">
+									{!v.updatedRecords}
+								</div>
+							</div>
+							<div class="slds-size_2-of-4">
+								<div class="slds-m-around_xx-small">
+									Record rimossi:
+								</div>
+							</div>
+							<div class="slds-size_2-of-4">
+								<div class="slds-m-around_xx-small">
+									{!v.deletedRecords}
+								</div>
+							</div>
+							<div class="slds-size_2-of-4">
+								<div class="slds-m-around_xx-small">
+									Record non trovati:
+								</div>
+							</div>
+							<div class="slds-size_2-of-4">
+								<div class="slds-m-around_xx-small">
+									{!v.notFoundRecords}
+								</div>
+							</div>
+							<div class="slds-size_2-of-4">
+								<div class="slds-m-around_xx-small">
+									Record in errore:
+								</div>
+							</div>
+							<div class="slds-size_2-of-4">
+								<div class="slds-m-around_xx-small">
+									{!v.errorRecords}
+								</div>
+							</div>
+							<div class="slds-size_2-of-4">
+								<div class="slds-m-around_xx-small">
+									Entità PG:
+								</div>
+							</div>
+							<div class="slds-size_2-of-4">
+								<div class="slds-m-around_xx-small">
+									{!v.PGRecords}
+								</div>
+							</div>
+							<div class="slds-size_2-of-4">
+								<div class="slds-m-around_xx-small">
+									Entità PF:
+								</div>
+							</div>
+							<div class="slds-size_2-of-4">
+								<div class="slds-m-around_xx-small">
+									{!v.PFRecords}
+								</div>
+							</div>            
+						</div>
+					</p>
+				</lightning:card>
+			</div>
+		</div>               
+	</div>
+
+</aura:component>

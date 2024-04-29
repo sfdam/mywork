@@ -1,0 +1,59 @@
+<template>
+    <lightning-spinner alternative-text="CARICAMENTO..."></lightning-spinner>
+    <div class="modal-header slds-modal__header">
+        <h2 class="title slds-text-heading--medium slds-hyphenate">Apri un ticket</h2>
+    </div>
+    <div class="container slds-p-horizontal_medium">
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_1-of-1 slds-p-top_small">
+                <lightning-combobox name="Priority"
+                label="Priorità"
+                value={caseRecord.fields.Priority}
+                options ={priorityPicklist}
+                onchange={fieldChange}
+                disabled={noPriorityPicklist} required></lightning-combobox>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-p-top_small">
+                <lightning-combobox name="VTE_famiglia__c"
+                label="Famiglia"
+                value={caseRecord.fields.VTE_famiglia__c}
+                options ={famigliaPicklist}
+                onchange={fieldChangeDependent}
+                disabled={noFamigliaPicklist} required></lightning-combobox>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-p-top_small">
+                <lightning-combobox name="VTE_product__c"
+                label="Prodotto"
+                value={caseRecord.fields.VTE_product__c}
+                options ={prodottoPicklistFiltered}
+                onchange={fieldChange}
+                disabled={noProdottoPicklist} required></lightning-combobox>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-p-top_small">
+                <c-custom-lookup object-name="Contact" s-object-name="Contact" icon-name="standard:contact" field-label="Referente" where-condition={contactFilter} ></c-custom-lookup>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-p-top_small">
+                <lightning-input type="text" label="Codice Cliente" disabled=true required value={selectedCode}></lightning-input>
+                <!-- <lightning-combobox name="Codici Cliente"
+                label="Seleziona Codice Cliente:"
+                value={selectedCode}
+                options ={codes}
+                onchange={onCodeChange}
+                disabled={noCodesAvailable}
+                required ></lightning-combobox> -->
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-p-top_small">
+                <lightning-textarea label="Descrizione" name="Description" placeholder="Inserisci una descrizione..." value={caseRecord.fields.Description} onchange={fieldChange} required></lightning-textarea>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-p-top_small">
+                <lightning-input type="text" label="Commenti Interni" placeholder="Inserisci un commento..." name="VTE_commenti_interni__c" value={caseRecord.fields.VTE_Commenti_Interni__c} onchange={fieldChange}></lightning-input>
+            </div>
+        </div>
+    </div>
+    <div class="slds-grid slds-p-around_medium modal-footer slds-modal__footer slds-m-top_small">
+        <div class="slds-col slds-size_1-of-1 slds-text-align_right">
+            <lightning-button label="Annulla" variant="neutral" class="slds-m-right_x-small" onclick={closeQuickActionAura}></lightning-button>
+            <lightning-button label="Salva" variant="brand" onclick={saveRecord}></lightning-button>
+        </div>
+    </div>
+</template>

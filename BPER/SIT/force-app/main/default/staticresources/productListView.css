@@ -1,0 +1,13 @@
+table tbody tr th.mono {
+    background-image: url("/resource/Monointestazione") !important;
+    background-repeat: no-repeat !important;
+    background-position: center!important;
+    background-size: auto 20px;
+}
+
+table tbody tr th.co-intestato {
+    background-image: url("/resource/Cointestazione") !important;
+    background-repeat: no-repeat !important;
+    background-position: center!important;
+    background-size: auto 20px;
+}

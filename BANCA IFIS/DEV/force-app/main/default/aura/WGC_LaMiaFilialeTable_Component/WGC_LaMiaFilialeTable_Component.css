@@ -1,0 +1,58 @@
+/* .THIS .slds-button {
+    visibility: hidden;
+} 
+.THIS .hidden{
+    display:run-in;
+}
+ .THIS .slds-card__body {
+
+    margin-bottom: 10px;
+    border-bottom: 10px;
+} 
+
+.THIS .slds-table {
+
+    font-size: smaller;
+    table-layout: auto;
+} 
+
+ .THIS .slds-table tr {
+    font-weight: 400;
+}
+
+.THIS .slds-table tr:nth-child(5){
+    font-size: larger;
+    font-weight: bold;
+}
+.THIS .slds-table tr:nth-child(10){
+    font-size: larger;
+    font-weight: bold; 
+} 
+
+.THIS .slds-table tr:nth-child(11){
+    background-color: rgb(74, 144, 226);
+} 
+
+.THIS .slds-table td {
+    padding: .25rem .5rem;
+    white-space: nowrap;
+    position: relative;
+}
+
+.THIS .slds-table td:nth-child(2) {   
+    font-weight: bold;
+    background-color: rgb(226, 238, 253);
+}
+
+.THIS .slds-table td:nth-child(3) {
+    color: rgb(78, 147, 226);
+    background-color: rgb(226, 238, 253);
+}
+
+.THIS .slds-table td:nth-child(4) {
+    background-color: rgb(226, 238, 253);
+} 
+.cWGC_LaMiaFilialeTable_Component {
+    width: 100%;
+    display: flex;
+}  */

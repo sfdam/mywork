@@ -1,0 +1,79 @@
+<aura:component controller="WGC_PosizioneController" implements="force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId,force:lightningQuickAction" access="global" >
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="Posizione" type="WGC_Posizione__c" 
+    default="{ 'sobjectType': 'WGC_Posizione__c' }"/>
+
+    <!-- lista per iteration -->
+    <aura:attribute name="listaPosFinanziamenti" type="List" />
+
+    <aura:attribute name="title" type="String" default="Finanziamento" access="global"/>
+    <aura:attribute name="color" type="String" default="lightblue"/>
+    <aura:attribute name="colortext" type="String" default="white"/>
+
+    <!-- handlers -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <!-- library -->
+    <lightning:navigation aura:id="navService"/>
+
+    <aura:if isTrue="{!v.listaPosFinanziamenti != null &amp;&amp; v.listaPosFinanziamenti.length > 0}">
+        <div class="slds-m-around_x-small slds-p-around_xx-small"
+            style="{! ' background-color: ' + v.color + ';' + 'color: ' + v.colortext + '; border-radius:0 10px 10px 10px; box-shadow: 1px 1px 20px lightgrey;'}">
+            <lightning:layout class="border-title">
+                <lightning:layoutItem class="slds-p-around_small" size="6" smallDeviceSize="6" mediumDeviceSize="6"
+                    largeDeviceSize="6">
+                    <span class="slds-text-title_bold">{! v.title }</span>
+                    <!-- <span class="slds-p-left_small" style="color:red;">Debitore dormiente</span> -->
+                </lightning:layoutItem>
+            </lightning:layout>
+            <!-- -->
+            <!-- Plafond Debitore -->
+            <aura:if isTrue="{! v.listaPosFinanziamenti.length > 0 }">
+                <div class="slds-box slds-m-around_small">
+                    <aura:iteration items="{!v.listaPosFinanziamenti}" var="item">
+                        <lightning:layout class="logo-container-layout">
+                            <lightning:layoutItem padding="around-small">
+                                <span class="slds-text-heading_medium slds-text-title_bold transparent">{!$Label.c.WGC_Factoring_Cedente}</span>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem alignmentBump="left">
+                                <aura:if isTrue="{! item.codiceIstituto == '881'}">
+                                    <img src="{!$Resource.WGC_LogoIfisItalia}" class="logo" />
+                                    <aura:set attribute="else">
+                                        <img src="{!$Resource.WGC_LogoIfisFinance}" class="logo" />
+                                    </aura:set>
+                                </aura:if>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+    
+                        <lightning:recordViewForm recordId="{! item.posizione.Id }" objectApiName="WGC_Posizione__c" density="comfy">
+                            <lightning:layout multipleRows="true">
+                                <lightning:layoutItem flexibility="auto">
+                                    <lightning:outputField fieldName="Linee__c" />
+                                </lightning:layoutItem>
+                                <lightning:layoutItem flexibility="auto">
+                                    <lightning:outputField fieldName="Piani_Ammortamento_Attivi__c" />
+                                </lightning:layoutItem>
+                                <lightning:layoutItem flexibility="auto">
+                                    <lightning:outputField fieldName="Importo_Erogato__c" />
+                                </lightning:layoutItem>
+                                <lightning:layoutItem flexibility="auto">
+                                    <lightning:outputField fieldName="Debito_Residuo__c" />
+                                </lightning:layoutItem>
+                                <lightning:layoutItem flexibility="auto">
+                                    <lightning:outputField fieldName="Data_Scadenza_Ultima_Rata__c" />
+                                </lightning:layoutItem>
+                                <lightning:layoutItem flexibility="auto">
+                                    <lightning:outputField fieldName="Importo_prossima_rata__c" />
+                                </lightning:layoutItem>
+                                <lightning:layoutItem flexibility="auto">
+                                    <lightning:outputField fieldName="Rate_Insolute__c" />
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                        </lightning:recordViewForm>
+                    </aura:iteration>
+                </div>
+            </aura:if>
+
+
+        </div>
+    </aura:if>
+</aura:component>

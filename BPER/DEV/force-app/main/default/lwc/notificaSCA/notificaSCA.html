@@ -1,0 +1,220 @@
+<template>
+    <div class="container">
+        <template if:true={showSpinner}>
+            <div class="spinner-holder">
+                <lightning-spinner alternative-text="Loading"></lightning-spinner>
+            </div>
+        </template>
+        <!-- Step 0 -->
+        <template if:true={step0}>
+            <div class="icon-and-title-container">
+                <!-- Icona -->
+                <lightning-icon icon-name="custom:custom113" title="custom113" size="small" class="icon"> </lightning-icon>
+                <!-- Titolo -->
+                <div class="title slds-text-title_bold">Servizi Digitali</div>
+            </div>
+            <!-- Descrizione tabella -->
+            <div class="description">Utenze con servizio digitale</div>
+            <!-- Tabella -->
+            <div class="scrollable-content">
+                <lightning-datatable 
+                    key-field="Id"
+                    data={tableData}
+                    columns={columns}
+                    selected-rows={selectedRows}
+                    onrowselection={handleRowSelection}
+                    max-row-selection=1>
+            </lightning-datatable> 
+            </div>
+            <div style="height: 10px;"></div>
+            <!-- Pulsante -->
+            <div class="slds-text-align_right">
+                <lightning-button variant="brand" label="Richiedi riconoscimento" onclick={handleRichiediRiconoscimento} disabled={disabledRichiediRiconoscimento}></lightning-button>
+            </div>
+        </template>
+
+
+        <!-- Step 1 -->
+        <template if:true={step1}>
+            <div style="height: 10px;"></div>
+            <div class="slds-grid slds-grid_align-spread">
+                <!-- Titolo -->
+                <div class="title slds-text-title_bold">Richiesta di riconoscimento</div>
+                <div style="height: 10px;"></div>
+                <!-- Pulsante X per chiudere lo step e tornare allo step 0 -->
+                    <div class="slds-float_right">
+                        <lightning-button-icon icon-name="utility:close" onclick={handleX} alternative-text="Close" variant="bare"> </lightning-button-icon>
+                    </div>
+            </div>
+            <!-- Descrizione -->
+            <div class="description">Se il cliente può ricevere notifiche, invia una notifica per chiedergli di autorizzare
+                la conversazione con la Filiale Online, altrimenti chiedi al cliente di generare un codice OTP 
+                (da Genera OTP > OTP Servizio assistenza).
+            </div>
+            <!-- Pulsanti -->
+            <div class="slds-text-align_center">
+                <lightning-button variant="brand" label="Invia notifica" onclick={handleInviaNotifica}></lightning-button>
+                <lightning-button class="slds-m-left_x-small" label="Inserisci OTP" onclick={handleInserisciOTP}></lightning-button> 
+            </div>
+
+        </template>
+
+
+        <!-- Step 2A -->
+        <template if:true={step2A}>
+            <div class="slds-grid slds-grid_align-spread">
+                <!-- Titolo -->
+                <div class="title slds-text-title_bold">Inserimento OTP</div>
+                <!-- Pulsante X per chiudere lo step e tornare allo step 0 -->
+                <div class="slds-float_right">
+                    <lightning-button-icon icon-name="utility:close" onclick={handleX} alternative-text="Close" variant="bare"> </lightning-button-icon>
+                </div>
+            </div>
+            <div class="slds-grid slds-grid_align-spread"></div>
+            <!-- Descrizione -->
+            <div class="slds-text-align_center">Inserisci l'OTP generato dal cliente:</div>
+            <!-- Box di inserimento per l'OTP -->
+            <div class="input-box slds-text-align_center">
+                <lightning-input type="text" value={otpValue} onchange={handleOtpChange}> </lightning-input>
+            </div>
+            <div style="height: 10px;"></div>
+            <!-- Pulsante -->
+            <div class="slds-text-align_center">
+                <lightning-button variant="brand" label="Verifica" onclick={handleVerifica}></lightning-button> 
+            </div>
+        </template>
+
+
+        <!-- Step 2B -->
+        <template if:true={step2B}>
+            <div class="slds-grid slds-grid_align-spread">
+                <!-- Titolo -->
+                <div class="title slds-text-title_bold">Il cliente ha autorizzato a parlare con la Filiale Online?</div>
+                <!-- Pulsante X per chiudere lo step e tornare allo step 0 -->
+                <div class="slds-float_right">
+                    <lightning-button-icon icon-name="utility:close" onclick={handleX} alternative-text="Close" variant="bare"> </lightning-button-icon>
+                </div>
+            </div>
+            <!-- Descrizione -->
+            <div>Chiedi al cliente [nome cognome], user [codice user] se ha autorizzato la conversazione con la Filiale Online</div>
+            <div style="height: 10px;"></div>
+            <!-- Pulsanti -->
+            <div class="slds-text-align_center">
+                <lightning-button variant="brand" label="Verifica autorizzazione" onclick={handleVerificaAutorizzazione}></lightning-button>
+                <lightning-button class="slds-m-left_x-small" label="Torna indietro" onclick={handleTornaIndietro}></lightning-button>  
+            </div>
+        </template>
+
+
+        <!-- Step 3A -->
+        <template if:true={step3A}>
+            <div style="height: 10px;"></div>
+            <div class="slds-grid slds-grid_align-spread">
+                <!-- Titolo -->
+                <div class="title slds-text-title_bold">OTP Corretto</div>
+                <!-- Pulsante X per chiudere lo step e tornare allo step 0 -->
+                <div class="slds-float_right">
+                    <lightning-button-icon icon-name="utility:close" onclick={handleX} alternative-text="Close" variant="bare"> </lightning-button-icon>
+                </div>
+            </div>
+            <!-- Icona -->
+            <div class="slds-text-align_center">
+                <lightning-icon icon-name="utility:success" alternative-text="Correct OTP" title="success"></lightning-icon>
+            </div>
+            <div style="height: 10px;"></div>
+            <!-- Descrizione -->
+            <div class="description">Il cliente [nome cognome], user [codice user] ha autorizzato la conversazione con la Filiale Online.</div>
+            <!-- Pulsante -->
+            <div class="slds-text-align_center">
+                <lightning-button variant="brand" label="Chiudi" onclick={handleChiudi}></lightning-button> 
+            </div>
+        </template>
+
+
+        <!-- Step 3B -->
+        <template if:true={step3B}>
+            <div style="height: 10px;"></div>
+            <div class="slds-grid slds-grid_align-spread">
+                <!-- Titolo -->
+                <div class="title slds-text-title_bold">OTP Errato</div>
+                <!-- Pulsante X per chiudere lo step e tornare allo step 0 -->
+                <div class="slds-float_right">
+                    <lightning-button-icon icon-name="utility:close" onclick={handleX} alternative-text="Close" variant="bare"> </lightning-button-icon>
+                </div>
+            </div>
+            <!-- Icona -->
+            <div class="slds-text-align_center">
+                <lightning-icon icon-name="utility:clear" alternative-text="Wrong OTP" title="clear"></lightning-icon>
+            </div>
+            <div style="height: 10px;"></div>
+            <!-- Descrizione -->
+            <div class="description">
+                L'OTP inserito è errato.
+                <br>
+                Puoi reinserire l'OTP, chiedere di generarne uno nuovo o reinviare una nuova notifica.
+            </div>
+            <!-- Pulsante -->
+            <div class="slds-text-align_center">
+                <lightning-button variant="brand" label="Torna indietro" onclick={handleTornaIndietro}></lightning-button> 
+            </div>
+        </template>
+
+        <!-- Step 3C -->
+        <template if:true={step3C}>
+            <div style="height: 10px;"></div>
+            <div class="slds-grid slds-grid_align-spread">
+                <!-- Titolo -->
+                <div class="title slds-text-title_bold">Richiesta di riconoscimento approvata</div>
+                <!-- Pulsante X per chiudere lo step e tornare allo step 0 -->
+                <div class="slds-float_right">
+                    <lightning-button-icon icon-name="utility:close" onclick={handleX} alternative-text="Close" variant="bare"> </lightning-button-icon>
+                </div>
+            </div>
+            <!-- Icona -->
+            <div class="slds-text-align_center">
+                <lightning-icon icon-name="utility:success" alternative-text="Request approved" title="success"></lightning-icon>
+            </div>
+            <div style="height: 10px;"></div>
+            <!-- Descrizione -->
+            <div class="description">Il cliente [nome cognome], user [codice user] ha autorizzato la conversazione con la Filiale Online.</div>
+            <!-- Pulsante -->
+            <div class="slds-text-align_center">
+                <lightning-button variant="brand" label="Chiudi" onclick={handleChiudi}></lightning-button> 
+            </div>
+        </template>
+
+
+        <!-- Step 3D -->
+        <template if:true={step3D}>
+            <div style="height: 10px;"></div>
+            <div class="slds-grid slds-grid_align-spread">
+                <!-- Titolo -->
+                <div class="title slds-text-title_bold">Richiesta di riconoscimento negata</div>
+                <!-- Pulsante X per chiudere lo step e tornare allo step 0 -->
+                <div class="slds-float_right">
+                    <lightning-button-icon icon-name="utility:close" onclick={handleX} alternative-text="Close" variant="bare"> </lightning-button-icon>
+                </div>
+            </div>
+            <!-- Icona -->
+            <div class="slds-text-align_center">
+                <lightning-icon icon-name="utility:clear" alternative-text="Request denied" title="clear"></lightning-icon>
+            </div>
+            <div style="height: 10px;"></div>
+            <!-- Descrizione -->
+            <div class="description">
+                Il cliente [nome cognome], user [codice user] non ha autorizzato la conversazione con la Filiale Online.
+                <br>
+                Puoi reinviare una nuova notifica o chiedere al cliente di generare un codice OTP.
+            </div>
+            <!-- Pulsante -->
+            <div class="slds-text-align_center">
+                <lightning-button variant="brand" label="Torna indietro" onclick={handleTornaIndietro}></lightning-button> 
+            </div>
+        </template>
+
+
+
+
+
+    </div>
+</template>

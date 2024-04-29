@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>EndDate_is_before_StartDate</fullName>
+    <active>true</active>
+    <errorConditionFormula>EndDate__c &lt; StartDate__c</errorConditionFormula>
+    <errorMessage>La data di fine validità non può essere antecedente a quella di inizio.</errorMessage>
+</ValidationRule>

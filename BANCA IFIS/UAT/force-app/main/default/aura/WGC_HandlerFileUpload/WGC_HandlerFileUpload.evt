@@ -1,0 +1,4 @@
+<aura:event type="APPLICATION" description="Event template" >
+    <aura:attribute name="param" type="Object" />
+    <aura:attribute name="futureCall" type="Boolean" />
+</aura:event>

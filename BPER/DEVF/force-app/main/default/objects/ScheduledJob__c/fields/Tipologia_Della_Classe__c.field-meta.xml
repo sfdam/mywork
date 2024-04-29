@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Tipologia_Della_Classe__c</fullName>
+    <externalId>false</externalId>
+    <label>Tipologia Della Classe</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Batchable</fullName>
+                <default>false</default>
+                <label>Batchable</label>
+            </value>
+            <value>
+                <fullName>Schedulable</fullName>
+                <default>false</default>
+                <label>Schedulable</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

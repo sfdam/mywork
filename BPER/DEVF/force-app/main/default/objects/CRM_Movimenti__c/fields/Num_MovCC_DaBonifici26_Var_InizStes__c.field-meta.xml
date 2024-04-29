@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Num_MovCC_DaBonifici26_Var_InizStes__c</fullName>
+    <description>Dettaglio movimenti di CC &gt; Dare - Bonifici 26 - Variazione Inizio - stesso periodo anno precedente &gt; Numero</description>
+    <externalId>false</externalId>
+    <label>Numero</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Percent</type>
+</CustomField>

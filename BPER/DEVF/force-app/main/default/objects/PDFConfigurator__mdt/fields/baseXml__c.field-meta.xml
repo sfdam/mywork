@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>baseXml__c</fullName>
+    <description>Stringa xml relativa alla sezione</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Stringa xml relativa alla sezione
+PLACEHOLDERS
+SEZIONI
+###ZONA_SEZIONI###
+COMPONENTI
+###ZONA_COMPONENTI###
+TABELLA
+###XML_DETTAGLIO###
+NUMERO RIGHE
+###NUMERO_RIGHE###
+NOME CAMPO
+{!api_name_campo}</inlineHelpText>
+    <label>baseXml</label>
+    <length>32768</length>
+    <type>LongTextArea</type>
+    <visibleLines>5</visibleLines>
+</CustomField>

@@ -1,0 +1,6 @@
+<design:component>
+    
+    	<design:attribute name="workflowRecordCandidatoID" />  
+		<design:attribute name="componenteSolaLettura" />     
+    
+</design:component>

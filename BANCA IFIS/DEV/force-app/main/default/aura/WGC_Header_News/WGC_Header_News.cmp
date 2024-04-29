@@ -1,0 +1,50 @@
+<aura:component controller="WGC_Header_News_Controller" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" >
+    <!-- Attributes -->
+    <aura:attribute name="news" type="Object[]" />
+    <aura:attribute name="singleNews" type="Object" />
+    <!-- Handlers -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <lightning:navigation aura:id="navService" />
+
+    <lightning:card>
+        <aura:set attribute="title">
+            
+        </aura:set>
+        <div class="slds-grid slds-wrap height-max">
+            <div class="slds-col slds-size_1-of-6 slds-small-size_1-of-6 slds-medium-size_1-of-3 slds-large-size_1-of-3 height-max back-color-black central-top slds-align_absolute-center">
+                <!-- <img src="{!$Resource.IconaPortafoglio3}" class="imageBlack"/> -->
+
+                <lightning:layout multipleRows="true">
+                        <lightning:layoutItem size="12">
+                                <lightning:icon iconName="utility:news" size="large" alternativeText="sss" variant="inverse"/>
+                            </lightning:layoutItem>
+                        <lightning:layoutItem size="12">
+                                <h1 class="white-text">{!$Label.c.WGC_Header_News_ULTIME}<br />{!$Label.c.WGC_Header_News_NEWS}</h1>
+                            </lightning:layoutItem>
+                    </lightning:layout>
+            </div>
+            <div class="slds-col slds-size_5-of-6 slds-small-size_5-of-6 slds-medium-size_2-of-3 slds-large-size_2-of-3 height-max no-padding">
+                   
+                <aura:if isTrue="{! v.news.length > 0 }">
+                    <lightning:carousel class="pippo" disableAutoScroll="false" disableAutoRefresh="false" scrollDuration = "10">
+                        <aura:iteration var="singleNews" items="{! v.news }">
+                                            <lightning:carouselImage class="pippo"
+                                            header="{! singleNews.Data_News__c + ' - ' + singleNews.Titolo__c }"
+                                            description="{! singleNews.Breve_Descrizione__c }" 
+                                            id="{! singleNews.Id }" 
+                                            onclick="{! c.goToNews }">
+                                            <div class="dateNews">{! singleNews.Data_News__c }</div>
+                                            </lightning:carouselImage>
+                        </aura:iteration>
+                    </lightning:carousel>
+                    <aura:set attribute="else">
+                        <div class="slds-text-align_center slds-m-top_x-large">
+                            <p>{!$Label.c.WGC_Header_News_Nessuna_notizia_disponibile}</p>
+                        </div>
+                    </aura:set>
+                </aura:if>
+            </div>
+        </div>
+    </lightning:card>	
+</aura:component>

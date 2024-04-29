@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Banker_2_Search__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <externalId>false</externalId>
+    <label>Banker 2</label>
+    <lookupFilter>
+        <active>true</active>
+        <booleanFilter>1 OR 2</booleanFilter>
+        <filterItems>
+            <field>User.CRM_PermissionSet__c</field>
+            <operation>equals</operation>
+            <value>NEC_CRM.CIB.IBC.SB</value>
+        </filterItems>
+        <filterItems>
+            <field>User.CRM_PermissionSet__c</field>
+            <operation>equals</operation>
+            <value>NEC_CRM.CIB.IBC.DESK</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>User</referenceTo>
+    <relationshipName>CIB_Visibilit_Opportunit1</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

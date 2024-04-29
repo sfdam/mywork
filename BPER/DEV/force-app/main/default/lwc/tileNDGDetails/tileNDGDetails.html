@@ -1,0 +1,90 @@
+<template>
+    <div slot="title">
+        <lightning-icon icon-name={builderIcon} size="small"></lightning-icon>
+        <div class="tilte-card"><b>{title}</b></div>
+    </div>
+    <div class="slds-p-around_medium lgc-bg">
+       <div class="slds-grid slds-gutters">
+        <div class="slds-col">
+          <span>
+            <p class="slds-truncate" title="Company">Nome Account</p>
+            <p class="slds-truncate" title="">{nomeAccount}</p>
+            <br>
+            <p class="slds-truncate" title="" >Portafoglio</p>
+            <p><a onclick={navigateToWallet}>{portafoglio}</a></p>
+            <br>
+            <p class="slds-truncate" title="">Gruppo Comportamentale</p>
+            <p class="slds-truncate" title="">{gruppoComportamentale}</p>
+            <br>
+            <p class="slds-truncate" title="">Banca:</p>
+            <p><a onclick={navigateToBanca}>{banca}</a></p>
+            <br>
+            <p class="slds-truncate" title="">Area</p>
+            <p><a onclick={navigateToArea}>{area}</a></p>
+            <br>
+            <p class="slds-truncate" title="">OFS</p>
+            <div class="slds-form-element__control">
+                <span class="slds-checkbox slds-checkbox_standalone">
+                <input type="checkbox" id="checkbox-OFS" name="label" value="option"  checked={ofs} disabled/>
+                <span class="slds-checkbox_faux"></span>
+                </span>
+            </div>
+            <br>
+            <p class="slds-truncate" title="">Stato CRM</p>
+            <p class="slds-truncate" title="">{statoCRM}</p>
+            <br>
+            <p class="slds-truncate" title="">Stato sofferenza</p>
+            <div class="slds-form-element__control">
+                <span class="slds-checkbox slds-checkbox_standalone">
+                <input type="checkbox" id="checkbox-StatoSofferenza" name="label" value="option"  checked={statoSofferenza} disabled/>
+                <span class="slds-checkbox_faux"></span>
+                </span>
+            </div>
+            <br>
+            <p class="slds-truncate" title="">Accordato</p>
+            <p class="slds-truncate" title="">{accordato}</p>
+            <br>
+            <div if:true={isVisible}>
+                <p class="slds-truncate" title="">Patrimonio</p>
+                <p class="slds-truncate" title="">{patrimonio}</p>
+                <br>
+            </div>
+        </span>
+        </div>
+        <div class="slds-col">
+          <span>
+            <p class="slds-truncate" title="">NDG</p>
+            <p class="slds-truncate" title="">{numeroNDG}</p>
+            <br>
+            <p class="slds-truncate" title="">Macro-Modello di Servizio</p>
+            <p class="slds-truncate" title="">{modelloDiServizio}</p>
+            <br>
+            <p class="slds-truncate" title="">Segmento Comportamentale</p>
+            <p class="slds-truncate" title="">{segmentoComportamentale}</p>
+            <br>
+            <p class="slds-truncate" title="">Direzione Territoriale</p>
+            <p><a onclick={navigateToDirezioneTer}>{direzioneRegionale}</a></p>
+            <br>
+            <p class="slds-truncate" title="">Filiale</p>
+            <p><a onclick={navigateToFiliale}>{filiale}</a></p>
+            <br>
+            <p class="slds-truncate" title="">Natura Giuridica</p>
+            <p class="slds-truncate" title="">{naturaGiuridica}</p>
+            <br>
+            <p class="slds-truncate" title="">Stato Anagrafe</p>
+            <p class="slds-truncate" title="">{statoAnagrafe}</p>
+            <br>
+            <p class="slds-truncate" title="">Annual Revenue</p>
+            <p class="slds-truncate" title="">{AnnualRevenue}</p>
+            <br>
+            <p class="slds-truncate" title="">Utilizzato</p>
+            <p class="slds-truncate" title="">{utilizzato}</p>
+            <br>
+          </span>
+        </div>
+      </div>
+   </div>
+    
+
+   
+</template>

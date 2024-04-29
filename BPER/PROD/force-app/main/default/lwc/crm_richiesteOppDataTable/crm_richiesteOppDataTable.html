@@ -1,0 +1,111 @@
+<!--
+  @description       : Componente per account condivisi
+  Ver   Date         Author                               
+  1.0   03-10-2023   Esposito Francesco Ivan   
+-->
+<template>
+    <lightning-layout if:false={notShowComponent}>
+        <lightning-layout-item size="12" class="slds-card_boundary">
+            <lightning-card>
+                <div slot="title" style="display: flex; align-items: center;">
+                    <lightning-icon icon-name='standard:account' size="small"></lightning-icon>
+                    <div class="title-card" style="margin-left: 10px;"><b>{title} ({numberAll})</b></div>
+                </div>                
+                <lightning-button-group slot="actions">
+                    <!-- <lightning-button-icon icon-name="utility:filterList" alternative-text="Mostra filtri" onclick={showFilters} ></lightning-button-icon> -->
+                    <lightning-button-icon icon-name="utility:refresh" alternative-text="Refresh" onclick={refreshClick} ></lightning-button-icon>
+                </lightning-button-group>
+               
+                <div slot="footer">
+                    <template if:true={isRendered}>
+                                <lightning-button variant="base" label={viewAllLabel} title="View All" class="slds-m-left_x-small" onclick={handleViewAll}></lightning-button>
+                    </template>
+                </div>
+                <template if:false={isRendered}>
+                    <div class="slds-align_absolute-center">
+                        <lightning-spinner alternative-text="CARICAMENTO" size="small"></lightning-spinner>
+                    </div>
+                </template>
+                <template if:true={isRendered}>
+                        <div style="height: 100%;">
+                            <c-extended-data-table
+                            data-item="extend"
+                                key-field="id"
+                                data={data}
+                                columns={columns}
+                                sorted-by={sortBy}
+                                sorted-direction={sortDirection}
+                                onsort={doSorting}
+                                resize-column-disabled="true"
+                                hide-checkbox-column="true"
+                                >
+                            </c-extended-data-table>
+                        </div>    
+                
+                    <!--<lightning-layout>
+                        <lightning-layout-item size="12">
+                            <lightning-tree-grid
+                                class="lgc-example-treegrid"
+                                columns={columns}
+                                data={data}
+                                expanded-rows={gridExpandedRows}
+                                hide-checkbox-column="true"
+                                key-field="Id"
+                                onrowaction={doSorting}
+                                sorted-by={sortBy}
+                                sorted-direction={sortDirection}
+                                onsort={doSorting}>
+                            </lightning-tree-grid>
+                        </lightning-layout-item>
+                    </lightning-layout>-->
+                </template>
+            </lightning-card>
+        </lightning-layout-item>
+    </lightning-layout>
+
+    <template if:true={isViewAll}>
+        <div>
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_large">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                            <lightning-icon icon-name="utility:close" size="medium">
+                            </lightning-icon>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <div class="tilte-card">
+                            <div slot="title">
+                                <lightning-icon icon-name="standard:case" size="small"></lightning-icon>
+                                <div class="tilte-card"><b>{title} ({numberAll})</b></div>
+                            </div>
+                        </div>
+
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <lightning-layout>
+                            <lightning-layout-item size="12">
+                                <div class="slds-scrollable_y" style="height:300px">
+                                    <c-extended-data-table data-id="datatableRecords"
+                                        columns={allColumns} 
+                                        data={allData} 
+                                        sorted-by={sortByAll}
+                                        sorted-direction={sortDirectionAll}
+                                        onsort={doSortingAll}
+                                        hide-checkbox-column="true" 
+                                        resize-column-disabled="false"
+                                        key-field="id"
+                                        >
+                                    </c-extended-data-table>
+                                </div>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+                    <footer class="slds-modal__footer">
+                            <lightning-button label="Annulla" variant="neutral" onclick={closeModal}></lightning-button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </template>
+</template>

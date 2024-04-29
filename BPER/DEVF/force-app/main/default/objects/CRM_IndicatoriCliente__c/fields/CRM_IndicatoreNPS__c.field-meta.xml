@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_IndicatoreNPS__c</fullName>
+    <externalId>false</externalId>
+    <label>Indicatore NPS</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Promotore</fullName>
+                <default>false</default>
+                <label>Promotore</label>
+            </value>
+            <value>
+                <fullName>Detrattore</fullName>
+                <default>false</default>
+                <label>Detrattore</label>
+            </value>
+            <value>
+                <fullName>Neutrale</fullName>
+                <default>false</default>
+                <label>Neutrale</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

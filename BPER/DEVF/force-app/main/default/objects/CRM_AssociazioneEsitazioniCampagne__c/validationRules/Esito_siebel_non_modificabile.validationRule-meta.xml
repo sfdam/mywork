@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Esito_siebel_non_modificabile</fullName>
+    <active>true</active>
+    <errorConditionFormula>CRM_CheckEsitoSiebel__c</errorConditionFormula>
+    <errorMessage>L&apos;esito appartiene ad una campagna Siebel. Eventuali modifiche agli esiti non sono consentiti.</errorMessage>
+</ValidationRule>

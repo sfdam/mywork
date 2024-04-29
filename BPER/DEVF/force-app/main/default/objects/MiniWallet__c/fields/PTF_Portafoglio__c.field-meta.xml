@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PTF_Portafoglio__c</fullName>
+    <externalId>false</externalId>
+    <label>Portafoglio Padre</label>
+    <referenceTo>Wallet__c</referenceTo>
+    <relationshipLabel>MiniWallets</relationshipLabel>
+    <relationshipName>MiniWallets</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

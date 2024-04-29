@@ -1,0 +1,42 @@
+<template>
+    <div class="personal-container">
+        <header class="slds-modal__header personal-header">
+            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                <lightning-icon icon-name="utility:close"
+                    alternative-text="close"
+                    variant="inverse"
+                    size="small" >
+                </lightning-icon>
+                <span class="slds-assistive-text">Close</span>
+            </button>
+            <lightning-card  variant="Narrow"  title={title} icon-name={iconName}></lightning-card>
+        </header>
+        <lightning-layout multiple-rows="true">
+            <template if:false={isRendered}>
+                <div class="slds-align_absolute-center">
+                    <lightning-spinner alternative-text="CARICAMENTO" size="small"></lightning-spinner>
+                </div>
+            </template>
+            <template if:false={isReadyToSecondCall}>
+                <lightning-layout-item flexibility="auto" size="12" medium-device-size="12" padding="around-small">
+                    <button type="submit" name="aggiornaDati" class="slds-button slds-button_neutral slds-button_stretch color-button" onclick={executeCall}>{buttonLabel}</button>
+                </lightning-layout-item>
+            </template>
+            <template if:true={isReadyToSecondCall}>
+                <lightning-layout-item flexibility="auto" padding="around-small">
+                    <lightning-combobox
+                        name="Phone"
+                        label="N. telefono"
+                        value={phoneNumberList}
+                        placeholder="Seleziona un numero di telefono"
+                        options={phoneOptions}
+                        onchange={handlePhoneChange}>
+                    </lightning-combobox>
+                </lightning-layout-item>
+                <lightning-layout-item flexibility="auto" padding="around-small" size="12" >
+                    <button type="submit" name="chiama" class="slds-button slds-button_neutral slds-button_stretch color-button" onclick={executeCall}>{buttonLabelPhone}</button>
+                </lightning-layout-item>
+            </template>
+        </lightning-layout>
+    </div> 
+</template>

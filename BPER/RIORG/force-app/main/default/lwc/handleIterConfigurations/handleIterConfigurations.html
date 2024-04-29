@@ -1,0 +1,175 @@
+<template>
+    <lightning-card title="">
+        <lightning-layout multiple-rows>
+            <lightning-layout-item flexibility="auto" padding="around-small" size="12">
+                <div class="slds-box no-button">
+                    <p>I tipi di spostamento non indicati si chiuderanno automaticamente dopo 15 giorni</p>
+                </div>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" padding="around-small">
+                <div class="slds-m-top_large">
+                    <lightning-button variant="brand" label="Aggiungi Configurazioni" title="Primary action" onclick={handleOpenModal} class="slds-button slds-button_brand slds-button_stretch"></lightning-button>
+                </div>
+            </lightning-layout-item>
+            
+            <template if:false={noRows}>
+                <lightning-layout-item size="12" medium-device-size="3" padding="around-small">
+                    <lightning-input name="searchedUnita" label="Filiale" placeholder="Cerca per Filiale..." value={searchedUnita} onchange={handleFormInputChange} ></lightning-input>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" medium-device-size="3" padding="around-small">
+                    <lightning-input name="searchedDT" label="Direzione Territoriale" placeholder="Cerca per Direzione Territoriale..." value={searchedDT} onchange={handleFormInputChange} ></lightning-input>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" medium-device-size="3" padding="around-small">
+                    <lightning-input name="searchedABI" label="Abi" placeholder="Cerca per ABI..." value={searchedABI} onchange={handleFormInputChange} ></lightning-input>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" medium-device-size="3" padding="around-small" flexibility="auto">
+                    <lightning-button-group class="slds-m-top_large slds-float_right">
+                        <lightning-button 
+                            variant="neutral"
+                            label="Reset"
+                            title="Reset"
+                            onclick={handleReset}>
+                        </lightning-button>
+                        <lightning-button 
+                            variant="neutral"
+                            label="Cerca"
+                            title="Cerca"
+                            onclick={handleSearch}>
+                        </lightning-button>
+                    </lightning-button-group>
+                </lightning-layout-item>
+                <lightning-layout class="paginator">
+                    <lightning-layout-item alignment-bump="left">
+                        <lightning-layout class="slds-align_absolute-center">
+                            <lightning-layout-item padding="around-small">
+                                <div class="lgc-bg">
+                                    <lightning-button-icon icon-name="utility:chevronleft"  variant="container" alternative-text="Settings" title="Settings" onclick={handleIndietro} disabled={disabledButtonIndietro}></lightning-button-icon>
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item padding="around-small">
+                                Pag. {page}
+                            </lightning-layout-item>
+                            <lightning-layout-item padding="around-small">
+                                <div class="lgc-bg">
+                                    <lightning-button-icon icon-name="utility:chevronright"  variant="container" alternative-text="Settings" title="Settings" onclick={handleAvanti} disabled={disabledButtonAvanti}></lightning-button-icon>
+                                </div>                
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </lightning-layout-item>
+                </lightning-layout>
+                <lightning-layout-item size = "12" padding="around-small">
+                    <div class="recordsTable slds-scrollable_y" style="height:14.3rem">
+                        <lightning-datatable
+                        data-item='configurationsTable'
+                        selected-rows={selectedRecordsIds}
+                        key-field="Id"
+                        data={currentPageData}
+                        columns={columns}
+                        onsave={handleSaveTable}
+                        errors={errors} 
+                        onrowselection={handleGetSelectedRecords} >
+                        </lightning-datatable>
+                    </div>
+                </lightning-layout-item>
+
+                <lightning-layout-item size = "12" padding="around-small">
+                    <button type="submit" class="slds-button slds-button_brand slds-button_stretch" onclick={handleDeleteRows} disabled={disableDelete} ><lightning-icon icon-name="utility:delete" alternative-text="Elimina gestori" variant="inverse" size="x-small"></lightning-icon>Elimina</button>
+                </lightning-layout-item>
+            </template>
+            <template if:true={noRows}>
+                <lightning-layout-item size = "12" padding="around-small">
+                    <div class="slds-box no-button">
+                        <p>Non sono stati trovate configurazioni per la banca selezionata.</p>
+                    </div>
+                </lightning-layout-item>
+            </template>
+        </lightning-layout>
+        <template if:true={loading}>
+            <div class="spinner-holder">
+                <lightning-spinner alternative-text="Loading"></lightning-spinner>
+            </div>
+        </template>
+    </lightning-card>
+
+    <template if:true={openDialog}>
+        <lightning-card>
+            <div class="slds-container_small">
+                <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-02" aria-modal="true" aria-describedby="modal-content-id-2" class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container">
+                        <header class="slds-modal__header">
+                            <h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">Aggiungi Configurazioni</h2>
+                        </header>
+                        <div class="slds-modal__content slds-p-around_medium" style="min-height:250px" id="modal-content-id-2">
+                            <lightning-layout multiple-rows>
+                                <lightning-layout-item size="12" padding="around-small">
+                                    <c-custom-lookup 
+                                    is-from-report-page={isFromReportPage}
+                                    s-object-name='Account'
+                                    icon-name="standard:account"
+                                    field-label="Filiale"
+                                    field-to-like="CRM_Nome__c,RecordTypeName__c"
+                                    other-field-to-query='RecordTypeName__c,PTF_IdCed__c'
+                                    event-to-dispatch="filialelookup"
+                                    onfilialelookup={handleCustomEvent}
+                                    where-condition={accountFilter}
+                                    field-alternative-in-label = 'RecordTypeName__c,PTF_IdCed__c'
+                                    p-read-only={disabledInput}>
+                                    </c-custom-lookup>
+                                </lightning-layout-item>
+                                    <template if:true={showFields}>
+                                        <template if:true={allSelected}>
+                                            <lightning-layout-item flexibility="auto" padding="around-small" size="12">
+                                                <div class="slds-box no-button">
+                                                    <p>Sono state gestiti tutti i tipi di spostamento per l'unità organizzativa selezionata</p>
+                                                </div>
+                                            </lightning-layout-item>
+                                        </template>
+                                        <template if:false={allSelected}>
+                                            <lightning-layout-item size="12" medium-device-size="6" padding="around-small">
+                                                <lightning-combobox
+                                                name="tipoSpostamento"
+                                                label="Tipo Spostamento"
+                                                value={selTipo}
+                                                options={tipoColumns} 
+                                                onchange={handleFormInputChange} >
+                                                </lightning-combobox>
+                                            </lightning-layout-item>
+                                            <lightning-layout-item size="12" medium-device-size="6" padding="around-small">
+                                                <lightning-input type="number" name="giorniAnnullamento" label="Giorni necessari all'annullamento automatico" value={selGiorni} onchange={handleFormInputChange}></lightning-input>
+                                            </lightning-layout-item>
+                                            <lightning-layout-item size="12" padding="around-small">
+                                                <button type="submit" class="slds-button slds-button_brand slds-button_stretch" onclick={handleCreateConfig} disabled={disableCreate} >Aggiungi Configurazione</button>
+                                            </lightning-layout-item>
+                                            <!-- <lightning-layout-item size="12" padding="around-small">
+                                                <lightning-button variant="brand"
+                                                    name="Aggiungi"
+                                                    label='Aggiungi'
+                                                    title='Aggiungi'
+                                                    onclick={handleCreateConfig} 
+                                                    disabled={disableCreate} >
+                                                </lightning-button>
+                                            </lightning-layout-item> -->
+                                        </template>
+                                    </template>
+                            </lightning-layout>
+                        </div>
+                        <footer class="slds-modal__footer">
+                            <lightning-button variant="neutral"
+                                              name="cancel"
+                                              label='Annulla'
+                                              title='Cancel'
+                                              onclick={handleCloseModal} >
+                            </lightning-button>
+                        </footer>
+                        <template if:true={loadingModal}>
+                            <div class="spinner-holder">
+                                <lightning-spinner alternative-text="Loading"></lightning-spinner>
+                            </div>
+                        </template>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </div>
+        </lightning-card>
+    </template>
+</template>

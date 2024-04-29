@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_AltriBeniElenco__c</fullName>
+    <externalId>false</externalId>
+    <label>Altri Beni - Elenco</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Collezione artistica rilevante</fullName>
+                <default>false</default>
+                <label>Collezione artistica rilevante</label>
+            </value>
+            <value>
+                <fullName>Auto da collezione</fullName>
+                <default>false</default>
+                <label>Auto da collezione</label>
+            </value>
+            <value>
+                <fullName>Patrimonio gioielli rilevante</fullName>
+                <default>false</default>
+                <label>Patrimonio gioielli rilevante</label>
+            </value>
+            <value>
+                <fullName>Orologi da collezione</fullName>
+                <default>false</default>
+                <label>Orologi da collezione</label>
+            </value>
+            <value>
+                <fullName>Vini/spirits da collezione</fullName>
+                <default>false</default>
+                <label>Vini/spirits da collezione</label>
+            </value>
+            <value>
+                <fullName>Altri beni da collezione</fullName>
+                <default>false</default>
+                <label>Altri beni da collezione</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>6</visibleLines>
+</CustomField>

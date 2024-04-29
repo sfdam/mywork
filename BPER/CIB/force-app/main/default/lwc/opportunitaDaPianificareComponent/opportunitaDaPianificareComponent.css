@@ -1,0 +1,36 @@
+:host
+{
+    --slds-c-card-color-background: #f3f3f3;
+}
+
+.border-top
+{
+    border-top: 1px solid #c9c9c9;
+}
+
+.alert {
+    width: 100%;
+    padding: 3%;
+    color: black;
+    border-radius: 50px;
+    transition: width 0.4s ease-in-out;
+}
+
+/* .searchClass{
+    width: 5%;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+}*/
+
+/* .alert:hover {
+    width: 100%;
+}
+
+.alertMessage{
+    opacity: 0;
+    transition: opacity 2s ease-in-out;
+}
+
+.alert:hover .alertMessage{
+    opacity: 1;
+} */

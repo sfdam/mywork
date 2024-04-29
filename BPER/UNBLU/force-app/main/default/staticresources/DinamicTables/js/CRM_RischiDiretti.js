@@ -1,0 +1,212 @@
+{
+"thead": [
+    {
+      "tag": "tr",
+      "key": "tr_1",
+	  "class": "header-title",
+      "thElements": [
+        {
+          "key": "th_1",
+		  "apiName": "",
+          "rowspan": "1",
+          "colspan": "3",
+          "class": "test-six",
+          "style": "background-color: white;font-size:12px;",
+          "divElements": [
+            {
+              "key": "div_1",
+              "class": "",
+              "style": "text-align: right",
+              "value": ""
+			  }
+          ]
+        }
+      ]
+    },
+	{
+	  "tag": "tr",
+      "key": "tr_2",
+	  "class": "header-title",
+      "thElements": [
+        {
+          "key": "th_1",
+		  "apiName": "",
+          "rowspan": "1",
+          "colspan": "1",
+          "class": "test-five",
+          "style": "",
+          "divElements": [
+            {
+              "key": "div_1",
+              "class": "slds-align_absolute-center slds-p-left_x-small slds-p-right_x-small test-two",
+              "style": "",
+              "value": "Rischi Diretti"
+            }
+          ]
+        },
+        {
+          "key": "th_2",
+		  "apiName": "",
+          "rowspan": "1",
+          "colspan": "1",
+          "class": "test-five",
+          "style": "",
+          "divElements": [
+            {
+              "key": "div_1",
+              "class": "slds-align_absolute-center slds-p-left_x-small slds-p-right_x-small test-two",
+              "style": "",
+              "value": ""
+            }
+          ]
+        },
+        {
+          "key": "th_3",
+		  "apiName": "",
+          "rowspan": "1",
+          "colspan": "1",
+          "class": "test-five",
+          "style": "",
+          "divElements": [
+            {
+              "key": "div_1",
+              "class": "slds-align_absolute-center slds-p-left_x-small slds-p-right_x-small test-two",
+              "style": "",
+              "value": "Dato al"
+            }
+          ]
+        }
+        
+      ]
+    }
+  ],
+  "tbody": [
+    {
+      "tag": "tr",
+      "key": "tr_1",
+      "class": "",
+      "style": "background-color: white",
+      "tdElements": [
+        {
+          "key": "td_1",
+          "value": "Accordato",
+          "formatted": {
+            "type": "text"
+          },
+          "class": "slds-is-relative",
+          "style": "",
+          "divElements": [
+            {
+              "key": "div_1",
+              "class": "first-column-definition",
+              "style": "",
+              "buttonAccordion": false
+            }
+          ]
+        },
+        {
+          "key": "td_2",
+          "apiName": "CRM_RischiDiretti_Ammontare_Acc__c",
+          "value": "",
+          "formatted": {
+            "type": "number",
+            "style": "currency"
+          },
+          "class": "",
+          "style": "",
+          "divElements": [
+            {
+              "key": "div_1",
+              "class": "slds-align_absolute-center",
+              "style": "",
+              "buttonAccordion": false
+            }
+          ]
+        },
+        {
+          "key": "td_3",
+          "apiName": "CRM_F_RischiDiretti_Data_Acc__c",
+          "value": "",
+          "formatted": {
+            "type": "text",
+            "style": ""
+          },
+          "class": "",
+          "style": "",
+          "divElements": [
+            {
+              "key": "div_1",
+              "class": "slds-align_absolute-center",
+              "style": "",
+              "buttonAccordion": false
+            }
+          ]
+        }
+      ]
+    },
+	{
+      "tag": "tr",
+      "key": "tr_2",
+      "class": "",
+      "style": "background-color: #efefef",
+      "tdElements": [
+        {
+          "key": "td_1",
+          "value": "Utilizzato",
+          "formatted": {
+            "type": "text"
+          },
+          "class": "slds-is-relative",
+          "style": "",
+          "divElements": [
+            {
+              "key": "div_1",
+              "class": "first-column-definition",
+              "style": "",
+              "buttonAccordion": false
+            }
+          ]
+        },
+        {
+          "key": "td_2",
+          "apiName": "CRM_RischiDiretti_Ammontare_Uti__c",
+          "value": "",
+          "formatted": {
+            "type": "number",
+            "style": "currency"
+          },
+          "class": "",
+          "style": "",
+          "divElements": [
+            {
+              "key": "div_1",
+              "class": "slds-align_absolute-center",
+              "style": "",
+              "buttonAccordion": false
+            }
+          ]
+        },
+        {
+          "key": "td_3",
+          "apiName": "CRM_F_RischiDiretti_Data_Uti__c",
+          "value": "",
+          "formatted": {
+            "type": "text",
+            "style": ""
+          },
+          "class": "",
+          "style": "",
+          "divElements": [
+            {
+              "key": "div_1",
+              "class": "slds-align_absolute-center",
+              "style": "",
+              "buttonAccordion": false
+            }
+          ]
+        }
+      ]
+    }
+	
+	]
+	}

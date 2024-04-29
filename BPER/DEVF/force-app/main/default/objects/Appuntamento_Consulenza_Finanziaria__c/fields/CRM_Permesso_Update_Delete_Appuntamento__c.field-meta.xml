@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_Permesso_Update_Delete_Appuntamento__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF($User.Id = Owner:User.Id, IF(TODAY() &gt;= DATEVALUE(CreatedDate) &amp;&amp; TODAY() &lt;= ADDMONTHS(DATEVALUE(CreatedDate),3), TRUE, FALSE), FALSE)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Permesso Update/Delete Appuntamento</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

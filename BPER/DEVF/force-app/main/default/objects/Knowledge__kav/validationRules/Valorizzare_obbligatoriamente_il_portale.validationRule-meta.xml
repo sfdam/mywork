@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Valorizzare_obbligatoriamente_il_portale</fullName>
+    <active>true</active>
+    <errorConditionFormula>IsVisibleInPkb = true &amp;&amp;   ISPICKVAL( CRM_Portale__c , &apos;&apos;)</errorConditionFormula>
+    <errorMessage>Selezionare su quale/i portale/i rendere visibile l&apos;articolo dopo la pubblicazione</errorMessage>
+</ValidationRule>

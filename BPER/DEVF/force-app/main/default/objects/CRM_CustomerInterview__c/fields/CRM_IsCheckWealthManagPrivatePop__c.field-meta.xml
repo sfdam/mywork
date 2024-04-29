@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_IsCheckWealthManagPrivatePop__c</fullName>
+    <externalId>false</externalId>
+    <formula>OR (
+CRM_V_AnalisiSuccessoria__c,
+CRM_V_AnalisiPatrimonioTerzi__c,
+CRM_V_Trust__c,
+CRM_V_AttivitaFilantropica__c,
+CRM_V_AssetProtection__c,
+CRM_V_ArtAdvisory__c,
+CRM_V_OttimGestionePartAzionarie__c,
+CRM_V_RealEstateAdvEstero__c,
+CRM_V_CambioResidenzaFiscale__c,
+CRM_V_ConsulAnaliticaProtPianif__c,
+CRM_V_AnalisiPatrimonialeImmob__c,
+CRM_V_AnalisiOttimizzazPartec__c,
+CRM_V_TaxLegalAdv__c,
+CRM_V_FiduciaryMandate__c,
+CRM_V_ServiziFiduciari__c
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Is Check WealthManag Private popolato</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

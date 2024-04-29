@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PTF_IsSuperuser__c</fullName>
+    <externalId>false</externalId>
+    <formula>OR (CONTAINS($Profile.Name, &apos;D.0&apos;),
+				CONTAINS($Profile.Name, &apos;Administrator&apos;),
+				CONTAINS($Profile.Name, &apos;Amministratore&apos;))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Is Superuser</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

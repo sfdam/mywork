@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Script</fullName>
+    <columns>NAME</columns>
+    <columns>Nome_Prodotto__c</columns>
+    <columns>Script__c</columns>
+    <columns>CC_Script_Attivo__c</columns>
+    <columns>UPDATEDBY_USER</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Event_Call_Me_Back_Contact_Center__c.Event_Call_Me_Back_Script</value>
+    </filters>
+    <label>Script</label>
+    <sharedTo>
+        <group>Supervisor_di_Contact_Center</group>
+    </sharedTo>
+</ListView>

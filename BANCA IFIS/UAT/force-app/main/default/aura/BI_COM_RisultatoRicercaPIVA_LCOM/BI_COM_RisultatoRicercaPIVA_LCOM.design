@@ -1,0 +1,7 @@
+<design:component>
+    <design:attribute name="flowInputPartitaIva" /> 
+    <design:attribute name="flowActualAccount" />  
+    <design:attribute name="flowValidatorPartitaIvaResult" /> 
+    <design:attribute name="flowValidatorCodiceSegnalatore" />
+    <design:attribute name="flowValidatorNomeSegnalatore" />
+</design:component>

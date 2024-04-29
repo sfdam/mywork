@@ -1,0 +1,24 @@
+.notification-circle{
+    border-radius: 50%;
+    height: 1.5rem;
+    width: 1.5rem;
+    float: right;
+    background-color:#4891e6;
+    color: white;
+    text-align: center;
+    position: relative;
+    right: 40%;
+}
+
+
+:host {
+    /* Removes SF Card Header padding/margin top/bottom only */
+    --slds-c-card-header-spacing-block-end: 0px;
+    --slds-c-card-header-spacing-block-start: 0px;
+    
+      /* Removes SF Card body padding/margin top/bottom only */
+    --slds-c-card-body-spacing-block-start: 0px;
+    --slds-c-card-body-spacing-block-end: 0px;
+
+    --slds-c-card-border-radius: 0.25rem;
+  }

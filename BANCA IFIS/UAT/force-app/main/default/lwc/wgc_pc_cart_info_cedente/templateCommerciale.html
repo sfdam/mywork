@@ -1,0 +1,283 @@
+<template>
+    <template if:true={rendered}>
+    <div class="slds-box">
+        <lightning-layout>
+            <lightning-layout-item size="12" class="slds-p-horizontal_small">
+                <template if:false={readOnly}>
+                    <lightning-button label="Conferma" variant="brand" class="cstm-btn-round slds-float_right slds-m-left_xx-small" onclick={confirmInfoCedente}></lightning-button>
+                </template>
+                <template if:true={readOnly}>
+                    <lightning-button label="Avanti" variant="brand" class="cstm-btn-round slds-float_right slds-m-left_xx-small" onclick={goNextStep}></lightning-button>
+                </template>
+                <lightning-button label="Indietro" class="cstm-btn-round slds-float_right" onclick={goBackSceltaProdotto}></lightning-button>
+            </lightning-layout-item>
+        </lightning-layout>
+        <!-- PRODOTTI SELEZIONATI -->
+        <c-wgc_pc_cart_products_container products={selectedProds} title="Prodotti Selezionati"></c-wgc_pc_cart_products_container>
+        <!--
+        <div class="slds-box slds-m-top_medium">
+            <lightning-layout multiple-rows="true">
+                <lightning-layout-item size="12">
+                    <h1>PRODOTTI SELEZIONATI</h1>
+                </lightning-layout-item>
+                <lightning-layout-item size="12">
+                    <lightning-layout>
+                        <template for:each={selectedProds} for:item="prod" for:index="ind">
+                            <lightning-layout-item class="slds-p-around_small" key={prod.name} size="3">
+                                <c-wgc_pc_cart_product prod={prod} read-only={readOnly} selected={prod.selected} index={ind} ></c-wgc_pc_cart_product>
+                            </lightning-layout-item>
+                        </template>
+                    </lightning-layout>
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+        -->
+        <div class="slds-box slds-m-top_small">
+            <!-- BOX AGENZIA ENTRATE -->
+            <lightning-layout>
+                <lightning-layout-item size="12">
+                    <!-- <lightning-record-view-form object-api-name="Account" record-id={accountId} > -->
+                        <lightning-layout>
+                            <lightning-layout-item size="1" class="slds-p-left_large slds-p-vertical_small">
+                                <lightning-icon icon-name="action:edit"> </lightning-icon>
+                                <!-- <b><h2 class="cstm-subtitle slds-p-top_small">Dettaglio Fido di Coppia</h2></b> -->
+                            </lightning-layout-item>
+                            <lightning-layout-item size="2">
+                                <h1 class="attore-name">{agenzia.Account__r.Name} </h1>
+                                <!-- <lightning-output-field field-name="Name" class="attore-name" variant="label-hidden"></lightning-output-field> -->
+                                <p><label>NDG:</label> <span>{agenzia.Account__r.NDGGruppo__c}</span></p>
+                                <!-- <lightning-output-field field-name="NDGGruppo__c" class="attore-ndg" variant="label-hidden"></lightning-output-field>  -->
+                            </lightning-layout-item>
+                            <lightning-layout-item size="9">
+                                <!-- <lightning-record-edit-form object-api-name="NDGLinea__c" record-id={idAgenzia} onload={loadFormAttore}> -->
+                                    <lightning-layout horizontal-align="space">
+                                        <lightning-layout-item class="slds-p-around_small">
+                                            <!-- <lightning-record-view-form object-api-name="Account" record-id={accountId}> -->
+                                                <!-- <lightning-output-field field-name="PIVA__c"></lightning-output-field> -->
+                                                <label>Partita IVA</label>
+                                                <p>{agenzia.Account__r.PIVA__c}</p>
+                                            <!-- </lightning-record-view-form> -->
+                                        </lightning-layout-item>
+                                        <lightning-layout-item class="slds-p-around_small">
+                                            <!-- <lightning-output-field field-name="DivisaNew__c" value="EURO"></lightning-output-field> -->
+                                            <label>Divisa</label>
+                                            <p>{agenzia.DivisaNew__c}</p>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item class="slds-p-around_small">
+                                            <!-- <lightning-input-field field-name="WGC_Storicita_Rimborsi__c"></lightning-input-field> -->
+                                            <lightning-radio-group name="WGC_Storicita_Rimborsi__c" label="Storicità Rimborsi" options={options} disabled={readOnly} value={storicitaValue} type="radio" onchange={updateMask}></lightning-radio-group>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                <!-- </lightning-record-edit-form> -->
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    <!-- </lightning-record-view-form> -->
+                </lightning-layout-item>
+            </lightning-layout>
+            <!-- BOX AGENZIA ENTRATE -->
+            <!--INFO CEDENTE -->
+            
+        </div>
+        <div class="slds-box slds-m-top_medium">
+            <!-- <lightning-record-edit-form object-api-name="Opportunity" record-id={recordId} id="test"> -->
+                <lightning-layout multiple-rows="true">
+                    <lightning-layout-item size="8">
+                        <h1><b>INFORMAZIONI GENERALI</b></h1>
+                        <h2 class="cstm-subtitle"><b>Info Cedente</b></h2>
+                    </lightning-layout-item>
+                    <!-- <lightning-layout-item size="4">
+
+                    </lightning-layout-item> -->
+                    <lightning-layout-item size="12">
+                            <lightning-layout multiple-rows="true">
+                                <lightning-layout-item size="2" padding="around-small">
+                                    <!-- <lightning-input-field field-name="WGC_Assuntore__c" onchange={changeAssuntore}></lightning-input-field> -->
+                                    <lightning-radio-group class="oppForm" data-name="WGC_Assuntore__c" data-object="Opportunity" name="WGC_Assuntore__c" label="Assuntore" options={options} value={assuntoreValue} disabled={readOnly} type="radio" onchange={updateMask}></lightning-radio-group>
+                                </lightning-layout-item>
+                                <template if:true={checkAssuntore}>
+                                    <lightning-layout-item size="3" padding="around-small">
+                                            <!-- <lightning-record-edit-form object-api-name="Opportunity" record-id={recordId}>
+                                                <lightning-input-field class="oppForm" data-name="WGC_Azienda_Cedente__c" data-object="Opportunity" name="WGC_Azienda_Cedente__c" field-name="WGC_Azienda_Cedente__c" onchange={updateMask} ></lightning-input-field>
+                                            </lightning-record-edit-form> -->
+                                        <c-wgc_lookup
+                                            class="oppForm"
+                                            data-name="WGC_Azienda_Cedente__c"
+                                            data-value="aziendaCedente"
+                                            selection={aziendaCedente}
+                                            errors={errors}
+                                            onsearch={handleSearch}
+                                            onselectionchange={handleSelectionChange}
+                                            label="Azienda Cedente"
+                                            placeholder="Cerca..."
+                                            is-multi-entry={isMultiEntry}
+                                            read-only={readOnly}
+                                        >
+                                        </c-wgc_lookup>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="3" padding="around-small">
+                                        <c-wgc_lookup
+                                            class="oppForm"
+                                            data-name="Intermediario__c"
+                                            data-value="intermediario"
+                                            selection={intermediario}
+                                            errors={errors}
+                                            onsearch={handleSearch}
+                                            onselectionchange={handleSelectionChange}
+                                            label="Intermediario"
+                                            placeholder="Cerca..."
+                                            is-multi-entry={isMultiEntry}
+                                            read-only={readOnly}
+                                        >
+                                        </c-wgc_lookup>
+                                        <!-- <lightning-input-field class="oppForm" data-name="Intermediario__c" field-name="Intermediario__c" ></lightning-input-field> -->
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="2" padding="around-small">
+                                        <!-- <lightning-input-field class="oppForm" field-name="WGC_Data_proposta__c" ></lightning-input-field> -->
+                                        <lightning-input type="date" class="oppForm" data-name="WGC_Data_proposta__c" value={opp.WGC_Data_proposta__c} disabled={readOnly} label="Data proposta" onchange={updateMask}></lightning-input>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="2" padding="around-small">
+                                        <!-- <lightning-input-field class="oppForm" field-name="WGC_Data_omologa__c" ></lightning-input-field> -->
+                                        <lightning-input type="date" class="oppForm" data-name="WGC_Data_omologa__c" value={opp.WGC_Data_omologa__c} disabled={readOnly} label="Data omologa" onchange={updateMask}></lightning-input>
+                                    </lightning-layout-item>
+                                </template>
+                            </lightning-layout>
+                            <template if:true={checkAssuntore}>
+                                <lightning-layout>
+                                    <lightning-layout-item size="2" padding="around-small" alignment-bump="left">
+                                        <!-- <lightning-input-field class="oppForm" field-name="WGC_Data_richiesta_estratto_di_ruolo__c" ></lightning-input-field> -->
+                                        <lightning-input type="date" data-name="WGC_Data_richiesta_estratto_di_ruolo__c" value={opp.WGC_Data_richiesta_estratto_di_ruolo__c} disabled={readOnly} label="Data richiesta estratto di ruolo" onchange={updateMask}></lightning-input>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="2" padding="around-small">
+                                        <!-- <lightning-input-field class="oppForm" field-name="WGC_Data_evasione_di_ruolo__c" ></lightning-input-field> -->
+                                        <lightning-input type="date" data-name="WGC_Data_evasione_di_ruolo__c" value={opp.WGC_Data_evasione_di_ruolo__c} disabled={readOnly} label="Data evasione di ruolo" onchange={updateMask}></lightning-input>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </template>
+                            <lightning-layout>
+                                <lightning-layout-item size="3" padding="around-small">
+                                    <!-- <lightning-input-field class="oppForm" field-name="WGC_Tipologia__c" onchange={changeTipologia}></lightning-input-field> -->
+                                    <!-- <select class="slds-select" label="Tipologia">
+                                        <option value="">-</option>
+                                        <template for:each={tipologia} for:item="tipo">
+                                            <option key={tipo.key} value={tipo.value} >
+                                                {tipo.label}
+                                            </option>
+                                        </template>
+                                    </select> -->
+                                    <lightning-combobox data-name="WGC_Tipologia__c" label="Tipologia" placeholder="Seleziona..." value={opp.WGC_Tipologia__c} disabled={readOnly} options={tipologia} onchange={updateMask}>
+                                    </lightning-combobox>
+                                </lightning-layout-item>
+                                <template if:true={checkTipologia}>
+                                    <lightning-layout-item size="2" padding="around-small">
+                                        <!-- <lightning-input-field class="oppForm" field-name="WGC_Data_ricorso__c"></lightning-input-field> -->
+                                        <lightning-input type="date" class="oppForm" data-name="WGC_Data_ricorso__c" label="Data ricorso" value={opp.WGC_Data_ricorso__c} disabled={readOnly} onchange={updateMask}></lightning-input>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="2" padding="around-small">
+                                        <!-- <lightning-input-field class="oppForm" field-name="WGC_Data_ammissione__c"></lightning-input-field> -->
+                                        <lightning-input type="date" class="oppForm" data-name="WGC_Data_ammissione__c" label="Data ammissione" value={opp.WGC_Data_ammissione__c} disabled={readOnly} onchange={updateMask}></lightning-input>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="2" padding="around-small">
+                                        <!-- <lightning-input-field class="oppForm" field-name="WGC_Data_omologa__c"></lightning-input-field> -->
+                                        <lightning-input type="date" class="oppForm" data-name="WGC_Data_omologa__c" label="Data omologa" value={opp.WGC_Data_omologa__c} disabled={readOnly} onchange={updateMask}></lightning-input>
+                                    </lightning-layout-item>
+                                </template>
+                            </lightning-layout>
+                            <lightning-layout>
+                                <lightning-layout-item size="2" padding="around-small">
+                                    <!-- <lightning-input-field class="oppForm" field-name="WGC_Data_ingresso_in_procedura__c"></lightning-input-field> -->
+                                    <lightning-input type="date" class="oppForm" data-name="WGC_Data_ingresso_in_procedura__c" label="Data ingresso in procedura" value={opp.WGC_Data_ingresso_in_procedura__c} disabled={readOnly} onchange={updateMask}></lightning-input>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="2" padding="around-small">
+                                    <!-- <lightning-input-field field-name="WGC_Multiproprieta__c"></lightning-input-field> -->
+                                    <lightning-radio-group class="oppForm" data-name="WGC_Multiproprieta__c" label="Multiproprietà" options={options} value={multipValue} disabled={readOnly} type="radio" onchange={updateMask}></lightning-radio-group>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="2" padding="around-small">
+                                    <!-- <lightning-input-field class="oppForm" field-name="WGC_Perc_suggerita_di_acquisto__c"></lightning-input-field> -->
+                                    <lightning-input type="number" formatter="percent-fixed" class="oppForm" data-name="WGC_Perc_suggerita_di_acquisto__c" label="% suggerita di acquisto" value={opp.WGC_Perc_suggerita_di_acquisto__c} disabled={readOnly} onchange={updateMask}></lightning-input>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                            <lightning-layout>
+                                <lightning-layout-item size="2" padding="around-small">
+                                    <!-- <lightning-input-field field-name="WGC_Liti_pendenti__c"></lightning-input-field> -->
+                                    <lightning-radio-group class="oppForm" data-name="WGC_Liti_pendenti__c" label="Liti pendenti" options={options} value={litiPendentiValue} disabled={readOnly} type="radio" onchange={updateMask}></lightning-radio-group>
+                                </lightning-layout-item>
+                                <template if:true={checkLiti}>
+                                    <lightning-layout-item size="8" padding="around-small">
+                                        <!-- <lightning-input-field class="oppForm" field-name="WGC_Descrizione_liti_pendenti__c"></lightning-input-field> -->
+                                        <lightning-input type="text" class="oppForm" data-name="WGC_Descrizione_liti_pendenti__c" label="Descrizioni liti pendenti" value={opp.WGC_Descrizione_liti_pendenti__c} disabled={readOnly} onchange={updateMask}></lightning-input>
+                                    </lightning-layout-item>
+                                </template>
+                            </lightning-layout>
+                            <lightning-layout>
+                                <lightning-layout-item size="3" padding="around-small">
+                                    <!-- <lightning-input-field class="oppForm" field-name="Assuntore__c"></lightning-input-field> -->
+                                    <c-wgc_lookup
+                                        class="oppForm"
+                                        data-name="Assuntore__c"
+                                        data-value="tribunale"
+                                        selection={tribunale}
+                                        errors={errors}
+                                        onsearch={handleSearch}
+                                        onselectionchange={handleSelectionChange}
+                                        label="Ente sovrintendente"
+                                        placeholder="Cerca..."
+                                        is-multi-entry={isMultiEntry}
+                                        read-only={readOnly}
+                                    >
+                                    </c-wgc_lookup>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="3" padding="around-small">
+                                    <!-- <lightning-input-field class="oppForm" field-name="WGC_Giudice_delegato__c"></lightning-input-field> -->
+                                    <lightning-input type="text" class="oppForm" data-name="WGC_Giudice_delegato__c" label="Giudice delegato" value={opp.WGC_Giudice_delegato__c} disabled={readOnly} onchange={updateMask}></lightning-input>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                            <lightning-layout>
+                                <lightning-layout-item size="2" padding="around-small">
+                                    <!-- <lightning-input-field class="oppForm" field-name="WGC_Num_Riparti_effettuati__c"></lightning-input-field> -->
+                                    <lightning-input type="number" class="oppForm" data-name="WGC_Num_Riparti_effettuati__c" label="Num. riparti effettuati" value={opp.WGC_Num_Riparti_effettuati__c} disabled={readOnly} onchange={updateMask}></lightning-input>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="1" padding="around-small">
+                                    <!-- <lightning-input-field class="oppForm" field-name="WGC_Num_Creditori__c"></lightning-input-field> -->
+                                    <lightning-input type="number" class="oppForm" data-name="WGC_Num_Creditori__c" label="Num. creditori" value={opp.WGC_Num_Creditori__c} disabled={readOnly} onchange={updateMask}></lightning-input>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="2" padding="around-small">
+                                    <!-- <lightning-input-field class="oppForm" field-name="WGC_Data_ultimo_riparto__c"></lightning-input-field> -->
+                                    <lightning-input type="date" class="oppForm" data-name="WGC_Data_ultimo_riparto__c" label="Data ultimo riparto" value={opp.WGC_Data_ultimo_riparto__c} disabled={readOnly} onchange={updateMask}></lightning-input>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="2" padding="around-small">
+                                    <!-- <lightning-input-field class="oppForm" field-name="WGC_Ulteriori_attivi_da_realizzare__c"></lightning-input-field> -->
+                                    <lightning-input type="number" class="oppForm" data-name="WGC_Ulteriori_attivi_da_realizzare__c" label="Ulteriori attivi da realizzare" value={opp.WGC_Ulteriori_attivi_da_realizzare__c} disabled={readOnly} onchange={updateMask}></lightning-input>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="2" padding="around-small">
+                                    <!-- <lightning-input-field class="oppForm" field-name="WGC_Data_presunta_decreto_chiusura__c"></lightning-input-field> -->
+                                    <lightning-input type="date" class="oppForm" data-name="WGC_Data_presunta_decreto_chiusura__c" label="Data presunta decreto chiusura" value={opp.WGC_Data_presunta_decreto_chiusura__c} disabled={readOnly} onchange={updateMask}></lightning-input>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                    </lightning-layout-item>
+                    <!-- SEZIONE BO -->
+                    <!-- 
+                    <lightning-layout-item size="12">
+                        <h2 class="cstm-subtitle"><b>Consecutività</b></h2>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12">
+                        <lightning-layout>
+                            <lightning-layout-item size="2" padding="around-small">
+                                <lightning-radio-group class="oppForm" data-name="WGC_Consecutivita__c" label="Consecutività" options={options} value={consecutivitaValue} type="radio" onchange={updateMask}></lightning-radio-group>
+                            </lightning-layout-item>
+                            <template if:true={checkConsecutivita}>
+                                <lightning-layout-item size="2" padding="around-small">
+                                    <lightning-combobox data-name="WGC_Tipologia_di_consecutivita__c" label="Tipologia consecutività" placeholder="Seleziona..." value={opp.WGC_Tipologia_di_consecutivita__c} options={tipologia} onchange={updateMask}>
+                                    </lightning-combobox>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="2" padding="around-small">
+                                    <lightning-input class="oppForm" type="date" data-name="WGC_Data_ricorso__c" label="Data ricorso" value={opp.WGC_Data_ricorso__c} onchange={updateMask}></lightning-input>
+                                </lightning-layout-item>
+                            </template>
+                        </lightning-layout>
+                    </lightning-layout-item>
+                    -->
+            </lightning-layout>
+        </div>
+    </div>
+    </template>
+</template>

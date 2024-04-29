@@ -1,0 +1,85 @@
+<template>
+    <!-- <template if:false={noTitlenoData}> valerio.salvati 24/09/2021 -->
+    <template if:true={isVisible}>
+            <div class="slds-box">
+            <lightning-card icon-name={iconName} title={title}>
+                <div class="slds-scrollable_x">
+                        <template if:false={isRendered}>
+                            <div class="modal-spinner">
+                                <lightning-spinner alternative-text="CARICAMENTO" size="small"></lightning-spinner>
+                            </div>
+                        </template>
+                        <template if:true={showTable}>
+                            <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_resizable-cols ">
+                                <!-- <caption>{title}</caption> -->
+
+                                <thead>
+                                    <template for:each={jsonThead} for:item="tr">
+                                        <tr key={tr.key} class={tr.class}>
+                                            <template for:each={tr.thElements} for:item="th">
+                                                <th key={th.key} rowspan={th.rowspan} colspan={th.colspan} class={th.class}
+                                                    style={th.style}>
+                                                    <template for:each={th.divElements} for:item="div">
+                                                        <template if:true={th.isText}>
+                                                            <div key={div.key} class={div.class} style={div.style}>{th.value}</div>
+                                                        </template>
+                                                        <template if:false={th.isText}>
+                                                            <div key={div.key} class={div.class} style={div.style}>{div.value}</div>
+                                                        </template>
+                                                    </template>
+                                                </th>
+                                            </template>
+                                        </tr>
+                                    </template>
+                                </thead>
+                                <tbody>
+                                    <template for:each={jsonTbody} for:item="tr">
+                                        <tr key={tr.key} data-id={tr.key} class={tr.class} style={tr.style}>
+                                            <template for:each={tr.tdElements} for:item="td">
+                                                <td key={td.key} class={td.class} style={td.style} onclick={handleClickDARE}>
+                                                    <template for:each={td.divElements} for:item="div">
+                                                        <div key={div.key}>
+                                                            <template if:true={td.isText}>
+                                                                <div class={div.class} style={div.style}>{td.value}</div>
+                                                            </template>
+                                                            <template if:true={td.isNumber}>
+                                                                <div class={div.class} style={div.style}>
+                                                                    <lightning-formatted-number value={td.value}
+                                                                        format-style={td.formatted.style} minimum-fraction-digits="0">
+                                                                    </lightning-formatted-number>
+                                                                </div>
+                                                            </template>
+                                                            <template if:true={div.buttonAccordion}>
+                                                                <div class="slds-is-absolute" style="right: 5px; top: 3px">
+                                                                    <lightning-button-icon icon-name="utility:down" size="medium"
+                                                                        variant="bare" alternative-text="Espandi" title="Espandi"
+                                                                        class="slds-m-left_xx-small">
+                                                                    </lightning-button-icon>
+                                                                </div>
+                                                            </template>
+                                                            <template if:true={div.helpText}>
+                                                                <div class="slds-is-relative">
+                                                                    <lightning-helptext style={div.style} content={div.helpTextContent}>
+                                                                    </lightning-helptext>
+                                                                </div>
+                                                            </template>
+                                                            <template if:true={td.isCheckbox}>
+                                                                <div class="slds-is-relative">
+                                                                    <lightning-input type="checkbox" checked={td.value} disabled>
+                                                                    </lightning-input>
+                                                                </div>
+                                                            </template>
+                                                        </div>
+                                                    </template>
+                                                </td>
+                                            </template>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                    </template>
+                </div>
+            </lightning-card>
+        </div>
+    </template>
+</template>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_V_FundsExpiringProducts__c</fullName>
+    <defaultValue>false</defaultValue>
+    <externalId>false</externalId>
+    <label>Approfond - Finanz-Prodotti in scadenza</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

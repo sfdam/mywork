@@ -1,0 +1,954 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>52.0</apiVersion>
+    <assignments>
+        <name>Assign_Last_ModifyDate</name>
+        <label>Assign Last ModifyDate</label>
+        <locationX>1497</locationX>
+        <locationY>744</locationY>
+        <assignmentItems>
+            <assignToReference>LastModDateRecente</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get1Event.LastModifiedDate</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>X1DecisionEvent_Opportunity</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Last_ModifyDate2</name>
+        <label>Assign Last ModifyDate2</label>
+        <locationX>1886</locationX>
+        <locationY>666</locationY>
+        <assignmentItems>
+            <assignToReference>LastModDateRecente</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get1Oppo.LastModifiedDate</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>X2DecisionOpportunity_Case</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Last_ModifyDate3</name>
+        <label>Assign Last ModifyDate3</label>
+        <locationX>2252</locationX>
+        <locationY>684</locationY>
+        <assignmentItems>
+            <assignToReference>LastModDateRecente</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get1Case.LastModifiedDate</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>X1DecisionEvent_Opportunity_0</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Last_ModifyDate4</name>
+        <label>Assign Last ModifyDate4</label>
+        <locationX>2669</locationX>
+        <locationY>683</locationY>
+        <assignmentItems>
+            <assignToReference>LastModDateRecente</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get1CheckUp.LastModifiedDate</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>X1DecisionEvent_Opportunity_0_0</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Last_ModifyDate5</name>
+        <label>Assign Last ModifyDate5</label>
+        <locationX>3043</locationX>
+        <locationY>711</locationY>
+        <assignmentItems>
+            <assignToReference>LastModDateRecente</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get1CampaignMemb.LastModifiedDate</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>SchedaSintesi</targetReference>
+        </connector>
+    </assignments>
+    <constants>
+        <name>IconaBarra</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>&lt;img src=&apos;/resource/Barra&apos;/&gt;</stringValue>
+        </value>
+    </constants>
+    <decisions>
+        <name>X1DecisionEvent_Opportunity</name>
+        <label>1DecisionEvent_Opportunity</label>
+        <locationX>1648</locationX>
+        <locationY>751</locationY>
+        <defaultConnector>
+            <targetReference>Assign_Last_ModifyDate2</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>LastMod&lt;Oppo</defaultConnectorLabel>
+        <rules>
+            <name>CheckDecision1</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>LastModDateRecente</leftValueReference>
+                <operator>GreaterThanOrEqualTo</operator>
+                <rightValue>
+                    <elementReference>Get1Oppo.LastModifiedDate</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>X2DecisionOpportunity_Case</targetReference>
+            </connector>
+            <label>LastMod&gt;Opportunity</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>X1DecisionEvent_Opportunity_0</name>
+        <label>1DecisionEvent_Opportunity</label>
+        <locationX>2431</locationX>
+        <locationY>755</locationY>
+        <defaultConnector>
+            <targetReference>Assign_Last_ModifyDate4</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>LastMod&lt;CheckUp</defaultConnectorLabel>
+        <rules>
+            <name>CheckDecision3</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>LastModDateRecente</leftValueReference>
+                <operator>GreaterThanOrEqualTo</operator>
+                <rightValue>
+                    <elementReference>Get1CheckUp.LastModifiedDate</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>X1DecisionEvent_Opportunity_0_0</targetReference>
+            </connector>
+            <label>LastMod&gt;CheckUp</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>X1DecisionEvent_Opportunity_0_0</name>
+        <label>1DecisionEvent_Opportunity</label>
+        <locationX>2857</locationX>
+        <locationY>794</locationY>
+        <defaultConnector>
+            <targetReference>Assign_Last_ModifyDate5</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>LastMod&lt;CampaignMemb</defaultConnectorLabel>
+        <rules>
+            <name>CheckDecision4</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>LastModDateRecente</leftValueReference>
+                <operator>GreaterThanOrEqualTo</operator>
+                <rightValue>
+                    <elementReference>Get1CampaignMemb.LastModifiedDate</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>SchedaSintesi</targetReference>
+            </connector>
+            <label>LastMod&gt;CampaignMemb</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>X2DecisionOpportunity_Case</name>
+        <label>2DecisionOpportunity_Case</label>
+        <locationX>2038</locationX>
+        <locationY>774</locationY>
+        <defaultConnector>
+            <targetReference>Assign_Last_ModifyDate3</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>LastMod&lt;Case</defaultConnectorLabel>
+        <rules>
+            <name>CheckDecision2</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>LastModDateRecente</leftValueReference>
+                <operator>GreaterThanOrEqualTo</operator>
+                <rightValue>
+                    <elementReference>Get1Case.LastModifiedDate</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>X1DecisionEvent_Opportunity_0</targetReference>
+            </connector>
+            <label>LastMod&gt;Case</label>
+        </rules>
+    </decisions>
+    <formulas>
+        <name>CrossSelling</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!Get_NDG.CRM_CrossSelling__c}) = FALSE,
+{!GetIndicatori.CRM_FormulaIconaPercCS1__c} + &quot; &quot; + {!GetIndicatori.CRM_FormulaIconaPercCS2__c},
+&quot;-&quot;)</expression>
+    </formulas>
+    <formulas>
+        <name>DescrizioneColoriPEG</name>
+        <dataType>String</dataType>
+        <expression>IF (
+TEXT({!GetIndicatori.CRM_StatusPosizione__c}) = &apos;Giallo&apos;,
+&apos;Past Due Iniziale&apos;,
+IF (
+TEXT({!GetIndicatori.CRM_StatusPosizione__c}) = &apos;Grigio&apos;,
+&apos;Sorveglianza&apos;,
+IF (
+TEXT({!GetIndicatori.CRM_StatusPosizione__c}) = &apos;Nero&apos;,
+&apos;Inadempienze probabili&apos;,
+IF (
+TEXT({!GetIndicatori.CRM_StatusPosizione__c}) = &apos;Rosso&apos;,
+&apos;Scadute e/o sconfinanti deteriorate&apos;,
+IF (
+TEXT({!GetIndicatori.CRM_StatusPosizione__c}) = &apos;Verde&apos;,
+&apos;Regolari&apos;,
+IF (
+TEXT({!GetIndicatori.CRM_StatusPosizione__c}) = &apos;Viola&apos;,
+&apos;Sofferenze&apos;,
+IF (
+TEXT({!GetIndicatori.CRM_StatusPosizione__c}) = &apos;Rosso Scuro&apos;,
+&apos;Inadempienze probabili&apos;,
+IF (
+TEXT({!GetIndicatori.CRM_StatusPosizione__c}) = &apos;Arancio&apos;,
+&apos;Past Due 30&apos;,
+IF (
+TEXT({!GetIndicatori.CRM_StatusPosizione__c}) = &apos;Arancio Scuro&apos;,
+&apos;Rischio Alto&apos;,
+NULL
+)
+)
+)
+)
+)
+)
+)
+)
+)</expression>
+    </formulas>
+    <formulas>
+        <name>formula_aderenza</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK(TEXT({!GetIndicatori.CRM_AderenzaPTFModello__c})) = FALSE,
+SUBSTITUTE(TEXT({!GetIndicatori.CRM_AderenzaPTFModello__c} * 100) &amp; &quot;%&quot;, &quot;.&quot;, &quot;,&quot;),
+&quot;-&quot;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>formula_altreinfo</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!Get_NDG.CRM_Lista_Info_stato_cliente__c}) = FALSE,
+{!Get_NDG.CRM_Lista_Info_stato_cliente__c},
+&quot; - &quot;)</expression>
+    </formulas>
+    <formulas>
+        <name>formula_anzianitarelazione</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!Get_NDG.FinServ__LengthOfRelationship__c}) = FALSE,
+SUBSTITUTE(TEXT({!Get_NDG.FinServ__LengthOfRelationship__c}), &quot;.&quot;, &quot;,&quot;),
+&quot;-&quot;)</expression>
+    </formulas>
+    <formulas>
+        <name>formula_colorepeg</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK(TEXT({!GetIndicatori.CRM_StatusPosizione__c})) = false,
+{!GetIndicatori.CRM_IconaStatusPosizione__c}  + &quot; &quot; + TEXT({!GetIndicatori.CRM_StatusPosizione__c}) + &quot; &quot; + &quot;-&quot; + &quot; &quot; + {!DescrizioneColoriPEG} ,
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>formula_crosselling</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!CrossSelling}) = FALSE,
+{!CrossSelling},
+&quot;-&quot;)</expression>
+    </formulas>
+    <formulas>
+        <name>formula_dataultimocontatto</name>
+        <dataType>String</dataType>
+        <expression>IF (
+TEXT ({!LastModDateRecente}) != NULL,
+IF(DAY({!LastModDateRecente}) &lt; 10, &quot;0&quot; + TEXT(DAY({!LastModDateRecente})), TEXT(DAY({!LastModDateRecente}))) + &quot;/&quot; + 
+IF(MONTH({!LastModDateRecente}) &lt; 10, &quot;0&quot; + TEXT(MONTH({!LastModDateRecente})), TEXT(MONTH({!LastModDateRecente}))) + &quot;/&quot; + TEXT(YEAR({!LastModDateRecente})),
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>formula_eta</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!Get_NDG.CRM_EtaCliente__c}) = FALSE,
+TEXT({!Get_NDG.CRM_EtaCliente__c}),
+&quot; - &quot;)</expression>
+    </formulas>
+    <formulas>
+        <name>formula_operazSoc</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!Get_NDG.CRM_FormulaProvenienzaCliente__c}) = FALSE,
+{!Get_NDG.CRM_FormulaProvenienzaCliente__c},
+&quot; - &quot;)</expression>
+    </formulas>
+    <formulas>
+        <name>formula_profilomifid</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!GetIndicatori.CRM_EsperienzaEConoscenza__c}) = FALSE,
+{!GetIndicatori.CRM_EsperienzaEConoscenza__c},
+&quot; - &quot;)</expression>
+    </formulas>
+    <formulas>
+        <name>formula_ratingandamentale</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!Get_NDG.CRM_PerformanceRating__c}) = FALSE,
+{!Get_NDG.CRM_PerformanceRating__c},
+&quot; - &quot;)</expression>
+    </formulas>
+    <formulas>
+        <name>formula_ratingufficiale</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!Get_NDG.CRM_CreditRating__c}) = FALSE,
+{!Get_NDG.CRM_CreditRating__c},
+&quot; - &quot;)</expression>
+    </formulas>
+    <formulas>
+        <name>formula_segmentocomportamentale</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!Get_NDG.PTF_SegmentoComportamentale__c}) = FALSE,
+{!Get_NDG.PTF_SegmentoComportamentale__c},
+&quot; - &quot;)</expression>
+    </formulas>
+    <formulas>
+        <name>formula_segmentovaloriale</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK(TEXT({!GetIndicatori.CRM_SegmentoValoriale__c})) = FALSE,
+TEXT({!GetIndicatori.CRM_SegmentoValoriale__c}),
+&quot;-&quot;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_Total</name>
+        <dataType>String</dataType>
+        <expression>IF({!Get_NDG.RecordType.DeveloperName} = &apos;PersonAccount&apos;, &apos;16&apos;,&apos;13&apos;)</expression>
+    </formulas>
+    <formulas>
+        <name>MultiBancarizzato</name>
+        <dataType>String</dataType>
+        <expression>IF({!GetIndicatori.CRM_ClienteMultiBancarizzato__c} = TRUE, &apos;Sì&apos;, &apos;No&apos;)</expression>
+    </formulas>
+    <formulas>
+        <name>NOW</name>
+        <dataType>DateTime</dataType>
+        <expression>NOW()</expression>
+    </formulas>
+    <formulas>
+        <name>NPS</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK(TEXT({!GetIndicatori.CRM_IndicatoreNPS__c})) = FALSE,
+TEXT({!GetIndicatori.CRM_IndicatoreNPS__c}) +  &quot;  &quot;  +  {!GetIndicatori.CRM_IconaNPS__c},
+&quot;-&quot;)</expression>
+    </formulas>
+    <formulas>
+        <name>RingFence</name>
+        <dataType>String</dataType>
+        <expression>{!Get_NDG.CRM_RingFenceIndicatorStatus__c}</expression>
+    </formulas>
+    <interviewLabel>Scheda di Sintesi - Privati {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Scheda di Sintesi - Privati</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordLookups>
+        <name>Get1CampaignMemb</name>
+        <label>Get1CampaignMemb</label>
+        <locationX>1236</locationX>
+        <locationY>736</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Assign_Last_ModifyDate</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>ContactId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>CampaignMember</object>
+        <sortField>CreatedDate</sortField>
+        <sortOrder>Desc</sortOrder>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get1Case</name>
+        <label>Get1Case</label>
+        <locationX>953</locationX>
+        <locationY>683</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get1CheckUp</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>AccountId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Case</object>
+        <sortField>CreatedDate</sortField>
+        <sortOrder>Desc</sortOrder>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get1CheckUp</name>
+        <label>Get1CheckUp</label>
+        <locationX>1067</locationX>
+        <locationY>707</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get1CampaignMemb</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>CRM_Customer__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>CRM_CustomerInterview__c</object>
+        <sortField>CreatedDate</sortField>
+        <sortOrder>Desc</sortOrder>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get1Event</name>
+        <label>Get1Event</label>
+        <locationX>658</locationX>
+        <locationY>525</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get1Oppo</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>AccountId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Event</object>
+        <sortField>CreatedDate</sortField>
+        <sortOrder>Desc</sortOrder>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get1Oppo</name>
+        <label>Get1Oppo</label>
+        <locationX>807</locationX>
+        <locationY>638</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get1Case</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>AccountId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Opportunity</object>
+        <sortField>CreatedDate</sortField>
+        <sortOrder>Desc</sortOrder>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_EVENT</name>
+        <label>Get EVENT</label>
+        <locationX>530</locationX>
+        <locationY>489</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get1Event</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>WhatId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>ActivityDateTime</field>
+            <operator>GreaterThan</operator>
+            <value>
+                <elementReference>NOW</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Event</object>
+        <sortField>ActivityDateTime</sortField>
+        <sortOrder>Asc</sortOrder>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_NDG</name>
+        <label>Get NDG</label>
+        <locationX>292</locationX>
+        <locationY>305</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>GetRecType</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Account</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>GetIndicatori</name>
+        <label>Get Indicatori</label>
+        <locationX>393</locationX>
+        <locationY>387</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_EVENT</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>CRM_Account__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>RecordTypeId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>GetRecType.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>CRM_IndicatoriCliente__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>GetRecType</name>
+        <label>GetRecType</label>
+        <locationX>222</locationX>
+        <locationY>506</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>GetIndicatori</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Flat</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>RecordType</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <runInMode>SystemModeWithoutSharing</runInMode>
+    <screens>
+        <name>SchedaSintesi</name>
+        <label>SchedaSintesi</label>
+        <locationX>3311</locationX>
+        <locationY>751</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>SchedaSintesi_Section1</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>SchedaSintesi_Section1_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>Anagrafica</name>
+                    <extensionName>flowruntime:image</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>imageName</name>
+                        <value>
+                            <stringValue>Anagrafica</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>horizontalAlignment</name>
+                        <value>
+                            <stringValue>center</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>SchedaSintesi_Section1_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>IndicatoriCommerciali</name>
+                    <extensionName>flowruntime:image</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>imageName</name>
+                        <value>
+                            <stringValue>IndicatoriCommerciali</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>horizontalAlignment</name>
+                        <value>
+                            <stringValue>center</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+        </fields>
+        <fields>
+            <name>SchedaSintesi_Section2</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>SchedaSintesi_Section2_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>Gruppo</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(63, 63, 61); font-size: 12px;&quot;&gt;E﻿tà&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(8, 7, 7);&quot;&gt;{!formula_eta}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;﻿&lt;/span&gt;&lt;b style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60); font-size: 12px;&quot;&gt;{!IconaBarra}&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(63, 63, 61); font-size: 12px;&quot;&gt;Operazioni societarie&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); background-color: rgb(255, 255, 255); font-size: 14px;&quot;&gt;{!formula_operazSoc}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;color: rgb(62, 62, 60); font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;{!IconaBarra}&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(63, 63, 61); font-size: 12px;&quot;&gt;Altre info&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; background-color: rgb(255, 255, 255); color: rgb(8, 7, 7);&quot;&gt;{!formula_altreinfo}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;font-size: 12px; background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;{!IconaBarra}&lt;/b&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>3</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>SchedaSintesi_Section2_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>ATECO</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(63, 63, 61); font-size: 12px;&quot;&gt;Anzianità relazione&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(8, 7, 7);&quot;&gt;{!formula_anzianitarelazione}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;font-size: 12px; color: rgb(62, 62, 60); background-color: rgb(255, 255, 255);&quot;&gt;&lt;span class=&quot;ql-cursor&quot;&gt;﻿&lt;/span&gt;{!IconaBarra}&lt;/b&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>3</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>SchedaSintesi_Section2_Column3</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>IndicatoriCommerciali_Left</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 12px; color: rgb(63, 63, 61);&quot;&gt;NPS&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(8, 7, 7);&quot;&gt;{!NPS}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; color: rgb(62, 62, 60);&quot;&gt;{!IconaBarra}&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px; color: rgb(63, 63, 61);&quot;&gt;Segmento Comportamentale&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(8, 7, 7);&quot;&gt;{!formula_segmentocomportamentale}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; color: rgb(62, 62, 60);&quot;&gt;{!IconaBarra}&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(63, 63, 61); font-size: 12px;&quot;&gt;Esperienza e conoscenza MiFID&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(8, 7, 7);&quot;&gt;{!formula_profilomifid}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; color: rgb(62, 62, 60);&quot;&gt;﻿{!IconaBarra}&lt;/b&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>3</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>SchedaSintesi_Section2_Column4</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>IndicatoriCommerciali_Right</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(63, 63, 61); font-size: 12px;&quot;&gt;Cross-selling&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); background-color: rgb(255, 255, 255); font-size: 14px;&quot;&gt;{!GetIndicatori.CRM_CrossSellingABI__c}/{!Formula_Total}&amp;nbsp;{!GetIndicatori.CRM_FormulaIconaPercCS1__c} {!GetIndicatori.CRM_FormulaIconaPercCS2__c}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;color: rgb(62, 62, 60); background-color: rgb(255, 255, 255); font-size: 12px;&quot;&gt;{!IconaBarra}&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px; color: rgb(63, 63, 61);&quot;&gt;﻿Segmento Valoriale&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 14px; color: rgb(8, 7, 7);&quot;&gt;{!formula_segmentovaloriale}﻿&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60); font-size: 12px;&quot;&gt;{!IconaBarra}&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(63, 63, 61); font-size: 12px;&quot;&gt;Aderenza al portafoglio modello&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(8, 7, 7);&quot;&gt;{!formula_aderenza}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; color: rgb(62, 62, 60);&quot;&gt;﻿{!IconaBarra}&lt;/b&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>3</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+        </fields>
+        <fields>
+            <name>SchedaSintesi_Section3</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>SchedaSintesi_Section3_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>IndicatoriRischio</name>
+                    <extensionName>flowruntime:image</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>imageName</name>
+                        <value>
+                            <stringValue>IndicatoridiRischio</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>SchedaSintesi_Section3_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>Contatti</name>
+                    <extensionName>flowruntime:image</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>imageName</name>
+                        <value>
+                            <stringValue>Contatti</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>horizontalAlignment</name>
+                        <value>
+                            <stringValue>center</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+        </fields>
+        <fields>
+            <name>SchedaSintesi_Section4</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>SchedaSintesi_Section4_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>Fatturato</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(63, 63, 61); font-size: 12px;&quot;&gt;Rating andamentale&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); font-size: 14px; background-color: rgb(255, 255, 255);&quot;&gt;{!formula_ratingandamentale}﻿&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;color: rgb(62, 62, 60); font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;{!IconaBarra}&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(63, 63, 61); font-size: 12px;&quot;&gt;Colore PEG&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); font-size: 14px; background-color: rgb(255, 255, 255);&quot;&gt;{!formula_colorepeg}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;color: rgb(62, 62, 60); font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;&lt;span class=&quot;ql-cursor&quot;&gt;﻿&lt;/span&gt;{!IconaBarra}&lt;/b&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>3</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>SchedaSintesi_Section4_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>PercCompletamentoProfilo</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(63, 63, 61); font-size: 12px;&quot;&gt;Rating ufficiale&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(8, 7, 7); font-size: 14px;&quot;&gt;{!formula_ratingufficiale}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60); font-size: 12px;&quot;&gt;&lt;span class=&quot;ql-cursor&quot;&gt;﻿&lt;/span&gt;{!IconaBarra}&lt;/b&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>3</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>SchedaSintesi_Section4_Column3</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>Contatti_Left</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 12px; color: rgb(63, 63, 61);&quot;&gt;Data ultimo contatto&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); font-size: 14px; background-color: rgb(255, 255, 255);&quot;&gt;{!formula_dataultimocontatto}﻿&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;color: rgb(62, 62, 60); font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;{!IconaBarra}&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 12px; color: rgb(63, 63, 61);&quot;&gt;Data ultima vendita&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; background-color: rgb(255, 255, 255); color: rgb(8, 7, 7);&quot;&gt;-&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;font-size: 12px; background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;﻿{!IconaBarra}&lt;/b&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>3</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>SchedaSintesi_Section4_Column4</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>Contatti_right</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 12px; color: rgb(63, 63, 61);&quot;&gt;Data prossimo appuntamento&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;b&gt;{!Get_EVENT.ActivityDateTime}&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; color: rgb(62, 62, 60);&quot;&gt;{!IconaBarra}&lt;/b&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>Get_EVENT.ActivityDateTime</leftValueReference>
+                            <operator>IsNull</operator>
+                            <rightValue>
+                                <booleanValue>false</booleanValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>3</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+        </fields>
+        <fields>
+            <name>SchedaSintesi_Section5</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>SchedaSintesi_Section5_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>SintesiGraficiIstogrammaBenchmarkIndicatori</name>
+                    <extensionName>flowruntime:image</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>imageName</name>
+                        <value>
+                            <stringValue>SintesiGraficiIstogrammaBenchmarkIndicatori</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>horizontalAlignment</name>
+                        <value>
+                            <stringValue>center</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>12</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+        </fields>
+        <showFooter>false</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <start>
+        <locationX>90</locationX>
+        <locationY>71</locationY>
+        <connector>
+            <targetReference>Get_NDG</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>LastModDateRecente</name>
+        <dataType>Date</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

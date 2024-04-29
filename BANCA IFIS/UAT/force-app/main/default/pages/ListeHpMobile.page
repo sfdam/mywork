@@ -1,0 +1,58 @@
+<apex:page showHeader="false" sidebar="false" controller="CtrlListeHp" standardStylesheets="false" applyHtmlTag="false" docType="html-5.0" cache="true">
+  <html>
+  <head>
+    <apex:includeScript value="{!URLFOR($Resource.VueApps, 'index.js')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.VueApps, 'index.css')}" />
+    <apex:includeScript value="https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js" />
+    <apex:stylesheet value="{!URLFOR($Resource.SLDS, '/assets/styles/salesforce-lightning-design-system-ltng.min.css')}" />
+
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      .sfdcBody {
+        padding: 0!important;
+      }
+
+      .iosContainer {
+        height: 100vh;
+        width: 100vw;
+        overflow: hidden;
+      }
+    </style>
+    <script>
+      Sizzle = undefined
+      document.addEventListener('DOMContentLoaded', function() {
+        FastClick.attach(document.body);
+      }, false);
+    </script>
+  </head>
+  <body>
+    <section class="iosContainer" id="iosContainer">
+      <div class="tlnxt">
+        <div id="lightning"></div>
+      </div>
+    </section>
+    <script>
+      new Apps.ListeHpApp({
+        created: function() {
+          console.log('APP CREATED')
+          this.setSvgPath('{!URLFOR($Resource.SLDS)}' + '/assets')
+          Apps.setVueLanguage('{!$Label.Lingua}')
+        },
+        methods: {
+          $api: Apps.VfApiProxy(CtrlListeHp)
+        },
+        data: {
+          metadataApi: new Apps.MetadataApi({
+            sessionId: '{!$API.Session_Id}'
+          })
+        },
+        el: '#lightning'
+      })
+    </script>
+  </body>
+  </html>
+</apex:page>

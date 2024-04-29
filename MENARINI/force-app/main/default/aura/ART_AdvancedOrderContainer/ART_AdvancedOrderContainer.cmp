@@ -1,0 +1,3 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId,force:hasSObjectName,lightning:actionOverride" access="global" >
+    <c:artAdvancedOrderTabset recordId="{!v.recordId}" objectApiName="{!v.sObjectName}"/>
+</aura:component>

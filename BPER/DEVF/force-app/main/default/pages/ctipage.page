@@ -1,0 +1,132 @@
+<apex:page controller="ConnectorEntityController" extensions="softphone_it.ConnectorCampaignMemberManagerGc,SyncUtil,softphoneerc.InsertAgentWork,ConnectorScheduleBuilder,UnbluController" showHeader="false" standardStylesheets="false" sidebar="false" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0">
+	<apex:stylesheet value="{!$Resource.iwsstyle}" />
+    
+	<apex:stylesheet value="{!URLFOR($Resource.fontawesome,'/Font-Awesome-4.7.0/css/font-awesome.css')}"/>
+	<apex:includeScript value="/soap/ajax/49.0/connection.js" />
+	<apex:includeScript value="/soap/ajax/49.0/apex.js" />
+	<apex:includeScript value="/support/console/49.0/integration.js" />
+    <apex:includeScript value="/support/api/52.0/lightning/opencti_min.js" />
+
+	<apex:includeScript value="{!$Resource.softphone_it__jquery}" />
+	<apex:includeScript value="{!$Resource.softphone_it__softphone_connector_core}" />
+	<apex:includeScript value="{!$Resource.sfdcLogger}" />
+	<apex:includeScript value="{!$Resource.iwsprescript}" />
+    <apex:includeScript value="{!$Resource.iwsutil_schedule}" />
+	<div id="content" class="softphone_content">
+		<div id="redsem1" style="display: none;">
+			<div class="divsem">
+				<button class="mybutton" type="button" style="display: none;" onclick="sendCaseId(this); this.disabled=true; "><span><i class="fa fa-undo"></i></span></button>
+				<apex:image url="{!URLFOR($Resource.Icone_colori,'NPS_Icons/red.png')}"  style="padding-left: 2%;vertical-align:middle;"/>
+				<apex:outputLabel value="Cliente non autenticato" style="padding-left: 1%; color:white;vertical-align:middle;" />
+			</div>	
+		</div>
+		<div id="redsem2" style="display: none;">
+			<div class="divsem">
+				<button class="mybutton" type="button" style="display: none;" onclick="sendCaseId(this); this.disabled=true;"><span><i class="fa fa-undo"></i></span></button>
+				<apex:image url="{!URLFOR($Resource.Icone_colori,'NPS_Icons/red.png')}"  style="padding-left: 2%;vertical-align:middle; "/>
+				<apex:outputLabel value="Cliente da disambiguare" style="padding-left: 1%; color:white;vertical-align:middle;" />
+					
+			</div>	
+		</div>
+		<div id="yellowsem" style="display: none;">
+			<div class="divsem">
+				<button class="mybutton" type="button" style="display: none;" onclick="sendCaseId(this); this.disabled=true;"><span><i class="fa fa-undo"></i></span></button>
+				<apex:image url="{!URLFOR($Resource.Icone_colori,'NPS_Icons/yellow.png')}"  style="padding-left: 2%;vertical-align:middle;"/>
+				<apex:outputLabel value="Cliente riconosciuto" style="padding-left: 1%; color:white;vertical-align:middle;" />
+				
+			</div>
+				
+		</div>
+		<div id="greensem" style="display: none;">
+			<div class="divsem">
+				<apex:image id="greensem" url="{!URLFOR($Resource.Icone_colori,'NPS_Icons/green.png')}" style="padding-left: 2%;vertical-align:middle;"/>
+				<apex:outputLabel value="Cliente autenticato" style="padding-left: 1%; color:white;vertical-align:middle;" />
+			</div>	
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		sforce.connection.sessionId = '{!$Api.Session_ID}';
+		
+		Visualforce.remoting.timeout = 120000;
+		console.log('**** Loading settings...');
+		var softphoneSettings = {
+			GEN_SF_EXPERIENCE: "{!$Setup.softphone_it__Connector_Settings__c.softphone_it__GEN_SF_EXPERIENCE__c}",
+			GEN_INTEGRATION_TYPE: "{!$Setup.softphone_it__Connector_Settings__c.softphone_it__GEN_INTEGRATION_TYPE__c}",
+			GEN_EXTERNAL_ROUTING: "{!$Setup.softphone_it__Connector_Settings__c.softphone_it__GEN_EXTERNAL_ROUTING__c}",
+			WDE_IXN_MGR_URL: "{!$Setup.softphone_it__Connector_Settings__c.softphone_it__WDE_IXN_MGR_URL__c}",
+			GEN_LOG_LEVEL: "{!$Setup.softphone_it__Connector_Settings__c.softphone_it__GEN_LOG_LEVEL__c}",
+			WDE_HOST: "{!$Setup.softphone_it__Connector_Settings__c.softphone_it__WDE_HOSTNAME__c}",
+			WDE_PORT: "{!$Setup.softphone_it__Connector_Settings__c.softphone_it__WDE_PORTNUMBER__c}",
+			WDE_PROTOCOL: "{!$Setup.softphone_it__Connector_Settings__c.softphone_it__WDE_PROTOCOLTYPE__c}",
+			PEF_GC_ENVIRONMENT: "{!$Setup.softphone_it__Connector_Settings__c.softphone_it__PEF_GC_ENVIRONMENT__c}",
+			PEF_NOT_READY_ID: "{!$Setup.softphone_it__Connector_Settings__c.softphone_it__PEF_NOT_READY_ID__c}",
+			PEF_ON_QUEUE_ID: "{!$Setup.softphone_it__Connector_Settings__c.softphone_it__PEF_ON_QUEUE_ID__c}",
+			WWE_URL: "{!$Setup.softphone_it__Connector_Settings__c.softphone_it__WWE_URL__c}",
+			ER_OMNI_READY_ID: "{!$Setup.softphone_it__Connector_Settings__c.softphone_it__ER_OMNI_READY_ID__c}" ? "{!$Setup.softphone_it__Connector_Settings__c.softphone_it__ER_OMNI_READY_ID__c}".substr(0, 15) : undefined,
+			ER_OMNI_NOT_READY_ID: "{!$Setup.softphone_it__Connector_Settings__c.softphone_it__ER_OMNI_NOT_READY_ID__c}" ? "{!$Setup.softphone_it__Connector_Settings__c.softphone_it__ER_OMNI_NOT_READY_ID__c}".substr(0, 15) : undefined,
+			ER_WDE_CHANNELS_TO_SYNC: "{!$Setup.softphone_it__Connector_Settings__c.softphone_it__ER_WDE_CHANNELS_TO_SYNC__c}",
+			PEF_DEDICATED_LOGIN_WINDOW : "{!$Setup.softphone_it__Connector_Settings__c.softphone_it__PEF_DEDICATED_LOGIN_WINDOW__c}" == 'true',
+			PEF_ENABLE_CALL_LOGS : "{!$Setup.softphone_it__Connector_Settings__c.softphone_it__PEF_ENABLE_CALL_LOGS__c}" == 'true',
+			PEF_HIDE_CALL_LOG_CONTACT : "{!$Setup.softphone_it__Connector_Settings__c.softphone_it__PEF_HIDE_CALL_LOG_CONTACT__c}" == 'true',
+			PEF_HIDE_CALL_LOG_RELATION : "{!$Setup.softphone_it__Connector_Settings__c.softphone_it__PEF_HIDE_CALL_LOG_RELATION__c}" == 'true',
+			PEF_HIDE_CALL_LOG_SUBJECT : "{!$Setup.softphone_it__Connector_Settings__c.softphone_it__PEF_HIDE_CALL_LOG_SUBJECT__c}" == 'true',
+			PEF_HIDE_WEB_RTC_POP_UP_OPTION : "{!$Setup.softphone_it__Connector_Settings__c.softphone_it__PEF_HIDE_WEB_RTC_POP_UP_OPTION__c}" == 'true',
+			PEF_EMBED_WEB_RTC_BY_DEFAULT : "{!$Setup.softphone_it__Connector_Settings__c.softphone_it__PEF_EMBED_WEB_RTC_BY_DEFAULT__c}" == 'true',
+			ER_OMNI_NO_SYNC_ID : "{!$Setup.softphone_it__Connector_Settings__c.softphone_it__ER_OMNI_NO_SYNC_ID__c}" ? "{!$Setup.softphone_it__Connector_Settings__c.softphone_it__ER_OMNI_NO_SYNC_ID__c}".substr(0, 15) : undefined,
+			ER_SYNC_WDE_TO_OMNI : "{!$Setup.softphone_it__Connector_Settings__c.softphone_it__ER_SYNC_WDE_TO_OMNI__c}"  == 'true',
+			ER_SYNC_OMNI_TO_WDE : "{!$Setup.softphone_it__Connector_Settings__c.softphone_it__ER_SYNC_OMNI_TO_WDE__c}"  == 'true',
+			PEF_ENABLE_TRANSFER_CONTEXT: "{!$Setup.softphone_it__Connector_Settings__c.softphone_it__PEF_ENABLE_TRANSFER_CONTEXT__c}"  == 'true',
+			PEF_EMBEDDED_INTERACTION_WINDOW: "{!$Setup.softphone_it__Connector_Settings__c.softphone_it__PEF_EMBEDDED_INTERACTION_WINDOW__c}"  == 'true',
+			PEF_ENABLE_CONFIGURABLE_CALLER_ID: "{!$Setup.softphone_it__Connector_Settings__c.softphone_it__PEF_ENABLE_CONFIGURABLE_CALLER_ID__c}"  == 'true',
+			PEF_ENABLE_SERVER_SIDE_LOGGING: "{!$Setup.softphone_it__Connector_Settings__c.softphone_it__PEF_ENABLE_SERVER_SIDE_LOGGING__c}"  == 'true',
+			PEF_ENABLE_CALL_HISTORY: "{!$Setup.softphone_it__Connector_Settings__c.softphone_it__PEF_ENABLE_CALL_HISTORY__c}"  == 'true',
+			ER_ENABLE_SYNC_ON_OMNI_CAPACITY: "{!$Setup.softphone_it__Connector_Settings__c.softphone_it__ER_ENABLE_SYNC_ON_OMNI_CAPACITY__c}" == 'true',
+			ER_OMNI_BUSY_ON_VOICE_ESTABLISHED: "{!$Setup.softphone_it__Connector_Settings__c.softphone_it__ER_OMNI_BUSY_ON_VOICE_ESTABLISHED__c}" == 'true',
+			ER_OMNI_BUSY_ID: "{!$Setup.softphone_it__Connector_Settings__c.softphone_it__ER_OMNI_BUSY_ID__c}" ? "{!$Setup.softphone_it__Connector_Settings__c.softphone_it__ER_OMNI_BUSY_ID__c}".substr(0, 15) : undefined,
+			ER_CAPACITY_THRESHOLD: "{!$Setup.softphone_it__Connector_Settings__c.softphone_it__ER_CAPACITY_THRESHOLD__c}",
+			ER_WDE_BUSY_ID: "{!$Setup.softphone_it__Connector_Settings__c.softphone_it__ER_WDE_BUSY_ID__c}"  
+		}
+		if ( ! softphoneSettings.GEN_INTEGRATION_TYPE ){
+        	alert("You need to configure the cti-connector-extension package.");
+            
+        }
+        var isLightning = softphoneSettings.GEN_SF_EXPERIENCE == 'Lightning';
+		console.log('**** softphoneSettings : ', softphoneSettings);
+		console.log('**** Settings loaded!');
+		
+        loadScript("{!ERCOmniUtilsPath}")
+        loadScript("{!$Resource.iwsscript}");
+		loadScript("{!$Resource.softphone_it__pureClientSdkBundle}");
+	    appendHTML('<apex:iframe height="100%" width="100%" scrolling="true" id="pureFrame" />');
+		loadScript("{!$Resource.iwsutil}");
+		loadScript("{!$Resource.iwsconfig}");
+
+		function loadScript(src) {
+			var script = document.createElement('script');
+			script.src = src;
+			script.async = false;
+			document.head.appendChild(script);
+		}
+
+		
+		$(document).ready(function(){
+            /*
+		sforce.console.addEventListener(
+				sforce.console.ConsoleEvent.PRESENCE.STATUS_CHANGED,
+				function (result) {
+					console.log('status changed ', result);
+					if(result.statusApiName==='Online'){
+						iwscommand.NotReady();
+					}
+				});
+            */
+            
+			});
+
+		function appendHTML(content) {
+			$("#content").append(content);
+		}
+		
+	</script>
+</apex:page>

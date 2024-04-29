@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_TipologiaSpostamento__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(
+				AND(PTF_MDSDestinazione__c != PTF_MDSPartenza__c, PTF_FinalFiliale__c != PTF_InitialFiliale__c, PTF_MicroWallet__c != PTF_PreviousMicroWallet__c),
+                &apos;Cambio Modello di Servizio, Filiale e Portafoglio&apos;,
+                IF(
+                    PTF_MDSDestinazione__c != PTF_MDSPartenza__c,
+                    &apos;Cambio Modello di Servizio e Portafoglio&apos;,
+                    IF(
+                                    PTF_FinalFiliale__c != PTF_InitialFiliale__c,
+                                    &apos;Cambio Filiale e Portafoglio&apos;,
+                                    IF(
+                                                    PTF_MicroWallet__c != PTF_PreviousMicroWallet__c,
+                                                    &apos;Cambio Portafoglio&apos;,
+                                                    &apos;Nessun cambio&apos;
+                                    )
+                    )
+                )    
+)</formula>
+    <label>TipologiaSpostamento</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

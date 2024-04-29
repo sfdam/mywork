@@ -1,0 +1,66 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" access="global" >
+    
+    <!-- Attributi -->
+    <aura:attribute name="tipoTabella" type="String" default="aaa"/>
+    <aura:attribute name="data" type="Object"/>
+    <aura:attribute name="columns" type="List"/>
+    
+    
+
+
+     <!-- Attributi EnhancedLightningGrid -->
+
+    <aura:attribute name="recordId" type="String" access="global" />
+    <aura:attribute name="SDGConfiguration" type="String" access="global" default="CustomObject:WGC_Contacts"/>
+    <aura:attribute name="SVGName" type="String" access="global" default="standard:account" />
+    <aura:attribute name="Title" type="String" access="global" default="Test button"/>
+    <aura:attribute name="UseCache" type="Boolean" default="false" access="global" />
+    <aura:attribute name="HideOnError" type="Boolean" default="false" access="global" />
+    <aura:attribute name="RelationshipName" type="String" access="global" />
+    <aura:attribute name="FieldSetName" type="String" access="global" />
+    <aura:attribute name="SDGTag" type="string" access="global" />
+    <aura:attribute name="ShowDebug" type="Boolean" access="global" default="false"/>
+    
+    <aura:attribute name="Valore1" type="Integer" access="global" default="142857"/>	
+    <aura:attribute name="Valore2" type="Integer" access="global" default="7"/>
+    
+    <!-- <aura:attribute name="PreventResponsiveness" type="Boolean" default="false" access="global" /> -->
+
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <!-- Body -->
+    
+    
+    <lightning:card>
+        <aura:set attribute="title">
+            <lightning:layout>
+                <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12"
+                mediumDeviceSize="12" largeDeviceSize="12">
+                    <!-- <c:WGC_FocusIniziativeDalCentro_Component Titolo="Primo valore (A)" Numero="{! v.Valore1}"/> -->
+                    <div class="title">CONTO ECONOMICO DI FILIALE</div>
+                    <!-- <div class="slds-card"> -->
+                            
+                            <sortablegrid:sdg Title="{!v.Title}" SVGName="{!v.SVGName}" SDGConfiguration="{!v.SDGConfiguration}"
+                            HideOnError="{!v.HideOnError}" recordId="0011x000003CxZMAA0" DefaultPageSize="10"/>
+                    <!-- </div> -->
+                    
+                            <!-- <lightning:datatable keyField="id"
+                                                data ="{! v.data}"
+                                                columns="{! v.columns}"
+                                                hideCheckboxColumn="true"
+                                                resizeColumnDisabled="true" /> -->
+                                                            
+                </lightning:layoutItem>
+                <!-- <lightning:layoutItem padding="around-small" size="4" smallDeviceSize="4"
+                mediumDeviceSize="4" largeDeviceSize="4">
+                    <c:WGC_FocusIniziativeDalCentro_Component Titolo="Secondo valore (B)" Numero="{! v.Valore2}"/>
+                </lightning:layoutItem>
+                <lightning:layoutItem padding="around-small" size="4" smallDeviceSize="4"
+                mediumDeviceSize="4" largeDeviceSize="4">
+                    <c:WGC_FocusIniziativeDalCentro_Component Titolo="Risultato del prodotto (A*B)" Numero="{! v.Valore1 * v.Valore2}"/>
+                </lightning:layoutItem> -->
+            </lightning:layout>
+        </aura:set>
+    </lightning:card>  
+</aura:component>

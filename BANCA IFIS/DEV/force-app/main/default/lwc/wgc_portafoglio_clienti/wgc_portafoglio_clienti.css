@@ -1,0 +1,25 @@
+.back-color-black{
+    background-color:#021F59;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.back-color-white{
+    background-color:#FFFFFF;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.central-top{
+    padding: 10px 0 10px 0;
+    text-align:center;
+}
+
+.shadow {
+    padding: 0.2rem;
+    box-shadow: 0.05rem 0.15rem rgb(0, 0, 0, 0.1);
+}

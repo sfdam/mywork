@@ -1,0 +1,493 @@
+<template>
+
+    <template if:true={loaded}>
+        <div class="exampleHolder">
+            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+        </div>
+    </template>
+
+    <lightning-card>
+        <!-- <lightning-button label="New" slot="actions"></lightning-button> -->
+        <!-- <p class="slds-p-horizontal_small">Card Body (custom component)</p> -->
+        <!-- <p slot="footer">Card Footer</p> -->
+
+        <div class="c-container">
+            <lightning-layout multiple-rows="true">
+                <lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="around-small">
+                    <lightning-input type="text" label="Partita IVA" placeholder="type here..." minlength="6" message-when-too-short="Inserire almeno 6 Caratteri" maxlength="11" value={pIva} onchange={pIvaChange}></lightning-input>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="around-small">
+                    <lightning-input type="text" label="Codice Fiscale" placeholder="type here..." minlength="6" message-when-too-short="Inserire almeno 6 Caratteri" maxlength="11" value={cFiscale} onchange={cFiscaleChange}></lightning-input>
+                </lightning-layout-item>
+            </lightning-layout>
+
+            <lightning-layout>
+                <lightning-layout-item size="12" padding="around-small">
+                    <button type="submit" class="slds-button slds-button_brand slds-button_stretch" onclick={handleClick}>Cerca</button>
+                </lightning-layout-item>
+            </lightning-layout>
+
+            <template for:each={container} for:item="obj">
+                <div key={obj.Id}>
+                    <lightning-layout>
+                        <lightning-layout-item size="12" padding="around-small">
+                                    <div class="custom-box slds-var-p-around_medium lgc-bg">
+                                        <!-- <lightning-tile label={obj.Name} type="media" href={obj.Href}> -->
+                                        <lightning-tile type="media">
+                                            <lightning-icon slot="media" icon-name={obj.IconName}></lightning-icon>
+                                            <a onclick={onClickObjectNameHandler}><h3 class="slds-tile__title slds-truncate" data-id={obj.Id}>{obj.Name}</h3></a>
+                                            <lightning-layout multiple-rows="true">
+                                                <lightning-layout-item size="12" small-device-size="12" medium-device-size="4" large-device-size="4">
+                                                    <p class="slds-truncate" title="Tipo"><b>{obj.Tipo}</b></p>
+                                                </lightning-layout-item>
+                                                <lightning-layout-item size="12" small-device-size="12" medium-device-size="8" large-device-size="8">
+                                                    <!-- <template if:true={obj.isLead}>
+                                                        <p class="slds-truncate" title="Responsabile">Responsabile: <b>{obj.Responsabile}</b></p>
+                                                    </template>
+                                                    <template if:false={obj.isLead}>
+                                                        <p class="slds-truncate" title="Responsabile">Responsabile: &nbsp;
+                                                            <template for:each={obj.Responsabili} for:item="resp">
+                                                                <b key={resp.Id}>{resp.User__r.Name} ({resp.Societa__c})&nbsp;&nbsp;</b>
+                                                            </template>
+                                                        </p>
+                                                    </template> -->
+                                                    <p class="slds-truncate" title="Responsabile">Responsabile: <b>{obj.Responsabile}</b></p>
+                                                </lightning-layout-item>
+
+                                            </lightning-layout>
+                                            <lightning-layout multiple-rows="true" class="slds-p-bottom_xx-small">
+                                                <lightning-layout-item size="12" small-device-size="12" medium-device-size="4" large-device-size="4">
+                                                    <p class="slds-truncate">Partita Iva: <b>{obj.Partita_iva__c}</b></p>
+                                                </lightning-layout-item>
+                                                <lightning-layout-item size="12" small-device-size="12" medium-device-size="4" large-device-size="4">
+                                                    <p class="slds-truncate" title="C. Fiscale">Codice Fiscale: <b>{obj.Codice_Fiscale__c}</b></p>
+                                                </lightning-layout-item>
+                                            </lightning-layout>
+
+                                            <lightning-layout multiple-rows="true">
+                                                <lightning-layout-item size="12" small-device-size="12" medium-device-size="4" large-device-size="4">
+                                                    <p class="slds-truncate" title="Attività Totali">Attività Totali: <b>{obj.TaskEventTot}</b></p>
+                                                    <p class="slds-truncate" title="Attività Future">Attività Future: <b>{obj.FutureTaskEventTot}</b></p>
+                                                </lightning-layout-item>
+                                               
+                                                <template if:true={obj.OppVisible}>
+                                                    <lightning-layout-item size="12" small-device-size="12" medium-device-size="4" large-device-size="4">
+                                                        <!-- <p class="slds-truncate" title="Opportunità Aperte Totali">Opportunità Totali Tinexta: <b>{obj.OppTotAll}</b></p> -->
+                                                      <!--  <p class="slds-truncate" title="Valore totale opportunità ">Valore totale opportunità Pipeline: <b><lightning-formatted-number value={obj.TXT_Valore_totale_Pipeline__c} format-style="currency" currency-code="EUR" ></lightning-formatted-number></b></p>
+                                                        <p class="slds-truncate" title="Opportunità Pipe">Opportunità Pipeline: <b>{obj.TXT_Totale_Opportunit_Pipeline__c}</b></p> -->
+                                                        
+                                                        <p class="slds-truncate" title="Valore Opportunità Aperte"> Valore Opportunità Aperte: <b>
+                                                            <lightning-formatted-number value={obj.OppTotAmount} format-style="currency" currency-code="EUR" >
+                                                            </lightning-formatted-number></b></p>
+                                                        <p class="slds-truncate" title="Opportunità aperte"> Opportunità aperte: <b>{obj.OppAperte}</b></p>
+                                                        <p class="slds-truncate" title="Opportunità chiuse"> Opportunità chiuse: <b>{obj.OppChiuse}</b></p>
+
+                                                    </lightning-layout-item>
+                                                </template>
+                                                
+                                            </lightning-layout>
+                                            <template if:true={obj.ShowButtonApprovazione}>
+                                                <lightning-layout multiple-rows="true">
+                                                    <lightning-layout-item alignment-bump="left">
+                                                        <lightning-button value={obj} label="Richiedi Assegnazione" data-recordid={obj.Id} title="Non-primary action" onclick={openmodal}></lightning-button>
+                                                    </lightning-layout-item>
+                                                </lightning-layout>
+                                            </template>
+                                        </lightning-tile>
+                                    </div>                            
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+            </template>
+
+            <template if:true={containerResult}>
+                <lightning:layout>
+                    <lightning:layoutItem >
+                        <div class="no-button">
+                            <p>NESSUN RISULTATO TROVATO</p>
+                        </div>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </template>
+            
+        </div>
+    </lightning-card>
+
+    <!-- MODAL -->
+    <template if:true={openmodel}>
+        <div class="demo-only" style="height: 640px;">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <!-- <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                            <lightning-icon icon-name="utility:close" size="medium">
+                            </lightning-icon>
+                            <span class="slds-assistive-text">Close</span>
+                        </button> -->
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Richiedi Assegnazione</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <lightning-layout>
+                            <lightning-layout-item size="12" padding="around-small">
+                                <div class="custom-box slds-p-around_medium lgc-bg">
+                                    <lightning-tile label={selectedItem.Name} type="media" href={selectedItem.Href}>
+                                        <lightning-icon slot="media" icon-name={selectedItem.IconName}></lightning-icon>
+                                        <lightning-layout multiple-rows="true">
+                                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6">
+                                                <p class="slds-truncate" title="Tipo"><b>{selectedItem.Tipo}</b></p>
+                                            </lightning-layout-item>
+                                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6">
+                                                <p class="slds-truncate" title="Responsabile">Responsabile: <b>{selectedItem.Responsabile}</b></p>
+                                            </lightning-layout-item>
+
+                                        </lightning-layout>
+                                        <lightning-layout multiple-rows="true" class="slds-p-bottom_xx-small">
+                                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6">
+                                                <p class="slds-truncate">Partita Iva: <b>{selectedItem.Partita_iva__c}</b></p>
+                                            </lightning-layout-item>
+                                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6">
+                                                <p class="slds-truncate" title="C. Fiscale">Codice Fiscale: <b>{selectedItem.Codice_Fiscale__c}</b></p>
+                                            </lightning-layout-item>
+                                        </lightning-layout>
+
+                                        <lightning-layout multiple-rows="true">
+                                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6">
+                                                <p class="slds-truncate" title="Attività Totali">Attività Totali: <b>{selectedItem.TaskEventTot}</b></p>
+                                                <p class="slds-truncate" title="Attività Future">Attività Future: <b>{selectedItem.FutureTaskEventTot}</b></p>
+                                            </lightning-layout-item>
+                                            <template if:true={selectedItem.OppVisible}>
+                                                <lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6">
+                                                    <p class="slds-truncate" title="Opportunità Aperte">Opportunità Totali: <b>{selectedItem.OppTot}</b></p>
+                                                    <p class="slds-truncate" title="Opportunità Aperte">Opportunità Aperte: <b>{selectedItem.OppAperte}</b></p>
+                                                </lightning-layout-item>
+                                            </template>
+                                            
+                                        </lightning-layout>
+                                    </lightning-tile>
+                                </div>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                        <lightning-layout>
+                            <lightning-layout-item size="12">
+                                <lightning-textarea name="input" required label="Note" value={note} onchange={noteChange}></lightning-textarea>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        
+                                <!-- Button group: simple buttons -->
+                                <lightning-button-group>
+                                    <lightning-button label="Chiudi" variant="neutral" onclick={closeModal}></lightning-button>
+                                    <lightning-button label="Crea Richiesta" icon-name="utility:save" onclick={saveMethod} ></lightning-button>
+                                </lightning-button-group>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </template>
+
+    <!-- FAST MANAGER V2 START -->
+
+    <!-- <a onclick={handleSectionToggle}><h3 class="slds-tile__title slds-truncate" </a> -->
+    <template if:true={openModalInfoAccount}>
+        <div class="demo-only" style="height: 640px;">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-02" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <!-- <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                            <lightning-icon icon-name="utility:close" size="medium">
+                            </lightning-icon>
+                            <span class="slds-assistive-text">Close</span>
+                        </button> -->
+                        <h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">Info Account</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
+                        <lightning-layout multiple-rows="true" class="cstm-grid">
+
+                            <lightning-accordion onsectiontoggle={handleSectionToggle} class="full-width-accordion">
+                                <template for:each={SectionToFront} for:item="section" >
+
+                                    <template if:true={section.isLayout}>
+                                                                
+                                        <lightning-accordion-section key={section} name={section.nameLayout} label={section.objectLabel}>
+                                            <lightning-layout-item size="12" padding="around-small" key={section}>
+                                                <div class="slds-p-around_medium lgc-bg">
+                                                    <!-- <lightning-record-view-form record-id={IdFront} object-api-name={section.objectName}>
+                                                        <lightning-layout multiple-rows="true" class="cstm-field-container">
+                                                            <template for:each={section.fields} for:item="field">
+                                                                <lightning-layout-item size="4" small-device-size="4" medium-device-size="4" large-device-size="4" padding="around-small" key={field}> 
+                                                                   <strong> <lightning-output-field class="slds-form-element__control slds-form-element_readonly titolo-libro" field-name={field}></lightning-output-field></strong>
+                                                                </lightning-layout-item>
+                                                            </template>
+                                                        </lightning-layout>
+                                                    </lightning-record-view-form> -->
+                                                    <div class="slds-grid slds-wrap cstm-field-container">
+                                                        <template for:each={SelectedRecordFields} for:item="field">
+                                                            <div class="slds-col slds-size_1-of-3 slds-p-around_small" key={field.label} >
+                                                                <!-- <div class="exampleHolder">
+                                                                    <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+                                                                </div> -->
+                                                                <div class="slds-form-element slds-form-element_readonly">
+                                                                    <label class="slds-form-element__label titolo-libro"><strong>{field.label}</strong></label>
+                                                                    <div class="slds-form-element__control">
+                                                                        <template if:true={field.isCurrency}>
+                                                                            <template if:true={field.hasValue}>
+                                                                                <lightning-formatted-number value={field.value} format-style={field.type}></lightning-formatted-number>
+                                                                            </template>
+                                                                            <template if:false={field.hasValue}>
+                                                                                <input type={field.type} class="slds-input cstm-box-shadow-field" readonly value={field.value}/>
+                                                                            </template>
+                                                                        </template>
+                                                                        <template if:true={field.isString}>
+                                                                            <input type={field.type} class="slds-input cstm-box-shadow-field" readonly value={field.value}/>
+                                                                        </template>
+                                                                        <template if:true={field.isInteger}>
+                                                                            <lightning-formatted-number value={field.value} format-style={field.type}></lightning-formatted-number>
+                                                                        </template>
+                                                                        <template if:true={field.isnumber}>
+                                                                            <lightning-formatted-number value={field.value} format-style={field.type}></lightning-formatted-number>
+                                                                        </template>
+                                                                        <template if:true={field.isboolean}>
+                                                                            <!-- <input type={field.type} class="slds-input cstm-box-shadow-field" readonly value={field.value}/> -->
+                                                                            <div class="slds-checkbox">
+                                                                                <input type="checkbox" name={field.apiName} checked={field.value} />
+                                                                                <label class="slds-checkbox__label">
+                                                                                <span class="slds-checkbox_faux"></span>
+                                                                                <!-- <span class="slds-form-element__label">Checkbox Label</span> -->
+                                                                                </label>
+                                                                            </div>
+                                                                        </template> 
+                                                                        <template if:true={field.isbigint}>
+                                                                            <lightning-formatted-number value={field.value} format-style={field.type}></lightning-formatted-number>
+                                                                        </template> 
+                                                                        <template if:true={field.isdate}>
+                                                                            <template if:true={field.hasValue}>
+                                                                                <lightning-formatted-date-time type={field.type} value={field.value} year="2-digit" month="2-digit" day="2-digit"></lightning-formatted-date-time>
+                                                                            </template>
+                                                                            <template if:false={field.hasValue}>
+                                                                                <input type="text" class="slds-input cstm-box-shadow-field" readonly />
+                                                                            </template>
+                                                                        </template> 
+                                                                        <template if:true={field.isdatetime}>
+                                                                            <template if:true={field.hasValue}>
+                                                                                <lightning-formatted-date-time  value={field.value} year="2-digit" month="2-digit" day="2-digit" hour="2-digit"
+                                                                                minute="2-digit"></lightning-formatted-date-time>
+                                                                            </template>
+                                                                            <template if:false={field.hasValue}>
+                                                                                <input type="text" class="slds-input cstm-box-shadow-field" readonly />
+                                                                            </template>
+                                                                        </template> 
+                                                                        <template if:true={field.isurl}>
+                                                                            <lightning-formatted-url type={field.type} value={field.value} tooltip={field.value} target="_blank"></lightning-formatted-url>
+                                                                        </template> 
+                                                                        <template if:true={field.ispasword}>
+                                                                            <input type={field.type} class="slds-input cstm-box-shadow-field" readonly value={field.value}/>
+                                                                        </template>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </template>
+                                                    </div>
+                                                </div>
+                                            </lightning-layout-item>
+                                        </lightning-accordion-section>
+                                    </template>
+                                                                        
+                                    <template if:true={section.isRelatedList}>                                        
+
+                                        <lightning-accordion-section key={section} name={section.objectName} label={section.objectLabel}>
+                                            
+
+                                            <template if:true={section.hasDati} >
+                                                <!-- <div class="container-fluid">
+                                                    <div class="row">
+                                                      <div class="col-lg-12">
+                                                        <div class="parent_element">
+                                                          <div class="rectangle" key={section}>rectangle1 - position: absolute</div> -->
+                                                
+                                                <div class="slds-var-m-vertical_small" style="height: 250px;">
+                                                    <lightning-datatable hide-checkbox-column
+                                                            key-field="Id"
+                                                           data={section.dati}
+                                                            columns={section.columns}
+                                                            onrowaction={handleRowAction}>
+                                                    </lightning-datatable>
+                                                </div> 
+                                                     
+                                                <!-- <template if:false={loadedRecord}> -->
+                                                    <div class="slds-m-around--medium">
+                                                        <article class="slds-tile">
+                                                            <template if:false={loadedRecord}>
+                                                                <lightning-spinner alternative-text="CARICAMENTO..." variant="brand"></lightning-spinner>
+                                                            </template>
+                                                            <template if:true={hasFields}>
+                                                                <!-- <h3 class="slds-tile__title slds-truncate" title={section.objectName} ><a href="javascript:void(0);"></a></h3> -->
+                                                                
+                                                                <div class="slds-tile__detail slds-box">
+                                                                    <h3 class="slds-tile__title slds-truncate cstm-title-box">{section.detailLabel}</h3>
+                                                                    <div class="slds-grid slds-wrap cstm-field-container">
+                                                                        <template for:each={SelectedRecordFields} for:item="field">
+                                                                            <div class="slds-col slds-size_1-of-2 slds-p-around_small" key={field.label} >
+                                                                                <!-- <div class="exampleHolder">
+                                                                                    <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+                                                                                </div> -->
+                                                                                <div class="slds-form-element slds-form-element_readonly">
+                                                                                    <label class="slds-form-element__label titolo-libro"><strong>{field.label}</strong></label>
+                                                                                    <div class="slds-form-element__control">
+                                                                                        <template if:true={field.isCurrency}>
+                                                                                            <template if:true={field.hasValue}>
+                                                                                                <lightning-formatted-number value={field.value} format-style={field.type}></lightning-formatted-number>
+                                                                                            </template>
+                                                                                            <template if:false={field.hasValue}>
+                                                                                                <input type={field.type} class="slds-input cstm-box-shadow-field" readonly value={field.value}/>
+                                                                                            </template>
+                                                                                        </template>
+                                                                                        <template if:true={field.isString}>
+                                                                                            <input type={field.type} class="slds-input cstm-box-shadow-field" readonly value={field.value}/>
+                                                                                        </template>
+                                                                                        <template if:true={field.isInteger}>
+                                                                                            <lightning-formatted-number value={field.value} format-style={field.type}></lightning-formatted-number>
+                                                                                        </template>
+                                                                                        <template if:true={field.isnumber}>
+                                                                                            <lightning-formatted-number value={field.value} format-style={field.type}></lightning-formatted-number>
+                                                                                        </template>
+                                                                                        <template if:true={field.isboolean}>
+                                                                                            <!-- <input type={field.type} class="slds-input cstm-box-shadow-field" readonly value={field.value}/> -->
+                                                                                            <div class="slds-checkbox">
+                                                                                                <input type="checkbox" name={field.apiName} checked={field.value} />
+                                                                                                <label class="slds-checkbox__label">
+                                                                                                <span class="slds-checkbox_faux"></span>
+                                                                                                <!-- <span class="slds-form-element__label">Checkbox Label</span> -->
+                                                                                                </label>
+                                                                                            </div>
+                                                                                        </template> 
+                                                                                        <template if:true={field.isbigint}>
+                                                                                            <lightning-formatted-number value={field.value} format-style={field.type}></lightning-formatted-number>
+                                                                                        </template> 
+                                                                                        <template if:true={field.isdate}>
+                                                                                            <lightning-formatted-date-time type={field.type} value={field.value} year="2-digit" month="2-digit" day="2-digit"></lightning-formatted-date-time>
+                                                                                        </template> 
+                                                                                        <template if:true={field.isdatetime}>
+                                                                                            <lightning-formatted-date-time  value={field.value} year="2-digit" month="2-digit" day="2-digit" hour="2-digit"
+                                                                                            minute="2-digit"></lightning-formatted-date-time>
+                                                                                        </template> 
+                                                                                        <template if:true={field.isurl}>
+                                                                                            <lightning-formatted-url type={field.type} value={field.value} tooltip={field.value} target="_blank"></lightning-formatted-url>
+                                                                                        </template> 
+                                                                                        <template if:true={field.ispasword}>
+                                                                                            <input type={field.type} class="slds-input cstm-box-shadow-field" readonly value={field.value}/>
+                                                                                        </template>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </template>
+                                                                    </div>
+                                                                </div>
+                                                            </template>
+                                                        </article>
+                                                    </div>
+                                                <!-- </template> -->
+                                                 
+                                           
+
+                                                <!-- <template for:each={section.dati} for:item="dato">
+                                                    <lightning-record-view-form key={dato.Id} record-id={dato.Id} object-api-name={section.objectName}>
+                                                        <div class="slds-box custom-box slds-m-vertical_small">
+                                                            <lightning-layout multiple-rows="true">
+                                                                <template for:each={section.fields} for:item="field">
+                                                                    <lightning-layout-item size="4" small-device-size="4" medium-device-size="4" large-device-size="4" key={field}> 
+                                                                        <lightning-output-field field-name={field}></lightning-output-field>
+                                                                    </lightning-layout-item>
+                                                                </template>
+                                                            </lightning-layout>
+                                                        </div>
+                                                    </lightning-record-view-form>
+                                                </template> -->
+                                            <!-- </div>
+                                        </div>
+                                      </div>
+                                    </div> -->
+                                            </template>
+                                            <template if:false={section.hasDati}>
+                                                <p>Nessun dato da mostrare</p>
+                                            </template>
+                                            <!-- <template for:each={section.dati} for:item={dato}>
+                                                <lightning-record-view-form record-id={IdFront} object-api-name={section.objectName}>
+                                                    <lightning-layout multiple-rows="true">
+                                                        <template for:each={section.fields} for:item="field">
+                                                            <lightning-layout-item size="4" small-device-size="4" medium-device-size="4" large-device-size="4" key={field}> 
+                                                                <lightning-output-field field-name={field}></lightning-output-field>
+                                                            </lightning-layout-item>
+                                                        </template>
+                                                    </lightning-layout>
+                                                </lightning-record-view-form>
+                                            </template> -->
+                                        </lightning-accordion-section>
+                                        <!-- <lightning-layout-item size="12" padding="around-small" key={section}>
+                                            <div class="slds-page-header">
+                                                <div class="slds-page-header__row">
+                                                    <div class="slds-page-header__col-title">
+                                                        <div class="slds-media">
+                                                            <div class="slds-media__figure">
+                                                            <span class="slds-icon_container slds-icon-standard-opportunity" title="opportunity">
+                                                                <lightning-icon class="slds-icon slds-page-header__icon" aria-hidden="true" icon-name="section.iconName"></lightning-icon>
+                                                                <span class="slds-assistive-text">opportunity</span>
+                                                                </span>
+                                                                </div>
+                                                                <div class="slds-media__body">s
+                                                                <div class="slds-page-header__name">
+                                                                <div class="slds-page-header__name-title">
+                                                                <h1>
+                                                                    <span class="slds-page-header__title slds-truncate" title="Opportunità">Opportunità</span>
+                                                                </h1>
+                                                                </div>
+                                                                </div>
+                                                                <lightning-layout multiple-rows="true">
+                                                                <template for:each={section.dati} for:item="dato">
+                                                                <lightning-layout-item size="6" small-device-size="12" medium-device-size="6" large-device-size="6" key={dato}> 
+                                                                    <lightning-output-field field-name={dato}></lightning-output-field>
+                                                                </lightning-layout-item>
+                                                            </template>
+                                                            </lightning-layout>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </lightning-layout-item> -->
+                                    </template>
+                                </template>
+                            </lightning-accordion>
+
+                           
+                           
+                            <!-- <lightning-layout-item size="12" padding="around-small">
+                                <div class="custom-box slds-p-around_medium lgc-bg">
+                                    <lightning-record-view-form record-id={IdFront} object-api-name="Account">
+                                    <lightning-messages></lightning-messages>
+                                        <lightning-layout multiple-rows="true">
+                                            <template for:each={fields} for:item="field">
+                                                <lightning-layout-item size="6" small-device-size="12" medium-device-size="6" large-device-size="6" key={field.apiName}> 
+                                                    <lightning-output-field field-name={field.apiName}></lightning-output-field>
+                                                </lightning-layout-item>
+                                            </template>
+                                        </lightning-layout>
+                                    </lightning-record-view-form>
+                                </div>
+                            </lightning-layout-item> -->
+                        </lightning-layout>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning-button-group>
+                            <lightning-button label="Chiudi" variant="neutral" onclick={closeModalInfoAccount}></lightning-button>
+                        </lightning-button-group>
+                    </footer>
+
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </template>
+    <!-- FAST MANAGER V2 END -->
+</template>

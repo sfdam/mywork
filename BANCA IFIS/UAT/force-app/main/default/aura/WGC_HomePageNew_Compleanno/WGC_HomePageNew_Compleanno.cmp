@@ -1,0 +1,33 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+    controller="wgc_Header_Compleanni_Controller" access="global">
+    <ltng:require styles="{!join(',','')}" scripts="{!join(',', 
+    '/resource/WGC_jQuery3x')}" afterScriptsLoaded="{!c.doInit}" />
+
+    <lightning:overlayLibrary aura:id="overlayLib" />
+    <lightning:navigation aura:id="navService" />
+    <aura:attribute name="pageReference" type="Object"/><!--AdF-->
+    <aura:attribute name="reportCompleanno" type="String" />
+    <aura:attribute name="numCompleanno" type="Decimal" default="0"/>
+
+    <lightning:card>
+        <aura:set attribute="title">
+        </aura:set>
+        <div class="container-body">
+            <lightning:layout multipleRows="true">
+                <lightning:layoutItem size="12" class="slds-is-relative">
+                    <div class="slds-align_absolute-center content-title">
+                        Compleanni di oggi del tuo Network
+                    </div>
+                </lightning:layoutItem>
+                <lightning:layoutItem size="12" class="slds-is-relative">
+                    <div class="slds-align_absolute-center" style="cursor: pointer" data-report="{! v.reportCompleanno }" onclick="{! c.redirectReport }">
+                        <lightning:badge class="{! ' badge ' + (v.optyScadutePerf > 0 ? ' negative ' : ' positive ' ) }" label="{! v.numCompleanno }" />
+                    </div>
+                    <div class="slds-align_absolute-center">
+                        <lightning:icon iconName="utility:announcement" size="large" alternativeText="sss" />
+                    </div>
+                </lightning:layoutItem>
+            </lightning:layout>
+        </div>
+    </lightning:card>
+</aura:component>

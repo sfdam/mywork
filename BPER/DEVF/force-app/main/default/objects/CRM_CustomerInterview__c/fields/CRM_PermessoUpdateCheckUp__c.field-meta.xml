@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_PermessoUpdateCheckUp__c</fullName>
+    <externalId>false</externalId>
+    <formula>OR(
+    $Profile.Name = &apos;NEC_ADMIN&apos;,
+    $Profile.Name = &apos;System Administrator&apos;,
+    $Profile.Name = &apos;Amministratore del sistema&apos;,
+    CONTAINS($User.CRM_PermissionSet__c,&apos;NEC_CRM.CAPOGRUPPO.0&apos;),
+    CONTAINS($User.CRM_PermissionSet__c,&apos;NEC_CRM.CAPOGRUPPO.1&apos;),
+CONTAINS($User.CRM_PermissionSet__c,&apos;NEC_CRM.CAPOGRUPPO.2&apos;),
+    CONTAINS($User.CRM_PermissionSet__c,&apos;NEC_CRM.BANCA.1&apos;),
+    CONTAINS($User.CRM_PermissionSet__c,&apos;NEC_CRM.AREA.1&apos;),
+    AND(
+        OR(
+            AND (
+                OR (
+																				CONTAINS($User.CRM_PermissionSet__c,&apos;NEC_CRM.FILIALE.1&apos;),
+                    CONTAINS($User.CRM_PermissionSet__c,&apos;NEC_CRM.FILIALE.2&apos;),
+                    CONTAINS($User.CRM_PermissionSet__c,&apos;NEC_CRM.FILIALE.3&apos;),
+                    CONTAINS($User.CRM_PermissionSet__c,&apos;NEC_CRM.FILIALE.4&apos;),
+                    CONTAINS($User.CRM_PermissionSet__c,&apos;NEC_CRM.CEN.IMPR.RESP.SPEC.1&apos;),
+                    CONTAINS($User.CRM_PermissionSet__c,&apos;NEC_CRM.CEN.IMPR.AMM.2&apos;),
+																				CONTAINS($User.CRM_PermissionSet__c,&apos;NEC_CRM.FIL.CAPOFILA.1&apos;)
+                ),
+                $User.idced__c = CRM_Customer__r.PTF_Filiale__r.PTF_IdCED__c
+            ),
+            AND (
+                OR (
+																				CONTAINS($User.CRM_PermissionSet__c,&apos;NEC_CRM.FIL.CAPOFILA.1&apos;),
+                    CONTAINS($User.CRM_PermissionSet__c,&apos;NEC_CRM.FIL.CAPOFILA.2&apos;),
+                    CONTAINS($User.CRM_PermissionSet__c,&apos;NEC_CRM.FIL.CAPOFILA.3&apos;),
+                    CONTAINS($User.CRM_PermissionSet__c,&apos;NEC_CRM.FIL.CAPOFILA.4&apos;)
+                ),
+                OR ($User.idced__c = CRM_Customer__r.PTF_Capofila__r.PTF_IdCED__c, $User.idced__c = CRM_Customer__r.PTF_Filiale__r.PTF_IdCED__c)
+            )
+        ),
+        OR(
+												CONTAINS($User.CRM_MMDSVisibili__c, TEXT(CRM_Customer__r.ModelloDiServizio__c) ), 
+												CONTAINS($User.CRM_MMDSVisibili__c, &apos;Tutti&apos;)
+								)
+    ),
+    AND(CONTAINS($User.CRM_PermissionSet__c,&apos;NEC_CRM.DR.1&apos;), CRM_Customer__r.PTF_Portafoglio__r.CRM_ReferentePortafoglio__r.PTF_User__c = $User.Id),
+    AND(CONTAINS($User.CRM_PermissionSet__c,&apos;NEC_CRM.DR.4&apos;), CRM_Customer__r.PTF_Portafoglio__r.CRM_ReferentePortafoglio__r.PTF_User__c = $User.Id),
+    AND(CONTAINS($User.CRM_PermissionSet__c,&apos;NEC_CRM.DR.5&apos;), CRM_Customer__r.PTF_Portafoglio__r.CRM_ReferentePortafoglio__r.PTF_User__c = $User.Id),
+    AND(CONTAINS($User.CRM_PermissionSet__c,&apos;NEC_CRM.CONS.FIN.1&apos;), CRM_Customer__r.PTF_Portafoglio__r.CRM_ReferentePortafoglio__r.PTF_User__c = $User.Id),
+    AND(CONTAINS($User.CRM_PermissionSet__c,&apos;NEC_CRM.CONS.FIN.2&apos;), CRM_Customer__r.PTF_Portafoglio__r.CRM_ReferentePortafoglio__r.PTF_User__c = $User.Id)
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Permesso update Check Up</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

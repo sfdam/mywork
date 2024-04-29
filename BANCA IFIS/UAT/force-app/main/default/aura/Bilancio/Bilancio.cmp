@@ -1,0 +1,8 @@
+<!--
+ - Created by ccardinale on 12/05/2017.
+ -->
+
+<aura:component description="Bilancio" implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global">
+  <aura:attribute name="recordId" type="Id" />
+  <c:VueWrapper recordId="{!v.recordId}" appName="BilancioApp"></c:VueWrapper>
+</aura:component>

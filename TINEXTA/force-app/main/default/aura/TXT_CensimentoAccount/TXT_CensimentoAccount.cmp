@@ -1,0 +1,10 @@
+<aura:component controller="TXT_AccountHandler" implements="flexipage:availableForRecordHome,force:hasRecordId,lightning:actionOverride,lightning:isUrlAddressable,lightning:hasPageReference" access="global" >
+    <!-- <c:txtCensimentoAccount name="Censimento" /> -->
+    <lightning:navigation aura:id="navService"/>
+
+    <aura:attribute name="pageReference" type="Map" />
+
+    <aura:handler name="init" value="{! this }" action="{! c.navigateToCensimentoAccount }"/>
+    <aura:handler event="aura:locationChange" action="{!c.handlePageChange}"/>
+
+</aura:component>

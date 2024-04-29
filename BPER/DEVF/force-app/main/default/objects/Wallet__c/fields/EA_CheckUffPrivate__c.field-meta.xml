@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>EA_CheckUffPrivate__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(RIGHT(Name, 4) = &apos;0075&apos;, false,
+AND(
+ OR(
+ AND(
+       ISPICKVAL(PTF_ModelloDiServizio__c, &apos;Private&apos;),
+      OR(PTF_UffPrivate__c=&apos;&apos;,PTF_UffPrivate__r.PTF_IdCED__c=&apos;&apos;)
+     ), 
+ NOT(CONTAINS(PTF_Filiale__r.PTF_IDCEDUffPrivate__c, PTF_UffPrivate__r.PTF_IdCED__c))
+ ),
+  ISNULL(PTF_DeletionDate__c)
+)
+)</formula>
+    <label>EA_CheckUffPrivate</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

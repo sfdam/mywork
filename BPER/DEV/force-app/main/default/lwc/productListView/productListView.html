@@ -1,0 +1,102 @@
+<template>
+    <lightning-layout if:false={notShowComponent}>
+        <lightning-layout-item size="12" class="slds-card_boundary">
+            <lightning-card>
+                <div slot="title">
+                    <lightning-icon icon-name={iconName} size="small"></lightning-icon>
+                    <div class="tilte-card">
+                        <b>{title}</b> 
+                        <span class="product-active">
+                            <i>
+                                <b>
+                                    <template if:true={showLabelAttivi}>Attivi ({attivi})</template>
+                                    <template if:true={showLabelAttiviEstinti}> - </template>
+                                    <template if:true={showLabelEstinti}>Estinti ({estinti})</template>
+                                    
+                                </b>
+                                
+                            </i>
+                        </span>
+                        <!-- 54985 - VS 24/08/2022
+                        <span class="data-class">
+                            <i><template if:true={showDataUltimoAggio} >dati aggiornati: <b>{dataUltimoAgg}</b></template></i>
+                        </span>
+                        54985 - VS 24/08/2022 -->
+                    </div>
+
+                    <template if:true={button_new}>
+                        <div class="button-new">
+                            <lightning-button label="New" title="New" onclick={handleNewAction} class="slds-m-left_x-small"></lightning-button>
+                            <!-- <lightning-button-icon icon-name="utility:refresh"  variant="brand" alternative-text="Refresh" onclick={refreshClick} ></lightning-button-icon> -->
+                        </div>
+                    </template>
+                </div>
+                <template if:false={isRendered}>
+                    <div class="slds-align_absolute-center">
+                        <lightning-spinner alternative-text="CARICAMENTO" size="small"></lightning-spinner>
+                    </div>
+                </template>
+                <template if:true={isRendered}>
+                    <template if:true={notEmptyList}>
+                        <lightning-layout>
+                            <lightning-layout-item size="12">
+                                <c-custom-datatable columns={columns} list-view-data={listViewData} get-all-data={getAllData}></c-custom-datatable>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                        <lightning-layout>
+                            <lightning-layout-item size="12" class="slds-align_absolute-center">
+                                <lightning-button variant="base" label={viewAllLabel} title="View All" onclick={openModal} class="slds-m-left_x-small"></lightning-button>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </template>
+                </template>
+            </lightning-card>       
+        </lightning-layout-item>
+    </lightning-layout>
+
+    <!-- MODAL -->
+    <template if:true={openmodel}>
+        <div>
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_large">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                            <lightning-icon icon-name="utility:close" size="medium">
+                            </lightning-icon>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <div class="tilte-card"><b>{title}</b> <span class="product-active"><i><b>Attivi ({attivi}) - Estinti ({estinti})</b></i></span></div>
+
+                        <!-- <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate"></h2> -->
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <lightning-layout>
+                            <!-- <lightning-layout-item size="12">
+                                <div class="recordsTable slds-scrollable_y" style="height:20rem">
+                                    <lightning-datatable data-id="datatableRecords"
+                                        columns={columns} 
+                                        data={listViewDataAll} 
+                                        hide-checkbox-column="true" 
+                                        key-field="id"
+                                        onrowaction={handleRowAction}>
+                                    </lightning-datatable>
+                                </div>
+
+                                
+                            </lightning-layout-item> -->
+
+                            <lightning-layout-item size="12">
+                                <c-custom-datatable columns={columns} list-view-data={listViewDataAll} get-all-data={getAllData}></c-custom-datatable>    
+                            </lightning-layout-item>
+                        </lightning-layout>
+                            
+                    </div>
+                    <footer class="slds-modal__footer">
+                            <lightning-button label="Annulla" variant="neutral" onclick={closeModal}></lightning-button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </template>    
+</template>

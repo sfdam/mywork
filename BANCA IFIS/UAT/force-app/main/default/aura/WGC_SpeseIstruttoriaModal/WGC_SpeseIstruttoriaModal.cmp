@@ -1,0 +1,40 @@
+<aura:component implements="flexipage:availableForAllPageTypes" controller="WizardOpportunityController">
+    <aura:attribute name="payload" type="Map" />
+    <aura:attribute name="speseIstruttoria" type="List" />
+    <aura:attribute name="speseIstruttoriaEvaluated" type="List" />
+    <aura:attribute name="isRevi" type="Boolean" /> 
+
+    <!-- HANDLER -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }" />
+
+    <!-- LIB -->
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+
+    <aura:html tag="style">
+        .slds-p-around--medium {
+            padding: 0rem !important;
+        }       
+        .slds-modal__content{
+            height:unset !important;
+            max-height:unset !important;
+        }
+    </aura:html>
+
+    <lightning:layout multipleRows="true" class="slds-p-around_medium">
+        <aura:iteration items="{! v.speseIstruttoriaEvaluated }" var="param">
+            <lightning:layoutItem size="12" class="slds-p-around_small">
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem size="12" class="slds-p-around_x-small">
+                        <lightning:input type="number" label="{! param.label }" value="{! param.value }" required="true" disabled="{! v.isRevi }"/> 
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="12" class="slds-p-around_x-small">
+                        <lightning:input type="number" value="{! param.defaultValue }" disabled="true" />
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </lightning:layoutItem>
+        </aura:iteration>
+    </lightning:layout>
+    <footer class="slds-modal__footer">
+        <button class="slds-button slds-button_brand cstm-btn-round" onclick="{! c.updateParametri }">Salva</button>
+    </footer>
+</aura:component>

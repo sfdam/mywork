@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PTF_CheckDR__c</fullName>
+    <externalId>false</externalId>
+    <formula>OR ( AND(PTF_NDG__r.PTF_DirezioneRegionale__r.PTF_IdCED__c == $User.idced__c, $User.idced__c != null), AND(PTF_NDG__r.PTF_DirezioneRegionale__r.PTF_IdCED__c == $User.PTF_IdCEDPadre__c, $User.PTF_TipologiaUO__c = &apos;AltraUnitaOrganizzativa&apos;, $User.PTF_IdCEDPadre__c != null))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Check DR</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

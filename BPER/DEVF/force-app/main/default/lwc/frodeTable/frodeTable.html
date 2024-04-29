@@ -1,0 +1,53 @@
+<template>
+<lightning-layout>
+    <lightning-layout-item size="12" class="slds-card_boundary">
+        <lightning-card>
+            <div slot="title">
+                <div class="tilte-card"><b>{title}</b></div>
+            </div>
+            <template if:false={isRendered}>
+                <div class="slds-align_absolute-center">
+                    <lightning-spinner alternative-text="CARICAMENTO" size="small"></lightning-spinner>
+                </div>
+            </template>
+            <template if:true={isRendered}>
+                <template if:true={showError}>
+                    <p class="slds-align_absolute-center" style="font-weight: bold; font-size: 30px;">{errorMessage}</p> 
+                </template>
+                <template if:false={showError}>
+                    <template if:true={flow1}>
+                        <div style="height: 100%;">
+                            <lightning-datatable
+                            data-item="extend"
+                                key-field="Id"
+                                data={data1}
+                                columns={columns1}
+                                selected-rows={preSelectedRows}
+                                max-row-selection=1
+                                onrowselection={handleSelection}
+                                >
+                            </lightning-datatable>
+                        </div>   
+                    </template>
+                    <template if:true={flow2}>
+                        <div style="height: 100%;">
+                            <lightning-datatable
+                            data-item="extend2"
+                                key-field="Id"
+                                data={data2}
+                                columns={columns2}
+                                selected-rows={preSelectedRows}
+                                max-row-selection=1
+                                onrowselection={handleSelection}
+                                >
+                            </lightning-datatable>
+                        </div>   
+                    </template> 
+                </template>
+                
+                     
+            </template>
+        </lightning-card>
+    </lightning-layout-item>
+</lightning-layout>
+</template>

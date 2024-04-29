@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_OpportunityStage__c</fullName>
+    <externalId>false</externalId>
+    <label>Fase opportunità</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>CRM_OpportunityToCreate__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Da contattare</fullName>
+                <default>false</default>
+                <label>Da contattare</label>
+            </value>
+            <value>
+                <fullName>Non risponde 1</fullName>
+                <default>false</default>
+                <label>Non risponde 1</label>
+            </value>
+            <value>
+                <fullName>Non risponde 2</fullName>
+                <default>false</default>
+                <label>Non risponde 2</label>
+            </value>
+            <value>
+                <fullName>Non risponde 3</fullName>
+                <default>false</default>
+                <label>Non risponde 3</label>
+            </value>
+            <value>
+                <fullName>Non raggiungibile</fullName>
+                <default>false</default>
+                <label>Non raggiungibile</label>
+            </value>
+            <value>
+                <fullName>Inviata Filiale</fullName>
+                <default>false</default>
+                <label>Inviata Filiale</label>
+            </value>
+            <value>
+                <fullName>Accettata</fullName>
+                <default>false</default>
+                <label>Accettata</label>
+            </value>
+            <value>
+                <fullName>Rifiutata</fullName>
+                <default>false</default>
+                <label>Rifiutata</label>
+            </value>
+            <value>
+                <fullName>In corso</fullName>
+                <default>false</default>
+                <label>In corso</label>
+            </value>
+            <value>
+                <fullName>Cliente non adatto</fullName>
+                <default>false</default>
+                <label>Cliente non adatto</label>
+            </value>
+            <value>
+                <fullName>Prodotto venduto OAD FOL</fullName>
+                <default>false</default>
+                <label>Prodotto venduto OAD FOL</label>
+            </value>
+            <value>
+                <fullName>Respinta</fullName>
+                <default>false</default>
+                <label>Respinta</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Da contattare</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Non risponde 1</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Non risponde 2</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Non risponde 3</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Non raggiungibile</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Inviata Filiale</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Accettata</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Rifiutata</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>In corso</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Cliente non adatto</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Prodotto venduto OAD FOL</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Respinta</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

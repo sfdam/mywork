@@ -1,0 +1,270 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+                controller="WGC_TeamIFIS_ReferenceController" access="global">
+    
+    <!-- REQUIRE -->
+    <ltng:require scripts="{!join(',', 
+                           '/resource/WGC_jQuery3x')}"
+                  afterScriptsLoaded="{!c.doInit}" />
+    
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="personalReferences" type="Object[]" default="[]" />
+    <aura:attribute name="record" type="Object" />
+    <aura:attribute name="userIsSpecialista" type="Boolean" default="false"/>
+
+    <!-- RECORDDATA -->
+    <force:recordData recordId="{!$SObjectType.CurrentUser.Id}"
+                        layoutType="FULL"
+                        fields="Name,ProfileId,Profile.Name,Qualifica_Utente__c"
+                        targetFields="{!v.record}" />
+
+    <!-- LIBRARIES -->
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    <lightning:notificationsLibrary aura:id="notifLib"/>
+
+    <!-- EVENTS -->
+    <aura:registerEvent name="spegniRef" type="c:WGC_EditAccountResolveEvent" />
+    
+    <div class="container sdgborder">
+        <lightning:layout >
+            <lightning:layoutItem flexibility="auto" padding="around-small">
+                <lightning:layout>
+                    <lightning:layoutItem size="2" class="title-header">
+                        <span>{!$Label.c.WGC_TeamIFIS_Reference_IFIS_Impresa_Italia}</span>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="10" class="slds-text-align_right">
+                        <aura:if isTrue="{! v.userIsSpecialista }">
+                            <div style="display:inline; padding-left:10px;">
+                                <lightning:button class="slds-button_brand slds-button--brand" value="Rimuovimi" name="{!$Label.c.WGC_RimuovimiTeamIfis}" label="{!$Label.c.WGC_RimuovimiTeamIfis}" onclick="{!c.onRemoveMe}"/>
+                            </div>
+                        </aura:if>
+                        <div style="display:inline; padding-left:10px;">
+                            <lightning:button class="slds-button_brand slds-button--brand" value="Richiesta_Assegnazione" name="{!$Label.c.WGC_Richiedi_Assegnazione}" label="{!$Label.c.WGC_Richiedi_Assegnazione}" onclick="{!c.navigateToFlow}"/>
+                        </div>
+                        <aura:if isTrue="{! v.record.Qualifica_Utente__c == 'Sviluppo_Commerciale_Filiali'}">
+                            <div style="display:inline; padding-left:10px;">
+                                <lightning:button class="slds-button_brand slds-button--brand" value="Gestione_Presentatore" name="{!$Label.c.WGC_TeamIFIS_Presenta_Referente_Crediti_Commerciali}" label="{!$Label.c.WGC_TeamIFIS_Presenta_Referente_Crediti_Commerciali}" onclick="{!c.navigateToFlow}"/>
+                            </div>
+                        </aura:if>
+                        <aura:if isTrue="{! (v.record.Qualifica_Utente__c == 'Filo Diretto' || and(v.record.Profile.Name == 'IFIS - Direzione Commerciale' , v.record.Qualifica_Utente__c == 'Sviluppo_Commerciale_Filiali') || and(v.record.Profile.Name == 'IFIS - Direzione Commerciale - Filo Diretto' , v.record.Qualifica_Utente__c == 'Sviluppo_Commerciale_Filiali') || v.record.Profile.Name == 'Amministratore del sistema' || v.record.Profile.Name == 'System administrator') }">
+                            <div style="display:inline; padding-left:10px;">
+                                <lightning:button class="slds-button_brand slds-button--brand" value="Modifica_Presentatore" name="{!$Label.c.WGC_TeamIFIS_Modifica_Presentatore}" label="{!$Label.c.WGC_TeamIFIS_Modifica_Presentatore}" onclick="{!c.navigateToFlow}"/>
+                            </div>
+                        </aura:if>
+                        <aura:if isTrue="{! (v.record.Qualifica_Utente__c == 'Filo Diretto' || v.record.Profile.Name == 'Amministratore del sistema' || v.record.Profile.Name == 'System administrator') || and(v.record.Profile.Name == 'IFIS - Direzione Commerciale - Filo Diretto' , v.record.Qualifica_Utente__c == 'Sviluppo_Commerciale_Filiali') }">
+                            <div style="display:inline; padding-left:10px;">
+                                <lightning:button class="slds-button_brand slds-button--brand" value="Spegni_FiloDiretto" name="Spegni" label="Spegni" onclick="{!c.filoDiretto}"/>
+                            </div>
+                        </aura:if>
+                        <aura:if isTrue="{! (v.record.Qualifica_Utente__c == 'Filo Diretto' || and(v.record.Profile.Name == 'IFIS - Direzione Commerciale' , v.record.Qualifica_Utente__c == 'Sviluppo_Commerciale_Filiali') || v.record.Profile.Name == 'Amministratore del sistema' || v.record.Profile.Name == 'System administrator') || and(v.record.Profile.Name == 'IFIS - Direzione Commerciale - Filo Diretto' , v.record.Qualifica_Utente__c == 'Sviluppo_Commerciale_Filiali') }">
+                            <div style="display:inline; padding-left:10px;">
+                                <lightning:button class="slds-button_brand slds-button--brand" value="Modifica_Account" name="Modifica Specialista Factoring" label="{! $Label.c.WGC_Modifica_Specialista_Factoring }" onclick="{!c.navigateToFlow}"/>
+                            </div>
+                        </aura:if>
+                    </lightning:layoutItem>
+                </lightning:layout>
+                <!-- <div class="title-header">
+                    
+                </div> --> 
+                <hr/>
+            </lightning:layoutItem>
+        </lightning:layout>
+        <lightning:layout multipleRows="true">
+            <aura:iteration items="{! v.personalReferences }" var="item">
+                <aura:if isTrue="{! item.workAs == $Label.c.WGC_Team_IFIS_Specialista_Factoring || item.workAs == $Label.c.WGC_Team_IFIS_Specialista_Filo_Diretto
+                                 || item.workAs == $Label.c.WGC_Team_IFIS_Specialista_Crediti_Erariali || item.workAs == $Label.c.WGC_Team_IFIS_Specialista_Finanza_Strutturata
+                                 || item.workAs == $Label.c.WGC_Team_IFIS_Presentatore || item.workAs == $Label.c.WGC_Team_IFIS_Gestore_Cliente 
+                                 || item.workAs == $Label.c.WGC_Team_IFIS_Gestore_Debitore || item.workAs == $Label.c.WGC_Team_IFIS_Specialista_Pharma }">
+                    <lightning:layoutItem flexibility="auto" size="12" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+                        <div class="custom-box">
+                            <div class="{! item.attivo ? 'referent-header slds-text-title_caps attivo' : 'referent-header slds-text-title_caps'}">
+                                {!item.workAs}
+                            </div>
+                            <!-- commentato dal div sottostante per nuovo requisito secondo il quale solo filo diretto e factoring possono avere una colorazione diversa, gli altri specialisti sempre blu -->
+                            <!-- class="{! item.attivo ? 'referent-header slds-text-title_caps attivo' : 'referent-header slds-text-title_caps'}" -->
+                            <!-- <aura:if isTrue="{!item.workAs == $Label.c.WGC_Team_IFIS_Specialista_Factoring || item.workAs == $Label.c.WGC_Team_IFIS_Specialista_Filo_Diretto}">
+                                <div class="{! item.attivo ? 'referent-header slds-text-title_caps attivo' : 'referent-header slds-text-title_caps'}">
+                                    {!item.workAs}
+                                </div>
+                                <aura:set attribute="else">
+                                    <div class="referent-header slds-text-title_caps attivo">
+                                        {!item.workAs}
+                                    </div>
+                                </aura:set>
+                            </aura:if> -->
+                            <div class="information slds-p-around_xx-small">
+                                <lightning:layout>
+                                    <lightning:layoutItem flexibility="auto" size="5" padding="around-small">
+                                        <!-- commentato dal div sottostante per nuovo requisito secondo il quale solo filo diretto e factoring possono avere una colorazione diversa, gli altri specialisti sempre blu -->
+                                        <aura:if isTrue="{!item.workAs == $Label.c.WGC_Team_IFIS_Specialista_Factoring || item.workAs == $Label.c.WGC_Team_IFIS_Specialista_Filo_Diretto}">
+                                                <aura:if isTrue="{!item.id == null || item.id == undefined}">
+                                                    <c:WGC_CircularUserImg theme="{! item.attivo ? ' blue ' : ' grey '}" size="small" userId="{! item.id }"></c:WGC_CircularUserImg>
+                                                    <aura:set attribute="else">
+                                                        <c:WGC_CircularUserImg theme="{! item.attivo ? ' blue ' : ' orange '}" size="small" userId="{! item.id }"></c:WGC_CircularUserImg>
+                                                    </aura:set>
+                                                </aura:if>
+                                                <aura:set attribute="else">
+
+                                                    <!-- nuovo requisito per crediti erariali - mostra l'icona del ref.TeamIFIS blue/orange/gray @ RM20200210 -->
+                                                    <aura:if isTrue="{!item.workAs == $Label.c.WGC_Team_IFIS_Specialista_Crediti_Erariali}">
+                                                        <aura:if isTrue="{!item.id == null || item.id == undefined}">
+                                                            <c:WGC_CircularUserImg theme="{! item.attivo ? ' blue ' : ' grey '}" size="small" userId="{! item.id }"></c:WGC_CircularUserImg>
+                                                            <aura:set attribute="else">
+                                                                <c:WGC_CircularUserImg theme="{! item.attivo ? ' blue ' : ' orange '}" size="small" userId="{! item.id }"></c:WGC_CircularUserImg>
+                                                            </aura:set>
+                                                        </aura:if>
+                                                        <aura:set attribute="else">
+                                                            <c:WGC_CircularUserImg theme="{! item.attivo ? ' blue ' : ' grey '}" size="small" userId="{! item.id }"></c:WGC_CircularUserImg>
+                                                        </aura:set>
+                                                    </aura:if>
+                                                    
+                                                </aura:set>
+                                        </aura:if>
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem flexibility="auto" size="7" class="slds-p-vertical_medium" >
+                                        <div>
+                                            <p class="{! item.attivo ? 'attivo' : ''}"><lightning:formattedName
+                                                                        aura:id="defaultName"
+                                                                        firstName="{! item.firstName }"
+                                                                        lastName="{! item.lastName }"
+                                                                        format="short"
+                                                                        /></p>
+                                        </div>
+                                        <div>
+                                            <p class="attivo">{!item.phone}</p>
+                                            <!-- <p><lightning:formattedPhone value="{! item.phone }" ></lightning:formattedPhone></p> -->
+                                        </div>
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                            </div>
+                        </div>
+                    </lightning:layoutItem>
+                </aura:if>
+            </aura:iteration>
+        </lightning:layout>
+        <!-- second section -->
+        <lightning:layout >
+            <lightning:layoutItem flexibility="auto" padding="around-small">
+                <div class="title-header">
+                        {!$Label.c.WGC_TeamIFIS_Reference_Leasing}
+                    </div>
+                <hr/>
+            </lightning:layoutItem>
+        </lightning:layout>
+        <lightning:layout multipleRows="true">
+            <aura:iteration items="{! v.personalReferences }" var="item">
+                <aura:if isTrue="{!item.workAs == $Label.c.WGC_Team_IFIS_Specialista_Leasing_EF || item.workAs == $Label.c.WGC_Team_IFIS_Specialista_Leasing_TR }">
+                    <lightning:layoutItem flexibility="auto" size="12" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+                        <div class="custom-box">
+                            <div class="{! item.attivo ? 'referent-header slds-text-title_caps attivo' : 'referent-header slds-text-title_caps'}">
+                                {!item.workAs}
+                            </div>
+                            <!-- commentato dal div sottostante per nuovo requisito secondo il quale solo filo diretto e factoring possono avere una colorazione diversa, gli altri specialisti sempre blu -->
+                            <!-- class="{! item.attivo ? 'referent-header slds-text-title_caps attivo' : 'referent-header slds-text-title_caps'}"
+                            <aura:if isTrue="{!item.workAs == $Label.c.WGC_Team_IFIS_Specialista_Factoring || item.workAs == $Label.c.WGC_Team_IFIS_Specialista_Filo_Diretto}">
+                                <div class="{! item.attivo ? 'referent-header slds-text-title_caps attivo' : 'referent-header slds-text-title_caps'}">
+                                    {!item.workAs}
+                                </div>
+                                <aura:set attribute="else">
+                                    <div class="referent-header slds-text-title_caps attivo">
+                                        {!item.workAs}
+                                    </div>
+                                </aura:set>
+                            </aura:if> -->
+                            <div class="information slds-p-around_xx-small">
+                                <lightning:layout>
+                                    <lightning:layoutItem flexibility="auto" size="5" padding="around-small">
+                                        <!-- commentato dal div sottostante per nuovo requisito secondo il quale solo filo diretto e factoring possono avere una colorazione diversa, gli altri specialisti sempre blu -->
+                                        <aura:if isTrue="{!item.workAs == $Label.c.WGC_Team_IFIS_Specialista_Factoring || item.workAs == $Label.c.WGC_Team_IFIS_Specialista_Filo_Diretto}">
+                                                <c:WGC_CircularUserImg theme="{! item.attivo ? 'blue' : 'orange'}" size="small" userId="{! item.id }"></c:WGC_CircularUserImg>
+                                                <aura:set attribute="else">
+                                                    <c:WGC_CircularUserImg theme="{! item.attivo ? 'blue' : 'grey'}" size="small" userId="{! item.id }"></c:WGC_CircularUserImg>
+                                                </aura:set>
+                                        </aura:if>
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem flexibility="auto" size="7" class="slds-p-vertical_medium" >
+                                        <div>
+                                            <p class="{! item.attivo ? 'attivo' : ''}"><lightning:formattedName
+                                                                        aura:id="defaultName"
+                                                                        firstName="{! item.firstName }"
+                                                                        lastName="{! item.lastName }"
+                                                                        format="short"
+                                                                        /></p>
+                                        </div>
+                                        <div>
+                                            <p class="attivo">{!item.phone}</p>
+                                            <!-- <p><lightning:formattedPhone value="{! item.phone }" ></lightning:formattedPhone></p> -->
+                                        </div>
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                            </div>
+                        </div>
+                    </lightning:layoutItem>
+                </aura:if>
+            </aura:iteration>
+        </lightning:layout>
+        <!-- third section -->
+        <lightning:layout >
+            <lightning:layoutItem flexibility="auto" padding="around-small">
+                <div class="title-header">
+                        {!$Label.c.WGC_TeamIFIS_Reference_IFIS_IFIS_Impresa_Internazionale}
+                    </div>
+                <hr/>
+            </lightning:layoutItem>
+        </lightning:layout>
+        <lightning:layout multipleRows="true">
+            <aura:iteration items="{! v.personalReferences }" var="item">
+                <aura:if isTrue="{!item.workAs == $Label.c.WGC_Team_IFIS_Specialista_IFIS_Finance || item.workAs == $Label.c.WGC_Team_IFIS_Specialista_International }">
+                    <lightning:layoutItem flexibility="auto" size="12" mediumDeviceSize="4" largeDeviceSize="3" padding="around-small">
+                        <div class="custom-box">
+                            <div class="{! item.attivo ? 'referent-header slds-text-title_caps attivo' : 'referent-header slds-text-title_caps'}">
+                                {!item.workAs}
+                            </div>
+                            <!-- commentato dal div sottostante per nuovo requisito secondo il quale solo filo diretto e factoring possono avere una colorazione diversa, gli altri specialisti sempre blu -->
+                            <!-- class="{! item.attivo ? 'referent-header slds-text-title_caps attivo' : 'referent-header slds-text-title_caps'}"
+                            <aura:if isTrue="{!item.workAs == $Label.c.WGC_Team_IFIS_Specialista_Factoring || item.workAs == $Label.c.WGC_Team_IFIS_Specialista_Filo_Diretto}">
+                                <div class="{! item.attivo ? 'referent-header slds-text-title_caps attivo' : 'referent-header slds-text-title_caps'}">
+                                    {!item.workAs}
+                                </div>
+                                <aura:set attribute="else">
+                                    <div class="referent-header slds-text-title_caps attivo">
+                                        {!item.workAs}
+                                    </div>
+                                </aura:set>
+                            </aura:if> -->
+                            <div class="information slds-p-around_xx-small">
+                                <lightning:layout>
+                                    <lightning:layoutItem flexibility="auto" size="5" padding="around-small">
+                                        <!-- commentato dal div sottostante per nuovo requisito secondo il quale solo filo diretto e factoring possono avere una colorazione diversa, gli altri specialisti sempre blu -->
+                                        <aura:if isTrue="{!item.workAs == $Label.c.WGC_Team_IFIS_Specialista_Factoring || item.workAs == $Label.c.WGC_Team_IFIS_Specialista_Filo_Diretto}">
+                                                <c:WGC_CircularUserImg theme="{! item.attivo ? 'blue' : 'orange'}" size="small" userId="{! item.id }"></c:WGC_CircularUserImg>
+                                                <aura:set attribute="else">
+                                                    <c:WGC_CircularUserImg theme="{! item.attivo ? 'blue' : 'grey'}" size="small" userId="{! item.id }"></c:WGC_CircularUserImg>
+                                                </aura:set>
+                                        </aura:if>
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem flexibility="auto" size="7" class="slds-p-vertical_medium" >
+                                        <div>
+                                            <p class="{! item.attivo ? 'attivo' : ''}"><lightning:formattedName
+                                                                        aura:id="defaultName"
+                                                                        firstName="{! item.firstName }"
+                                                                        lastName="{! item.lastName }"
+                                                                        format="short"
+                                                                        /></p>
+                                        </div>
+                                        <div>
+                                            <p class="attivo">{!item.phone}</p>
+                                            <!-- <p><lightning:formattedPhone value="{! item.phone }" ></lightning:formattedPhone></p> -->
+                                        </div>
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                            </div>
+                        </div>
+                    </lightning:layoutItem>
+                </aura:if>
+            </aura:iteration>
+        </lightning:layout>
+    </div>
+    
+    
+</aura:component>

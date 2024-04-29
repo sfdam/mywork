@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>50.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__RecordPage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__RecordPage">
+            <property name="apiRequests" type="String" default=""/>
+            <property name="certificateName" type="String" default="salesforceprodclient2022"/>
+            <property name="disableLog" type="Boolean" default="true"/>
+            <property name="requestOnConnectCallback" type="Boolean" default="true"/>
+            <property name="jsonParams" type="String" default=""/>
+            <property name="responseColumns" type="String" default=""/>
+            <property name="title" type="String" label="Title list view" description="definisci il titolo della listView"/>
+            <property name="iconName" type="String" label="Icona" description="definisci l'icona della listView"/>
+            <property name="buttonX" type="Boolean" label="Bottone chiamata" description="definisci se attivare il button"/>
+            <property name="buttonXName" type="String" label="Nome Bottone" description="name visualizzato sul button"/>
+            <property name="requestChild" type="String" label="concat request Child" description="rappresenta dove è definito all'interno del JSON di response la lista movimenti"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

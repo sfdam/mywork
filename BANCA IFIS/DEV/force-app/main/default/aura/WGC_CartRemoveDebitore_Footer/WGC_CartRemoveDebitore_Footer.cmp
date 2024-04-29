@@ -1,0 +1,9 @@
+<aura:component >
+    <aura:attribute name="debitore" type="Object"/>
+
+    <aura:registerEvent name="removeDebitore" type="c:WGC_Remove_Debitore"/>
+	
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    
+    <lightning:button label="Conferma" variant="destructive" onclick="{! c.onRemoveDebitore }"/>
+</aura:component>

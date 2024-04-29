@@ -1,0 +1,45 @@
+.personal-container{
+    margin: auto 0;
+    width: 100% !important;
+    padding: 0;
+}
+
+.personal-body{
+    height: 500px;
+}
+
+.no-button {
+    text-align: center;
+    color: #D3D3D3;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.tableTitle {
+    background-color: #f7f7f7;
+    font-weight: bold;
+    text-align: center;
+    font-size: 18px;
+    z-index: 1000;
+}
+
+.gestore-principale {
+    height: 220px;
+    margin-bottom: 30px;
+}
+
+.gestore-backup {
+    height: 220px;
+}
+
+.spinner-holder{
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+}
+
+.slds-button_stretch{
+
+    border-radius: 0px 0px 6px 6px;
+}

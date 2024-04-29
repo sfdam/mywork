@@ -1,0 +1,109 @@
+<template>
+  <lightning-card icon-name="custom:custom19" title="Read CSV File">
+    <div class="exampleHolder">
+      <template if:false={loaded}>
+        <lightning-spinner
+          alternative-text="Loading"
+          size="small"
+        ></lightning-spinner>
+      </template>
+    </div>
+    <div class="c-container slds-is-relative">
+      <lightning-layout class="slds-is-absolute positionUpload">
+        <lightning-layout-item class="slds-align_absolute-center">
+          <lightning-helptext
+            class="slds-m-top_x-small"
+            content={label.infoLoad}
+          ></lightning-helptext>
+        </lightning-layout-item>
+        <lightning-layout-item padding="around-small">
+          <lightning-input
+            type="file"
+            accept={acceptedFormats}
+            onchange={handleUploadFinished}
+          >
+          </lightning-input>
+        </lightning-layout-item>
+      </lightning-layout>
+    </div>
+
+    <div if:true={error}>
+      <lightning-layout>
+        <lightning-layout-item padding="around-small">
+          <div class="error">{error}</div>
+        </lightning-layout-item>
+      </lightning-layout>
+    </div>
+    <br />
+
+    <div if:true={data}>
+      <lightning-layout> </lightning-layout>
+      <lightning-layout>
+        <lightning-layout-item size="12" padding="around-small">
+          <div class="tableTitle">{label.titleTableRecord}</div>
+          <div class="recordsTable">
+            <lightning-datatable
+              data-id="datatableRecords"
+              columns={columns}
+              data={data}
+              hide-checkbox-column="true"
+              key-field="id"
+              onrowaction={handleRowAction}
+            >
+            </lightning-datatable>
+          </div>
+        </lightning-layout-item>
+      </lightning-layout>
+      <lightning-layout if:true={leftOver}>
+        <lightning-layout-item size="12" padding="around-small">
+          <div class="tableTitle">{label.titleTableLead}</div>
+          <div class="leadsTable">
+            <lightning-datatable
+              data-id="datatableLeads"
+              columns={leftOverColumns}
+              data={leftOver}
+              resize-column-disabled="true"
+              key-field="partitaIva"
+            >
+            </lightning-datatable>
+          </div>
+        </lightning-layout-item>
+        <!-- <lightning-layout-item if:true={leftOverPI}  size="6" padding="around-small">
+                            <lightning-datatable columns={PIcolumns} 
+                                                 data={leftOverPI} 
+                                                 resize-column-disabled="true"
+                                                 key-field="partitaIva">
+                            </lightning-datatable>
+                    </lightning-layout-item> -->
+
+        <!-- <lightning-layout-item if:true={leftOverCF}  size="6" padding="around-small">
+                            <lightning-datatable columns={CFcolumns} 
+                                                data={leftOverCF} 
+                                                resize-column-disabled="true"
+                                                key-field="codiceFiscale">
+                            </lightning-datatable>
+                    </lightning-layout-item>-->
+      </lightning-layout>
+      <!-- TODO: Da scommentare una volta capita l'evolutiva -->
+      <!-- <lightning-layout>
+        <lightning-layout-item alignment-bump="left" padding="around-small">
+          <lightning-button-group>
+            <lightning-button
+              variant="brand-outline"
+              label={label.buttonCreateRecord}
+              title="Primary action with lighter look"
+              onclick={handleCreateRecords}
+            ></lightning-button>
+            <lightning-button
+              variant="brand-outline"
+              label={label.buttonCreateLead}
+              disabled={isButtonDisabled}
+              title="Primary action with lighter look"
+              onclick={handleCreateLeads}
+            ></lightning-button>
+          </lightning-button-group>
+        </lightning-layout-item>
+      </lightning-layout> -->
+    </div>
+  </lightning-card>
+</template>

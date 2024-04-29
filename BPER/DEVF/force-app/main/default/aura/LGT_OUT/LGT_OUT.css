@@ -1,0 +1,8 @@
+.THIS .customTable {
+    border: 0.5px solid white;
+    vertical-align: middle;
+}
+.THIS h1.boldTitle {
+    font-weight: bold;
+    color: black;
+  }

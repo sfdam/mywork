@@ -1,0 +1,134 @@
+<template>
+    <lightning-card title="">
+        <div class="slds-text-align_left slds-p-around_small pr-white" style="width:100%;">
+            <span class="level-info subtitle-text">Referenti associati alla pratica</span>
+        </div>
+
+        <lightning-layout multiple-rows="true" class="table-style pr-white">
+            <lightning-layout-item size="12">    
+
+                <!-- INTESTAZIONE -->
+                <lightning-layout class="slds-text-title_caps header-table">
+                    <lightning-layout-item size="3" class="slds-p-around_small">
+                        <span style="text-transform: uppercase;">Informazioni referente</span>
+                    </lightning-layout-item>                       
+                    <lightning-layout-item size="3" class="slds-p-around_small">
+                        <span style="text-transform: uppercase;">Ruolo</span>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="1" class="slds-p-around_small">
+                            <span style="text-transform: uppercase;">Seleziona</span>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="2" class="slds-p-around_small">
+                        <span style="text-transform: uppercase;">Tipologia Tit. Eff.</span>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="3" class="slds-p-around_small">
+                        <span style="text-transform: uppercase;">COMPORTAMENTO CLIENTE/ ESECUTORE</span>
+                    </lightning-layout-item>
+                </lightning-layout>
+
+                <template if:true={contactExists}>
+                    <template for:each={contactList} for:item="item" for:index="ind">
+                        <lightning-layout class="slds-text-title_caps header-table" key={item}>
+                            <lightning-layout-item size="3" class="slds-p-around_small slds-m-vertical_medium">
+                                <div class="censimento-icon">
+                                    <template if:true={item.contactFull}>
+                                        <lightning-icon icon-name="action:approval" size="x-small"></lightning-icon>
+                                    </template>
+                                    <template if:false={item.contactFull}>
+                                        <lightning-icon icon-name="action:close" size="x-small"></lightning-icon>
+                                    </template>   
+                                </div>
+                                <lightning-icon icon-name="standard:user" size="small"></lightning-icon>
+                                
+                                <template if:true={item.hasName}>
+                                    <span style="text-transform: uppercase; margin-left:10px;">{item.Name}</span>
+                                </template>   
+                            </lightning-layout-item>
+
+                            <lightning-layout-item size="3" class="slds-p-around_small slds-m-vertical_xx-small">
+                                
+                                <!-- RUOLO -->
+                                <template if:true={item.hasBothTitolare}>
+                                    <lightning-combobox name={ind} options={item.ruoli} data-id="ruolo" onchange={changeRole} 
+                                                        value={item.Ruolo_Pratica.value} disabled={item.isNotRelation} variant="label-stacked"> 
+                                    </lightning-combobox>  
+                                </template>
+
+                                <template if:false={item.hasBothTitolare}>
+                                    <template if:true={item.onlyTitolareEffettivo}>
+                                        <lightning-combobox name={ind} options={item.ruoliTitolare} data-id="ruolo" onchange={changeRole} 
+                                                        value={item.Ruolo_Pratica.value} disabled={item.isNotRelation} variant="label-stacked">
+                                        </lightning-combobox>  
+                                    </template>
+
+                                    <template if:true={item.onlyTitolareEsecutore}>
+                                        <lightning-combobox name={ind} options={item.ruoliEsecutore} data-id="ruolo" onchange={changeRole} 
+                                                        value={item.Ruolo_Pratica.value} disabled={item.isNotRelation} variant="label-stacked">
+                                    </lightning-combobox>   
+                                    </template>
+                                    
+                                </template>                                
+                            </lightning-layout-item>
+
+                            <lightning-layout-item size="1" class="slds-p-around_small slds-m-vertical_xx-small">                                    
+                                <lightning-input data-id="selezionato" value={item.isRelation} checked={item.isRelation} class="toggle-position" 
+                                                type="toggle" name={ind} variant="label-hidden" message-toggle-active="" message-toggle-inactive="" 
+                                                onchange={flagSeleziona}>
+                                </lightning-input>
+                            </lightning-layout-item>
+
+                            <!-- TIPOLOGIA TITOLARE EFFETTIVO -->
+                            <lightning-layout-item size="2" class="slds-p-around_small slds-m-vertical_xx-small">     
+                                <lightning-combobox name={ind} options={tipologiaTitolareEffettivo} data-id="tipologia" onchange={changeTitolare} 
+                                                    value={item.WGC_Tipologia_Titolare_Effettivo} disabled={item.disabledTipologia} variant="label-stacked">
+                                </lightning-combobox>                                  
+                            </lightning-layout-item>
+                            
+                            <!-- TIPOLOGIA COMPORTAMENTO -->
+                            <lightning-layout-item size="3" class="slds-p-around_small slds-m-vertical_xx-small">
+                                <lightning-combobox name={ind} options={tipologiaComportamento} data-id="comportamento" onchange={changeComportamento} 
+                                                    value={item.comportamentoCliente} disabled={item.disabledComportamento} variant="label-stacked">
+                                </lightning-combobox> 
+                            </lightning-layout-item>                               
+                        </lightning-layout >  
+                    </template>
+                </template>
+
+                <template if:false={contactExists}>
+                    <lightning-layout class="header-table">
+                        <lightning-layout-item size="3" class="slds-p-around_small slds-m-vertical_small"> 
+                            <span>Nessun Referente</span>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </template>
+
+            </lightning-layout-item>
+        </lightning-layout>    
+
+        <div class="slds-text-align_center slds-p-around_small" style="width:100%;">
+            <span class="level-info" >Si dichiara</span>
+        </div>
+
+        <lightning-layout class="slds-grid_align-spread">
+            <lightning-layout-item size="1">               
+            </lightning-layout-item>
+            
+            <!-- CONSENSO -->
+            <lightning-layout-item size="7">
+                <span>Che la società/ente giuridico è partecipata/o direttamente o indirettamente 
+                    da una o più Società Fiduciarie per una quota superiore al 25% 
+                    (in proposito, si autorizza Banca IFIS SpA a richiedere l’informazione 
+                    relativa al/i Titolare/i Effettivo/i direttamente alla/e suddetta/e Società Fiduciaria/e)</span>
+            </lightning-layout-item>
+
+            <lightning-layout-item size="3">
+                <lightning-input type="toggle" data-id="consensi" name="dichiara" checked={consensi} 
+                                 value={consensi} variant="label-hidden" message-toggle-active="" message-toggle-inactive="" onchange={changeConsensi}>
+                </lightning-input>
+            </lightning-layout-item>
+
+            <lightning-layout-item size="1">                
+            </lightning-layout-item>
+        </lightning-layout>       
+    </lightning-card>
+</template>

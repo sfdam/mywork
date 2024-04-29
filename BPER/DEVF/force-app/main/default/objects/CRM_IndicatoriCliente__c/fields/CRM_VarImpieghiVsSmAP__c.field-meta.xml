@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_VarImpieghiVsSmAP__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF (
+OR (CRM_ImpieghiStessoMeseAP__c = 0, CRM_ImpieghiStessoMeseAP__c = NULL),
+NULL,
+(( CRM_ImpieghiMeseCorrente__c - CRM_ImpieghiStessoMeseAP__c  ) / ABS(CRM_ImpieghiStessoMeseAP__c))
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Var. impieghi VS stesso mese AP</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackTrending>false</trackTrending>
+    <type>Percent</type>
+</CustomField>

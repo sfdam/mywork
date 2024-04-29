@@ -1,0 +1,64 @@
+<apex:page showHeader="false" sidebar="false" controller="CtrlGestioneAllegati" standardStylesheets="false" applyHtmlTag="false" docType="html-5.0" cache="true">
+  <html>
+  <head>
+    <apex:includeScript value="{!URLFOR($Resource.VueApps, 'index.js')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.VueApps, 'index.css')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.SLDS, '/assets/styles/salesforce-lightning-design-system-ltng.min.css')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.c3css)}" />
+
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      .sfdcBody {
+        padding: 0!important;
+      }
+      .iosContainer {
+        height: 100vh;
+        width: 100vw;
+        overflow: hidden;
+      }
+    </style>
+  </head> <!-- {!$CurrentPage.parameters.id} -->
+  <body>
+    <section class="iosContainer" id="iosContainer">
+      <div class="tlnxt">
+        <div id="lightning"></div>
+      </div>
+    </section>
+
+    <script>
+      document.querySelector('.iosContainer').ontouchmove = function(e) {e.stopPropagation()};
+
+      new Apps.UploadAllegatiApp({
+        created: function() {
+          console.log('APP CREATED')
+          this.setSvgPath('{!URLFOR($Resource.SLDS)}' + '/assets')
+          Apps.setVueLanguage('{!$Label.Lingua}')
+        },
+        methods: {
+          $api: Apps.VfApiProxy(CtrlGestioneAllegati)
+        },
+        data: {
+          metadataApi: new Apps.MetadataApi({
+            sessionId: '{!$Api.Session_Id}',
+            serverUrl: '{!$Api.Partner_Server_URL_390}'
+          })
+        },
+        render: function(h) {
+          return h(Apps.UploadAllegati, {
+            props: {
+              oppId: '{!JSENCODE(CASESAFEID($CurrentPage.parameters.opp))}',
+              tipoDoc: '{!JSENCODE($CurrentPage.parameters.tipoDoc)}',
+              famDoc: '{!JSENCODE($CurrentPage.parameters.famDoc)}'
+            }
+          })
+        },
+        el: '#lightning'
+      })
+    </script>
+  </body>
+  </html>
+</apex:page>

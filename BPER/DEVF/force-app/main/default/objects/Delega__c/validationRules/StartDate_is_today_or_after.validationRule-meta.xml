@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>StartDate_is_today_or_after</fullName>
+    <active>true</active>
+    <errorConditionFormula>ISNEW() &amp;&amp; StartDate__c &lt; Today()</errorConditionFormula>
+    <errorDisplayField>StartDate__c</errorDisplayField>
+    <errorMessage>La Data d&apos;inizio non può essere antecedente ad oggi</errorMessage>
+</ValidationRule>

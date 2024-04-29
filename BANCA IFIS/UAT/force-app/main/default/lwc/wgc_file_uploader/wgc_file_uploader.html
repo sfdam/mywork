@@ -1,0 +1,120 @@
+<template>  
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_medium">
+        
+        <div class="slds-modal__container">
+
+            <div class="slds-is-relative">
+
+                <!-- SPINNER -->
+                <template if:true={showSpinner}>
+                    <lightning-spinner variant="brand"></lightning-spinner>
+                </template>
+
+                <!-- HEADER -->
+                <header class="slds-modal__header">               
+                    <lightning-button-icon class="slds-modal__close" title="Close" icon-name="utility:close" icon-class="slds-button_icon-inverse"  onclick={closeModal}></lightning-button-icon>
+                    <h2 class="slds-text-heading_medium slds-hyphenate header-string">Upload Documenti</h2>
+                </header>
+
+                <!-- STANDARD BODY -->
+                <template if:false={showLista}>
+                    <div class="slds-modal__content">                      
+                        <lightning-layout multiple-rows>
+
+                            <!-- FAMIGLIA -->
+                            <lightning-layout-item size="12" padding="horizontal-small" class="slds-p-top_small">
+                                <lightning-combobox data-id="famiglia" label="Famiglia Documento" required onchange={changeFamDoc} value={selectedF} options={mappatura} variant="label-stacked">                                
+                                </lightning-combobox>
+                            </lightning-layout-item>
+
+                            <!-- DOCUMENTO -->
+                            <lightning-layout-item size="12" padding="horizontal-small">
+                                <lightning-combobox data-id="tipo" label="Tipo" disabled={checkDisable} required={checkRequired} value={selectedSC} onchange={changeDoc} options={tipo} variant="label-stacked">                               
+                                </lightning-combobox>
+                            </lightning-layout-item>
+
+                            <!-- SOGGETTO --> 
+                            <template if:true={showSoggetti}>                        
+                                <lightning-layout-item size="12" padding="horizontal-small">
+                                    <lightning-combobox data-id="soggetto" label="Soggetto" required value={selectedSogg} onchange={changeSoggetto} options={soggettiPicklist} variant="label-stacked">                                    
+                                    </lightning-combobox>
+                                </lightning-layout-item> 
+                            </template>
+                            
+                            <!-- DATA DOCUMENTO -->
+                            <lightning-layout-item size="12" padding="horizontal-small">
+                                <!-- per cambiare il formato data dateStyle="short" -->
+                                <lightning-input data-id="dataprod" type="date" name="dataproduzione" label="Data Documento" value={dataProduzione} 
+                                                placeholder="Data Documento..."  required onchange={checkDataProduzione} variant="label-stacked"
+                                                autocomplete="off">
+                                </lightning-input>
+                            </lightning-layout-item>
+
+                            <!-- DATA SCADENZA -->
+                            <lightning-layout-item size="12" padding="horizontal-small">
+                                <!-- per cambiare il formato data dateStyle="short" -->
+                                <lightning-input data-id="datascad" type="date" name="datascadenza" label="Data Scadenza" value={dataScadenza} 
+                                                placeholder="Data Scadenza..." required onchange={checkDataScadenza} variant="label-stacked"
+                                                autocomplete="off">
+                                </lightning-input>
+                            </lightning-layout-item>
+
+                            <!-- FILE UPLOAD -->
+                            <lightning-layout-item size="6" padding="around-small" class={noteExists}>
+                                <lightning-file-upload name="fileuploader"  label=""
+                                                    record-id={recordId} onuploadfinished={handleUploadFinished} class="noFloat">
+                                </lightning-file-upload>
+                            </lightning-layout-item>
+                            
+                            <!--  Se il documento è di tipo MAV mostrare la select per le note @@ #16 - Modifica Maschera Documentale MAV -->
+                            <template if:true={isMAV}> 
+                                <lightning-layout-item size="6" padding="around-small">                                
+                                    <lightning-combobox required name="noteDocUpload" label="Tipologia MAV" data-id="noteDocUpload" variant="label-stacked" class="noFloat" options={optionsMAV} value={selectedNoteMav} onchange={changeNoteMav}>                                                                       
+                                    </lightning-combobox>                                 
+                                </lightning-layout-item>
+                            </template>
+                                                        
+                            <template if:true={isFileUploaded}>                              
+                                <lightning-layout-item size="12" padding="horizontal-small">                                                                           
+                                    <p class="slds-p-horizontal_small">File caricato: {fileName}</p>   
+                                </lightning-layout-item>
+                            </template>         
+                        </lightning-layout>
+                    </div>
+
+                     <!-- FOOTER -->
+                     <footer class="slds-modal__footer modal-hidden">
+                        <lightning-button variant="neutral" onclick={closeModal} label="ANNULLA"></lightning-button>   
+                        <lightning-button class="btn slds-m-left_x-small" variant="neutral" onclick={salvaDoc} label="SALVA"></lightning-button>
+                    </footer>
+                </template>
+
+                <!-- NOTE BODY -->
+                <template if:true={showLista}>                    
+                    <lightning-record-edit-form data-id="form" record-id={idNota} object-api-name="WGC_Nota_Documento__c" 
+                                                onsubmit={handleSubmit} onerror={handleError} onsuccess={handleSuccess}>  
+                        <div class="slds-modal__content">                          
+                            <lightning-layout multiple-rows="true">
+                                <lightning-layout-item size="12" class="slds-p-around_medium">
+                                    <lightning-input-field field-name="Note__c" ></lightning-input-field >
+                                </lightning-layout-item>   
+                            </lightning-layout>
+                        </div>   
+
+                        <!-- FOOTER -->
+                        <footer class="slds-modal__footer modal-hidden">
+                            <lightning-button variant="neutral" onclick={closeModal} label="ANNULLA"></lightning-button>      
+                            <lightning-button class="btn slds-m-left_x-small" variant="neutral" type="submit" label="SALVA"></lightning-button>
+                            <lightning-button class="btn slds-m-left_x-small" variant="neutral" onclick={eliminaNote} label="ELIMINA"></lightning-button>
+                        </footer>
+                        
+                    </lightning-record-edit-form>
+                </template>                
+                </div>  
+                
+            </div>    
+        </div>  
+    </div>
+</section>
+<div class="slds-backdrop slds-backdrop_open"></div>
+</template>

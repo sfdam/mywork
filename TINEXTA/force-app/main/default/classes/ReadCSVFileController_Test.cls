@@ -1,0 +1,16 @@
+@IsTest
+public class ReadCSVFileController_Test {
+    static testMethod void testControllerMethod() {
+        List<String> cf = new List<String>{'pippo_paperino', 'pluto_topolino'};
+        // List<String> piva = new List<String>{'paperino', 'topolino'};
+
+        String x = '[{"ObjectType":"Account","id":"0011j00000D4mKDAAZ","name":"ARUBA S.r.l.","codice_fiscale__c":"12345678109","partita_iva__c":"","ownerid":"0051j000001TwHAAA0","owner":{"Name":"Luca Tondo","Id":"0051j000001TwHAAA0"},"responsabile":"Luca Tondo","numoppwon":1,"numoppopen":5,"numopplost":0,"numevent":0,"eventlastdate":null},{"ObjectType":"Lead","id":"00Q1j000001haexEAA","name":"Aurora Loudiane","codice_fiscale__c":"12345678109","partita_iva__c":"12345678109","ownerid":"0051j000001OYQEAA4","owner":{"Name":"Giampaolo Testi","Id":"0051j000001OYQEAA4"},"responsabile":"Giampaolo Testi","numevent":0,"eventlastdate":null},{"ObjectType":"Lead","id":"00Q1j000002YYf5EAG","name":"Francesco Bellaria","codice_fiscale__c":"4565168181","partita_iva__c":"4565168181","ownerid":"00Gw0000001vQXzEAM","owner":{"Name":"Marketing","Id":"00Gw0000001vQXzEAM"},"responsabile":"Marketing","numevent":2,"eventlastdate":"2019-12-27T08:30:00.000Z"},{"ObjectType":"Lead","id":"00Q1j000002OJqvEAG","name":"MARIO ROSSI","codice_fiscale__c":"12345678109","partita_iva__c":"12345678109","ownerid":"0051j000001NVHoAAO","owner":{"Name":"TEN","Id":"0051j000001NVHoAAO"},"responsabile":"TEN","numevent":0,"eventlastdate":null},{"ObjectType":"Lead","id":"00Q1j000002OJrFEAW","name":"Gigi Gigio","codice_fiscale__c":"12345678109","partita_iva__c":"12345678109","ownerid":"00Gw0000001vQXzEAM","owner":{"Name":"Marketing","Id":"00Gw0000001vQXzEAM"},"responsabile":"Marketing","numevent":0,"eventlastdate":null}]';
+		String y = '[{"iva":"12894181002","cf":"97799150582","nome":"giorgio","cognome":"bello","company":""}]';
+        
+        ReadCSVFileController.WrapperResponse wr = new ReadCSVFileController.WrapperResponse();
+        ReadCSVFileController.WrapperObj wrObj = new ReadCSVFileController.WrapperObj();
+		wrObj =ReadCSVFileController.getDate(cf);
+        wr = ReadCSVFileController.saveRecords(x);
+        wr = ReadCSVFileController.saveLeads(y);
+    }
+}

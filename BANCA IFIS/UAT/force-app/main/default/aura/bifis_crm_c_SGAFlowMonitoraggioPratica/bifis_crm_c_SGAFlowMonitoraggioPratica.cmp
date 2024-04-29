@@ -1,0 +1,160 @@
+<aura:component implements="lightning:availableForFlowScreens" access="global">  
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/> 
+    
+    <aura:attribute name="componenteSolaLettura" type="Boolean" default="true"/>
+    
+    <aura:attribute name="fileRecapColumns" type="List"/>   
+    <aura:attribute name="fileRecapColumnsReadOnly" type="List"/>    
+    
+    <aura:attribute name="jsonMCIFileData" type="Object"/>    
+    <aura:attribute name="jsonMCSFileData" type="Object"/>
+    
+    <aura:attribute name="workflowRecordCandidatoID" type="String"/>
+    <aura:attribute name="workflowRecordCandidatoNEXT" type="WorkflowSGA__c"/>
+    <aura:attribute name="workflowRecordCandidato" type="WorkflowSGA__c"/>
+    <aura:attribute name="workflowRecordCandidatoERROR" type="String"/>
+    
+    <force:recordData aura:id="flowRecordHandlerWorkflowCandidatoId"
+                      recordId="{!v.workflowRecordCandidatoID}"
+                      layoutType="FULL"
+                      targetFields="{!v.workflowRecordCandidato}"
+                      targetError="{!v.workflowRecordCandidatoERROR}"
+                      recordUpdated="{!c.handleRecordUpdated}"
+                      targetRecord="{!v.workflowRecordCandidatoNEXT}"
+                      mode="{!v.componenteSolaLettura ? 'VIEW' : 'EDIT'}"                
+                      />    
+    
+    <c:bifis_crm_c_SGAFlowMacroPath selectedPathState="{!v.workflowRecordCandidato.Stato__c}" closingState="{!v.workflowRecordCandidato.Fase_Chiusura__c}" selectedSubPathValue="3"/>    
+    
+    <!-- Display Lightning Data Service errors, if any -->
+    <aura:if isTrue="{!not(empty(v.workflowRecordCandidatoERROR))}">
+        <ui:message title="Errore" severity="error" closable="true">{!v.workflowRecordCandidatoERROR}</ui:message>
+    </aura:if>         
+    
+    <lightning:card variant="Narrow" title="Verifica le Fasi Successive di Lavorazione della Pratica" iconName="standard:record" />
+    
+    <hr style="margin-top:1px;margin-bottom:10px;"/>             
+    
+    <lightning:card variant="Narrow" title="MONITORAGGIO PRATICA" iconName="standard:entity_milestone">
+        <p class="slds-p-horizontal_small">
+            <div class="slds-grid slds-wrap"> 
+                
+                <div class="slds-size_1-of-4">
+                    <div class="slds-m-around_small">Esito della Pre Valutazione:</div>
+                </div>    
+                <aura:if isTrue="{!empty(v.workflowRecordCandidato.Esito_PRE_VALUTAZIONE__c)}">
+                    <div class="slds-size_1-of-4">
+                        <div class="slds-m-around_small">-</div>
+                    </div>   
+                    <aura:set attribute="else">
+                        <div class="slds-size_1-of-4">
+                            <div class="slds-m-around_small">{!v.workflowRecordCandidato.Esito_PRE_VALUTAZIONE__c}</div>
+                        </div>                          
+                    </aura:set>
+                </aura:if>
+                <div class="slds-size_2-of-4">
+                    <div class="slds-m-around_small"></div>
+                </div>    
+                
+                <div class="slds-size_1-of-4">
+                    <div class="slds-m-around_small">Tipologia Cliente (Cliente/Prospect):</div>
+                </div>    
+                <aura:if isTrue="{!empty(v.workflowRecordCandidato.Posizione_Impresa_Segnalata__c)}">
+                    <div class="slds-size_1-of-4">
+                        <div class="slds-m-around_small">-</div>
+                    </div>   
+                    <aura:set attribute="else">
+                        <div class="slds-size_1-of-4">
+                            <div class="slds-m-around_small">{!v.workflowRecordCandidato.Posizione_Impresa_Segnalata__c}</div>
+                        </div>                           
+                    </aura:set>                    
+                </aura:if>
+                <div class="slds-size_2-of-4">
+                    <div class="slds-m-around_small"></div>
+                </div>                   
+
+                <div class="slds-size_1-of-4">
+                    <div class="slds-m-around_small">Esito Visita:</div>
+                </div>    
+                <aura:if isTrue="{!empty(v.workflowRecordCandidato.Esito_Visita_Cliente__c)}">
+                    <div class="slds-size_1-of-4">
+                        <div class="slds-m-around_small">-</div>
+                    </div>   
+                    <aura:set attribute="else">
+                        <aura:if isTrue="{!v.workflowRecordCandidato.Esito_Visita_Cliente__c == 'SI'}">
+                            <div class="slds-size_1-of-4">
+                                <div class="slds-m-around_small">PRATICA CREATA</div>
+                            </div>   
+                            <aura:set attribute="else">
+                                <div class="slds-size_1-of-4">
+                                    <div class="slds-m-around_small">OPPORTUNITA' CHIUSA</div>
+                                </div>   
+                            </aura:set>
+                        </aura:if>
+                    </aura:set>                    
+                </aura:if>
+                <div class="slds-size_2-of-4">
+                    <div class="slds-m-around_small"></div>
+                </div>     
+
+                <div class="slds-size_1-of-4">
+                    <div class="slds-m-around_small">Esito Valutazione:</div>
+                </div>    
+                <aura:if isTrue="{!empty(v.workflowRecordCandidato.Esito_VALUTAZIONE__c)}">
+                    <div class="slds-size_1-of-4">
+                        <div class="slds-m-around_small">-</div>
+                    </div>   
+                    <aura:set attribute="else">
+                        <div class="slds-size_1-of-4">
+                            <div class="slds-m-around_small">{!v.workflowRecordCandidato.Esito_VALUTAZIONE__c}</div>
+                        </div>                           
+                    </aura:set>                    
+                </aura:if>
+                <div class="slds-size_2-of-4">
+                    <div class="slds-m-around_small"></div>
+                </div>  
+                
+            </div>
+        </p>
+    </lightning:card>                 
+    
+    <lightning:card variant="Narrow" title="MANDATO CLIENTE-IFIS" iconName="doctype:pdf">
+        <p class="slds-p-horizontal_small">
+            <div class="slds-grid slds-wrap">     
+                
+                <div class="slds-size_1-of-4">
+                    <lightning:fileUpload name="flowFileUploaderMCIFile" accept="{!v.acceptFileExtensions}" recordId="{!v.workflowRecordCandidatoID}" onuploadfinished="{! c.handleUploadMCIFileFinished }" disabled="true"/>
+                </div>
+                <div class="slds-size_3-of-4">
+                    <lightning:datatable aura:id="flowDatatableMCIFile" data="{!v.jsonMCIFileData}" columns="{!v.fileRecapColumnsReadOnly}" keyField="id" hideCheckboxColumn="true" resizeColumnDisabled="true" showRowNumberColumn="true" onrowaction="{! c.handleRowActionMCIFile }"/>
+                </div>
+                <div class="slds-size_4-of-4">
+                    <lightning:input aura:id="flowInputMCIFileJsonId" name="flowInputMCIFileJson" required="false" value="{!v.workflowRecordCandidato.DOCUMENTO_MCI_JSON__c}" class="slds-hide"/>
+                </div>            
+                
+            </div>
+        </p>
+    </lightning:card> 
+    
+    <lightning:card variant="Narrow" title="MANDATO CLIENTE-IFIS-SGA" iconName="doctype:pdf">
+        <p class="slds-p-horizontal_small">
+            <div class="slds-grid slds-wrap">     
+                
+                <div class="slds-size_1-of-4">
+                    <lightning:fileUpload name="flowFileUploaderMCSFile" accept="{!v.acceptFileExtensions}" recordId="{!v.workflowRecordCandidatoID}" onuploadfinished="{! c.handleUploadMCSFileFinished }" disabled="{!v.componenteSolaLettura}"/>
+                </div>
+                <div class="slds-size_3-of-4">
+                    <lightning:datatable aura:id="flowDatatableMCSFile" data="{!v.jsonMCSFileData}" columns="{!v.fileRecapColumns}" keyField="id" hideCheckboxColumn="true" resizeColumnDisabled="true" showRowNumberColumn="true" onrowaction="{! c.handleRowActionMCSFile }"/>
+                </div>
+                <div class="slds-size_4-of-4">
+                    <lightning:input aura:id="flowInputMCSFileJsonId" name="flowInputMCSFileJson" required="false" value="{!v.workflowRecordCandidato.DOCUMENTO_MCS_JSON__c}" class="slds-hide"/>
+                </div>                
+                
+            </div>
+        </p>
+    </lightning:card> 
+    
+    <c:bifis_crm_c_CommonFlowNavigator availableActions="{!v.availableActions}" navigateFlowEvent="{!c.handleNavigate}"/>           
+    
+</aura:component>

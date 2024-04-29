@@ -1,0 +1,250 @@
+<!--
+  @description       : 
+  @author            : simone.viglianti@tengroup.it
+  @group             : 
+  @last modified on  : 05-09-2022
+  @last modified by  : simone.viglianti@tengroup.it
+-->
+<!-- LV CR NEC #70081 -->
+<template>
+    <div class="personal-container">
+
+          <div class="slds-p-around_medium slds-is-relative personal-body ">
+            <template if:false={isRendered}>
+                <div class="slds-align_absolute-center">
+                    <lightning-spinner alternative-text="CARICAMENTO" size="small"></lightning-spinner>
+                </div>
+            </template>
+            <template if:true={isRendered}>
+                <template if:true={step1}>
+                    <div class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none">
+                        <div class="button-reset slds-float_right">
+                            <lightning-button-icon icon-name="utility:refresh"  variant="bare" alternative-text="Refresh Filtri" title="Refresh Filtri" onclick={refreshFiltri}></lightning-button-icon>
+                        </div>
+                        <lightning-layout multiple-rows="false">
+                            <lightning-layout-item size="12" medium-device-size="4" large-device-size="4" padding="around-small">
+                                <c-custom-lookup selected-s-object={prepopulatedAccount} s-object-name='Account' icon-name="standard:account" field-label="Filiale" field-to-like="CRM_Nome__c" other-field-to-query = 'PTF_MDSAbilitati__c' where-condition={accountFilter} event-to-dispatch="filialelookup" onfilialelookup={handleCustomEvent}></c-custom-lookup>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" medium-device-size="3" large-device-size="3" padding="around-small">
+                                <div class="slds-is-relative">
+                                    <lightning-combobox
+                                        name="modServizio"
+                                        label="Macro-modello di servizio"
+                                        value={valueModServizio}
+                                        placeholder="Seleziona un Macro-modello di servizio"
+                                        options={optionsModServizio}
+                                        onchange={handleChangeModServizio} 
+                                        message-when-value-missing="Campo obbligatorio"
+                                        required >
+                                    </lightning-combobox>
+                                    <lightning-helptext content='Seleziona una filiale per visualizzare i MDS ad essa abilitati'></lightning-helptext>
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item  size="12" medium-device-size="2" large-device-size="2" padding="around-small">
+                                <lightning-combobox
+                                    name="numMicroPortafogli"
+                                    label="MicroPortafogli"
+                                    value={valueNumMicroPortafoglio}
+                                    placeholder="Seleziona il numero"
+                                    options={optionsNumMicroPortafoglio}
+                                    onchange={handleChangeNumMicroPortafoglio}
+                                    disabled={disabledNumMicroPortafoglio} 
+                                    message-when-value-missing="Campo obbligatorio"
+                                    required >
+                                </lightning-combobox>
+                            </lightning-layout-item>
+
+                            <!-- <div class="slds-p-top_medium"> -->
+                                <lightning-layout-item  size="12" medium-device-size="1" padding="around-small">
+                                    <template if:true={showPTF999}>
+                                        <lightning-layout-item class="padding-top: 60px" size="12" medium-device-size="2" large-device-size="2"  padding="around-small" >
+                                            <lightning-input data-id="showPTF999" name="showPTF999" type="toggle" label="PTF 999" onchange={changeToggle} message-toggle-active="" message-toggle-inactive="" checked={isPTF999}></lightning-input>
+                                        </lightning-layout-item>
+                                    </template>
+                                </lightning-layout-item>
+                                <!-- LV CR NEC #70081 start-->
+                                <lightning-layout-item  size="12" medium-device-size="2" padding="around-small">
+                                    <template if:true={showPTFSvil}>
+                                        <lightning-layout-item class="padding-top: 60px" size="12" medium-device-size="2" large-device-size="2"  padding="around-small" >
+                                            <lightning-input data-id="showPTFSvil" name="showPTFSvil" type="toggle" label="PTF Sviluppo" onchange={changeToggle2} message-toggle-active="" message-toggle-inactive="" checked={isPTFSvil}></lightning-input>
+                                        </lightning-layout-item>    
+                                    </template>
+                                </lightning-layout-item>
+                                <!-- LV CR NEC #70081 end -->
+                            <!-- </div> -->
+                        </lightning-layout>                       
+                    </div>
+                    <template if:true={selectedFiliale}>
+                        <div class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none">
+                            <lightning-layout-item size="12" padding="around-small">
+                                <div class="slds-p-around_medium lgc-bg">
+                                    <lightning-tile label={labelFiliale} type="media">
+                                        <lightning-icon slot="media" size="large" icon-name="standard:groups"></lightning-icon>
+                                        <p class="slds-truncate" title={labelBanca}>Banca: {labelBanca}</p>
+                                        <p class="slds-truncate" title={labelDReg}>Direzione Regionale: {labelDReg}</p>
+                                        <p class="slds-truncate" title={labelArea}>Area: {labelArea}</p>
+                                        <p class="slds-truncate" title={labelCapofila}>Capofila: {labelCapofila}</p>
+                                    </lightning-tile>
+                                </div>
+                            </lightning-layout-item>
+                        </div>
+                    </template>
+                    <!--CR52359 SV start-->
+                    <template if:true={showSectionPrivate}>
+
+                        <template lwc:if={ptfCentriPrivate}>
+                            <lightning-layout multiple-rows>
+                                <lightning-layout-item size="6" medium-device-size="6" large-device-size="6" padding="around-small">
+                                    <lightning-combobox
+                                        name="ufficiPrivate"
+                                        label="Uffici Private"
+                                        value={valueUffici}
+                                        placeholder="Seleziona un ufficio"
+                                        options={options}
+                                        onchange={selectionChangeHandler} >
+                                    </lightning-combobox>
+                                </lightning-layout-item>  
+                                <!--CR52359 SV end-->
+                                <!--SV CENTRI PRIVATE start-->
+                                <!-- Salvatore Barbieri - 29/02/2024 - Modifica Executive -->
+                                    <lightning-layout-item size="6" medium-device-size="6" large-device-size="6" padding="around-small">
+                                        <lightning-combobox
+                                            name="executivePrivate"
+                                            label="Executive Private"
+                                            value={valueExecutive}
+                                            placeholder="Seleziona un Executive"
+                                            options={optionsExecutive}
+                                            onchange={selectionChangeHandlerExecutive}>
+                                        </lightning-combobox>
+                                    </lightning-layout-item>
+                                    
+                                    <lightning-layout-item size="6" medium-device-size="6" large-device-size="6" padding="around-small">
+                                        <lightning-combobox
+                                            name="centriPrivate"
+                                            label="Centri Private"
+                                            value={valueCentri}
+                                            placeholder="Seleziona un centro"
+                                            options={optionsCentri}
+                                            onchange={selectionChangeHandlerCentri}>
+                                        </lightning-combobox>
+                                    </lightning-layout-item>
+                            </lightning-layout>
+                        </template>
+                        <template lwc:elseif={ptfPrivate}>
+                            <lightning-layout-item size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                <lightning-combobox
+                                    name="ufficiPrivate"
+                                    label="Uffici Private"
+                                    value={valueUffici}
+                                    placeholder="Seleziona un ufficio"
+                                    options={options}
+                                    onchange={selectionChangeHandler} >
+                                </lightning-combobox>
+                            </lightning-layout-item> 
+                        </template>
+
+                    </template>
+                    
+                    
+                </template>
+
+                <template if:true={step2}>
+                   
+                        <div class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none">
+                            <lightning-layout multiple-rows="true">
+                                <template if:true={hasOFS}>
+                                    <lightning-layout-item flexibility="auto" padding="around-small" size="12">
+                                        <div class="slds-box no-button">
+                                            <p>Portafoglio contiene NDG con OFS</p>
+                                        </div>
+                                    </lightning-layout-item>
+                                </template>
+                                <lightning-layout-item flexibility="auto" padding="around-small" size="12" style="height: 10px;">
+                                    <label class="slds-form-element__label" for="unique-id-of-input">Ricerca referente principale/backup</label>
+                                </lightning-layout-item>
+                                <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="6" large-device-size="6" style="height: 65px;">
+                                    <lightning-input type="text" label="Nominativo" placeholder="Cerca per nominativo..." name="searchedNome" value={searchedNome} onchange={setFilter}></lightning-input>
+                                </lightning-layout-item>
+                                <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="6" large-device-size="6" style="height: 65px;">
+                                    <lightning-input type="text" label="Matricola" placeholder="Cerca per matricola..." name="searchedMatricola" value={searchedMatricola} onchange={setFilter}></lightning-input>
+                                </lightning-layout-item>
+                                <lightning-layout-item padding="around-small" size="12" style="height: 50px;">
+                                    <lightning-button-group class="slds-float_right">
+                                        <lightning-button 
+                                            variant="neutral"
+                                            label="Reset"
+                                            title="Reset"
+                                            onclick={handleReset}>
+                                        </lightning-button>
+                                        <lightning-button 
+                                            variant="brand"
+                                            label="Cerca"
+                                            title="Cerca"
+                                            onclick={handleSearch}>
+                                        </lightning-button>
+                                    </lightning-button-group>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </div>
+                      
+                        <div class="gestore-principale">
+                            <template if:false={notEmptyListGestorePrincipale}>
+                                <lightning:layout>
+                                    <lightning:layoutItem>
+                                        <div class="slds-box no-button">
+                                            <p>NESSUN REFERENTE PRINCIPALE SELEZIONABILE</p>
+                                        </div>
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                            </template>
+                            <template if:true={notEmptyListGestorePrincipale}>
+                                <div class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none">
+                                    <lightning-layout multiple-rows="true">
+                                        <lightning-layout-item flexibility="auto" class="slds-col" size="12">
+                                            <div class="tableTitle">REFERENTE PRINCIPALE</div>
+                                            <div class="recordsTable" style="height: 160px">
+                                                <lightning-datatable data-id="datatableGestorePrincipale" columns={columns}
+                                                    data={listViewDataGestorePrincipale} key-field="Id"
+                                                    selected-rows={selectedRowsGestorePrincipale}
+                                                    onrowselection={getSelectedRowsGestorePrincipale} max-row-selection="1">
+                                                </lightning-datatable>
+                                            </div>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </div>
+                            </template>
+                        </div>
+                
+                        <div class="gestore-backup">
+                            <template if:false={notEmptyListGestoreBackup}>
+                                <lightning:layout>
+                                    <lightning:layoutItem>
+                                        <div class="slds-box no-button">
+                                            <p>NESSUN REFERENTE DI BACKUP SELEZIONABILE</p>
+                                        </div>
+                                    </lightning:layoutItem>
+                                </lightning:layout>
+                            </template>
+                            <template if:true={notEmptyListGestoreBackup}>
+                                <div class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none">
+                                <lightning-layout multiple-rows="true" padding="around-small">
+                                    <lightning-layout-item flexibility="auto" class="slds-col" size="12">
+                                        <div class="tableTitle">REFERENTE BACKUP</div>
+                                        <div class="recordsTable" style="height: 160px">
+                                            <lightning-datatable data-id="datatableGestoreBackup" columns={columns}
+                                                data={listViewDataGestoreBackup} key-field="Id"
+                                                selected-rows={selectedRowsGestoreBackup} onrowselection={getSelectedRowsGestoreBackup}>
+                                            </lightning-datatable>
+                                        </div>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                                </div>
+                            </template>
+                        </div>
+                   
+                </template>
+                </template>
+                
+                </div>
+    </div>
+</template>

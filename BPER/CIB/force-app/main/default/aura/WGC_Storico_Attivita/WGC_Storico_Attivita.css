@@ -1,0 +1,67 @@
+.THIS {
+}
+
+.THIS .title {
+  display: inline-block;
+  margin-left: 10px;
+  vertical-align: sub;
+}
+
+.THIS .no-title {
+  margin-top: -50px;
+}
+
+.THIS .resultSelected {
+  border: 1px solid #ECEBEA;
+  border-radius: 5px;
+  padding: 5px;
+  margin-bottom: 15px;
+  cursor: pointer;
+}
+
+.THIS .buttonIconPosition {
+  position: absolute;
+  right: 60px;
+  top: -5px;
+  z-index: 20;
+}
+
+.THIS .buttonPrintIconPosition {
+  position: absolute;
+  right: 20px;
+  top: -5px;
+  z-index: 20;
+}
+
+/* .THIS .containerFilterBackground {
+width: 75px;
+  height: 25px;
+  position: absolute;
+  left: 5px;
+  top: 0px;
+  z-index: 1;
+  background: #fff;
+} */
+
+/* .THIS .containerFilter {
+border:1px solid #DAD7D8;
+border-radius:5px;
+margin-bottom: 20px;
+} */
+
+.THIS .containerFilter .slds-accordion {
+margin-top: -23px;
+}
+
+.THIS .slds-accordion__summary-action {
+z-index: 10;
+}
+
+.THIS .slds-checkbox {
+  padding-top: 27px;
+}
+
+.THIS .color-button {
+  background-color: #01B27C;
+  color: #FFFFFF;
+}

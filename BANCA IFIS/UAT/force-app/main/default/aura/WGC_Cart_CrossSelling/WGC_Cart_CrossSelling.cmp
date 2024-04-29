@@ -1,0 +1,98 @@
+<aura:component extends="c:WGC_Utility">
+    <!-- ATTRIBUTES -->
+        <!-- INHERITED -->
+        <aura:attribute name="accountId" type="String"/>
+        <aura:attribute name="opportunityRecord" type="Object"/>
+        <aura:attribute name="items" type="Object[]"/>
+        <aura:attribute name="picklistOptions" type="Object[]"/>
+        <aura:attribute name="referenti" type="Object[]"/>
+        <aura:attribute name="crossSelling" type="Object"/>
+        <aura:attribute name="showNext" type="Boolean"/>
+        <aura:attribute name="qualificaUtente" type="String"/>
+        <aura:attribute name="readOnly" type="Boolean"/>
+        <!-- PRIVATE -->
+        <aura:attribute name="activeItem" type="Object"/>
+        <aura:attribute name="tipologie" type="Object[]"/>
+        <aura:attribute name="businesses" type="Object[]"/>
+        
+    <!-- REGISTER EVENTS -->
+    <aura:registerEvent name="cartCallServer" type="c:WGC_Cart_Call_Server"/>
+
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    <aura:handler name="change" value="{! v.items }" action="{! c.refreshActiveItem }"/>
+
+    
+    <lightning:layout multipleRows="true">
+        
+        <aura:if isTrue="{! v.activeItem.area == 'Leasing' }">
+            <lightning:layoutItem size="4" padding="around-small">
+                <lightning:select label="Tipologia" value="{! v.crossSelling.tipologia }" required="true" onchange="{! c.onChangeCrossSelling }" disabled="{! v.readOnly }">
+                    <option value="">--seleziona--</option>
+                    <aura:iteration items="{! v.tipologie }" var="tipologia">
+                        <option value="{! tipologia.value }">{! tipologia.label }</option>
+                    </aura:iteration>
+                </lightning:select>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="4" padding="around-small">
+                <lightning:select label="Business" value="{! v.crossSelling.business }" required="true" onchange="{! c.onChangeCrossSelling }" disabled="{! v.readOnly }">
+                    <option value="">--seleziona--</option>
+                    <aura:iteration items="{! v.businesses }" var="business">
+                        <option value="{! business.value }">{! business.label }</option>
+                    </aura:iteration>
+                </lightning:select>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="4" padding="around-small">
+                <lightning:select label="Ownership Sviluppo" value="{! v.crossSelling.ownershipSviluppo }" required="true" onchange="{! c.onChangeCrossSelling }" disabled="{! v.readOnly }">
+                    <option value="">--seleziona--</option>
+                    <option value="Diretto (Rete Factoring)">Diretto (Rete Factoring)</option>
+                    <option value="Indiretto (Rete Leasing)">Indiretto (Rete Leasing)</option>
+                </lightning:select>
+            </lightning:layoutItem>
+        </aura:if>
+        
+        <aura:if isTrue="{! and(v.activeItem.area != 'Leasing', v.qualificaUtente == 'Leasing EF' || v.qualificaUtente == 'Leasing TR') }">
+            <lightning:layoutItem size="4" padding="around-small">
+                <lightning:input label="Agente" type="text" value="{! v.crossSelling.agente }" onchange="{! c.onChangeCrossSelling }" disabled="{! v.readOnly }"/>
+            </lightning:layoutItem>
+        </aura:if>
+
+        <lightning:layoutItem size="4" padding="around-small">
+            <lightning:select aura:id="referente" label="Referente Azienda" value="{! v.crossSelling.referente }" disabled="{! v.referenti.length == 0 || v.readOnly }" onchange="{! c.onChangeCrossSelling }">
+                <option value="">--seleziona--</option>
+                <aura:iteration items="{! v.referenti }" var="referente">
+                    <option value="{! referente.Contact.Id }" selected="{! referente.Contact.Id == v.crossSelling.referente }">{! referente.Contact.Name }</option>
+                </aura:iteration>
+            </lightning:select>
+        </lightning:layoutItem>
+        
+        <aura:if isTrue="{! v.activeItem.area != 'Factoring - Cedente' }">
+            <lightning:layoutItem size="4" padding="around-small">
+                <lightning:input label="Importo" type="number" formatter="currency" value="{! v.crossSelling.amount }" required="true" onchange="{! c.onChangeCrossSelling }" disabled="{! v.readOnly }"/>
+            </lightning:layoutItem>
+        </aura:if>
+
+        <!-- SM - TEN: 395 Modifiche cross-selling -->
+        <!-- <lightning:layoutItem size="4" padding="around-small">
+            <lightning:input label="Data Possibile Attivazione" type="date" value="{! v.crossSelling.closeDate }" required="true" onchange="{! c.onChangeCrossSelling }" disabled="{! v.readOnly }"/>
+        </lightning:layoutItem> -->
+
+        <!-- Start CR Lotto 4.2 Id 157 -->
+        <aura:if isTrue="{! v.activeItem.area == 'Corporate Finance' }">
+            <lightning:layoutItem size="4" padding="around-small">
+                <lightning:select aura:id="finalita_finance" label="Finalità" value="{! v.crossSelling.finalita_finance }" onchange="{! c.onChangeCrossSelling }" disabled="{! v.readOnly }">
+                    <option value="">--seleziona--</option>
+                    <option value="debito">Finanza Strutturata (debito)</option>
+                    <option value="consulenza">M&amp;A (consulenza)</option>
+                    <option value="capitale">Equity Investment (capitale)</option>
+                </lightning:select>
+            </lightning:layoutItem>
+        </aura:if>
+        <!-- End CR Lotto 4.2 Id 157 -->
+
+        <lightning:layoutItem size="12" padding="around-small">
+            <lightning:textarea label="Note Segnalazione" value="{! v.crossSelling.note }" onchange="{! c.onChangeCrossSelling }" disabled="{! v.readOnly }"/>
+        </lightning:layoutItem>
+
+    </lightning:layout>
+</aura:component>

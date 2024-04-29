@@ -1,0 +1,572 @@
+<apex:component controller="THR_VFEmailTemplateController" access="global">
+     <apex:attribute name="myVal" type="String" description="Attribute for case id" assignTo="{!caseRecordId}" access="global"/>
+
+    <head>
+        <!--title>Reso Diagnostics</title-->
+        <style type="text/css">
+          
+            #outlook a
+            {
+                padding: 0;
+            }
+
+            /* Force Outlook to provide a "view in browser" menu link. */
+            body
+            {
+                width: 100% !important;
+                -webkit-text-size-adjust: 100%;
+                -ms-text-size-adjust: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            /* Prevent Webkit and Windows Mobile platforms from changing default font sizes, while not breaking desktop design. */
+            .ExternalClass
+            {
+                width: 100%;
+            }
+
+            /* Force Hotmail to display emails at full width */
+            .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div
+            {
+                line-height: 100%;
+            }
+
+            /* Force Hotmail to display normal line spacing.  More on that: http://www.emailonacid.com/forum/viewthread/43/ */
+            .backgroundTable
+            {
+                margin: 0;
+                padding: 0;
+                width: 100% !important;
+                line-height: 100% !important;
+            }
+
+            img
+            {
+                outline: none;
+                text-decoration: none;
+                border: none;
+                -ms-interpolation-mode: bicubic;
+            }
+
+            a img
+            {
+                border: none;
+            }
+
+            .image_fix
+            {
+                display: block;
+            }
+
+            p
+            {
+                margin: 0px 0px !important;
+            }
+
+            table td
+            {
+                border-collapse: collapse;
+            }
+
+            table
+            {
+                border-collapse: collapse;
+                mso-table-lspace: 0pt;
+                mso-table-rspace: 0pt;
+            }
+
+            /*STYLES*/
+            table.full
+            {
+                width: 100%;
+                clear: both;
+            }
+
+            sub, sup {
+                /* Specified in % so that the sup/sup is the
+                   right size relative to the surrounding text */
+                font-size: 75%;
+
+                /* Zero out the line-height so that it doesn't
+                   interfere with the positioning that follows */
+                line-height: 0;
+
+                /* Where the magic happens: makes all browsers position
+                   the sup/sup properly, relative to the surrounding text */
+                position: relative;
+
+                /* Note that if you're using Eric Meyer's reset.css, this
+                   is already set and you can remove this rule */
+                vertical-align: baseline;
+            }
+
+            sup {
+                /* Move the superscripted text up */
+                top: -0.5em;
+            }
+
+            sub {
+                /* Move the subscripted text down, but only
+                   half as far down as the superscript moved up */
+                bottom: -0.25em;
+            }
+            @media only screen and (max-width: 599px) {
+                table[class=devicewidth] {
+                    width: 100% !important;
+                    text-align: center!important;
+                }
+                table[class=devicewidthinner] {
+                    width: 96% !important;
+                    text-align: center!important;
+                }
+                table[class="sthide"] {
+                    display: none!important;
+                }
+                tr[class="sthide"] {
+                    display: none!important;
+                }
+                img[class="bigimage"] {
+                    width: 100% !important;
+                    height: auto!important;
+                }
+                img[class="bigimage_cta"] {
+                    width: 100% !important;
+                    max-width: 358px;
+                    height: auto!important;
+                }
+                img[class="col2img"] {
+                    width: 100% !important;
+                    height: auto!important;
+                }
+                img[class="image-banner"] {
+                    width: 100% !important;
+                    height: 68px!important;
+                }
+                .display-block {
+                    display: block;
+                    border-top: 1px solid #e8b214;
+                }
+                .display-block-borderno {
+                    display: block;
+                }
+                .pad {
+                    padding: 12px 0px;
+                }
+                .pad-top {
+                    padding: 12px 0px 0px 0px;
+                }
+                .pad-top.cta {
+                    padding: 0;
+                }
+                .pad-bottom {
+                    padding: 0px 0px 12px 0px;
+                }
+                .pad-bottom.cta {
+                    padding: 0;
+                }
+
+                table.contenttable {
+                    width: 470px !important;
+                }
+
+                .hidden-tablet {
+                    display: none !important;
+                }
+                
+            }
+            /*##############################################*/
+            /*IPAD STYLES IPHONE STYLES*/
+            /*##############################################*/
+            @media only screen and (max-width: 640px)
+            {
+                .collapsemobile {
+                    width: 0px !important;
+                }
+
+                .mobilesmallfont {
+                    font-size: 10px !important;
+                }
+                .mobilesmallfontheader {
+                    font-size: 12px !important;
+                }
+                .mobilecar {
+                    height: 35px !important;
+                }
+
+                table.devicewidth
+                {
+                    width: 100% !important;
+                    text-align: center !important;
+                }
+
+                table.devicewidthinner
+                {
+                    width: 100% !important;
+                    text-align: center !important;
+                }
+
+                table.sthide
+                {
+                    display: none !important;
+                }
+
+                tr.sthide
+                {
+                    display: none !important;
+                }
+
+                img.bigimage
+                {
+                    width: 100% !important;
+                    height: auto !important;
+                }
+
+                img.col2img
+                {
+                    width: 100% !important;
+                    height: auto !important;
+                }
+
+                img.image-banner
+                {
+                    max-width: 323px;
+                    width: 100% !important;
+                    height: auto !important;
+                }
+
+                .display-block
+                {
+                    display: block;
+                    border-top: 1px solid #727984;
+                    border-bottom: 1px solid #727984;
+                }
+
+                .display-block.noborder {
+                    border: none !important;
+                    width: 100%;
+                }
+
+                .display-block.noborder a {
+                    display: inline-block;
+                    padding: 2px 0;
+                }
+
+                .pad
+                {
+                    padding: 12px 0px;
+                }
+
+                .pad-top
+                {
+                    padding: 12px 0px 0px 0px;
+                }
+
+                .pad-top.cta
+                {
+                    padding: 0;
+                }
+
+                .pad-bottom
+                {
+                    padding: 0px 0px 12px 0px;
+                }
+
+                .pad-bottom.cta
+                {
+                    padding: 0;
+                }
+
+                .cta {
+                    height: auto;
+                    max-width: 340px;
+                    width: 100%;
+                }
+                .show-mobile{
+                    height: auto!important;
+                    width: auto!important;
+                }
+                .hidden-mobile {
+                    display: none !important;
+                }
+                table.responsive_tabele_text_fix{
+                    width:inherit!important;
+                }
+                .block{
+                    display:block}
+                    .box4 td{
+                    display:block}
+
+            }
+            @media only screen and (max-width: 480px) {
+                table.contenttable {
+                    width: 231px !important;
+                }
+
+
+                table.contenttable {
+                    /*width: 100% !important;*/
+                }
+
+                .inner-table
+                {
+                    height: auto!important;
+                    margin-bottom: 20px!important;
+                }
+
+
+                table.devicewidthinner td {
+                    padding: 5px;
+                }
+            }
+            @media only screen and (max-width: 320px) {
+
+                .mobilesmallfont {
+                    font-size: 9px !important;
+                }
+                .mobilesmallfontheader {
+                    font-size: 6px !important;
+                }
+                .mobilecar {
+                    height: 35px !important;
+                }
+            }
+        </style>
+</head>
+    <body>
+        
+  <!--  <table  class="devicewidth" width="800" cellpadding="0" cellspacing="0" align="center" bgcolor="#FFFFFF" border="0"> -->
+         <table  class="devicewidth" width="100%" cellpadding="0" cellspacing="0" align="center" bgcolor="#FFFFFF" border="0">
+            <tr>
+           
+                <td>
+                
+                    <!-- tabella contenitore generale 650 -->
+                    <table width="100%" align="center" bgcolor="#FFFFFF" style="color: #FFFFFF;max-width:800px;" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td align="center" style="margin: 0; padding: 0;">
+                                <!-- tabella header -->
+                               
+                                <!-- Logo Diagnostics -->
+                                <table width="100%" align="center" bgcolor="#FFFFFF" style="color: #FFFFFF;" border="0"
+                                       cellspacing="0" cellpadding="0">
+                                
+                                    <tr>
+                                        <td style="margin: 0; padding: 0;"> <!-- https://grmenarini--dev1--c.visualforce.com/resource/1595335174000/LogoDiagnostic -->
+                                           <img style="margin: 0; padding: 0; border: none; display: block;max-width:650px"
+                                                src="{!LDi}" width="100%" alt="Codifi" title="Codifi"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <!-- End Logo Diagnostics -->
+                               
+
+                                <!-- tabella body -->
+                                <table width="100%" align="left" bgcolor="#FFFFFF" style="color: #000000;" border="0" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <td height="40">&nbsp;</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    
+                                    <tr>
+                                      <!--  <td width="25">&nbsp;</td> --> 
+                                        <td width="100%" align="left">
+                                        <font face="Arial, Helvetica, sans-serif" color="#000000" size="2" style="font-size:16px; line-height: 22px;">
+                                            <div align='left' style="color:#000000">
+                                                Firenze, {!todayDate}  <br/>
+                                                Cod. Cliente &nbsp; {!codiceCliente}<br/>
+                                                <br/>
+                                                Spett.le<br/>
+                                                {!caseApproved.Account.Name} <br/>
+                                                {!caseApproved.Account.BillingStreet}<br/>
+                                                {!caseApproved.Account.BillingPostalCode + ' ' + caseApproved.Account.BillingCity}<br/>
+                                                {!caseApproved.Account.BillingStateCode}  <br/>
+                                                {!caseApproved.Account.BillingCountryCode} <br/>
+                                                <!-- 
+                                                {!accName}<br/>
+                                                {!accBillingAddress}<br/> -->
+                                                {!caseApproved.contactemail}<br/>
+                                                <br/>
+                                                
+                                                <b style="color:#000000"> OGGETTO: Vs. Richiesta autorizzazione reso nr. - Aut. Nr {!caseApproved.CaseNumber} </b>
+                                                <br/>
+                                                Con la presente, in riferimento alla Vs. richiesta di reso, si approva la restituzione per accredito esclusivamente per i prodotti
+                                                da noi autorizzati, come da elenco sotto riportato:
+                                                <br/>
+                                                </div>
+                                            </font>
+                                        </td>
+                                     </tr>
+                                </table>
+                               <div> &nbsp; <br/></div>
+                                    <apex:dataTable value="{!caseItemRelatedToCaseApproved}" var="cItm" border="1px" align="centre" cellspacing="5" cellpadding="0" width="90%" style="color: #000000; text-align:center" >
+                                        <apex:column headerValue="Codice" style="color: #000000; font-size:9pt; line-height: 25px;">
+                                            <apex:outputField value="{!cItm.THR_Product_Code__c}" />
+                                        </apex:column>
+                                        <apex:column headerValue="Descrizione Prodotto" style="color: #000000; font-size:9pt; line-height: 25px;">
+                                            <apex:outputField value="{!cItm.THR_Product__r.Name}" />
+                                        </apex:column>
+                                        <apex:column headerValue="Q.tà" style="color: #000000; font-size:9pt; line-height: 25px;">
+                                            <apex:outputField value="{!cItm.THR_Product_Quantity__c}" />
+                                        </apex:column>
+                                        <apex:column headerValue="Motivazione del Reso" style="color: #000000; font-size:9pt; line-height: 25px;">
+                                            <apex:outputField value="{!cItm.THR_Case_Related__r.THR_Type__c}" />
+                                        </apex:column>
+                                        <apex:column headerValue="Lotto" style="color: #000000; font-size:9pt; line-height: 25px;">
+                                            <apex:outputField value="{!cItm.THR_Batch__c}" />
+                                        </apex:column>
+                                        <apex:column headerValue="Scad. Lotto" style="color:#000000; font-size:9pt; line-height: 25px;">
+                                            <apex:outputField value="{!cItm.THR_Batch_Expire_Date__c}" />
+                                        </apex:column>
+                                    </apex:dataTable>
+                                    <table width="100%" align="left" bgcolor="#FFFFFF" style="color:#000000;" border="0" cellspacing="0" cellpadding="0">
+                                    <font face="Arial, Helvetica, sans-serif" color="#000000" size="2" style="font-size:16px; line-height: 22px;">  
+                                    <div align='justify' style="color: #000000;">
+                                    <b> {!caseApproved.THR_Cutter_Ph_1__c} </b><br/>
+                                    Il DDT di restituzione dovrà essere <b>intestato a A.MENARINI DIAGNOSTICS </b> e come luogo di destinazione dovrà riportare il seguente indirizzo:<br/> <br/>
+                                        {!caseApproved.TH_Deposit__r.Name} <br/>
+                                        {!caseApproved.TH_Deposit__r.BillingStreet}<br/>
+                                        {!caseApproved.TH_Deposit__r.BillingPostalCode + ' ' + caseApproved.TH_Deposit__r.BillingCity}<br/>
+                                        {!caseApproved.TH_Deposit__r.BillingStateCode}  <br/>
+                                        {!caseApproved.TH_Deposit__r.BillingCountryCode} <br/>
+                                    <!-- {!depName} <br/>   
+                                    {!depBillingAddress} <br/> <br/> -->
+                                    <br/>
+                                    
+                                    La documentazione comprensiva del modulo <b>“Dichiarazione di Conformità Merce Resa”</b> correttamente compilato, timbrato e firmato e del
+                                    documento di trasporto da Voi emesso, dovrà essere allegata alla merce.
+                                    A tal proposito, segnaliamo sin d’ora che qualora la merce non sia accompagnata dal modulo
+                                    “Dichiarazione di Conformità Merce Resa”, correttamente compilato, timbrato e firmato e dal documento di trasporto da Voi emesso,
+                                    la stessa merce non sarà accettata e Vi sarà restituita con addebito a Vostro carico delle spese di spedizione.<br/>
+                                    Il nostro depositario, che ci legge in copia, provvederà al ritiro di quanto da noi autorizzato presso la Vs. sede.<br/>
+                                    Successivamente alla ripresa in carico ed alla verifica della merce, verrà emessa nota di credito nei Vostri confronti.<br/>
+                                    {!caseApproved.THR_Cutter_Ph_2__c}<br/>
+                                    <b>Nel ribadire il vincolo alla restituzione dei soli prodotti e lotti specificatamente dettagliati, precisiamo che eventuali invii difformi rispetto a quanto autorizzato,
+                                    Vi saranno restituiti con addebito di spese di spedizione.</b><br/>
+                                    <br/>    
+                                    L’occasione è gradita per porgere distinti saluti.
+                                     </div>
+                                    </font>
+                                    <table width="100%" align="right" bgcolor="#FFFFFF" style="color: #000000;" border="0" cellspacing="0" cellpadding="0">
+                                        <tr>
+                                            <td style="margin: 0; padding: 110;" rowspan="1" align="right">
+                                                <!--  <img style="margin: 0; padding: 0; border: none; display: block;max-width:800px;" -->
+                                                <img style="margin: 0; padding: 0; border: none; display: block;max-width:29%"
+                                                     src="{!fDi}" width="30%" alt="Codifi" title="Codifi" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <div  align='justify'>
+                                       <img style="margin: 0; padding: 0; border: none; display: block;max-width:100%"
+                                         src="{!FooterCodifi}" width="100%" alt="FooterCodifi" title="FooterCodifi" />
+                                    <!--
+                                    <font face="Arial, Helvetica, sans-serif" color="#000000" size="2" style="font-size:8px; line-height: 18px;"> <BR/>
+                                    CODIFI SRL. - CONSORZIO STABlLE PER LA DISTRIBUZlONE VIA SETTE SANTI, • 50131 FIRENZE - TEL. +39 055 56801 - FAX +39 055 5680488 - +39 055 56807747 
+                                    WWW.MENARINI.IT - CAP. SOC_ 1.000.000€ I.V. - CODICE FISCALE. PARTITA I.V.A., ISCRIZIONE REGISTRO IMPRESE Dl FIRENZE. N. 02344710484 
+                                    SOCIETA' SOGGETTA ALL'ATTIVITA' Dl DIREZIONE E COORDINAMENTO DI A. MENARINI INDUSTRIE FARMACEUTICHE RIUNITE S.R.L. - VIA SETTE SANTI. 3 - 50131 FIRENZE - P.I. 00395270481 </font> //EC Aggiunta chiusura Font. OK?
+                                    <font face="Arial, Helvetica, sans-serif" color="#000000" size="2" style="font-size:8px; line-height: 18px;" align="center">
+                                    <b><u>AZIENDE DEL GRUPPO MENARINI</u></b> <br/>
+                                    <b><u>ITALIA</u></b>: MALESCI - Firenze, F.I.R.M.A. - Firenze, CODIFI - Firenze, A. MENARINI FARMACEUTICA INTERNAZIONALE - Firenze. A. MENARINI INDUSTRIE FARMACEUTICHE RIUNITE - Firenze, A. MENARINI MANUFACTURING LOGISTICS AND SERVICES - Firenze, L'Aquila e Pisa, MENARINI RICERCHE - Firenze e Pomezia, MENARINI BIOTECH - Pomezia, GUIDOTTI - Pisa, LUSOFARMACO - Milano, LUSOCHIMICA - Pisa e Lomagna (Lecco). 
+                                    <br/>
+                                    <b><u>Mondo</u></b>: ALBANIA - Tirana, ARGENTINA - Buenos Aires, ARMENIA - Yerevan, AUSTRALIA e NUOVA ZELANDA Sydney, AUSTRIA - Vienna, AZERBAIGIAN - Baku, BELGIO - Bruxelles, BIELORUSSIA - Minsk, BOSNIA-ERZEGOVINA - Sarajevo, BULGARIA - Sofia, CINA - Pechino e Shanghai, COREA DEL SUD - Seul e Yongin, COSTARICA - San Jose',  CROAZIA - Zagabria, DANIMARCA - Copenhagen, EL SALVADOR - San Salvador, ESTONIA - Tallinn, FILIPPINE - Manila, FINLANDIA - Helsinki, FRANCIA - Parigi, GEORGIA - Tbilisi, GERMANIA - Berlino e Dresda, GRECIA - Atene. GUATEMALA - Città del Guatemala, HONDURAS - Tegucigalpa, HONG KONG - Hong Kong, INDIA - Ahmedabad, Mumbai e Nuova Delhi, INDONESIA - Bekasi e Jakarta, IRLANDA - Dublino e Shannon, KAZAKISTAN - Almaty, KIRGHIZISTAN - Bishkek, LETTONIA - Riga, LITUANIA - Vilnius, LUSSEMBURGO - Lussemburgo, MALESIA - Kuala Lumpur, MESSICO - Città del Messico, MOLDAVIA - Chisinau, MONTENEGRO - Podgorica, 
+                                    NICARAGUA - Managua, OLANDA - Amsterdam, PANAMA - Panama, POLONIA - Varsavia, PORTOGALLO - Lisbona, REGNO UNITO - Londra, REPUBBLICA CECA - Praga, ROMANIA - Bucarest. RUSSIA - 
+                                    Mosca, SERBIA - Belgrado, SINGAPORE - Singapore, SLOVACCHIA - Bratislava, SLOVENIA - Lubiana, SPAGNA - Barcellona. SUD AFRICA - Bryanston, SVIZZERA - Zurigo, TAILANDIA - Bangkok, TAIWAN -Taipei, TURCHIA - Istanbul, TURKMENISTAN - Ashgabat, UCRAINA - Kiev, UNGHERIA - Budapest, UZBEKISTAN - Tashkent, VIETNAM Hanoi e Ho Chi Minh. 
+                                        <br/>
+                                   <b><u>Diagnostica</u></b>: AUSTRIA - Vienna. BELGIO - Zaventem, CROAZIA - Zagabria, FRANCIA - Parigi, GERMANIA - Berlino, GRECIA - Atene. ITALIA - Firenze, OLANDA • Valkenswaard, PORTOGALLO - Lisbona 
+                                        REGNO UNITO - Londra, SLOVENIA - Lubiana, SPAGNA - Barcellona, SVEZIA - Malmö, SVIZZERA - Zurigo. <br/>
+                                    Mod09/2012-1
+                                    <td width="25">&nbsp;</td>
+                                    </font>
+                                    -->
+                                    <br/>
+                                    </div>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+        </tr>
+        </table>
+        
+        
+        <table  class="devicewidth" width="800" cellpadding="0" cellspacing="0" align="center" bgcolor="#FFFFFF" border="0" style="color:#000000;">
+            <tr>
+                
+                <td>
+                    
+                    <!-- tabella contenitore generale 800 -->
+                    <table width="100%" align="left" bgcolor="#FFFFFF" style="color:#000000;max-width:800px;" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td align="left" style="margin: 0; padding: 0;">
+                                <!-- tabella header -->
+                                
+                                
+                                <!-- tabella body -->
+                                <table width="100%" align="left" bgcolor="#FFFFFF" style="color:#000000;" border="0"
+                                       cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <td height="40">&nbsp;</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        
+                        <font face="Arial, Helvetica, sans-serif" color="#000000" size="2" style="font-size:16px; line-height: 22px;color:#000000;">
+                            <div align='left' style="color:#000000">
+                            Cod. Cliente &nbsp; {!codiceCliente}<br/>
+                            Spett.le<br/>
+                                {!caseApproved.Account.Name} <br/>
+                                {!caseApproved.Account.BillingStreet}<br/>
+                                {!caseApproved.Account.BillingPostalCode + ' ' + caseApproved.Account.BillingCity}<br/>
+                                {!caseApproved.Account.BillingStateCode}  <br/>
+                                {!caseApproved.Account.BillingCountryCode} <br/>
+                                   <!-- {!accName}<br/>
+                                    {!accBillingAddress}<br/> -->
+                                {!caseApproved.contactemail}
+                            </div>
+                            <b><p style="text-align:right;color:#000000;">
+                                Spett.le<br/>
+                                {!caseApproved.TH_Deposit__r.Name} <br/>
+                                {!caseApproved.TH_Deposit__r.BillingStreet}<br/>
+                                {!caseApproved.TH_Deposit__r.BillingPostalCode + ' ' + caseApproved.TH_Deposit__r.BillingCity}<br/>
+                                {!caseApproved.TH_Deposit__r.BillingStateCode}  <br/>
+                                {!caseApproved.TH_Deposit__r.BillingCountryCode} <br/>
+                            <!--    {!depName}<br/>
+                                {!depBillingAddress}<br/> -->
+                                </p></b>
+                            <br/>
+                            Firenze {!todayDate}
+                            <br/>
+                            <b><p style="text-align:center;color:#000000;">DICHIARAZIONE DI CONFORMITA’ MERCE RESA
+                                <br/>
+                                Rif. Autorizzazione al reso Nr {!caseApproved.CaseNumber}</p></b>
+                            <br/>
+                            Con la presente si dichiara che il/i prodotto/i descritti in dettaglio nel nostro documento di trasporto nr. ………………………… del …………………… sono stati e/o saranno maneggiati e conservati presso i nostri locali in condizioni appropriate, in ottemperanza a quanto indicato sulla sua/loro confezione fino a consegna al vettore.
+                            Si garantisce pertanto, in funzione della tipologia di prodotto reso, sia esso un farmaco, un integratore alimentare o alimento destinato a fini speciali, un cosmetico, un dispositivo medico o medico diagnostico, il rispetto delle relative norme di qualità pertinenti: Buone pratiche di distribuzione dei medicinali per uso umano (rif D.Lgs del 6 Luglio 1999), HACCP, EN ISO 22716 e EN ISO 13485.
+                            <br/>
+                            <p style="text-align:right;color:#000000;">Timbro e Firma a cura del Responsabile</p>
+                            <br/>
+                            <br/>
+                            <br/>
+                            Data della compilazione …………………………………………………………………………<br/>
+                            Luogo della compilazione ………………………………………………………………………….<br/>
+                            <br/>
+                            <br/>
+                            <b>NB: La presente da compilare a cura della direzione tecnica,
+                                del direttore sanitario, o del responsabile di farmacia, e allegare al DDT di reso.</b>  <br/>
+                            <b><u>I prodotti restituiti senza questa dichiarazione non potranno essere accreditati</u></b>            
+                        </font>
+                        
+                        
+                    </table>
+                </td>
+            </tr>
+        </table>
+        
+        
+    </body>
+      
+</apex:component>

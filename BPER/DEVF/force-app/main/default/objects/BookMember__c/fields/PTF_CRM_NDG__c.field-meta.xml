@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PTF_CRM_NDG__c</fullName>
+    <description>Numero dell&apos;NDG</description>
+    <externalId>false</externalId>
+    <formula>PTF_NDG__r.CRM_NDG__c</formula>
+    <label>CRM NDG</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

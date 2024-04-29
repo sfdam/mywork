@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_ContactStatus__c</fullName>
+    <externalId>false</externalId>
+    <label>Esito contatto</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Da ricontattare</fullName>
+                <default>false</default>
+                <label>Da ricontattare</label>
+            </value>
+            <value>
+                <fullName>Non tagliandabile</fullName>
+                <default>false</default>
+                <label>Non tagliandabile</label>
+            </value>
+            <value>
+                <fullName>Da contattare</fullName>
+                <default>false</default>
+                <label>Da contattare</label>
+            </value>
+            <value>
+                <fullName>Tagliando effettuato</fullName>
+                <default>false</default>
+                <label>Tagliando effettuato</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,73 @@
+.THIS {
+}
+
+/* CSTM FORM HORIZONTAL */
+
+.THIS .cstm-form-section-title {
+    color: #498fe2;
+    font-size: 18px;
+    padding-top: 10px;
+}
+
+.THIS .cstm-form-section {
+    border-top: 1px solid #EEE;
+    padding-top: 10px;
+}
+
+.THIS .cstm-form-section .cstm-form-section-qualificaDebitore > div[class*='slds-']:nth-child(odd) {
+    border-right: 1px solid #EEE;
+}
+
+/* CSTM FORM HORIZONTAL */
+
+.THIS .cstm-main-title {
+    font-size: 20px;
+    padding-top: 10px;
+}
+
+.THIS .slds-button_brand {
+    background-color: #0064B5 !important;
+    border-color: #0064B5 !important;
+}
+
+.THIS .slds-button_brand:disabled {
+    background-color: #CCC !important;
+    border-color: #CCC !important;
+}
+
+.THIS .cstm-btn-round {
+    border-radius: 25px;
+    border-radius: 25px;
+    font-size: 10px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.THIS .cstm-input-numeric input.slds-input {
+    text-align: right !important;
+}
+
+.THIS .comments-icn{
+    --sds-c-icon-color-foreground-default: green;
+    position: absolute;
+    padding-top:2px;
+}
+
+.THIS .comments-ecn-warning{
+    --sds-c-icon-color-foreground-default: orange;
+    position: absolute;
+    padding-top:2px;
+}
+
+.THIS .comments-ecn-error{
+    --sds-c-icon-color-foreground-default: red;
+    position: absolute;
+    padding-top:2px;
+}
+
+.THIS .semaforoContainer{
+    --sds-c-icon-color-foreground-default: red;
+    position: relative;
+    bottom:5px;
+    left:10px;
+}

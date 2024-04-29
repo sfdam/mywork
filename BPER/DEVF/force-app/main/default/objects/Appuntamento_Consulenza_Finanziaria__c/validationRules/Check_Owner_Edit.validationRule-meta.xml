@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Check_Owner_Edit</fullName>
+    <active>true</active>
+    <description>Controlla se chi effettua modifiche sull&apos;appuntamento è proprietario di quel record</description>
+    <errorConditionFormula>IF(Id != null, Owner:User.Id != $User.Id, false)</errorConditionFormula>
+    <errorMessage>Non puoi modificare un appuntamento creato da un altro utente.</errorMessage>
+</ValidationRule>

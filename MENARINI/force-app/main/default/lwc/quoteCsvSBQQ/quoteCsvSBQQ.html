@@ -1,0 +1,8 @@
+<template>
+    <div class="slds-p-vertical_x-small">
+        <lightning-button variant="brand" label="Copy SAP CSV to Clipboard" title="Copy SAP CSV to Clipboard" icon-name="utility:copy" onclick={handleCopySapCsvToClipboard}></lightning-button>
+    </div>
+    <div class="slds-p-vertical_x-small">
+        <lightning-textarea name="SapCSV" disabled value={csv} label="Sap CSV" variant="label-hidden"></lightning-textarea>
+    </div>
+</template>

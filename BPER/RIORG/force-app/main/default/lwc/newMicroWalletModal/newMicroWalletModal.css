@@ -1,0 +1,54 @@
+.personal-container{
+    margin: auto 0;
+    width: 100% !important;
+    padding: 0;
+}
+
+.personal-body{
+    height: 500px;
+}
+
+.personal-footer {
+    position: absolute;
+    width: 100%;
+    left: 0;
+}
+
+.no-button {
+    text-align: center;
+    color: #D3D3D3;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.tableTitle {
+    background-color: #f7f7f7;
+    font-weight: bold;
+    text-align: center;
+    font-size: 18px;
+    z-index: 1000;
+}
+
+.gestore-principale {
+    height: 190px;
+    margin-bottom: 30px;
+}
+
+.gestore-backup {
+    height: 190px;
+}
+
+.slds-dropdown-trigger .slds-dropdown {
+    height: 200px;
+    overflow: auto;
+}
+
+.personal-body[c-newMicroWalletModal_newMicroWalletModal] {
+    height: 475px;
+}
+
+lightning-helptext {
+    position: absolute;
+    top: 0;
+    right: 0;
+}

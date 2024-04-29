@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PTF_isPTFTecnico__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(
+CONTAINS(
+TRIM(RIGHT(Name, 7)), &apos;-000075&apos;
+), TRUE, FALSE
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Portafoglio 75</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

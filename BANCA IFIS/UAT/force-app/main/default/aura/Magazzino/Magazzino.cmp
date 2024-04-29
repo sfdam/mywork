@@ -1,0 +1,56 @@
+<aura:component implements="flexipage:availableForAllPageTypes" access="global" controller="CmpMagazzino">
+
+  <!-- Variables -->
+  <aura:attribute name="accounts" type="List" />
+  <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+  <!-- Layout -->
+  <div class="slds-box">
+
+    <div class="slds-grid slds-wrap slds-grid--pull-padded">
+      <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--5-of-6 slds-large-size--8-of-12">
+        <h2 class="slds-section__title">Magazzino</h2>
+      </div>
+      <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-6 slds-large-size--4-of-12">
+        <div class="slds-text-align--right">
+          <ui:inputSelect aura:id="sviluppi" change="{!c.changeSviluppo}"/>
+        </div>
+      </div>
+    </div>
+
+    <div class="slds-p-bottom--small"></div>
+    <div class="slds-p-horizontal--small slds-size--1-of-1">
+      <table class="slds-table slds-table--bordered slds-table--cell-buffer slds-no-row-hover">
+        <thead>
+          <tr class="slds-text-heading--label">
+            <th scope="col"><div class="slds-truncate" title="Nome account">Nome account</div></th>
+            <th scope="col"><div class="slds-truncate" title="Fatturato">Fatturato</div></th>
+          </tr>
+        </thead>
+        <tbody>
+          <aura:iteration items="{!v.accounts}" var="a">
+            <tr>
+              <td>
+                <div class="slds-truncate" title="Nome account">
+                  <a onclick="{!c.viewRecord}" data-data="{!a.acc.Id}">
+                    {!a.acc.Name}
+                  </a>
+                </div>
+              </td>
+              <td>{!a.acc.Fatturato__c}</td>
+            </tr>
+          </aura:iteration>
+          <aura:if isTrue="{!v.accounts.length == 0}">
+            <tr>
+              <td colspan="5">
+                <div class="slds-text-align--center">
+                  Nessun account
+                </div>
+              </td>
+            </tr>
+          </aura:if>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</aura:component>

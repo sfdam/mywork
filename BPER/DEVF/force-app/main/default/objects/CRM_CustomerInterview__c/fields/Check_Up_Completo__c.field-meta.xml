@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Check_Up_Completo__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <externalId>false</externalId>
+    <label>Check Up Completo</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>CRM_CustomerInterview__c.RecordType.DeveloperName</field>
+            <operation>equals</operation>
+            <value>Check_Up_Standard</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>CRM_CustomerInterview__c</referenceTo>
+    <relationshipLabel>Storico Compilazioni</relationshipLabel>
+    <relationshipName>Check_Up</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

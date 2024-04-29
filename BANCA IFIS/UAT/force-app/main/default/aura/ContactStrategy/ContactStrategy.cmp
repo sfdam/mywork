@@ -1,0 +1,7 @@
+<aura:component description='ContactStrategy' implements='flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:lightningQuickAction,force:hasRecordId,force:hasSObjectName' access='global'>
+  <aura:attribute name='recordId' type='Id' />
+  <aura:attribute name='sObjectName' type='String' />
+  <aura:attribute name='fieldSets' type='String' default='' access='global'/>
+  <aura:attribute name='profilesAllowedToEdit' type='String' default='' access='global'/>
+  <c:VueWrapper recordId='{!v.recordId}' appName='ContactStrategyApp' params="{!v.sObjectName + ';;;' + v.fieldSets + ';;;' + v.profilesAllowedToEdit}"></c:VueWrapper>
+</aura:component>

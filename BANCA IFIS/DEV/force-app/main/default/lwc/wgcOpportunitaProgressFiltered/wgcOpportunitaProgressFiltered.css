@@ -1,0 +1,240 @@
+.cstm-btn {
+  height: 33px;
+  margin-bottom: 5px;
+  line-height: 0;
+  padding: 4px;
+  width: 170px;
+  text-overflow: ellipsis;
+  border-radius: 25px;
+  font-size: 12px;
+  text-transform: uppercase;
+  font-weight: bold;
+  background: #0064b5;
+  border-color: #0064b5;
+}
+
+.cstm-select {
+  outline: 0;
+  border: 0;
+  border-bottom: 2px solid #0064b5;
+}
+
+.slds-card__body_inner {
+  padding: 0 10px 0 10px !important;
+}
+
+/* CIRCLE */
+.container {
+  position: relative;
+  height: 130px;
+}
+
+.circle {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  bottom: 0px;
+}
+
+.circleBase {
+  border-radius: 50%;
+  padding: 0;
+}
+
+.circleBaseBody {
+  text-align: center;
+  font-size: 36px;
+  font-weight: bolder;
+  color: #0064b5;
+  line-height: 80px;
+  width: 76px;
+}
+
+.found-white {
+  color: #ffffff;
+}
+
+.found-red {
+  color: #ed495b;
+}
+
+.found-grey {
+  color: #c2c2c2;
+}
+
+.circleBaseBodyTitle {
+  font-size: 12px;
+  text-align: center;
+  font-weight: bolder;
+  color: #000000;
+  text-transform: uppercase;
+}
+
+.circleBaseBodySub {
+  text-align: center;
+  color: #c2c2c2;
+  font-size: 12px;
+}
+
+.circleRightBody {
+  line-height: 15px;
+  font-weight: bold;
+  font-size: 12px;
+  padding-top: 3px;
+  padding-right: 0;
+  padding-left: 5px;
+}
+
+.type4 {
+  margin: 0 auto;
+  width: 80px;
+  height: 80px;
+  background: #ffffff;
+  box-shadow: 0px 0px 10px rgb(46, 46, 46, 0.2);
+  z-index: 10;
+}
+
+.border-white {
+  border: 2px solid #ffffff;
+}
+
+.border-grey {
+  border: 2px solid #c2c2c2;
+}
+
+.border-red {
+  border: 2px solid #ed495b;
+}
+
+.background-red {
+  background-color: #ed495b;
+}
+
+.margin {
+  margin: 20px 0 5px 0;
+}
+
+.circleBaseStriped {
+  background: linear-gradient(
+    to right,
+    #0064b5,
+    rgb(106, 172, 250, 0.75),
+    rgb(106, 172, 250, 0.5),
+    rgb(106, 172, 250, 0.25)
+  );
+  height: 20px;
+  width: 60%;
+  margin: auto 70px;
+  margin-top: 100px;
+  position: absolute;
+  z-index: 10;
+}
+
+.colorType1 {
+  background-color: #0064b5;
+  color: #ffffff;
+}
+
+.colorType2 {
+  background-color: #9ac9ff;
+  color: #ffffff;
+}
+
+.cstm-border-all {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.dropdownSearchArrow {
+  height: 19px;
+  position: relative;
+  overflow: hidden;
+  display: block;
+  top: 1px;
+}
+.dropdownSearchArrow:after {
+  content: " ";
+  position: absolute;
+  border: 1px solid #ccc;
+  width: 20px;
+  height: 20px;
+  background: #f7f7f7;
+  transform: rotate(45deg);
+  bottom: -10px;
+  left: 5%;
+  margin-left: 8px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 2) {
+  /* STYLES GO HERE */
+  .circleBaseStriped {
+    margin-left: 60px;
+  }
+}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) and (-webkit-min-device-pixel-ratio: 2) {
+  /* STYLES GO HERE */
+  .type4 {
+    width: 60px;
+    height: 60px;
+  }
+
+  .circleBaseBody {
+    font-size: 28px;
+    line-height: 60px;
+    width: 56px;
+  }
+
+  .circleBaseBodyTitle {
+    font-size: 8px;
+  }
+
+  .circleBaseBodySub {
+    font-size: 8px;
+  }
+
+  .circleBaseStriped {
+    margin-top: 83px;
+    margin-left: 30px;
+  }
+
+  .container {
+    height: 100px;
+  }
+}
+
+@media only screen and (min-width: 320px) and (max-width: 480px) and (orientation: portrait) {
+  /* STYLES GO HERE */
+  .iphone {
+    display: none;
+  }
+
+  .type4 {
+    width: 60px;
+    height: 60px;
+  }
+
+  .circleBaseBody {
+    font-size: 28px;
+    line-height: 60px;
+    width: 56px;
+  }
+
+  .circleBaseBodyTitle {
+    font-size: 8px;
+  }
+
+  .circleBaseBodySub {
+    font-size: 8px;
+  }
+
+  .circleBaseStriped {
+    margin-top: 62px;
+  }
+
+  .container {
+    height: 100px;
+  }
+}

@@ -1,0 +1,58 @@
+/* .THIS{
+
+}
+
+.THIS .title {
+    display: inline-block;
+    margin-left: 10px;
+    vertical-align: sub;
+}
+
+.THIS .open-component {
+    display: inline-block;
+    position: absolute;
+    right: 10px;
+    vertical-align: super;
+}
+
+.THIS .container-card {
+    min-height: 345px;
+}
+
+.THIS .containerCol{
+    border:1px solid #DAD7D8;
+    border-radius:5px;
+} */
+
+
+
+
+.THIS .container-card {
+    min-height: 345px;
+}
+
+.THIS .title {
+    display: inline-block;
+    margin-left: 10px;
+    vertical-align: sub;
+}
+
+.THIS .open-component {
+    display: inline-block;
+    position: absolute;
+    right: 10px;
+    vertical-align: super;
+}
+
+.THIS .slds-card__body {
+    /* margin: 0 10px 10px 10px; */
+}
+
+.THIS .containerCol{
+    border:1px solid #DAD7D8;
+    border-radius:5px;
+}
+.THIS .centro{
+    margin: 0 auto;
+    width: 50%;
+}

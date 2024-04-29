@@ -1,0 +1,318 @@
+<!-- sldsValidatorIgnore -->
+<!-- sldsValidatorIgnore -->
+<template>
+
+	<!-- DO NOT DELETE THIS -->
+	<div style="display: none;">{recordId}</div>
+	<!-- DO NOT DELETE THIS -->
+  
+  
+	  
+	  <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-modal_medium slds-fade-in-open">
+		  <template if:true={isModalOpen}>
+		  <div class="slds-modal__container">	
+			  <header class="slds-modal__header">
+				  <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="ANNULLA" onclick={chiudiModale} > <!--onclick={closeModal}-->
+						  <lightning-icon icon-name="utility:close"
+								  alternative-text="close"
+								  variant="inverse"
+								  size="small" ></lightning-icon>
+						  <span class="slds-assistive-text">Close</span>
+				  </button>
+					  <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{title}</h2>
+			  </header>
+			  
+			  <div class="custom-modal-container">
+				  <template if:true={spinner}>
+					  <div class="slds-m-around_large">
+						  <div class="slds-is-relative">
+							  <lightning-spinner alternative-text="Attendi..." variant="brand">
+								  
+							  </lightning-spinner>
+						  
+							  <div style="margin-left: 21%; color: black; font-size: 16px;">
+							  </br></br></br></br></br>{label.txtCProcessi_SpinnerMessage}
+							  </div>
+						  
+						  </div>
+					  </div></br></br>
+				  </template>
+			  <template if:false={spinner}>
+				  <template if:true={WebDataInsert}>		
+					  <div if:false={hasData} class="slds-size_6-of-7">
+						  <lightning-input if:false={showNewButton} required name="DenominazioneWebData"
+								  style="margin: auto; width: 50%;"
+								  label={label.txtCLead_Denominazione}
+								  value={DenominazioneWebData}
+								  field-name={Company}
+								  onchange={handlefieldchange}>
+						  </lightning-input>
+						  <div if:true={showNewButton} style="margin-left: 45%;">
+							  <b>{label.txtCLead_NoResultsFound}</b>
+							  </br></br>
+							  <lightning-button variant="brand" label={label.txtCLead_ConversioneManuale} title="notFound" onclick={handleManuale} class="slds-m-left_x-small"></lightning-button>
+						  </div>
+						  <div if:false={showNewButton}>
+						  <lightning-combobox if:true={EsteroDataInsert} required name="EsteroData" label={label.txtCLead_Nazione} value={EsteroData} 
+								  options={countryOptions} onchange={handlefieldchange}
+								  style="margin: auto; width: 50%;">
+						  </lightning-combobox>
+					  </div>
+					  </br>    
+					  </div>
+					  <div if:false={hasData}>
+						  <footer if:false={showNewButton} class="slds-modal__footer">
+							  <lightning-layout>
+								  <lightning-layout-item size="2" style="margin-left: auto; margin-right: 0;">
+									  <div class="slds-size_6-of-7">
+										  <label class="slds-checkbox_toggle slds-grid">
+										  <span class="slds-form-element__label slds-m-bottom_none">{label.txtCLead_Estera}</span>
+										  <input if:false={showNewButton} style="float: left;" align="right" type="checkbox" name="EsteroDataInsert" onchange={handlefieldchange} aria-describedby="checkbox-toggle-14" />
+										  <span id="checkbox-toggle-14" class="slds-checkbox_faux_container" aria-live="assertive">
+											  <span class="slds-checkbox_faux"></span>
+										  </span>
+										  </label>
+									  </div>
+								  </lightning-layout-item>
+								  <lightning-layout-item size="1">
+									  <div  class="slds-size_6-of-7">
+										  <lightning-button if:true={WebDataInsert} label={label.txtCLead_Cerca} variant="brand" onclick={handleCercaWeb} disabled={disablebutton}></lightning-button>
+									  </div>
+								  </lightning-layout-item>
+							  </lightning-layout>
+						  </footer>
+						  <footer if:true={showNewButton} class="slds-modal__footer">
+							  <lightning-button label={label.txtCLead_Indietro} variant="brand" onclick={handlereset}></lightning-button>                
+						  </footer>
+					  </div>
+					  
+					  <template if:true={hasData}>
+						  <div class="slds-var-m-around_medium custom-table-autoscroll">
+							  <lightning-datatable
+									  column-widths-mode='auto'
+									  max-row-selection="1"
+									  key-field="Id"
+									  data={tableData}
+									  columns={columns}
+									  default-sort-direction={defaultSortDirection}
+									  sorted-direction={sortDirection}
+									  sorted-by={sortedBy}
+									  onsort={onHandleSort}
+									  onrowselection={handleRefRowSelection}>
+							  </lightning-datatable>
+						  </div>
+						  <div style="padding:20px">
+							  <lightning-button variant="brand" label={label.txtCLead_ConversioneManuale} title="notFound" onclick={handleManuale} class="slds-m-left_x-small"></lightning-button>
+						  </div>
+					  </template>
+					  <template if:true={hasData}>
+							  <footer class="slds-modal__footer">
+									  <lightning-button-group>
+											  <lightning-button if:true={hasData} label={label.txtCLead_Avanti} variant="brand" onclick={handleWebPGData} disabled={isSaveDisabled}></lightning-button>
+									  </lightning-button-group>                    
+							  </footer>
+					  </template>
+				  </template>
+  
+				  <template if:true={AccountDataInsert}>
+					  <lightning-record-edit-form
+						  object-api-name="Account">
+						  <lightning-input-field if:true={AccountName} required disabled={disabledinput} name="AccountNameData"
+								  value={AccountNameData} 
+								  onchange={handlefieldchange}
+								  field-name={AName}>
+						  </lightning-input-field>
+						  <!--
+						  <lightning-input-field required name="RagioneSocialeDenominazioneData" 
+								  value={RagioneSocialeDenominazioneData}
+								  onchange={handlefieldchange}
+								  field-name={denosociale__c}>
+						  </lightning-input-field>
+						  -->
+					  </lightning-record-edit-form>
+  
+							  <lightning-record-edit-form
+								  object-api-name="Lead"
+							  record-id={recordId}>
+  
+									  <lightning-layout multiple-rows="true">
+										<lightning-layout-item size="12">
+											<lightning-input-field if:true={InserimentoManuale} disabled={disabledinput} name="EsteroDataInsert" 
+												value={estero}
+												onchange={handlefieldchange}
+												field-name={clienteEstero}
+												data-name="Cliente_Estero__c">
+											</lightning-input-field>
+										</lightning-layout-item>
+										<!-- GRUPPO IVA -->
+										<lightning-layout-item size="6">
+											<div class="slds-col slds-size_6-of-7">
+												<lightning-input-field disabled={disabledinput} name="GruppoIvaData" 
+													value={GruppoIvaData}
+													onchange={handlefieldchange}
+													field-name={GruppoIvaField}
+													data-name="TXT_Gruppo_IVA__c">
+												</lightning-input-field>
+											</div>
+										</lightning-layout-item>
+										<lightning-layout-item size="6">
+												<div class="slds-col slds-size_6-of-7">
+													<lightning-input-field disabled={disabledinput} name="DenominazioneGruppoIvaData" 
+														value={DenominazioneGruppoIvaData}
+														onchange={handlefieldchange}
+														field-name={DenominazioneGruppoIvaField}
+														data-name="TXT_Denominazione_Gruppo_IVA__c">
+													</lightning-input-field>
+												</div>
+										</lightning-layout-item>
+  
+										  <lightning-layout-item size="6">
+											  <div  class="slds-size_6-of-7">
+												  
+													  <lightning-input-field if:false={InserimentoManuale} required disabled={disabledinput} name="CCIAAData" 
+															  value={CCIAAData}
+															  onchange={handlefieldchange}
+															  field-name={CCIAA_CMK__c}
+															  data-name="CCIAA_CMK__c">
+													  </lightning-input-field>
+												  
+													  <lightning-input-field required disabled={disabledinput} name="PartitaIVAData"
+															  value={PartitaIVAData}
+															  onchange={handlefieldchange}
+															  field-level-help="Il campo può contenere 16 caratteri"
+															  maxlength="16"
+															  field-name={Partiva_Iva__c}
+															  data-name="Partiva_Iva__c">
+													  </lightning-input-field>
+													  
+											  </div>
+											  <div  class="slds-size_6-of-7">
+												  
+											  </div>
+										  </lightning-layout-item>
+										  <lightning-layout-item size="6">
+											  <div  class="slds-size_6-of-7">
+													  <lightning-input-field if:false={InserimentoManuale} required disabled={disabledinput} name="READata"
+															  value={READata}
+															  onchange={handlefieldchange}
+															  field-name={CCIAA_REA_Innolva__c}
+															  data-name="CCIAA_REA_Innolva__c">
+													  </lightning-input-field>
+														<!-- if:true={requirecf} required-->
+													  <lightning-input-field required={requirecf} disabled={disabledinput} name="CodiceFiscaleData"
+															  value={CodiceFiscaleData}
+															  onchange={handlefieldchange} 
+															  field-level-help="Il campo può contenere 16 caratteri"
+															  maxlength="16"
+															  field-name={Codice_Fiscale__c}
+															  data-name="Codice_Fiscale__c">
+													  </lightning-input-field>
+													  <lightning-input-field required={RequiredManuale} disabled={disabledinput}
+															  name="FormaGiuridicaData"
+															  value={FormaGiuridicaData}
+  
+															  onchange={handlefieldchange}
+															  field-name={Forma_giuridica__c}
+															  data-name="Forma_giuridica__c">
+													  </lightning-input-field>
+											  </div>
+											  <div  class="slds-size_6-of-7">
+												  <!--
+													  <lightning-input-field required 
+															  name="NaturaGiuridicaData"
+															  value={NaturaGiuridicaData}
+  
+															  onchange={handlefieldchange}
+															  field-name={Natura_Giuridica_Innolva__c}
+															  data-name="Natura_Giuridica_Innolva__c">
+													  </lightning-input-field>
+													  -->
+													  
+											  </div>
+										  </lightning-layout-item>
+  
+									  </lightning-layout>
+									  <lightning-layout>
+  
+  
+										  <lightning-layout-item size="6">
+											  <div  class="slds-size_6-of-7">
+										  <lightning-input-field required disabled={disabledinput} name="ViaIndirizzoSedeLegaleData"
+												  value={ViaIndirizzoSedeLegaleData}
+												  onchange={handlefieldchange}
+												  field-name={Street}
+												  data-name="Street">
+										  </lightning-input-field>
+										  <lightning-input-field required disabled={disabledinput} name="PaeseIndirizzoSedeLegaleData"
+												  value={PaeseIndirizzoSedeLegaleData}
+												  onchange={handlefieldchange}
+												  field-name={Country}
+												  data-name="Country">
+										  </lightning-input-field>
+										  <lightning-input-field required disabled={disabledinput} name="CittaIndirizzoSedeLegaleData"
+												  value={CittaIndirizzoSedeLegaleData}
+												  onchange={handlefieldchange}
+												  field-name={City}
+												  data-name="City">
+										  </lightning-input-field>
+									  </div>
+								  </lightning-layout-item>
+								  <lightning-layout-item size="6">
+									  <div  class="slds-size_6-of-7">
+										  <lightning-input-field required disabled={disabledinput} name="CAPIndirizzoSedeLegaleData"
+												  value={CAPIndirizzoSedeLegaleData}
+												  onchange={handlefieldchange}
+												  field-name={PostalCode}
+												  data-name="PostalCode">
+										  </lightning-input-field>
+										  <lightning-input-field required disabled={disabledinput} name="ProvinciaIndirizzoSedeLegaleData"
+												  value={ProvinciaIndirizzoSedeLegaleData}
+												  onchange={handlefieldchange}
+												  field-name={State}
+												  data-name="State">
+										  </lightning-input-field>
+										  </div>
+									  </lightning-layout-item>
+  
+								  </lightning-layout>
+  
+									  <footer class="slds-modal__footer">
+										  <lightning-layout>
+											  <lightning-layout-item size="6">
+												  <div style="width: 100%; height: 25px;">
+													  <div class="slds-form-element" style="float: left; margin-left: 10px;">
+															  <label class="slds-checkbox_toggle slds-grid">
+															  <span class="slds-form-element__label slds-m-bottom_none">{label.txtCLead_CreareOpty}</span>
+															  <input align="right" type="checkbox" name="CreaOpportunityData" onchange={handlefieldchange} aria-describedby="checkbox-toggle-15" />
+															  <span id="checkbox-toggle-15" class="slds-checkbox_faux_container" aria-live="assertive">
+															  <span class="slds-checkbox_faux"></span>
+															  </span>
+															  </label>
+													  </div>
+												  </div>
+											  </lightning-layout-item>
+											  <lightning-layout-item size="6">
+												  <!-- disabled={disablebutton} -->
+											  <lightning-button if:false={spinner} 
+														  label={label.txtCLead_AvviaConversione}
+														  onclick={handleConversione}
+														  variant="brand"
+														  type="submit">
+												  </lightning-button>
+											  </lightning-layout-item>
+											  
+										  </lightning-layout>
+										  </footer>
+							  </lightning-record-edit-form>
+  
+  
+  
+						  </template>
+  
+					  </template>
+				  </div>
+			  </div>
+		  
+		  </template>
+	  </section>
+  </template>

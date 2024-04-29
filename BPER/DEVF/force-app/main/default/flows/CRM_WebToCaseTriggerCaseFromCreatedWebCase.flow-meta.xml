@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Routing_Web_Case</name>
+        <label>Routing Web Case</label>
+        <locationX>578</locationX>
+        <locationY>528</locationY>
+        <actionName>ExternalRoutingWeb</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>ids</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>ExternalRoutingWeb</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <apiVersion>55.0</apiVersion>
+    <decisions>
+        <description>If the web case is generated from EmailMessage, it doesn&apos;t run the Apex Action.
+Instead, if the web case is generated from web, it run the Apex Action</description>
+        <name>If_EmailCaseIstriggered</name>
+        <label>If EmailCase is triggered</label>
+        <locationX>446</locationX>
+        <locationY>408</locationY>
+        <defaultConnector>
+            <targetReference>Routing_Web_Case</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Generated from Web</defaultConnectorLabel>
+        <rules>
+            <name>if_GeneratedFromEmail</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_EmailMessage</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <label>Generated from Email</label>
+        </rules>
+    </decisions>
+    <description>Used in Web To Case integration.
+This flow captures a Case that have origin &quot;Web&quot; and Route it to Genesys
+The new Version &quot;v5&quot; adopts a new strategy for email generated web case, so as not to unleash a double trigger from emailMessage. Update the Area field if MotivoContatto is empty</description>
+    <environments>Default</environments>
+    <interviewLabel>Web to Case - Trigger Case from Created Web Case {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Web to Case - Trigger Case from Created Web Case</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>Check if already exist a record of EmailMessage that create the Case</description>
+        <name>Get_EmailMessage</name>
+        <label>Get Email Message</label>
+        <locationX>446</locationX>
+        <locationY>288</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>If_EmailCaseIstriggered</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>ParentId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>EmailMessage</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <description>Update Fields of Triggered Cases.
+With v5 flow: Update &quot;Area&quot; field with &quot;Other products and services&quot;, when MotivoContatto is Empty</description>
+        <name>UpdateTriggeredCaseFields</name>
+        <label>Update Triggered Case Fields</label>
+        <locationX>50</locationX>
+        <locationY>288</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>CRM_MotivoDellaChat__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>CRM_Area__c</field>
+            <value>
+                <stringValue>Other products and services</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>122</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>UpdateTriggeredCaseFields</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Origin</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Web</stringValue>
+            </value>
+        </filters>
+        <object>Case</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <scheduledPaths>
+            <name>WaitEmailMessage</name>
+            <connector>
+                <targetReference>Get_EmailMessage</targetReference>
+            </connector>
+            <label>Wait Email Message</label>
+            <offsetNumber>1</offsetNumber>
+            <offsetUnit>Minutes</offsetUnit>
+            <timeSource>RecordTriggerEvent</timeSource>
+        </scheduledPaths>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

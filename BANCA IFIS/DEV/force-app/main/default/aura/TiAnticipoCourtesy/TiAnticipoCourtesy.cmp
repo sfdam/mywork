@@ -1,0 +1,36 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <div class="main-container">
+      <div class="blue-container">
+        <div class="message-container">
+          <div class="title">Torna a trovarci, manca poco.</div>
+          <div class="subtitle">Per l'esattezza...</div>
+        </div>
+
+        <div class="countdown-container">
+          <div class="days-container">
+            <div class="days" id="days">0</div>
+            <div class="days-label">Giorni</div>
+          </div>            
+          <div class="hours-container">
+            <div class="hours" id="hours">0</div>
+            <div class="hours-label">Ore</div>
+          </div>
+          <div class="minutes-container">
+            <div class="minutes" id="minutes">0</div>
+            <div class="minutes-label">Minuti</div>
+          </div>
+          <div class="seconds-container">
+            <div class="seconds" id="seconds">0</div>
+            <div class="seconds-label">Secondi</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <div>Banca Ifis S.p.A.</div>
+        <div>rappresentante del Gruppo IVA con Partita IVA n. 04570150278</div>
+      </div>
+    </div>
+    
+</aura:component>

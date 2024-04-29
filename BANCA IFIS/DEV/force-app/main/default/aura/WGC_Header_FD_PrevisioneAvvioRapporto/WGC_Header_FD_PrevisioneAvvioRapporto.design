@@ -1,0 +1,4 @@
+<design:component>
+    <design:attribute name="isDirezioneFD" />
+    <design:attribute name="linkReport" />
+</design:component>

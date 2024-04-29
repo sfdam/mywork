@@ -1,0 +1,31 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+    access="global" controller="WGC_Account_Utility_Controller" >
+
+    <ltng:require 
+    scripts="{!join(',', 
+             '/resource/WGC_jQuery3x')}"
+    
+    afterScriptsLoaded="{!c.doInit}" />
+
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="bilancioCallback" type="Boolean" default="false" />
+    <aura:attribute name="eventiNegativiCallback" type="Boolean" default="false" />
+
+    <aura:attribute name="bilancio" type="String" default="false" />
+    <aura:attribute name="eventiNegativi" type="String" default="false" />
+
+    <!-- HANDLERS -->
+    <aura:handler event="c:WGC_EditAccountResolveEvent" action="{! c.reInit }" />
+    <aura:handler event="c:WGC_EditContactResolveEvent" action="{! c.reInit }" />
+    <aura:handler event="c:WGC_RefreshPrivacy" action="{! c.reInit }" />
+
+    <!-- REGISTER EVENT -->
+    <aura:registerEvent name="bilancioEvent" type="c:WGC_Account_Utility_Bilancio_ResolveEvent" />
+    <aura:registerEvent name="eventiNegativiEvent" type="c:WGC_Account_Utility_EventiNegativi_ResolveEvent" />
+
+    <!-- INSERT CUSTOM CONTENT HERE -->
+    <div class="spinnerDiv">
+        <lightning:spinner alternativeText="Loading" size="large" aura:id="mySpinner" class="" />
+    </div>
+    
+</aura:component>

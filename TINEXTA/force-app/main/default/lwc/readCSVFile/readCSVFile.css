@@ -1,0 +1,21 @@
+.positionUpload{
+    right: 0;
+    margin-top: -60px;
+}
+
+.tableTitle {
+    background-color: #f7f7f7;
+    font-weight: bold;
+    text-align: center;
+    font-size: 18px;
+    z-index: 1000;
+}
+
+.slds-table_header-fixed_container {
+    z-index: 1000;
+}
+
+.error {
+    color: red;
+    font-style: italic;
+}

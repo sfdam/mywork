@@ -1,0 +1,3 @@
+<aura:event type="COMPONENT" description="Event to navigate the subwizard in the cart">
+    <aura:attribute name="target" type="String"/>
+</aura:event>

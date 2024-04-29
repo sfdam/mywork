@@ -1,0 +1,19 @@
+.tilte-card {
+    display: inline;
+    padding-left: 5px;
+}
+
+.treeGrid-green {
+    font-weight: bold;
+    color: green;
+}
+
+.paginator {
+    position: absolute;
+    top: 45px;
+    right: 35px;
+}
+
+.lightning-primitive-header-factory > div {
+ font-size: 12px;
+}

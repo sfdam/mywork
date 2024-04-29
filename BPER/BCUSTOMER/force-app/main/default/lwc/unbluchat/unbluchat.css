@@ -1,0 +1,39 @@
+iframe{
+    width: 100%;
+    border: none;
+}
+.slds-card__body_inner{
+    padding: 0;
+}
+.modal-template .card__iframe{
+    height: 90vh;    
+    border-top: none;
+}
+.modal-template--hidden .card__iframe{
+    /* height: 30rem; */
+    border-top: 1px solid #dddbda;
+}
+.slds-modal__container {
+    margin: 0 auto;
+    width: 90%;
+    max-width: 80rem;
+    min-width: 20rem;
+}
+
+.modal-template--hidden header,
+.modal-template--hidden .slds-backdrop{
+    display: none;
+}
+
+.hidden {
+    display: none;
+}
+
+.slds-icon_container{
+    background-color: #FA6019;
+}
+
+.slds-modal__header{
+    border: none;
+    padding: 0;
+}

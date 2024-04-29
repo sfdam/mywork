@@ -1,0 +1,77 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" controller="WGC_PassoCommercialeController" >
+<lightning:overlayLibrary aura:id="overlayLib" />
+<lightning:navigation aura:id="navService" />
+<aura:attribute name="title" type="String" />
+<aura:attribute name="vediTutteReportId" type="String" />
+<aura:attribute name="passoCommercialeList" type="LIST" default=""/>
+<aura:attribute name="actualVisiteThisMonth" type="Decimal" default="0"/>
+<aura:attribute name="passoVisiteThisMonth" type="Decimal" default="0"/>
+<aura:attribute name="sumResiduoVisite" type="Decimal" default="0"/>
+<aura:attribute name="sumActual" type="Decimal" default="0"/>
+<aura:attribute name="sumPasso" type="Decimal" default="0"/>
+<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <lightning:card title="{!v.title}">
+
+    <aura:set attribute="actions">
+        <lightning:buttonIcon iconName="utility:zoomin" variant="brand" title="Mostra dettagli" onclick="{!c.viewAll}"/>
+    </aura:set>
+
+        <lightning:layout>
+
+            <lightning:layoutItem size="6">
+                <div class="slds-text-align_center circleBaseBodyHeader">VISITE COMMERCIALI</div>
+                <lightning:layout>
+                    <lightning:layoutItem size="6">
+                        <div class="slds-text-align_center circleBaseBodyTitle">Actual/Budget</div>
+                        <div class="slds-text-align_center circleBaseBodySub">YTD Mese Precedente</div>
+                        <div class="slds-text-align_center" style="display:block;">
+                            <!--<span class="circularProg-title"> <span class="slds-p-right_xx-small">{! $Label.c.WGC_HomePage_MieiSuccessi_Contributo } </span> {! v.team.nomeMyTeam } </span>-->
+                            <c:WGC_Circular_Progress theme="{! 'green' }" size="small" totalProgress="{! v.team.visiteMyTeam }"
+                                actualProgress="{! v.performer.myVisite }" condition="actual-total-percent" />
+                        </div>
+                    </lightning:layoutItem>
+
+                    <lightning:layoutItem size="6">
+                        <div class="slds-text-align_center circleBaseBodyTitle">Actual/Budget</div>
+                        <div class="slds-text-align_center circleBaseBodySub">Mese In Corso</div>
+                        <div class="slds-text-align_center" style="display:block;">
+                            <!--<span class="circularProg-title"> <span class="slds-p-right_xx-small">{! $Label.c.WGC_HomePage_MieiSuccessi_Contributo } </span> {! v.team.nomeMyTeam } </span>-->
+                            <c:WGC_Circular_Progress theme="{! 'green' }" size="small" totalProgress="{! v.team.visiteMyTeam }"
+                                actualProgress="{! v.performer.myVisite }" condition="actual-total-percent" />
+                        </div>
+                    </lightning:layoutItem>
+                </lightning:layout>
+
+            </lightning:layoutItem>
+
+            <lightning:layoutItem size="6">
+                <div class="slds-text-align_center slds-text-heading_small circleBaseBodyHeader">PRATICHE PRESENTATE</div>
+                <lightning:layout>
+                    <lightning:layoutItem size="6">
+                        <div class="slds-text-align_center circleBaseBodyTitle">Actual/Budget</div>
+                        <div class="slds-text-align_center circleBaseBodySub">YTD Mese Precedente</div>
+                        <div class="slds-text-align_center" style="display:block;">
+                            <!--<span class="circularProg-title"> <span class="slds-p-right_xx-small">{! $Label.c.WGC_HomePage_MieiSuccessi_Contributo } </span> {! v.team.nomeMyTeam } </span>-->
+                            <c:WGC_Circular_Progress theme="{! 'green' }" size="small" totalProgress="{! v.team.visiteMyTeam }"
+                                actualProgress="{! v.performer.myVisite }" condition="actual-total-percent" />
+                        </div>
+                    </lightning:layoutItem>
+
+                    <lightning:layoutItem size="6">
+                        <div class="slds-text-align_center circleBaseBodyTitle">Actual/Budget</div>
+                        <div class="slds-text-align_center circleBaseBodySub">Mese In Corso</div>
+                        <div class="slds-text-align_center" style="display:block;">
+                            <!--<span class="circularProg-title"> <span class="slds-p-right_xx-small">{! $Label.c.WGC_HomePage_MieiSuccessi_Contributo } </span> {! v.team.nomeMyTeam } </span>-->
+                            <c:WGC_Circular_Progress theme="{! 'green' }" size="small" totalProgress="{! v.team.visiteMyTeam }"
+                                actualProgress="{! v.performer.myVisite }" condition="actual-total-percent" />
+                        </div>
+                    </lightning:layoutItem>
+                </lightning:layout>
+
+            </lightning:layoutItem>
+
+        </lightning:layout>
+
+    </lightning:card>
+</aura:component>

@@ -1,0 +1,20 @@
+<design:component>
+    <design:attribute name="iconName" label="Icona" description="Definisce l'icona tra le standard" />
+    <design:attribute name="title" label="Titolo" description="Definisce il Titolo della Card" />
+    <design:attribute name="isValid" label="Valid" description="Checkbox" />
+    <design:attribute name="Flip" datasource="attivo,disattivo" default="disattivo" />
+    <design:attribute name="Dettaglio" datasource="attivo,disattivo" default="disattivo" />
+
+    <design:attribute name="Tab_1" label="Nome Primo Tab" description="Titolo primo tab" />
+    <design:attribute name="Graf_1" label="Id Grafico 1" description="Id analytics Grafico 1" />
+    <design:attribute name="Filter_1" label="Filtro grafico 1" description="Filter for Analitycs grafic 1" />
+    <design:attribute name="Tab_2" label="Nome Secondo Tab" description="Titolo secondo tab" />
+    <design:attribute name="Graf_2" label="Id Grafico 2" description="Id analytics Grafico 2" />
+    <design:attribute name="Filter_2" label="Filtro grafico 2" description="Filter for Analitycs grafic 2" />
+    <design:attribute name="Tab_3" label="Nome Terzo Tab" description="Titolo terzo tab" />
+    <design:attribute name="Graf_3" label="Id Grafico 3" description="Id analytics Grafico 3" />
+    <design:attribute name="Filter_3" label="Filtro grafico 3" description="Filter for Analitycs grafic 3" />
+    <design:attribute name="Tab_4" label="Nome Quarto Tab" description="Titolo quarto tab" />
+    <design:attribute name="Graf_4" label="Id Grafico 4" description="Id analytics Grafico 4" />
+    <design:attribute name="Filter_4" label="Filtro grafico 4" description="Filter for Analitycs grafic 4" />
+</design:component>

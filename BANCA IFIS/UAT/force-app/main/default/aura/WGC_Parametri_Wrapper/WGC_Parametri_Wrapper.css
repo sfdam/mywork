@@ -1,0 +1,36 @@
+.THIS {
+}
+
+.THIS.cstm-hidden {
+    display: none;
+}
+
+.THIS .cstm-form-section .cstm-form-section-derogato-wrapper {
+    display: flex;
+}
+
+.THIS .cstm-form-section .cstm-form-section-derogato-wrapper .cstm-form-section-derogato {
+    font-size: 16px;
+    align-self: flex-end;
+    padding-bottom: 5px;
+}
+
+.THIS .cstm-form-section .cstm-form-element {
+    position: relative;
+}
+
+.THIS .cstm-form-section .cstm-form-element .cstm-field-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: none;
+    position: absolute;
+    z-index: 10;
+}
+
+.THIS .cstm-form-section .cstm-form-element:hover > .cstm-field-overlay {
+    cursor: pointer;
+    display: block;
+    background-color: #0064B5;
+    opacity: 0.4;
+}

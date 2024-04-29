@@ -1,0 +1,40 @@
+.THIS{
+}
+
+.THIS .container{
+
+}
+
+.THIS div.title{
+    display: inline-flex;
+}
+
+.THIS .header-table{
+    border:1px solid lightgray;
+}
+
+.THIS .table-style{
+    margin: 0 -1px;
+}
+
+.THIS .toggle-position{
+    margin: 18px 0 0 10px;
+}
+
+.THIS .subtitle-text{
+    color:gray;
+    text-transform:uppercase;
+}
+
+.THIS .slds-card__header{
+    display: none;
+}
+
+.THIS .select-fix .slds-form-element {
+    width:100%;
+}
+
+.THIS .censimento-icon{
+    display: inline-block;
+    padding-right:10px;
+}

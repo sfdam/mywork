@@ -1,0 +1,93 @@
+<aura:component
+  controller="WGC_Activity_Recap_Controller"
+  implements="force:appHostable,flexipage:availableForAllPageTypes"
+  access="global"
+>
+
+  <aura:attribute name="tabs" type="Object[]" />
+  <aura:attribute name="objectName" type="String" />
+  <aura:attribute name="dati" type="Object" />
+  <aura:attribute name="listaDati" type="Object" />
+  <aura:attribute name="pageReference" type="Object" />
+  <aura:attribute name="userInfo" type="Object" />
+  <aura:attribute name="isLoaded" type="Boolean" default="false" />
+
+  <!--S lightning channel message AdF-->
+  <aura:attribute name="currentUserId" type="String"/>
+  <aura:attribute name="currentUserLevel" type="String"/>
+  <aura:attribute name="filterValue" type="String"/>
+  <aura:attribute name="tipoFiltro" type="String"/>
+  <lightning:messageChannel type="wgcHomePageFilter__c" onMessage="{!c.handleMessage}" scope="APPLICATION"/>
+  <!--E lightning channel message AdF-->
+
+  <aura:attribute name="iPhone" type="Boolean" default="FALSE" />
+  <aura:attribute
+    name="ShowToIPhone"
+    type="Boolean"
+    default="true"
+    access="global"
+  />
+
+  <!-- HANDLER -->
+  <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+  <aura:if isTrue="{! !v.iPhone }">
+    <aura:if isTrue="{! v.isLoaded }">
+      <lightning:layout multipleRows="true">
+        <lightning:layoutItem size="12" padding="horizontal-small">
+          <div class="slds-grid">
+            <aura:iteration var="item" items="{!v.tabs}" indexVar="ind">
+              <div
+                onclick="{!c.changeTab}"
+                aura:id="container"
+                id="{!ind}"
+                data-tab="{!item.object}"
+                class="slds-col slds-p-around_medium cstm-activity-header-block"
+              >
+                <h2 class="cstm-activity-header-main">{!item.count}</h2>
+                <aura:if isTrue="{! item.object == 'event' }">
+                  <p
+                    class="cstm-activity-header-desc cstm-activity-header-main"
+                  >
+                    {!item.label}
+                    <!-- adione SDHDFNZ-72324 
+										su <span class="cstm-activity-header-main">{!item.countAccount}</span> visite
+										-->
+                  </p>
+                  <aura:set attribute="else">
+                    <p class="cstm-activity-header-desc">{!item.label}</p>
+                  </aura:set>
+                </aura:if>
+              </div>
+            </aura:iteration>
+          </div>
+        </lightning:layoutItem>
+      </lightning:layout>
+      <lightning:layout>
+        <lightning:layoutItem size="12" padding="around-small">
+          <c:WGC_ListView
+            objectName="{!v.objectName}"
+            listaDati="{!v.listaDati}"
+          />
+        </lightning:layoutItem>
+      </lightning:layout>
+      <aura:set attribute="else">
+        <div class="slds-is-relative">
+          <lightning:spinner alternativeText="CARICAMENTO" />
+        </div>
+      </aura:set>
+    </aura:if>
+
+    <aura:set attribute="else">
+      <aura:If isTrue="{! v.ShowToIPhone }">
+        <lightning:layout multipleRows="true" class="slds-box">
+          <lightning:layoutItem flexibility="auto">
+            <div class="no-button">
+              {!$Label.c.WGC_Homepage_Sistema_Incentivante_Not_Show_Mobile}
+            </div>
+          </lightning:layoutItem>
+        </lightning:layout>
+      </aura:If>
+    </aura:set>
+  </aura:if>
+</aura:component>

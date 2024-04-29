@@ -1,0 +1,16 @@
+.THIS {
+}
+
+.THIS.cstm-filter-inline {
+    width: auto;
+    margin: 0 5px;
+    padding: 0px 20px 0px 12px !important;
+    border-radius: 20px;
+    height: 1.475rem !important;
+    line-height: 1.475rem !important;
+    background-color: #f8f6f7;
+    color: #518dd5;
+    border-width: 0;
+    text-transform: uppercase;
+    font-weight: bold;
+}

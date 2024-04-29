@@ -1,0 +1,15 @@
+<aura:component controller="bifis_crm_c_CommonUtils" implements="lightning:availableForFlowActions" access="global">
+    
+    <aura:attribute name="flowValidatorPartitaIvaPartitaIvaVar" type="String" default="" />
+    
+	<aura:attribute name="flowValidatorPartitaIvaResultVar" type="String" default="" />
+
+	<aura:attribute name="flowValidatorPartitaIvaResultTimeMS" type="String" default="" />
+
+    <aura:attribute name="flowValidatorPartitaIvaMessageVar" type="String" default="" />
+
+	<aura:attribute name="flowValidatorPartitaIvaAnagraficaVar" type="Account" /> 
+    
+    <aura:attribute name="flowValidatorAnagraficaSourceVar" type="String" default="" />
+    
+</aura:component>

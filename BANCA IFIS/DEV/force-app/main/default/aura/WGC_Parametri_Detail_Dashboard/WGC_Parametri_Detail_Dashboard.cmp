@@ -1,0 +1,137 @@
+<aura:component access="global" implements="force:appHostable,flexipage:availableForAllPageTypes" extends="c:WGC_Utility" controller="WizardOpportunityController">
+	<!-- ATTRIBUTES -->
+    <aura:attribute name="param" type="Object" default=""/>
+    <aura:attribute name="currentParam" type="Object" description="The record object to be displayed"/>
+    <aura:attribute name="paramRecord" type="Object" description="A simplified view record object to be displayed"/>
+    <aura:attribute name="recordError" type="String" description="An error message bound to force:recordData"/>
+    
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    <!-- <aura:handler name="change" value="{! v.param }" action="{! c.reloadParameters }"/> -->
+    <aura:handler event="c:WGC_Parametri_Filter_Dashboard_Event" action="{! c.reloadParameter }"/>
+
+    <lightning:card title="{! v.param ? v.paramRecord.Prodotto__r.Name + ' - ' + v.param.nome : '-Nessun elemento da visualizzare-' }">
+        <force:recordData aura:id="record"
+        layoutType="FULL"
+        recordId="{!v.param.id}"
+        targetError="{!v.recordError}"
+        targetRecord="{!v.currentParam}"
+        targetFields="{!v.paramRecord}"
+        fields="Id,
+                Name,
+                Default__c,
+                DerogaFidoDiCoppia__c,
+                Dominio__c,
+                FormulaDiControllo__c,
+                Obbligatorio__c,
+                Ordine__c,
+                Parametro__r.Name,
+                Parametro__r.Tipologia__c,
+                Prodotto__r.Name,
+                ReadOnly__c,
+                Sezione__c,
+                SoloDeroga__c,
+                Sottosezione__c,
+                Wizard__c"
+        mode="VIEW"/>
+
+        <aura:if isTrue="{! v.param }">
+            
+            <!-- <lightning:recordEditForm
+                onload="{!c.handleLoad}"
+                onsubmit="{!c.handleSubmit}"
+                onsuccess="{!c.handleSuccess}"
+                recordId="{!v.param.id}"
+                objectApiName="ParametroProdotto__c">
+
+                <lightning:inputField fieldName="Name" />
+                <lightning:inputField fieldName="Dominio__c" />
+                <lightning:inputField fieldName="Weakness__c" />
+                <lightning:inputField fieldName="Weakness__c" />
+                <lightning:inputField fieldName="Birthday__c" />
+                <lightning:inputField fieldName="Email_Address__c" />
+                <lightning:inputField fieldName="Rich_Text_Field__c" />
+                <div class="slds-m-top_medium">
+                    <lightning:button disabled="{!v.disabled}" variant="brand" type="submit" name="save" label="Save" />
+                </div>
+            </lightning:recordEditForm> -->
+
+            <div class="slds-p-left_small slds-p-right_small">
+                <div class="slds-form">
+                    <!-- <div class="slds-form-element slds-form-element_horizontal">
+                        <label class="slds-form-element__label" >Sezione</label>
+                        <div class="slds-form-element__control">
+                            <select class="slds-select" value="{! v.param.tipologia }" disabled="true">
+                                <option>Flag</option>
+                                <option>Stringa</option>
+                                <option>Numero</option>
+                                <option>Percentuale</option>
+                                <option>Importo</option>
+                                <option>Divisa</option>
+                                <option>Picklist</option>
+                                <option>Multi-picklist</option>
+                            </select>
+                        </div>
+                    </div> -->
+                    <aura:if isTrue="{! v.paramRecord.Prodotto__r.Tipologia__c == 'Picklist' || v.paramRecord.Prodotto__r.Tipologia__c == 'Multi-picklist' }">
+                        <div class="slds-form-element slds-form-element_horizontal">
+                            <label class="slds-form-element__label" >Dominio</label>
+                            <div class="slds-form-element__control">
+                                <input class="slds-input" type="text" value="{! v.paramRecord.Dominio__c }"/>
+                            </div>
+                        </div>
+                    </aura:if>
+                    <div class="slds-form-element slds-form-element_horizontal">
+                        <label class="slds-form-element__label" >Default Value</label>
+                        <div class="slds-form-element__control">
+                            <input class="slds-input" type="text" value="{! v.paramRecord.Default__c }"/>
+                        </div>
+                    </div>
+                    <div class="slds-form-element slds-form-element_horizontal">
+                        <label class="slds-form-element__label" >Default Formula</label>
+                        <div class="slds-form-element__control">
+                            <input class="slds-input" type="text" value="{! v.paramRecord.FormulaDiControllo__c }"/>
+                        </div>
+                    </div>
+                    <div class="slds-form-element slds-form-element_horizontal">
+                        <label class="slds-form-element__label" >Ordine</label>
+                        <div class="slds-form-element__control">
+                            <input class="slds-input" type="number" value="{! v.paramRecord.Ordine__c }"/>
+                        </div>
+                    </div>
+                    <div class="slds-form-element slds-form-element_horizontal">
+                        <label class="slds-form-element__label" >Sezione</label>
+                        <div class="slds-form-element__control">
+                            <input class="slds-input" type="text" value="{! v.paramRecord.Sezione__c }"/>
+                        </div>
+                    </div>
+                    <div class="slds-form-element slds-form-element_horizontal">
+                        <label class="slds-form-element__label" >Sottosezione</label>
+                        <div class="slds-form-element__control">
+                            <input class="slds-input" type="text" value="{! v.paramRecord.Sottosezione__c }"/>
+                        </div>
+                    </div>
+                    <div class="slds-form-element slds-form-element_horizontal slds-m-top_small">
+                        <label class="slds-checkbox_toggle slds-grid">
+                            <span class="slds-form-element__label slds-m-bottom_none">Solo Deroga</span>
+                                <input name="horizontal-input-id-05" type="checkbox" aria-describedby="horizontal-input-id-05" value="{! v.paramRecord.SoloDeroga__c }" checked="{! v.param.soloDeroga }"/>
+                                <span id="horizontal-input-id-05" class="slds-checkbox_faux_container" aria-live="assertive">
+                                <span class="slds-checkbox_faux"></span>
+                            </span>
+                        </label>
+                    </div>
+                    <!-- <div class="slds-form-element slds-form-element_horizontal slds-m-top_small">
+                        <label class="slds-checkbox_toggle slds-grid">
+                            <span class="slds-form-element__label slds-m-bottom_none">Obbligatorio</span>
+                                <input name="horizontal-input-id-06" type="checkbox" aria-describedby="horizontal-input-id-06" value="{! v.param.soloDeroga }" />
+                                <span id="horizontal-input-id-06" class="slds-checkbox_faux_container" aria-live="assertive">
+                                <span class="slds-checkbox_faux"></span>
+                            </span>
+                        </label>
+                    </div> -->
+                    <lightning:button label="Salva" variant="brand" onclick="{! c.saveParameter }"/>
+                </div>
+            </div>
+        </aura:if>
+    </lightning:card>
+</aura:component>

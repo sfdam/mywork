@@ -1,0 +1,86 @@
+<aura:component access="global" Controller="WGC_OpportunityController" extends="c:WGC_Utility"
+    implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction">
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="title" type="String" default="Pipeline Previsionale" />
+
+    <aura:attribute name="totaleAccordatoINT" type="Integer" default="0" />
+    <aura:attribute name="totaleAccordatoDEC" type="String" default="0" />
+    <aura:attribute name="totaleOppty" type="Integer" default="0" />
+    <aura:attribute name="totaleAccordatoPesatoINT" type="Integer" default="0" />
+    <aura:attribute name="totaleAccordatoPesatoDEC" type="String" default="0" />
+
+    <aura:attribute name="perMonthData" type="Object[]" />
+
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }" />
+
+    <lightning:notificationsLibrary aura:id="notifLib" />
+    
+    <lightning:card class="overflow-hidden">
+        <aura:set attribute="title">
+            <lightning:icon iconName="utility:light_bulb" size="small" variant="slds-icon-inverse" />
+            <div class="title">{! v.title }</div>
+        </aura:set>
+        <div class='container-card'>
+            <lightning:layout>
+                <lightning:layoutItem size="6">
+                    <lightning:layout class="cstm-column-splitter slds-m-top_medium">
+                        <lightning:layoutItem size="12" class="cstm-column-title">
+                            {!$Label.c.WGC_Opportunita_Pipeline_TOTALE}
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                    <lightning:layout class="cstm-column-splitter slds-m-bottom_xx-large">
+                        <lightning:layoutItem size="12">
+                            <h2 class="cstm-column-main-data"><b>{! v.totaleAccordatoINT }</b><small>,{! v.totaleAccordatoDEC }</small>
+                                <span class="cstm-column-main-data-currency">{!$Label.c.WGC_Opportunita_Pipeline_euro}</span>
+                            </h2>
+                            <h3 class="cstm-column-scnd-data"><b>{! v.totaleOppty }</b>
+                                <small>{!$Label.c.WGC_Business_Detail_Opportunita}</small></h3>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                    <lightning:layout class="cstm-column-splitter slds-p-bottom_medium">
+                        <lightning:layoutItem size="6">
+                            <h2 class="cstm-column-main-data cstm-badge-pretext">
+                                <b>{! v.totaleAccordatoPesatoINT }</b><small>,{! v.totaleAccordatoPesatoDEC }</small>
+                                <span class="cstm-column-main-data-currency">{!$Label.c.WGC_Opportunita_Pipeline_euro}</span>
+                            </h2>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="6" class="slds-text-align_center iphone">
+                            <span class="cstm-badge-pretext">{!$Label.c.WGC_Opportunita_Pipeline_Pesato_con}</span><br />
+                            <lightning:badge label="WIN PROBABILITY" class="cstm-badge" />
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                </lightning:layoutItem>
+
+                <lightning:layoutItem size="6">
+                        <div id="container-slider" class="container-slider">
+                                    
+                                    <lightning:layout class="cstm-column-splitter slds-m-top_medium">
+                                        <aura:iteration items="{! v.perMonthData }" var="pmd">
+                                            <lightning:layoutItem size="4" class="cstm-column-title">{! pmd.month }</lightning:layoutItem>
+                                        </aura:iteration>
+                                    </lightning:layout>
+
+                                    <lightning:layout class="cstm-column-splitter slds-m-bottom_xx-large">
+                                        <aura:iteration items="{! v.perMonthData }" var="pmd">
+                                            <lightning:layoutItem size="4">
+                                                <h2 class="cstm-column-main-data"><b>{! pmd.amount }</b>k</h2>
+                                                <h3 class="cstm-column-scnd-data"><b>{! pmd.opptyNum }</b> <small>{!$Label.c.WGC_Opportunita_Pipeline_Opp}</small></h3>
+                                            </lightning:layoutItem>
+                                        </aura:iteration>
+                                    </lightning:layout>
+
+                                    <lightning:layout class="cstm-column-splitter">
+                                            <aura:iteration items="{! v.perMonthData }" var="pmd">
+                                                    <lightning:layoutItem size="4" class="">
+                                                        <h2 class="cstm-column-main-data cstm-badge-pretext"><b>{! pmd.pesato }</b>k</h2>
+                                                    </lightning:layoutItem>
+                                                </aura:iteration>
+                                    </lightning:layout>
+                        </div>
+                </lightning:layoutItem>
+            </lightning:layout>
+
+
+        </div>
+    </lightning:card>
+</aura:component>

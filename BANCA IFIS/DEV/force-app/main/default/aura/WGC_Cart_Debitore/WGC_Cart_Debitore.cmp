@@ -1,0 +1,81 @@
+<!--
+  @description       : 
+  @author            : simone.viglianti@tengroup.it
+  @group             : 
+  @last modified on  : 10-27-2022
+  @last modified by  : simone.viglianti@tengroup.it
+-->
+<aura:component access="global" extends="c:WGC_Utility">
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="payload" type="Object"/>
+    <aura:attribute name="debitore" type="Object"/>
+    <aura:attribute name="servizi" type="Object[]"/>
+    <aura:attribute name="joinLineaAttore" type="Object[]" default="[]"/>
+    <aura:attribute name="serviziAttore" type="Object[]"/>
+    <aura:attribute name="serviziSize" type="Integer"/>
+    <aura:attribute name="isCompleted" type="Boolean"/>
+    <aura:attribute name="debitoriNewFields" type="Object[]"/>
+    <aura:attribute name="divisaOptions" type="List"/>
+    <aura:attribute name="labels" type="Object"/>
+    <aura:attribute name="pivaPerDebitore" type="Object"/>
+    <aura:attribute name="codiciCoppia" type="Object[]"/>
+    <aura:attribute name="readOnly" type="Boolean"/>
+    <!-- A.M. -->
+    <aura:attribute name="IdAdE" type="String"/>
+    
+    <!-- <aura:attribute name="isAvailable" type="Boolean"/> -->
+    <!-- <aura:attribute name="linesPerDebitore" type="Object[]" /> -->
+
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    <aura:handler name="change" value="{! v.joinLineaAttore }" action="{! c.reloadDebitore }"/>
+    <aura:handler name="change" value="{! v.servizi }" action="{! c.reloadDebitore }"/>
+
+    <!-- REGISTER EVENTS -->
+    <aura:registerEvent name="removeDebitore" type="c:WGC_Remove_Debitore"/>
+    <aura:registerEvent name="modalManagerEvent" type="c:WGC_ModalManagerEvent"/>
+
+    <lightning:overlayLibrary aura:id="overlayLib2"/>
+    
+    <lightning:layout class="cstm-debitore-wrapper slds-m-top_small slds-m-bottom_small" multipleRows="true">
+        <lightning:layoutItem class="cstm-debitore-name" size="12" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="3" padding="around-small">
+            <lightning:icon iconName="action:new_account"/>
+            <span class="cstm-debitore-text">{! v.debitore.rsociale }</span>
+        </lightning:layoutItem>
+        <lightning:layoutItem class="cstm-debitore-edit cstm-text-ellipsis" size="12" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="3" padding="around-small">
+            <!-- A.M. Bonus Edilizi - No Q&C per debitore Agenzia delle Entrata -->
+            <aura:if isTrue="{! v.debitore.account != v.IdAdE}">
+                <lightning:button class="{! 'cstm-big-btn bkg-available' }" onclick="{! c.editDebData }">
+                <aura:if isTrue="{! v.isCompleted }">
+                    <lightning:icon iconName="utility:check"/>
+                    <aura:set attribute="else">
+                        <lightning:icon iconName="utility:edit"/>
+                    </aura:set>
+                </aura:if>
+                </lightning:button>     
+            <aura:set attribute="else">
+                <lightning:button class="{! 'cstm-big-btn ' }" >
+                <lightning:icon iconName="utility:check"/> 
+                </lightning:button>    
+              </aura:set>    
+            </aura:if>                  
+            <span class="cstm-debitore-text">Qualifica e contesto</span>
+        </lightning:layoutItem>   
+        <lightning:layoutItem class="cstm-debitore-products-wrapper" size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="6" padding="around-small">
+            <div class="cstm-title-debitore">
+                Associa a:
+            </div>
+            <aura:if isTrue="{! !(v.debitore.isRevisione || v.readOnly) }">
+                <div class="cstm-remove-debitore" onclick="{! c.onRemoveDebitore }">
+                    <lightning:icon iconName="utility:close" size="x-small"/>
+                </div>
+            </aura:if>
+            <lightning:layout class="cstm-scrollable">
+                <aura:iteration items="{! v.serviziAttore }" var="serv">
+                    <c:WGC_Cart_Debitore_Linea_Toggler debitore="{! v.debitore }" servizio="{! serv }" size="{! v.serviziSize }" readOnly="{! v.readOnly }"/>
+                </aura:iteration>
+            </lightning:layout>
+        </lightning:layoutItem>
+    </lightning:layout>
+</aura:component>

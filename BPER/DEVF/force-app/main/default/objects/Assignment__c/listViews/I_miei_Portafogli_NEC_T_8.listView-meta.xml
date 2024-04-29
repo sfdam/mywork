@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>I_miei_Portafogli_NEC_T_8</fullName>
+    <booleanFilter>1 and (2 or 3)</booleanFilter>
+    <columns>PTF_MicroWallet__c</columns>
+    <columns>PTF_Nome_Banca__c</columns>
+    <columns>PTF_Nome_Dir_Terr__c</columns>
+    <columns>PTF_Nome_Area__c</columns>
+    <columns>PTF_Nome_Capofila__c</columns>
+    <columns>PTF_Filiale__c</columns>
+    <columns>PTF_ModelloDiServizio__c</columns>
+    <columns>PTF_Num_NDG__c</columns>
+    <columns>PTF_StartDate__c</columns>
+    <columns>User_Gestore_Principale__c</columns>
+    <columns>User_Gestore_Backup__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>PTF_EndDate__c</field>
+        <operation>equals</operation>
+    </filters>
+    <filters>
+        <field>User_Gestore_Backup__c</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
+    <filters>
+        <field>User_Gestore_Principale__c</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
+    <label>I miei Portafogli</label>
+</ListView>

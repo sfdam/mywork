@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>TipoSpostamento__c</fullName>
+    <externalId>false</externalId>
+    <label>Tipo Spostamento</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>MDS</fullName>
+                <default>false</default>
+                <label>MDS</label>
+            </value>
+            <value>
+                <fullName>Filiale</fullName>
+                <default>false</default>
+                <label>Filiale</label>
+            </value>
+            <value>
+                <fullName>MDS / Filiale</fullName>
+                <default>false</default>
+                <label>MDS / Filiale</label>
+            </value>
+            <value>
+                <fullName>Referenti</fullName>
+                <default>false</default>
+                <label>Referenti</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

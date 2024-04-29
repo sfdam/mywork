@@ -1,0 +1,35 @@
+<aura:component access="global" extends="c:WGC_Utility">
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="opportunityId" type="String"/>
+    <aura:attribute name="accountId" type="String"/>
+    <aura:attribute name="selectedProducts" type="Object[]"/>
+    <aura:attribute name="items" type="Object[]"/>
+    <aura:attribute name="note" type="String"/>
+    <aura:attribute name="picklistOptions" type="Object"/>
+    <aura:attribute name="diviseOptions" type="Object"/>
+    <aura:attribute name="payload" type="Object"/>
+    <aura:attribute name="debitoriPerLinea" type="Object[]"/>
+    <aura:attribute name="presaVisione" type="Boolean"/>
+    <aura:attribute name="readOnly" type="Boolean" default="false"/>
+    
+    <!-- REGISTER EVENTS -->
+    <aura:registerEvent name="navigateSubWizard" type="c:WGC_NavigateSubWizard"/>
+    <aura:registerEvent name="cartCallServer" type="c:WGC_Cart_Call_Server"/>
+
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    <aura:handler name="productClick" event="c:WGC_ProductClickEvent" action="{! c.handleProductClick }"/>
+
+    <c:WGC_Cart_Products_Wrapper title="Linee Selezionate" items="{! v.items }" readOnly="{! v.readOnly }"/>
+    
+    <lightning:layout class="cstm-border-all slds-m-top_small" multipleRows="true">
+        <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="9" class="cstm-ipad-order-2-landscape cstm-ipad-12-landscape">
+            
+            <c:WGC_Bilancio_DetailComponent recordId="{! v.accountId }" />
+
+        </lightning:layoutItem>
+        <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="3" padding="around-small" class="cstm-ipad-12-landscape">
+            <c:WGC_Cart_Note_Widget field="WGC_NoteBilancio__c" text="{! v.note }" opportunityId="{! v.opportunityId }" readOnly="{! v.readOnly }"/>
+        </lightning:layoutItem>
+    </lightning:layout>
+</aura:component>

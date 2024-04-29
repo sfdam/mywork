@@ -1,0 +1,48 @@
+<aura:component extends="c:WGC_Utility">
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="garanti" type="List" />
+    <aura:attribute name="selectedGarante" type="String" />
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }" />
+    <!-- LIBRARIES -->
+    <lightning:overlayLibrary aura:id="overlayLib" />
+    <lightning:notificationsLibrary aura:id="notifLib" />
+
+
+    <aura:html tag="style">
+        .slds-p-around--medium {
+            padding: 0rem !important;
+        }       
+        .slds-modal__content{
+            height:unset !important;
+            max-height:unset !important;
+        }
+    </aura:html>
+
+    <lightning:layout multipleRows="true" class="slds-p-around_small">
+        <aura:iteration items="{! v.garanti }" var="g">
+            <lightning:layoutItem size="12" class="slds-p-around_small" >
+                <div onclick="{! c.selectGarante }" data-gId="{! g.Id }" class="clickable" >
+                    <lightning:layout class="{! 'slds-p-around_x-small ' + ( g.isSelected ? ' cstm-box-selected' : ' cstm-box' ) }">
+                        <lightning:layoutItem size="1" class="slds-m-around_small">
+                            <lightning:icon iconName="utility:user" variant="{! g.isSelected ? 'inverse' : '' }" />
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="11" class="slds-m-around_x-small">
+                            <lightning:layout multipleRows="true">
+                                <lightning:layoutItem size="12">
+                                    <span>NDG: {! g.NDG__c }</span>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="12">
+                                    <span>Nome: {! g.Nome__c }</span>
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                </div>
+            </lightning:layoutItem>
+        </aura:iteration>
+    </lightning:layout>
+    <footer class="slds-modal__footer">
+        <button class="slds-button slds-button_brand cstm-btn-round" onclick="{! c.saveGarante }">Salva</button>
+    </footer>
+</aura:component>

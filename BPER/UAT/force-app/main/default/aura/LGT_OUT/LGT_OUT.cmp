@@ -1,0 +1,167 @@
+<aura:component controller="LightningOutController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" access="global">
+    <aura:attribute name="ndg" type="String" description="" access="global" />
+    <aura:attribute name="ndgName" type="String" description="" access="global" />
+    <aura:attribute name="ndgUrl" type="String" description="" access="global" />
+    <aura:attribute name="noNdg" type="Boolean" default ="false" />
+    <aura:attribute name="abi" type="String" description="" access="global" />
+    <aura:attribute name="events" type="List" description=""/>
+    <aura:attribute name="eventsColumns" type="List"/>
+    <aura:attribute name="campaigns" type="List" description=""/>
+    <aura:attribute name="campaignsColumns" type="List"/>
+    <aura:attribute name="opportunities" type="List" description=""/>
+    <aura:attribute name="opportunitiesColumns" type="List"/>
+    <aura:attribute name="deadlines" type="List" description=""/>
+    <aura:attribute name="deadlinesColumns" type="List"/>
+    <aura:attribute name="memos" type="List" description=""/>
+    <aura:attribute name="memosColumns" type="List"/>
+    <aura:attribute name="modelloDiServizio" type="String" description="" access="global" />
+    <aura:attribute name="ptfName" type="String" description="" access="global" />
+    <aura:attribute name="referenteName" type="String" description="" access="global" />
+    
+
+    <aura:attribute name="CampaignFound" type="Boolean" default="false" />
+    <aura:attribute name="noCampaignFound" type="Boolean" default = "false" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.initialize}"/>
+
+    <aura:if isTrue="{!v.CampaignFound}">
+        <div class="slds-box">
+            <lightning:tile>
+                <h1>{!v.ndgName}</h1>
+                <aura:set attribute="media">
+                    <lightning:icon iconName="standard:account" size="medium"/>
+                </aura:set>
+                <ul class="slds-list_horizontal">
+                    
+                        <li class="slds-truncate slds-m-right_large" title="Ndg">
+                            NDG: <lightning:formattedUrl value="{!v.ndgUrl}" label="{!v.ndg}" target="_blank"></lightning:formattedUrl>
+                        </li>
+                        <li class="slds-truncate slds-m-right_large" title="Ndg">Modello di Servizio: {!v.modelloDiServizio} </li>
+                        <li class="slds-truncate slds-m-right_large" title="Ndg">Portafoglio: {!v.ptfName} </li>
+                        <li class="slds-truncate slds-m-right_large" title="Ndg">Referente: {!v.referenteName} </li>
+                        
+                </ul>
+            </lightning:tile>
+        </div>
+        
+            <lightning:layout multipleRows="true">
+                <aura:if isTrue="{!not(empty(v.events))}">
+                    <lightning:layoutItem size="12"  padding="around-small">
+                            <div class="slds-box">
+                                <lightning:tile label="Eventi">
+                                <aura:set attribute="media">
+                                    <lightning:icon iconName="standard:event" size="x-small"/>
+                                </aura:set>
+                                </lightning:tile>
+                                <lightning:datatable
+                                    keyField="id"
+                                    data="{! v.events }"
+                                    columns="{! v.eventsColumns }"
+                                    hideCheckboxColumn="true"/>
+                            </div>
+                    </lightning:layoutItem>
+                </aura:if>
+                <aura:if isTrue="{!not(empty(v.campaigns))}">
+                    <lightning:layoutItem size="12"  padding="around-small">
+                        <div class="slds-box">
+                            <lightning:tile>
+                            <h1 class="boldTitle">Campagne</h1>
+                            <aura:set attribute="media">
+                                <lightning:icon iconName="standard:campaign" size="x-small"/>
+                            </aura:set>
+                            </lightning:tile>
+                            <lightning:datatable
+                                keyField="id"
+                                data="{! v.campaigns }"
+                                columns="{! v.campaignsColumns }"
+                                hideCheckboxColumn="true"/>
+                        </div>
+                    </lightning:layoutItem>
+                </aura:if>
+                <aura:if isTrue="{!not(empty(v.opportunities))}">
+                    <lightning:layoutItem size="12"  padding="around-small">
+                        <div class="slds-box">
+                            <lightning:tile>
+                            <h1 class="boldTitle">Opportunità</h1>
+                            <aura:set attribute="media">
+                                <lightning:icon iconName="standard:opportunity" size="x-small"/>
+                            </aura:set>
+                            </lightning:tile>
+                            <lightning:datatable
+                                keyField="id"
+                                data="{! v.opportunities }"
+                                columns="{! v.opportunitiesColumns }"
+                                hideCheckboxColumn="true"/>
+                        </div>
+                    </lightning:layoutItem>
+                </aura:if>
+                <aura:if isTrue="{!not(empty(v.deadlines))}">
+                    <lightning:layoutItem size="12"  padding="around-small">
+                        <div class="slds-box">
+                            <lightning:tile>
+                            <h1 class="boldTitle">Scadenze</h1>
+                            <aura:set attribute="media">
+                                <lightning:icon iconName="standard:contact_list" size="x-small"/>
+                            </aura:set>
+                            </lightning:tile>
+                            <lightning:datatable
+                                keyField="id"
+                                data="{! v.deadlines }"
+                                columns="{! v.deadlinesColumns }"
+                                hideCheckboxColumn="true"/>
+                        </div>
+                    </lightning:layoutItem>
+                </aura:if>
+                <aura:if isTrue="{!not(empty(v.memos))}">
+                    <lightning:layoutItem size="12"  padding="around-small">
+                        <div class="slds-box">
+                            <lightning:tile>
+                            <h1 class="boldTitle">Memo</h1>
+                            <aura:set attribute="media">
+                                <lightning:icon iconName="standard:note" size="x-small"/>
+                            </aura:set>
+                            </lightning:tile>
+                            <lightning:datatable
+                                keyField="id"
+                                data="{! v.memos }"
+                                columns="{! v.memosColumns }"
+                                hideCheckboxColumn="true"/>
+                        </div>
+                    </lightning:layoutItem>
+                </aura:if>
+            </lightning:layout>
+        
+    </aura:if>
+    <aura:if isTrue="{!v.noCampaignFound}">
+        <div class="slds-box">
+            <lightning:tile>
+            <h1>{!v.ndgName}</h1>
+            <aura:set attribute="media">
+                <lightning:icon iconName="standard:account" size="small"/>
+            </aura:set>
+            <ul class="slds-list_horizontal">
+                
+                <li class="slds-truncate slds-m-right_large" title="Ndg">
+                    NDG: <lightning:formattedUrl value="{!v.ndgUrl}" label="{!v.ndg}" target="_blank"></lightning:formattedUrl>
+                </li>
+                <li class="slds-truncate slds-m-right_large" title="Ndg">Modello di Servizio: {!v.modelloDiServizio} </li>
+                <li class="slds-truncate slds-m-right_large" title="Ndg">Portafoglio: {!v.ptfName} </li>
+                <li class="slds-truncate slds-m-right_large" title="Ndg">Referente: {!v.referenteName} </li>
+                    
+            </ul>
+            </lightning:tile>
+        </div>
+        <div class="slds-box slds-m-top_small slds-align_absolute-center">
+            Apri Galileo per visualizzare le segnalazioni presenti sul cliente
+        </div>
+
+   
+          
+    </aura:if>
+    <aura:if isTrue ="{!v.noNdg}">
+        Attenzione! NDG {!v.ndg} non trovato
+    </aura:if>
+    
+
+    
+</aura:component>

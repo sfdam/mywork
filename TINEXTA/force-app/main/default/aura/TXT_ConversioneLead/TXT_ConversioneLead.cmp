@@ -1,0 +1,10 @@
+<aura:component controller="TXT_ConversioneLead" implements="lightning:isUrlAddressable,force:appHostable,flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes,force:hasRecordId,force:hasSObjectName,force:lightningQuickAction,flexipage:availableForRecordHome,force:hasRecordId,lightning:actionOverride,lightning:hasPageReference" access="global" >
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="isCommunity" type="Boolean" default="false" />
+
+    <aura:handler name="init" action="{!c.navigateToConversioneLead}" value="{!this}" />
+
+    <aura:if isTrue="{! v.isCommunity }">
+        <c:txtConversioneLead recordId="{! v.recordId }" name="Conversione Lightning" />
+    </aura:if>
+</aura:component>

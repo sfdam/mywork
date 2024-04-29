@@ -1,0 +1,7 @@
+<aura:component >
+	<!-- REGISTER EVENT -->
+	<aura:registerEvent name="F2B" type="c:ModalFooter2BodyEvent"/>
+		
+	<lightning:button label="ANNULLA" onclick="{! c.cancel }"/>
+	<lightning:button label="AGGIUNGI" variant="brand" onclick="{! c.submit }"/>
+</aura:component>

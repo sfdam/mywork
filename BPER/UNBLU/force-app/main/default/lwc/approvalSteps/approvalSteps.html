@@ -1,0 +1,36 @@
+<template>
+    <template if:true={notEmptyList}>
+        <div class="containerXXX">
+            <lightning-layout>
+                <lightning-layout-item size="12" class="slds-card_boundary">
+                    <lightning-card>
+                        <div slot="title" class="title">
+                            <div style="display: flex;">
+                                <lightning-icon icon-name={iconName} size="small"></lightning-icon>
+                                <div class="tilte-card"><b>{title}</b></div>
+                            </div>
+                        </div>
+                        <template if:false={loaded}>
+                            <div class="slds-align_absolute-center">
+                                <lightning-spinner alternative-text="CARICAMENTO" size="small"></lightning-spinner>
+                            </div>
+                        </template>
+                        <template if:true={loaded}>
+                            <lightning-layout>
+                                <lightning-layout-item size="12">
+                                    <lightning-datatable data-item="requestsTable" 
+                                        hide-checkbox-column
+                                        key-field="Id"
+                                        columns={columns}
+                                        data={rows}>
+                                    </lightning-datatable>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </template>
+                    </lightning-card>       
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+    </template>
+
+</template>

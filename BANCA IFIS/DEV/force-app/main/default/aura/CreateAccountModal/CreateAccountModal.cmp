@@ -1,0 +1,26 @@
+<aura:component implements="force:lightningQuickAction,lightning:actionOverride,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" 
+                controller="CreateAccount" extends="c:WGC_Utility" access="global">
+
+    <!-- HANDLERS-->
+    <aura:attribute name="options" type="String"/>
+    <aura:attribute name="accountId" default="" type="String"/>
+    <aura:attribute name="tipoRecord" default="" type="String"/>
+    <aura:attribute name="whoAreYou" default="censimentoAnagrafica" type="String"/>
+
+    <aura:attribute name="isSalesforce1" default="false" type="Boolean"/>
+
+
+    <aura:handler name="init" value="{! this }" action="{! c.init }"/>
+
+    <aura:handler event="c:WGC_CreateAccountResolveEvent" action="{! c.resolveEvent }" />
+    
+    <lightning:navigation aura:id="navService" />
+    
+    <lightning:overlayLibrary aura:id="overlayLib" />
+    
+
+    
+    <!-- <aura:if isTrue="{!v.isSalesforce1}">
+        <c:WGC_CreateAccountMobileComponent options="{! v.options }" />
+    </aura:if> -->
+</aura:component>

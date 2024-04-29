@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>TemplateIterationXml__c</fullName>
+    <description>XML da inserire all&apos;interno del componente che verrà ripetuto per ogni record recuperato</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>XML da inserire all&apos;interno del componente che verrà ripetuto per ogni record recuperato
+PLACEHOLDERS
+NUMERO RIGHE
+###NUMERO_RIGHE###
+NOME CAMPO
+{!api_name_campo}</inlineHelpText>
+    <label>Template Iteration Xml</label>
+    <length>131072</length>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

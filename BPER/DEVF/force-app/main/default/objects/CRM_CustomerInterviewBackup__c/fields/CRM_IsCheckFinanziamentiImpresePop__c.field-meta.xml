@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_IsCheckFinanziamentiImpresePop__c</fullName>
+    <externalId>false</externalId>
+    <formula>OR (
+				 CRM_V_BankCredit__c ,
+				 CRM_V_UnfreezingOfReceivables__c ,
+				 CRM_V_ShortTermFinance__c ,
+				 CRM_V_LongTermFinance__c ,
+				 CRM_V_SignatureCredit__c ,
+				 CRM_V_OTCExchangeCoverage__c ,
+				 CRM_V_OTCRatesCoverage__c ,
+				 CRM_V_Leasing__c ,
+				 CRM_V_Factoring__c ,
+				 CRM_V_Export__c ,
+				 CRM_V_DocumentaryCredits__c 
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Is Check Finanziamenti Imprese compilato</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

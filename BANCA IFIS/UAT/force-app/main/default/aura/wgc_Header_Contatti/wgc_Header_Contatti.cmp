@@ -1,0 +1,20 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" controller="WGC_HomePage_Mie_AttivitaController" access="global">
+<lightning:overlayLibrary aura:id="overlayLib" />
+<lightning:card>
+    <aura:set attribute="title">
+    </aura:set>
+    <div class="container-body">
+        <lightning:layout multipleRows="true">
+            <lightning:layoutItem size="12" class="slds-is-relative">
+                <div class="slds-align_absolute-center content-title">CONTATTO/VISITA</div>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="12" class="slds-is-relative">
+                <div class="slds-align_absolute-center"><lightning:icon iconName="utility:chat" alternativeText="Settings" size="large" /></div>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="12" class="slds-is-relative">
+                <div class="slds-align_absolute-center"><lightning:button class="slds-buttonX slds-button_brand" variant="brand" label="Crea" title="Brand" onclick="{!c.createActivity}" value="anag" /></div>
+            </lightning:layoutItem>
+        </lightning:layout>
+    </div>
+</lightning:card>
+</aura:component>

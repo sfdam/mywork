@@ -1,0 +1,46 @@
+<aura:component>
+    <aura:attribute name='itemDetail' type='Object' default='{}' />
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+	<lightning:navigation aura:id="navService" />
+
+    <li>
+        <div class="{! 'slds-timeline__item_expandable slds-timeline__item_task ' + (v.itemDetail.IsArchived ? 'IsArchived' : '') }">
+            <span class="slds-assistive-text">Advisory</span>
+            <div class="slds-media">
+                <div class="slds-media__figure">
+                    <div class="{! 'slds-icon_container slds-icon-standard-event slds-timeline__icon ' + (v.itemDetail.IsArchived ? 'IsArchived' : '') }" title="Evento">
+                        <lightning:icon iconName="custom:custom83" />							
+                    </div>
+                    <aura:if isTrue="{! v.itemDetail.SupportObject }">
+                        <lightning:icon class="supportObj" iconName="utility:database" title="Caricamento Pregresso" size="xx-small" />
+                    </aura:if>
+                </div>
+                <div class="slds-media__body">
+                    <div class="slds-grid slds-grid_align-spread slds-timeline__trigger">
+                        <div class="slds-grid slds-grid_vertical-align-center slds-truncate_container_75 slds-no-space">
+                            <h3 class="slds-truncate" title="{!v.itemDetail.CRM_Finalita__c}">
+                                Proposta Advisory:&nbsp;
+                                <strong>{!v.itemDetail.CRM_Finalita__c}</strong>
+                            </h3>
+                        </div>
+                        <div class="slds-timeline__actions slds-timeline__actions_inline">
+                            <p class="slds-timeline__date">
+                                Data:&nbsp;
+                                <lightning:formattedDateTime value="{! v.itemDetail.LastModifiedDate}" year="numeric" month="numeric" day="numeric" />
+                            </p>
+                            <lightning:buttonIcon iconName="utility:down"  size="x-small" alternativeText="View More" onclick="{! c.showArticle }"/>
+                        </div>
+                    </div>
+                    <p class="slds-m-horizontal_xx-small">
+                        NDG:&nbsp;<a onclick="{!c.navigateToNDG}">{!v.itemDetail.Account__r.CRM_NDG__c}</a>
+                        ID Proposta:
+                        Stato:&nbsp;{!v.itemDetail.StageName__c}
+                        Referente:&nbsp;{!v.itemDetail.Account__r.CRM_ReferenteNameFormula__c}
+                    </p>
+                </div>
+            </div>
+        </div>   
+    </li>
+</aura:component>

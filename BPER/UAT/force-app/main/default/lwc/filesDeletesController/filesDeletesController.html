@@ -1,0 +1,230 @@
+<template>
+
+  
+    <div style=" border-top: 2px solid LightGray;border-right: 2px solid LightGray;border-left: 2px solid LightGray">
+        <lightning-modal-header style="background:solid LightGray">
+          <header class="slds-media slds-media_center slds-has-flexi-truncate" aria-hidden="true" style="background:solid LightGray">
+            <div class="slds-col slds-size_1-of-2" style="background:solid LightGray">
+              <h2 class="slds-card__header-title">
+                <span class="slds-text-color_default"><lightning-icon icon-name="standard:file" alternative-text="Files" size="small"></lightning-icon></span>
+                <a href={fullBaseURL} target="_blank"><span class="slds-text-color_default">&nbsp;{title}</span></a>
+              </h2>
+            </div>
+            <div class="slds-col slds-size_1-of-2 slds-text-align_right">
+                <template if:true={statusNoAvailable}>
+                    <lightning-button-menu alternative-text="Not available action" style="font-size: 0.8rem;" class="slds-col slds-size_1-of-2 slds-text-align_right" onclick={showNotAvailableAction}>
+                        <template if:true={showNotAvailableMessage}>
+                                <p style="color: gray; margin: 0;border: 1px solid gray; padding: 0px; border-radius: 0px;">No actions available</p>
+                        </template>
+                    </lightning-button-menu>
+                </template>
+                <template if:false={statusNoAvailable}>
+                    <lightning-button-menu alternative-text="Add File" style="font-size: 0.8rem;" class="slds-col slds-size_1-of-2 slds-text-align_right" >
+                        <lightning-menu-item value="AddFile" label="Add File" onclick={AddFile} class="slds-text-title_caps"></lightning-menu-item>
+                     </lightning-button-menu>
+                </template>
+              </div>
+          </header>
+        </lightning-modal-header>
+    </div>
+    <div style="border-right: 2px solid LightGray;border-left: 2px solid LightGray">
+    <template if:true={filesNumberZero}>
+        <lightning-modal-body>
+            <template if:false={statusNoAvailable}>
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeModalAdFile}>
+                    <lightning-icon icon-name="utility:close" size="small">
+                    </lightning-icon>
+                    <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <div class="slds-m-around_medium">
+                    <lightning-input type="file" 
+                                    accept=".xlsx, .xls, .csv, .png, .doc, .docx, .pdf"
+                                    label="Attachment" onchange={openfileUpload}></lightning-input>
+                    </div>
+                    <template if:true={fileData}>
+                        <p>{fileData.filename}</p>
+                    </template>
+                    <lightning-button variant="brand" label="Done" title="Done" onclick={handleClick}
+                                class="slds-m-left_x-small"
+                                disabled={statusNoAvailable}>
+                    </lightning-button> 
+                </header>
+            </template>
+            <template for:each={getFileRecordUrl} for:item="file" if:false={filesNumberZero}>
+                        <div key={file.id}>
+                            <a class="" data-aura-rendered-by="10:2391;a" href={file.fileuRL} title={file.contentDocumentTitle}>
+                                <div class="filerow" data-aura-rendered-by="11:2391;a">
+                                    <div class="slds-size_12-of-12 slds-grid" data-aura-rendered-by="3965:0">
+                                        <div data-divid="AttachedContentDocument-file-badge-0690D0000023pLsQAI" data-refid="divId" class="slds-show_inline-block slds-float_left slds-align-middle thumbnailImg medium" data-aura-rendered-by="3966:0">
+                                            <div class="forceContentContentThumbnail">
+                                                <div class="thumbnailContainer">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-show_inline-block slds-float_left slds-p-left--x-small slds-truncate slds-m-right_x-small">
+                                            <span title="TestAttach" class="itemTitle slds-text-body--regulardesktop uiOutputText">{file.contentDocumentTitle}</span>
+                                            <p>
+                                                <span class="uiOutputText slds-text-link--reset slds-text-color_default">{file.contentDocumentCreatedDate}</span>
+                                                <span style="display: inline-block;
+                                                            vertical-align: middle;
+                                                            width: 4px;
+                                                            height: 4px;
+                                                            border-radius: 50%;
+                                                            margin: 5px;
+                                                            background: black;"></span>
+                                                <span class="slds-text-color_default">{file.contentDocumentSize}</span>
+                                                <span style="display: inline-block;
+                                                            vertical-align: middle;
+                                                            width: 4px;
+                                                            height: 4px;
+                                                            border-radius: 50%;
+                                                            margin: 5px;
+                                                            background: black;"></span>
+                                                <span class="slds-text-color_default">{file.contentDocumentFileType}</span>
+                                              </p>
+                                          </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+            </template>
+        </lightning-modal-body>
+    </template>    
+    </div>
+    <div style="border-right: 2px solid LightGray;border-left: 2px solid LightGray">
+    <template if:false={filesNumberZero}>
+        <lightning-modal-body>
+            <template for:each={getFileRecordUrl} for:item="file" if:false={filesNumberZero}>
+                        <div key={file.id}>
+                            <a class="" data-aura-rendered-by="10:2391;a" href={file.fileuRL} title={file.contentDocumentTitle}>
+                                <div class="filerow" data-aura-rendered-by="11:2391;a">
+                                    <div class="slds-size_12-of-12 slds-grid" data-aura-rendered-by="3965:0">
+                                        <div data-divid="AttachedContentDocument-file-badge-0690D0000023pLsQAI" data-refid="divId" class="slds-show_inline-block slds-float_left slds-align-middle thumbnailImg medium" data-aura-rendered-by="3966:0">
+                                            <div class="forceContentContentThumbnail">
+                                                <div class="thumbnailContainer">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-show_inline-block slds-float_left slds-p-left--x-small slds-truncate slds-m-right_x-small">
+                                            <span title="TestAttach" class="itemTitle slds-text-body--regulardesktop uiOutputText">{file.contentDocumentTitle}</span>
+                                            <p>
+                                                <span class="uiOutputText slds-text-link--reset slds-text-color_default">{file.contentDocumentCreatedDate}</span>
+                                                <span style="display: inline-block;
+                                                            vertical-align: middle;
+                                                            width: 4px;
+                                                            height: 4px;
+                                                            border-radius: 50%;
+                                                            margin: 5px;
+                                                            background: black;"></span>
+                                                <span class="slds-text-color_default">{file.contentDocumentSize}</span>
+                                                <span style="display: inline-block;
+                                                            vertical-align: middle;
+                                                            width: 4px;
+                                                            height: 4px;
+                                                            border-radius: 50%;
+                                                            margin: 5px;
+                                                            background: black;"></span>
+                                                <span class="slds-text-color_default">{file.contentDocumentFileType}</span>
+                                              </p>
+                                          </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+            </template>
+        </lightning-modal-body>
+    </template>    
+    </div>
+
+    <div style="border-right: 2px solid LightGray; border-left: 2px solid LightGray; border-bottom: 2px solid LightGray; background: rgb(252, 250, 250);">
+    <template if:false={filesNumberZero}>
+    <lightning-modal-footer>
+        <div class="slds-grid slds-grid_align-center">
+            <template if:true={showDeleteButton}>
+                <div class="slds-float_right">
+                    <lightning-button variant="destructive" label="Delete Files" onclick={DeleteFiles}></lightning-button>
+                </div>
+            </template>
+            <template if:true={showDeleteButton}>
+                <div class="slds-float_left">
+                    <lightning-button variant="Neutral" label="View All" onclick={viewAll}></lightning-button>
+                </div>
+            </template>
+            <template if:false={showDeleteButton}>
+                <div class="slds-grid slds-grid_align-center">
+                    <lightning-button variant="Base" label="View All" onclick={viewAll}></lightning-button>
+                </div>
+            </template>
+        </div>
+    </lightning-modal-footer>
+    </template>
+</div>
+
+   <template if:true={showModal}>
+        <div class="slds-modal slds-fade-in-open slds-modal_large slds-backdrop"> 
+                <div class="slds-modal__container slds-var-p-horizontal_xx-large">
+                    <div class="slds-modal__header slds-p-around_none">
+                        <header class="slds-modal__header">
+                            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                                title="Close" onclick={closeModal}>
+                                <lightning-icon icon-name="utility:close" size="small">
+                                </lightning-icon>
+                                <span class="slds-assistive-text">Close</span>
+                            </button>
+                            <div class="tilte-card"><b>{Files}</b></div>
+                              <h1 class="modal-title"><b>Files</b></h1>                       
+                         </header>
+                        <lightning-button-icon title="Close" size="large" icon-name="utility:close"
+                            variant="bare-inverse" class="slds-modal__close" onclick={closeModal}>
+                        </lightning-button-icon>
+                    </div>
+                    <div class="slds-modal__content slds-m-around_none">
+                        <lightning-datatable
+                        data={contDocumentsFinal}
+                        columns={columns}
+                        key-field="id"
+                        onrowselection={handleRowSelection}
+                    ></lightning-datatable>
+                        <!-- <c-edit-proposed-jewel record-id={objId} visit-name={visitName} show-product-table={showProductTable} oneditpropjewelclose={closeHandle} onvisitsave={saveContractAccountEdit} owner-name={ownerName} show-header="true" onrendered={handleRendered} onsuccess={handleSaveVisit} oncloseaftersave={handleCloseModalAfterUpdate}></c-edit-proposed-jewel> -->
+                    </div>
+                     <!-- Modal footer -->
+                     <footer class="slds-modal__footer">
+                        <lightning-button-group>
+                        <button onclick={handleDeleteButtonClick} class="Delete-button">Delete Files</button>
+                        </lightning-button-group>
+                    </footer>
+                </div>
+                 
+                
+        </div>
+    </template>
+
+    <template if:true={showModalAdFile}>
+        <div class="slds-modal slds-fade-in-open slds-modal_large slds-backdrop"> 
+            <div class="slds-modal__container slds-var-p-horizontal_xx-large">
+                <div class="slds-modal__header slds-p-around_none">
+        <header class="slds-modal__header" >
+            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                    title="Close" onclick={closeModalAdFile}>
+                    <lightning-icon icon-name="utility:close" size="small">
+                    </lightning-icon>
+                    <span class="slds-assistive-text">Close</span>
+            </button>
+            <div class="slds-m-around_medium">
+                <lightning-input type="file" 
+                    accept=".xlsx, .xls, .csv, .png, .doc, .docx, .pdf"
+                    label="Attachment" onchange={openfileUpload}></lightning-input>
+            </div>
+            <template if:true={fileData}>
+                <p>{fileData.filename}</p>
+            </template>
+            <lightning-button variant="brand" label="Done" title="Done" onclick={handleClick} class="slds-m-left_x-small"></lightning-button> 
+        </header>
+        </div>
+        </div>
+        </div>
+    </template>       
+
+</template>

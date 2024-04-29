@@ -1,0 +1,93 @@
+.THIS .clearFloats:before, .THIS .clearFloats:after 
+{
+    content: " "; 
+    display: table !important;
+}
+
+.THIS  .clearFloats:after {clear: both;}
+.THIS .clearFloats {*zoom: 1; }
+
+.THIS .container {
+	  position: relative;
+	  font-size: 120px;
+	  width: 1em;
+	  height: 1em;
+	  -webkit-border-radius: 50%;
+	  -moz-border-radius: 50%;
+	  -ms-border-radius: 50%;
+	  -o-border-radius: 50%;
+	  border-radius: 50%;
+	  float: left;
+	  margin: 0 0.1em 0.1em 0;
+      background-color: #cccccc;
+      -webkit-transition-property: all;
+	  -moz-transition-property: all;
+	  -o-transition-property: all;
+	  transition-property: all;
+	  -webkit-transition-duration: 0.2s;
+	  -moz-transition-duration: 0.2s;
+	  -o-transition-duration: 0.2s;
+	  transition-duration: 0.2s;
+	  -webkit-transition-timing-function: ease-in;
+	  -moz-transition-timing-function: ease-in;
+	  -o-transition-timing-function: ease-in;
+      transition-timing-function: ease-in;
+      
+	}
+
+.THIS .container.center {
+	  float: none;
+	  margin: 0 auto;
+	}
+.THIS .container.big {
+      font-size: 90px;
+      box-shadow: 0 0 15px 5px rgb(46, 46, 46, 0.2);
+      border-width: 8px;
+      border-style: solid;
+      border-radius: 50%;
+	}
+.THIS .container.small {
+      font-size: 50px;
+      box-shadow: 0 0 15px 5px rgb(46, 46, 46, 0.2);
+      border-width: 3px;
+      border-style: solid;
+      border-radius: 50%;
+	}
+.THIS .container.medium {
+      font-size: 70px;
+      box-shadow: 0 0 15px 5px rgb(46, 46, 46, 0.2);
+      border-width: 3px;
+      border-style: solid;
+      border-radius: 50%;
+	}
+
+.THIS .container.small:hover {
+      cursor: default;
+      border-width: 5px;
+    }
+
+.THIS .container.big:hover {
+    cursor: default;
+    border-width: 10px;
+  }
+
+  .THIS .container.medium:hover {
+    cursor: default;
+    border-width: 5px;
+  }
+
+.THIS .container.blue {
+  border-color: #307bbb;
+}
+
+.THIS .container.green {
+  border-color: #4db53c;
+}
+
+.THIS .container.orange {
+  border-color: #dd9d22;
+}
+
+.THIS .container.grey{
+  border-color:#E1E1E1;
+}

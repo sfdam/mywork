@@ -1,0 +1,22 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickActionWithoutHeader" access="global" >
+     <aura:html tag="style">
+        .slds-modal__container{
+            max-width: 80rem !important;
+            width:90% !important;
+        }
+        .cuf-content {
+            padding: 0 0rem !important;
+        }
+        .slds-p-around--medium {
+            padding: 0rem !important;
+        }       
+        .slds-modal__content{
+            overflow-y:hidden !important;
+            height:unset !important;
+            max-height:unset !important;
+        }
+    </aura:html>
+    <aura:attribute name="recordId" type="String"/>
+    
+    <c:manageGestoreBackup recordId="{!v.recordId}" onclose="{!c.handleOnClose}" onrefresh="{!c.handleOnRefresh}"></c:manageGestoreBackup>
+</aura:component>

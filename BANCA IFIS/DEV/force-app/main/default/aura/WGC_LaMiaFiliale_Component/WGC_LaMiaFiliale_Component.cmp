@@ -1,0 +1,34 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+	<!--<div>
+        <img src="{!$Resource.LaMiaFiliale}" />
+    </div>-->
+    <!-- Attributi-->
+    <aura:attribute name="title" type="String"/>
+    <aura:attribute name="valData" type="String"/>
+    <aura:attribute name="data" type="Object"/>
+    <aura:attribute name="colums" type="List"/>
+    <aura:attribute name="options" type="List" default="[
+                    {'label': 'New', 'value': 'new'},
+                    {'label': 'In Progress', 'value': 'inProgress'},
+                    {'label': 'Finished', 'value': 'finished'}]"/>
+    
+          
+    <lightning:card>
+        <aura:set attribute="title">
+            <lightning:layout>
+                <lightning:layoutItem size="10">  
+                    <div class="title">LA MIA FILIALE</div> 
+                </lightning:layoutItem>
+                <lightning:layoutItem size="2">  
+                <lightning:combobox name="progress" placeholder="Selezione Filiale" 
+                            options="{!v.options}" onchange="{!c.handleChange}" />
+                </lightning:layoutItem>
+            </lightning:layout>
+        </aura:set> 
+    </lightning:card>
+        
+    
+
+
+
+</aura:component>

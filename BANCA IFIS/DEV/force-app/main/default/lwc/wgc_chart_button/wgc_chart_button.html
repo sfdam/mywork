@@ -1,0 +1,18 @@
+<template>
+    <div class="slds-grid slds-wrap">
+        <div class="slds-col slds-size_1-of-1 slds-var-p-top_xx-small">
+            <template for:each={_firstLevelButtons} for:item="btn">
+                <button key={btn.id} data-id={btn.id} data-value={btn.value} class={btn.cssClass} onclick={handleBtnFirstLevel}>
+                    <span>{btn.label}</span>
+                </button>
+            </template>
+        </div>
+        <div class="slds-col slds-size_1-of-1 slds-var-p-top_small">
+            <template for:each={buttons} for:item="btn">
+                <button key={btn.id} data-id={btn.id} data-value={btn.value} class={btn.cssClass} onclick={handleBtn}>
+                    <span>{btn.label}</span>
+                </button>
+            </template>
+        </div>
+    </div>
+</template>

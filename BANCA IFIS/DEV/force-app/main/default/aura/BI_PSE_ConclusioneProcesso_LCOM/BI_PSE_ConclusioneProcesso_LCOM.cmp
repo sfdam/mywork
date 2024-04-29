@@ -1,0 +1,46 @@
+<aura:component implements="lightning:availableForFlowScreens" access="global">  
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/> 
+    
+    <aura:attribute name="workflowRecordCandidatoID" type="String"/>
+    <aura:attribute name="workflowRecordCandidatoNEXT" type="WorkflowSegnalatori__c"/>
+    <aura:attribute name="workflowRecordCandidato" type="WorkflowSegnalatori__c"/>
+    <aura:attribute name="workflowRecordCandidatoERROR" type="String"/>
+    
+    <force:recordData aura:id="flowRecordHandlerWorkflowCandidatoId"
+                      recordId="{!v.workflowRecordCandidatoID}"
+                      fields="Stato__c,Name"
+                      targetFields="{!v.workflowRecordCandidato}"
+                      targetError="{!v.workflowRecordCandidatoERROR}"
+                      recordUpdated="{!c.handleRecordUpdated}"
+                      targetRecord="{!v.workflowRecordCandidatoNEXT}"
+                      mode="EDIT"                      
+                      />    
+    
+    <!-- Display Lightning Data Service errors, if any -->
+    <aura:if isTrue="{!not(empty(v.workflowRecordCandidatoERROR))}">
+        <ui:message title="Errore" severity="error" closable="true">{!v.workflowRecordCandidatoERROR}</ui:message>
+    </aura:if>           
+
+    <c:BI_PSE_FlowPath_LCOM selectedPathValue="3"/>
+    
+    <lightning:card variant="Narrow" title="Pratica Inviata" iconName="standard:goals" />
+    
+    <hr style="margin-top:1px;margin-bottom:10px;"/>   
+        
+    <div class="slds-scoped-notification slds-media slds-media_center" role="status">
+        <div class="slds-media__figure">
+            <span class="slds-icon_container slds-icon-utility-info" title="PRATICA INVIATA">
+                <lightning:icon iconName="utility:like" alternativeText="PRATICA INVIATA"/>
+            </span>
+        </div>
+        <div class="slds-media__body slds-text-heading_small slds-text-color_success">
+            <p><strong>GRAZIE! La pratica è ora in elaborazione in Banca Ifis. Il riferimento pratica è: {!v.workflowRecordCandidato.Name}</strong></p>
+        </div>
+    </div> 
+        
+    <hr style="margin-top:10px;margin-bottom:10px;"/>     
+
+    <c:bifis_crm_c_CommonFlowNavigator availableActions="{!v.availableActions}" navigateFlowEvent="{!c.handleNavigate}"/>           
+	
+</aura:component>

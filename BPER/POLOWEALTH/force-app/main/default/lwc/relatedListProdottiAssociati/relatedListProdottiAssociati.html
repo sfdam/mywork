@@ -1,0 +1,269 @@
+<template>
+
+	<!--Spinner-->
+	<lightning-spinner if:true={showSpinner}
+							variant="brand" 
+							alternative-text="Loading..."     
+							size="medium"
+							class="slds-align_absolute-center slds-is-fixed">
+	</lightning-spinner>
+
+    <lightning-card>
+        <lightning-layout class="slds-grid slds-wrap slds-grid_pull-padded-small">
+            <lightning-layout-item flexibility="auto" padding="around-small" size="12">
+                <p style="float: left;">
+                    <lightning-icon icon-name={iconName} size="small" style="padding-left: 2px; padding-right: 5px;"></lightning-icon><strong>{fullTitle}</strong>
+                </p>
+                <template if:true={isUserEnabled}>
+                    <lightning-button-group style="float: right;">
+                        <lightning-button label={coupleModalText} variant="neutral" onclick={toggleModal}></lightning-button>
+                    </lightning-button-group>
+                </template>
+            </lightning-layout-item>
+        </lightning-layout>
+        <template if:true={isProductLoaded}>
+            <div class="slds-m-around_medium">
+                <template if:true={hasAssociatedProducts}>
+                    <lightning-datatable
+                        key-field="Id"
+                        data={productList}
+                        columns={columnsWithAction}
+                        max-row-selection="0"
+                        hide-checkbox-column
+                        min-column-width="60"
+                        max-column-width="3000"
+                        onrowaction={openDeleteModal}>
+                    </lightning-datatable>
+                    <lightning-layout-item size="12" class="slds-align_absolute-center">
+                        <lightning-button variant="base" label={viewAllText} onclick={toggleProductModal}></lightning-button>
+                    </lightning-layout-item>
+                </template>
+                <template if:false={hasAssociatedProducts}>
+                    <p>{noElementMessage}</p>
+                </template>
+            </div>
+        </template>
+    </lightning-card>
+
+	<!--PRODUCT SELECTION MODAL-->
+    <template if:true={showModal}>
+        
+        <div class="slds-modal slds-fade-in-open slds-backdrop">
+            <div class="slds-modal__container" style="width: 80%; max-width: 80rem;">
+            
+                <!--HEADER Section-->
+                <div class="slds-modal__header">
+                    <lightning-button-icon icon-name="utility:close" alternative-text="Close this window" size="large"
+                        variant="bare-inverse" onclick={toggleModal} class="slds-modal__close">
+                    </lightning-button-icon>
+                    <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">{coupleModalText}</h2>
+                </div>
+                
+                <!--BODY Section-->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <!--FILTERS-->
+                    <lightning-layout-item flexibility="auto" padding="around-small" size="12">
+                        <lightning-layout class="slds-grid slds-wrap slds-grid_pull-padded-small">
+                            <lightning-layout-item flexibility="auto" padding="around-medium" class="slds-col slds-size_1-of-1 slds-large-size_6-of-12">
+                                <lightning-input type="text" label="Bisogno" placeholder="Cerca per Bisogno..."
+                                    onchange={handleBisognoChange}></lightning-input>
+                                <lightning-input type="text" label="Categoria" placeholder="Cerca per Bisogno..."
+                                    onchange={handleCategoriaChange}></lightning-input>
+                                <lightning-input type="text" label="Macrogruppo" placeholder="Cerca per Macrogruppo..."
+                                    onchange={handleMacrogruppoChange}></lightning-input>
+                            </lightning-layout-item>
+                            
+                            <lightning-layout-item flexibility="auto" padding="around-medium" class="slds-col slds-size_1-of-1 slds-large-size_6-of-12">
+                                <lightning-input type="text" label="Gruppo" placeholder="Cerca per Gruppo..."
+                                    onchange={handleGruppoChange}></lightning-input>
+                                <lightning-input type="text" label="Sottogruppo" placeholder="Cerca per Sottogruppo..."
+                                    onchange={handleSottogruppoChange}></lightning-input>
+                                <lightning-input type="text" label="Elementare" placeholder="Cerca per Elementare..."
+                                    onchange={handleElementareChange}></lightning-input>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                        <lightning-layout class="slds-grid slds-wrap slds-grid_pull-padded-small">
+                            <lightning-layout-item flexibility="auto" padding="around-small" size="12">
+                                <lightning-button-group style="float: right;">
+                                        <lightning-button variant="neutral" label={filterResultsText} onclick={handleFilter} disabled={isFilterDisabled}></lightning-button>
+                                </lightning-button-group>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </lightning-layout-item>
+
+                    <!--Spinner-->
+                    <div class="slds-is-relative slds-align_absolute-center">
+                        <lightning-spinner if:true={showSpinner}
+                            variant="brand" 
+                            alternative-text="Loading..."     
+                            size="medium">
+                        </lightning-spinner>
+                    </div>
+                    
+                    <!--DATATABLE-->
+                    <template if:true={isLoaded}>
+                        <template if:true={hasProducts}>
+                            <lightning-layout class="paginator">
+                                <lightning-layout-item alignment-bump="right">
+                                    <lightning-layout class="slds-align_absolute-center">
+                                        <lightning-layout-item padding="around-small">
+                                            <div class="lgc-bg">
+                                                <lightning-button-icon icon-name="utility:chevronleft"  variant="container" alternative-text="Settings" title="Settings" onclick={handleIndietro} disabled={disabledButtonIndietro}></lightning-button-icon>
+                                            </div>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item padding="around-small">
+                                            Pag. {page}
+                                        </lightning-layout-item>
+                                        <lightning-layout-item padding="around-small">
+                                            <div class="lgc-bg">
+                                                <lightning-button-icon icon-name="utility:chevronright"  variant="container" alternative-text="Settings" title="Settings" onclick={handleAvanti} disabled={disabledButtonAvanti}></lightning-button-icon>
+                                            </div>                
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </template>
+
+                        <lightning-layout>
+                            <lightning-layout-item size="12">
+                                <template if:true={hasProducts}>
+                                    <lightning-datatable
+                                            key-field="Id"
+                                            data={currentPageData}
+                                            columns={columns}
+                                            onrowselection={handleRowSelection}
+                                            selected-rows={pageSelectedRowIds}
+                                            min-column-width="100"
+                                            max-column-width="3000">
+                                    </lightning-datatable>
+                                </template>
+                                <template if:false={hasProducts}>
+                                    <p>{noElementMessage}</p>
+                                </template>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </template>
+                
+                </div>
+
+                <!--FOOTER Section-->
+                <div class="slds-modal__footer">
+                    <lightning-button-group style="float: right;">
+                        <lightning-button label="Annulla" variant="neutral" onclick={toggleModal}></lightning-button>
+                        <lightning-button label={coupleText} variant="brand" onclick={handleSave} disabled={isSaveDisabled}></lightning-button>
+                    </lightning-button-group>
+                </div>
+                
+            </div>
+        </div>
+    </template>
+
+    <!--PRODUCT LIST MODAL-->
+    <template if:true={showProductModal}>
+        
+        <div class="slds-modal slds-fade-in-open slds-backdrop">
+            <div class="slds-modal__container" style="width: 80%; max-width: 80rem;">
+            
+                <!--HEADER Section-->
+                <div class="slds-modal__header">
+                    <lightning-button-icon icon-name="utility:close" alternative-text="Close this window" size="large"
+                        variant="bare-inverse" onclick={toggleProductModal} class="slds-modal__close">
+                    </lightning-button-icon>
+                    <h2 id="modal-heading-02" class="slds-modal__title slds-hyphenate">{title}</h2>
+                </div>
+                
+                <!--BODY Section-->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
+
+                    <!--Spinner-->
+                    <div class="slds-is-relative slds-align_absolute-center">
+                        <lightning-spinner if:true={showSpinner}
+                            variant="brand" 
+                            alternative-text="Loading..."
+                            size="medium">
+                        </lightning-spinner>
+                    </div>
+                    
+                    <template if:true={isFullProductLoaded}>
+                        <!--DATATABLE-->
+                        <lightning-layout class="paginator">
+                            <lightning-layout-item alignment-bump="right">
+                                <lightning-layout class="slds-align_absolute-center">
+                                    <lightning-layout-item padding="around-small">
+                                        <div class="lgc-bg">
+                                            <lightning-button-icon icon-name="utility:chevronleft"  variant="container" alternative-text="Settings" title="Settings" onclick={handleProdIndietro} disabled={disabledProdButtonIndietro}></lightning-button-icon>
+                                        </div>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item padding="around-small">
+                                        Pag. {prodPage}
+                                    </lightning-layout-item>
+                                    <lightning-layout-item padding="around-small">
+                                        <div class="lgc-bg">
+                                            <lightning-button-icon icon-name="utility:chevronright"  variant="container" alternative-text="Settings" title="Settings" onclick={handleProdAvanti} disabled={disabledProdButtonAvanti}></lightning-button-icon>
+                                        </div>                
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                        <template if:true={hasAssociatedProducts}>
+                            <lightning-datatable
+                                key-field="Id"
+                                data={currentProdPageData}
+                                columns={columnsWithAction}
+                                max-row-selection="0"
+                                hide-checkbox-column
+                                min-column-width="100"
+                                max-column-width="3000"
+                                onrowaction={openDeleteModal}>
+                            </lightning-datatable>
+                        </template>
+                    </template>
+                
+                </div>
+                
+
+                <!--FOOTER Section-->
+                <div class="slds-modal__footer">
+                    <lightning-button-group style="float: right;">
+                        <lightning-button label="Chiudi" variant="neutral" onclick={toggleProductModal}></lightning-button>
+                    </lightning-button-group>
+                </div>
+                
+            </div>
+        </div>
+    </template>
+
+    <!--CONFIRM DELETE MODAL-->
+    <template if:true={showDeleteModal}>
+        
+        <div class="slds-modal slds-fade-in-open slds-backdrop">
+            <div class="slds-modal__container">
+            
+                <!--HEADER Section-->
+                <div class="slds-modal__header">
+                    <lightning-button-icon icon-name="utility:close" alternative-text="Close this window" size="large"
+                        variant="bare-inverse" onclick={closeDeleteModal} class="slds-modal__close">
+                    </lightning-button-icon>
+                    <h2 id="modal-heading-03" class="slds-modal__title slds-hyphenate"></h2>
+                </div>
+                
+                <!--BODY Section-->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-3">
+                    
+                    <p>{deleteMessage}&nbsp;{deleteProductName}?</p>
+                
+                </div>
+
+                <!--FOOTER Section-->
+                <div class="slds-modal__footer">
+                    <lightning-button-group style="float: right;">
+                        <lightning-button label="Annulla" variant="neutral" onclick={closeDeleteModal}></lightning-button>
+                        <lightning-button label="Rimuovi" variant="destructive" onclick={handleRemove}></lightning-button>
+                    </lightning-button-group>
+                </div>
+                
+            </div>
+        </div>
+    </template>
+
+</template>

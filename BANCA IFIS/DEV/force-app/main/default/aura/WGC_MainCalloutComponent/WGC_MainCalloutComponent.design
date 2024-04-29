@@ -1,0 +1,5 @@
+<design:component>
+    <design:attribute name="calloutText" label="calloutText" default="Apri una nuova opportunità" />
+    <design:attribute name="calloutIcon" label="calloutIcon" default="utility:send" />
+    <design:attribute name="calloutButtonText" label="calloutButtonText" default="Apri" />
+</design:component>

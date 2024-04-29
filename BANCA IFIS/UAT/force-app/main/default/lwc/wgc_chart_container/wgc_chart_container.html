@@ -1,0 +1,73 @@
+<template>
+    <div class={cssChartContainer} data-id="chart-container">
+        <!-- <template if:false={isLoaded}>
+            <lightning-spinner alternative-text="CARICAMENTO..."></lightning-spinner>
+        </template> -->
+        <!-- <template if:true={isLoaded}> -->
+            <template if:true={showError}>
+                <h1>Errore durante il caricamento del grafico. Contatta l'amministratore</h1>
+            </template>
+            <template if:false={showError}>
+                <div class="slds-grid slds-wrap slds-p-around_small">
+                    <div class="slds-col slds-size_1-of-1">
+                        <div class="slds-grid">
+                            <div class="slds-col slds-size_10-of-12">
+                            <template if:true={showIcon}>
+                                <lightning-icon icon-name={iconName} size="small"></lightning-icon>
+                            </template>
+                            <h1 class="cstm-title slds-text-heading_small slds-show_inline">{title}</h1>
+                            </div>
+                            <div class="slds-col slds-size_2-of-12 slds-text-align_right">
+                            <template if:true={enableDetail}>
+                                <button class="slds-button slds-p-right_x-small" data-btn="detail" onclick={goToDetail}>
+                                    <lightning-icon icon-name="utility:expand" variant="base" size="xx-small" icon-position="center"></lightning-icon>
+                                </button>
+                            </template>
+                            <template if:true={enableAccordion}>
+                                <button class="slds-button cstm-btn" data-btn="collapse" onclick={handleCollapse}>
+                                    <lightning-icon icon-name="utility:chevrondown" variant="base" size="x-small" icon-position="center"></lightning-icon>
+                                </button>
+                                <!-- <lightning-button icon-name="utility:chevrondown" variant="base" size="x-small" icon-position	="center"></lightning-button> -->
+                            </template>
+                            </div>
+                        </div>
+                    </div>
+                    <template if:true={showButton}>
+                        <div class="slds-col slds-size_1-of-1 slds-text-align_right">
+                            <c-wgc_chart_button buttons={buttons} onchangegraphics={handleChangeGraphics}></c-wgc_chart_button>
+                        </div>
+                    </template>
+                    <!-- <div class="slds-col slds-size_1-of-1"> -->
+                    <div class={cssChart} data-id="chart">
+                        <div class="slds-grid slds-wrap slds-var-p-top_medium">
+                            <template if:false={isLoaded}>
+                                <lightning-spinner alternative-text="CARICAMENTO..."></lightning-spinner>
+                            </template>
+                            <template if:true={isLoaded}>
+                                <template for:each={graphs} for:item="graph">
+                                    <template if:true={graph.isVisible}>
+                                        <template if:false={graph.isTable}>
+                                            <div key={graph.id} class={graph.cssClass}>
+                                                <c-wgc_canvas_chart height={graph.height} chart-type={graph.chartType} apex-data={graph.apexData} background-color={graph.backgroundColor} border-color={graph.borderColor}></c-wgc_canvas_chart>
+                                            </div>
+                                        </template>
+                                        <template if:true={graph.isTable}>
+                                            <div key={graph.id}>
+                                                <lightning-datatable
+                                                    key-field="Mese__c"
+                                                    columns={graph.tableColumns}
+                                                    data={graph.tableData}
+                                                    hide-checkbox-column>
+                                                </lightning-datatable>
+                                            </div>
+                                        </template>
+                                    </template>
+                                </template>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        <!-- </template> -->
+    </div>
+</template>

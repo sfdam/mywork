@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Anomalie_generalizzate</fullName>
+    <columns>CRM_AnomalyStatus__c</columns>
+    <columns>TITLE</columns>
+    <columns>LAST_PUBLISHED_DATE</columns>
+    <columns>CRM_AnomalyStartDate__c</columns>
+    <columns>CRM_AnomalyEndDate__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>PUBLISH_STATUS</field>
+        <operation>equals</operation>
+        <value>2</value>
+    </filters>
+    <filters>
+        <field>CRM_Portale__c</field>
+        <operation>notEqual</operation>
+        <value>Solo portale interno</value>
+    </filters>
+    <filters>
+        <field>RECORD_TYPE</field>
+        <operation>equals</operation>
+        <value>Knowledge__kav.Anomalia</value>
+    </filters>
+    <label>Anomalie generalizzate - Contact Center</label>
+    <sharedTo>
+        <roleAndSubordinatesInternal>Contact_Center</roleAndSubordinatesInternal>
+    </sharedTo>
+</ListView>

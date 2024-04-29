@@ -1,0 +1,34 @@
+<template>
+    <lightning-card class="slds-p-around_none">
+        <lightning-layout multiple-rows="true">
+            <lightning-layout-item size="12" medium-device-size="4">
+                <div class="slds-p-vertical_small slds-p-horizontal_none slds-m-around_none slds-text-align_center" style="background-color:#021F59;" >
+                    <lightning-icon class="icon-margin" icon-name="utility:announcement" size="large" alternative-text="announcement" variant="inverse"></lightning-icon>
+                    <h1 style="color:white;"><lightning-formatted-rich-text
+                        value={label.attivitaDiOggi}
+                    ></lightning-formatted-rich-text></h1>
+                </div>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" medium-device-size="4">
+                <div class="slds-p-vertical_small slds-p-horizontal_none slds-m-around_none slds-text-align_center" style="background-color:white">
+                    <div class="slds-text-align_center">
+                        <a class="notification-circle" onclick={handleNavigate} name="daContattare">{daContattare}</a>
+                        <lightning-icon class="icon-margin" icon-name="utility:call" size="large" alternative-text="call"></lightning-icon>
+                    </div>
+                    <h1><lightning-formatted-rich-text
+                        value={label.aziendeDaContattare}
+                    ></lightning-formatted-rich-text></h1>
+                </div>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" medium-device-size="4">
+                <div class="slds-p-vertical_small slds-p-horizontal_none slds-m-around_none slds-text-align_center" style="background-color:white;">
+                    <a class="notification-circle" onclick={handleNavigate} name="daVisitare">{daVisitare}</a>
+                    <lightning-icon class="icon-margin" icon-name="utility:company" size="large" alternative-text="company"></lightning-icon>
+                    <h1><lightning-formatted-rich-text
+                        value={label.aziendeDaVisitare}
+                    ></lightning-formatted-rich-text></h1>
+                </div>
+            </lightning-layout-item>
+        </lightning-layout>
+    </lightning-card>
+</template>

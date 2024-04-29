@@ -1,0 +1,23 @@
+<template>
+    <div class="slds-box">
+        <lightning-layout>
+            <lightning-layout-item size="12" class="slds-p-horizontal_small">
+                <template if:false={readOnly}>
+                    <template if:false={goNextBtn}>
+                        <lightning-button label="Conferma" variant="brand" class="cstm-btn-round slds-float_right slds-m-left_xx-small" onclick={confirmInfoCedente}></lightning-button>
+                    </template>
+                </template>
+                <template if:true={goNextBtn}>
+                    <lightning-button label="Avanti" variant="brand" class="cstm-btn-round slds-float_right slds-m-left_xx-small" onclick={goNextStep}></lightning-button>
+                </template>
+                <lightning-button label="Indietro" class="cstm-btn-round slds-float_right" onclick={goBackSceltaProdotto}></lightning-button>
+            </lightning-layout-item>
+        </lightning-layout>
+
+        <!-- PRODOTTI SELEZIONATI -->
+        <c-wgc_pc_cart_products_container products={selectedProds} title="PRODOTTI SELEZIONATI"></c-wgc_pc_cart_products_container>
+
+        <!-- CART INFO CEDENTE -->
+        <c-wgc_pc_cart_info_cedente record-id={recordId} prod={codProd} debitore-id={debitoreId} user-info={userInfo} p-read-only={readOnly} onspinnerevt={handleSpinner} onchangefieldval={handleChangeField}></c-wgc_pc_cart_info_cedente>
+    </div>
+</template>

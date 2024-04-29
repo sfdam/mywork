@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_Tipo_Esito__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(Status__c = &quot;Non contattabile&quot;, &quot;Esito Negativo&quot;, IF(ISBLANK(TEXT(CRM_EsitoCampagnaRete__r.CRM_TipoEsitazione__c )) || TEXT(CRM_EsitoCampagna__r.CRM_TipoEsitazione__c) == &quot;Default&quot;,&quot;Esito Transitorio&quot;, TEXT(CRM_EsitoCampagna__r.CRM_TipoEsitazione__c)))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Tipo Esito</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

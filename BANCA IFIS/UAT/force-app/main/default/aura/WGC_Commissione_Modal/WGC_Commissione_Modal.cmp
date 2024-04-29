@@ -1,0 +1,39 @@
+<aura:component extends="c:WGC_Utility">
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="opportunityId" type="String" />
+    <aura:attribute name="value" type="Decimal" />
+    <aura:attribute name="valuecmp" type="Decimal" />
+    <aura:attribute name="action" type="String" />
+    <aura:attribute name="readOnly" type="Boolean" />
+    <!-- REGISTER -->
+    <!-- HANDLER -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    <!-- REGISTER EVENT -->
+    <aura:registerEvent name="genevt" type="c:WGC_GenericEvent"/>
+
+    <!-- LIB -->
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+
+    <aura:html tag="style">
+        .slds-p-around--medium {
+            padding: 0rem !important;
+        }       
+        .slds-modal__content{
+            height:unset !important;
+            max-height:unset !important;
+        }
+    </aura:html>
+
+    <lightning:layout class="slds-p-around_medium">
+        <lightning:layoutItem size="1" class="slds-p-around_small">
+            <lightning:helptext content="{! $Label.c.WGC_Cart_Commissione_Helptext}"/>
+        </lightning:layoutItem>
+        <lightning:layoutItem size="11" class="slds-p-around_small">
+            <lightning:input label="Comm. Disponibilità Fondi (CDF) Trim." type="number" formatter="percent-fixed" step="0.01" value="{! v.value }" disabled="{! v.readOnly }" />
+        </lightning:layoutItem>
+    </lightning:layout>
+    <footer class="slds-modal__footer">
+        <lightning:button label="Indietro" class="cstm-btn-round neutral" onclick="{! c.back }" disabled="{! v.readOnly }"/>
+        <lightning:button label="Conferma" variant="brand" class="cstm-btn-round" onclick="{! c.confirm }" disabled="{! v.readOnly }"/>
+    </footer>
+</aura:component>

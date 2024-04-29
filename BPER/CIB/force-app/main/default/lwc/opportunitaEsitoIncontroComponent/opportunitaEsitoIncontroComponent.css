@@ -1,0 +1,19 @@
+div.page-header {
+    border: var(--lwc-borderWidthThin, 1px) solid rgb(201, 201, 201);
+  }
+  
+  ul.page-header-detail {
+    border-top: var(--lwc-borderWidthThin, 1px) solid rgb(201, 201, 201);
+  }
+
+.slds-table{
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow-x: auto;
+}
+
+.slds-page-header__detail-row{
+  width: 102% !important;
+  max-width: 102% !important;
+  overflow-x: auto;
+}

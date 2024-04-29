@@ -1,0 +1,220 @@
+<template>
+    <lightning-card>
+        <template if:false={loaded}>
+            <div class="spinner-holder">
+                <lightning-spinner alternative-text="Loading"></lightning-spinner>
+            </div>
+        </template>
+        <template if:true={showErrorMassage}>
+        <p style="font-size: 12px;">
+            Non sono presenti clienti in campagna nell'unità organizzativa !
+        </p>
+        </template>
+        <template if:true={showFilter}>
+            <lightning-layout multiple-rows=true>
+                <lightning-layout-item padding="around-small" size="12">
+                    <lightning-layout multiple-rows=true>
+                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="3" >
+                            <lightning-combobox
+                            name="searchedEsito"
+                            label="Esito Contatto"
+                            value={searchedEsito}
+                            placeholder="Seleziona un esito"
+                            options={optionsEsito}
+                            onchange={handleFilter}
+                            class="fixin-margin-with-css">
+                            </lightning-combobox>
+                        </lightning-layout-item>
+                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="3">
+                            <lightning-combobox
+                                name="searchedMMDS"
+                                label="M-MDS"
+                                value={searchedMMDS}
+                                placeholder="Seleziona un M-MDS"
+                                options={optionsMMDS}
+                                onchange={handleFilter}
+                                class="fixin-margin-with-css">
+                            </lightning-combobox>
+                        </lightning-layout-item>
+                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="3" >
+                            <lightning-input type="text" label="NDG" placeholder="Cerca per NDG..." value={searchedNDG} onchange={handleFilter} name="searchedNDG"></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="3" >
+                            <lightning-input type="text" label="Referente" placeholder="Cerca per Referente..." value={searchedRef} onchange={handleFilter} name="searchedRef"></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="3" >
+                            <lightning-input type="text" label="Filiale" placeholder="Cerca per Filiale..." value={searchedUnitaorg} onchange={handleFilter} name="searchedUnitaorg"></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="3" >
+                            <lightning-input type="text" label="Assegnatario" placeholder="Cerca per Assegnatario..." value={searchedAssegnatario} onchange={handleFilter} name="searchedAssegnatario"></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="3" >
+                            <lightning-input type="text" label="Autore" placeholder="Cerca per Autore..." value={searchedAuthor} onchange={handleFilter} name="searchedAuthor"></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="3" >
+                            <lightning-input type="date" label="Data Inserimento" placeholder="Cerca per Data Inserimento..." value={searchedDataInserimento} onchange={handleFilter} name="searchedDataInserimento"></lightning-input>
+                        </lightning-layout-item> 
+                        <template if:true={campaignCondition}>
+                            <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="3" >
+                                <lightning-input type="date" label="Data Uscita" placeholder="Cerca per Data Uscite..." value={seachedDataUscita} onchange={handleFilter} name="seachedDataUscita"></lightning-input>
+                            </lightning-layout-item>
+
+                        </template> 
+                                                
+                        
+
+                    </lightning-layout>
+                </lightning-layout-item>
+
+                <!--<lightning-layout-item padding="around-small" size="12">
+
+                    <lightning-layout multiple-rows=true>
+                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="4">
+                            <lightning-input type="number" label="Inizio Valore ID_P2" placeholder="Seleziona inizio range ID_P2..." value={selectedValoreID_P2Start} onchange={handleFilter} name="selectedValoreID_P2Start"></lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="4">
+                            <lightning-input type="number" label="Fine Valore ID_P2" placeholder="Seleziona fine range valore ID_P2..." value={selectedValoreID_P2End} onchange={handleFilter} name="selectedValoreID_P2End"></lightning-input>
+                        </lightning-layout-item>
+                      </lightning-layout>  
+                </lightning-layout-item>-->
+
+                <lightning-layout-item padding="around-small" size="12">
+                    
+
+                    <lightning-layout multiple-rows=true>
+                    
+                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="4">
+                            <lightning-combobox
+                                name="selectedNomeAttributo1"
+                                label="Nome Attributo 1"
+                                value={selectedNomeAttributo1}
+                                placeholder="Seleziona un attributo..."
+                                options={optionsAttributo1}
+                                onchange={handleFilter}
+                                class="fixin-margin-with-css">
+                            </lightning-combobox>
+                        </lightning-layout-item>
+                        <template if:true={showRangeNum1}>
+                            <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="4">
+                                <lightning-input type="text" label="Inizio Valore 1" placeholder="Seleziona inizio range valore 1..." value={selectedValoreAttributo1Start} onchange={handleFilter} name="selectedValoreAttributo1Start"></lightning-input>
+                            </lightning-layout-item>
+                            <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="4">
+                                <lightning-input type="text" label="Fine Valore 1" placeholder="Seleziona fine range valore 1..." value={selectedValoreAttributo1End} onchange={handleFilter} name="selectedValoreAttributo1End"></lightning-input>
+                            </lightning-layout-item>
+                        </template>
+                        <template if:true={showRangeDate1}>
+                            <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="4">
+                                <lightning-input type="date" label="Inizio Valore 1" placeholder="Seleziona inizio range valore 1..." value={selectedValoreAttributo1Start} onchange={handleFilter} name="selectedValoreAttributo1Start"></lightning-input>
+                            </lightning-layout-item>
+                            <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="4">
+                                <lightning-input type="date" label="Fine Valore 1" placeholder="Seleziona fine range valore 1..." value={selectedValoreAttributo1End} onchange={handleFilter} name="selectedValoreAttributo1End"></lightning-input>
+                            </lightning-layout-item>
+                        </template>
+                        <template if:true={showSearchtext1}>
+                            <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="4">
+                                <lightning-input type="text" label="Valore 1" placeholder="Cerca valore 1..." value={searchedValoreAttributo1} onchange={handleFilter} name="searchedValoreAttributo1"></lightning-input>
+                            </lightning-layout-item>
+                        </template>
+                    </lightning-layout>
+                </lightning-layout-item>
+                <lightning-layout-item padding="around-small" size="12">
+                    <lightning-layout multiple-rows=true>
+                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="4">
+                            <lightning-combobox
+                                name="selectedNomeAttributo2"
+                                label="Nome Attributo 2"
+                                value={selectedNomeAttributo2}
+                                placeholder="Seleziona un attributo..."
+                                options={optionsAttributo2}
+                                onchange={handleFilter}
+                                class="fixin-margin-with-css">
+                            </lightning-combobox>
+                        </lightning-layout-item>
+                        <template if:true={showRangeNum2}>
+                            <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="4">
+                                <lightning-input type="text" label="Inizio Valore 2" placeholder="Seleziona inizio range valore 2..." value={selectedValoreAttributo2Start} onchange={handleFilter} name="selectedValoreAttributo2Start"></lightning-input>
+                            </lightning-layout-item>
+                            <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="4">
+                                <lightning-input type="text" label="Fine Valore 2" placeholder="Seleziona fine range valore 2..." value={selectedValoreAttributo2End} onchange={handleFilter} name="selectedValoreAttributo2End"></lightning-input>
+                            </lightning-layout-item>
+                        </template>
+                        <template if:true={showRangeDate2}>
+                            <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="4">
+                                <lightning-input type="date" label="Inizio Valore 2" placeholder="Seleziona inizio range valore 2..." value={selectedValoreAttributo2Start} onchange={handleFilter} name="selectedValoreAttributo2Start"></lightning-input>
+                            </lightning-layout-item>
+                            <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="4">
+                                <lightning-input type="date" label="Fine Valore 2" placeholder="Seleziona fine range valore 2..." value={selectedValoreAttributo2End} onchange={handleFilter} name="selectedValoreAttributo2End"></lightning-input>
+                            </lightning-layout-item>
+                        </template>
+                        <template if:true={showSearchtext2}>
+                            <lightning-layout-item flexibility="auto" padding="around-small" size="12" medium-device-size="4">
+                                <lightning-input type="text" label="Valore 2" placeholder="Cerca valore 2..." value={searchedValoreAttributo2} onchange={handleFilter} name="searchedValoreAttributo2"></lightning-input>
+                            </lightning-layout-item>
+                        </template>
+                    </lightning-layout>
+                </lightning-layout-item>
+                
+                <lightning-layout-item padding="around-small" size="6">
+                    <lightning-layout class="paginator slds-m-top_large slds-float_left">
+                        <lightning-layout-item alignment-bump="left">
+                            <lightning-layout class="slds-align_absolute-center">
+                                <lightning-layout-item padding="around-small">
+                                    <div class="lgc-bg">
+                                        <lightning-button-icon icon-name="utility:chevronleft"  variant="container"  onclick={handleIndietro} disabled={disabledButtonIndietro}></lightning-button-icon>
+                                    </div>
+                                </lightning-layout-item>
+                                <lightning-layout-item padding="around-small">
+                                    Pag. {page} di {pages.length}
+                                </lightning-layout-item>
+                                <lightning-layout-item padding="around-small">
+                                    <div class="lgc-bg">
+                                        <lightning-button-icon icon-name="utility:chevronright"  variant="container"  onclick={handleAvanti} disabled={disabledButtonAvanti}></lightning-button-icon>
+                                    </div>                
+                                </lightning-layout-item>
+                                <lightning-layout-item padding="around-small">
+                                    Totale Membri - {numMembers}
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </lightning-layout-item>
+                <lightning-layout-item flexibility="auto" padding="around-small" size="6">
+                    <lightning-button-group class="slds-m-top_large slds-float_right">
+                        <lightning-button
+                            name="reset"
+                            variant="neutral"
+                            label="Reset"
+                            title="Reset"
+                            onclick={handleReset}>
+                        </lightning-button>
+                        <lightning-button 
+                            name="search"
+                            variant="neutral"
+                            label="Cerca"
+                            title="Cerca"
+                            onclick={handleSearch}>
+                        </lightning-button>
+                    </lightning-button-group>
+                </lightning-layout-item>
+            </lightning-layout>
+        </template>
+        <template if:false={loaded}>
+            <div class="spinner-holder">
+                <lightning-spinner alternative-text="Loading"></lightning-spinner>
+            </div>
+        </template>
+        <template if:true={loaded}>
+            <lightning-layout-item size="12" padding="around-small">
+                <lightning-datatable key-field="Id"
+                                        data={currentPageData}
+                                        columns={columns}
+                                        hide-checkbox-column="true"
+                                        default-sort-direction={defaultSortDirection}
+                                        sorted-direction={sortDirection}
+                                        sorted-by={sortedBy}
+                                        onsort={onHandleSort}>
+                </lightning-datatable>
+            </lightning-layout-item>
+        </template>
+    </lightning-card>
+</template>

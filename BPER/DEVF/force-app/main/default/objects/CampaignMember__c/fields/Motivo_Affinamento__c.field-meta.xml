@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Motivo_Affinamento__c</fullName>
+    <externalId>false</externalId>
+    <label>Motivo Affinamento</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Profilo non adatto</fullName>
+                <default>false</default>
+                <label>Profilo non adatto</label>
+            </value>
+            <value>
+                <fullName>Dati non Aggiornati</fullName>
+                <default>false</default>
+                <label>Dati non Aggiornati</label>
+            </value>
+            <value>
+                <fullName>Numerosità elevata</fullName>
+                <default>false</default>
+                <label>Numerosità elevata</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

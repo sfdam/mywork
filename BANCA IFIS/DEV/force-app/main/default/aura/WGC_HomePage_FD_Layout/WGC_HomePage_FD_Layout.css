@@ -1,0 +1,42 @@
+@media screen and (min-width: 320px) {
+    /* regole CSS */
+}
+
+@media screen and (min-width: 640px) {
+    /* regole CSS */
+}
+
+@media screen and (min-width: 1024px) {
+    /* regole CSS */
+    .THIS .page-section{width: 50%;}
+}
+
+@media screen and (min-width: 1440px) {
+    /* regole CSS */
+    .THIS .page-section{width: 33.33%;}
+}
+/* 
+@media only screen and (min--moz-device-pixel-ratio: 2) and (min-width: 1024px),
+only screen and (-o-min-device-pixel-ratio: 2/1) and (min-width: 1024px),
+only screen and (-webkit-min-device-pixel-ratio: 2) and (min-width: 1024px),
+only screen and (min-device-pixel-ratio: 2) and (min-width: 1024px) {
+    .THIS .page-section{width: 50%;}
+} */
+
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : landscape)
+and (-webkit-min-device-pixel-ratio: 2) { 
+    /* STYLES GO HERE */
+
+}
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : portrait)
+and (-webkit-min-device-pixel-ratio: 2) { 
+    /* STYLES GO HERE */ 
+}

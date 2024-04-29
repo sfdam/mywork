@@ -1,0 +1,40 @@
+<template>
+    <!-- <template if:true={field.visibility}> -->
+        <template if:true={isPicklist}>
+            <!-- onchange={changeField} -->
+            <lightning-combobox label={field.label} name={field.apiName} value={field.value} disabled={field.readOnly} options={field.options} onblur={blurHandler} onchange={changeField} ></lightning-combobox>
+        </template>
+        <template if:true={isRadio}>
+            <!-- name={field.apiName} -->
+            <!-- onchange={changeField} -->
+            <lightning-radio-group data-name={field.apiName} label={field.label} options={radioOptions} value={field.value} disabled={field.readOnly} type="radio" onblur={blurHandler} onchange={changeField} ></lightning-radio-group>
+        </template>
+        <template if:true={isLookup}>
+            <c-wgc_lookup
+                data-name={field.apiName}
+                data-value={field.apiName}
+                selection={lookup}
+                errors={errors}
+                onsearch={handleSearch}
+                onselectionchange={changeField}
+                label={field.label}
+                placeholder="Cerca..."
+                is-multi-entry={isMultiEntry}
+                read-only={field.readOnly}
+            >
+            </c-wgc_lookup>
+        </template>
+        <template if:true={isTextarea}>
+            <!--
+            <label class="slds-form-element__label" for={field.apiName}>{field.label}</label>
+            <textarea id={field.apiName} style="display" name={field.apiName} disabled={field.readOnly} onchange={changeField} placeholder="Inserire una nota...">{field.value}</textarea>
+            -->
+            <!-- onchange={changeField} -->
+            <lightning-textarea name={field.apiName} label={field.label} value={field.value} disabled={field.readOnly} placeholder="Inserire una nota..." onblur={blurHandler} onchange={changeField} ></lightning-textarea>
+        </template>
+        <template if:true={isOtherFieldType}>
+            <!-- onchange={changeField} -->
+            <lightning-input id={field.apiName} type={field.type} formatter={field.formatter} variant={labelVariant} label={field.label} name={field.apiName} value={field.value} disabled={field.readOnly} step={stepField} onblur={blurHandler} onchange={changeField} ></lightning-input>
+        </template>
+    <!-- </template> -->
+</template>

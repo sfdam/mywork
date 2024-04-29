@@ -1,0 +1,220 @@
+<apex:page standardController="cgcloud__Order__c" extensions="CopiaCommissioneDeCtrl"
+           renderAs="pdf" id="thePage_CopiaCommissioneDe"> 
+
+    <html>
+        <head> 
+            <apex:stylesheet value="{!$Resource.TransferOrder}" />
+        </head>
+        <body>
+            <!-- Intestazione --> 
+            <div style="text-align:left;">
+                <apex:image url="{!$Resource.LogoMenarini}" />
+            </div>
+
+            <hr/>
+            <!-- Tabella 1 --> 
+            <table class="table tableWithoutBorder">
+                <tr> 
+                    <td class="elementWidth30AlignTop">
+                        <strong>{!$Label.Cliente} </strong> <apex:outputText value="{!order.name_Account}" />
+                    </td>
+                    <td class="elementWidth30AlignTop">
+                        <strong>{!$Label.Cod_Cliente} </strong> <apex:outputText value="{!order.thr_CustomerIdentificationCode_Account}"  />
+                    </td>
+                </tr>
+                <tr> 
+                    <td class="elementWidth30AlignTop">
+                        <strong>{!$Label.Indirizzo} </strong> <apex:outputText value="{!order.shippingStreet_Account}" />
+                    </td>
+                    <td class="elementWidth30AlignTop">
+                        <strong>{!$Label.cap} </strong> <apex:outputText value="{!order.shippingPostalCode_Account}"  />
+                    </td>
+                </tr>
+                <tr> 
+                    <td class="elementWidth30AlignTop">
+                        <strong>{!$Label.City} </strong> <apex:outputText value="{!order.shippingCity_Account}" />
+                    </td>
+                    <td class="elementWidth30AlignTop">
+                        <strong>{!$Label.Provincia} </strong> <apex:outputText value="{!order.shippingState_Account}"  />
+                    </td>
+                </tr>
+                <tr> 
+                    <td class="elementWidth30AlignTop">
+                        <strong> {!$Label.CUU} </strong> <apex:outputText value="{!order.thr_CUU_Account}" />
+                    </td>
+                    <td class="elementWidth30AlignTop">
+                        <strong>{!$Label.Partita_IVA} </strong> <apex:outputText value="{!order.thr_VATNumber_Account}"  />
+                    </td>
+                </tr>
+                <tr> 
+                    <td class="elementWidth30AlignTop">
+                        <strong>{!$Label.Numero_Ordine} </strong> <apex:outputText value="{!order.orderName}" />
+                    </td>
+                    <td class="tdWidth30AlignTop">
+                        <strong>{!$Label.Data_Ordine} </strong> <apex:outputText value="{!order.orderDate}"  />
+                    </td>
+                </tr>
+                <tr> 
+                    <td class="elementWidth30AlignTop">
+                        <strong>{!$Label.Tipo_Ordine} </strong> <apex:outputText value="{!order.nameOrderTemplate}" />
+                    </td>
+                    <td class="elementWidth30AlignTop">
+                        <strong>{!$Label.Operatore} </strong> <apex:outputText value="{!order.responsibleName}"  />
+                    </td>
+                </tr>
+                <apex:outputText rendered="{!NOT(order.nameTemplateTO)}">
+                    <tr> 
+                        <td class="elementWidth30AlignTop">
+                            <strong>{!$Label.Dilazione_Pagamento} </strong> <apex:outputText value="{!order.art_Delay_days}" />
+                        </td>
+                    </tr>
+                </apex:outputText>
+                <tr> 
+                    <td class="elementWidth30AlignTop">
+                        <strong>{!$Label.Note_per_il_Cliente} </strong> <apex:outputText value="{!order.delivery_Note}" />
+                    </td>
+                </tr>
+            </table>
+            <br/><br/>
+            <!-- Tabella 2 -->
+            <table class="tableForBorderCell">
+                <thead>
+                    <tr class='headerRow'>
+                        <th class="text thTbl2">{!$Label.AICCod_Paraf}</th>
+                        <th class="text thTbl2">{!$Label.Cod_Prodotto}</th>
+                        <th class="text thTbl2">{!$Label.Prodotto}</th>
+                        
+                        <apex:outputText rendered="{!NOT(order.nameTemplateTO)}"> 
+                            <th class="text thTbl2">
+                                {!order.labelPrezzo}
+                            </th>
+                        </apex:outputText>
+                        
+                        <th class="text thTbl2">
+                            {!$Label.Quantit}
+                        </th>
+                        <apex:outputText rendered="{!NOT(order.nameTemplateTO)}">
+                        <th class="text thTbl2">    
+                                {!$Label.Sconto_Tot}
+                        </th>
+                        </apex:outputText>
+                        <apex:outputText rendered="{!order.nameTemplateDirettoFarma}">
+                        <th class="text thTbl2">                            
+                                {!$Label.Sconto1Percent}
+                        </th>
+                        </apex:outputText>
+                        <apex:outputText rendered="{!NOT(order.nameTemplateTO)}">
+                        <th class="text thTbl2">                            
+                                {!$Label.Totale_Netto}
+                        </th>
+                        </apex:outputText>
+                    </tr>       
+                </thead>
+                <tbody>
+                    <apex:repeat value="{!orderItems}" var="item" id="Items">
+                        <tr>
+                            <td class="tdTbl2">
+                                <apex:outputText value="{!item.thr_IndustryStandard_Product}" />
+                            </td>
+                            <td class="tdTbl2">
+                                <apex:outputText value="{!item.code_Product}" />
+                            </td>
+                            <td class="tdTbl2">
+                                <apex:outputText value="{!item.name_Product}" />
+                            </td>
+                            <apex:outputText rendered="{!NOT(order.nameTemplateTO)}">
+                                <td class="tdTbl2 tdAdRightAlign">
+                                    <apex:outputText value="{!item.pricing_Info_1}">
+                                    </apex:outputText>
+                                </td>
+                            </apex:outputText>
+                            <td class="tdTbl2 tdAdRightAlign">
+                                <apex:outputText value="{!item.quantity}" />
+                            </td>
+                            <apex:outputText rendered="{!NOT(order.nameTemplateTO)}">
+                            <td class="tdTbl2 tdAdRightAlign">
+                                    <apex:outputText value="{!item.discount}" />
+                            </td> 
+                            </apex:outputText>
+                            <apex:outputText rendered="{!order.nameTemplateDirettoFarma}">
+                                <td class="tdTbl2 tdAdRightAlign">
+                                    <apex:outputText value="{!item.sconto1percent}" />
+                            </td> 
+                            </apex:outputText>
+                            <apex:outputText rendered="{!NOT(order.nameTemplateTO)}">
+                            </apex:outputText>
+                            <apex:outputText rendered="{!NOT(order.nameTemplateTO)}">
+                            <td class="tdTbl2 tdAdRightAlign">
+                                <apex:outputText value="{!item.value}" />
+                            </td>
+                            </apex:outputText>
+                        </tr>
+                    </apex:repeat>
+                    <tr>
+                        <apex:outputText rendered="{!NOT(order.nameTemplateDirettoFarma)}">  
+                            <td colspan="3">
+                                <apex:outputText value=""  />
+                            </td>
+                        </apex:outputText>
+                        <apex:outputText rendered="{!order.nameTemplateDirettoFarma}">  
+                            <td colspan="4">
+                                <apex:outputText value=""  />
+                            </td>
+                        </apex:outputText>
+                        <apex:outputText rendered="{!NOT(order.nameTemplateTO)}">
+                            <td>
+                                <apex:outputText value="" />
+                            </td>
+                        </apex:outputText>
+                        <td>
+                            <apex:outputText value="" />
+                        </td>
+                        <apex:outputText rendered="{!order.nameTemplateDirettoFarma}"> 
+                            <apex:outputText value="" />
+                        </apex:outputText>
+                        <apex:outputText rendered="{!NOT(order.nameTemplateTO)}">
+                        <td>
+                            <apex:outputText value="{!$Label.Total}" />
+                        </td> 
+                        </apex:outputText>
+                        <apex:outputText rendered="{!NOT(order.nameTemplateTO)}">
+                        <td class="tdWiteBorder bold rightTextAlight">
+                                <apex:outputText value="{!totalValueItem}" />
+                        </td>
+                        </apex:outputText>
+                        <apex:outputText rendered="{!NOT(order.nameTemplateTO)}">
+                        <td class="tdTbl2 tdAdRightAlign tdNoBorder">
+                            <apex:outputText value="" />
+                        </td>
+                        </apex:outputText>
+                    </tr>
+                </tbody>
+            </table>
+            <br /><br /><br />
+            <p class="styleTextTitleItems bold">
+                {!$Label.Title_Items} <br /><br />
+                {!$Label.Item_001_CopiaCommissioneDe} <br />
+                {!$Label.Item_002_CopiaCommissioneDe} <br />
+                {!$Label.Item_003_CopiaCommissioneDe} <br />
+                {!$Label.Item_004_CopiaCommissioneDe} <br />
+                {!$Label.Item_005_CopiaCommissioneDe} <br />
+                {!$Label.Item_006_CopiaCommissioneDe} <br />
+                {!$Label.Item_007_CopiaCommissioneDe} <br />
+                {!$Label.Item_008_CopiaCommissioneDe} <br />
+                {!$Label.Item_009_CopiaCommissioneDe} <br />
+                {!$Label.Item_010_CopiaCommissioneDe} <br />
+                {!$Label.Item_011_CopiaCommissioneDe} <br />
+                <apex:outputText rendered="{!NOT(order.nameTemplateTO)}">
+                    {!$Label.Item_012_CopiaCommissioneDe}
+                </apex:outputText>
+            </p>
+            
+            
+            <div class="footer customFooter">
+                <div class="textfootercenter">
+                    Page <span class="pagenumber"/> of <span class="pagecount"/>
+                </div>
+            </div>
+        </body>
+    </html>
+</apex:page>

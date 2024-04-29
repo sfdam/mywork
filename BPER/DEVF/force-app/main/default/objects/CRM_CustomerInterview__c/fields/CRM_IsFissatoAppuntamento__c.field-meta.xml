@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_IsFissatoAppuntamento__c</fullName>
+    <externalId>false</externalId>
+    <formula>TEXT(CRM_ContactStatus__c) = &apos;Fissato appuntamento&apos;</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Is Fissato appuntamento</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

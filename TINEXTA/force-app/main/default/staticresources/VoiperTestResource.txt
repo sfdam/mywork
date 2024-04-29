@@ -1,0 +1,8 @@
+{
+    "datetime": "2019-08-26 12:16:49",
+    "error": false,
+    "errorDescription": "",
+    "statusCall": "Success",
+    "uniqueID": "29ev0afm60",
+    "statusCallVerbose": "Originate successfully queued"
+}

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_LastCallWsDettaglioPianoRateale__c</fullName>
+    <description>Usato per determinare il timestamp dell&apos;ultima chiamata al servizio</description>
+    <encryptionScheme>None</encryptionScheme>
+    <externalId>false</externalId>
+    <inlineHelpText>Indica l&apos;ultimo aggiornamento via webservice</inlineHelpText>
+    <label>Last Call WS dettaglioPianoRateale</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>DateTime</type>
+</CustomField>

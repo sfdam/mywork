@@ -1,0 +1,17 @@
+.tableTitle {
+    background-color: #f7f7f7;
+    font-weight: bold;
+    text-align: center;
+}
+
+.margin-button {
+    margin-top: 24px;
+}
+
+.lgc-bg {
+    background-color: #f7f7f7;
+}
+
+lightning-tree-grid lightning-primitive-header-actions {
+    display: none;
+}

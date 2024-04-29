@@ -1,0 +1,101 @@
+<aura:component extends="c:WGC_Utility" >
+	<!-- ATTRIBUTES -->
+    <aura:attribute name="opportunityId" type="String"/>
+    <aura:attribute name="opportunity" type="Object"/>
+    <aura:attribute name="accountId" type="String"/>
+    <aura:attribute name="selectedProducts" type="Object[]"/>
+    <aura:attribute name="items" type="Object[]"/>
+    <aura:attribute name="note" type="String"/>
+    <aura:attribute name="picklistOptions" type="Object"/>
+    <aura:attribute name="diviseOptions" type="Object"/>
+    <aura:attribute name="payload" type="Object"/>
+    <aura:attribute name="debitoriPerLinea" type="Object[]"/>
+    <aura:attribute name="readOnly" type="Boolean" default="false"/>
+    <!-- ATTRIBUTES FRO FACTORING FISCALE -->
+    <aura:attribute name="yesNoOptions" type="List" default="[{'label': 'Sì', 'value': 'true'},{'label': 'No', 'value': 'false'}]"/>
+    <aura:attribute name="litiPendenti" type="String" default="false"/>
+    <aura:attribute name="litiPendentiDesc" type="String"/>
+    <aura:attribute name="ristruttDebito" type="String" default="false"/>
+    <aura:attribute name="ristruttDebitoDesc" type="String"/>
+    <aura:attribute name="ristruttDebitoOptions" type="List"/>
+    
+    <!-- REGISTER EVENTS -->
+    <aura:registerEvent name="navigateSubWizard" type="c:WGC_NavigateSubWizard"/>
+    <aura:registerEvent name="cartCallServer" type="c:WGC_Cart_Call_Server"/>
+
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    <aura:handler name="productClick" event="c:WGC_ProductClickEvent" action="{! c.handleProductClick }"/>
+    
+    <lightning:notificationsLibrary aura:id="notifLib"/>
+
+    <c:WGC_Cart_Products_Wrapper title="Linee Selezionate" items="{! v.items }" readOnly="{! v.readOnly }"/>
+    
+    <lightning:layout class="cstm-border-all slds-m-top_small" multipleRows="true">
+        <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="9" class="cstm-ipad-order-2-landscape cstm-ipad-12-landscape">
+            
+            <c:WGC_EventiNegativi_Component recordId="{! v.accountId }" />
+
+            <!-- GESTIONE CAMPI FACTORING FISCALE -->
+            <aura:if isTrue="{! v.opportunity.HasFactFisc__c }">
+                <lightning:layout class="slds-p-around_small">
+                    <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="4" class="cstm-ipad-order-2-landscape cstm-ipad-12-landscape">
+                        <lightning:radioGroup
+                            name="litiPendenti"
+                            label="Liti Pendenti"
+                            options="{! v.yesNoOptions }"
+                            value="{! v.litiPendenti }"
+                            type="radio"
+                            required="true"
+                            disabled="{! v.readOnly }"/>
+                    </lightning:layoutItem>
+                    <aura:renderIf isTrue="{! v.litiPendenti }">
+                        <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="8" class="cstm-ipad-order-2-landscape cstm-ipad-12-landscape">
+                            <lightning:textarea
+                                label="Descrizione Liti Pendenti"
+                                value="{! v.litiPendentiDesc }"
+                                required="true"
+                                disabled="{! v.readOnly }"/>
+                        </lightning:layoutItem>
+                    </aura:renderIf>
+                </lightning:layout>
+                
+                <lightning:layout class="slds-p-around_small slds-m-top_small">
+                    <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="4" class="cstm-ipad-order-2-landscape cstm-ipad-12-landscape">
+                        <lightning:radioGroup
+                            name="ristruttDebito"
+                            label="Ristrutturazione del Debito"
+                            options="{! v.yesNoOptions }"
+                            value="{! v.ristruttDebito }"
+                            type="radio"
+                            required="true"
+                            disabled="{! v.readOnly }"/>
+                    </lightning:layoutItem>
+                    <aura:renderIf isTrue="{! v.ristruttDebito }">
+                        <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="8" class="cstm-ipad-order-2-landscape cstm-ipad-12-landscape">
+                            <!-- <lightning:textarea
+                                label="Tipologia di Ristrutturazione del Debito"
+                                value="{! v.ristruttDebitoDesc }"
+                                required="true"
+                                disabled="{! v.readOnly }"/> -->
+                            <lightning:select label="Tipologia di Ristrutturazione del Debito" value="{! v.ristruttDebitoDesc }" required="true" disabled="{! v.readOnly }">
+                                <option value="">--seleziona--</option>
+                                <aura:iteration items="{! v.ristruttDebitoOptions }" var="opt">
+                                    <option value="{! opt }">{! opt }</option>
+                                </aura:iteration>
+                            </lightning:select>
+                        </lightning:layoutItem>
+                    </aura:renderIf>
+                </lightning:layout>
+                <lightning:layout class="slds-p-around_small slds-m-top_small">
+                    <lightning:button label="Salva" variant="brand" class="cstm-btn-round" onclick="{! c.save }" disabled="{! v.readOnly }"/>
+                </lightning:layout>
+            </aura:if>
+            <!-- END - GESTIONE CAMPI FACTORING FISCALE -->
+
+        </lightning:layoutItem>
+        <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="3" padding="around-small" class="cstm-ipad-12-landscape">
+            <c:WGC_Cart_Note_Widget field="WGC_NoteEventi__c" text="{! v.note }" opportunityId="{! v.opportunityId }" readOnly="{! v.readOnly }"/>
+        </lightning:layoutItem>
+    </lightning:layout>
+</aura:component>

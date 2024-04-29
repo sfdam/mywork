@@ -1,0 +1,15 @@
+.THIS.slds-button_brand {
+    background-color: #0064B5;
+    border-color: #0064B5;
+    color: rgb(255, 255, 255);
+}
+
+.THIS.slds-button_brand:hover {
+    background-color: rgb(0, 95, 178);
+    border-color: rgb(0, 95, 178);
+    color: rgb(255, 255, 255);
+}
+
+.THIS .float-left {
+    float: left;
+}

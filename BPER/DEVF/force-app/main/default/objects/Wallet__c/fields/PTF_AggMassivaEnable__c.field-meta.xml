@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PTF_AggMassivaEnable__c</fullName>
+    <externalId>false</externalId>
+    <formula>OR ( 
+				$Profile.Name = &apos;NEC_D.3&apos;,
+				$Profile.Name = &apos;NEC_F.1&apos;,
+				$Profile.Name = &apos;NEC_F.9&apos;,
+				$Profile.Name = &apos;NEC_F.10&apos;,
+				$Profile.Name = &apos;NEC_D.7&apos;
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Abilitazione aggiunta massiva</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

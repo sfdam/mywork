@@ -1,0 +1,90 @@
+<aura:component controller="SegnalazioniSelfRegisterController" implements="forceCommunity:availableForAllPageTypes" description="SegnalazioniRegistrazione">
+	
+	<aura:attribute name="numeroAccordo" type="String" required="true" default=""/>  
+    <aura:attribute name="errorMessage" type="String" required="false" description="" access="private"/>
+    <aura:attribute name="successMessage" type="String" required="false" description="" access="private"/>
+    <aura:attribute name="accountId" type="String" required="false" default=""/>
+    <aura:attribute name="nome" type="String" required="true" default=""/>
+    <aura:attribute name="cognome" type="String" required="true" default=""/>
+    <aura:attribute name="email" type="String" required="true" default=""/>
+    <aura:attribute name="cellulare" type="String" required="true" default=""/>    
+    <aura:attribute name="abi" type="String" required="false" default=""/>
+    <aura:attribute name="cab" type="String" required="false" default=""/>
+    <aura:attribute name="profileName" type="String" required="true" default=""/>
+    
+    <aura:attribute name="isAccordato" type="Boolean" required="false" default="false" description="Se false dopo il check vuol dire che è stato inserito un numero non presente o non valido"/>
+    <aura:attribute name="isBanca" type="Boolean" required="false" default="false" description="Se account è di tipo banca vanno mostrati anche i campi ABI e CAB nel form di registrazione"/>
+    <aura:attribute name="Spinner" type="Boolean" default="false"/>
+    <aura:attribute name="showError" type="Boolean" required="true" description="" default="false" access="private"/>
+    <aura:attribute name="showSuccess" type="Boolean" required="true" description="" default="false" access="private"/>
+    <aura:attribute name="hasBeenRegistered" type="Boolean" required="false" default="false" description="Se true mostro solamente i messaggi di successo registrazione"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    <aura:handler event="aura:waiting" action="{!c.showSpinner}"/>
+    <aura:handler event="aura:doneWaiting" action="{!c.hideSpinner}"/>
+    
+ 	<aura:if isTrue="{!v.Spinner}">
+    	<div aura:id="spinnerId" class="slds-spinner_container">
+       		<div class="slds-spinner--brand  slds-spinner slds-spinner--large slds-is-relative" role="alert">
+         		<span class="slds-assistive-text">Loading</span>
+         		<div class="slds-spinner__dot-a"></div>
+         		<div class="slds-spinner__dot-b"></div>
+       		</div>
+    	</div>
+ 	</aura:if>
+    
+    <div class="sfdc sfdc_register">
+        
+        <aura:renderIf isTrue="{!v.showError}">
+        	<div id="error">
+                <lightning:icon iconName="utility:error" size="x-small" class="errorIcon"/>
+                <ui:outputRichText value="{!v.errorMessage}"/>
+            </div>
+        </aura:renderIf>
+
+        <aura:renderIf isTrue="{!v.showSuccess}">
+        	<div id="success">
+                <lightning:icon iconName="utility:check" size="x-small" class="errorIcon"/>
+                <ui:outputRichText value="{!v.successMessage}"/>
+            </div>
+        </aura:renderIf>
+        
+        <aura:if isTrue="{!(v.hasBeenRegistered == false)}">
+            <div class="sfdc sfdc_register_container">
+                <lightning:icon iconName="utility:groups" size="x-small" class="registerIcon"/>
+                <lightning:input value="{!v.numeroAccordo}" name="numeroAccordo" required="true" label="{!$Label.c.NumeroAccordo}" placeholder="{!$Label.c.NumeroAccordoPlaceholder}" class="registerInput" readonly="{!v.isAccordato}"/>
+            </div>
+            <aura:if isTrue="{!v.isAccordato}">
+                <div class="slds-size_1-of-1">
+                    <lightning:icon iconName="utility:user" size="x-small" class="registerIcon"/>
+                    <lightning:input value="{!v.nome}" name="nome" required="true" label="{!$Label.c.SegnalazioniNome}" placeholder="{!$Label.c.SegnalazioniNomePlaceholder}" class="registerInputBelow"/>
+                    <lightning:icon iconName="utility:user" size="x-small" class="registerIcon"/>
+                    <lightning:input value="{!v.cognome}" name="cognome" required="true" label="{!$Label.c.SegnalazioniCognome}" placeholder="{!$Label.c.SegnalazioniCognomePlaceholder}" class="registerInputBelow"/>
+                    <lightning:icon iconName="utility:email" size="x-small" class="registerIcon"/>
+                    <lightning:input value="{!v.email}" type="email" name="email" required="true" label="{!$Label.c.SegnalazioniEmail}" placeholder="{!$Label.c.SegnalazioniEmailPlaceholder}" class="registerInputBelow"/>
+                    <lightning:icon iconName="utility:phone_portrait" size="x-small" class="registerIcon"/>
+                    <lightning:input value="{!v.cellulare}" type="tel" pattern="+[0-9]{12}" name="cellulare" required="true" label="{!$Label.c.SegnalazioniCellulare}" placeholder="{!$Label.c.SegnalazioniCellularePlaceholder}" class="registerInputBelow"/>
+                    <aura:if isTrue="{!v.isBanca}">
+                        <lightning:icon iconName="utility:company" size="x-small" class="registerIcon"/>
+                        <lightning:input value="{!v.abi}" maxlength="5" name="abi" required="{!v.isBanca}" label="{!$Label.c.SegnalazioniAbi}" placeholder="{!$Label.c.SegnalazioniAbiPlaceholder}" class="registerInputBelow"/>
+                        <lightning:icon iconName="utility:company" size="x-small" class="registerIcon"/>
+                        <lightning:input value="{!v.cab}" maxlength="5" name="cab" required="{!v.isBanca}" label="{!$Label.c.SegnalazioniCab}" placeholder="{!$Label.c.SegnalazioniCabPlaceholder}" class="registerInputBelow"/>                    
+                    </aura:if>
+                </div>
+                <!--
+                <div class="slds-size_1-of-1 disclaimer">
+                    {!$Label.c.Disclaimer}
+                </div>
+                -->
+                <div class="slds-size_1-of-1">
+                    <lightning:button label="{!$Label.c.Iscriviti}" type="submit" iconName="utility:forward" iconPosition="left" variant="brand" class="slds-button uiButton fullWidth" onclick="{!c.registerUser}"/>
+                </div>
+                <aura:set attribute="else">
+                    <div class="slds-size_1-of-1">
+                        <lightning:button label="{!$Label.c.CheckAccordo}" type="submit" iconName="utility:arrowdown" iconPosition="left" variant="brand" class="slds-button uiButton fullWidth" onclick="{!c.checkCodiceAccordo}"/>
+                    </div>
+                </aura:set>
+            </aura:if>
+        </aura:if>
+    </div>
+</aura:component>

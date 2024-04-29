@@ -1,0 +1,334 @@
+.THIS {
+}
+
+.THIS header.slds-card__header.slds-grid {
+    padding: 0;
+}
+
+.THIS header.slds-card__header.slds-grid {
+    display: none;
+}
+
+.THIS.slds-card .slds-card__header.slds-grid{
+    display:none;
+}
+
+.THIS .slds-card__body {
+    height: 110px;
+    margin: 0 !important;
+}
+
+.THIS .black {
+    background: #2E2E2E;
+    height: 100%;
+}
+
+.THIS .slds-card {
+    border: none;
+}
+
+.THIS .row1 {
+    height: 100%;
+}
+
+.THIS .col1 {
+    display: inline-block;
+    width: 20%;
+    height: 100%;
+    background: #2e2e2e;
+    border-top-left-radius: .25rem;
+    border-bottom-left-radius: .25rem;
+    float:left;
+}
+
+.THIS .col2 {
+    display: inline-block;
+    height: 100%;
+    float:left;
+    width:80%;
+}
+
+.THIS .col1b {
+    display: inline-block;
+    width: 30%;
+    height: 100%;
+    background: #2e2e2e;
+    border-top-left-radius: .25rem;
+    border-bottom-left-radius: .25rem;
+    float:left;
+}
+
+.THIS .col2b {
+    display: inline-block;
+    height: 100%;
+    float:left;
+    width:70%;
+}
+
+.THIS .imgContainer{
+    background-color:#2e2e2e; 
+    height:100%; 
+    display:block;
+}
+
+.THIS .imageBlack{
+   width:100%;
+   height:100%;
+}
+
+.THIS .image{
+    width: 7px;
+    height: 7px;
+    margin-left: 5px;
+}
+
+.THIS .canvasContainer{
+    height:35%; 
+    width:100%;
+}
+
+.THIS .badge{
+   background-color:#4891E6;
+   color:white;
+   padding:4px 7px;
+   border-radius:50px;
+}
+
+.THIS .number{
+    text-align:center; 
+    font-weight:bold; 
+    display:block;
+}
+
+.THIS .containerList3Left{
+    display:inline; 
+    float:left; 
+    width:40%;
+    margin:25px 0;
+}
+
+.THIS .containerList3Right{
+    display:inline; 
+    float:left;
+    width:60%;  
+    font-size:x-small; 
+    margin:5px 0;
+}
+
+.THIS .BlueCircle{
+    margin:25px auto;
+    width:50px; 
+    height:50px; 
+    text-align:center; 
+    border-radius:50%; 
+    background-color:#4891E6; 
+    color:white; 
+    box-shadow:0px 0px 2px 2px #888888;
+}
+
+.THIS .BlueCircleTitle{
+    font-weight:bold; 
+    font-size:medium;
+}
+
+.THIS .BlueCircleSpan{
+    text-align:center; 
+    font-size:x-small;
+}
+
+.THIS .containerListText{
+    font-weight:bold;
+}
+
+.THIS.row {
+    padding: 5px 0;
+    margin-bottom: 15px;
+}
+
+.THIS.row .header {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.THIS .slds-truncate{
+    white-space:pre-line;
+}
+
+.THIS .central-top{
+    padding:10px 0 10px 0;
+    text-align:center;
+}
+
+.THIS .central{
+    text-align:center;
+}
+
+.THIS .height-max{
+    height:100%;
+    z-index:10;
+}
+
+.THIS .height-max-plus{
+    height:100%;
+    width:100%;
+    padding:0;
+}
+
+.THIS .height-max-lr{
+    padding-left:0px;
+    padding-right:0px;
+    height:100%;
+}
+
+.THIS .div-col{
+    display:block;
+}
+
+.THIS .table-of-4 {
+height: 25px;
+}
+
+.THIS .div-col-pad-top{
+    display: block;
+    padding: 10px 0 10px 0;
+}
+
+.THIS .pad-10{
+    padding:10px;
+}
+
+.THIS .row-grey{
+    background-color:#E8E8E8;
+}
+
+.THIS .div-title{
+    display:inline; 
+    font-size:x-small;
+    color:grey;
+    padding-left:10px;
+}
+
+.THIS .div-number{
+    display:inline; 
+    float:right;
+    padding-right:10px;
+}
+
+.THIS .span-number{
+    font-weight:bold;
+}
+
+.THIS .span-number-xx-small{
+    font-weight:bold;
+    font-size:xx-small;
+}
+
+.THIS .span-xx-small{
+    font-size:xx-small;
+}
+
+.THIS .span-title{
+    color:grey;
+    font-size:x-small;
+}
+
+.THIS .div-text{
+    display:inline-block; 
+    width:60%; 
+    float:right;
+}
+
+.THIS .div-block{
+    display:block;
+}
+
+.THIS .table-of-5{
+    height:20%;
+}
+
+.THIS .no-padding{
+    padding:0;
+}
+
+.THIS .back-color-black{
+    background-color:#021F59;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.THIS .white-text{
+    color:white;
+}
+
+.THIS .vl-bottom-dashed{
+    border-bottom: 1px dashed #4891E6;
+    position: absolute;
+    width: 65%;
+    margin-top: 22px;
+    margin-left: 65px;
+}
+
+.THIS .positive{
+    color:#0064B5;
+}
+
+.THIS .negative{
+    color:#ED495B;
+}
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : landscape)
+and (-webkit-min-device-pixel-ratio: 2) { 
+    /* STYLES GO HERE */
+
+}
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : portrait)
+and (-webkit-min-device-pixel-ratio: 2) { 
+    /* STYLES GO HERE */ 
+}
+
+/* 
+  ##Device = Low Resolution Tablets, Mobiles (Landscape)
+  ##Screen = B/w 481px to 767px
+*/
+
+@media only screen 
+and (min-width: 481px) 
+and (max-width: 767px)
+and (orientation : landscape) {
+    /* STYLES GO HERE */
+    
+    
+}
+  
+/* 
+  ##Device = Most of the Smartphones Mobiles (Portrait)
+  ##Screen = B/w 320px to 479px
+*/
+  
+@media only screen 
+and (min-width: 320px) 
+and (max-width: 480px)
+and (orientation : portrait) {
+    /* STYLES GO HERE */
+    .THIS .white-text {
+        font-size: 10px;
+    }
+
+    .THIS .iphone {
+        display: none;
+    }
+
+    .THIS .slds-icon_large, .THIS .slds-icon--large {
+        width: 2rem;
+        height: 2rem;
+    }
+
+}

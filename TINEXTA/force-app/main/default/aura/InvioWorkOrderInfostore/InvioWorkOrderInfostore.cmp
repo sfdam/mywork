@@ -1,0 +1,49 @@
+<aura:component
+  controller="InvioWorkOrderInfostoreController"
+  implements="force:lightningQuickActionWithoutHeader,force:hasRecordId,force:hasSObjectName"
+>
+  <aura:attribute name="recordId" type="Id" />
+  <aura:attribute name="responseStr" type="String" />
+  <aura:attribute name="success" type="Boolean" />
+  <aura:handler name="init" value="{! this }" action="{! c.doInit }" />
+
+  <div class="container">
+    <div aura:id="loader" class="spinner-container slds-is-relative">
+      <div>
+        <lightning:spinner variant="brand" alternativeText="CARICAMENTO..." />
+      </div>
+    </div>
+    <div
+      aura:id="loader2"
+      class="slds-m-top_xx-large slds-align_absolute-center slds-p-top_xx-large"
+    >
+      <p style="font-weight: bold">{!$Label.c.WRT_Sending_Message}</p>
+    </div>
+    <div aura:id="response" class="slds-hide">
+      <div class="slds-grid slds-wrap">
+        <div class="slds-col slds-size_1-of-1 slds-align_absolute-center">
+          <aura:if isTrue="{! v.success }">
+            <lightning:icon
+              iconName="action:approval"
+              class="slds-m-right_small"
+            />
+            <aura:set attribute="else">
+              <lightning:icon
+                iconName="action:close"
+                class="slds-m-right_small"
+              />
+            </aura:set>
+          </aura:if>
+        </div>
+        <div class="slds-col slds-size_1-of-1 slds-p-top_large">
+          <p style="font-weight: bold; overflow-wrap: break-word;" class="slds-text-align_center">
+            {! v.responseStr }
+          </p>
+        </div>
+        <div class="slds-col slds-size_1-of-1 slds-m-top_xx-large slds-text-align_right">
+          <lightning:button label="Chiudi" onclick="{! c.close }" />
+        </div>
+      </div>
+    </div>
+  </div>
+</aura:component>

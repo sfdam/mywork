@@ -1,0 +1,109 @@
+<template>
+    <lightning-card variant="narrow" icon-name={iconName}>
+        <h1 slot="title" title={title} class="slds-truncate">{title}</h1>        
+        <div slot="actions">
+            <lightning-button-icon icon-name="utility:zoomin" slot="actions" variant="brand" title="Mostra dettagli"  onclick={viewAll}></lightning-button-icon>
+        </div>
+        <div class="container-body">
+            <lightning-layout>
+                <lightning-layout-item size="12">  
+                    <div>
+                        <span class="circleBaseStriped iphone"></span>
+                        <lightning-layout>
+                            <lightning-layout-item size="3">  
+                                <div class="container">
+                                    <div class="circleBaseBodyTitle" style="white-space: pre-line">{WGC_In}<br/>{WGC_Istruttoria}</div>
+                                    <div class="circle">
+                                        <div class="circleBase type1 clickable"> 
+                                            <div class="circleBaseBody clickable found-blue" onclick={onclickIstruttoria}>{istruttoria}</div> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="3">  
+                                <div class="container">
+                                    <div class="circleBaseBodyTitle">{WGC_In}<br/>{WGC_Valutazione}</div>
+                                    <div class="circle">
+                                        <div class="circleBase type1 clickable"> 
+                                            <div class="circleBaseBody clickable found-blue" onclick={onclickInValutazione}>{inValutazione}</div> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="3">  
+                                <div class="container">
+                                    <div class="circleBaseBodyTitle">{WGC_Firma}<br/>{WGC_Contratti}</div>
+                                    <div class="circle">
+                                        <div class="circleBase type1 clickable"> 
+                                            <div class="circleBaseBody clickable found-blue" onclick={onclickFirmaContratti}>{firma}</div> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="3">  
+                                <div class="container">
+                                    <div class="circleBaseBodyTitle">{WGC_Da}<br/>{WGC_Avviare}</div>
+                                    <div class="circle">
+                                        <div class="circleBase type1 clickable"> 
+                                            <div class="circleBaseBody clickable found-blue" onclick={onclickDaAvviare}>{daAvviare}</div> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                        <lightning-layout-item size="12">
+                            <lightning-layout>
+                                <lightning-layout-item size="4">  
+                                    <div class="container">
+                                        <div class="circleBaseBodyTitle">{WGC_Ferme_Da}<br/>{WGC_Oltre_30gg}</div>
+                                        <div class="circle">
+                                            <div class="circleBase type4 clickable"> 
+                                                <div class="circleBaseBody clickable" onclick={onclickFerme30gg}>{ferme30gg}</div> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="4">  
+                                    <div class="container">
+                                        <div class="circleBaseBodyTitle">{WGC_Perse}</div>
+                                        <div class="circleBaseBodySub">{WGC_Da_Inizio_Anno}</div>
+                                        <div class="circle">
+                                            <div class="circleBase type2 clickable"> 
+                                                <div class="circleBaseBody clickable" onmouseover={tooltipOn1} onmouseout={tooltipOff1} aria-describedby="helpPerse" onclick={onclickPerse}>{perse}</div> 
+                                                <template if:true={tooltip2}>
+                                                    <div class="slds-align_absolute-center">
+                                                        <div class="slds-popover slds-popover_tooltip slds-nubbin_top" role="tooltip" id="helpPerse">
+                                                            <div class="slds-popover__body">Opportunità declinate o abbandonate</div>
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="4">  
+                                    <div class="container">
+                                        <div class="circleBaseBodyTitle">{WGC_Vinte}</div>
+                                        <div class="circleBaseBodySub">{WGC_Da_Inizio_Anno}</div>
+                                        <div class="circle">
+                                            <div class="circleBase type3 clickable" data-report={reportIstruttoria}> 
+                                                <div class="circleBaseBody clickable" onmouseover={tooltipOn} onmouseout={tooltipOff} aria-describedby="helpVinte" onclick={onclickVinte}>{vinte}</div> 
+                                                <template if:true={tooltip}>
+                                                    <div class="slds-align_absolute-center">
+                                                        <div class="slds-popover slds-popover_tooltip slds-nubbin_top" role="tooltip" id="helpVinte">
+                                                            <div class="slds-popover__body">Effettua prima cessione per il factoring; erogato il finanziamento</div>
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </lightning-layout-item>
+                    </div>
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+    </lightning-card>
+</template>

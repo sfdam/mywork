@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Same_Delegato_Delegante</fullName>
+    <active>true</active>
+    <errorConditionFormula>Delegante__c  = Delegato__c</errorConditionFormula>
+    <errorMessage>Delegante e delegato non possono essere lo stesso utente.</errorMessage>
+</ValidationRule>

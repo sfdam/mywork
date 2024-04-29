@@ -1,0 +1,32 @@
+.THIS .cstm-btn-round,
+.THIS .cstm-btn-round.slds-dropdown-trigger button {
+    border-radius: 25px;
+    border-radius: 25px;
+    font-size: 10px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.THIS .cstm-btn-round {
+    background-color: #0064B5;
+    border-color: #0064B5;
+    color: #FFF;
+}
+
+.THIS .cstm-btn-round.neutral{
+    background-color: #FFF;
+    border-color: rgb(221, 219, 218);
+    color: var(--lwc-brandAccessible,#0064B5);
+}
+
+.THIS .cstm-btn-round.slds-button_brand:disabled,
+.THIS .cstm-btn-round.neutral:disabled {
+    background-color: #ccc;
+    border-color: #ccc;
+    color: #FFF;
+    cursor: not-allowed;
+}
+
+.THIS .slds-size_1-of-12{
+    width: 3.333333%;
+}

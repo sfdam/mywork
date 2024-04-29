@@ -1,0 +1,9 @@
+<aura:component implements="forceCommunity:themeLayout" access="global" description="LandingRegistrazioneTemplate">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+
+    <div class="container-fluid pl-0 pr-0"  id="LandingRegistrazioneTemplate">
+        <div id="body" style="padding:0!important;">
+            {!v.body}
+        </div>
+    </div>
+</aura:component>

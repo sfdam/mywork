@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PTF_Stesso_M_MDS__c</fullName>
+    <externalId>false</externalId>
+    <formula>TEXT(PTF_Primario__r.ModelloDiServizio__c) = TEXT(PTF_Cointestazione__r.ModelloDiServizio__c)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Stesso M-MDS</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

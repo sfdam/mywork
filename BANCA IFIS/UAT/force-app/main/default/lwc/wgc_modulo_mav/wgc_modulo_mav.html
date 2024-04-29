@@ -1,0 +1,480 @@
+<template>  
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_medium">
+        
+        <div class="slds-modal__container">
+
+            <div class="slds-is-relative">
+
+                <!-- SPINNER -->
+                <template if:true={showSpinner}>
+                    <lightning-spinner variant="brand"></lightning-spinner>
+                </template>
+
+                <!-- HEADER -->
+                <header class="slds-modal__header">               
+                    <lightning-button-icon class="slds-modal__close" title="Close" icon-name="utility:close" icon-class="slds-button_icon-inverse"  onclick={close}></lightning-button-icon>
+                    <h2 class="slds-text-heading_medium slds-hyphenate">Modulo Adeguata Verifica</h2>
+                </header> 
+
+                <!-- BODY -->
+                <div class="slds-modal__content">
+                    <div class="slds-scrollable_y" style="height:30rem;">  
+                         
+                        <!-- LOGO  -->
+                        <div class="slds-col slds-size_12-of-12 slds-text-align_left slds-p-around_small">
+                            <div class="icon-container">
+                                <lightning-icon aura:id="ic" class="icon slds-has-focus" variant="inverse" icon-name="utility:file" size="small"></lightning-icon>
+                            </div>
+                            <div class="title-container">
+                                <span  class="slds-text-title_bold" >Modulo Adeguata Verifica</span>                                
+                            </div>
+                        </div>
+
+                        <!-- BOX CREDITI COMMERCIALI -->
+                        <template if:true={isCreditiCommerciali}>
+
+                            <lightning-layout multiple-rows="true" class="pr-gray slds-p-horizontal_x-large slds-p-vertical_medium">
+                                <lightning-layout-item size="12" class="slds-p-around_small">
+                                    <span class="subtitle-text">INFORMAZIONI SUL RAPPORTO CONTINUATIVO</span>
+                                </lightning-layout-item>
+        
+                                <lightning-layout multiple-rows="true" class="pr-gray slds-p-horizontal_x-large slds-p-vertical_medium">
+
+                                    <!-- FACTORING -->
+                                    <lightning-layout-item size="6" small-device-size="12" medium-device-size="6" large-device-size="6" class="slds-p-vertical_xx-small">
+                                        <lightning-layout multiple-rows="true">
+                                            <lightning-layout-item size="6" class="slds-p-bottom_small">
+                                            </lightning-layout-item>
+                                            <lightning-layout-item size="6" class="slds-p-bottom_small">
+                                                <i class="question">Natura del rapporto</i>
+                                            </lightning-layout-item>
+                                            <lightning-layout-item size="6" small-device-size="1" medium-device-size="6" large-device-size="6">
+                                            </lightning-layout-item>
+                                            <lightning-layout-item size="3" small-device-size="6" medium-device-size="3" large-device-size="3" class="slds-p-vertical_xx-small">
+                                                <span>Factoring</span>
+                                            </lightning-layout-item>
+                                            <lightning-layout-item size="3" small-device-size="6" medium-device-size="3" large-device-size="3" class="slds-align_absolute-center slds-p-vertical_xx-small">
+                                                <lightning-input id="Factoring" value={modulo.Natura_Factoring__c} checked={modulo.Natura_Factoring__c} 
+                                                                class="toggle-position" type="toggle" name="Natura_Factoring__c" 
+                                                                variant="label-hidden" message-toggle-active="" message-toggle-inactive="" 
+                                                                onchange={onChangeToggle}></lightning-input>
+                                            </lightning-layout-item>
+                                        </lightning-layout>
+                                    </lightning-layout-item>
+
+                                    <lightning-layout-item size="6" small-device-size="12" medium-device-size="6" large-device-size="6" class="slds-p-vertical_xx-small">
+                                        <lightning-layout multiple-rows="true">
+                                            <lightning-layout-item size="12" class="slds-p-bottom_small">
+                                                <i class="question">Scopo del rapporto</i>
+                                            </lightning-layout-item>								
+                                            <lightning-layout-item size="6">
+                                                <lightning-combobox name="Scopo_Factoring__c" value={modulo.Scopo_Factoring__c} options={scopoFactoring} 
+                                                                    data-id="Scopo_Factoring__c" disabled={naturaFactoring} 
+                                                                    variant="label-hidden" class="label-hidden" onchange={onChangePicklist}>
+                                                </lightning-combobox>                   
+                                            </lightning-layout-item>
+                                        </lightning-layout>
+                                    </lightning-layout-item>
+                                    
+                                    <!-- FINANZIAMENTI -->
+                                    <lightning-layout-item size="6" small-device-size="12" medium-device-size="6" large-device-size="6">
+                                        <lightning-layout multiple-rows="true">
+                                            <lightning-layout-item size="6" small-device-size="1" medium-device-size="6" large-device-size="6">
+                                            </lightning-layout-item>
+                                            <lightning-layout-item size="3" small-device-size="6" medium-device-size="3" large-device-size="3" class="slds-p-vertical_xx-small">
+                                                <span>Finanziamenti</span>
+                                            </lightning-layout-item>
+                                            <lightning-layout-item size="3" small-device-size="6" medium-device-size="3" large-device-size="3" class="slds-align_absolute-center slds-p-vertical_xx-small">
+                                                <lightning-input id="Finanziamenti" value={modulo.Natura_Finanziamenti__c} checked={modulo.Natura_Finanziamenti__c} 
+                                                                class="toggle-position" type="toggle" name="Natura_Finanziamenti__c" 
+                                                                variant="label-hidden" message-toggle-active="" message-toggle-inactive="" 
+                                                                onchange={onChangeToggle}>
+                                                </lightning-input>
+                                            </lightning-layout-item>
+                                        </lightning-layout>
+                                    </lightning-layout-item>
+
+                                    <lightning-layout-item size="6" small-device-size="12" medium-device-size="6" large-device-size="6" class="slds-p-vertical_xx-small">
+                                        <lightning-layout multiple-rows="true">
+                                            <lightning-layout-item size="6">                                               
+                                                <lightning-combobox name="Scopo_Finanziamenti__c" value={modulo.Scopo_Finanziamenti__c} options={scopoFinanziamenti} 
+                                                                    data-id="Scopo_Finanziamenti__c" disabled={naturaFinanziamenti} 
+                                                                    variant="label-hidden" class="label-hidden" onchange={onChangePicklist}>
+                                                </lightning-combobox>   
+                                            </lightning-layout-item>
+                                        </lightning-layout>
+                                    </lightning-layout-item>
+                                    
+                                    <!-- SERVIZI BANCARI -->
+                                    <lightning-layout-item size="6" small-device-size="12" medium-device-size="6" large-device-size="6">
+                                        <lightning-layout multiple-rows="true">
+                                            <lightning-layout-item size="6" small-device-size="1" medium-device-size="6" large-device-size="6">
+                                            </lightning-layout-item>
+                                            <lightning-layout-item size="3" small-device-size="6" medium-device-size="3" large-device-size="3" class="slds-p-vertical_xx-small">
+                                                <span>Servizi Bancari</span>
+                                            </lightning-layout-item>
+                                            <lightning-layout-item size="3" small-device-size="6" medium-device-size="3" large-device-size="3" class="slds-align_absolute-center slds-p-vertical_xx-small">
+                                                <lightning-input id="ServiziBancari" value={modulo.Natura_Servizi_Bancari__c} checked={modulo.Natura_Servizi_Bancari__c} 
+                                                                class="toggle-position" type="toggle" name="Natura_Servizi_Bancari__c" 
+                                                                variant="label-hidden" message-toggle-active="" message-toggle-inactive="" 
+                                                                onchange={onChangeToggle}>
+                                                </lightning-input>
+                                            </lightning-layout-item>
+                                        </lightning-layout>
+                                    </lightning-layout-item>
+
+                                    <lightning-layout-item size="6" small-device-size="12" medium-device-size="6" large-device-size="6" class="slds-p-vertical_xx-small">
+                                        <lightning-layout multiple-rows="true">
+                                            <lightning-layout-item size="6">                                              
+                                                <lightning-combobox name="Scopo_Servizi_Bancari__c" value={modulo.Scopo_Servizi_Bancari__c} options={scopoServiziBancari} 
+                                                                    data-id="Scopo_Servizi_Bancari__c" disabled={naturaServiziBancari} 
+                                                                    variant="label-hidden" class="label-hidden" onchange={onChangePicklist}>
+                                                </lightning-combobox>   
+                                            </lightning-layout-item>
+                                        </lightning-layout>
+                                    </lightning-layout-item>
+                                    
+                                    <!-- ERRORE SEZIONE CREDITI COMMERCIALI -->
+                                    <template if:true={errorSezione1}>
+                                        <lightning-layout-item size="12">
+                                            <lightning-layout>
+                                                <lightning-layout-item size="12" class="slds-p-around_small">
+                                                    <span style="color:red;">{errorScopo}</span>
+                                                </lightning-layout-item>
+                                            </lightning-layout>
+                                        </lightning-layout-item>
+                                    </template>
+                                    
+                                </lightning-layout>                                
+                            </lightning-layout>
+                        </template>
+
+                        <!-- BOX CREDITI ERARIALI -->
+                        <template if:false={isCreditiCommerciali}>
+                            <lightning-layout multiple-rows="true" class="pr-gray slds-p-horizontal_x-large slds-p-vertical_medium">
+
+                                <lightning-layout-item size="12" class="slds-p-around_small">
+                                    <span class="subtitle-text">INFORMAZIONI SULL’OPERAZIONE OCCASIONALE</span>
+                                </lightning-layout-item>
+
+                                <lightning-layout-item size="6" small-device-size="12" medium-device-size="6" large-device-size="6" class="slds-p-vertical_xx-small">
+                                    <lightning-layout multiple-rows="true">
+                                        <lightning-layout-item size="6" class="slds-p-bottom_small">
+                                        </lightning-layout-item>
+
+                                        <lightning-layout-item size="5" class="slds-p-bottom_small">
+                                            <i class="question">Natura dell'operazione</i>
+                                        </lightning-layout-item>
+
+                                        <lightning-layout-item size="1" class="slds-p-bottom_small">
+                                        </lightning-layout-item>
+
+                                        <lightning-layout-item size="6" small-device-size="12" medium-device-size="6" large-device-size="6">
+                                        </lightning-layout-item>
+
+                                        <lightning-layout-item size="5" small-device-size="10" medium-device-size="5" large-device-size="5" class="slds-p-vertical_xx-small">                                            
+                                            <lightning-combobox name="Natura_Crediti_Erariali__c" options={naturaCreditiErariali} data-id="Natura_Crediti_Erariali__c" 
+                                                                value={modulo.Natura_Crediti_Erariali__c} onchange={onChangeNaturaCreditiErariali} 
+                                                                variant="label-hidden" class="label-hidden">
+                                            </lightning-combobox>                   
+                                        </lightning-layout-item>
+
+                                        <lightning-layout-item size="1" small-device-size="1" medium-device-size="1" large-device-size="1">
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>							
+                                
+                                <!-- ALTRO -->
+                                <lightning-layout-item size="6" small-device-size="12" medium-device-size="6" large-device-size="6" class="slds-p-vertical_xx-small">
+                                    <lightning-layout multiple-rows="true">
+                                        <lightning-layout-item size="12" class="slds-p-bottom_small">
+                                            <i class="question">Altro</i>
+                                        </lightning-layout-item>									
+                                        <lightning-layout-item size="12">
+                                            <lightning-textarea data-id="Altro_Crediti_Erariali__c" value={modulo.Altro_Crediti_Erariali__c} 
+                                                                name="Altro_Crediti_Erariali__c" placeholder="Specifica altro..."  
+                                                                variant="label-hidden" class="label-hidden" 
+                                                                disabled={disableTextArea}
+                                                                onchange={onChangeTextNaturaCreditiErariali}>
+                                            </lightning-textarea>   
+                                        </lightning-layout-item>
+                                        <template if:true={daCompilare}>
+                                            <lightning-layout-item size="12" class="slds-p-bottom_small">                                            
+                                                <span style="color:red;">Compila questo campo</span>
+                                            </lightning-layout-item>   
+                                        </template>                                        
+                                    </lightning-layout>
+                                </lightning-layout-item>
+
+                                <!-- ERRORE SEZIONE CREDITI ERARIALI -->
+                                <template if:true={errorCreditiErariali}>
+                                    <lightning-layout-item size="12">
+                                        <lightning-layout>
+                                            <lightning-layout-item size="12" class="slds-p-around_small">
+                                                <span style="color:red;">{errorScopo}</span>
+                                            </lightning-layout-item>
+                                        </lightning-layout>
+                                    </lightning-layout-item>
+                                </template>                                
+                            </lightning-layout>
+                        </template>   
+                        
+                        <!-- ADEGUATA VERIFICA ORIGINE DEI FONDI -->
+                        <lightning-layout multiple-rows="true" class="pr-white slds-p-horizontal_x-large slds-p-vertical_medium">
+
+                            <lightning-layout-item size="12" class="slds-p-around_small">
+                                <span class="subtitle-text">ADEGUATA VERIFICA ORIGINE DEI FONDI</span>
+                            </lightning-layout-item>
+
+                            <!-- PROVENTI ATTIVITA' IMPRESA -->
+                            <lightning-layout-item size="6" small-device-size="12" medium-device-size="6" large-device-size="6">
+                                <lightning-layout multiple-rows="true">
+                                    <lightning-layout-item size="12" class="slds-p-around_small">
+                                        <i class="question">Proventi dell'attività d'impresa</i>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="3" small-device-size="6" large-device-size="3" class="slds-p-horizontal_small">
+                                        <lightning-input id="r18" type="radio" label="Si" name="OrigineFondi1__c" onchange={onGroup} checked={origineFondi1}>
+                                        </lightning-input>                                        
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="3" small-device-size="6" large-device-size="3" class="slds-p-horizontal_small">
+                                        <lightning-input id="r19" type="radio" label="No" name="OrigineFondi1__c" onchange={onGroup} checked={origineFondi1False}>
+                                        </lightning-input>                                        
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </lightning-layout-item>
+
+                            <!-- PROVENTI STRAORDINARI -->
+                            <lightning-layout-item size="6" small-device-size="12" medium-device-size="6" large-device-size="6">
+                                <lightning-layout multiple-rows="true">
+                                    <lightning-layout-item size="12" class="slds-p-around_small">
+                                        <i class="question">Proventi straordinari</i>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="3" small-device-size="6" large-device-size="3" class="slds-p-horizontal_small">
+                                        <lightning-input id="r20" type="radio" label="Si" name="OrigineFondi2__c" onchange={onGroup} checked={origineFondi2}>
+                                        </lightning-input>                                         
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="3" small-device-size="6" large-device-size="3" class="slds-p-horizontal_small">
+                                        <lightning-input id="r21" type="radio" label="No" name="OrigineFondi2__c" onchange={onGroup} checked={origineFondi2False}>
+                                        </lightning-input>                                          
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </lightning-layout-item>
+
+                            <!-- CESSIONE DI BENI -->
+                            <lightning-layout-item size="6" small-device-size="12" medium-device-size="6" large-device-size="6">
+                                <lightning-layout multiple-rows="true">
+                                    <lightning-layout-item size="12" class="slds-p-around_small">
+                                        <i class="question">Cessione di beni</i>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="3" small-device-size="6" large-device-size="3" class="slds-p-horizontal_small">
+                                        <lightning-input id="r22" type="radio" label="Si" name="OrigineFondi3__c" onchange={onGroup} checked={origineFondi3}>
+                                        </lightning-input>                                          
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="3" small-device-size="6" large-device-size="3" class="slds-p-horizontal_small">
+                                        <lightning-input id="r23" type="radio" label="No" name="OrigineFondi3__c" onchange={onGroup} checked={origineFondi3False}>
+                                        </lightning-input>                                        
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </lightning-layout-item>
+
+                            <!-- ALTRO -->
+                            <lightning-layout-item size="6" small-device-size="12" medium-device-size="6" large-device-size="6">
+                                <lightning-layout multiple-rows="true">
+                                    <lightning-layout-item size="12" class="slds-p-around_small">
+                                        <i class="question">Altro</i>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="3" small-device-size="6" large-device-size="3" class="slds-p-horizontal_small">
+                                        <lightning-input id="r24" type="radio" label="Si" name="OrigineFondi4__c" onchange={onGroup} checked={origineFondi4}>
+                                        </lightning-input>                                        
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="3" small-device-size="6" large-device-size="3" class="slds-p-horizontal_small">
+                                        <lightning-input id="r25" type="radio" label="No" name="OrigineFondi4__c" onchange={onGroup} checked={origineFondi4False}>
+                                        </lightning-input>                                        
+                                    </lightning-layout-item> 
+                                </lightning-layout>
+                            </lightning-layout-item>
+
+                            <!-- SPECIFICA ALTRO -->
+                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="12">
+                                <lightning-layout multiple-rows="true">
+                                    <lightning-layout-item size="12" class="slds-p-around_small">
+                                        <i class="question">Specifica "Altro"</i>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="12">
+                                        <lightning-textarea id="altro" class={classSpecificaAltro} value={modulo.OrigineFondiAltro__c} name="OrigineFondiAltro__c" placeholder="Specifica altro..." onchange={onChangeAltro}>
+                                        </lightning-textarea>                                                                          
+                                    </lightning-layout-item>
+                                    <template if:true={compilaOrigineFondiAltro}>
+                                        <lightning-layout-item size="12">
+                                            <span style="color:red;">Compila questo campo</span>
+                                        </lightning-layout-item>                                        
+                                    </template>      
+                                </lightning-layout>
+                            </lightning-layout-item>
+
+                            <!-- ERRORE SEZIONE ADEGUATA VERIFICA ORIGINE DEI FONDI -->
+                            <template if:true={errorSezione2}>
+                                <lightning-layout-item size="12">
+                                    <lightning-layout>
+                                        <lightning-layout-item size="12" class="slds-p-around_small">
+                                            <span style="color:red;">Compilare almeno una campo di questa sezione</span>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </template>  
+                        </lightning-layout>
+
+                        <!-- INFORMAZIONI MODULO ADEGUATA VERIFICA -->
+                        <lightning-layout multiple-rows="true" class="pr-gray slds-p-horizontal_x-large slds-p-vertical_medium">
+                            <lightning-layout-item size="12" class="slds-p-around_small">
+                                <span class="subtitle-text">INFORMAZIONI MODULO ADEGUATA VERIFICA</span>
+                            </lightning-layout-item>
+
+                            <!-- Paese casa madre -->
+                            <lightning-layout-item size="6" small-device-size="12" medium-device-size="6" large-device-size="6">
+                                <lightning-layout multiple-rows="true">
+                                    <lightning-layout-item size="12" class="slds-p-top_small slds-p-left_small">
+                                        <i class="question">Paese casa madre</i>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="6" small-device-size="12" large-device-size="6" class="slds-p-horizontal_small">
+                                        <lightning-combobox name="PaeseCasaMadre__c" options={nazioni} id="PaeseCasaMadre__c" 
+                                                            value={infoMav.PaeseCasaMadre__c} onchange={onChangePaeseCasaMadre} 
+                                                            >
+                                        </lightning-combobox>                                            
+                                    </lightning-layout-item>
+
+                                    <!-- ERRORE Paese casa madre -->
+                                    <template if:true={errorPaeseCasaMadre}>
+                                        <lightning-layout-item size="12">
+                                            <lightning-layout>
+                                                <lightning-layout-item size="12" class="slds-p-around_small">
+                                                    <span style="color:red;">Compila il campo Paese casa madre</span>
+                                                </lightning-layout-item>
+                                            </lightning-layout>
+                                        </lightning-layout-item>
+                                    </template>                                    
+                                </lightning-layout>
+                            </lightning-layout-item>
+
+                            <!-- Paese relazioni 1 -->
+                            <lightning-layout-item size="6" small-device-size="12" medium-device-size="6" large-device-size="6">
+                                <lightning-layout multiple-rows="true">
+                                    <lightning-layout-item size="12" class="slds-p-top_small slds-p-left_small">
+                                        <i class="question">Paese relazioni 1</i>
+                                    </lightning-layout-item>
+
+                                    <lightning-layout-item size="6" small-device-size="12" large-device-size="6" class="slds-p-horizontal_small">
+                                        <lightning-combobox name="PaeseRelazioni1__c" options={nazioni} id="PaeseRelazioni1__c" 
+                                                            value={infoMav.PaeseRelazioni1__c} onchange={onChangePaeseRelazioni1}>
+                                        </lightning-combobox>   
+                                    </lightning-layout-item>  
+
+                                </lightning-layout>
+                            </lightning-layout-item>
+
+                            <!-- Paese svolgimento attività prevalente -->
+                            <lightning-layout-item size="6" small-device-size="12" medium-device-size="6" large-device-size="6">
+                                <lightning-layout multiple-rows="true">
+                                    <lightning-layout-item size="12" class="slds-p-top_large slds-p-left_small">
+                                        <i class="question">Paese svolgimento attività prevalente</i>
+                                    </lightning-layout-item>
+
+                                    <lightning-layout-item size="6" small-device-size="12" large-device-size="6" class="slds-p-horizontal_small">
+                                        <lightning-combobox name="PaeseSvolgimentoAttivitaPrevalente__c" options={nazioni} id="PaeseSvolgimentoAttivitaPrevalente__c" 
+                                                            value={infoMav.PaeseSvolgimentoAttivitaPrevalente__c} onchange={onChangePaeseSvolgimentoAttivitaPrevalente}>
+                                        </lightning-combobox>                                         
+                                    </lightning-layout-item>
+
+                                    <!-- ERRORE Provincia svolgimento attività prevalente -->
+                                    <template if:true={errorPaeseSvolgimentoAttivitaPrevalente}>
+                                        <lightning-layout-item size="12">
+                                            <lightning-layout>
+                                                <lightning-layout-item size="12" class="slds-p-around_small">
+                                                    <span style="color:red;">Compila il campo Paese svolgimento attività prevalente</span>
+                                                </lightning-layout-item>
+                                            </lightning-layout>
+                                        </lightning-layout-item>
+                                    </template>                                   
+                                </lightning-layout>
+                            </lightning-layout-item>
+
+                            <!-- Paese relazioni 2 -->
+                            <lightning-layout-item size="6" small-device-size="12" medium-device-size="6" large-device-size="6">
+                                <lightning-layout multiple-rows="true">
+
+                                    <lightning-layout-item size="12" class="slds-p-top_large slds-p-left_small">
+                                        <i class="question">Paese relazioni 2</i>
+                                    </lightning-layout-item>
+
+                                    <lightning-layout-item size="6" small-device-size="12" large-device-size="6" class="slds-p-horizontal_small">
+                                        <lightning-combobox name="PaeseRelazioni2__c" options={nazioniSenzaItalia} id="PaeseRelazioni2__c" 
+                                                            value={infoMav.PaeseRelazioni2__c} onchange={onChangePaeseRelazioni2}>
+                                        </lightning-combobox>                                        
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </lightning-layout-item>
+
+                            <!-- Provincia svolgimento attività -->
+                            <lightning-layout-item size="6" small-device-size="12" medium-device-size="6" large-device-size="6">
+                                <lightning-layout multiple-rows="true">
+                                    <lightning-layout-item size="12" class="slds-p-top_large slds-p-left_small">
+                                        <i class="question">Provincia svolgimento attività</i>
+                                    </lightning-layout-item>
+
+                                    <lightning-layout-item size="6" small-device-size="12" large-device-size="6" class="slds-p-horizontal_small">
+                                        <lightning-combobox name="ProvinciaSvolgimentoAttivitaPrevalente__c" options={province} id="ProvinciaSvolgimentoAttivitaPrevalente__c" 
+                                                            value={infoMav.ProvinciaSvolgimentoAttivitaPrevalente__c} onchange={onChangeProvinciaSvolgimentoAttivitaPrevalente}>
+                                        </lightning-combobox>                                         
+                                    </lightning-layout-item>
+                                    
+                                    <!-- ERRORE Provincia svolgimento attività -->
+                                    <template if:true={errorProvinciaSvolgimentoAttivitaPrevalente}>
+                                        <lightning-layout-item size="12">
+                                            <lightning-layout>
+                                                <lightning-layout-item size="12" class="slds-p-around_small">
+                                                    <span style="color:red;">Compila il campo Provincia svolgimento attività</span>
+                                                </lightning-layout-item>
+                                            </lightning-layout>
+                                        </lightning-layout-item>
+                                    </template>                                   
+
+                                </lightning-layout>
+                            </lightning-layout-item>
+
+                            <!-- Paese relazioni 3 -->
+                            <lightning-layout-item size="6" small-device-size="12" medium-device-size="6" large-device-size="6">
+                                <lightning-layout multiple-rows="true">
+                                    <lightning-layout-item size="12" class="slds-p-top_large slds-p-left_small">
+                                        <i class="question">Paese relazioni 3</i>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="6" small-device-size="12" large-device-size="6" class="slds-p-horizontal_small">
+                                        <lightning-combobox name="PaeseRelazioni3__c" options={nazioniSenzaItalia} id="PaeseRelazioni3__c" 
+                                                            value={infoMav.PaeseRelazioni3__c} onchange={onChangePaeseRelazioni3}>
+                                        </lightning-combobox>   
+                                         
+                                    </lightning-layout-item>                                
+                                </lightning-layout>
+                            </lightning-layout-item>
+
+                        </lightning-layout>
+
+                        <!-- REFERENTI ASSOCIATI ALLA PRATICA -->
+                        <lightning-layout class="slds-p-horizontal_x-large slds-p-vertical_medium">
+                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="12">
+                                <c-wgc_titolare_esecutore account-id={accountId} to-be-saved={saveReferenti}></c-wgc_titolare_esecutore>                               
+                            </lightning-layout-item>
+                        </lightning-layout> 
+                    </div>
+				</div>
+
+                <!-- FOOTER -->
+                <footer class="slds-modal__footer modal-hidden">
+                    <lightning-button class="btn" variant="neutral" onclick={close} label="ANNULLA"></lightning-button>       
+                    <lightning-button class="slds-m-left_x-small btn" variant="neutral" onclick={saveRecord} label="SALVA"></lightning-button>
+                </footer>
+            </div>    
+        </div>  
+    </div>
+</section>
+<div class="slds-backdrop slds-backdrop_open"></div>
+</template>

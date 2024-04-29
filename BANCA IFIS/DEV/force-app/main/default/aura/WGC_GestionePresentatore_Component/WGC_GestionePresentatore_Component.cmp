@@ -1,0 +1,11 @@
+<aura:component implements="lightning:availableForFlowScreens,force:appHostable,force:hasRecordId,force:lightningQuickAction" access="GLOBAL" >
+    <aura:attribute name="acc" type="Account" 
+        default="{ 'sobjectType': 'Account' }" access="GLOBAL"/>
+    <aura:attribute name="specialistafactoring" type="String" default="" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" onsubmit="{!c.handleSubmit}"/>
+
+    <lightning:recordEditForm objectApiName="Account" onsubmit="{!c.handleSubmit}">
+        <lightning:inputField fieldName="WGC_Gestione_Presentatore_SvilCommFilial__c" onchange="{!c.handleSubmit}"/>
+    </lightning:recordEditForm>
+</aura:component>

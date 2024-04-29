@@ -1,0 +1,105 @@
+<aura:component controller="WGC_PosizioneController" implements="force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId,force:lightningQuickAction" access="global" >
+    <aura:attribute name="recordId" type="String" />
+    <!--
+        <aura:attribute name="Posizione" type="WGC_Posizione__c" 
+        default="{ 'sobjectType': 'WGC_Posizione__c' }"/> 
+    -->
+    
+    <!-- lista per iteration -->
+    <aura:attribute name="listaPosLeasing" type="List" />
+    <!-- -->
+    <aura:attribute name="title" type="String" default="FACTORING" access="global"/>
+    <aura:attribute name="color" type="String" default="#FDCC1A"/>
+    <aura:attribute name="colortext" type="String" default="white"/>
+
+    <!-- handlers -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <!-- library -->
+    <lightning:navigation aura:id="navService"/>
+
+    <aura:if isTrue="{!v.listaPosLeasing != null &amp;&amp; v.listaPosLeasing != undefined &amp;&amp; v.listaPosLeasing.length > 0}">
+        <div class="slds-m-around_x-small slds-p-around_xx-small"
+            style="{! ' background-color: ' + v.color + ';' + 'color: ' + v.colortext + '; border-radius:0 10px 10px 10px; box-shadow: 1px 1px 20px lightgrey;'}">
+            <lightning:layout class="border-title">
+                <lightning:layoutItem class="slds-p-around_small" size="6" smallDeviceSize="6" mediumDeviceSize="6"
+                    largeDeviceSize="6">
+                    <span class="slds-text-title_bold">{! v.title }</span>
+                    <!-- <span class="slds-p-left_small" style="color:red;">Debitore dormiente</span> -->
+                </lightning:layoutItem>
+            </lightning:layout>
+            <div class="slds-box slds-m-around_small">
+                <aura:iteration items="{!v.listaPosLeasing}" var="item">
+                    <lightning:layout class="logo-container-layout">
+                        <lightning:layoutItem padding="around-small">
+                            <span class="slds-text-heading_medium slds-text-title_bold transparent">{!$Label.c.WGC_Factoring_Cedente}</span>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem alignmentBump="left">
+                            <aura:if isTrue="{! item.codiceIstituto == '881'}">
+                                <img src="{!$Resource.WGC_LogoIfisItalia}" class="logo" />
+                                <aura:set attribute="else">
+                                    <img src="{!$Resource.WGC_LogoIfisFinance}" class="logo" />
+                                </aura:set>
+                            </aura:if>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+
+                    <lightning:recordViewForm recordId="{! item.posizione.Id }" objectApiName="WGC_Posizione__c" density="comfy">
+                        <lightning:layout multipleRows="true">
+                            <lightning:layoutItem flexibility="auto">
+                                <lightning:outputField fieldName="Num_Contratti_frm__c" />
+                            </lightning:layoutItem>
+                            <lightning:layoutItem flexibility="auto">
+                                <lightning:outputField fieldName="Data_di_scadenza__c" />
+                            </lightning:layoutItem>
+                            <lightning:layoutItem flexibility="auto">
+                                <lightning:outputField fieldName="MDI_12_Mesi__c" />
+                            </lightning:layoutItem>
+                            <lightning:layoutItem flexibility="auto">
+                                <lightning:outputField fieldName="Impiego_12_Mesi__c" />
+                            </lightning:layoutItem>
+                            <!-- <lightning:layoutItem flexibility="auto">
+                                <lightning:outputField fieldName="Rate_Insolute__c" />
+                            </lightning:layoutItem> -->
+                        </lightning:layout>
+                    </lightning:recordViewForm>
+                </aura:iteration>
+            </div>
+            <!-- <div class="slds-box slds-m-around_small">
+                <aura:iteration var="item" items="{!v.listaPosLeasing}">
+                    <div style="width:100%;" class="slds-p-around_small">
+                        <lightning:recordViewForm recordId="{! item.posizione.Id }" objectApiName="WGC_Posizione__c">
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-p-around_xx-small slds-size_1-of-8 slds-small-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-8">
+                                    <lightning:outputField fieldName="Qualifica_Posizione__c" />
+                                </div>
+                                <div class="slds-col slds-p-around_xx-small slds-size_1-of-8 slds-small-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-8">
+                                    <lightning:outputField fieldName="Contratti__c" />
+                                </div>
+                                <div class="slds-col slds-p-around_xx-small slds-size_1-of-8 slds-small-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-8">
+                                    <lightning:outputField fieldName="Importo_iniziale__c" />
+                                </div>
+                                <div class="slds-col slds-p-around_xx-small slds-size_1-of-8 slds-small-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-8">
+                                    <lightning:outputField fieldName="Importo_Residuo__c" />
+                                </div>
+                                <div class="slds-col slds-p-around_xx-small slds-size_1-of-8 slds-small-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-8">
+                                    <lightning:outputField fieldName="Data_Scadenza_Ultima_Rata__c" />
+                                </div>
+                                <div class="slds-col slds-p-around_xx-small slds-size_1-of-8 slds-small-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-8">
+                                    <lightning:outputField fieldName="Importo_prossima_rata__c" />
+                                </div>
+                                <div class="slds-col slds-p-around_small slds-size_1-of-8 slds-small-size_1-of-3 slds-medium-size_1-of-3 slds-large-size_1-of-8 slds-text-align_right">
+                                    <aura:if isTrue="{! item.codiceIstituto == '881'}">
+                                        <img src="{!$Resource.WGC_LogoIfisItalia}" class="logo" />
+                                        <aura:set attribute="else">
+                                            <img src="{!$Resource.WGC_LogoIfisFinance}" class="logo" />
+                                        </aura:set>
+                                    </aura:if>
+                                </div>
+                            </div>
+                        </lightning:recordViewForm>
+                    </div>
+                </aura:iteration>
+            </div> -->
+        </div>
+    </aura:if>
+</aura:component>

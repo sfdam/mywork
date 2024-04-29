@@ -1,0 +1,89 @@
+<aura:component implements="force:lightningQuickAction,lightning:actionOverride,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" 
+                access="global" controller="INF_SendEmailOppItemComponentController">
+
+<ltng:require   styles="{!join(',', $Resource.DataTables + '/DataTables-1.10.20/css/jquery.dataTables.min.css',
+                                    $Resource.DataTables + '/RowGroup-1.1.1/css/rowGroup.dataTables.min.css',
+                                    $Resource.DataTables + '/Responsive-2.2.3/css/responsive.dataTables.min.css',
+                                    $Resource.DataTableSelect + '/Select-1.3.1/css/select.dataTables.min.css',
+                                    $Resource.DataTablesButtons + '/Buttons-1.6.1/css/buttons.dataTables.min.css',
+                                    $Resource.DataTablesHeader + '/FixedHeader-3.1.6/css/fixedHeader.dataTables.min.css')}"
+                scripts="{!join(',', 
+                         $Resource.DataTables + '/jQuery-3.3.1/jquery-3.3.1.min.js',
+                         $Resource.MomentJS,
+                         $Resource.DataTables + '/DataTables-1.10.20/js/jquery.dataTables.min.js',                         
+                         $Resource.DataTables + '/RowGroup-1.1.1/js/dataTables.rowGroup.min.js',
+                         $Resource.DataTables + '/Responsive-2.2.3/js/dataTables.responsive.min.js',
+                         $Resource.DataTableSelect + '/Select-1.3.1/js/dataTables.select.min.js',
+                         $Resource.DataTablesButtons + '/Buttons-1.6.1/js/dataTables.buttons.min.js',
+                         $Resource.DataTablesHeader + '/FixedHeader-3.1.6/js/dataTables.fixedHeader.min.js'
+                        )
+                }"
+            afterScriptsLoaded="{!c.doInit}"/>
+
+            <lightning:overlayLibrary aura:id="overlayLib" />
+    		<!-- <aura:registerEvent name="ModalCloseEvent" type="c:INF_SendEmailComponent_CloseModal"/> -->
+
+    
+            <aura:attribute name="schItems" type="object[]"/> 
+            <aura:attribute name="lineItems" type="object[]"/> 
+            <aura:attribute name="recordId" type="String"/>
+            <!-- <aura:attribute name="isSendable" type="Boolean"/> -->
+            <aura:attribute name="isSendableWon" type="Boolean"/>
+            <aura:attribute name="isSendableCodCliente" type="Boolean"/>
+
+             <aura:attribute name="value" type="List" default="option1"/>
+
+
+
+    
+             <div class="container">
+                <div>
+                    <lightning:buttonGroup>
+                        <lightning:button label="{! $Label.c.INF_SendEmailComponent_Save}" onclick="{!c.onClickSave}"/>
+                        <lightning:button label="{! $Label.c.INF_SendEmailComponent_SaveAndSend}"  onclick="{!c.onClickSend}"/>
+                    </lightning:buttonGroup>
+                </div>
+
+            
+            <div class="slds-m-around_medium">
+                <table id="tableId" class="slds-table slds-table_bordered slds-table_cell-buffer" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            
+                            <th>{! $Label.c.INF_SendEmailComponent_NomeArticolo}</th>
+                            <th>{! $Label.c.INF_SendEmailComponent_Importo}</th>
+                            <th>{! $Label.c.INF_SendEmailComponent_DataPianificata}</th>
+                            <th class="tablet-l">{! $Label.c.INF_SendEmailComponent_Descrizione}</th>
+                            <th class="tablet-l">{! $Label.c.INF_SendEmailComponent_Commenti}</th>                            
+                            <th>{! $Label.c.INF_SendEmailComponent}</th>
+                            <th>{! $Label.c.INF_SendEmailComponent_Invia}</th>
+                            <th>{! $Label.c.INF_SendEmailComponent_DataInvioRichiesta}</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <aura:iteration items="{!v.schItems}" var="item">
+                            <tr>
+                                
+                                <td>{!item.Name}</td>
+                                <td>{!item.Revenue}</td>
+                                <td>{!item.ScheduleDate}</td>
+                                <td></td>
+                                <td class="tablet-l">{!item.Description}</td>                               
+                                <td class="tablet-l"></td>
+                                <td ></td>
+                                <td>{!item.Data_ultimo_invio__c}</td>
+
+                                                                
+                            </tr>
+                        </aura:iteration>  
+                    </tbody>
+                  
+
+                </table>
+            </div>
+            
+        </div>
+    
+	
+</aura:component>

@@ -1,0 +1,23 @@
+<template>
+    <template if:false={loaded}>
+        <div class="spinner-holder">
+            <lightning-spinner alternative-text="Loading"></lightning-spinner>
+        </div>
+    </template>
+    <template if:true={loaded}>
+        <lightning-card title="Blocco Spostamenti Filiale">
+            <!-- <lightning-button label="New" slot="actions"></lightning-button> -->
+            <lightning-layout multiple-rows="true" padding>
+                <lightning-layout-item flexibility="auto" padding="around-small" size="12">
+                    <span><lightning-input data-id="bloccaSpostamentiInFiliale" name="bloccaSpostamentiInFiliale" type="toggle" label="" onchange={changeToggle} checked={bloccaSpostamentiInFiliale} message-toggle-active="" message-toggle-inactive="" ></lightning-input>Blocca spostamenti interni a questa filiale</span>
+                </lightning-layout-item>
+                <lightning-layout-item flexibility="auto" padding="around-small" size="12">
+                    <span><lightning-input data-id="bloccaSpostamentiVersoFiliale" name="bloccaSpostamentiVersoFiliale" type="toggle" label="" onchange={changeToggle} checked={bloccaSpostamentiVersoFiliale} message-toggle-active="" message-toggle-inactive=""></lightning-input>Blocca spostamenti verso questa filiale</span>
+                </lightning-layout-item>
+                <lightning-layout-item flexibility="auto" padding="around-small" size="12">
+                    <span><lightning-input data-id="bloccaSpostamentiFiliale" name="bloccaSpostamentiFiliale" type="toggle" label="" onchange={changeToggle} checked={bloccaSpostamentiFiliale} message-toggle-active="" message-toggle-inactive=""></lightning-input>Blocca tutti gli spostamenti per questa filiale</span>
+                </lightning-layout-item>
+            </lightning-layout>
+        </lightning-card>
+    </template>
+</template>

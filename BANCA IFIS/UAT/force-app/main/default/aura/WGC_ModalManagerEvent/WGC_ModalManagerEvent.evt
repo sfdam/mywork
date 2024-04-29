@@ -1,0 +1,21 @@
+<aura:event type="APPLICATION" description="Event to manage the modals">
+    <aura:attribute name="modalHeader" type="String"/>
+    <!-- 
+        MODAL BODY & MODAL FOOTER JSON STRUCTURE:
+            {
+                type: "", => values:("text", "component")
+                value: "", => values:(*) __ IF TYPE=TEXT >> VALUE WILL BE PLAIN TEXT; IF TYPE=COMPONENT >> VALUE WILL BE COMPONENT NAME
+                params: {} => values:(*) __ IF TYPE=COMPONENT >> PARAMS WILL BE JSON OF PARAMETERS TO CREATE COMPONENT; ELSE >> PARAMS WILL BE EMPTY
+            }
+    -->
+    <aura:attribute name="modalBody" type="Object" required="true"/>
+    <aura:attribute name="modalFooter" type="Object"/>
+    
+    <aura:attribute name="showCloseButton" type="Boolean"/>
+    <aura:attribute name="cssClass" type="String"/>
+
+    <aura:attribute name="preFunction" type="String"/>
+    <!-- ATTRIBUTE TO CALL A FUNCTION BEFORE THE OPENING OF THE MODAL -->
+
+    <aura:attribute name="action" type="String"/><!-- TO MANAGE NOTIFYCLOSE -->
+</aura:event>

@@ -1,0 +1,19 @@
+.THIS {
+}
+
+.THIS .cstm-btn-round {
+    border-radius: 25px;
+    font-size: 10px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.THIS .slds-button_brand {
+    background-color: #0064B5;
+    border-color: #0064B5;
+}
+
+.THIS .slds-button_brand:disabled {
+    background-color: #CCC;
+    border-color: #CCC;
+}

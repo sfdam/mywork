@@ -1,0 +1,5 @@
+<aura:event type="APPLICATION" description="Event template">
+    <aura:attribute name="wizardItem" type="String"/>
+    <aura:attribute name="completed" type="Boolean"/>
+    <aura:attribute name="hasError" type="Boolean"/>
+</aura:event>

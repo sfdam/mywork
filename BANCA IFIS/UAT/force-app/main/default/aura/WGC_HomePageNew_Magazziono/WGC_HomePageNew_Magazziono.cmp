@@ -1,0 +1,55 @@
+<aura:component  implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+                controller="wgc_Header_Magazziono_Controller" access="global">
+    
+    <lightning:overlayLibrary aura:id="overlayLib" />
+    <lightning:navigation aura:id="navService" />
+    <aura:attribute name="pageReference" type="Object"/><!--AdF-->
+    <aura:attribute name="reportMagazzionoAperto" type="String" />
+    <aura:attribute name="numMagazzionoAperto" type="Decimal" default="0"/>
+    <aura:attribute name="tooltip" type="Boolean"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <lightning:card>
+        <aura:set attribute="title">
+        </aura:set>
+        <lightning:layout multipleRows="true">
+            <lightning:layoutItem size="6"  class="content-icon">
+                <div class="slds-align_absolute-center">
+                    <lightning:layout multipleRows="true"  >
+                        <lightning:layoutItem size="12" class="slds-text-align_center slds-m-bottom_small">
+                            <lightning:icon iconName="utility:fulfillment_order" alternativeText="magazzino aperto"  variant="inverse" title="magazzino aperto" />
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="12" class="slds-text-align_center">
+                            <h1 class="white-text">{!$Label.c.WGC_Il_Mio_title} <br/>{!$Label.c.WGC_Magazziono_title} <br/>{!$Label.c.WGC_Aperto_title}</h1>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                </div>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="6" class="content-body">
+                <lightning:layout multipleRows="true"  >
+                    <lightning:layoutItem size="12" class="slds-text-align_center">
+                        <div class="slds-p-vertical_small slds-p-horizontal_none slds-m-around_none slds-text-align_center">
+                            <div class="slds-is-relative">
+                                <div class="circleBase type4">
+                                    <div class="circleBaseBody" onmouseover="{!c.tooltipOn}" onmouseout="{!c.tooltipOff}" aria-describedby="helpLead">{!v.numMagazzionoAperto}</div>
+                                    <aura:if isTrue="{!v.tooltip}">
+                                        <div class="slds-align_absolute-center">
+                                            <div class="slds-popover slds-popover_tooltip slds-nubbin_top" role="tooltip" id="helpLead">
+                                                <div class="slds-popover__body">{!$Label.c.WGC_Magazziono_Popup}</div>
+                                            </div>
+                                        </div>
+                                    </aura:if>
+                                </div>
+                                <div class="slds-align_absolute-center div-col span-title">
+                                    <h1 class="">{!$Label.c.WGC_Aziende_title} <br/>{!$Label.c.WGC_con_attivita_title} <br/>{!$Label.c.WGC_0_12_Mesi_title}</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </lightning:layoutItem>
+        </lightning:layout>
+    </lightning:card>
+    
+</aura:component>

@@ -1,0 +1,75 @@
+<template>
+    <lightning-tabset variant="scoped">
+        <template if:false={loaded}>
+            <div class="spinner-holder">
+                <lightning-spinner alternative-text="Loading"></lightning-spinner>
+            </div>
+        </template>
+        <template if:true={loaded}>
+            <lightning-tab label="Assegnazione Eventi" value="lightningTab_AssegnazioneEventi" onactive={handleActive}>
+                <div class="c-container slds-is-relative">
+                    <template if:false={loadedDataEventi}>
+                        <div class="spinner-holder">
+                            <lightning-spinner alternative-text="Loading"></lightning-spinner>
+                        </div>
+                    </template>
+                    <template if:true={loadedDataEventi}>
+                        <lightning-layout multiple-rows="true">
+                            <lightning-layout-item flexibility="auto" class="slds-p-bottom_small">
+                                
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </template>
+                </div>
+            </lightning-tab>
+            <lightning-tab label="Assegnazione Campagne" value="lightningTab_AssegnazioneCampagne" onactive={handleActive}>
+                <div class="c-container slds-is-relative">
+                    <template if:false={loadedDataCampagne}>
+                        <div class="spinner-holder">
+                            <lightning-spinner alternative-text="Loading"></lightning-spinner>
+                        </div>
+                    </template>
+                    <template if:true={loadedDataCampagne}>
+                        <lightning-layout multiple-rows="true">
+                            <lightning-layout-item flexibility="auto" class="slds-p-bottom_small">
+                                
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </template>
+                </div>
+            </lightning-tab>
+            <lightning-tab label="Assegnazione Opportunità" value="lightningTab_AssegnazioneOpportunity" onactive={handleActive}>
+                <div class="c-container slds-is-relative">
+                    <template if:false={loadedDataOpportunity}>
+                        <div class="spinner-holder">
+                            <lightning-spinner alternative-text="Loading"></lightning-spinner>
+                        </div>
+                    </template>
+                    <template if:true={loadedDataOpportunity}>
+                        <lightning-layout multiple-rows="true">
+                            <lightning-layout-item flexibility="auto" class="slds-p-bottom_small">
+                                
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </template>
+                </div>
+            </lightning-tab>
+            <lightning-tab label="Riassegnazione per Referenti" value="lightningTab_AssegnazioneReferenti" onactive={handleActive}>
+                <div class="c-container slds-is-relative">
+                    <template if:false={loadedDataReferenti}>
+                        <div class="spinner-holder">
+                            <lightning-spinner alternative-text="Loading"></lightning-spinner>
+                        </div>
+                    </template>
+                    <template if:true={loadedDataReferenti}>
+                        <lightning-layout multiple-rows="true">
+                            <lightning-layout-item flexibility="auto" class="slds-p-bottom_small">
+                                
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </template>
+                </div>
+            </lightning-tab>
+        </template>
+    </lightning-tabset>
+</template>

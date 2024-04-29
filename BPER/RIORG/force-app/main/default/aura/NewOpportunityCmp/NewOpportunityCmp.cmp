@@ -1,0 +1,38 @@
+<aura:component implements="lightning:availableForFlowScreens,force:lightningQuickActionWithoutHeader,flexipage:availableForRecordHome,force:hasRecordId,flexipage:availableForAllPageTypes,lightning:isUrlAddressable" access="global" controller="NewOpportunityController">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <lightning:workspaceAPI aura:id="workspace"/>
+    <aura:attribute name="ListOption" type="List"/>
+    <aura:attribute name="value" type="String"/>
+    <aura:attribute name="showChoise" type="Boolean" default="true"/>
+    <aura:attribute name="showError" type="Boolean" default="false"/>
+    
+    
+    
+    <!--aura:iteration items="ListOption" var="item">
+        <ui:outputCheckbox aura:id="output" value="{!v.item}"/>
+    </aura:iteration-->
+    <aura:if isTrue="{!v.showChoise}">
+        <div>
+            <lightning:radioGroup name="{!v.ListOption}"  
+            label="Seleziona il tipo di Record"   
+            options="{!v.ListOption}"  
+            value="{!v.value}"  
+            type="radio"  
+            required="true"/>  
+
+           
+            
+        </div>
+        <aura:if isTrue="{!v.showError}">
+            <h2 class="red">*Campo obbligatorio</h2>
+        </aura:if>
+        <br/>
+        <!--lightning:button variant="Neutral" label="Indietro" title="Non-primary action" onclick="{!c.closeTab}" class="slds-m-left_x-small"></lightning:button-->
+        <div>
+        <lightning:button variant="brand" label="Avanti" title="Non-primary action" onclick="{!c.handleClick}" class="slds-m-left_x-small"></lightning:button>
+        </div>
+    </aura:if>
+
+    <lightning:flow aura:id="flowData"  />
+</aura:component>

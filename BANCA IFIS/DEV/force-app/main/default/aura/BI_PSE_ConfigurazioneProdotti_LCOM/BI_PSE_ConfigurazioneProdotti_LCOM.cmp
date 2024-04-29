@@ -1,0 +1,257 @@
+<aura:component implements="lightning:availableForFlowScreens" access="global">  
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/> 
+    
+	<aura:attribute name="aggiuntaStimaFabbisognoFinanziarioFactoring" type="String"/>
+	<aura:attribute name="aggiuntaNaturaClientiFactoring" type="String"/>
+	<aura:attribute name="aggiuntaNazionalitaClientiFactoring" type="String"/>
+	<aura:attribute name="aggiuntaNoteFactoring" type="String"/>
+
+	<aura:attribute name="aggiuntaImportoMutuo" type="String"/>
+	<aura:attribute name="aggiuntaDurataAmmortamentoMutuo" type="String"/>
+	<aura:attribute name="aggiuntaDurataPreammortamentoMutuo" type="String"/>
+	<aura:attribute name="aggiuntaFinalitaMutuo" type="String"/>
+	<aura:attribute name="aggiuntaNoteMutuo" type="String"/>
+
+	<aura:attribute name="aggiuntaImportoLeasing" type="String"/>
+	<aura:attribute name="aggiuntaBusinessLeasing" type="String"/>
+	<aura:attribute name="aggiuntaNoteLeasing" type="String"/>
+
+	<aura:attribute name="aggiuntaImportoRental" type="String"/>
+	<aura:attribute name="aggiuntaBusinessRental" type="String"/>
+	<aura:attribute name="aggiuntaNoteRental" type="String"/>
+
+    <aura:attribute name="disabilitatoFACTORING" type="Boolean" default="true"/>
+    <aura:attribute name="disabilitatoMUTUO" type="Boolean" default="true"/>
+
+	<aura:attribute name="disabilitatoLEASING" type="Boolean" default="true"/>
+    <aura:attribute name="disabilitatoRENTAL" type="Boolean" default="true"/>
+
+    <aura:attribute name="opzioniLineaFactoring" type="List" default="[
+    {'label': 'FACTORING', 'value': 'FACTORING'},
+    {'label': 'MUTUO', 'value': 'MUTUO'},
+    {'label': 'FACTORING + MUTUO', 'value': 'MISTO'}
+    ]"/>
+
+	<aura:attribute name="opzioniLineaLeasing" type="List" default="[
+    {'label': 'LEASING', 'value': 'LEASING'},
+    {'label': 'RENTAL', 'value': 'RENTAL'},
+    {'label': 'LEASING + RENTAL', 'value': 'LEASINGRENTAL'}
+    ]"/>
+
+    <aura:attribute name="opzioniNaturaClienti" type="List" default="[
+    {'label': 'Privati', 'value': 'PRIVATI'},
+    {'label': 'Pubblici', 'value': 'PUBBLICI'},
+    {'label': 'Privati e Pubblici', 'value': 'MISTA'}
+    ]"/>
+
+    <aura:attribute name="opzioniNazionalitaClienti" type="List" default="[
+    {'label': 'Italiani', 'value': 'ITALIANI'},
+    {'label': 'Esteri', 'value': 'ESTERI'},
+	{'label': 'Italiani e Esteri', 'value': 'MISTA'}
+    ]"/>
+
+    <aura:attribute name="opzioniFinalitaMutuo" type="List" default="[
+    {'label': 'Liquidità', 'value': 'LIQUIDITA'},
+    {'label': 'Investimento', 'value': 'INVESTIMENTO'}
+    ]"/>
+
+	<aura:attribute name="opzioniBusiness" type="List" default="[
+    {'label': 'AGRICOLO', 'value': 'AGR'},
+    {'label': 'INDUSTRIALE', 'value': 'IND'},
+	{'label': 'MEDICALE', 'value': 'MED'},
+	{'label': 'TECH', 'value': 'TECH'},
+	{'label': 'TRANSPORTATION', 'value': 'TSP'}
+    ]"/>
+
+    <aura:attribute name="workflowRecordCandidatoID" type="String"/>
+    <aura:attribute name="workflowRecordCandidatoNEXT" type="WorkflowSegnalatori__c"/>
+    <aura:attribute name="workflowRecordCandidato" type="WorkflowSegnalatori__c"/>
+    <aura:attribute name="workflowRecordCandidatoERROR" type="String"/>
+    
+    <force:recordData aura:id="flowRecordHandlerWorkflowCandidatoId"
+                      recordId="{!v.workflowRecordCandidatoID}"
+                      fields="Name, ATECO__c, CapLegale__c, CittaLegale__c, CivicoLegale__c, CognomeReferente__c, DataInvioIfis__c, EmailReferente__c, ErroriTecnici__c, IndirizzoLegale__c, MotivazioneRifiutoPrevalutazione__c, Natura_Giuridica__c, NomeReferente__c, PartitaIVA__c, ProvinciaCCIAA__c, ProvinciaLegale__c, RAE__c, REA__c, Ragione_Sociale__c, SAE__c, Stato__c, TIMELINE_JSON__c, TelefonoReferente__c, TipoViaLegale__c, Tipologia_Segnalazione__c, Ente_segnalante__c, CommentoEsito__c, Ente_segnalante_descrizione__c, Tipo_Segnalatore__c, Tipo_Segnalazione__c, PRD_FACTORING_JSON__c, PRD_MUTUO_JSON__c, PRD_LEASING_JSON__c, PRD_RENTAL_JSON__c"
+                      targetFields="{!v.workflowRecordCandidato}"
+                      targetError="{!v.workflowRecordCandidatoERROR}"
+                      recordUpdated="{!c.handleRecordUpdated}"
+                      targetRecord="{!v.workflowRecordCandidatoNEXT}"
+                      mode="EDIT"                      
+                      />    
+    
+    <c:BI_PSE_FlowPath_LCOM selectedPathValue="1"/>
+    
+    <aura:if isTrue="{!not(empty(v.workflowRecordCandidatoERROR))}">
+        <ui:message title="Errore" severity="error" closable="true">{!v.workflowRecordCandidatoERROR}</ui:message>
+    </aura:if>
+    
+    <lightning:card variant="Narrow" title="Prodotti (2/2) - Configurazione prodotti" iconName="standard:record" />
+    
+    <hr style="margin-top:1px;margin-bottom:10px;"/>
+
+	<!-- Prodotti Factoring -->
+	<aura:if isTrue="{!v.workflowRecordCandidato.Tipo_Segnalazione__c == 'FACTORING'}">
+
+		<p class="slds-p-horizontal_small">
+			<div class="slds-grid slds-wrap">  
+				<div class="slds-size_4-of-4">
+					<div class="slds-m-around_x-small">
+						<lightning:radioGroup aura:id="flowInputLineaInputId" name="flowInputLineaInput"
+								  options="{! v.opzioniLineaFactoring }"
+								  value="{!v.workflowRecordCandidato.Tipologia_Segnalazione__c}"
+								  type="radio"
+								  onchange="{! c.handleRadioGroupLineaChange }"
+								  class="inlineRadio"
+								  disabled="{!v.workflowRecordCandidato.Stato__c != 'BOZZA_DATI'}">
+						</lightning:radioGroup>
+					</div>
+				</div>
+			</div>
+		</p>
+	
+		<p class="slds-p-horizontal_small">
+			<div class="slds-grid slds-wrap">  
+				<div class="slds-size_2-of-4">
+					<div class="slds-m-around_x-small">
+						<lightning:card aura:id="cardLineaProdottoFactoring" variant="Narrow" title="FACTORING" class="slds-text-heading_small slds-card_boundary">
+
+							<lightning:card variant="Narrow" title="DETTAGLI RICHIESTA" iconName="standard:partner_marketing_budget">
+								<p class="slds-p-horizontal_small">
+									<div class="slds-grid slds-wrap">        
+										<div class="slds-size_2-of-2">
+											<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputFabbisognoFinanziarioFactoringInputId" label="Stima fabbisogno finanziario (anticipazione richiesta)" type="number" name="flowInputFabbisognoFinanziarioFactoringInput" required="false" value="{!v.aggiuntaStimaFabbisognoFinanziarioFactoring}" maxlength="9" min="1" formatter="currency" disabled="{!v.disabilitatoFACTORING}" class="customRequired" /></div>
+										</div>
+										<div class="slds-size_1-of-2">
+											<div class="slds-m-around_x-small"><lightning:combobox label= "Natura clienti (debitori ceduti)" required="false" aura:id="flowInputNaturaClientiFactoringInputId" name="flowInputNaturaClientiFactoringInput" value="{!v.aggiuntaNaturaClientiFactoring}" onblur="{!c.handleNaturaClientiFactoringBlur}" placeholder="Natura dei Clienti" options="{!v.opzioniNaturaClienti}" disabled="{!v.disabilitatoFACTORING}"/></div>
+										</div>
+										<div class="slds-size_1-of-2">
+											<div class="slds-m-around_x-small"><lightning:combobox label= "Nazionalità clienti (debitori ceduti)" required="false" aura:id="flowInputNazionalitaClientiFactoringInputId" name="flowInputNazionalitaClientiFactoringInput" value="{!v.aggiuntaNazionalitaClientiFactoring}" onblur="{!c.handleNazionalitaClientiFactoringBlur}" placeholder="Nazionalita dei Clienti" options="{!v.opzioniNazionalitaClienti}" disabled="{!v.disabilitatoFACTORING}"/></div>
+										</div>    
+										<div class="slds-size_2-of-2">
+											<div class="slds-m-around_x-small"><lightning:textarea aura:id="flowInputNoteFactoringInputId" label="Note (indica qui anche l’eventuale compenso di mediazione richiesto all’azienda) MAX 255 caratteri" name="flowInputNoteFactoringInput" value="{!v.aggiuntaNoteFactoring}" maxlength="255" messageWhenTooLong="Sono permessi al max 255 caratteri" disabled="{!v.disabilitatoFACTORING}" /></div>
+										</div>    
+									</div>
+								</p>
+							</lightning:card>
+
+						</lightning:card>
+					</div>
+				</div>
+				<div class="slds-size_2-of-4">
+					<div class="slds-m-around_x-small">
+						<lightning:card aura:id="cardLineaProdottoMutuo" variant="Narrow" title="MUTUO" class="slds-text-heading_small slds-card_boundary">
+
+							<lightning:card variant="Narrow" title="DETTAGLI RICHIESTA" iconName="standard:partner_marketing_budget">
+								<p class="slds-p-horizontal_small">
+									<div class="slds-grid slds-wrap">        
+										<div class="slds-size_3-of-3">
+											<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputImportoMutuoInputId" label="Importo" type="number" name="flowInputImportoMutuoInput" required="false" value="{!v.aggiuntaImportoMutuo}" maxlength="9" min="1" formatter="currency" disabled="{!v.disabilitatoMUTUO}" class="customRequired" /></div>
+										</div>
+										<div class="slds-size_1-of-3">
+											<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputDurataAmmortamentoMutuoInputId" label="Mesi Ammortamento" type="number" name="flowInputDurataAmmortamantoMutuoInput" required="false" value="{!v.aggiuntaDurataAmmortamentoMutuo}" maxlength="3" min="1" disabled="{!v.disabilitatoMUTUO}" /></div>
+										</div>
+										<div class="slds-size_1-of-3">
+											<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputDurataPreammortamentoMutuoInputId" label="Mesi Preammortamento" type="number" name="flowInputDurataPreammortamentoMutuoInput" required="false" value="{!v.aggiuntaDurataPreammortamentoMutuo}" maxlength="3" min="0" disabled="{!v.disabilitatoMUTUO}" /></div>
+										</div>
+										<div class="slds-size_1-of-3">
+											<div class="slds-m-around_x-small"><lightning:combobox label= "Finalità Mutuo" required="false" aura:id="flowInputFinalitaMutuoInputId" name="flowInputFinalitaMutuoInput" value="{!v.aggiuntaFinalitaMutuo}" onblur="{!c.handleFinalitaMutuoBlur}" placeholder="Finalità del Mutuo" options="{!v.opzioniFinalitaMutuo}" disabled="{!v.disabilitatoMUTUO}" class="customRequired"/></div>
+										</div>    
+										<div class="slds-size_3-of-3">
+											<div class="slds-m-around_x-small"><lightning:textarea aura:id="flowInputNoteMutuoInputId" label="Note (indica qui anche l’eventuale compenso di mediazione richiesto all’azienda) MAX 255 caratteri" name="flowInputNoteMutuoInput" value="{!v.aggiuntaNoteMutuo}" maxlength="255" messageWhenTooLong="Sono permessi al max 255 caratteri" disabled="{!v.disabilitatoMUTUO}" /></div>
+										</div>    
+									</div>
+								</p>
+							</lightning:card>
+
+						</lightning:card>		
+
+						<lightning:input aura:id="flowInputProdottoFactoringJsonId" name="flowInputProdottoFactoringJson" required="false" value="{!v.workflowRecordCandidato.PRD_FACTORING_JSON__c}" class="slds-hide"/>
+
+						<lightning:input aura:id="flowInputProdottoMutuoJsonId" name="flowInputProdottoMutuoJson" required="false" value="{!v.workflowRecordCandidato.PRD_MUTUO_JSON__c}" class="slds-hide"/>
+			
+					</div>
+				</div>
+			</div>
+		</p>
+
+		<aura:set attribute="else">
+			<!-- Prodotti Leasing -->
+			<p class="slds-p-horizontal_small">
+			<div class="slds-grid slds-wrap">  
+				<div class="slds-size_4-of-4">
+					<div class="slds-m-around_x-small">
+						<lightning:radioGroup aura:id="flowInputLineaLeasingInputId" name="flowInputLineaLeasingInput"
+								  options="{! v.opzioniLineaLeasing }"
+								  value="{!v.workflowRecordCandidato.Tipologia_Segnalazione__c}"
+								  type="radio"
+								  onchange="{! c.handleRadioGroupLineaLeasingChange }"
+								  class="inlineRadio"
+								  disabled="{!v.workflowRecordCandidato.Stato__c != 'BOZZA_DATI'}">
+						</lightning:radioGroup>
+					</div>
+				</div>
+			</div>
+			</p>
+
+			<p class="slds-p-horizontal_small">
+			<div class="slds-grid slds-wrap">  
+				<div class="slds-size_2-of-4">
+					<div class="slds-m-around_x-small">
+						<lightning:card aura:id="cardLineaProdottoLeasing" variant="Narrow" title="LEASING" class="slds-text-heading_small slds-card_boundary">
+
+							<lightning:card variant="Narrow" title="DETTAGLI RICHIESTA" iconName="standard:partner_marketing_budget">
+								<p class="slds-p-horizontal_small">
+									<div class="slds-grid slds-wrap">        
+										<div class="slds-size_2-of-2">
+											<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputImportoLeasingInputId" label="Importo" type="number" name="flowInputimportoLeasingInput" required="false" value="{!v.aggiuntaImportoLeasing}" maxlength="9" min="1" formatter="currency" disabled="{!v.disabilitatoLEASING}" class="customRequired" /></div>
+										</div>
+										<div class="slds-size_2-of-2">
+											<div class="slds-m-around_x-small"><lightning:combobox label= "Business" required="false" aura:id="flowInputBusinessLeasingInputId" name="flowInputBusinessLeasingInput" value="{!v.aggiuntaBusinessLeasing}" onblur="{!c.handleOpzioniBusinessLeasingBlur}" options="{!v.opzioniBusiness}" disabled="{!v.disabilitatoLEASING}" class="customRequired" /></div>
+										</div>
+										<div class="slds-size_2-of-2">
+											<div class="slds-m-around_x-small"><lightning:textarea aura:id="flowInputNoteLeasingInputId" label="Note (indica qui anche l’eventuale compenso di mediazione richiesto all’azienda) MAX 255 caratteri" name="flowInputNoteLeasingInput" value="{!v.aggiuntaNoteLeasing}" maxlength="255" messageWhenTooLong="Sono permessi al max 255 caratteri" disabled="{!v.disabilitatoLEASING}" /></div>
+										</div>    
+									</div>
+								</p>
+							</lightning:card>
+
+						</lightning:card>
+					</div>
+				</div>
+				<div class="slds-size_2-of-4">
+					<div class="slds-m-around_x-small">
+						<lightning:card aura:id="cardLineaProdottoRental" variant="Narrow" title="RENTAL" class="slds-text-heading_small slds-card_boundary">
+
+							<lightning:card variant="Narrow" title="DETTAGLI RICHIESTA" iconName="standard:partner_marketing_budget">
+								<p class="slds-p-horizontal_small">
+									<div class="slds-grid slds-wrap">        
+										<div class="slds-size_2-of-2">
+											<div class="slds-m-around_x-small"><lightning:input aura:id="flowInputImportoRentalInputId" label="Importo" type="number" name="flowInputimportoRentalInput" required="false" value="{!v.aggiuntaImportoRental}" maxlength="9" min="1" formatter="currency" disabled="{!v.disabilitatoRENTAL}" class="customRequired" /></div>
+										</div>
+										<div class="slds-size_2-of-2">
+											<div class="slds-m-around_x-small"><lightning:combobox label= "Business" required="false" aura:id="flowInputBusinessRentalInputId" name="flowInputBusinessRentalInput" value="{!v.aggiuntaBusinessRental}" onblur="{!c.handleOpzioniBusinessLeasingBlur}" options="{!v.opzioniBusiness}" disabled="{!v.disabilitatoRENTAL}" class="customRequired" /></div>
+										</div>
+										<div class="slds-size_2-of-2">
+											<div class="slds-m-around_x-small"><lightning:textarea aura:id="flowInputNoteRentalInputId" label="Note (indica qui anche l’eventuale compenso di mediazione richiesto all’azienda) MAX 255 caratteri" name="flowInputNoteRentalInput" value="{!v.aggiuntaNoteRental}" maxlength="255" messageWhenTooLong="Sono permessi al max 255 caratteri" disabled="{!v.disabilitatoRENTAL}" /></div>
+										</div>  
+									</div>
+								</p>
+							</lightning:card>
+
+						</lightning:card>		
+
+						<lightning:input aura:id="flowInputProdottoLeasingJsonId" name="flowInputProdottoLeasingJson" required="false" value="{!v.workflowRecordCandidato.PRD_LEASING_JSON__c}" class="slds-hide"/>
+
+						<lightning:input aura:id="flowInputProdottoRentalJsonId" name="flowInputProdottoRentalJson" required="false" value="{!v.workflowRecordCandidato.PRD_RENTAL_JSON__c}" class="slds-hide"/>
+			
+					</div>
+				</div>
+			</div>
+		</p>
+
+		</aura:set>
+	</aura:if>
+    
+    <c:bifis_crm_c_CommonFlowNavigator availableActions="{!v.availableActions}" navigateFlowEvent="{!c.handleNavigate}"/>
+    
+</aura:component>

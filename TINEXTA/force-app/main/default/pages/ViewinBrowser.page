@@ -1,0 +1,26 @@
+<apex:page controller="ViewinBrowser" showHeader="false" sidebar="false" applyBodyTag="false">
+
+    <head>
+        <style>
+            body {
+             font-family: 'sans-serif';
+            }
+
+            .companyName {
+                font: bold 30px;
+                color: red;
+            }
+            
+            ul{
+            list-style-type:lower-latin;
+            }
+            
+        </style>
+    </head>
+
+    <body>
+        
+            <apex:outputText value="{!pdfData}" escape="false"></apex:outputText>
+       
+    </body>
+</apex:page>

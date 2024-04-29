@@ -1,0 +1,599 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>51.0</apiVersion>
+    <description>Cr 59149 modifica display text 
+Da         RG16 – Ricavi                                              a           RG16 - Spese lavoro dipendente e assim.
+Da         RG24 - Tot. Componenti positivi             a            RG24 - Totale componenti negativi</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>Formula_IsDatiModelloUnicoVisible</name>
+        <dataType>Boolean</dataType>
+        <expression>AND (ISBLANK({!Indicatore.CRM_FatturatoPeriodo1__c}), ISBLANK({!Indicatore.CRM_FatturatoPeriodo2__c}), ISBLANK({!Indicatore.CRM_FatturatoPeriodo3__c}),
+ISBLANK({!Indicatore.CRM_RisultatoEsercizio1__c}), ISBLANK({!Indicatore.CRM_RisultatoEsercizio2__c}), ISBLANK({!Indicatore.CRM_RisultatoEsercizio3__c}),
+OR(ISBLANK({!Indicatore.CRM_RG12Tot__c})=FALSE, ISBLANK({!Indicatore.CRM_RG16spese__c})=FALSE, ISBLANK({!Indicatore.CRM_RG24Tot__c})=FALSE, ISBLANK({!Indicatore.CRM_RG2Ricavi__c})=FALSE, ISBLANK({!Indicatore.CRM_RG34UtilePerdita__c})=FALSE
+))</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_RG12</name>
+        <dataType>String</dataType>
+        <expression>/*IF (
+ISBLANK(Indicatore.CRM_RG12Tot__c) = false,
+IF( 
+  Indicatore.CRM_RG12Tot__c &gt;= 1000000000, 
+  TEXT(FLOOR(Indicatore.CRM_RG12Tot__c / 1000000000)) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ Indicatore.CRM_RG12Tot__c &gt;= 1000000, 
+  right(TEXT(FLOOR(Indicatore.CRM_RG12Tot__c / 1000000)),3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ Indicatore.CRM_RG12Tot__c &gt;= 1000, 
+  RIGHT(TEXT(FLOOR(Indicatore.CRM_RG12Tot__c / 1000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+RIGHT(TEXT(FLOOR(Indicatore.CRM_RG12Tot__c)), 3) &amp; &quot; €&quot;,
+&apos;-&apos;
+)*/
+IF (ISBLANK({!Indicatore.CRM_RG12Tot__c}) = false,
+		IF({!Indicatore.CRM_RG12Tot__c} &gt;= 0,
+			IF( 
+			{!Indicatore.CRM_RG12Tot__c} &gt;= 1000000000, 
+  RIGHT(TEXT(FLOOR({!Indicatore.CRM_RG12Tot__c}/ 1000000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+{!Indicatore.CRM_RG12Tot__c} &gt;= 1000000, 
+  RIGHT(TEXT(FLOOR({!Indicatore.CRM_RG12Tot__c} / 1000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ {!Indicatore.CRM_RG12Tot__c} &gt;= 1000, 
+  RIGHT(TEXT(FLOOR({!Indicatore.CRM_RG12Tot__c} / 1000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+RIGHT(TEXT(FLOOR({!Indicatore.CRM_RG12Tot__c})), 3) + &quot; €&quot;, 
+     
+
+&quot;-&quot; + IF(
+ABS({!Indicatore.CRM_RG12Tot__c}) &gt;= 1000000000, 
+  RIGHT(TEXT(FLOOR(ABS({!Indicatore.CRM_RG12Tot__c})/ 1000000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ABS({!Indicatore.CRM_RG12Tot__c}) &gt;= 1000000, 
+  RIGHT(TEXT(FLOOR(ABS({!Indicatore.CRM_RG12Tot__c}) / 1000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ ABS({!Indicatore.CRM_RG12Tot__c}) &gt;= 1000, 
+  RIGHT(TEXT(FLOOR(ABS({!Indicatore.CRM_RG12Tot__c}) / 1000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+RIGHT(TEXT(FLOOR(ABS({!Indicatore.CRM_RG12Tot__c}))), 3) + &quot; €&quot;),
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_RG16</name>
+        <dataType>String</dataType>
+        <expression>/*IF (
+ISBLANK(Indicatore.CRM_RG16spese__c) = false,
+IF( 
+  Indicatore.CRM_RG16spese__c &gt;= 1000000000, 
+  TEXT(FLOOR(Indicatore.CRM_RG16spese__c / 1000000000)) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ Indicatore.CRM_RG16spese__c &gt;= 1000000, 
+  right(TEXT(FLOOR(Indicatore.CRM_RG16spese__c / 1000000)),3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ Indicatore.CRM_RG16spese__c &gt;= 1000, 
+  RIGHT(TEXT(FLOOR(Indicatore.CRM_RG16spese__c / 1000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+RIGHT(TEXT(FLOOR(Indicatore.CRM_RG16spese__c)), 3) &amp; &quot; €&quot;,
+&apos;-&apos;
+)*/
+IF (ISBLANK({!Indicatore.CRM_RG16spese__c}) = false,
+		IF({!Indicatore.CRM_RG16spese__c} &gt;= 0,
+			IF( 
+			{!Indicatore.CRM_RG16spese__c} &gt;= 1000000000, 
+  RIGHT(TEXT(FLOOR({!Indicatore.CRM_RG16spese__c}/ 1000000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+{!Indicatore.CRM_RG16spese__c} &gt;= 1000000, 
+  RIGHT(TEXT(FLOOR({!Indicatore.CRM_RG16spese__c} / 1000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ {!Indicatore.CRM_RG16spese__c} &gt;= 1000, 
+  RIGHT(TEXT(FLOOR({!Indicatore.CRM_RG16spese__c} / 1000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+RIGHT(TEXT(FLOOR({!Indicatore.CRM_RG16spese__c})), 3) + &quot; €&quot;, 
+     
+
+&quot;-&quot; + IF(
+ABS({!Indicatore.CRM_RG16spese__c}) &gt;= 1000000000, 
+  RIGHT(TEXT(FLOOR(ABS({!Indicatore.CRM_RG16spese__c})/ 1000000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ABS({!Indicatore.CRM_RG16spese__c}) &gt;= 1000000, 
+  RIGHT(TEXT(FLOOR(ABS({!Indicatore.CRM_RG16spese__c}) / 1000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ ABS({!Indicatore.CRM_RG16spese__c}) &gt;= 1000, 
+  RIGHT(TEXT(FLOOR(ABS({!Indicatore.CRM_RG16spese__c}) / 1000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+RIGHT(TEXT(FLOOR(ABS({!Indicatore.CRM_RG16spese__c}))), 3) + &quot; €&quot;),
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_RG2</name>
+        <dataType>String</dataType>
+        <expression>/*IF (
+ISBLANK(Indicatore.CRM_RG2Ricavi__c) = false,
+IF( 
+  Indicatore.CRM_RG2Ricavi__c &gt;= 1000000000, 
+  TEXT(FLOOR(Indicatore.CRM_RG2Ricavi__c / 1000000000)) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ Indicatore.CRM_RG2Ricavi__c &gt;= 1000000, 
+  right(TEXT(FLOOR(Indicatore.CRM_RG2Ricavi__c / 1000000)),3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ Indicatore.CRM_RG2Ricavi__c &gt;= 1000, 
+  RIGHT(TEXT(FLOOR(Indicatore.CRM_RG2Ricavi__c / 1000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+RIGHT(TEXT(FLOOR(Indicatore.CRM_RG2Ricavi__c)), 3) &amp; &quot; €&quot;,
+&apos;-&apos;
+)*/
+IF (ISBLANK({!Indicatore.CRM_RG2Ricavi__c}) = false,
+		IF({!Indicatore.CRM_RG2Ricavi__c} &gt;= 0,
+			IF( 
+			{!Indicatore.CRM_RG2Ricavi__c} &gt;= 1000000000, 
+  RIGHT(TEXT(FLOOR({!Indicatore.CRM_RG2Ricavi__c}/ 1000000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+{!Indicatore.CRM_RG2Ricavi__c} &gt;= 1000000, 
+  RIGHT(TEXT(FLOOR({!Indicatore.CRM_RG2Ricavi__c} / 1000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ {!Indicatore.CRM_RG2Ricavi__c} &gt;= 1000, 
+  RIGHT(TEXT(FLOOR({!Indicatore.CRM_RG2Ricavi__c} / 1000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+RIGHT(TEXT(FLOOR({!Indicatore.CRM_RG2Ricavi__c})), 3) + &quot; €&quot;, 
+     
+
+&quot;-&quot; + IF(
+ABS({!Indicatore.CRM_RG2Ricavi__c}) &gt;= 1000000000, 
+  RIGHT(TEXT(FLOOR(ABS({!Indicatore.CRM_RG2Ricavi__c})/ 1000000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ABS({!Indicatore.CRM_RG2Ricavi__c}) &gt;= 1000000, 
+  RIGHT(TEXT(FLOOR(ABS({!Indicatore.CRM_RG2Ricavi__c}) / 1000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ ABS({!Indicatore.CRM_RG2Ricavi__c}) &gt;= 1000, 
+  RIGHT(TEXT(FLOOR(ABS({!Indicatore.CRM_RG2Ricavi__c}) / 1000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+RIGHT(TEXT(FLOOR(ABS({!Indicatore.CRM_RG2Ricavi__c}))), 3) + &quot; €&quot;),
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_RG24</name>
+        <dataType>String</dataType>
+        <expression>/*IF (
+ISBLANK(Indicatore.CRM_RG24Tot__c) = false,
+IF( 
+  Indicatore.CRM_RG24Tot__c &gt;= 1000000000, 
+  TEXT(FLOOR(Indicatore.CRM_RG24Tot__c / 1000000000)) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ Indicatore.CRM_RG24Tot__c &gt;= 1000000, 
+  right(TEXT(FLOOR(Indicatore.CRM_RG24Tot__c / 1000000)),3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ Indicatore.CRM_RG24Tot__c &gt;= 1000, 
+  RIGHT(TEXT(FLOOR(Indicatore.CRM_RG24Tot__c / 1000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+RIGHT(TEXT(FLOOR(Indicatore.CRM_RG24Tot__c)), 3) &amp; &quot; €&quot;,
+&apos;-&apos;
+)*/
+IF (ISBLANK({!Indicatore.CRM_RG24Tot__c}) = false,
+		IF({!Indicatore.CRM_RG24Tot__c} &gt;= 0,
+			IF( 
+			{!Indicatore.CRM_RG24Tot__c} &gt;= 1000000000, 
+  RIGHT(TEXT(FLOOR({!Indicatore.CRM_RG24Tot__c}/ 1000000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+{!Indicatore.CRM_RG24Tot__c} &gt;= 1000000, 
+  RIGHT(TEXT(FLOOR({!Indicatore.CRM_RG24Tot__c} / 1000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ {!Indicatore.CRM_RG24Tot__c} &gt;= 1000, 
+  RIGHT(TEXT(FLOOR({!Indicatore.CRM_RG24Tot__c} / 1000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+RIGHT(TEXT(FLOOR({!Indicatore.CRM_RG24Tot__c})), 3) + &quot; €&quot;, 
+     
+
+&quot;-&quot; + IF(
+ABS({!Indicatore.CRM_RG24Tot__c}) &gt;= 1000000000, 
+  RIGHT(TEXT(FLOOR(ABS({!Indicatore.CRM_RG24Tot__c})/ 1000000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ABS({!Indicatore.CRM_RG24Tot__c}) &gt;= 1000000, 
+  RIGHT(TEXT(FLOOR(ABS({!Indicatore.CRM_RG24Tot__c}) / 1000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ ABS({!Indicatore.CRM_RG24Tot__c}) &gt;= 1000, 
+  RIGHT(TEXT(FLOOR(ABS({!Indicatore.CRM_RG24Tot__c}) / 1000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+RIGHT(TEXT(FLOOR(ABS({!Indicatore.CRM_RG24Tot__c}))), 3) + &quot; €&quot;),
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_RG34</name>
+        <dataType>String</dataType>
+        <expression>/*IF (
+ISBLANK(Indicatore.CRM_RG34UtilePerdita__c) = false,
+IF( 
+  Indicatore.CRM_RG34UtilePerdita__c &gt;= 1000000000, 
+  TEXT(FLOOR(Indicatore.CRM_RG34UtilePerdita__c / 1000000000)) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ Indicatore.CRM_RG34UtilePerdita__c &gt;= 1000000, 
+  right(TEXT(FLOOR(Indicatore.CRM_RG34UtilePerdita__c / 1000000)),3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ Indicatore.CRM_RG34UtilePerdita__c &gt;= 1000, 
+  RIGHT(TEXT(FLOOR(Indicatore.CRM_RG34UtilePerdita__c / 1000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+RIGHT(TEXT(FLOOR(Indicatore.CRM_RG34UtilePerdita__c)), 3) &amp; &quot; €&quot;,
+&apos;-&apos;
+)*/
+IF (ISBLANK({!Indicatore.CRM_RG34UtilePerdita__c}) = false,
+		IF({!Indicatore.CRM_RG34UtilePerdita__c} &gt;= 0,
+			IF( 
+			{!Indicatore.CRM_RG34UtilePerdita__c} &gt;= 1000000000, 
+  RIGHT(TEXT(FLOOR({!Indicatore.CRM_RG34UtilePerdita__c}/ 1000000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+{!Indicatore.CRM_RG34UtilePerdita__c} &gt;= 1000000, 
+  RIGHT(TEXT(FLOOR({!Indicatore.CRM_RG34UtilePerdita__c} / 1000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ {!Indicatore.CRM_RG34UtilePerdita__c} &gt;= 1000, 
+  RIGHT(TEXT(FLOOR({!Indicatore.CRM_RG34UtilePerdita__c} / 1000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+RIGHT(TEXT(FLOOR({!Indicatore.CRM_RG34UtilePerdita__c})), 3) + &quot; €&quot;, 
+     
+
+&quot;-&quot; + IF(
+ABS({!Indicatore.CRM_RG34UtilePerdita__c}) &gt;= 1000000000, 
+  RIGHT(TEXT(FLOOR(ABS({!Indicatore.CRM_RG34UtilePerdita__c})/ 1000000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ABS({!Indicatore.CRM_RG34UtilePerdita__c}) &gt;= 1000000, 
+  RIGHT(TEXT(FLOOR(ABS({!Indicatore.CRM_RG34UtilePerdita__c}) / 1000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ ABS({!Indicatore.CRM_RG34UtilePerdita__c}) &gt;= 1000, 
+  RIGHT(TEXT(FLOOR(ABS({!Indicatore.CRM_RG34UtilePerdita__c}) / 1000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+RIGHT(TEXT(FLOOR(ABS({!Indicatore.CRM_RG34UtilePerdita__c}))), 3) + &quot; €&quot;),
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_ThumbUpDown</name>
+        <dataType>Boolean</dataType>
+        <expression>{!Get_current_NDG.CRM_MifidDueDate__c} &gt;= TODAY()</expression>
+    </formulas>
+    <formulas>
+        <name>IsDatiDiBilancioVisible</name>
+        <dataType>Boolean</dataType>
+        <expression>AND (ISBLANK({!Indicatore.CRM_RG12Tot__c}), ISBLANK({!Indicatore.CRM_RG16spese__c}), ISBLANK({!Indicatore.CRM_RG24Tot__c}),
+ISBLANK({!Indicatore.CRM_RG2Ricavi__c}), ISBLANK({!Indicatore.CRM_RG34UtilePerdita__c}), 
+OR(ISBLANK({!Indicatore.CRM_FatturatoPeriodo1__c})=FALSE, ISBLANK({!Indicatore.CRM_FatturatoPeriodo2__c})=FALSE, ISBLANK({!Indicatore.CRM_FatturatoPeriodo3__c})=FALSE, ISBLANK({!Indicatore.CRM_RisultatoEsercizio1__c})=FALSE, ISBLANK({!Indicatore.CRM_RisultatoEsercizio2__c})=FALSE,ISBLANK({!Indicatore.CRM_RisultatoEsercizio3__c})=FALSE
+))</expression>
+    </formulas>
+    <formulas>
+        <name>ModelloUnico</name>
+        <dataType>String</dataType>
+        <expression>&apos;https://intrawseal.gbbper.priv/schede/SchedaModelloUnico&apos;</expression>
+    </formulas>
+    <interviewLabel>Indicatori - Sezione Dati Modello Unico {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Indicatori - Sezione Dati Modello Unico</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordLookups>
+        <name>Get_current_NDG</name>
+        <label>Get current NDG</label>
+        <locationX>776</locationX>
+        <locationY>206</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_RT_Indicatori_Flat</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Account</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_RT_Indicatori_Flat</name>
+        <label>Get RT Indicatori Flat</label>
+        <locationX>776</locationX>
+        <locationY>326</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Indicatore</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Flat</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>RecordType</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Indicatore</name>
+        <label>Indicatore</label>
+        <locationX>776</locationX>
+        <locationY>446</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Indicatori</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>CRM_Account__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>RecordTypeId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_RT_Indicatori_Flat.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>CRM_IndicatoriCliente__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <screens>
+        <name>Indicatori</name>
+        <label>Indicatori</label>
+        <locationX>776</locationX>
+        <locationY>566</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>Indicatori_Section1</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Indicatori_Section1_Column1</name>
+                <fieldType>Region</fieldType>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>10</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Indicatori_Section1_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>cebiliNK</name>
+                    <fieldText>&lt;p&gt;&lt;a href=&quot;https://intrawseal.gbbper.priv/IntranetBperSSO/SSO?IDAPPL=CEBIWEB&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;background-color: rgb(255, 255, 255); color: rgb(32, 38, 221);&quot;&gt;&lt;u&gt;CEBI Web&lt;/u&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>2</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>IsDatiDiBilancioVisible</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>true</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>Indicatori_Section2</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Indicatori_Section2_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>ImmagDatiModUnico</name>
+                    <extensionName>flowruntime:image</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>imageName</name>
+                        <value>
+                            <stringValue>DatiModelloUnico</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>10</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Indicatori_Section2_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>DatiModelloUnico</name>
+                    <fieldText>&lt;p&gt;&lt;a href=&quot;{!ModelloUnico}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;background-color: rgb(255, 255, 255); color: rgb(32, 38, 221);&quot;&gt;&lt;u&gt;Modello Unico&lt;/u&gt;&lt;/a&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>Get_current_NDG.RecordType.DeveloperName</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <stringValue>IndustriesBusiness</stringValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>2</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>Formula_IsDatiModelloUnicoVisible</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>true</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>Indicatori_Section3</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Indicatori_Section3_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>RG2Ricavi_Title</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; color: rgb(62, 62, 60);&quot;&gt;RG2 - Ricavi&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(8, 7, 7);&quot;&gt;{!Formula_RG2}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;{!IconaBarra}&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; color: rgb(62, 62, 60);&quot;&gt;RG12 - Tot. Componenti positivi&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(8, 7, 7);&quot;&gt;{!Formula_RG12}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;{!IconaBarra}&lt;/p&gt;&lt;p&gt;RG16 - Spese lavoro dipendente e assim.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(8, 7, 7);&quot;&gt;{!Formula_RG16}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;{!IconaBarra}&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Indicatori_Section3_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>RG2Ricavi_Value</name>
+                    <fieldText>&lt;p&gt;RG24 - Totale componenti negativi&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(8, 7, 7);&quot;&gt;{!Formula_RG24}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;{!IconaBarra}&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; color: rgb(62, 62, 60);&quot;&gt;﻿RG34 - Utile/perdita&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(8, 7, 7);&quot;&gt;{!Formula_RG34}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;{!IconaBarra}&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>Formula_IsDatiModelloUnicoVisible</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>true</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <showFooter>false</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <start>
+        <locationX>650</locationX>
+        <locationY>48</locationY>
+        <connector>
+            <targetReference>Get_current_NDG</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <textTemplates>
+        <name>LinkERating</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;&lt;a href=&quot;www.google.com&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 14px;&quot;&gt;E-rating&lt;/a&gt;&lt;/p&gt;</text>
+    </textTemplates>
+    <variables>
+        <name>IconaBarra</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <stringValue>&lt;img src=&apos;/resource/Barra&apos;/&gt;</stringValue>
+        </value>
+    </variables>
+    <variables>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>testcheckbox</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
+</Flow>

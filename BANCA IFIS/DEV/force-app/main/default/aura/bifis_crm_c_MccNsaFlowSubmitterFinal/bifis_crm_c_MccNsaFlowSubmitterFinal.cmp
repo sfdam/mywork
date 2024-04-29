@@ -1,0 +1,5 @@
+<aura:component controller="bifis_crm_c_MccNsaCommonCtrl" implements="lightning:availableForFlowActions" access="global">
+    
+    <aura:attribute name="workflowRecordCandidatoID" type="String"/>      
+    
+</aura:component>

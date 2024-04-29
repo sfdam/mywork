@@ -1,0 +1,16 @@
+<aura:tokens>
+    <aura:token name="back_red" value="#eb4a5b"/>
+    <aura:token name="text_red" value="#eb4a5b" />
+    <aura:token name="back_green" value="#008740"/>
+    <aura:token name="text_green" value="#008740" />
+    <aura:token name="back_blue" value="#0064B5"/>
+    <aura:token name="text_blue" value="#0064B5" />
+    <aura:token name="back_yellow" value="#FFFF24"/>
+    <aura:token name="text_yellow" value="#FFFF24" />
+    <aura:token name="back_black" value="#2E2E2E"/>
+    <aura:token name="text_black" value="#2E2E2E" />
+    <aura:token name="back_white" value="#FFF"/>
+    <aura:token name="text_white" value="#FFF" />
+    <aura:token name="back_grey" value="#969696" />
+    <aura:token name="text_grey" value="#969696" />
+</aura:tokens>

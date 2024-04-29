@@ -1,0 +1,168 @@
+<aura:component controller="WGC_FileUploaderController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="datiDoc" type="Object" />
+    <aura:attribute name="mappatura" type="Object[]" />
+    <aura:attribute name="tipo" type="Object[]" />
+    <aura:attribute name="fam" type="Boolean" default="true" />
+    <aura:attribute name="selectedF" type="String" />
+    <aura:attribute name="selectedSC" type="String" />
+    <aura:attribute name="documentId" type="String" />
+    <aura:attribute name="dataProduzione" type="Date" />
+    <aura:attribute name="dataScadenza" type="Date" />
+    <aura:attribute name="docFisso" type="String" />
+    <aura:attribute name="docWrapper" type="Object" />
+    <aura:attribute name="mappings" type="List" />
+    <aura:attribute name="datiDocNote" type="Object" />
+    <aura:attribute name="accId" type="String" />
+    <aura:attribute name="notAvailable" type="Boolean" default="false" />
+    <aura:attribute name="noteDoc" type="String" />
+    <aura:attribute name="modalBodyAttributeName" type="String" />
+    <aura:attribute name="indiceAttore" type="String" />
+    <aura:attribute name="optyId" type="String" />
+    <aura:attribute name="idNota" type="String" />
+    <aura:attribute name="listToUpdate" type="String" />
+    <aura:attribute name="fileName" type="String" />
+    <aura:attribute name="bloccaDoc" type="Boolean" default="false" />
+    <aura:attribute name="isLoaded" type="Boolean" default="false" />
+	<!-- adione CR 293 -->
+	<aura:attribute name="soggetti" type="List" /> <!-- array di WGC_Documenti_Controller.SoggettoOpp -->
+	<aura:attribute name="soggettiPicklist" type="Object[]" />
+	<aura:attribute name="selectedSogg" type="String" />
+    <!-- record data note -->
+    <aura:attribute name="notaRecord" type="Object"/>
+    <aura:attribute name="recordLoadError" type="String"/>
+
+    <force:recordData aura:id="recordLoader"
+		recordId="{!v.idNota}"
+		fields="Name,Note__c,Id_univoco__c"
+		targetFields="{!v.notaRecord}"
+		targetError="{!v.recordLoadError}"
+		mode="EDIT"
+    />
+    <!-- LIBRARIES -->
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    <lightning:notificationsLibrary aura:id="notifLib"/>
+    <!-- EVENTS -->
+    <aura:registerEvent  name="fileUpload" type="c:WGC_HandlerFileUpload"/>
+    <aura:registerEvent  name="changeDocInfo" type="c:WGC_ChangeDocInfo"/>
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <div class="slds-is-relative">
+        <aura:if isTrue="{! v.isLoaded }">
+            <aura:if isTrue="{! v.notAvailable == false }">
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem size="12" class="slds-p-vertical_small">
+                        <lightning:select aura:id="famiglia" label="Famiglia Documento" required="true" onchange="{!c.changeFamDoc}" value="{!v.selectedF}">
+                            <option value="">-- seleziona --</option>
+                            <aura:iteration var="item" items="{! v.mappatura }">
+                                <option value="{! item.famiglia }" selected="{! v.selectedF == item.famiglia }">{! item.famiglia }</option>
+                            </aura:iteration>
+                        </lightning:select>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="12" class="slds-p-vertical_small">
+                        <lightning:select aura:id="tipo" label="Tipo" disabled="{! v.fam }" required="{! !v.fam }" value="{!v.selectedSC}" onchange="{!c.changeDoc}">
+                            <option value="">-- seleziona --</option>
+                            <aura:iteration var="item" items="{! v.tipo }">
+                                <option value="{! item.Documento__c }" selected="{! v.selectedSC == item.Documento__c }">{! item.MasterLabel }</option>
+                            </aura:iteration>
+                        </lightning:select>
+                    </lightning:layoutItem>
+					<!-- adione CR 293 -->
+					<aura:if isTrue="{! and(v.soggetti != null, v.soggetti.length != 0) }">
+						<lightning:layoutItem size="12" class="slds-p-vertical_small">
+							<lightning:select aura:id="soggetto" label="Soggetto" required="true" value="{!v.selectedSogg}" onchange="{!c.changeSoggetto}">
+								<option value="">-- seleziona --</option>
+								<aura:iteration var="item" items="{! v.soggettiPicklist }">
+									<option value="{! item.id }" selected="{! v.selectedSogg == item.id }">{! item.name }</option>
+								</aura:iteration>
+							</lightning:select>
+						</lightning:layoutItem>
+					</aura:if> <!-- end-if CR 293 -->
+                    <lightning:layoutItem size="12" class="slds-p-vertical_small">
+                        <!-- per cambiare il formato data dateStyle="short" -->
+                        <lightning:input aura:id="dataprod" type="date" name="dataproduzione" label="Data Documento" value="{!v.dataProduzione}" placeholder="Data Documento..."  required="true"  onchange="{! c.checkDataProduzione }"/>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="12" class="slds-p-vertical_small">
+                        <!-- per cambiare il formato data dateStyle="short" -->
+                        <lightning:input aura:id="datascad" type="date" name="datascadenza" label="Data Scadenza" value="{!v.dataScadenza}" placeholder="Data Scadenza..." required="true" onchange="{! c.checkDataScadenza }"/>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="6" class="slds-p-vertical_small">
+                        <lightning:fileUpload name="fileuploader"
+                                        label="" 
+                                        multiple="false"
+                                        recordId="{!v.recordId}"
+                                        disabled="false"
+                                        onuploadfinished="{! c.handleUploadFinished }"/>
+                    </lightning:layoutItem>
+
+                    <!--  Se il documento è di tipo MAV mostrare la select per le note @@ #16 - Modifica Maschera Documentale MAV -->
+                    <lightning:layoutItem size="6" class="slds-p-vertical_small">
+                        <aura:if isTrue="{!v.docFisso == 'docMAV'}">
+                            <lightning:select name="noteDocUpload" label="Tipologia MAV" aura:id="noteDocUpload" required="true">
+                                <option value=""></option>
+                                <option value="CC">In Bonis</option>
+                                <option value="CE">Procedura</option>
+                                <!-- aura:iteration items="{!v.listaNoteDoc}" var="optionNoteDoc">
+                                    <option text="{!optionNoteDoc.label}" value="{!optionNoteDoc.id}" selected="{!optionNoteDoc.selected}"/>
+                                </aura:iteration -->
+                            </lightning:select>
+                        </aura:if>
+                    </lightning:layoutItem>
+
+                    <aura:if isTrue="{!v.documentId != null &amp;&amp; v.documentId != undefined}">
+                        <lightning:layoutItem size="12" class="slds-p-vertical_small">
+                            <lightning:fileCard fileId="{!v.documentId}" description="File Caricato"/>
+                        </lightning:layoutItem>
+                    </aura:if>
+
+                    <lightning:layoutItem size="12" class="slds-p-vertical_medium">
+                        <footer class="slds-modal__footer">
+                            <lightning:button variant="neutral" onclick="{!c.close}" label="ANNULLA" />
+                            <lightning:button class="btn" variant="neutral" onclick="{!c.salvaDoc}" label="SALVA" />
+                        </footer>
+                    </lightning:layoutItem>
+                    <!-- 
+                    <lightning:layoutItem size="12" class="slds-text-align_right slds-modal__footer">
+                        <lightning:button label="Salva" onclick="{!c.saveDoc}"/>
+                    </lightning:layoutItem>
+                    -->
+                </lightning:layout>
+                <aura:set attribute="else">
+                    <lightning:recordEditForm aura:id="form" recordId="{! v.idNota }" objectApiName="WGC_Nota_Documento__c" 
+                                                onsubmit="{! c.handleSubmit }" onerror="{! c.handleError }" onsuccess="{! c.handleSuccess }" >
+                        <!-- <lightning:messages /> -->
+                        <lightning:layout multipleRows="true">
+                            <lightning:layoutItem size="12" class="slds-p-around_medium">
+                                <lightning:inputField fieldName="Note__c" />
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="12" class="slds-p-vertical_small">
+                                <footer class="slds-modal__footer">
+                                    <lightning:button variant="neutral" onclick="{!c.close}" label="ANNULLA" />
+                                    <lightning:button class="btn" variant="neutral" type="submit" label="SALVA" />
+                                    <lightning:button class="btn" variant="neutral" onclick="{! c.eliminaNote }" label="ELIMINA" />
+                                </footer>
+                            </lightning:layoutItem>
+                        </lightning:layout> 
+                    </lightning:recordEditForm>
+                
+                    <!-- <lightning:layout multipleRows="true">
+                        <lightning:layoutItem size="12" class="slds-p-around_medium">
+                            <lightning:input type="text" label="Nota" value="{! v.notaRecord.Note__c == null ? v.notaRecord.Note__c : '' }" placeholder="{! (v.notaRecord.Note__c ? v.notaRecord.Note__c : 'Inserisci nota...') }" onchange="{! c.changeNota }" />
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="12" class="slds-p-vertical_small">
+                            <footer class="slds-modal__footer">
+                                <lightning:button variant="neutral" onclick="{!c.close}" label="ANNULLA" />
+                                <lightning:button class="btn" variant="neutral" onclick="{!c.salvaNote}" type="submit" label="SALVA" />
+                                <lightning:button class="btn" variant="neutral" onclick="{!c.eliminaNote}" type="submit" label="ELIMINA" />
+                            </footer>
+                        </lightning:layoutItem>
+                    </lightning:layout> -->
+                </aura:set>
+            </aura:if>
+            <aura:set attribute="else">
+                <lightning:spinner alternativeText="CARICAMENTO" />
+            </aura:set>
+        </aura:if>
+    </div>
+</aura:component>

@@ -1,0 +1,315 @@
+<aura:component implements="flexipage:availableForAllPageTypes,force:hasRecordId" controller="BI_PSE_ControllerPrincipale_CTRL" access="global" >
+
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}"/> 
+
+	<aura:handler event="force:refreshView" action="{!c.doInit}" />
+	<aura:handler event="c:BI_PSE_CuscottoEsitazionePraticaEvent" action="{!c.handleCheckOpp}" />
+
+	<lightning:overlayLibrary aura:id="overlayLib" />
+
+    <aura:attribute name="recordId" type="Id" />
+
+    <aura:attribute name="isInProgressCensus" type="boolean" default="false"/>
+	<aura:attribute name="message" type="String"/>
+
+    <aura:attribute name="workflowRecordCandidatoNEXT" type="WorkflowSegnalatori__c"/>
+    <aura:attribute name="workflowRecordCandidato" type="WorkflowSegnalatori__c"/>
+    <aura:attribute name="workflowRecordCandidatoERROR" type="String"/>
+
+    <aura:attribute name="jsonParsedTimelineEvent" type="Object"/>
+
+    <aura:attribute name="opzioniSegnalazionePercorribile" type="List" default="[
+    {'label': 'SI', 'value': 'SI'},
+    {'label': 'NO', 'value': 'NO'}
+    ]"/>   
+
+    <aura:attribute name="opzioniMotivazioniRifiuto" type="List" default="[
+    {'label': 'Errore', 'value': 'ERRORE'},
+    {'label': 'Fuori target', 'value': 'FUORI_TARGET'},
+    {'label': 'Già cliente', 'value': 'GIA_CLIENTE'},
+	{'label': 'Già in trattativa diretta', 'value': 'GIA_TRATTATIVA_DIRETTA'},
+	{'label': 'Merito creditizio non adeguato', 'value': 'MERITO_CRED_NON_ADEGUATO'},
+	{'label': 'Bene fuori target', 'value': 'BENE_FUORI_TARGET'},
+    ]"/>  
+
+    <aura:attribute name="opzioniConferma" type="List" default="[
+    {'label': 'CONFERMA', 'value': 'CONFERMA'},
+    {'label': 'ANNULLA', 'value': 'ANNULLA'}
+    ]"/>   
+
+    <force:recordData aura:id="flowRecordHandlerWorkflowCandidatoId"
+                      recordId="{!v.recordId}"
+                      fields="Name, ATECO__c, AccountCollegato__c, CapLegale__c, CittaLegale__c, CivicoLegale__c, CognomeReferente__c, DOCUMENTI_JSON__c, DataInvioIfis__c, EmailReferente__c, ErroriTecnici__c, IndirizzoLegale__c, MotivazioneRifiutoPrevalutazione__c, Natura_Giuridica__c, NomeReferente__c, OpportunitaCollegata__c, PRD_FACTORING_JSON__c, PRD_MUTUO_JSON__c, PartitaIVA__c, ProvinciaCCIAA__c, ProvinciaLegale__c, RAE__c, REA__c, REFERENTI_JSON__c, Ragione_Sociale__c, SAE__c, Stato__c, TIMELINE_JSON__c, TelefonoReferente__c, TipoViaLegale__c, Tipologia_Segnalazione__c, Ente_segnalante__c, CommentoEsito__c, Ente_segnalante_descrizione__c, Tipo_Segnalatore__c, Tipo_Segnalazione__c, PRD_LEASING_JSON__c, PRD_RENTAL_JSON__c"
+                      targetFields="{!v.workflowRecordCandidato}"
+                      targetError="{!v.workflowRecordCandidatoERROR}"
+                      recordUpdated="{!c.handleRecordUpdated}"
+                      targetRecord="{!v.workflowRecordCandidatoNEXT}"
+                      mode="EDIT"                
+                      />        
+    
+    <!-- Display Lightning Data Service errors, if any -->
+    <aura:if isTrue="{!not(empty(v.workflowRecordCandidatoERROR))}">
+        <ui:message title="Errore" severity="error" closable="true">{!v.workflowRecordCandidatoERROR}</ui:message>
+    </aura:if> 
+
+	<aura:attribute name="valoreSegnalazionePercorribile" type="String"/>
+
+	<aura:if isTrue="{!not(v.workflowRecordCandidato.Stato__c eq 'BOZZA_DATI')}">
+
+		<aura:if isTrue="{!(v.workflowRecordCandidato.Stato__c eq 'PREVALUTAZIONE_OK')}">
+		
+			<lightning:card variant="Narrow" title="Lavorazione commerciale" iconName="standard:checkout">
+         
+				<p class="slds-p-horizontal_small">
+					<div class="slds-grid slds-wrap">
+						<!--<div class="slds-col slds-size_4-of-4">
+							<div class="slds-m-around_small">Opportunità collegata:</div>
+						</div>
+						<div class="slds-col slds-size_4-of-4">
+							<div class="slds-m-around_small slds-m-bottom_none">{!(v.workflowRecordCandidato.OpportunitaCollegata__r.Name)}</div>
+						</div>    -->    
+						<div class="slds-col slds-size_4-of-4">
+							<div class="slds-m-around_small">Stato:</div>
+						</div>
+						<div class="slds-col slds-size_4-of-4">
+							<div class="slds-m-around_small slds-m-bottom_none">IN ISTRUTTORIA</div>
+						</div>
+						<!--<div class="slds-col slds-size_4-of-4">
+							<div class="slds-m-around_small">Commerciale:</div>
+						</div>
+						<div class="slds-col slds-size_4-of-4">
+							<div class="slds-m-around_small slds-m-bottom_none">{!(v.OpportunitaCollegata__r.Owner.Name)}</div>
+						</div>-->
+					</div>
+				</p>   
+    
+			</lightning:card>
+		
+		</aura:if>
+		
+		<aura:if isTrue="{!(v.workflowRecordCandidato.Stato__c eq 'INVIATA')}">
+
+			<lightning:card variant="Narrow" title="Pre Valutazione" iconName="standard:record">
+         
+				<p class="slds-p-horizontal_small">
+					<div class="slds-grid slds-wrap">
+						<div class="slds-col slds-size_4-of-4">
+							<div class="slds-m-around_small">In base all'esitazione di pre valutazione la pratica sarà chiusa con esito negativo o diversamente verrà aperta una opportunità presso la rete commerciale.</div>
+						</div>
+						<div class="slds-col slds-size_4-of-4">
+							<div class="slds-m-around_small slds-m-bottom_none">La segnalazione inviata risulta percorribile?</div>
+						</div>
+						<div class="slds-col slds-size_4-of-4">
+							<div class="slds-m-around_small"><lightning:radioGroup aura:id="inputSegnalazionePercorribileId" name="inputSegnalazionePercorribile" options="{!v.opzioniSegnalazionePercorribile}" value="{!v.valoreSegnalazionePercorribile}" type="button" onchange="{! c.handleClickSegnalazionePercorribile}"></lightning:radioGroup></div>
+						</div>         
+						<aura:if isTrue="{!v.valoreSegnalazionePercorribile eq 'NO'}">
+							<div class="slds-col slds-size_4-of-4">
+								<div class="slds-m-around_small slds-m-bottom_none">Quale è la motivazione del rifiuto?</div>
+							</div>
+							<div class="slds-col slds-size_4-of-4">
+								<div class="slds-m-around_small"><lightning:combobox aura:id="inputSegnalazioneRifiutoId" name="inputSegnalazioneRifiuto" value="{!v.workflowRecordCandidato.MotivazioneRifiutoPrevalutazione__c}" placeholder="Seleziona una motivazione" options="{! v.opzioniMotivazioniRifiuto }" onchange="{! c.handleComboMotivazioneRifiutoChange }" disabled="false"/></div>
+							</div>
+							<div class="slds-col slds-size_4-of-4">
+								<div class="slds-m-around_small"><lightning:textarea aura:id="commentoEsito" name="commentoEsito" placeholder="Scrivi un commento ..."/></div>
+							</div>
+						</aura:if>
+
+						<aura:if isTrue="{!and(not(empty(v.workflowRecordCandidato.MotivazioneRifiutoPrevalutazione__c)),v.workflowRecordCandidato.Stato__c eq 'INVIATA')}">
+							<div class="slds-col slds-size_4-of-4">
+								<div class="slds-m-around_small slds-m-bottom_none">Confermando, la segnalazione sarà chiusa con esito negativo in pre valutazione.</div>
+							</div>
+							<div class="slds-col slds-size_4-of-4">
+								<div class="slds-m-around_small"><lightning:button variant="brand" label="Conferma Pre Valutazione" title="Conferma Pre Valutazione" onclick="{! c.handleClickConfermaNegativamentePreValutazione }" disabled="false"/><lightning:button variant="destructive-text" label="Annulla" title="Annulla" onclick="{! c.handleClickAnnullaPreValutazione }" disabled="false"/></div>
+							</div>  
+						</aura:if>
+
+						<aura:if isTrue="{! (v.valoreSegnalazionePercorribile eq 'SI' &amp;&amp; v.workflowRecordCandidato.Stato__c eq 'INVIATA' &amp;&amp; v.workflowRecordCandidato.Tipo_Segnalazione__c eq 'FACTORING')}">
+							<div class="slds-col slds-size_4-of-4">
+								<div class="slds-m-around_small slds-m-bottom_none">Confermando, la segnalazione genererà una opportunità per la rete commerciale.</div>
+							</div>
+							<div class="slds-col slds-size_4-of-4">
+								<div class="slds-m-around_small"><lightning:textarea aura:id="commentoEsito" name="commentoEsito" placeholder="Scrivi un commento ..."/></div>
+							</div>
+							<div class="slds-col slds-size_4-of-4">
+								<div class="slds-m-around_small"><lightning:button variant="brand" label="Conferma Pre Valutazione" title="Conferma Pre Valutazione" onclick="{! c.handleClickConfermaPositivamentePreValutazione }" disabled="false"/><lightning:button variant="destructive-text" label="Annulla" title="Annulla" onclick="{! c.handleClickAnnullaPreValutazione }" disabled="false"/></div>
+							</div>  
+						</aura:if>
+
+						<aura:if isTrue="{!(v.valoreSegnalazionePercorribile eq 'SI' &amp;&amp; v.workflowRecordCandidato.Stato__c eq 'INVIATA' &amp;&amp; v.workflowRecordCandidato.Tipo_Segnalazione__c eq 'LEASING')}">
+							<div class="slds-col slds-size_4-of-4">
+								<div class="slds-m-around_small slds-m-bottom_none">Confermando, la segnalazione genererà una opportunità per la rete commerciale.</div>
+							</div>
+							<div class="slds-col slds-size_4-of-4">
+								<div class="slds-m-around_small"><lightning:textarea aura:id="commentoEsito" name="commentoEsito" placeholder="Scrivi un commento ..."/></div>
+							</div>
+							<div class="slds-col slds-size_4-of-4">
+								<div class="slds-m-around_small"><lightning:button variant="brand" label="Conferma Pre Valutazione" title="Conferma Pre Valutazione" onclick="{! c.handlePreValutazioneOkLeasing }" disabled="false"/><lightning:button variant="destructive-text" label="Annulla" title="Annulla" onclick="{! c.handleClickAnnullaPreValutazione }" disabled="false"/></div>
+							</div>  
+						</aura:if>
+
+					</div>
+				</p>   
+    
+			</lightning:card>
+
+		</aura:if>
+
+	</aura:if>	
+
+		<lightning:card variant="Narrow" title="Timeline" iconName="standard:date_time">
+         
+			<p class="slds-p-horizontal_small">
+
+				<ul class="slds-timeline">
+
+					<aura:iteration items="{!v.jsonParsedTimelineEvent}" var="item">
+						  <li>
+							<aura:if isTrue="{!item.decoratore eq 'DEFAULT'}">
+								<div class="slds-timeline__item_expandable slds-timeline__item_task">
+								  <span class="slds-assistive-text">Evento rilevante</span>
+								  <div class="slds-media">
+									<div class="slds-media__figure">
+										<lightning:buttonIcon iconName="utility:chevronright" variant="bare" />
+										<div class="slds-icon_container slds-icon-custom-go slds-timeline__icon" title="Disposta operazione">
+										<lightning:icon iconName="standard:task" size="small"></lightning:icon>
+										</div>
+									</div>
+									<div class="slds-media__body">
+									  <div class="slds-grid slds-grid_align-spread slds-timeline__trigger">
+										<div class="slds-grid slds-grid_vertical-align-center slds-truncate_container_75 slds-no-space">
+										  <h3 class="slds-truncate" title="{!item.descrizione}">
+											 <strong>{!item.descrizione}</strong>
+										  </h3>
+										</div>
+										<div class="slds-timeline__actions slds-timeline__actions_inline">
+										  <p class="slds-timeline__date">{!item.momento}</p>
+										</div>
+									  </div>
+									  <p class="slds-m-horizontal_xx-small">
+										Operazione innescata da <a href="javascript:void(0);">{!item.utenteOperazione}</a>
+									  </p>
+									</div>
+								  </div>
+								</div>
+							</aura:if>
+							<aura:if isTrue="{!item.decoratore eq 'SENT'}">
+								<div class="slds-timeline__item_expandable slds-timeline__item_customsent">
+								  <span class="slds-assistive-text">Evento rilevante</span>
+								  <div class="slds-media">
+									<div class="slds-media__figure">
+										<lightning:buttonIcon iconName="utility:chevronright" variant="bare" />
+										<div class="slds-icon_container slds-icon-custom-sent slds-timeline__icon" title="Pratica inviata">
+										<lightning:icon iconName="standard:proposition" size="small"></lightning:icon>
+										</div>
+									</div>
+									<div class="slds-media__body">
+									  <div class="slds-grid slds-grid_align-spread slds-timeline__trigger">
+										<div class="slds-grid slds-grid_vertical-align-center slds-truncate_container_75 slds-no-space">
+										  <h3 class="slds-truncate" title="{!item.descrizione}">
+											 <strong>{!item.descrizione}</strong>
+										  </h3>
+										</div>
+										<div class="slds-timeline__actions slds-timeline__actions_inline">
+										  <p class="slds-timeline__date">{!item.momento}</p>
+										</div>
+									  </div>
+									  <p class="slds-m-horizontal_xx-small">
+										Operazione innescata da <a href="javascript:void(0);">{!item.utenteOperazione}</a>
+									  </p>
+									</div>
+								  </div>
+								</div>
+							</aura:if>
+							<aura:if isTrue="{!item.decoratore eq 'NO_GO'}">
+								<div class="slds-timeline__item_expandable slds-timeline__item_customnogo">
+								  <span class="slds-assistive-text">Evento rilevante</span>
+								  <div class="slds-media">
+									<div class="slds-media__figure">
+										<lightning:buttonIcon iconName="utility:chevronright" variant="bare" />
+										<div class="slds-icon_container slds-icon-custom-nogo slds-timeline__icon" title="Processo concluso">
+										<lightning:icon iconName="standard:scheduling_constraint" size="small"></lightning:icon>
+										</div>
+									</div>
+									<div class="slds-media__body">
+									  <div class="slds-grid slds-grid_align-spread slds-timeline__trigger">
+										<div class="slds-grid slds-grid_vertical-align-center slds-truncate_container_75 slds-no-space">
+										  <h3 class="slds-truncate" title="{!item.descrizione}">
+											 <strong>{!item.descrizione}</strong>
+										  </h3>
+										</div>
+										<div class="slds-timeline__actions slds-timeline__actions_inline">
+										  <p class="slds-timeline__date">{!item.momento}</p>
+										</div>
+									  </div>
+									  <p class="slds-m-horizontal_xx-small">
+										Operazione innescata da <a href="javascript:void(0);">{!item.utenteOperazione}</a>
+									  </p>
+									</div>
+								  </div>
+								</div>
+							</aura:if>
+							<aura:if isTrue="{!item.decoratore eq 'GO'}">
+								<div class="slds-timeline__item_expandable slds-timeline__item_customgo">
+								  <span class="slds-assistive-text">Evento rilevante</span>
+								  <div class="slds-media">
+									<div class="slds-media__figure">
+										<lightning:buttonIcon iconName="utility:chevronright" variant="bare" />
+										<div class="slds-icon_container slds-icon-standard-task slds-timeline__icon" title="Processo concluso">
+										<lightning:icon iconName="standard:sales_path" size="small"></lightning:icon>
+										</div>
+									</div>
+									<div class="slds-media__body">
+									  <div class="slds-grid slds-grid_align-spread slds-timeline__trigger">
+										<div class="slds-grid slds-grid_vertical-align-center slds-truncate_container_75 slds-no-space">
+										  <h3 class="slds-truncate" title="{!item.descrizione}">
+											 <strong>{!item.descrizione}</strong>
+										  </h3>
+										</div>
+										<div class="slds-timeline__actions slds-timeline__actions_inline">
+										  <p class="slds-timeline__date">{!item.momento}</p>
+										</div>
+									  </div>
+									  <p class="slds-m-horizontal_xx-small">
+										Operazione innescata da <a href="javascript:void(0);">{!item.utenteOperazione}</a>
+									  </p>
+									</div>
+								  </div>
+								</div>
+							</aura:if>
+						  </li>
+					</aura:iteration>
+
+				</ul>
+
+			</p>   
+    
+		</lightning:card>
+
+    <aura:if isTrue="{!v.isInProgressCensus}">
+        
+        <!-- MODALE ELABORAZIONE IN CORSO -->
+        
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- CORPO -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    
+                    <div class="slds-scoped-notification slds-media slds-media_center slds-media_large" role="status">
+                        <div class="slds-media__figure">
+                            <span class="slds-icon_container slds-icon-utility-info" title="">
+                                <lightning:icon iconName="utility:rotate" alternativeText="Attendere prego..."/>
+                            </span>
+                        </div>
+                        <div class="slds-media__body">
+                            <p><b>{!v.message}</b></p>
+                        </div>                     
+                    </div>
+                    
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+        
+    </aura:if>
+
+</aura:component>

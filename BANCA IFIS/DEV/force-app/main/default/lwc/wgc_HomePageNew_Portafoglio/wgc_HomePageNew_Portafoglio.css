@@ -1,0 +1,178 @@
+.slds-popover__body {
+    width: 230px;
+}
+
+.circleBaseStriped {
+    background: #0064B5;
+    height: 10px;
+    width: 57%;
+    margin: auto 5.5em;
+    margin-top: 75px;
+    position: absolute;
+    z-index: 10;
+}
+.circleBaseStriped::after {
+    content: '';
+    width: 0; 
+    height: 0; 
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+    border-left: 12px solid #0064B5;
+    position: absolute;
+    right: -5px;
+    top: -14px;
+}
+
+/* CERCHI */
+
+.container {
+    position: relative;
+    height: 110px;
+}
+
+.circle {
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    bottom: 0px;
+}
+
+.circleBaseBodyTitle {
+    font-size: 10px;
+    text-align: center;
+    font-weight: bolder;
+    color: #000000;
+    text-transform: uppercase;
+    padding-top: 15px;
+}
+
+.circleBase {
+    border-radius: 50%;
+    padding: 0;
+}
+
+.circleBaseBody {
+    text-align: center;
+    font-size: 20px;
+    font-weight: bolder;
+    line-height: 56px;
+    width: 55px;
+}
+
+.circleBaseBodySub {
+    text-align: center;
+    color:#c2c2c2;
+    font-size: 12px;
+    margin-bottom: 5px;
+    margin-top: -3px;
+}
+
+.type1 {
+    color: #0064B5;
+    border: 2px solid #0064b5;
+    margin: 0 auto;
+    width: 60px;
+    height: 60px;
+    background: #FFFFFF;
+    box-shadow: 0px 0px 10px rgb(46, 46, 46, 0.2);
+    z-index: 10;
+}
+
+.type2 {
+    color: #787878;
+    border: 2px solid #787878;
+    margin: 0 auto;
+    width: 60px;
+    height: 60px;
+    background: #c2c2c2;
+    box-shadow: 0px 0px 10px rgb(46, 46, 46, 0.2);
+    z-index: 10;
+    
+}
+
+.type3 {
+    color: #648f4f;
+    border: 2px solid #648f4f;
+    margin: 0 auto;
+    width: 60px;
+    height: 60px;
+    background: #9acea6;
+    box-shadow: 0px 0px 10px rgb(46, 46, 46, 0.2);
+    z-index: 10;
+}
+
+.type4 {
+    margin: 0 auto;
+    width: 60px;
+    height: 60px;
+    background: #FFFFFF;
+    box-shadow: 0px 0px 10px rgb(46, 46, 46, 0.2);
+    z-index: 10;
+    color: #ED495B;
+    border: 2px solid #ED495B;
+}
+
+.clickable{
+    cursor: pointer;
+}
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1020px) 
+and (orientation : landscape)
+and (-webkit-min-device-pixel-ratio: 2) { 
+    /* STYLES GO HERE */
+    .circleBaseStriped {
+        width:75%;
+    }
+
+ 
+}
+  
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1020px) 
+and (orientation : portrait)
+and (-webkit-min-device-pixel-ratio: 2) { 
+    /* STYLES GO HERE */
+    .circleBaseStriped {
+        width:72%;
+    }
+}
+
+
+/* 
+  ##Device = Low Resolution Tablets, Mobiles (Landscape)
+  ##Screen = B/w 481px to 767px
+*/
+
+@media only screen 
+and (min-width: 481px) 
+and (max-width: 767px)
+and (orientation : landscape) {
+    /* STYLES GO HERE */
+    .circleBaseStriped {
+        width:75%;
+    }
+
+}
+  
+/* 
+  ##Device = Most of the Smartphones Mobiles (Portrait)
+  ##Screen = B/w 320px to 479px
+*/
+  
+@media only screen 
+and (min-width: 320px) 
+and (max-width: 480px)
+and (orientation : portrait) {
+    /* STYLES GO HERE */
+    .iphone {
+        display: none;
+    }
+
+    .circleBaseStriped {
+        width:75%;
+    }
+}

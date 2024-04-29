@@ -1,0 +1,149 @@
+.THIS {
+}
+
+.THIS .error{
+    border:2px solid red;
+    border-radius:5px;
+}
+
+.THIS .uiInput--default {
+    float:left;
+}
+
+.THIS .container-doc{
+    margin:0 -20px -20px -20px;
+}
+
+.THIS .foot{
+    background:#DFEDFE; 
+    padding: 30px 0;
+}
+
+.THIS .pr-gray{
+    background:#EFEFEF;
+}
+
+.THIS .pr-white{
+    background: white;
+}
+
+.THIS .subtitle-text{
+    color:gray;
+    text-transform:uppercase;
+}
+
+.THIS .icon{
+    background: #0064B5;
+    padding:10px;
+    border-radius:25px;
+}
+
+.THIS .icon-container{
+    display:inline;
+}
+
+.THIS .title-container{
+    display:inline; 
+    padding:0 0 0 10px;
+}
+
+.THIS .uiInput--radio input[type=radio]{
+    margin: 0 .5rem 0 0;
+    width:20px;
+    height: 20px;
+}
+
+.THIS .uiInput--default .form-element__label{
+    color: rgb(62, 62, 60);
+    font-weight: bold;
+    padding: 0 10px 10px 0;
+    font-size:medium;
+    vertical-align:super;
+    float:right;
+}
+
+.THIS .btn {
+    background-color: #00338c;
+    border-color: #00338c;
+    color: rgb(255, 255, 255);
+ }
+ 
+ .THIS .btn:hover {
+    background-color: #0064B5;
+    border-color: #0064B5;
+    color: rgb(255, 255, 255);
+ }
+
+.THIS .btn-tab-container{
+    border:2px solid #0064B5;
+    border-radius:5px;
+}
+
+.THIS .btn-tab{
+    border:none;
+    border-radius:5px;
+    color:#00338c;
+    width:100%;
+}
+
+.THIS .btn-tab:hover{
+    color:white;
+    background:#0064B5;
+}
+
+.THIS .btn-tab:focus{
+    color:white;
+    background:#0064B5;
+}
+
+.THIS .menu{
+    padding: 0px 245px;
+    color: #0064B5;
+}
+
+.THIS .question{
+    color:#0064B5;
+}
+
+.THIS .input-field-backwhite{
+    border:2px solid #0064B5;
+    background: white;
+    border-radius:5px;
+}
+
+.THIS .input-field-backgray{
+    background: white;
+    border-radius:5px;
+    border:none;
+}
+
+.THIS .label-fix .slds-form-element__label{
+    display:none;
+}
+
+.THIS .label-hidden > label {
+    display: none;
+}
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : landscape)
+and (-webkit-min-device-pixel-ratio: 2) { 
+    /* STYLES GO HERE */
+    .THIS .scrollerSize {
+        height:480px;
+    }
+
+}
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : portrait)
+and (-webkit-min-device-pixel-ratio: 2) { 
+    /* STYLES GO HERE */
+    .THIS .scrollerSize {
+        height:700px;
+    } 
+}

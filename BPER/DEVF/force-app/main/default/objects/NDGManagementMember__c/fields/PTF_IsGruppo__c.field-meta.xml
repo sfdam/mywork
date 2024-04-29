@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PTF_IsGruppo__c</fullName>
+    <externalId>false</externalId>
+    <formula>OR (
+$Profile.Name = &apos;NEC_D.1&apos;,
+$Profile.Name = &apos;NEC_D.10&apos;
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Is Gruppo</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

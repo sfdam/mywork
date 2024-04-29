@@ -1,0 +1,4 @@
+<design:component >
+  <design:attribute name="fieldSets" default="" description="Specificare i nomi API dei FieldSet da mostrare, separati da ';'. Per selezionare tutti i FieldSet, inserire '*' o lasciare vuoto il campo."/>
+  <design:attribute name="profilesAllowedToEdit" default="" description="Specificare i nomi dei profili abilitati alla modifica, separati da ';'. Per selezionare tutti i profili, inserire '*'. Per selezionare solo gli amministratori, inserire 'AdminsOnly' o lasciare vuoto il campo."/>
+</design:component>

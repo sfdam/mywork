@@ -1,0 +1,312 @@
+<template>
+    <lightning-layout class="slds-align_absolute-center">
+    <lightning-layout-item>
+        <div class="slds-scrollable_y container-scroll">
+            <!-- <template if:true={}></template> -->
+            <p class="slds-align_absolute-center slds-text-title_bold">INFORMATIVA</p>
+            <p class="slds-align_absolute-center slds-text-title_bold">ai sensi dell’Articolo 13, Regolamento (UE) 2016/679 (il “Regolamento” o “GDPR”)</p>
+            <div class="slds-text-longform slds-p-around_xx-small text-justify">
+                <p class="">
+                    Con la presente informativa i Contitolari del trattamento, come di seguito definiti, desiderano illustrarLe le finalità per cui raccolgono e trattano i Suoi dati personali, quali categorie di dati personali sono oggetto di trattamento, quali sono i diritti a Lei riconosciuti dalla normativa in materia di data protection e come possono essere esercitati
+                    <template if:true={privacy_consenso}>
+                        , nonché permetterLe, ove del caso, di prestare il Suo consenso in relazione a specifiche attività di trattamento.
+                    </template>
+                </p>
+                <ol>
+                    <li><b>CONTITOLARI DEL TRATTAMENTO</b></li>
+                    <p><b>Tinexta S.p.A.</b>, società capogruppo di un gruppo di imprese (“Gruppo”) il cui elenco è 
+                        pubblicato attraverso il sito web <a href="https://www.tinexta.com/gruppo" target="_blank">www.tinexta.com/gruppo</a>, con sede legale in Roma (RM), 
+                        Piazza Sallustio n. 9, Partita IVA n. 10654631000, in persona del suo legale rappresentante &nbsp;
+                        <i>pro tempore</i> (<b>“Tinexta”</b> o la <b>“Holding”</b>), <span style="text-decoration: underline;">unitamente a</span>
+                    </p>
+                    <p>
+                        <b>{socLabel}</b>, con sede legale in {socSedeLegale}, Codice Fiscale e Partita IVA n. {socPIVA} in persona del suo legale rappresentante <i>pro tempore</i> (<b>“{socName}”</b> o la <b>“Società”</b>)<br />
+                        sono contitolari del trattamento dei Suoi dati personali (Tinexta e {socName}, congiuntamente, i “Contitolari” e ciascuno di essi, rispettivamente, un “Contitolare”).<br />
+                        I Contitolari hanno concluso un accordo di contitolarità ai sensi dell’articolo 26, GDPR, al fine di disciplinare i reciproci ruoli e responsabilità con riferimento alla contitolarità dei dati personali dei clienti attivi e potenziali - e/o dei loro referenti - della Controllata trattati nel contesto di attività centralizzate e/o svolte in collaborazione tra quest’ultima e la Holding (“Accordo”)<br />
+                        Ne consegue che i Suoi dati personali, da Lei eventualmente forniti nel contesto del rapporto commerciale tra Lei (o l’organizzazione per la quale è referente) e la Controllata, saranno automaticamente in contitolarità con l’altro Contitolare.<br />
+                        Il contenuto essenziale dell’Accordo, previa specifica richiesta, è a Sua disposizione presso la sede di ciascun Contitolare.<br />
+                        I Contitolari sono raggiungibili ai seguenti contatti:<br />
+                        Tinexta: via email all’indirizzo <lightning-formatted-email value='info@tinexta.com' ></lightning-formatted-email>,<!-- {socLabel}, {socSedeLegale}, --> oppure via posta ordinaria a Tinexta S.p.A., Piazza Sallustio 9, 00187 – Roma (RM);<br />
+                        {socName} può essere contattata al seguente indirizzo email all’indirizzo <lightning-formatted-email value={socEmail} ></lightning-formatted-email> oppure via posta ordinaria scrivendo a {socName}, {socSedeLegale}.
+                    </p>
+
+                    <li><b>RESPONSABILE DELLA PROTEZIONE DEI DATI</b></li>	
+                    <p>I Contitolari hanno entrambi designato come proprio responsabile della protezione dei dati (<b><i>“Data Protection Officer”</i></b> o <b><i>“DPO”</i></b>) il DPO nominato a livello di Gruppo.<br />
+                        Il DPO è contattabile via PEC all’indirizzo <lightning-formatted-email value="dpo_tinexta@legalmail.it" ></lightning-formatted-email>, ovvero scrivendo a:<br />
+                        Responsabile della Protezione dei Dati<br />
+                        Tinexta S.p.A.<br />
+                        Piazza Sallustio n. 9 <br />
+                        00187 Roma (RM).</p>
+                    <li><b>DEFINIZIONE DI DATO PERSONALE E INFORMAZIONI RELATIVE ALLE ATTIVITÀ DI TRATTAMENTO</b></li>
+                    <p>Ai sensi del GDPR, per dato personale si intende: <i>“qualsiasi informazione riguardante una persona fisica identificata o identificabile; 
+                        si considera identificabile la persona fisica che può essere identificata, direttamente o indirettamente, 
+                        con particolare riferimento a un identificativo come il nome, un numero di identificazione, dati relativi 
+                        all’ubicazione, un identificativo online o a uno o più elementi caratteristici della sua identità fisica, 
+                        fisiologica, genetica, psichica, economica, culturale o sociale”</i>(i <b>“Dati”</b>).<br />
+                        Nel contesto delle attività connesse all’instaurazione e alla successiva gestione del rapporto contrattuale con Lei/con l’organizzazione della quale è referente, 
+                        i Contitolari raccolgono e trattano le seguenti categorie di Dati:
+                    </p>
+                    <ol type="I">
+                        <li>dati anagrafici e identificativi (e.g., nome, cognome, codice fiscale, partita IVA);</li>
+                        <li>dati di contatto, quali indirizzo di residenza o domicilio, indirizzo di posta elettronica, numero di telefono;</li>
+                        <li>azienda/studio, settore, ruolo lavorativo, funzione;</li>
+                        <li>coordinate bancarie (e.g., codice IBAN, numero carta di credito, etc.), altre informazioni necessarie per finalità di pagamento e/o fatturazione;</li>
+                        <li>in generale, ogni altra informazione necessaria per l’instaurazione e successiva esecuzione del contratto o per attività a ciò accessorie o funzionali, incluse quelle raccolte nel contesto di eventuali controlli sul merito creditizio e per la prevenzione di frodi.</li>
+                    </ol>
+
+                    <p>In linea generale, il conferimento dei Suoi Dati è del tutto volontario; l'eventuale rifiuto di fornire le informazioni 
+                        indicate potrebbe impedire ai Contitolari di dare seguito alle Sue richieste, ostacolando, a seconda dei casi, 
+                        l’instaurazione o la successiva gestione del rapporto contrattuale con Lei o con l'organizzazione della quale è referente.<br />
+                        In ogni caso, i Contitolari si impegnano ad assicurare che le informazioni raccolte e utilizzate siano adeguate, pertinenti e limitate 
+                        a quanto strettamente necessario per il raggiungimento delle finalità di seguito indicate, e che ciò non determini una limitazione o altra violazione
+                        dei Suoi diritti e delle Sue libertà quali interessato.
+                    </p>
+                    <li><b>FINALITÀ DEL TRATTAMENTO E RELATIVA BASE GIURIDICA</b></li>
+                    <ol type="a">
+                        <li><b>Svolgimento di ordinari controlli preventivi all’instaurazione del rapporto contrattuale</b></li>
+                        <p>	
+                            La Controllata o, se del caso, Tinexta potrebbero raccogliere e trattare i Suoi Dati per l’espletamento di ordinarie 
+                            attività precontrattuali connesse e strumentali all’instaurazione del rapporto contrattuale, quali, 
+                            a titolo esemplificativo, verifiche del merito creditizio, delle solvibilità, e/o dell'affidabilità<br />
+                            Qualora effettuato, il trattamento sarà fondato sulla condizione di liceità di cui all’articolo 6, paragrafo 1, 
+                            lettera f), GDPR, ossia sul legittimo interesse dei Contitolari a valutare l’affidabilità della propria 
+                            controparte contrattuale e di suoi eventuali referenti, e a prevenire il rischio di possibili frodi.
+                        </p>    
+                        <li><b>Instaurazione e gestione del rapporto contrattuale</b></li>
+                        <p>
+                            I Contitolari tratteranno i Dati al fine di dare seguito alle Sue richieste e nel contesto delle attività necessarie, 
+                            funzionali e connesse all’instaurazione e alla successiva amministrazione del rapporto contrattuale, 
+                            tra cui la creazione della anagrafica a sistema, lo scambio di comunicazioni relative al rapporto contrattuale, 
+                            la fornitura del servizio/prodotto da Lei acquistato o 
+                            ordinato, l’invio di fatture, la riscossione delle somme dovute, le attività di assistenza tecnica o di <i>customer 
+                            care</i> in genere, etc.<br />
+                            I Contitolari, per raggiungere tali finalità, trattano i Suoi Dati sulla base della condizione di liceità di cui 
+                            all’articolo 6, paragrafo 1, lettera b), GDPR, essendo il trattamento necessario all’esecuzione di un contratto di cui 
+                            Lei, o l'organizzazione di cui è referente, è parte o all’esecuzione di misure precontrattuali adottate a Sua richiesta.
+                        </p>
+                        <li><b>Adempimento di un obbligo di legge</b></li>
+                        <p>
+                            I Contitolari potrebbero effettuare il trattamento dei Suoi Dati qualora ciò fosse necessario in relazione all’adempimento 
+                            di obblighi di legge sugli stessi gravanti (tra cui, ad esempio, quelli previsti dalla normativa in materia di 
+                            antiriciclaggio).<br />
+                            Qualora necessario, il trattamento sarà fondato sulla condizione di liceità di cui all’articolo 6, paragrafo 1, lettera c), GDPR.    
+                        </p>
+                        <li><b>Difesa dei proprio diritti</b></li>
+                        <p>
+                            I Contitolari potrebbero trattare i Suoi Dati per far valer e difendere i propri diritti.<br />
+                            Qualora necessario, il trattamento sarà fondato sulla condizione di liceità di cui all’articolo 6, paragrafo 1, lettera f), GDPR.
+                        </p>
+                        <li><b><i>Customer satisfaction</i> e marketing “diretto” su prodotti e servizi analoghi</b></li>
+                        <p>
+                            I Contitolari potrebbero trattare i Dati per inviarLe comunicazioni via e-mail o contattarLa mediante telefonate con operatore 
+                            per comprendere la Sua opinione in merito a un particolare servizio, acquisto o ordine, al fine di migliorare in futuro i servizi dei Contitolari e, 
+                            in genere, la <i>customer experience</i>.<br />
+                            Ciascun Contitolare potrebbe inoltre trattare i Dati per contattarLa via email o mediante telefonate con operatore al fine di inviarLe 
+                            (i) comunicazioni commerciali o promozionali relative a prodotti e/o servizi, propri o di altre società del Gruppo, che siano simili o analoghi     
+                            a quelli da Lei già acquistati o ordinati in precedenza o verso i quali ha precedentemente mostrato interesse, e/o (ii) inviti a partecipare 
+                            ad iniziative, eventi, workshop, corsi, seminari e tavole rotonde eventualmente organizzati dalla Controllata e/o Tinexta o altre società 
+                            del Gruppo, anche in collaborazione con soggetti terzi, relativi a tematiche inerenti ai prodotti e/o servizi da Lei acquistati o ordinati 
+                            o verso i quali ha precedentemente mostrato interesse. <br />
+                            Al riguardo, teniamo ad informarLa che per inviarLe offerte relative a prodotti e servizi che potrebbero essere di Suo interesse e/o di utilità 
+                            per l’organizzazione della quale è referente e invitarLa a prendere parte a iniziative che potrebbero esserLe gradite, 
+                            i Contitolari potrebbero tenere in considerazione alcune caratteristiche Sue e/o dell’organizzazione della quale è referente, 
+                            come risultano dai precedenti acquisti o ordini e, in genere, dal rapporto contrattuale in essere con la Controllata o con entrambi i Contitolari. 
+                            Ciò, tuttavia, non avrà conseguenze sui Suoi diritti e sulle Sue libertà quale interessato, atteso che Lei avrà comunque la possibilità 
+                            di accedere a tutti i prodotti/servizi offerti dai Contitolari o dalle altre società del Gruppo e che, inoltre, 
+                            non sono e non saranno previste restrizioni sulla base delle preferenze manifestate dagli interessati. <br />
+                            L’eventuale trattamento sarà svolto sulla condizione di liceità di cui all’articolo 6, paragrafo 1, lettera f), GDPR, 
+                            ossia sul legittimo interesse dei Contitolari, nel rispetto dei principi del GDPR. <br />
+                            A questo proposito, i Contitolari tengono a precisare che Lei potrà in ogni tempo e gratuitamente esercitare il diritto di opporsi 
+                            alla ricezione di ulteriori di comunicazioni di marketing diretto e/o di <i>customer satisfaction</i>, a seconda dei casi, 
+                            seguendo le istruzioni presenti in calce a ciascun messaggio o manifestando la Sua volontà di opporsi direttamente all’operatore 
+                            durante la chiamata, ovvero, in alternativa, con le modalità di cui al successivo paragrafo 8. 
+                        </p>
+                        <li><b>Marketing su tutti i prodotti e servizi dei Contitolari e/o del Gruppo</b></li>
+                        <p>
+                            Qualora avesse prestato il Suo consenso, ciascun Contitolare potrà trattare i Dati per contattarLa telefonicamente e/o per inviarLe comunicazioni 
+                            commerciali e/o promozionali inerenti a tutti i prodotti o servizi (anche non simili a quelli già acquistati o verso i quali ha mostrato interesse) 
+                            dei Contitolari e/o delle altre società del Gruppo, nonché per invitarLa a partecipare a eventi, manifestazioni, seminari, <i>etc.</i>, 
+                            organizzati da quest’ultimi, anche in collaborazione con soggetti terzi, su varie tematiche. <br />
+                            Il trattamento dei Dati a tal fine sarà possibile unicamente laddove avesse prestato il Suo consenso, 
+                            costituendone esso la condizione di liceità ai sensi dell’articolo 6, paragrafo 1, lettera a), GDPR. <br />
+                            A questo proposito, i Contitolari La informano che ha diritto di revocare il consenso precedentemente espresso e di modificare le Sue preferenze, 
+                            gratuitamente e in qualsiasi momento, a seconda dei casi, seguendo il link e/o le istruzioni disponibili in calce a ciascuna delle comunicazioni 
+                            di marketing eventualmente ricevute o manifestando la Sua volontà di revocare il consenso direttamente all’operatore durante la chiamata, ovvero, 
+                            in alternativa, contattando i Contitolari con le modalità di cui al successivo paragrafo 8.
+                            <!-- SM - TODO - CAPIRE SE é DA TENERE O MENO -->
+                            <!-- <template if:true={privacy_consenso}>
+                                <br />In aggiunta, qualora Lei avesse prestato il Suo consenso, ciascun Contitolare potrà trattare i Dati di cui sopra per inviarLe comunicazioni commerciali 
+                                e/o promozionali inerenti a tutti i prodotti o servizi dei Contitolari, delle altre società del Gruppo e/o di terze parti, 
+                                nonché per invitarLa a partecipare a eventi, manifestazioni, seminari, etc., organizzati da quest’ultimi (<b>“Marketing indiretto”</b>).<br />
+                                Il trattamento dei Suoi Dati a tal fine sarà possibile unicamente laddove Lei avesse prestato il Suo consenso, 
+                                costituendone esso la condizione di liceità. A questo proposito, La informiamo che Lei ha diritto di revocare il consenso 
+                                precedentemente espresso, gratuitamente e in qualsiasi momento, mediante il link disponibile in calce a tutte le comunicazioni di Marketing 
+                                indiretto da Lei eventualmente ricevute o contattando uno dei Contitolari con le modalità indicate al successivo paragrafo 9.
+                            </template> -->
+                        </p>
+                        <li><b>Condivisione dei Dati con altre società del Gruppo per loro finalità commerciali</b></li>
+                        <p>
+                            Qualora avesse prestato il Suo consenso, i Contitolari potrebbero comunicare i Suoi Dati ad altre società facenti parte del Gruppo che, 
+                            a loro volta, li utilizzeranno per proprie finalità commerciali sulla scorta dell’informativa ex articolo 14, GDPR che sarà resa 
+                            di volta in volta da ciascuno di essi. <br />
+                            La condivisione dei Dati con altre società del Gruppo sarà possibile unicamente laddove avesse prestato il Suo apposito consenso, 
+                            costituendone esso la condizione di liceità del relativo trattamento ai sensi dell’articolo 6, paragrafo 1, lettera a), GDPR. <br />
+                            Potrà revocare il consenso alla condivisione altre società del Gruppo, gratuitamente e in qualsiasi momento, contattando i Contitolari 
+                            con le modalità di cui al successivo paragrafo 8. In tal caso, dal momento della revoca del consenso, i Contitolari interromperanno 
+                            l’ulteriore condivisione dei dati con altre società del Gruppo. Ove volesse interrompere la ricezione di comunicazioni commerciali da parte 
+                            di società del Gruppo diverse dai Contitolari che avessero ricevuto i Dati prima dell’esercizio del diritto di revoca del consenso, 
+                            La preghiamo di fare riferimento all’informativa fornitaLe in sede di contatto da ciascuno dei mittenti di tali comunicazioni commerciali. <br />
+                        </p>
+                        <li><b>Esecuzione di analisi statistiche</b></li>
+                        <p>
+                            I Contitolari potrebbero trattare i Suoi Dati nello svolgimento di analisi di mercato e/o relative alle 
+                            proprie vendite.<br />
+                            In tale contesto, le informazioni sono generalmente conservate in modo anonimizzato e trattate in forma
+                            aggregato. Solitamente, pertanto, tali analisi non implicano un trattamento di Dati, intesi come informazioni
+                            a Lei direttamente o indirettamente riconducibili, ulteriore rispetto alle attività tecniche connesse alla loro anonimizzazione.<br />
+                            Qualora invece le analisi statistiche in questione comportassero un trattamento di Dati, saranno implementate delle misure adeguate 
+                            (quali, a titolo esemplificativo, la pseudonimizzazione). L’eventuale trattamento sarà effettuato ai sensi dell’articolo 6, paragrafo 1, 
+                            lettera f), GDPR, sulla base del legittimo interesse dei Contitolari a porre in essere attività di studio funzionali a meglio comprendere 
+                            l’andamento del proprio business e del mercato.
+                        </p>
+                        <li><b>Attività connesse allo svolgimento di operazioni societarie</b></li>
+                        <p>
+                            I Contitolari potrebbero trattare i Dati nel contesto di attività connesse a cessioni di azienda e di ramo d’azienda, acquisizioni, fusioni, 
+                            scissioni o altre trasformazioni organizzative e per l’esecuzione di tali operazioni. <br />
+                            L’eventuale trattamento sarà fondato sulla condizione di liceità di cui all’articolo 6, paragrafo 1, lettera f), GDPR, ossia sul legittimo 
+                            interesse dei Contitolari a porre in essere tali attività quali espressione della propria libertà di iniziativa economica
+                        </p>
+                    </ol>
+                    <li><b>COMUNICAZIONE DEI DATI A TERZE PARTI SITUATE NEL TERRITORIO DELLO SPAZIO ECONOMICO EUROPEO</b></li>
+                    <p>
+                        I Contitolari potranno comunicare i Dati a terze parti che forniscono loro servizi necessari, funzionali 
+                        o comunque connessi alle finalità poc’anzi menzionate.<br />
+                        In particolare, i Suoi Dati potrebbero essere comunicati a soggetti (<i>e.g.</i>, società, associazioni, enti, liberi 
+                        professionisti) che collaborano con i Contitolari nell’ambito delle attività necessarie alla commercializzazione, 
+                        distribuzione e promozione dei propri prodotti o servizi, tra cui, ad esempio, <i>providers</i> di servizi tecnologici, 
+                        agenzie di marketing e/o comunicazione, consulenti esterni, che effettueranno il trattamento in qualità di responsabili 
+                        del trattamento. L’elenco aggiornato dei responsabili del trattamento è mantenuto dai Contitolari ed è disponibile previa richiesta.<br />
+                        Ciascun Contitolare, inoltre, potrebbe comunicare i Suoi Dati a soggetti terzi a cui la comunicazione sia dovuta in forza 
+                        di obblighi di legge, a Pubbliche Amministrazioni, altre organizzazioni stabilite all’interno dello Spazio 
+                        economico europeo, provider di informazioni commerciali, consulenti legali, società di audit, nonché a istituti di credito o 
+                        di moneta elettronica con cui i Contitolari collaborano. 
+                        Tali soggetti tratteranno i Suoi Dati in qualità di autonomi titolari.
+                        <template if:true={privacy_consenso}>
+                            <br />Da ultimo, come sopra anticipato, qualora avesse prestato il Suo consenso in tal senso, i Suoi Dati potranno essere comunicati ad 
+                            altre società del Gruppo, che, in qualità di titolari autonomi, li tratteranno - sulla scorta di separate informative che saranno dagli 
+                            stessi rese - per inviarLe proprie comunicazioni commerciali o promozionali. <br />
+                            I Dati non saranno oggetto di diffusione.
+                        </template>
+                    </p>
+                    <li><b>TRASFERIMENTO DI DATI FUORI DALLO SPAZIO ECONOMICO EUROPEO</b></li>
+                    <p>
+                        In linea di principio, i Contitolari si impegnano a trattare e conservare i Dati su server ubicati all’interno dell’Unione Europea. <br />
+                        Fermo restando ciò, per il raggiungimento delle finalità di cui sopra, i Dati potrebbero essere trasferiti a soggetti stabiliti in paesi non 
+                        appartenenti allo Spazio economico europeo, che offrono ai Contitolari servizi connessi alle attività di trattamento effettuate 
+                        (<i>e.g.</i>, provider di servizi tecnologici, cloud, CRM, etc.). <br />
+                        Tale trasferimento, ove ricorra il caso, avverrà nel rispetto delle condizioni previste dal GDPR e sarà disciplinato, a seconda dei destinatari, 
+                        mediante il ricorso a clausole contrattuali <i>standard</i> adottate dalla Commissione europea o, in alternativa, sulla base di una decisione di adeguatezza 
+                        della Commissione e/o di ogni altro strumento consentito dalla normativa di riferimento. <br />
+                        Potrà ottenere maggiori informazioni sul luogo in cui i Suoi Dati sono stati, se del caso, trasferiti, 
+                        scrivendo agli indirizzi di cui sopra.
+                    </p>
+                    <li><b>PERIODO DI CONSERVAZIONE</b></li>
+                    <p>
+                        I Contitolari tratteranno i Suoi Dati per il tempo strettamente necessario al raggiungimento delle finalità 
+                        indicate e descritte.<br />
+                        In particolare, a seconda delle finalità di trattamento, i periodi di conservazione previsti sono i seguenti:<br />
+                    </p>
+                    <ol type="i">
+                        <li><u>Svolgimento di ordinari controlli preventivi</u>: i Dati saranno trattati per il solo tempo necessario all’esecuzione delle verifiche; in caso i controlli avessero esito negativo, i Dati saranno conservati 11 anni dalla data del completamento dei controlli; </li>
+                        <li><u>Instaurazione e gestione del rapporto contrattuale / Adempimento di un obbligo di legge / Difesa dei propri diritti / Attività connesse allo svolgimento di operazioni societarie</u>: i Dati saranno trattati durante le fasi di negoziazione preliminare e per l’intera durata del rapporto contrattuale/commerciale e saranno conservati per l’ulteriore periodo di 11 anni decorrente dalla data di cessazione dello stesso, esclusivamente per finalità connesse all’adempimento di obblighi di legge o alla difesa di diritti di uno o entrambi i Contitolari in sede giudiziaria;</li>
+                        <li><u><i>Customer satisfaction</i> e/o marketing diretto / Marketing su tutti i prodotti e servizi / Condivisione dei Dati per finalità commerciali</u>: i Suoi Dati saranno trattati, a seconda dei casi, durante lo svolgimento del rapporto contrattuale (o, se del caso, delle attività preliminari all’instaurazione di un rapporto commerciale), ovvero per il tempo necessario a dare compiutamente seguito a una Sua richiesta e, successivamente, per un massimo di 24 mesi, a seconda dei casi, dall’ultimo acquisto o ordine da Lei effettuato, dalla scadenza/risoluzione del contratto, dall’interruzione delle trattative negoziali preliminari all’eventuale sottoscrizione di un accordo commerciale, oppure dalla Sua ultima manifestazione di interesse o dall’avvenuta gestione dell’ultima richiesta da Lei formulata; in ogni caso, resta salvo il Suo diritto, a seconda dei casi, di opposizione al trattamento oppure di revoca del consenso, il cui esercizio preclude l’ulteriore trattamento dei Dati per finalità, rispettivamente, di <i>customer satisfaction</i> e/o marketing diretto, o di marketing su tutti i prodotti e servizi e/o condivisione dei Dati per finalità commerciali;</li>
+                        <li><u>Esecuzione di analisi statistiche</u>: durante l’arco temporale per il quale sono conservati per le finalità di cui al precedente punto ii, i Dati potrebbero essere trattati per l’esecuzione di analisi statistiche. Considerato che tali studi sono di norma eseguiti su informazioni anonimizzate e/o aggregate, i Dati saranno di norma trattati solo per il tempo strettamente necessario al completamento delle attività di anonimizzazione. Nel caso remoto in cui gli studi fossero condotti su informazioni non anonimizzate a Lei direttamente/indirettamente riconducibili, i Dati saranno trattati per il tempo strettamente necessario al completamento delle analisi statistiche di volta in volta effettuate.</li>
+                    </ol>
+                    <li><b>DIRITTI DELL’INTERESSATO</b></li>
+                    <p>
+                        Durante il periodo in cui i Contitolari sono in possesso o effettuano il trattamento dei Suoi Dati, Lei, in qualità di Interessato, 
+                        può in qualsiasi momento esercitare i seguenti diritti:<br />
+                    </p>
+                    <ul>
+                        <li><u>Diritto di accesso</u> – Lei ha il diritto di ottenere la conferma circa l’esistenza o meno di un trattamento concernente i Suoi Dati, e, se del caso, il diritto di ricevere ogni informazione relativa al medesimo trattamento;</li>
+                        <li><u>Diritto alla rettifica</u> – Lei ha il diritto di ottenere la rettifica dei Suoi Dati in nostro possesso, qualora gli stessi siano incompleti o inesatti;</li>
+                        <li><u>Diritto alla cancellazione</u> – in talune circostanze, Lei ha il diritto di ottenere la cancellazione dei Suoi Dati presenti all’interno dei nostri archivi qualora non rilevanti ai fini della prosecuzione del rapporto contrattuale o necessari per adempiere un obbligo di legge a cui sono soggetti i Contitolari o per l’accertamento, l’esercizio o la difesa di un loro diritto in sede giudiziaria;</li>
+                        <li><u>Diritto alla limitazione del trattamento</u> – al verificarsi di talune condizioni, Lei ha il diritto di ottenere la limitazione del trattamento concernente i Suoi Dati;</li>
+                        <li><u>Diritto alla portabilità</u> – al verificarsi di determinate circostanza, Lei ha il diritto di ricevere i dati personali che La riguardano e ha il diritto di trasmetterli a un altro titolare;</li>
+                        <li><u>Diritto di opposizione</u> – Lei ha il diritto di opporsi, in qualsiasi momento per motivi connessi alla sua situazione particolare, al trattamento dei Dati che La riguardano basati sulla condizione di liceità del legittimo interesse o dell’esecuzione di un compito di interesse pubblico o dell’esercizio di pubblici poteri, compresa la profilazione, salvo sussistano motivi legittimi per i Contitolari per continuare il trattamento che prevalgano sugli interessi, sui diritti e sulle libertà dell’interessato oppure per l’accertamento, l’esercizio o la difesa di un diritto in sede giudiziaria;</li>
+                        <li><u>Diritto di revoca del consenso</u> – Lei ha il diritto di revocare il consenso al trattamento dei Suoi Dati in qualsiasi momento, restando ferma la liceità del trattamento basato sul consenso precedente della revoca;</li>
+                        <li><u>Diritto di proporre reclamo all’Autorità di controllo</u> – nel caso in cui i Contitolari rifiutassero di soddisfare le Sue richieste di accesso, verranno fornite le ragioni del relativo rifiuto. Se del caso, Lei ha il diritto di proporre reclamo così come descritto nel seguente paragrafo.</li>
+                    </ul>
+                    <p>
+                        I diritti di cui sopra potranno essere esercitati nei confronti dei Contitolari scrivendo agli indirizzi di 
+                        cui al §1 o contattando il DPO dei Contitolari ai recapiti indicati in precedenza al §2. <br />
+                        L’esercizio dei Suoi diritti in qualità di interessato è gratuito ai sensi e nei limiti di cui all’articolo 12, 
+                        GDPR.
+                    </p>
+                    <li><b>RECLAMI</b></li>
+                    <p>
+                        Qualora desiderasse proporre un reclamo in merito alle modalità con cui i Suoi Dati sono trattati dai 
+                        Contitolari, ovvero in merito alla gestione di una richiesta da Lei proposta, Lei ha il diritto di 
+                        presentare un’istanza direttamente all’Autorità di controllo.
+                    </p>
+                    <li><b>DISPOSIZIONI FINALI</b></li>
+                    <p>
+                        I Contitolari si riservano il diritto di modificare e/o aggiornare la presente informativa anche sulla 
+                        base delle evoluzioni legislative e regolamentari della normativa applicabile in materia di protezione 
+                        dei dati personali, nonché a fronte di eventuali interventi delle competenti Autorità. <br />
+                        La versione aggiornata dell’informativa sarà sempre pubblicata sul sito internet di ciascun 
+                        Contitolare / della Controllata.
+                    </p>
+                </ol>
+            </div>
+        </div>
+    </lightning-layout-item>
+</lightning-layout>
+<lightning-layout>
+    <lightning-layout-item size="12">
+        <div style="margin: 0 5% 0 5%;">
+            <p>L’interessato, <b>DICHIARA</b> di aver letto e compreso l’informativa privacy rilasciata da {socName} <!-- Innolva S.p.A. --> e dal contitolare Tinexta S.p.A., ai sensi dell’articolo 13 GDPR, sopra riportata. Inoltre</p>
+        </div>
+    </lightning-layout-item>
+</lightning-layout>    
+<template if:true={privacy_consenso}>
+    <lightning-layout class="slds-align_absolute-center">
+        <lightning-layout-item>
+            <div class="slds-m-top_medium container-check">
+                
+                <label style="display: inline;" class="slds-form-element__label"> ACCONSENTE/NON ACCONSENTE al trattamento dei Dati in relazione all’invio da parte dei Contitolari di comunicazioni commerciali e/o promozionali relative a prodotti/servizi propri o di altre società del Gruppo Tinexta non analoghi a quelli già acquistati o verso i quali è stato manifestato interesse; </label>
+                <div class="slds-m-bottom_medium lgc-bg">
+                    <lightning-layout>
+                        <lightning-layout-item flexibility="auto" class="slds-align_absolute-center">
+                            <input type="checkbox" disabled data-item="authorize1_true" id="terms1_true" name="authorize1_true" ></input>
+                            <label for="terms1_true" style="display: inline;" class="slds-form-element__label"> ACCONSENTE</label>
+                            </lightning-layout-item>
+                        <lightning-layout-item flexibility="auto" class="slds-align_absolute-center">
+                            <input type="checkbox" disabled data-item="authorize1_false" id="terms1_false" name="authorize1_false" ></input>
+                            <label for="terms1_false" style="display: inline;" class="slds-form-element__label"> NON ACCONSENTE</label>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+
+                <label style="display: inline;" class="slds-form-element__label"> ACCONSENTE/NON ACCONSENTE alla comunicazione e/o alla cessione dei Dati ad altre società del Gruppo Tinexta che li utilizzeranno per proprie finalità commerciali in qualità di autonomi titolari.</label>
+                <div class="slds-m-bottom_medium lgc-bg">
+                    <lightning-layout>
+                        <lightning-layout-item flexibility="auto" class="slds-align_absolute-center">
+                            <input type="checkbox" disabled data-item="authorize2_true" id="terms2_true" name="authorize2_true" ></input>
+                            <label for="terms2_true" style="display: inline;" class="slds-form-element__label"> ACCONSENTE</label>
+                            </lightning-layout-item>
+                        <lightning-layout-item flexibility="auto" class="slds-align_absolute-center">
+                            <input type="checkbox" disabled data-item="authorize2_false" id="terms2_false" name="authorize2_false" ></input>
+                            <label for="terms2_false" style="display: inline;" class="slds-form-element__label"> NON ACCONSENTE</label>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+
+                <div class="slds-m-bottom_medium lgc-bg">
+                    <p class="slds-form-element__label">Il consenso prestato potrà essere revocato in qualsiasi momento contattando i Contitolari.</p>
+                </div>
+            </div>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>
+</template>

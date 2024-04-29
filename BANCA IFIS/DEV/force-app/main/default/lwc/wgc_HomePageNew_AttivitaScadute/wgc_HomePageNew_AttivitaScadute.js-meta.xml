@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>48.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__HomePage</target>
+        <target>lightning__AppPage</target>
+        <target>lightning__RecordPage</target>
+    </targets>
+
+    <targetConfigs>
+        <targetConfig targets="lightning__HomePage,lightning__AppPage,lightning__RecordPage">
+            <property name="title" type="String" label="Titolo" default="Attività Scadute" description="Definisci il titolo del componente"/>
+            <property name="iconName" type="String" label="Icona" default="" description="Definisci l'icona"/>
+            <property name="PromemoriaReportId" type="String" label="Id report Promemoria persi" description="Inserire l'id del report per i promemoria"/>
+            <property name="ContattiReportId" type="String" label="Id report Contatti persi" description="Inserire l'id del report per i contatti"/>
+            <property name="VisiteReportId" type="String" label="Id report Opp visite perse" description="Inserire l'id del report per le visite"/>
+            <property name="vediTutteReportId" type="String" label="Id report vedi tutte le Att scadute" description="Inserisci l'id del report per il bottone vedi tutte"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

@@ -1,0 +1,31 @@
+.THIS.slds-card .slds-card__header.slds-grid{
+    display:none;
+}
+
+.THIS .slds-card__body {
+    height: 110px;
+    margin: 0 !important;
+}
+
+.THIS .content-title{
+    font-size: 11px;
+    font-weight: bold;
+    padding: 5px;
+    text-align: center;
+    color: #021f59;
+    letter-spacing: -1px;
+    word-spacing: 0px;
+    line-height: 14px;
+    text-transform: uppercase;
+}
+
+.THIS .badge{
+    /*background-color:#4891E6;*/
+    margin-left: 25px;
+    margin-bottom: -20px;
+    z-index: 1;
+    /* padding:4px 7px; */
+    border-radius:50%;
+    background-color:#4891E6;
+    color: #ffffff;
+ }

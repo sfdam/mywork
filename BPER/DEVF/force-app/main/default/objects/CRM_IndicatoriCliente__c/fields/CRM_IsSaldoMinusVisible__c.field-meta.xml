@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_IsSaldoMinusVisible__c</fullName>
+    <externalId>false</externalId>
+    <formula>OR (
+				ISBLANK(CRM_SaldoMinusAnno1__c) = false,
+				ISBLANK(CRM_SaldoMinusAnno2__c) = false,
+				ISBLANK(CRM_SaldoMinusAnno3__c) = false,
+    ISBLANK(CRM_SaldoMinusAnno4__c) = false,
+				ISBLANK(CRM_SaldoMinusAnno5__c) = false
+)</formula>
+    <label>Is Saldo Minusvalenze visible</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

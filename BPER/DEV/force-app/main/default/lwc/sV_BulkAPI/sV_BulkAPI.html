@@ -1,0 +1,54 @@
+<template>
+    <template if:false={loaded}>
+        <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+    </template>
+    <lightning-card icon-name="custom:custom19" title="BULK API V2">
+        <lightning-combobox
+            name="progress"
+            label="Options"
+            value={value}
+            placeholder="Select Option"
+            options={options}
+            onchange={handleChange} ></lightning-combobox>
+        </lightning-card>
+
+        <template if:true={optionsCreateJobQuery}>
+            <lightning-layout multiple-rows="true">
+                <lightning-layout-item padding="around-small" size="10">
+                    <lightning-textarea label="Enter your query" onchange={handleInputChange}></lightning-textarea>
+                </lightning-layout-item>
+                <lightning-layout-item flexibility="auto" padding="around-small" size="2">
+                    <lightning-button label="Neutral" title="Non-primary action" onclick={handleClick} class="slds-m-left_x-small"></lightning-button>
+                </lightning-layout-item>
+            </lightning-layout>
+        </template>
+
+        <template if:true={optionsGetJobInfoQuerygress}>
+            optionsGetJobInfoQuerygress
+        </template>
+
+        <template if:true={optionsAbortJobQuery}>
+            optionsAbortJobQuery
+        </template>
+
+        <template if:true={optionsGetJobQueryResult}>
+            <lightning-layout multiple-rows="true">
+                <lightning-layout-item padding="around-small" size="3">
+                    <lightning-input type="text" label="Job Id" onchange={handleInputGetJobQueryResultJobIdChange}></lightning-input>
+                </lightning-layout-item>
+                <lightning-layout-item padding="around-small" size="3">
+                    <lightning-input type="text" label="maxRecords" onchange={handleInputGetJobQueryResultMaxRecordsChange} value={maxRecords}></lightning-input>
+                </lightning-layout-item>
+                <lightning-layout-item padding="around-small" size="3">
+                    <lightning-input type="text" value={locator} label="locator" onchange={handleInputChange} disabled></lightning-input>
+                </lightning-layout-item>
+                <lightning-layout-item flexibility="auto" padding="around-small" size="3">
+                    <lightning-button label="Neutral" title="Non-primary action" onclick={handleClickGetJobQueryResult} class="slds-m-left_x-small" disabled={disableButtonGetJobQueryResult}></lightning-button>
+                </lightning-layout-item>
+            </lightning-layout>
+        </template>
+
+        <template if:true={optionsCreateCRUDJob}>
+            optionsCreateCRUDJob
+        </template>
+</template>

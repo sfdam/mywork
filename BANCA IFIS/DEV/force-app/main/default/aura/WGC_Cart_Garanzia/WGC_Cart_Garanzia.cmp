@@ -1,0 +1,92 @@
+<aura:component access="global">
+    <!-- ATTRIBUTES -->
+        <!-- INHERITED FROM PARENT -->
+        <aura:attribute name="type" type="String" default="garanzia"/>
+        <aura:attribute name="isFake" type="Boolean" default="false"/>
+        <aura:attribute name="disableAdd" type="Boolean" default="false"/>
+        <aura:attribute name="item" type="Object"/>
+        <aura:attribute name="matriceGaranzie" type="Object[]"/>
+        <aura:attribute name="garanzieDivise" type="Object[]"/>
+        <aura:attribute name="selected" type="Boolean"/>
+        <aura:attribute name="readOnly" type="Boolean" default="false"/>
+        <!-- PRIVATE -->
+        <aura:attribute name="subtitle" type="String" default=""/>
+        <aura:attribute name="title" type="String" default=""/>
+        <aura:attribute name="needCointestazione" type="Boolean" default="false"/>
+
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    <aura:handler name="change" value="{! v.matriceGaranzie }" action="{! c.onChangeMatrice }"/>
+    
+    <!-- REGISTER EVENT -->
+    <aura:registerEvent name="garanEvent" type="c:WGC_GaranEvent"/>
+    <!-- TODO: da gestire il click sulla garanzia -->
+    
+    <lightning:layout class="{! 'cstm-garan-wrapper' + ( v.isFake ? ' fake' : ' slds-m-top_large' ) + ( v.selected ? ' selected' : '' ) }">
+        
+        <lightning:layoutItem size="2" padding="around-large">
+            <lightning:icon iconName="{! v.type == 'garanzia' ? 'utility:file' : 'utility:user' }"/>
+        </lightning:layoutItem>
+
+        <lightning:layoutItem size="10" padding="around-large">
+            <aura:if isTrue="{! v.isFake }">
+                <lightning:layout>
+                    <lightning:layoutItem size="6">
+                        <h2 class="cstm-garan-title">Aggiungi <b>{! v.type }</b></h2>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="6" class="slds-text-align_right">
+                        <aura:if isTrue="{! !v.readOnly }">
+                            <aura:if isTrue="{! v.type == 'garanzia' }">
+                                <lightning:button label="Aggiungi" class="cstm-btn-round" variant="brand" onclick="{! c.addNew }" disabled="{! v.disableAdd }"/>
+                                <aura:set attribute="else">
+                                    <aura:if isTrue="{! v.needCointestazione }">
+                                        <lightning:buttonGroup>
+                                            <lightning:button label="Agg. Coint. (PF)" class="cstm-btn-round" variant="brand" onclick="{! c.addNewCointPF }" disabled="{! v.disableAdd }"/>
+                                            <lightning:button label="Agg. Coint. (PG)" class="cstm-btn-round" variant="brand" onclick="{! c.addNewCointPG }" disabled="{! v.disableAdd }"/>
+                                        </lightning:buttonGroup>
+                                        <aura:set attribute="else">
+                                            <lightning:buttonGroup>
+                                                <lightning:button label="Agg. (PF)" class="cstm-btn-round" variant="brand" onclick="{! c.addNewPF }" disabled="{! v.disableAdd }"/>
+                                                <lightning:button label="Agg. (PG)" class="cstm-btn-round" variant="brand" onclick="{! c.addNewPG }" disabled="{! v.disableAdd }"/>
+                                            </lightning:buttonGroup>
+                                        </aura:set>
+                                    </aura:if>
+                                </aura:set>
+                            </aura:if>
+                        </aura:if>
+                    </lightning:layoutItem>
+                </lightning:layout>
+
+                <aura:set attribute="else">
+                    <div onclick="{! c.onClickGaranzia }">
+                        <aura:if isTrue="{! !v.readOnly }">
+                            <div class="cstm-actions-garanzia">
+                                <aura:if isTrue="{! and(v.type == 'garanzia', v.selected == true) }">
+                                    <div class="cstm-edit-garanzia" onclick="{! c.onEditItem }">
+                                        <lightning:icon iconName="utility:edit" size="x-small"/>
+                                    </div>
+                                </aura:if>
+                                <div class="cstm-remove-garanzia" onclick="{! c.onRemoveItem }">
+                                    <lightning:icon iconName="utility:close" size="x-small"/>
+                                </div>
+                            </div>
+                        </aura:if>
+                        <lightning:layout>
+                            <lightning:layoutItem size="9">
+                                <p>{! v.subtitle }</p>
+                                <h2 class="cstm-garan-title">{! v.title }</h2>
+                            </lightning:layoutItem>
+                            <aura:if isTrue="{! and(v.type == 'garante', v.item.percentualeGaranzia != 100) }">
+                                <lightning:layoutItem size="3" class="slds-p-top_x-small">
+                                    <lightning:input type="number" variant="label-hidden" min="0" max="100" value="{! v.item.percentualeGaranzia }" disabled="{! !v.item.isSelected || v.readOnly }"/>
+                                </lightning:layoutItem>
+                            </aura:if>
+                        </lightning:layout>
+                    </div>
+                </aura:set>
+
+            </aura:if>
+        </lightning:layoutItem>
+
+    </lightning:layout>
+</aura:component>

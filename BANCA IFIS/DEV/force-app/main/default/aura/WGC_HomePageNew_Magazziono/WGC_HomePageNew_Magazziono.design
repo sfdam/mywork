@@ -1,0 +1,4 @@
+<design:component>
+	
+    <design:attribute name="reportMagazzionoAperto" label="report magazziono" description="Inserire id del report"/>
+</design:component>

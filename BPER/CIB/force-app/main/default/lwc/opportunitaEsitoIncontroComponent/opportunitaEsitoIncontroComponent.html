@@ -1,0 +1,58 @@
+<template>
+    <template lwc:if={isLoading}>
+      <lightning-spinner alternative-text="Loading" variant="brand"></lightning-spinner>
+    </template>
+    <template lwc:if={isUsedAsRelatedList}>
+      <div class="slds-page-header slds-page-header_record-home page-header">
+        <div class="slds-page-header__row">
+          <div class="slds-page-header__col-title">
+            <div class="slds-media">
+              <div class="slds-media__figure">
+                <span class="slds-icon_container">
+                  <lightning-icon
+                    icon-name={cardIcon}
+                    alternative-text={cardTitle}
+                    title={cardTitle}
+                    size="small"
+                  ></lightning-icon>
+                </span>
+              </div>
+              <div class="slds-media__body">
+                <h2 class="slds-card__header-title">{cardTitle}</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <div class="slds-page-header__row slds-page-header__row_gutters">
+          <div class="slds-page-header__col-details">
+            <ul class="slds-page-header__detail-row slds-p-around_none page-header-detail" style="max-height: 500px;">
+              <c-l-w-c-custom-datatable-type
+              key-field="Id"
+              data={opportunity}
+              columns={columns}
+              column-widths-mode={columnWidthsMode}
+              default-sort-direction={defaultSortDirection}
+              draft-values={draftValues}
+              hide-checkbox-column={hideCheckboxColumn}
+              hide-table-header={hideTableHeader}
+              max-column-width={maxColumnWidth}
+              max-row-selection={maxRowSelection}
+              min-column-width={minColumnWidth}
+              row-number-offset={rowNumberOffset}
+              resize-column-disabled={resizeColumnDisabled}
+              show-row-number-column={showRowNumberColumn}
+              suppress-bottom-bar={suppressBottomBar}
+              onsave={handleSave}>
+              </c-l-w-c-custom-datatable-type>
+            </ul>
+            <template if:true={emptyOppRows}>
+              <div class="slds-text-align_center" style="padding-top: 4%; padding-bottom: 1%;">
+                  <span>No items to display.</span>
+              </div>
+          </template>
+          </div>
+        </div>
+      </div>
+    </template>
+</template>

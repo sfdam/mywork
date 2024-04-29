@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>EA_MacroFiliera_Risalite__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF( OR(EA_Filiera_Risalite__c=&apos;PV&apos;,EA_Filiera_Risalite__c=&apos;ET&apos;), &apos;EB&apos;,
+IF( OR(EA_Filiera_Risalite__c=&apos;PR&apos;,EA_Filiera_Risalite__c=&apos;CF&apos;,EA_Filiera_Risalite__c=&apos;IW&apos;,EA_Filiera_Risalite__c=&apos;CP&apos;,EA_Filiera_Risalite__c=&apos;KP&apos;), &apos;WM&apos;,
+IF( OR(EA_Filiera_Risalite__c=&apos;IR&apos;,EA_Filiera_Risalite__c=&apos;IM&apos;), &apos;IC&apos;,
+IF( OR(EA_Filiera_Risalite__c=&apos;KI&apos;), &apos;KI&apos;, &apos;Altro&apos;
+))))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>EA_MacroFiliera_Risalite</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

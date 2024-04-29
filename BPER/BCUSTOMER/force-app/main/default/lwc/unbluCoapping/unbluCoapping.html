@@ -1,0 +1,24 @@
+<template>
+    <template if:true={showUnbluChat}>
+        <article class="slds-card">
+            <div class="slds-card__body slds-card__body_inner">
+                <div class="modal-template modal-template--hidden">
+                    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="modal-section slds-fade-in-open">
+                        <div class="modal-container">
+                            <iframe class="card__iframe card__iframe--agent-desk" src={unbluCoappingUrl} allow="camera *;microphone *" scrolling="yes"></iframe>
+                        </div>
+                    </section>
+                    <div class="slds-backdrop slds-backdrop_open"></div>
+                </div>
+            </div>
+        </article>
+    </template>
+
+    <template if:false={showUnbluChat}>
+
+        <div align="center">
+            <h2>Nessun servizio digitale attivo per questo Cliente.</h2>
+        </div>
+        
+    </template>
+</template>

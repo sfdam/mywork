@@ -1,0 +1,5 @@
+<design:component>
+    <design:attribute name="width" label="width"/>
+    <design:attribute name="height" label="height"/>
+    <design:attribute name="devName" label="Canvas Metadata Developer Name"/>
+</design:component>

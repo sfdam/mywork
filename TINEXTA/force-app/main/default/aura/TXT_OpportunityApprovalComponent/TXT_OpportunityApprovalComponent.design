@@ -1,0 +1,4 @@
+<design:component>
+	<design:attribute name="iconName" label="Icona" description="Definisce l'icona tra le standard" />
+    <design:attribute name="title" label="Titolo" description="Definisce il Titolo della Card" />
+</design:component>

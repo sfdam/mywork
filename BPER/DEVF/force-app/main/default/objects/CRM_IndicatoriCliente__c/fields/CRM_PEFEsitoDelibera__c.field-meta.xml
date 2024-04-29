@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_PEFEsitoDelibera__c</fullName>
+    <externalId>false</externalId>
+    <label>PEF - Esito Delibera</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Approvata</fullName>
+                <default>false</default>
+                <label>Approvata</label>
+            </value>
+            <value>
+                <fullName>Respinta</fullName>
+                <default>false</default>
+                <label>Respinta</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,82 @@
+<aura:component implements="lightning:homeTemplate">
+	<aura:attribute name="headerLeft" type="Aura.Component[]" />
+    <aura:attribute name="headerCenter" type="Aura.Component[]" />
+    <aura:attribute name="headerRight" type="Aura.Component[]" />
+    <aura:attribute name="headerRight1" type="Aura.Component[]" />
+    <aura:attribute name="headerRight2" type="Aura.Component[]" />
+    <aura:attribute name="top" type="Aura.Component[]" />
+    
+    <aura:attribute name="left" type="Aura.Component[]" />
+    <aura:attribute name="center" type="Aura.Component[]" />
+    <aura:attribute name="right" type="Aura.Component[]" />
+
+    <aura:attribute name="left_down" type="Aura.Component[]" />
+    <aura:attribute name="center_down" type="Aura.Component[]" />
+    <aura:attribute name="right_down" type="Aura.Component[]" />
+    <!-- <aura:attribute name="currentUser" type="User" /> -->
+
+    <ltng:require styles="{!$Resource.WGC_HideHeaderApp}" />
+
+    <!-- <c:UserInfoComponent currentUser="{! v.currentUser }" /> -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <div class="c-container">
+        <lightning:layout multipleRows="true">
+            <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12" mediumDeviceSize="12"
+                largeDeviceSize="4">
+                <div class="">
+                    {!v.headerLeft}
+                </div>
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12" mediumDeviceSize="12"
+                largeDeviceSize="4">
+                <div class="">
+                    {!v.headerCenter}
+                </div>
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12" mediumDeviceSize="6" largeDeviceSize="2">
+                <div class="">
+                    {!v.headerRight}
+                </div>
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12" mediumDeviceSize="3" largeDeviceSize="1">
+                <div class="">
+                    {!v.headerRight1}
+                </div>
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="12" smallDeviceSize="12" mediumDeviceSize="3" largeDeviceSize="1">
+                <div class="">
+                    {!v.headerRight2}
+                </div>
+            </lightning:layoutItem>
+        </lightning:layout>
+
+        <lightning:layout multipleRows="true">
+            <lightning:layoutItem size="12" class="page-section page-left"
+            padding="around-small">
+                {!v.left}
+            </lightning:layoutItem>
+            <lightning:layoutItem size="12" class="page-section page-center"
+            padding="around-small">
+                {!v.center}
+            </lightning:layoutItem>
+            <lightning:layoutItem size="12" class="page-section page-right"
+            padding="around-small">
+                {!v.right}
+            </lightning:layoutItem>
+
+            <lightning:layoutItem size="12" class="page-section page-left"
+            padding="around-small">
+                {!v.left_down}
+            </lightning:layoutItem>
+            <lightning:layoutItem size="12" class="page-section page-center"
+            padding="around-small">
+                {!v.center_down}
+            </lightning:layoutItem>
+            <lightning:layoutItem size="12" class="page-section page-right"
+            padding="around-small">
+                {!v.right_down}
+            </lightning:layoutItem>
+        </lightning:layout>
+    </div>
+</aura:component>

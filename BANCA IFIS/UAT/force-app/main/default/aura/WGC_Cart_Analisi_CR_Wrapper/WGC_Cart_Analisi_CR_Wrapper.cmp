@@ -1,0 +1,93 @@
+<aura:component access="global" extends="c:WGC_Utility">
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="opportunityId" type="String"/>
+    <aura:attribute name="accountId" type="String"/>
+    <aura:attribute name="selectedProducts" type="Object[]"/>
+    <aura:attribute name="items" type="Object[]"/>
+    <aura:attribute name="note" type="String"/>
+    <aura:attribute name="picklistOptions" type="Object"/>
+    <aura:attribute name="diviseOptions" type="Object"/>
+    <aura:attribute name="payload" type="Object"/>
+    <aura:attribute name="debitoriPerLinea" type="Object[]"/>
+    <aura:attribute name="configCR" type="Object"/>
+    <aura:attribute name="visibleNote" type="Boolean" default="true"/>
+    <aura:attribute name="readOnly" type="Boolean" default="false"/>
+    
+    <!-- REGISTER EVENTS -->
+    <aura:registerEvent name="navigateSubWizard" type="c:WGC_NavigateSubWizard"/>
+
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    <aura:handler name="productClick" event="c:WGC_ProductClickEvent" action="{! c.handleProductClick }"/>
+
+    <c:WGC_Cart_Products_Wrapper title="Linee Selezionate" items="{! v.items }" readOnly="{! v.readOnly }"/>
+    
+    <lightning:layout class="cstm-border-all slds-m-top_small" multipleRows="true">
+        <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="{! (v.visibleNote ? 9 : 12) }" class="cstm-ipad-order-2-landscape cstm-ipad-12-landscape">
+            
+            <!-- <aura:if isTrue="{! v.configCR.debs }">
+                <div class="slds-m-around_small">
+                    <lightning:datatable
+                        keyField="id"
+                        data="{! v.debsData }"
+                        columns="{! v.debsColumns }"
+                        hideCheckboxColumn="true"/>
+                </div>
+            </aura:if> -->
+
+            
+            <c:WGC_CR_DetailComponent recordId="{! v.accountId }" opportunityId="{! v.opportunityId }" visibleNote="{! v.visibleNote }"/>
+            
+            <!-- <aura:if isTrue="{! v.configCR.msg != '' }">
+                <lightning:layout>
+                    <lightning:layoutItem size="12" padding="around-small">
+                        <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_warning" role="alert">
+                            <h2>{! v.configCR.msg }</h2>
+                        </div>
+                    </lightning:layoutItem>
+                </lightning:layout>
+                <lightning:layout>
+                    <lightning:layoutItem flexibility="auto" size="2" padding="around-small">
+                        <div class="">
+                            <div class="date display-inline">
+                                <aura:if isTrue="{! v.configCR.dataRilevazione != null }">
+                                    <lightning:formattedDateTime value="{! v.configCR.dataRilevazione }" />
+                                    <aura:set attribute="else">
+                                        -
+                                    </aura:set>
+                                </aura:if>
+                            </div>
+                            <div class="date-sub">
+                                <aura:if isTrue="{! v.configCR.msgBKIT != null }">
+                                    {! v.configCR.msgBKIT }
+                                    <aura:set attribute="else">{!$Label.c.WGC_CR_Detail_Ultima_rilevazione}</aura:set>
+                                </aura:if>
+                            </div>
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem flexibility="auto" size="2" padding="around-small">
+                        <div class="">
+                            <div class="date display-inline">
+                                <aura:if isTrue="{! v.configCR.dataRichiesta != null }">
+                                    <lightning:formattedDateTime value="{! v.configCR.dataRichiesta }" />
+                                    <aura:set attribute="else">
+                                        -
+                                    </aura:set>
+                                </aura:if>
+                            </div>
+                            <div class="date-sub">
+                                {!$Label.c.WGC_CR_Detail_Richiesta_CR}
+                            </div>
+                        </div>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </aura:if> -->
+
+        </lightning:layoutItem>
+        <aura:if isTrue="{! v.visibleNote }">
+            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="3" padding="around-small" class="cstm-ipad-12-landscape">
+                <c:WGC_Cart_Note_Widget field="WGC_NoteCR__c" text="{! v.note }" opportunityId="{! v.opportunityId }" readOnly="{! v.readOnly }"/>
+            </lightning:layoutItem>
+        </aura:if>
+    </lightning:layout>
+</aura:component>

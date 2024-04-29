@@ -1,0 +1,89 @@
+.THIS {
+
+}
+
+.THIS .slds-form-element.no-label > label {
+    display: none;
+}
+
+.THIS .max-w-35-pct input {
+    max-width: 35%;
+}
+
+.THIS .slds-text-heading_small{
+    font-size:13px;
+}
+
+.THIS .btn-color{
+    background-color: #0064B5;
+    color:white;
+}
+
+.THIS .expired-date{
+    color:red;
+}
+
+.THIS .slds-dropdown-trigger{
+    display:none;
+}
+
+.THIS .red-btn .slds-button{
+    background-color: rgb(194, 57, 52);
+    border-color: rgb(194, 57, 52);
+    color: rgb(255, 255, 255);
+
+    height: 28px;
+    margin-bottom: 5px;
+    line-height: 0;
+    width: 100px;
+    padding: 4px;
+    text-overflow: ellipsis;
+    border-radius: 25px;
+    font-size: 10px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.THIS .blue-btn .slds-button{
+    background-color:#0064B5;
+    border-color: #0064B5;
+    color:white ;
+
+    height: 28px;
+    margin-bottom: 5px;
+    line-height: 0;
+    width: 100px;
+    padding: 4px;
+    text-overflow: ellipsis;
+    border-radius: 25px;
+    font-size: 10px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.THIS .cstm-toggle{
+    width:50%;
+}
+
+/*
+.THIS .prova .slds-button{
+    color:red;
+}
+*/
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : landscape)
+and (-webkit-min-device-pixel-ratio: 2) { 
+    /* STYLES GO HERE */
+
+}
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : portrait)
+and (-webkit-min-device-pixel-ratio: 2) { 
+    /* STYLES GO HERE */ 
+}

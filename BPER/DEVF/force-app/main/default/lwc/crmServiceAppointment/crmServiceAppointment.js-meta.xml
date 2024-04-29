@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>52.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__RecordPage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__RecordPage">
+            <property name="title" type="String" label="Titolo" description="Definisci il titolo del componente"/>
+            <property name="viewAllLabel" type="String" label="Label Pulsante View All" description="Definisci la label del pulsane View All"/>
+            <property name="builderIcon" type="String" label="Icona" description="Inserisci codice slds-icon per inserire un icona"/>
+            
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

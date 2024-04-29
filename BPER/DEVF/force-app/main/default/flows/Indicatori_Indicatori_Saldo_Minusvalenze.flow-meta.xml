@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>51.0</apiVersion>
+    <formulas>
+        <name>Formula_AnnoMeno1</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Indicatore.CRM_SaldoMinusAnno1__c}) = false,
+IF( 
+{!Indicatore.CRM_SaldoMinusAnno1__c} &gt;= 1000000000, 
+  RIGHT(TEXT(FLOOR({!Indicatore.CRM_SaldoMinusAnno1__c} / 1000000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+{!Indicatore.CRM_SaldoMinusAnno1__c} &gt;= 1000000, 
+  RIGHT(TEXT(FLOOR({!Indicatore.CRM_SaldoMinusAnno1__c} / 1000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+{!Indicatore.CRM_SaldoMinusAnno1__c} &gt;= 1000, 
+  RIGHT(TEXT(FLOOR({!Indicatore.CRM_SaldoMinusAnno1__c} / 1000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+RIGHT(TEXT(FLOOR({!Indicatore.CRM_SaldoMinusAnno1__c})), 3) + &quot; €&quot;,
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_AnnoMeno2</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Indicatore.CRM_SaldoMinusAnno2__c}) = false,
+IF( 
+{!Indicatore.CRM_SaldoMinusAnno2__c} &gt;= 1000000000, 
+  RIGHT(TEXT(FLOOR({!Indicatore.CRM_SaldoMinusAnno2__c} / 1000000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ {!Indicatore.CRM_SaldoMinusAnno2__c} &gt;= 1000000, 
+  RIGHT(TEXT(FLOOR({!Indicatore.CRM_SaldoMinusAnno2__c} / 1000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+{!Indicatore.CRM_SaldoMinusAnno2__c} &gt;= 1000, 
+  RIGHT(TEXT(FLOOR({!Indicatore.CRM_SaldoMinusAnno2__c} / 1000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+RIGHT(TEXT(FLOOR({!Indicatore.CRM_SaldoMinusAnno2__c})), 3)+ &quot; €&quot;,
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_AnnoMeno3</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Indicatore.CRM_SaldoMinusAnno3__c}) = false,
+IF( 
+{!Indicatore.CRM_SaldoMinusAnno3__c} &gt;= 1000000000, 
+  RIGHT(TEXT(FLOOR({!Indicatore.CRM_SaldoMinusAnno3__c} / 1000000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ {!Indicatore.CRM_SaldoMinusAnno3__c} &gt;= 1000000, 
+  RIGHT(TEXT(FLOOR({!Indicatore.CRM_SaldoMinusAnno3__c} / 1000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+{!Indicatore.CRM_SaldoMinusAnno3__c} &gt;= 1000, 
+  RIGHT(TEXT(FLOOR({!Indicatore.CRM_SaldoMinusAnno3__c} / 1000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+RIGHT(TEXT(FLOOR({!Indicatore.CRM_SaldoMinusAnno3__c})), 3) + &quot; €&quot;,
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_AnnoMeno4</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Indicatore.CRM_SaldoMinusAnno4__c}) = false,
+IF( 
+{!Indicatore.CRM_SaldoMinusAnno4__c} &gt;= 1000000000, 
+  RIGHT(TEXT(FLOOR({!Indicatore.CRM_SaldoMinusAnno4__c} / 1000000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ {!Indicatore.CRM_SaldoMinusAnno4__c} &gt;= 1000000, 
+  RIGHT(TEXT(FLOOR({!Indicatore.CRM_SaldoMinusAnno4__c} / 1000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+{!Indicatore.CRM_SaldoMinusAnno4__c} &gt;= 1000, 
+  RIGHT(TEXT(FLOOR({!Indicatore.CRM_SaldoMinusAnno4__c} / 1000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+RIGHT(TEXT(FLOOR({!Indicatore.CRM_SaldoMinusAnno4__c})), 3) + &quot; €&quot;,
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_AnnoMeno5</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Indicatore.CRM_SaldoMinusAnno5__c}) = false,
+IF( 
+{!Indicatore.CRM_SaldoMinusAnno5__c} &gt;= 1000000000, 
+  RIGHT(TEXT(FLOOR({!Indicatore.CRM_SaldoMinusAnno5__c} / 1000000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+ {!Indicatore.CRM_SaldoMinusAnno5__c} &gt;= 1000000, 
+  RIGHT(TEXT(FLOOR({!Indicatore.CRM_SaldoMinusAnno5__c} / 1000000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+{!Indicatore.CRM_SaldoMinusAnno5__c} &gt;= 1000, 
+  RIGHT(TEXT(FLOOR({!Indicatore.CRM_SaldoMinusAnno5__c} / 1000)), 3) &amp; &quot;.&quot;, 
+  &quot;&quot;) &amp; 
+RIGHT(TEXT(FLOOR({!Indicatore.CRM_SaldoMinusAnno5__c})), 3) + &quot; €&quot;,
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_DataUltimaValutaTrattata</name>
+        <dataType>String</dataType>
+        <expression>IF (
+ISBLANK({!Indicatore.CRM_MinusUltValutaTratt__c}) = false,
+IF(VALUE(TEXT(DAY({!Indicatore.CRM_MinusUltValutaTratt__c}))) &lt; 10, &quot;0&quot; + TEXT(DAY({!Indicatore.CRM_MinusUltValutaTratt__c})), TEXT(DAY({!Indicatore.CRM_MinusUltValutaTratt__c}))) + &quot;/&quot; + 
+IF(VALUE(TEXT(MONTH({!Indicatore.CRM_MinusUltValutaTratt__c}))) &lt; 10, &quot;0&quot; + TEXT(MONTH({!Indicatore.CRM_MinusUltValutaTratt__c})), TEXT(MONTH({!Indicatore.CRM_MinusUltValutaTratt__c}))) + &quot;/&quot; + 
+TEXT(YEAR({!Indicatore.CRM_MinusUltValutaTratt__c})),
+&apos;-&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Formula_ThumbUpDown</name>
+        <dataType>Boolean</dataType>
+        <expression>{!Get_current_NDG.CRM_MifidDueDate__c} &gt;= TODAY()</expression>
+    </formulas>
+    <formulas>
+        <name>FormulaDisplayMinus</name>
+        <dataType>Boolean</dataType>
+        <expression>OR ({!Indicatore.CRM_SaldoMinusAnno1__c} != NULL, {!Indicatore.CRM_SaldoMinusAnno2__c} != NULL, {!Indicatore.CRM_SaldoMinusAnno3__c} != NULL, {!Indicatore.CRM_SaldoMinusAnno4__c} != NULL, {!Indicatore.CRM_SaldoMinusAnno5__c} != NULL)</expression>
+    </formulas>
+    <formulas>
+        <name>SaldoMinusAnno1</name>
+        <dataType>Currency</dataType>
+        <expression>{!Indicatore.CRM_SaldoMinusAnno1__c}</expression>
+        <scale>2</scale>
+    </formulas>
+    <formulas>
+        <name>SaldoMinusAnno2</name>
+        <dataType>Currency</dataType>
+        <expression>{!Indicatore.CRM_SaldoMinusAnno2__c}</expression>
+        <scale>2</scale>
+    </formulas>
+    <formulas>
+        <name>SaldoMinusAnno3</name>
+        <dataType>Currency</dataType>
+        <expression>{!Indicatore.CRM_SaldoMinusAnno3__c}</expression>
+        <scale>2</scale>
+    </formulas>
+    <formulas>
+        <name>SaldoMinusAnno4</name>
+        <dataType>Currency</dataType>
+        <expression>{!Indicatore.CRM_SaldoMinusAnno4__c}</expression>
+        <scale>2</scale>
+    </formulas>
+    <formulas>
+        <name>SaldoMinusAnno5</name>
+        <dataType>Currency</dataType>
+        <expression>{!Indicatore.CRM_SaldoMinusAnno5__c}</expression>
+        <scale>2</scale>
+    </formulas>
+    <interviewLabel>Indicatori - Indicatori Saldo Minusvalenze {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Indicatori - Indicatori Saldo Minusvalenze</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordLookups>
+        <name>Get_current_NDG</name>
+        <label>Get current NDG</label>
+        <locationX>50</locationX>
+        <locationY>190</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_RT_Indicattre_Flat</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Account</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_RT_Indicattre_Flat</name>
+        <label>Get RT Indicattre Flat</label>
+        <locationX>117</locationX>
+        <locationY>327</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Indicatore</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Flat</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>RecordType</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Indicatore</name>
+        <label>Indicatore</label>
+        <locationX>242</locationX>
+        <locationY>221</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Indicatori</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>CRM_Account__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>RecordTypeId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_RT_Indicattre_Flat.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>CRM_IndicatoriCliente__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <runInMode>SystemModeWithoutSharing</runInMode>
+    <screens>
+        <name>Indicatori</name>
+        <label>Indicatori</label>
+        <locationX>433</locationX>
+        <locationY>219</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>Indicatori_Section1</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Indicatori_Section1_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>ImmagineSaldoMinusvalenze</name>
+                    <extensionName>flowruntime:image</extensionName>
+                    <fieldType>ComponentInstance</fieldType>
+                    <inputParameters>
+                        <name>imageName</name>
+                        <value>
+                            <stringValue>SaldoMinusvalenze</stringValue>
+                        </value>
+                    </inputParameters>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <storeOutputAutomatically>true</storeOutputAutomatically>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>12</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>Indicatore.CRM_IsSaldoMinusVisible__c</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>true</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>Indicatori_Section2</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Indicatori_Section2_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>Anno1</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); font-size: 12px;&quot;&gt;{!Indicatore.CRM_AnnoMeno5__c}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); font-size: 14px;&quot;&gt;{!SaldoMinusAnno5}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;{!IconaBarra}&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); background-color: rgb(255, 255, 255); font-size: 12px;&quot;&gt;{!Indicatore.CRM_AnnoMeno4__c}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); background-color: rgb(255, 255, 255); font-size: 14px;&quot;&gt;{!SaldoMinusAnno4}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;﻿&lt;/span&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); background-color: rgb(255, 255, 255); font-size: 12px;&quot;&gt;{!Indicatore.CRM_AnnoMeno3__c}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(8, 7, 7); background-color: rgb(255, 255, 255); font-size: 14px;&quot;&gt;{!SaldoMinusAnno3}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>Indicatori_Section2_Column2</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>Anno2</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; color: rgb(62, 62, 60);&quot;&gt;{!Indicatore.CRM_AnnoMeno2__c}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 14px; color: rgb(8, 7, 7);&quot;&gt;{!SaldoMinusAnno2}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;﻿&lt;/span&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; color: rgb(62, 62, 60);&quot;&gt;{!Indicatore.CRM_AnnoMeno1__c}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; background-color: rgb(255, 255, 255); color: rgb(8, 7, 7);&quot;&gt;{!SaldoMinusAnno1}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; color: rgb(62, 62, 60);&quot;&gt;﻿Data ultima valuta trattata&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); background-color: rgb(255, 255, 255); font-size: 12px;&quot;&gt;﻿&lt;/span&gt;&lt;span style=&quot;color: rgb(8, 7, 7); background-color: rgb(255, 255, 255); font-size: 14px;&quot;&gt;{!Formula_DataUltimaValutaTrattata}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;{!IconaBarra}&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>6</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>Indicatore.CRM_IsSaldoMinusVisible__c</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>true</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>Indicatori_Section3</name>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>Indicatori_Section3_Column1</name>
+                <fieldType>Region</fieldType>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>12</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
+        </fields>
+        <showFooter>false</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <start>
+        <locationX>113</locationX>
+        <locationY>35</locationY>
+        <connector>
+            <targetReference>Get_current_NDG</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <textTemplates>
+        <name>LinkERating</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;&lt;a href=&quot;www.google.com&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 14px;&quot;&gt;E-rating&lt;/a&gt;&lt;/p&gt;</text>
+    </textTemplates>
+    <variables>
+        <name>IconaBarra</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <stringValue>&lt;img src=&apos;/resource/Barra&apos;/&gt;</stringValue>
+        </value>
+    </variables>
+    <variables>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>testcheckbox</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
+</Flow>

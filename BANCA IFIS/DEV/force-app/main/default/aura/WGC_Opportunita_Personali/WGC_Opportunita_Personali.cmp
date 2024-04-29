@@ -1,0 +1,135 @@
+<aura:component Controller="WGC_OpportunityController" extends="c:WGC_Utility" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+    access="global">
+
+    <ltng:require scripts="{!join(',', 
+             '/resource/WGC_jQuery3x',
+             '/resource/WGC_ChartJs')}"
+        afterScriptsLoaded="{!c.doInit}" />
+
+    <lightning:navigation aura:id="navService" />
+    <lightning:notificationsLibrary aura:id="notifLib"/>
+
+    <aura:attribute name="title" type="String" default="Le tue Opportunità" />
+    <aura:attribute name="valData" type="String" />
+
+    <aura:attribute name="budgetYear" type="Integer" default="0"/>
+    <aura:attribute name="currentYear" type="Integer" default="0"/>
+    <aura:attribute name="accordatoYear" type="Currency" default="0"/>
+    <aura:attribute name="budgetMonth" type="Integer" default="0"/>
+    <aura:attribute name="currentMonth" type="Integer" default="0"/>
+    <aura:attribute name="accordatoMonth" type="Currency" default="0"/>
+
+    <!-- <c:GlobalUtilityComponent />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" /> -->
+
+    <lightning:card class="">
+        <aura:set attribute="title">
+            <lightning:icon iconName="utility:chart" size="small" variant="slds-icon-inverse" />
+            <div class="title">{! v.title }</div>
+        </aura:set>
+        <!-- <aura:set attribute="actions">
+            <lightning:icon iconName="utility:expand" onclick="{!c.navigateToMyComponent}" size="x-small" />
+        </aura:set> -->
+        <div class='container-card'>
+            <div class="slds-grid slds-wrap slds-align_absolute-center">
+                <div class="slds-col slds-size_6-of-12 slds-small-size_6-of-12 slds-medium-size_7-of-12 slds-large-size_7-of-12 slds-p-horizontal_large slds-p-bottom_small slds-p-top_small cstm-border-right">
+                    <p class="cstm-column-title">{!$Label.c.WGC_Opportunita_Personali_ANNO_IN_CORSO}</p>
+                </div>
+                <div class="slds-col slds-size_6-of-12 slds-small-size_6-of-12 slds-medium-size_5-of-12 slds-large-size_5-of-12 slds-p-horizontal_large slds-p-bottom_small slds-p-top_small">
+                    <p class="cstm-column-title">{!$Label.c.WGC_Opportunita_Personali_MESE_IN_CORSO}</p>
+                </div>
+            </div>
+
+            <div class="slds-grid slds-wrap slds-align_absolute-center">
+                <div class="circleBaseStriped circleBaseB iphone"></div>
+                <div class="slds-col slds-size_12-of-12 slds-small-size_12-of-12 slds-medium-size_2-of-12 slds-large-size_2-of-12 img-absolute">
+                    <div class="containerCol slds-p-horizontal_x-small">
+                        <c:WGC_CircularUserImg theme="blue" size="medium" userId="{! $SObjectType.CurrentUser.Id }"></c:WGC_CircularUserImg>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_6-of-12 slds-small-size_6-of-12 slds-medium-size_5-of-12 slds-large-size_5-of-12 slds-p-bottom_medium slds-p-top_medium cstm-border-right">
+                    <div class="slds-grid slds-wrap slds-align_absolute-center">
+                        <div class="slds-col slds-size_12-of-12 slds-small-size_12-of-12 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+                            <div class="slds-p-horizontal_x-small">
+                                <c:WGC_Circular_Progress theme="{! ( v.currentYear >= v.budgetYear ? 'brand' : 'red' ) }" size="medium" condition="actual-total-percent" totalProgress="{! v.budgetYear }" actualProgress="{! v.currentYear }" />
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_12-of-12 slds-small-size_12-of-12 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+                            <div class="slds-p-horizontal_x-small slds-text-align_center">
+                                <div>
+                                    <lightning:badge label="{! v.accordatoYear }" class="borderB" /><!-- 12.000,00 € -->
+                                </div>
+                                <div class="text-color_personalB">{!$Label.c.WGC_Opportunita_Personali_Volume}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_6-of-12 slds-small-size_6-of-12 slds-medium-size_5-of-12 slds-large-size_5-of-12">
+                    <div class="slds-grid slds-wrap slds-align_absolute-center">
+                        <div class="slds-col slds-size_12-of-12 slds-small-size_12-of-12 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+                            <div class="slds-p-horizontal_x-small">
+                                <c:WGC_Circular_Progress theme="{! ( v.currentMonth >= v.budgetMonth ? 'brand' : 'red' ) }" size="medium" condition="actual-total-percent" totalProgress="{! v.budgetMonth }" actualProgress="{! v.currentMonth }" />
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_12-of-12 slds-small-size_12-of-12 slds-medium-size_6-of-12 slds-large-size_6-of-12">
+                            <div class="slds-p-horizontal_x-small slds-text-align_center">
+                                <div>
+                                    <lightning:badge label="{! v.accordatoMonth }" class="borderB" /><!-- 1.000,00 € -->
+                                </div>
+                                <div class="text-color_personalB">{!$Label.c.WGC_Opportunita_Personali_Volume}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <!-- <div class="slds-grid slds-wrap cstm-pullToBoundary slds-align_absolute-center colored-bkg">
+                    <div class="circleBaseStriped circleBaseB"></div>
+                    <div class="slds-col slds-size_2-of-12">
+                        <div class="containerCol slds-p-horizontal_x-small text-bench">
+                            BENCHMARK
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_5-of-12">
+                        <div class="slds-grid slds-wrap slds-align_absolute-center">
+                            <div class="slds-col slds-size_6-of-12">
+                                <div class="slds-p-horizontal_x-small">
+                                    <c:WGC_Circular_Progress theme="brand" size="small" totalProgress="12" actualProgress="9" />
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_6-of-12">
+                                <div class="slds-p-horizontal_x-small slds-text-align_center">
+                                    <div>
+                                        <lightning:badge label="12.000,00 €" class="borderB" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_5-of-12">
+                        <div class="slds-grid slds-wrap slds-align_absolute-center">
+                            <div class="slds-col slds-size_6-of-12">
+                                <div class="slds-p-horizontal_x-small">
+                                    <c:WGC_Circular_Progress theme="brand" size="small" totalProgress="12" actualProgress="9" />
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_6-of-12">
+                                <div class="slds-p-horizontal_x-small">
+                                    <div>
+                                        <lightning:badge label="1.000,00 €" class="borderB cstm-margin-left-10" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    
+    
+                </div> -->
+
+            
+
+        </div>
+    </lightning:card>
+</aura:component>

@@ -1,0 +1,109 @@
+.THIS .slds-timeline__item_expandable:before {
+    left: 16px;
+}
+
+.THIS .slds-timeline__item_task:before {
+    background-color:#F49756;
+}
+
+.THIS .slds-timeline__item_task.abilitaOFSIntestatarioRapporto:before {
+    background-color: #a2dba8;
+}
+
+.THIS .slds-icon-standard-task.abilitaOFSIntestatarioRapporto lightning-icon {
+    background-color: #a2dba8;
+}
+
+.THIS .slds-timeline__item_task.abilitaOFS:before {
+    background-color: #E6D478;
+}
+
+.THIS .slds-icon-standard-task.abilitaOFS lightning-icon {
+    background-color: #E6D478;
+}
+
+.THIS .slds-timeline__item_task.abilitaIntestatarioRapporto:before {
+    background-color: #F49756;
+}
+
+.THIS .slds-icon-standard-task.abilitaIntestatarioRapporto lightning-icon {
+    background-color: #F49756;
+}
+
+.THIS .slds-timeline__item_task.IsArchived:before {
+    background-color: #969492;
+}
+
+.THIS .slds-icon-standard-task.IsArchived lightning-icon {
+    background-color: #969492;
+}
+
+
+/* .THIS .IsArchived .slds-icon-standard-event {
+    background-color: #676363;
+}
+
+.THIS .slds-timeline__item_expandable.slds-timeline__item_event.IsArchived:Before {
+    background: #676363;
+} */
+
+.THIS hr {
+    margin: 2px 0 2px 0;
+}
+
+.THIS .text-macro-esito {
+    text-align: right;
+    margin-right: 20px;
+}
+
+.THIS .dot{
+    position: relative;
+}
+
+.THIS .green{
+    /* position: absolute;
+    right: 0; */
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color:#49c642;
+    box-shadow: 0 0 5px 1px rgb(194, 194, 194);
+}
+
+.THIS .red{
+    /* position: absolute;
+    right: 0; */
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color:#C30217;
+    box-shadow: 0 0 5px 1px rgb(194, 194, 194);
+
+}
+
+.THIS .grey{
+    /* position: absolute;
+    right: 0; */
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color:#808080;
+    box-shadow: 0 0 5px 1px rgb(194, 194, 194);
+}
+
+.THIS .blu{
+    /* position: absolute;
+    right: 0; */
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color:#40409b;
+    box-shadow: 0 0 5px 1px rgb(194, 194, 194);
+}
+
+.THIS .supportObj{
+    position: absolute;
+    z-index: 100;
+    left: 20px;
+    top: 34px;
+}

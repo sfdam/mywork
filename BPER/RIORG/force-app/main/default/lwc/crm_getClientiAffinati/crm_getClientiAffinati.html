@@ -1,0 +1,91 @@
+<template>
+    <lightning-card>
+        <lightning-layout multiple-rows="true">
+           
+            <lightning-layout-item size="12" padding="around-small">
+                <lightning-tile label="Clienti Affinati" type="media">
+                    <lightning-icon slot="media" size="smal" icon-name="standard:account"></lightning-icon>
+                    <ul class="slds-list_horizontal slds-has-dividers_right">
+                        <li class="slds-item">Totale Clienti Affinati:&nbsp; <b>{numMembers}</b></li>
+                    </ul>
+                </lightning-tile>
+                <lightning-layout  multiple-rows=true class="paginator">
+                    <lightning-layout-item alignment-bump="left">
+                        <lightning-layout class="slds-align_absolute-center">
+                            <lightning-layout-item padding="around-small">
+                                <div>
+                                    <lightning-button-icon icon-name="utility:chevronleft"  variant="container"  onclick={handleIndietro} disabled={disabledButtonIndietro}></lightning-button-icon>
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item padding="around-small">
+                                Pag. {page} di {pages.length}
+                            </lightning-layout-item>
+                            <lightning-layout-item padding="around-small">
+                                Totale Membri - {numMembers}
+                            </lightning-layout-item>
+                            <lightning-layout-item padding="around-small">
+                                <div>
+                                    <lightning-button-icon icon-name="utility:chevronright"  variant="container"  onclick={handleAvanti} disabled={disabledButtonAvanti}></lightning-button-icon>
+                                </div>                
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </lightning-layout-item>
+                </lightning-layout>
+                <lightning-datatable key-field="Id"
+                                        data={currentPageData}
+                                        columns={columns}
+                                        hide-checkbox-column="true"
+                                        default-sort-direction={defaultSortDirection}
+                                        sorted-direction={sortDirection}
+                                        sorted-by={sortedBy}
+                                        onrowaction={openRollbackModal}
+                                        onsort={onHandleSort}>
+                </lightning-datatable>
+            </lightning-layout-item>
+        </lightning-layout>
+    </lightning-card>
+        <!--CONFIRM DELETE MODAL-->
+        <template if:true={showRollbackModal}>
+        
+            <div class="slds-modal slds-fade-in-open slds-backdro modalBodyp">
+                <div class="slds-modal__container">
+                
+                    <!--HEADER Section-->
+                    <div class="slds-modal__header">
+                        <lightning-button-icon icon-name="utility:close" alternative-text="Close this window" size="large"
+                            variant="bare-inverse" onclick={closeRollbackModal} class="slds-modal__close">
+                        </lightning-button-icon>
+                        <h2 id="modal-heading-03" class="slds-modal__title slds-hyphenate"></h2>
+                    </div>
+                    
+                    <!--BODY Section-->
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-3">
+                     <!--Spinner-->
+                        
+                        
+                        <p>Sei sicuro di voler ripristinare il cliente affinato in precedenza?</p>
+                    
+                    </div>
+    
+                    <!--FOOTER Section-->
+                    <div class="slds-modal__footer">
+                        <lightning-button-group style="float: right;">
+                            <lightning-button label="Annulla" variant="neutral" onclick={closeRollbackModal}></lightning-button>
+                            <lightning-button label="Ripristina" variant="neutral" onclick={handleRollback}></lightning-button>
+                        </lightning-button-group>
+                    </div>
+                    
+                    
+                </div>
+                <template if:true={showSpinner}>
+                    <lightning-layout>
+                        <lightning-layout-item size="12" padding="around-small">
+                            <lightning-spinner alternative-text="Loading" size="medium" class="spinnerClass"></lightning-spinner>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </template> 
+            </div>
+            
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+</template>

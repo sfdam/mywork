@@ -1,0 +1,180 @@
+<aura:component access="global" extends="c:WGC_Utility">
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="opportunityId" type="String"/>
+    <aura:attribute name="opportunity" type="Object"/>
+    <aura:attribute name="accountId" type="String"/>
+    <aura:attribute name="selectedProducts" type="Object[]"/>
+    <aura:attribute name="items" type="Object[]"/>
+    <aura:attribute name="note" type="String"/>
+    <aura:attribute name="picklistOptions" type="Object"/>
+    <aura:attribute name="diviseOptions" type="Object"/>
+    <aura:attribute name="payload" type="Object"/>
+    <aura:attribute name="debitoriPerLinea" type="Object[]"/>
+    <aura:attribute name="IsCollapsed" type="Boolean" default="false"/>
+    <aura:attribute name="IsCollapsed2" type="Boolean" default="false"/>
+    <aura:attribute name="IsCollapsed3" type="Boolean" default="false"/>
+    <aura:attribute name="IsCollapsed4" type="Boolean" default="false"/>
+    <aura:attribute name="readOnly" type="Boolean" default="false"/>
+    
+    <!-- REGISTER EVENTS -->
+    <aura:registerEvent name="navigateSubWizard" type="c:WGC_NavigateSubWizard"/>
+    <aura:registerEvent name="cartCallServer" type="c:WGC_Cart_Call_Server"/>
+
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"/>
+    <aura:handler name="productClick" event="c:WGC_ProductClickEvent" action="{! c.handleProductClick }"/>
+
+    <c:WGC_Cart_Products_Wrapper title="Linee Selezionate" items="{! v.items }" readOnly="{! v.readOnly }"/>
+    
+    <lightning:layout class="cstm-border-all slds-m-top_small" multipleRows="true">
+        <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="9" class="cstm-ipad-order-2-landscape cstm-ipad-12-landscape">
+            
+            <lightning:layout multipleRows="true">
+                <lightning:layoutItem size="12" class="slds-p-around_small">
+                    <div class="slds-p-around_xx-small container-card">
+                        <lightning:recordViewForm recordId="{! v.opportunity.AccountId }" objectApiName="Account">
+                            <lightning:layout multipleRows="true">
+                                <lightning:layoutItem class="slds-p-around_small" size="10" smallDeviceSize="10" mediumDeviceSize="10" largeDeviceSize="10">
+                                    <span class="slds-text-heading_medium title">RATING E ANOMALIE</span> 
+                                </lightning:layoutItem>
+                                <lightning:layoutItem class="slds-p-around_small slds-text-align_right" size="2" smallDeviceSize="2" mediumDeviceSize="2" largeDeviceSize="2">
+                                    <lightning:buttonIcon iconName="utility:chevronup" size="medium" variant="bare" iconClass="title" onclick="{!c.collapse}" class="{! 'cstm-accordion-icon ' + (v.IsCollapsed ? 'collapsed' : '') }"/>
+                                </lightning:layoutItem>
+                                <aura:if isTrue="{! !v.IsCollapsed }">
+                                    <lightning:layoutItem size="12" padding="around-small">
+                                        <lightning:layout>
+                                            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="4" largeDeviceSize="4" flexibility="grow">
+                                                <lightning:card class="cstm-big-data-block-wrapper">
+                                                    <aura:set attribute="title">Rating</aura:set>
+                                                    <div class="cstm-big-data-block-data">
+                                                        <aura:if isTrue="{!v.opportunity.Account.RatingT0__c == null || v.opportunity.Account.RatingT0__c == ''}">
+                                                            <span> - </span>
+                                                            <aura:set attribute="else">
+                                                                <span>{!v.opportunity.Account.RatingT0__c}</span> <img class="{! 'freccia' + (v.opportunity.Account.RatingT1__c != null ? (lessthanorequal(v.opportunity.Account.RatingT0__c, v.opportunity.Account.RatingT1__c) ? '-down' : '') : '') }"
+                                                                    src="{! (lessthanorequal(v.opportunity.Account.RatingT0__c, 4) ? $Resource.WGC_FrecciaVerde : $Resource.WGC_FrecciaRossa) }" />
+
+                                                                <!-- <aura:if isTrue="{! v.opportunity.Account.RatingT1__c == null }">
+                                                                    <aura:if isTrue="{! lessthanorequal(v.opportunity.Account.RatingT0__c, 4) }">
+                                                                            {!v.opportunity.Account.RatingT0__c} <img class="freccia"
+                                                                                src="{!$Resource.WGC_FrecciaVerde}" />
+                                                                    </aura:if>
+                                                                    <aura:if isTrue="{! greaterthanorequal(v.opportunity.Account.RatingT0__c, 5) }">
+                                                                            {!v.opportunity.Account.RatingT0__c} <img class="freccia"
+                                                                                src="{!$Resource.WGC_FrecciaRossa}" />
+                                                                    </aura:if>
+                                                                    
+                                                                    <aura:set attribute="else">
+                                                                        <aura:if isTrue="{!v.opportunity.Account.RatingT0__c > v.opportunity.Account.RatingT1__c}">
+                                                                            <aura:if isTrue="{! lessthanorequal(v.opportunity.Account.RatingT0__c, 4) }">
+                                                                                    {!v.opportunity.Account.RatingT0__c} <img class="freccia"
+                                                                                        src="{!$Resource.WGC_FrecciaVerde}" />
+                                                                            </aura:if>
+                                                                            <aura:if isTrue="{! greaterthanorequal(v.opportunity.Account.RatingT0__c, 5) }">
+                                                                                    {!v.opportunity.Account.RatingT0__c} <img class="freccia"
+                                                                                        src="{!$Resource.WGC_FrecciaRossa}" />
+                                                                            </aura:if>
+                                                                            <aura:set attribute="else">
+                                                                                <aura:if isTrue="{! lessthanorequal(v.opportunity.Account.RatingT0__c, 4) }">
+                                                                                        {!v.opportunity.Account.RatingT0__c} <img class="freccia-down"
+                                                                                            src="{!$Resource.WGC_FrecciaVerde}" style="transform: rotate(180deg);" />
+                                                                                </aura:if>
+                                                                                <aura:if isTrue="{! greaterthanorequal(v.opportunity.Account.RatingT0__c, 5) }">
+                                                                                        {!v.opportunity.Account.RatingT0__c} <img class="freccia-down"
+                                                                                            src="{!$Resource.WGC_FrecciaRossa}" style="transform: rotate(180deg);" />
+                                                                                </aura:if>
+                                                                            </aura:set>
+                                                                        </aura:if>
+                                                                    </aura:set>
+                                                                </aura:if> -->
+                                                            </aura:set>
+                                                        </aura:if>
+                                                    </div>
+                                                </lightning:card>
+                                            </lightning:layoutItem>
+                                            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="4" largeDeviceSize="4" flexibility="grow">
+                                                <lightning:card class="cstm-big-data-block-wrapper">
+                                                    <aura:set attribute="title">CLC</aura:set>
+                                                    <div class="cstm-big-data-block-data">
+                                                        <lightning:outputField fieldName="WGC_Semaforo_CLC_Formula__c" variant="label-hidden" class="cstm-big-data-block-traffic-light"/>
+                                                    </div>
+                                                </lightning:card>
+                                            </lightning:layoutItem>
+                                            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="4" largeDeviceSize="4" flexibility="grow">
+                                                <lightning:card class="cstm-big-data-block-wrapper">
+                                                    <aura:set attribute="title">Gianos</aura:set>
+                                                    <div class="cstm-big-data-block-data">
+                                                        <lightning:outputField fieldName="WGC_Semaforo_GIANOS_Formula__c" variant="label-hidden" class="cstm-big-data-block-traffic-light"/>
+                                                    </div>
+                                                </lightning:card>
+                                            </lightning:layoutItem>
+                                        </lightning:layout>
+                                    </lightning:layoutItem>
+                                </aura:if>
+                            </lightning:layout>
+                        </lightning:recordViewForm>
+                    </div>
+                </lightning:layoutItem>
+
+                <!-- <lightning:layoutItem size="12" padding="around-small">
+                    <div class="slds-p-around_xx-small container-card">
+                        <lightning:layout multipleRows="true">
+                            <lightning:layoutItem class="slds-p-around_small" size="10" smallDeviceSize="10" mediumDeviceSize="10" largeDeviceSize="10">
+                                <span class="slds-text-heading_medium title">REDDITIVITA'</span> 
+                            </lightning:layoutItem>
+                            <lightning:layoutItem class="slds-p-around_small slds-text-align_right" size="2" smallDeviceSize="2" mediumDeviceSize="2" largeDeviceSize="2">
+                                <lightning:buttonIcon iconName="utility:chevronup" size="medium" variant="bare" iconClass="title" onclick="{!c.collapse2}" class="{! 'cstm-accordion-icon ' + (v.IsCollapsed2 ? 'collapsed' : '') }"/>
+                            </lightning:layoutItem>
+                            <aura:if isTrue="{! !v.IsCollapsed2 }">
+                                <c:WGC_Analytics_Graphics title="REDDITIVITA'" Flip="attivo" Dettaglio="disattivo" Grafico="{! $Label.c.WGC_Cart_AnalisiClienteRedditivitaGraphicID }" Filtro="{! $Label.c.WGC_Cart_AnalisiClienteRedditivitaGraphic }"/>
+                            </aura:if>
+                        </lightning:layout>
+                    </div>
+                </lightning:layoutItem> -->
+                <lightning:layoutItem size="12" padding="around-small">
+                    <!-- <c:WGC_Analytics_Graphics title="REDDITIVITA'" Flip="attivo" Dettaglio="disattivo" Grafico="{! $Label.c.WGC_Cart_AnalisiClienteRedditivitaGraphicID }" Filtro="{! $Label.c.WGC_Cart_AnalisiClienteRedditivitaGraphic }" recordId="{! v.accountId }"/> -->
+                    <c:wgc_chart_container recordId="{! v.accountId }" title="REDDITIVITA'" chartName="Opportunity_Monitoraggio_Redditivita" enableAccordion="true" ></c:wgc_chart_container>
+                </lightning:layoutItem>
+
+                <!-- <lightning:layoutItem size="12" padding="around-small">
+                    <div class="slds-p-around_xx-small container-card">
+                        <lightning:layout multipleRows="true">
+                            <lightning:layoutItem class="slds-p-around_small" size="10" smallDeviceSize="10" mediumDeviceSize="10" largeDeviceSize="10">
+                                <span class="slds-text-heading_medium title">VOLUMI</span> 
+                            </lightning:layoutItem>
+                            <lightning:layoutItem class="slds-p-around_small slds-text-align_right" size="2" smallDeviceSize="2" mediumDeviceSize="2" largeDeviceSize="2">
+                                <lightning:buttonIcon iconName="utility:chevronup" size="medium" variant="bare" iconClass="title" onclick="{!c.collapse3}" class="{! 'cstm-accordion-icon ' + (v.IsCollapsed3 ? 'collapsed' : '') }"/>
+                            </lightning:layoutItem>
+                            <aura:if isTrue="{! !v.IsCollapsed3 }">
+                                <c:WGC_Analytics_Graphics Flip="disattivo" Dettaglio="disattivo" Grafico="{! $Label.c.WGC_Cart_AnalisiClienteVolumiGraphicID }" Filtro="{! $Label.c.WGC_Cart_AnalisiClienteVolumiGraphic }"/>
+                            </aura:if>
+                        </lightning:layout>
+                    </div>
+                </lightning:layoutItem> -->
+                <lightning:layoutItem size="12" padding="around-small">
+                    <!-- <c:WGC_Analytics_Graphics title="VOLUMI" Flip="attivo" Dettaglio="disattivo" Grafico="{! $Label.c.WGC_Cart_AnalisiClienteVolumiGraphicID }" Filtro="{! $Label.c.WGC_Cart_AnalisiClienteVolumiGraphic }" recordId="{! v.accountId }"/> -->
+                    <c:wgc_chart_container recordId="{! v.accountId }" title="VOLUMI" chartName="Opportunity_Monitoraggio_Volumi" enableAccordion="true" ></c:wgc_chart_container>
+                </lightning:layoutItem>
+
+                <!-- <lightning:layoutItem size="12" padding="around-small">
+                    <div class="slds-p-around_xx-small container-card">
+                        <lightning:layout multipleRows="true">
+                            <lightning:layoutItem class="slds-p-around_small" size="10" smallDeviceSize="10" mediumDeviceSize="10" largeDeviceSize="10">
+                                <span class="slds-text-heading_medium title">SPERIMENTAZIONE</span> 
+                            </lightning:layoutItem>
+                            <lightning:layoutItem class="slds-p-around_small slds-text-align_right" size="2" smallDeviceSize="2" mediumDeviceSize="2" largeDeviceSize="2">
+                                <lightning:buttonIcon iconName="utility:chevronup" size="medium" variant="bare" iconClass="title" onclick="{!c.collapse4}" class="{! 'cstm-accordion-icon ' + (v.IsCollapsed4 ? 'collapsed' : '') }"/>
+                            </lightning:layoutItem>
+                            <aura:if isTrue="{! !v.IsCollapsed4 }">
+                            </aura:if>
+                        </lightning:layout>
+                    </div>
+                </lightning:layoutItem> -->
+
+            </lightning:layout>
+
+        </lightning:layoutItem>
+        <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="3" padding="around-small" class="cstm-ipad-12-landscape">
+            <c:WGC_Cart_Note_Widget field="WGC_Note_Cliente__c" text="{! v.note }" opportunityId="{! v.opportunityId }" readOnly="{! v.readOnly }"/>
+        </lightning:layoutItem>
+    </lightning:layout>
+</aura:component>

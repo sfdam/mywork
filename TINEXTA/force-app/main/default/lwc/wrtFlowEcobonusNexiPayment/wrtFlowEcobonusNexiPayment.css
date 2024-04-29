@@ -1,0 +1,12 @@
+.cstm-spinner {
+  top: 30%;
+}
+
+.cstm-spinner-message-container {
+  position: relative;
+  top: 50%;
+}
+
+.cstm-spinner-message {
+  font-weight: bold;
+}

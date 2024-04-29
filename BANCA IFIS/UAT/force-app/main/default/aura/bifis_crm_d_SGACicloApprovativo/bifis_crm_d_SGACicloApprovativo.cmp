@@ -1,0 +1,183 @@
+<aura:component implements="flexipage:availableForAllPageTypes,force:hasRecordId" controller="bifis_crm_c_SGACommonCtrl" access="global" >
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/> 
+    
+    <aura:attribute name="recordId" type="Id" />
+    
+    <aura:attribute name="workflowRecordCandidatoNEXT" type="WorkflowSGA__c"/>
+    <aura:attribute name="workflowRecordCandidato" type="WorkflowSGA__c"/>
+    <aura:attribute name="workflowRecordCandidatoERROR" type="String"/>
+    
+    <aura:attribute name="opzioniPosizione" type="List" default="[
+    {'label': 'GIA CLIENTE', 'value': 'CLIENTE'},
+    {'label': 'PROSPECT', 'value': 'PROSPECT'}
+    ]"/>
+    <aura:attribute name="opzioniEsitoPreValutazione" type="List" default="[
+    {'label': 'APPROVATA', 'value': 'APPROVATA'},
+    {'label': 'NON APPROVATA', 'value': 'NON_APPROVATA'}
+    ]"/>
+    <aura:attribute name="opzioniEsitoVisita" type="List" default="[
+    {'label': 'SI', 'value': 'SI'},
+    {'label': 'NO', 'value': 'NO'}
+    ]"/>
+    <aura:attribute name="opzioniEsitoValutazionePratica" type="List" default="[
+    {'label': 'APPROVATA', 'value': 'APPROVATA'},
+    {'label': 'NON APPROVATA', 'value': 'NON_APPROVATA'}
+    ]"/>    
+    
+    <aura:attribute name="jsonMCIFileData" type="Object"/>     
+    
+    <aura:attribute name="fileRecapColumns" type="List"/>   
+
+	<aura:attribute name="isMCIRequired" type="Boolean" default="false"/>     
+    
+	<aura:attribute name="isMCSRequired" type="Boolean" default="false"/>      
+    
+	<aura:handler event="aura:waiting" action="{!c.waiting}"/>
+	<aura:handler event="aura:doneWaiting" action="{!c.doneWaiting}"/>
+	<aura:attribute name="HideSpinner" type="Boolean" default="true"/>
+
+    <force:recordData aura:id="flowRecordHandlerWorkflowCandidatoId"
+                      recordId="{!v.recordId}"
+                      layoutType="FULL"
+                      targetFields="{!v.workflowRecordCandidato}"
+                      targetError="{!v.workflowRecordCandidatoERROR}"
+                      recordUpdated="{!c.handleRecordUpdated}"
+                      targetRecord="{!v.workflowRecordCandidatoNEXT}"
+                      mode="EDIT"                
+                      />        
+    
+    <!-- Display Lightning Data Service errors, if any -->
+    <aura:if isTrue="{!not(empty(v.workflowRecordCandidatoERROR))}">
+        <ui:message title="Errore" severity="error" closable="true">{!v.workflowRecordCandidatoERROR}</ui:message>
+    </aura:if> 
+
+	<aura:renderIf isTrue="{!v.HideSpinner}">
+	  <div class="slds-spinner_container" >
+		<div class="slds-spinner--brand slds-spinner slds-spinner--large" role="alert">
+		  <span class="slds-assistive-text">Loading, Please Wait...</span>
+		  <div class="slds-spinner__dot-a"></div>
+		  <div class="slds-spinner__dot-b"></div>
+		</div>
+	  </div>
+	</aura:renderIf>
+
+    <lightning:card variant="Narrow" title="Informazioni" iconName="custom:custom32">
+        
+        <p class="slds-p-horizontal_small">
+            <div class="slds-grid slds-wrap slds-grid_vertical-align-center">
+                <div class="slds-size_2-of-4">
+					<div class="slds-m-around_small"><lightning:input label="Ragione Sociale" name="inputRagioneSociale" value="{!v.workflowRecordCandidato.Ragione_Sociale__c}" readonly="true" /></div>
+                </div>            
+                <div class="slds-size_1-of-4">
+					<div class="slds-m-around_small"><lightning:input label="Partita IVA" name="inputPartitaIVA" value="{!v.workflowRecordCandidato.PartitaIVA__c}" readonly="true" /></div>
+                </div>  
+                <div class="slds-size_1-of-4">
+					<aura:if isTrue="{!not(empty(v.workflowRecordCandidato.IDAccount__c))}">
+						<div class="slds-m-around_small"><lightning:buttonIcon aura:id="buttonGotoAccountId" name="buttonGotoAccount" iconName="utility:search" size="large" alternativeText="Visualizza Account" onclick="{!c.handleGotoAccountClick}"/></div>
+					</aura:if>
+					<aura:if isTrue="{!(empty(v.workflowRecordCandidato.IDAccount__c))}">
+						<div class="slds-m-around_small"><lightning:buttonIcon aura:id="buttonGotoCensimentoId" name="buttonGotoCensimento" iconName="utility:custom_apps" size="large" alternativeText="Rilancia Censimento" onclick="{!c.handleGotoAcquireAccountClick}"/></div>
+					</aura:if>
+                </div>  
+				<aura:if isTrue="{!not(empty(v.workflowRecordCandidato.Errori_Tecnici__c))}">
+                <div class="slds-size_3-of-4">
+					<div class="slds-m-around_small"><lightning:input label="Errori Tecnici" aura:id="inputErroriTecniciId" name="inputErroriTecnici" value="{!v.workflowRecordCandidato.Errori_Tecnici__c}" readonly="true" /></div>
+				</div>
+                <div class="slds-size_1-of-4">
+				</div>
+				</aura:if>
+            </div>
+        </p>        
+    
+    </lightning:card>
+
+    <lightning:card variant="Narrow" title="Pre-Valutazione" iconName="standard:record">
+        
+        <p class="slds-p-horizontal_small">
+            <div class="slds-grid slds-wrap">
+                <div class="slds-size_4-of-4 slds-p-bottom_medium">
+					<lightning:combobox label= "Quale è la posizione dell'impresa segnalata per Banca Ifis?" required="true" aura:id="inputPosizioneImpresaId" name="inputPosizioneImpresa" value="{!v.workflowRecordCandidato.Posizione_Impresa_Segnalata__c}" placeholder="Seleziona un valore" options="{! v.opzioniPosizione }" onchange="{! c.handleComboPosizioneImpresaChange }" disabled="{!v.workflowRecordCandidato.Stato__c != 'PRE_VALUTAZIONE_CLIENTE'}"/>
+                </div>
+                <div class="slds-size_4-of-4 slds-p-bottom_medium">
+					<lightning:combobox label= "Quale è l'esito della pre-valutazione della posizione?" required="true" aura:id="inputEsitoPreValutazioneId" name="inputEsitoPreValutazione" value="{!v.workflowRecordCandidato.Esito_PRE_VALUTAZIONE__c}" placeholder="Seleziona un valore" options="{! v.opzioniEsitoPreValutazione }" onchange="{! c.handleComboEsitoPreValutazioneChange }" disabled="{!v.workflowRecordCandidato.Stato__c != 'PRE_VALUTAZIONE_CLIENTE'}"/>
+                </div>   
+                <div class="slds-size_4-of-4">
+                	<hr style="margin-top:1px;margin-bottom:10px;"/>
+                </div>                  
+                <div class="slds-size_4-of-4">
+                    <lightning:button variant="brand" label="Conferma Pre-Valutazione" title="Conferma Pre-Valutazione" onclick="{! c.handleClickPreValutazione }" disabled="{!v.workflowRecordCandidato.Stato__c != 'PRE_VALUTAZIONE_CLIENTE'}"/>
+                </div>                
+            </div>
+        </p>        
+    
+    </lightning:card>
+    
+    <lightning:card variant="Narrow" title="Visita e Finalizzazione Mandato" iconName="standard:record">
+        
+        <p class="slds-p-horizontal_small">
+            <div class="slds-grid slds-wrap">
+                <div class="slds-size_4-of-4 slds-p-bottom_medium">
+                   <lightning:combobox label= "Il contatto/visita al cliente ha generato una opportunità di sviluppo in collaborazione con SGA inviata in Valutazione?" required="true" aura:id="inputEsitoVisitaClienteId" name="inputEsitoVisitaCliente" value="{!v.workflowRecordCandidato.Esito_Visita_Cliente__c}" placeholder="Seleziona un valore" options="{! v.opzioniEsitoVisita }" onchange="{! c.handleComboEsitoVisitaChange }" disabled="{!v.workflowRecordCandidato.Stato__c != 'VISITA_FINALIZZAZIONE_MANDATO'}"/>
+                </div>  
+                <div class="slds-size_4-of-4">
+                	<hr style="margin-top:1px;margin-bottom:10px;"/>
+                </div>        
+                <aura:if isTrue="{!v.workflowRecordCandidato.Esito_Visita_Cliente__c == 'SI'}">
+                    
+                    <!--
+                    <div class="slds-size_4-of-4 slds-p-bottom_medium">
+                        <div class="slds-form-element__label"><abbr title="obbligatorio" class="slds-required">* </abbr>In caso di contatto/visita positivo, caricare il mandato firmato da Banca IFIS e Cliente</div>
+                    </div>      
+                    <div class="slds-size_4-of-4">
+                        <lightning:datatable aura:id="flowDatatableMCIFile" data="{!v.jsonMCIFileData}" columns="{!v.fileRecapColumns}" keyField="id" hideCheckboxColumn="true" resizeColumnDisabled="true" showRowNumberColumn="true" onrowaction="{! c.handleRowActionMCIFile }" />
+                    </div>             
+                    <div class="slds-size_4-of-4">
+                        <lightning:fileUpload name="flowFileUploaderMCIFile" accept="{!v.acceptFileExtensions}" recordId="{!v.recordId}" onuploadfinished="{! c.handleUploadMCIFileFinished }" disabled="{!v.workflowRecordCandidato.Stato__c != 'VISITA_FINALIZZAZIONE_MANDATO'}"/>   
+                    </div>                    
+                    <div class="slds-size_4-of-4">
+                        <lightning:input aura:id="flowInputMCIFileJsonId" name="flowInputMCIFileJson" required="false" value="{!v.workflowRecordCandidato.DOCUMENTO_MCI_JSON__c}" class="slds-hide"/>
+                    </div>      
+                    <aura:if isTrue="{!v.isMCIRequired}">
+                        <div class="slds-size_4-of-4 slds-p-top_x-small">
+                            <div class="slds-form-element__label"><span style="color:rgb(194, 57, 52);">Caricare almeno un documento.</span></div>
+                        </div> 
+                    </aura:if>                    
+                    <div class="slds-size_4-of-4 slds-p-top_medium">
+                        <hr style="margin-top:1px;margin-bottom:10px;"/>
+                    </div>   
+                    <div class="slds-size_4-of-4 slds-p-bottom_medium">
+                        <lightning:input type="checkbox" label="L'utente SGA ha allegato il suo mandato?" required="true" aura:id="inputAllegatoMandatoSGAId" name="inputAllegatoMandatoSGA" checked="{!v.isMCSRequired}" disabled="true"/>                   
+                    </div>      
+                    <div class="slds-size_4-of-4">
+                        <hr style="margin-top:1px;margin-bottom:10px;"/>
+                    </div>   
+					-->
+				</aura:if>                    
+                <div class="slds-size_4-of-4">
+                    <lightning:button variant="brand" label="Conferma Visita e Finalizzazione Mandato" title="Conferma Visita e Finalizzazione Mandato" onclick="{! c.handleClickVisitaFinalizzazioneMandato }" disabled="{!v.workflowRecordCandidato.Stato__c != 'VISITA_FINALIZZAZIONE_MANDATO'}"/>
+                </div>                
+            </div>
+        </p>        
+    
+    </lightning:card>    
+    
+    <lightning:card variant="Narrow" title="Valutazione Pratica" iconName="standard:record">
+        
+        <p class="slds-p-horizontal_small">
+            <div class="slds-grid slds-wrap">
+                <div class="slds-size_4-of-4 slds-p-bottom_medium">
+                   <lightning:combobox label= "Quale è l'esito della valutazione della pratica?" required="true" aura:id="inputEsitoValutazionePaticaId" name="inputEsitoValutazionePratica" value="{!v.workflowRecordCandidato.Esito_VALUTAZIONE__c}" placeholder="Seleziona un valore" options="{! v.opzioniEsitoValutazionePratica }" onchange="{! c.handleComboEsitoValutazionePraticaChange }" disabled="{!v.workflowRecordCandidato.Stato__c != 'VALUTAZIONE_PRATICA'}"/>
+                </div>  
+                <div class="slds-size_4-of-4">
+                	<hr style="margin-top:1px;margin-bottom:10px;"/>
+                </div>                          
+                <div class="slds-size_4-of-4">
+                    <lightning:button variant="brand" label="Conferma Esito Valutazione Pratica" title="Conferma Esito Valutazione Pratica" onclick="{! c.handleClickValutazionePratica }" disabled="{!v.workflowRecordCandidato.Stato__c != 'VALUTAZIONE_PRATICA'}"/>
+                </div>                
+            </div>
+        </p>        
+    
+    </lightning:card>      
+	
+</aura:component>

@@ -1,0 +1,96 @@
+<aura:component controller="WGC_Activity_Recap_Controller" implements="flexipage:availableForAllPageTypes" access="global">
+    <aura:attribute name="objectName" type="String" />
+    <aura:attribute name="fields" type="List" />
+    <aura:attribute name="listaDati" type="List" />
+    <aura:attribute name="data" type="Object" />
+    <aura:attribute name="columns" type="List" />
+    <aura:attribute name="userInfo" type="Object" />
+    <aura:attribute name="isFiloDiretto" type="Boolean" />
+    <aura:attribute name="SubTabsFD" type="List" default="[{ 'label' : 'Contatti Telefonici in scadenza oggi', 'value' : 'CT_Oggi' },
+                                                            { 'label' : 'Ricontatti Telefonici in scadenza oggi', 'value' : 'RT_Oggi' },
+                                                            { 'label' : 'Contatti Telefonici scaduti', 'value' : 'CT_Scaduti' },
+                                                            { 'label' : 'Ricontatti Telefonici scaduti', 'value' : 'RT_Scaduti' },
+                                                            { 'label' : 'Tutti i task', 'value' : 'All'}]" />
+    
+    <aura:attribute name="FDfilter" type="String" default="CT_Oggi" />
+
+    <aura:attribute name="sortedBy" type="String" />
+    <aura:attribute name="sortedDirection" type="String" />
+    <aura:attribute name="defaultSortDirection" type="String" />
+
+    <!-- SV -->
+    <aura:attribute name="resultActivity" type="Object[]" />
+    
+    <!-- LIBRARIES -->
+    <lightning:navigation aura:id="navService" />
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler name="change" value="{!v.listaDati}" action="{!c.changeListaDati}" />
+    <!-- SV -->
+    <aura:handler name="change" value="{!v.resultActivity}" action="{!c.loadActivityData}" />
+    
+    <div>
+        <aura:if isTrue="{! and(v.objectName == 'task', v.isFiloDiretto) }">
+            <lightning:layout multipleRows="true">
+                <lightning:layoutItem size="12" padding="horizontal-small">
+                    <div class="slds-grid">
+                        <aura:iteration var="item" items="{!v.SubTabsFD}" indexVar="ind">
+                            <div onclick="{!c.changeSubTabs}" aura:id="container" id="{!ind}" data-tab="{!item.value}"
+                                class="slds-col slds-p-around_medium cstm-activity-header-block">
+                                <!-- <h2 class="cstm-activity-header-main">{!item.label}</h2> -->
+                                <!-- <p class="cstm-activity-header-desc">{!item.label}</p> -->
+                                <p class="cstm-subtab-title">{! item.label }</p>
+                            </div>
+                        </aura:iteration>
+                    </div>
+                </lightning:layoutItem>
+            </lightning:layout>
+            <c:WGC_FiloDiretto TabFilter="{! v.FDfilter }"/>
+            <aura:set attribute="else">
+                <aura:if isTrue="{! v.isFiloDiretto }">
+                        <div>
+                            <lightning:datatable keyField="id" 
+                                                data="{! v.data }" 
+                                                columns="{! v.columns }" 
+                                                hideCheckboxColumn="true" 
+                                                onrowaction="{! c.handleTaskAction }"
+                                                onloadmore="{! c.loadMoreData }"
+                                                sortedBy="{! v.sortedBy }"
+                                                sortedDirection="{! v.sortedDirection }"
+                                                defaultSortDirection="{! v.defaultSortDirection }"
+                                                onsort="{! c.updateColumnSorting }"
+                                                />
+                        </div>
+                </aura:if>
+            </aura:set>
+        </aura:if>
+        <aura:if isTrue="{! and(v.objectName != 'Activity', !v.isFiloDiretto) }">
+                <div>
+                    <lightning:datatable keyField="id" 
+                                        data="{! v.data }" 
+                                        columns="{! v.columns }" 
+                                        hideCheckboxColumn="true" 
+                                        onrowaction="{! c.handleTaskAction }"
+                                        onloadmore="{! c.loadMoreData }"
+                                        sortedBy="{! v.sortedBy }"
+                                        sortedDirection="{! v.sortedDirection }"
+                                        defaultSortDirection="{! v.defaultSortDirection }"
+                                        onsort="{! c.updateColumnSorting }" />
+                </div>
+        </aura:if>
+
+        <aura:if isTrue="{! v.objectName == 'Activity' }">
+            <div>
+                <lightning:datatable keyField="id" 
+                                    data="{! v.data }" 
+                                    columns="{! v.columns }" 
+                                    hideCheckboxColumn="true" 
+                                    onrowaction="{! c.getSelectedName }"
+                                    sortedBy="{! v.sortedBy }"
+                                    sortedDirection="{! v.sortedDirection }"
+                                    defaultSortDirection="{! v.defaultSortDirection }"
+                                    onsort="{! c.updateColumnSorting }" />
+            </div>
+        </aura:if>
+    </div>
+</aura:component>

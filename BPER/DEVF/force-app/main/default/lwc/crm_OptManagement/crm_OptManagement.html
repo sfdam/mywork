@@ -1,0 +1,22 @@
+<template>
+    <lightning-card>
+        <h1 slot="title">
+            <lightning-icon size="small" icon-name="standard:opportunity" alternative-text="opportunity" title="opportunity"></lightning-icon>
+            <span class="slds-p-around_small">Opportunità ({data.length})</span>
+        </h1>
+        <lightning-button-group slot="actions">
+            <!--  <lightning-button label="Nuovo" onclick={handleClickNew}></lightning-button>-->
+              <lightning-button-icon icon-name="utility:refresh" alternative-text="Refresh" onclick={refreshClick} ></lightning-button-icon>
+        </lightning-button-group>
+        <lightning-layout>
+            <lightning-layout-item size="12" padding="around-small">
+            <template lwc:if={isLoading}>
+                <lightning-spinner alternative-text="Loading"></lightning-spinner>
+            </template>
+            <template lwc:else>
+                <lightning-datatable key-field="Id" data={data} columns={columns} hide-checkbox-column="true"></lightning-datatable>
+            </template>
+            </lightning-layout-item>
+        </lightning-layout>
+    </lightning-card>  
+</template>

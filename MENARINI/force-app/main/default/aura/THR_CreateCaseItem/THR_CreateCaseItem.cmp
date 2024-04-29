@@ -1,0 +1,73 @@
+<!--/**
+ * @description       : 
+ * @author            : simone.viglianti@accenture.com
+ * @group             : 
+ * @last modified on  : 08-26-2020
+ * @last modified by  : simone.viglianti@accenture.com
+ * Modifications Log 
+ * Ver   Date         Author                           Modification
+ * 1.0   08-14-2020   simone.viglianti@accenture.com   Initial Version
+**/-->
+<aura:component controller="THR_CreateCaseItemsController" implements="force:lightningQuickAction,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    <aura:attribute name="case" type="Object" description="The record object to be displayed"/>
+    <aura:attribute name="caseRecord" type="Object" description="A simplified view record object to be displayed"/>
+    <aura:attribute name="buttonstate" type="Boolean" default="false"/>
+    <aura:attribute name="ddtDate" type="Date"/>
+    <aura:attribute name="ddtNumber" type="String"/>
+    <aura:attribute name="country" type="String"/>
+    <aura:attribute name="account" type="String"/>
+    <aura:attribute name="retrieveProduct" type="Boolean" default="false"/>
+    <aura:attribute name="bodyTable" type="THR_InvoiceItem__c[]"/>
+    <aura:attribute name="err" type="Boolean" default="false"/>
+    <aura:attribute name="initial" type="Boolean" default="true"/>
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute name="selectedRowsDetails" type="List" />
+    <aura:attribute name="recordId" type="Id"/>
+    <aura:attribute name="selectedRows" type="List" default="[]"/>
+    <aura:attribute name="draftValues" type="Object" default="[]"/>
+    <aura:attribute name="quantityMap" type="Map"/>
+    <aura:attribute name="accountName" type="String"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+  
+    <lightning:notificationsLibrary aura:id="notifLib"/>
+    
+    <aura:if isTrue="{!and(and(v.initial,not(v.retrieveProduct)),not(v.err))}">
+        <div class="row">
+            <h2 class="header">Search Invoice</h2>
+            <lightning:input aura:id="ddtDate" type="date" label="DDT Date" name="ddtDate" value="{!v.ddtDate}"/>
+            <lightning:input type="text" aura:id="ddtnumber" name="ddtNumber" label="DDT Number" value="{!v.ddtNumber}"/>
+            <br></br>
+            Account Name : <ui:outputText  value="{!v.accountName}"/>
+        </div>
+        <br></br>
+    	<div class="modal-footer slds-modal__footer slds-size_1-of-1">
+            <lightning:button variant="brand" label="Search" title="Search action" onclick="{! c.handleClick }" />
+    	</div>
+    </aura:if>
+    
+    <aura:if isTrue="{!and(and(v.retrieveProduct, not(v.err)),not(v.initial))}">
+       
+    	<div class="slds-scrollable">
+            <div> 
+                <lightning:datatable aura:id="itemTable"
+                                     columns="{!v.columns}"
+                                     data="{!v.bodyTable}"
+                                     showRowNumberColumn="false"
+                                     keyField="Id"
+                                     hideCheckboxColumn="false"
+                                     maxRowSelection="100"
+                                     draftValues="{!v.draftValues}"
+                                     oncellchange="{!c.handleSaveEdition}"
+                                     onrowselection="{! c.updateSelectedText }"
+                                     suppressBottomBar="true"
+                                     selectedRows="{!v.selectedRows}"/>
+            </div>
+        </div>
+        <div class="modal-footer slds-modal__footer slds-size_1-of-1">
+            <lightning:button variant="neutral" label="Back" title="Search action" onclick="{!c.handleBack}" />
+        	<lightning:button variant="brand" label="Create Case Item" title="Search action" onclick="{!c.createCaseItem}" />
+        </div>
+        
+    </aura:if>
+</aura:component>

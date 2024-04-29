@@ -1,0 +1,21 @@
+.THIS {
+}
+
+.THIS.cstm-multi-picklist .slds-dueling-list__options,
+.THIS.cstm-multi-picklist .slds-picklist__options {
+    height: 8rem;
+    max-width: 100%;
+}
+
+.THIS.cstm-input-numeric input.slds-input {
+    text-align: right !important;
+}
+
+.THIS.cstm-input-numeric-preview {
+    position: absolute;
+    margin-top: 31px;
+    margin-left: 16px;
+    z-index: 5;
+    color: #AAA;
+    font-style: italic;
+}

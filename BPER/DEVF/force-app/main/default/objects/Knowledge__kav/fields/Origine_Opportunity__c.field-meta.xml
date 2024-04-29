@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Origine_Opportunity__c</fullName>
+    <externalId>false</externalId>
+    <label>Origine Opportunity</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Comparatori Online</fullName>
+                <default>false</default>
+                <label>Comparatori Online</label>
+            </value>
+            <value>
+                <fullName>Ricontatti da DEM e Banner</fullName>
+                <default>false</default>
+                <label>Ricontatti da DEM e Banner</label>
+            </value>
+            <value>
+                <fullName>NPS</fullName>
+                <default>false</default>
+                <label>NPS</label>
+            </value>
+            <value>
+                <fullName>BSTORE</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>BSTORE</label>
+            </value>
+            <value>
+                <fullName>Campagna commerciale</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Campagna commerciale</label>
+            </value>
+            <value>
+                <fullName>Check Up</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Check Up</label>
+            </value>
+            <value>
+                <fullName>Estero</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Estero</label>
+            </value>
+            <value>
+                <fullName>Magazzino Finanziamenti</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Magazzino Finanziamenti</label>
+            </value>
+            <value>
+                <fullName>Self</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Self</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,25 @@
+<aura:component description="Layout used to Opportunity CE App Page" implements="lightning:AppHomeTemplate">
+    <ltng:require styles="{!$Resource.WGC_HideHeaderApp}" />
+
+    <aura:attribute name="header_1" type="Aura.Component[]" />
+    <aura:attribute name="header_2" type="Aura.Component[]" />
+    <aura:attribute name="column_center_bottom" type="Aura.Component[]" />
+
+    <div>
+        <lightning:layout multipleRows="true">
+            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12" padding="around-small" class="page-section page-center-top">
+                    {!v.header_1}
+            </lightning:layoutItem>
+        </lightning:layout>
+        <lightning:layout multipleRows="true">
+            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12" padding="around-small" class="page-section page-center-top">
+                    {!v.header_2}
+            </lightning:layoutItem>
+        </lightning:layout>
+        <lightning:layout multipleRows="true">
+            <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="12" padding="around-small" class="page-section page-center-bottom">
+                    {!v.column_center_bottom}
+            </lightning:layoutItem>
+        </lightning:layout>
+    </div>
+</aura:component>

@@ -1,0 +1,88 @@
+<template>
+    <template if:false={isRendered}>
+        <div class="modal-spinner">
+            <lightning-spinner alternative-text="CARICAMENTO" size="large" variant="brand"></lightning-spinner>
+        </div>
+    </template>
+
+    <template if:true={isRendered}>
+        <div class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none">
+            <lightning-layout multiple-rows="true" >
+                <lightning-layout-item size="12" medium-device-size="4" large-device-size="4" padding="around-small">
+                    <div class="slds-is-relative font-appearance">
+                        <lightning-combobox name="Report" label="Report" value={valueReport} placeholder="Seleziona un Report" 
+                             options={optionsReports} onchange={handleChangeReport}
+                            message-when-value-missing="Campo obbligatorio" required>
+                        </lightning-combobox>
+                    </div>
+                </lightning-layout-item>
+                <template if:true={isSuperUser}>
+                    <lightning-layout-item size="12" medium-device-size="2" large-device-size="2" padding="around-small" class="my-width-button">
+                        <div class= "button-alignment">
+                            <lightning-button-icon-stateful icon-name="utility:adduser"   variant="border-filled" alternative-text= "Visualizzazione Gruppo"  selected={groupButtonFilled} onclick={disableSearchBar}></lightning-button-icon-stateful>
+                        </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" medium-device-size="5" large-device-size="5" padding="around-small" >
+                            <c-custom-lookup is-from-report-page={isFromReportPage}
+                            selected-s-object={prepopulatedAccount}
+                            s-object-name='Account'
+                            icon-name="standard:account"
+                            field-label="Banca/Area/DR/Filiale"
+                            field-to-like="CRM_Nome__c"
+                            other-field-to-query='RecordTypeName__c,PTF_BancaNoEncryption__c'
+                            where-condition={accountFilter}
+                            event-to-dispatch="filialelookup"
+                            onfilialelookup={handleCustomEvent}
+                            field-alternative-in-label = 'RecordTypeName__c,PTF_BancaNoEncryption__c'
+                            p-read-only={disabledInput}>
+                            </c-custom-lookup>
+                    </lightning-layout-item>
+                </template>
+                <template if:false={isSuperUser}>
+                    <lightning-layout-item size="12" medium-device-size="6" large-device-size="6" padding="around-small">
+                        
+                        <c-custom-lookup is-from-report-page={isFromReportPage}
+                        selected-s-object={prepopulatedAccount}
+                        s-object-name='Account'
+                        icon-name="standard:account"
+                        field-label="Banca/Area/DR/Filiale"
+                        field-to-like="CRM_Nome__c"
+                        other-field-to-query='RecordTypeName__c,PTF_BancaNoEncryption__c'
+                        where-condition={accountFilter}
+                        event-to-dispatch="filialelookup"
+                        onfilialelookup={handleCustomEvent}
+                        field-alternative-in-label = 'RecordTypeName__c,PTF_BancaNoEncryption__c'
+                        p-read-only={disabledInput}>
+                        </c-custom-lookup>
+
+                </lightning-layout-item>
+
+
+                </template>
+                <lightning-layout-item size="12" medium-device-size="2" large-device-size="2" padding="around-small" class="button-margin">
+                    <div class= "button-alignment" >
+                        <button type="submit" class="slds-button slds-button_neutral slds-button_stretch" onclick={openReport}>Apri Report</button>
+                        
+                    </div>
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+        <template if:true={selectedFiliale}>
+            <div class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none">
+                <lightning-layout multiple-rows="true">
+                    <lightning-layout-item size="12" padding="around-small">
+                        <div class="slds-p-around_medium lgc-bg">
+                            <lightning-tile label={labelFiliale} type="media">
+                                <lightning-icon slot="media" size="large" icon-name="standard:groups"></lightning-icon>
+                                <p class="slds-truncate" title={labelBanca}>Banca: {labelBanca}</p>
+                                <p class="slds-truncate" title={labelDReg}>Direzione Regionale: {labelDReg}</p>
+                                <p class="slds-truncate" title={labelArea}>Area: {labelArea}</p>
+                                <p class="slds-truncate" title={labelCapofila}>Capofila: {labelCapofila}</p>
+                            </lightning-tile>
+                        </div>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </div>
+        </template>
+    </template>
+</template>

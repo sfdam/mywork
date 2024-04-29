@@ -1,0 +1,18 @@
+c-wgc_modulo_privacy .slds-form-element{
+    float: left;
+}
+
+c-wgc_modulo_privacy  .slds-radio__label .slds-radio_faux {
+    margin: 0 .5rem 0 0;
+    width:20px;
+    height: 20px;
+}
+
+c-wgc_modulo_privacy  .slds-radio__label .slds-form-element__label{
+    color: rgb(62, 62, 60);
+    font-weight: bold;
+    padding: 0 10px 10px 0;
+    font-size:medium;
+    vertical-align:super;
+    float:right;
+}

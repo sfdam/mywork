@@ -1,0 +1,131 @@
+<aura:component implements="lightning:isUrlAddressable" controller="WGC_EditAccount" extends="c:WGC_Utility">
+
+    <ltng:require styles="{!join(',','/resource/WGC_GlobalCSS')}" scripts="{!join(',', 
+             '/resource/WGC_jQuery3x')}" />
+
+    <!-- REGISTER EVENT -->
+    <aura:registerEvent name="B2F" type="c:ModalBody2FooterEvent" />
+    <aura:registerEvent name="resolveEvent" type="c:WGC_EditAccountResolveEvent" />
+
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <!-- <aura:handler name="change" value="{! v.recordId}" action="{!c.reloadRecord}" /> -->
+    <!-- <aura:handler name="change" value="{! v.sections }" action="{! c.onSectionsReload }" /> ModalFooter2BodyEvent-->
+    <aura:handler event="c:PageLayoutRecordDisplayEvent" action="{! c.manageF2B }" />
+
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="currentAccount" type="Account" default="{'sobjectType':'Account'}"
+        description="RecordType associati all'account" />
+    <aura:attribute name="PageLayout" type="String" />
+    <!-- <aura:attribute name="account" type="Account" default="{'sobjectType':'Account'}" description="" />
+    <aura:attribute name="tipoRecord" type="String" default="" description="tipo record passato" /> -->
+
+    <!-- INSERT CUSTOM ATTRIBUTES HERE -->
+
+    <lightning:navigation aura:id="navService" />
+    <lightning:overlayLibrary aura:id="overlayLib" />
+
+    <!-- DEFAULT ITERATION TO PRINT CONTENT -->
+    <!-- DEFAULT ITERATION TO PRINT CONTENT -->
+
+    <!-- INSERT CUSTOM CONTENT HERE -->
+    <!-- NEW COMPONENT -->
+    
+            <c:WGC_PageLayoutRecordDisplay recordId="{! v.recordId }" PageLayout="{! v.PageLayout }"
+                sObjectName="Account" />
+    <!-- LIGHTNING RECORD FORM -->
+    <!-- <lightning:recordForm
+        recordId="{!v.recordId}"
+        objectApiName="Account"
+        layoutType="Full"
+        columns="2"
+        mode="edit" /> -->
+
+    <!-- FORCE RECORD DATA -->
+    <!-- <force:recordData aura:id="record"
+        layoutType="FULL"
+        recordId="{!v.recordId}"
+        targetError="{!v.recordError}"
+        targetRecord="{!v.currentAccount}"
+        targetFields="{!v.accountFields}"
+        fields="{! v.fieldsAPINames }"
+        mode="VIEW"/>
+
+    <aura:if isTrue="{! v.loaded }">
+            
+        <aura:if isTrue="{! !empty(v.errors)}">
+            <div>
+                <div aura:id="errors-container" class="slds-grid slds-wrap slds-theme_alert-texture slds-theme_error personal-margin slds-p-around_small"
+                    role="alert">
+                    <div class="slds-col slds-size_12-of-12 slds-large-size_12-of-12">
+                        <div class="slds-form-element">
+                            <lightning:buttonIcon class="slds-float_right white" iconName="utility:close" variant="bare"
+                                size="small" onclick="{! c.closeError }" alternativeText="Close" />
+                        </div>
+                    </div>
+    
+    
+                    <aura:iteration items="{!v.errors}" var="r">
+                        <div class="slds-col slds-size_12-of-12 slds-large-size_12-of-12">
+                            <div class="slds-form-element">
+                                <li>{!r}</li>
+                            </div>
+                        </div>
+                    </aura:iteration>
+    
+                </div>
+            </div>
+        </aura:if>
+
+        <lightning:recordEditForm
+            aura:id="recordEditForm"
+            recordId="{! v.recordId }"
+            objectApiName="Account"
+            onsubmit="{! c.handleSubmit }">
+
+            <lightning:messages />
+
+            <aura:iteration items="{! v.sections }" var="section">
+                <h3 class="slds-section__title" style="background-color: rgb(243, 242, 242); padding: 0 10px; max-width: 98%; margin: auto;">{!
+                    section.title }</h3>
+                <lightning:layout class="slds-p-around_small" multipleRows="true">
+                    <aura:iteration items="{! section.columns }" var="column">
+
+                        <lightning:layoutItem size="{! 12 / section.columnsNumber }" padding="horizontal-small">
+                            <aura:iteration items="{! column }" var="field">
+                                
+                                    <aura:if isTrue="{! !field.isImage }">
+
+                                        <aura:renderIf isTrue="{! !field.isPicklist }">
+                                            <lightning:inputField value="{! field.value }" fieldName="{! field.apiname }" class="{! (field.required ? 'customRequired' : '') + (field.hasError ? ' slds-has-error' : '') }" onchange="{! c.onChangeField }"/>
+                                        </aura:renderIf>
+
+                                        <aura:if isTrue="{! field.isPicklist }">
+                                            <lightning:select label="{! field.picklistLabel }" class="{! (field.required ? 'customRequired' : '') + (field.hasError ? ' slds-has-error' : '') }" value="{! field.value }" name="{! field.apiname }" onchange="{! c.onChangeField }" disabled="{! field.disabled }">
+                                                <option value="">-seleziona-</option>
+                                                <aura:iteration items="{! field.picklistOptions }" var="option">
+                                                    <option value="{! option.value }">{! option.label }</option>
+                                                </aura:iteration>
+                                            </lightning:select>
+                                        </aura:if>
+
+                                        <aura:set attribute="else">
+                                            <lightning:outputField fieldName="{! field.apiname }" />
+                                        </aura:set>
+
+                                    </aura:if>
+                                
+                            </aura:iteration>
+                        </lightning:layoutItem>
+                    </aura:iteration>
+                </lightning:layout>
+            </aura:iteration>
+
+            <lightning:button aura:id="submitForm" class="slds-hide" variant="brand" type="submit" name="update" label="Update" />
+
+        </lightning:recordEditForm>
+
+
+    </aura:if> -->
+</aura:component>

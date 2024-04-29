@@ -1,0 +1,155 @@
+<aura:component implements="flexipage:availableForAllPageTypes,force:hasRecordId" access="global" >
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/> 
+    
+    <aura:attribute name="componenteSolaLettura" type="Boolean" default="true"/>
+    
+    <aura:attribute name="recordId" type="Id" />
+    
+    <aura:attribute name="fileRecapColumns" type="List"/>   
+    <aura:attribute name="fileRecapColumnsReadOnly" type="List"/>    
+    
+    <aura:attribute name="jsonPDRFileData" type="Object"/>
+    <aura:attribute name="jsonBOMFileData" type="Object"/>
+    <aura:attribute name="jsonCRIFileData" type="Object"/>
+    <aura:attribute name="jsonECFFileData" type="Object"/>
+    <aura:attribute name="jsonCERFileData" type="Object"/>
+    <aura:attribute name="jsonALTFileData" type="Object"/>    
+    <aura:attribute name="jsonMCSFileData" type="Object"/>    
+    <aura:attribute name="jsonMCIFileData" type="Object"/>       
+    
+    <aura:attribute name="workflowRecordCandidatoNEXT" type="WorkflowSGA__c"/>
+    <aura:attribute name="workflowRecordCandidato" type="WorkflowSGA__c"/>
+    <aura:attribute name="workflowRecordCandidatoERROR" type="String"/>
+    
+    <force:recordData aura:id="flowRecordHandlerWorkflowCandidatoId"
+                      recordId="{!v.recordId}"
+                      layoutType="FULL"
+                      targetFields="{!v.workflowRecordCandidato}"
+                      targetError="{!v.workflowRecordCandidatoERROR}"
+                      recordUpdated="{!c.handleRecordUpdated}"
+                      targetRecord="{!v.workflowRecordCandidatoNEXT}"
+                      mode="EDIT"                
+                      />        
+    
+    <!-- Display Lightning Data Service errors, if any -->
+    <aura:if isTrue="{!not(empty(v.workflowRecordCandidatoERROR))}">
+        <ui:message title="Errore" severity="error" closable="true">{!v.workflowRecordCandidatoERROR}</ui:message>
+    </aura:if>   
+    
+    <lightning:card variant="Narrow" title="Documentazione in ingresso" iconName="standard:record">     
+        
+        <lightning:card variant="Narrow" title="Piano di Rientro" iconName="doctype:pdf">
+            <p class="slds-p-horizontal_small">
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-size_4-of-4">
+                        <lightning:datatable aura:id="flowDatatablePDRFile" data="{!v.jsonPDRFileData}" columns="{!v.fileRecapColumnsReadOnly}" keyField="id" hideCheckboxColumn="true" resizeColumnDisabled="true" showRowNumberColumn="true" onrowaction="{! c.handleRowActionPDRFile }"/>
+                    </div>
+                    <div class="slds-size_4-of-4">
+                        <lightning:input aura:id="flowInputPDRFileJsonId" name="flowInputPDRFileJson" required="false" value="{!v.workflowRecordCandidato.DOCUMENTO_PDR_JSON__c}" class="slds-hide"/>
+                    </div>
+                </div>
+            </p>
+        </lightning:card>     
+        
+        <lightning:card variant="Narrow" title="Bozza Mandato" iconName="doctype:pdf">
+            <p class="slds-p-horizontal_small">
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-size_4-of-4">
+                        <lightning:datatable aura:id="flowDatatableBOMFile" data="{!v.jsonBOMFileData}" columns="{!v.fileRecapColumnsReadOnly}" keyField="id" hideCheckboxColumn="true" resizeColumnDisabled="true" showRowNumberColumn="true" onrowaction="{! c.handleRowActionBOMFile }"/>
+                    </div>
+                    <div class="slds-size_4-of-4">
+                        <lightning:input aura:id="flowInputBOMFileJsonId" name="flowInputBOMFileJson" required="false" value="{!v.workflowRecordCandidato.DOCUMENTO_BOM_JSON__c}" class="slds-hide"/>
+                    </div>
+                </div>
+            </p>
+        </lightning:card>  
+
+        <lightning:card variant="Narrow" title="Centrale Rischi" iconName="doctype:pdf">
+            <p class="slds-p-horizontal_small">
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-size_4-of-4">
+                        <lightning:datatable aura:id="flowDatatableCRIFile" data="{!v.jsonCRIFileData}" columns="{!v.fileRecapColumnsReadOnly}" keyField="id" hideCheckboxColumn="true" resizeColumnDisabled="true" showRowNumberColumn="true" onrowaction="{! c.handleRowActionCRIFile }"/>
+                    </div>
+                    <div class="slds-size_4-of-4">
+                        <lightning:input aura:id="flowInputCRIFileJsonId" name="flowInputCRIFileJson" required="false" value="{!v.workflowRecordCandidato.DOCUMENTO_CRI_JSON__c}" class="slds-hide"/>
+                    </div>
+                </div>
+            </p>
+        </lightning:card>  
+
+        <lightning:card variant="Narrow" title="Elenco Clienti e Fornitori" iconName="doctype:pdf">
+            <p class="slds-p-horizontal_small">
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-size_4-of-4">
+                        <lightning:datatable aura:id="flowDatatableECFFile" data="{!v.jsonECFFileData}" columns="{!v.fileRecapColumnsReadOnly}" keyField="id" hideCheckboxColumn="true" resizeColumnDisabled="true" showRowNumberColumn="true" onrowaction="{! c.handleRowActionECFFile }"/>
+                    </div>
+                    <div class="slds-size_4-of-4">
+                        <lightning:input aura:id="flowInputECFFileJsonId" name="flowInputECFFileJson" required="false" value="{!v.workflowRecordCandidato.DOCUMENTO_ECF_JSON__c}" class="slds-hide"/>
+                    </div>
+                </div>
+            </p>
+        </lightning:card>  
+
+        <lightning:card variant="Narrow" title="Dossier Cerverd" iconName="doctype:pdf">
+            <p class="slds-p-horizontal_small">
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-size_4-of-4">
+                        <lightning:datatable aura:id="flowDatatableCERFile" data="{!v.jsonCERFileData}" columns="{!v.fileRecapColumnsReadOnly}" keyField="id" hideCheckboxColumn="true" resizeColumnDisabled="true" showRowNumberColumn="true" onrowaction="{! c.handleRowActionCERFile }"/>
+                    </div>
+                    <div class="slds-size_4-of-4">
+                        <lightning:input aura:id="flowInputCERFileJsonId" name="flowInputCERFileJson" required="false" value="{!v.workflowRecordCandidato.DOCUMENTO_CER_JSON__c}" class="slds-hide"/>
+                    </div>
+                </div>
+            </p>
+        </lightning:card>  
+
+        <lightning:card variant="Narrow" title="Altro" iconName="doctype:pdf">
+            <p class="slds-p-horizontal_small">
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-size_4-of-4">
+                        <lightning:datatable aura:id="flowDatatableALTFile" data="{!v.jsonALTFileData}" columns="{!v.fileRecapColumnsReadOnly}" keyField="id" hideCheckboxColumn="true" resizeColumnDisabled="true" showRowNumberColumn="true" onrowaction="{! c.handleRowActionALTFile }"/>
+                    </div>
+                    <div class="slds-size_4-of-4">
+                        <lightning:input aura:id="flowInputALTFileJsonId" name="flowInputALTFileJson" required="false" value="{!v.workflowRecordCandidato.DOCUMENTO_ALT_JSON__c}" class="slds-hide"/>
+                    </div>
+                </div>
+            </p>
+        </lightning:card>          
+        
+        <lightning:card variant="Narrow" title="Mandato Cliente-IFIS-SGA" iconName="doctype:pdf">
+            <p class="slds-p-horizontal_small">
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-size_4-of-4">
+                        <lightning:datatable aura:id="flowDatatableMCSFile" data="{!v.jsonMCSFileData}" columns="{!v.fileRecapColumnsReadOnly}" keyField="id" hideCheckboxColumn="true" resizeColumnDisabled="true" showRowNumberColumn="true" onrowaction="{! c.handleRowActionMCSFile }"/>
+                    </div>
+                    <div class="slds-size_4-of-4">
+                        <lightning:input aura:id="flowInputMCSFileJsonId" name="flowInputMCSFileJson" required="false" value="{!v.workflowRecordCandidato.DOCUMENTO_MCS_JSON__c}" class="slds-hide"/>
+                    </div>
+                </div>
+            </p>
+        </lightning:card>           
+    
+    </lightning:card>         
+    
+    <lightning:card variant="Narrow" title="Documentazione in uscita" iconName="standard:record">
+        
+        <lightning:card variant="Narrow" title="Mandato Cliente-IFIS" iconName="doctype:pdf">
+            <p class="slds-p-horizontal_small">
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-size_4-of-4">
+                        <lightning:datatable aura:id="flowDatatableMCIFile" data="{!v.jsonMCIFileData}" columns="{!v.fileRecapColumns}" keyField="id" hideCheckboxColumn="true" resizeColumnDisabled="true" showRowNumberColumn="true" onrowaction="{! c.handleRowActionMCIFile }"/>
+                    </div>            
+                    <div class="slds-size_4-of-4">
+                        <lightning:fileUpload name="flowFileUploaderMCIFile" accept="{!v.acceptFileExtensions}" recordId="{!v.recordId}" onuploadfinished="{!c.handleUploadMCIFileFinished }" disabled="false"/>
+                    </div>                    
+                    <div class="slds-size_4-of-4">
+                        <lightning:input aura:id="flowInputMCIFileJsonId" name="flowInputMCIFileJson" required="false" value="{!v.workflowRecordCandidato.DOCUMENTO_MCI_JSON__c}" class="slds-hide"/>
+                    </div>
+                </div>
+            </p>
+        </lightning:card>   
+        
+    </lightning:card>
+    
+</aura:component>

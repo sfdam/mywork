@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PTF_MMDS_DoppioPresidio__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(RecordType.DeveloperName =&apos;DoppioPresidio&apos; &amp;&amp; ((PTF_HistoryRoleCode__c== &apos;069&apos;) || (PTF_HistoryRoleCode__c== &apos;F_905&apos;) || (PTF_HistoryRoleCode__c== &apos;144&apos;) || (PTF_HistoryRoleCode__c== &apos;F_140&apos;) || (PTF_HistoryRoleCode__c== &apos;100&apos;) || (PTF_HistoryRoleCode__c== &apos;F_144&apos;)) , &apos;Private&apos;,
+IF(RecordType.DeveloperName =&apos;DoppioPresidio&apos; &amp;&amp; ((PTF_HistoryRoleCode__c== &apos;F_912&apos;) || (PTF_HistoryRoleCode__c== &apos;F_914&apos;) || (PTF_HistoryRoleCode__c== &apos;065&apos;)) , &apos;Key Client Privati&apos;,
+IF(RecordType.DeveloperName =&apos;DoppioPresidio&apos; &amp;&amp; ((PTF_HistoryRoleCode__c== &apos;991&apos;) || (PTF_HistoryRoleCode__c== &apos;990&apos;)) , &apos;Consulenti Finanziari&apos;,null)))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>PTF MMDS DoppioPresidio</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRM_IsPrivateMemoVisible__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF (
+				CRM_Tipologia__c = &apos;Private&apos;,
+				OR (
+								$User.idced__c = CRM_IdCEDAutore__c,
+								CreatedById = $User.Id,
+								AND (
+												$User.PTF_IdCEDPadre__c = CRM_IdCEDPadreAutore__c,
+												OR (
+																$User.PTF_DivisionUO__c = &apos;PR&apos;,
+																$User.PTF_MacrodivisionUO__c = &apos;WM&apos;,
+																AND($User.PTF_DivisionUO__c = NULL, $User.PTF_MacrodivisionUO__c = NULL,
+$Profile.Name = &apos;NEC_D.1&apos;, AND($Profile.Name = &apos;NEC_D.2&apos;, $User.abi__c = &apos;05387&apos;), $Profile.Name = &apos;NEC_D.10&apos;)
+												)
+								)
+				),
+				TRUE
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Is Private Memo Visible</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

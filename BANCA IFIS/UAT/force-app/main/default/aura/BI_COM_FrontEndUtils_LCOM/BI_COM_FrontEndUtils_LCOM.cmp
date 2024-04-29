@@ -1,0 +1,66 @@
+<aura:component implements="flexipage:availableForAllPageTypes" access="global" controller="BI_COM_FrontEndUtils_CTRL"> 
+	
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <aura:attribute name="varURL" type="String"/>
+	<aura:attribute name="freezedUsers" type="Integer"/>
+	<aura:attribute name="unfreezedUsers" type="Integer"/>
+
+    <lightning:card variant="Narrow" title="TEST CHIAMATA ESTERNA (anche per check SSO)" iconName="custom:custom19">
+        <p class="slds-p-horizontal_small">
+            <div class="slds-grid slds-grid_vertical-align-end slds-wrap">        
+                <div class="slds-size_3-of-4">
+                    <div class="slds-m-around_x-small"><lightning:input aura:id="flowInputURL" label="URL da rete esterna" name="flowInputUrlReteEsterna" type="url" required="false" value="{!v.varURL}"/></div>
+                </div>
+                <div class="slds-size_1-of-4">
+                    <div class="slds-m-around_x-small"><lightning:button label="Esegui Chiamata" title="Esegui Chiamata" class="slds-m-left_x-small" onclick="{!c.handleCallUrlClick}" iconName="utility:change_record_type"></lightning:button></div>
+                </div>                
+            </div>
+        </p>
+    </lightning:card>
+
+    <lightning:card variant="Narrow" title="FREEZER" iconName="custom:custom97">
+        <p class="slds-p-horizontal_small">
+            <div class="slds-grid slds-grid_vertical-align-end slds-wrap">        
+                <div class="slds-size_3-of-4">
+                    <div class="slds-m-around_x-small">UTENTI ATTUALMENTE FREEZZATI: {!v.freezedUsers}</div>
+                </div>
+                <div class="slds-size_1-of-4">
+                    <div class="slds-m-around_x-small"><lightning:button aura:id="buttonFreezeUsers" label="Freezza Tutti" title="Freezza Tutti" class="slds-m-left_x-small" onclick="{!c.handleCallFreezeClick}" iconName="utility:frozen" disabled="true"></lightning:button></div>
+                </div>   
+                <div class="slds-size_3-of-4">
+                    <div class="slds-m-around_x-small">UTENTI ATTUALMENTE NON FREEZZATI: {!v.unfreezedUsers}</div>
+                </div>
+                <div class="slds-size_1-of-4">
+                    <div class="slds-m-around_x-small"><lightning:button aura:id="buttonUnfreezeUsers" label="Defreezza Tutti" title="Defreezza Tutti" class="slds-m-left_x-small" onclick="{!c.handleCallUnfreezeClick}" iconName="utility:smiley_and_people" disabled="true"></lightning:button></div>
+                </div>    
+                <div class="slds-size_4-of-4">
+                    <div class="slds-m-around_x-small">*Utenti aventi FederationID valorizzato, stato Attivo, non Amministratori.</div>
+                </div>             
+            </div>
+        </p>
+    </lightning:card>
+
+	<lightning:card variant="Narrow" title="AGGIORNAMENTO ASSEGNAZIONE TERRITORIALE FD" iconName="custom:custom78">
+		<p class="slds-p-horizontal_small">
+			<div class="slds-grid slds-grid_vertical-align-end slds-wrap">        
+				<div class="slds-size_3-of-4">
+                    <div class="slds-m-around_x-small">Esegue l'assegnazione territoriale di Filo Diretto con le assegnazioni impostate del mese corrente.</div>
+                </div>
+				<div class="slds-size_1-of-4">
+					<div class="slds-m-around_x-small"><lightning:button aura:id="buttonUpdateFD" label="Aggiorna Assegnazioni FD" title="Aggiorna Assegnazioni FD" class="slds-m-left_x-small" onclick="{!c.handleCallUpdateFD}" iconName="utility:change_record_type" disabled="false"></lightning:button></div>
+				</div>   
+				          
+			</div>
+		</p>
+
+		<div class="slds-spinner_container" aura:id="mySpinner" style="height:7rem">
+			<div role="status" class="slds-spinner slds-spinner_medium">
+			<span class="slds-assistive-text">Loading</span>
+			<div class="slds-spinner__dot-a"></div>
+			<div class="slds-spinner__dot-b"></div>
+			</div>
+		</div>
+	</lightning:card>
+
+</aura:component>
